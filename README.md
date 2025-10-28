@@ -32,7 +32,7 @@ Skills will be symlinked to `~/.claude/skills/`. Claude Code will automatically 
 
 ---
 
-## 📦 Available Skills (29 Production-Ready)
+## 📦 Available Skills (30 Production-Ready)
 
 ### Cloudflare Core Infrastructure
 
@@ -153,6 +153,29 @@ Backend AI with Vercel AI SDK v5: text generation, structured output, tool calli
 Frontend React hooks (useChat, useCompletion, useObject) for AI-powered UIs. Prevents 12 documented errors.
 
 **Triggers**: `ai sdk ui`, `useChat`, `react ai chat`, `streaming ai ui`
+
+---
+
+### Database & Storage (Vercel/Neon)
+
+#### **neon-vercel-postgres**
+Serverless Postgres for edge/serverless environments with Neon and Vercel Postgres. Prevents 15 documented errors.
+
+**Triggers**: `neon postgres`, `vercel postgres`, `serverless postgres`, `postgres edge`, `drizzle neon`
+
+---
+
+#### **vercel-kv**
+Redis-compatible key-value storage for caching, sessions, rate limiting. Prevents 10 documented errors.
+
+**Triggers**: `vercel kv`, `@vercel/kv`, `vercel redis`, `upstash vercel`, `sessions`, `rate limiting`
+
+---
+
+#### **vercel-blob**
+Object storage with automatic CDN for file uploads, images, documents. Prevents 10 documented errors.
+
+**Triggers**: `vercel blob`, `@vercel/blob`, `file upload`, `image upload`, `presigned url vercel`
 
 ---
 
