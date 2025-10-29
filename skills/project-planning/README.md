@@ -301,10 +301,11 @@ project-planning/
 │   ├── TESTING.md                     # Test strategy template
 │   ├── AGENTS_CONFIG.md               # AI agents template
 │   └── INTEGRATION.md                 # Third-party integrations template
-└── examples/
-    ├── simple-web-app.md              # Basic CRUD example
-    ├── auth-web-app.md                # Authentication example
-    └── ai-web-app.md                  # AI-powered app example
+└── references/
+    └── example-outputs/
+        ├── simple-web-app.md          # Basic CRUD example
+        ├── auth-web-app.md            # Authentication example
+        └── ai-web-app.md              # AI-powered app example
 ```
 
 ---
@@ -317,7 +318,7 @@ project-planning/
 
 **Review generated phases before starting**: Easier to refine planning docs than mid-implementation
 
-**Use examples for reference**: Check `examples/` directory for similar projects
+**Use examples for reference**: Check `references/example-outputs/` directory for similar projects
 
 **Iterate if needed**: Regenerate or refine phases if initial output doesn't feel right
 

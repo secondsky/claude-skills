@@ -593,11 +593,11 @@ Detailed guides in `./references/`:
 - `metadata-guide.md` - Metadata indexes and filtering
 - `embedding-models.md` - Model configurations
 
-## Examples
+## Integration Examples
 
-Working examples in `./examples/`:
-- `workers-ai-bge-base.md` - Workers AI integration (@cf/baai/bge-base-en-v1.5)
-- `openai-embeddings.md` - OpenAI embeddings integration
+Complete integration guides in `./references/`:
+- `integration-workers-ai-bge-base.md` - Workers AI integration (@cf/baai/bge-base-en-v1.5)
+- `integration-openai-embeddings.md` - OpenAI embeddings integration
 
 ## Official Documentation
 
