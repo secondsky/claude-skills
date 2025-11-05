@@ -9,6 +9,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Enhanced - wordpress-plugin-core Skill ✅
+
+**Date**: 2025-11-06
+
+**Enhancement**: Added comprehensive GitHub auto-updates capability for WordPress plugins.
+
+#### wordpress-plugin-core v1.1.0 (Enhancement)
+- **New Capability**: Plugin distribution and auto-updates outside WordPress.org
+- **Documentation Added**: 1,768 lines (references + examples)
+- **Templates Updated**: All 3 plugin templates include auto-update instructions
+
+**What Was Added**:
+- ✅ **Complete Auto-Updates Guide**: `references/github-auto-updates.md` (1,224 lines)
+  - Plugin Update Checker (recommended, 2.2k+ GitHub stars)
+  - Git Updater (alternative solution)
+  - Custom update servers (full control)
+  - Commercial solutions (Freemius, EDD)
+  - Security best practices (checksums, signing, tokens)
+  - Comparison matrix and use case recommendations
+
+- ✅ **Working Examples**: `examples/github-updater.php` (544 lines)
+  - 10 implementation patterns
+  - Public and private repository support
+  - License key integration
+  - Multi-channel updates (stable/beta)
+  - Debugging and logging
+  - Complete troubleshooting
+
+- ✅ **SKILL.md Enhancement**: Distribution & Auto-Updates section
+  - Quick start guide
+  - Security considerations
+  - When to use each approach
+  - ZIP structure requirements
+
+- ✅ **README.md Update**: 13 new auto-update keywords for discoverability
+
+- ✅ **Template Integration**: All 3 plugin templates updated
+  - Simple: Basic integration example
+  - OOP: Class-based integration
+  - PSR-4: Composer integration with build script
+
+**Enables**:
+- Plugin distribution outside WordPress.org
+- Automatic updates from GitHub (public/private repos)
+- License key validation for premium plugins
+- Professional release workflows with GitHub Releases
+- Multiple deployment strategies (releases, tags, branches)
+
+**Commit**: `d19cd33`
+
+---
+
 ### Added - cloudflare-mcp-server Skill ✅
 
 **Date**: 2025-11-04
