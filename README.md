@@ -1,7 +1,7 @@
 # Claude Code Skills Collection
 
 **Production-ready skills for Claude Code CLI**
-**Last Updated**: 2025-11-06
+**Last Updated**: 2025-11-07
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, React, Tailwind, and AI integrations.
 
@@ -590,17 +590,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## 📋 Skill Categories
 
-All 53 skills are production-ready and organized by domain:
+All 60 skills are production-ready and organized by domain:
 
-- **Cloudflare Platform** (26 skills) - Workers, D1, R2, KV, AI, Queues, Workflows, Durable Objects, etc.
-- **AI & Machine Learning** (10 skills) - OpenAI, Claude, Gemini, Vercel AI SDK, Thesys
-- **Frontend & UI** (7 skills) - React, Tailwind v4, Forms, State Management, Next.js
-- **Auth & Security** (3 skills) - Clerk, Auth.js, Zero Trust
-- **Content Management** (2 skills) - TinaCMS, Sveltia CMS
-- **WordPress Development** (1 skill) - Plugin core with security, auto-updates, distribution
+- **Cloudflare Platform** (22 skills) - Workers, D1, R2, KV, AI, Queues, Workflows, Durable Objects, MCP, etc.
+- **AI & Machine Learning** (13 skills) - OpenAI, Claude, Gemini, ElevenLabs, Vercel AI SDK, Thesys
+- **Frontend & UI** (7 skills) - React, Tailwind v4, Forms, State Management, Next.js, Hono
+- **Auth & Security** (3 skills) - Clerk, Auth.js, Better Auth
+- **Content Management** (3 skills) - TinaCMS, Sveltia CMS, WordPress
 - **Database & ORM** (4 skills) - Drizzle, Neon Postgres, Vercel KV/Blob
-- **GitHub Automation** (1 skill) - CI/CD, issue/PR templates, security scanning, automation scripts
-- **Tooling & Planning** (5 skills) - MCP servers, FastMCP, Project Planning, Scraping
+- **Tooling & Planning** (8 skills) - MCP servers, FastMCP, Hugo, Project Planning, GitHub, Open Source, Firecrawl
 
 ---
 
