@@ -51,6 +51,43 @@ Working development environment with successful test deployment. Can iterate on 
 **Estimated**: [X hours]
 **Files**: [List specific files]
 
+### File Map
+[Optional but recommended for API/UI/Integration phases]
+
+- `src/[file-name].ts` (estimated ~XXX lines)
+  - **Purpose**: [What this file does]
+  - **Key exports**: [Main functions/components/types]
+  - **Dependencies**: [What it imports]
+  - **Used by**: [What uses it]
+
+- `src/[another-file].ts` (modify existing)
+  - **Purpose**: [What this file does]
+  - **Modifications**: [What changes to make]
+
+### Data Flow
+[Optional - Use Mermaid diagram for complex interactions]
+
+```mermaid
+sequenceDiagram
+    participant A as Component A
+    participant B as Component B
+    A->>B: Action
+    B->>A: Response
+```
+
+### Critical Dependencies
+
+**Internal**: [List codebase files this phase depends on]
+**External**: [List npm packages needed]
+**Configuration**: [Environment variables, config files]
+**Bindings**: [Cloudflare bindings needed: D1, R2, KV, etc]
+
+### Gotchas & Known Issues
+[Optional but valuable - Document non-obvious behavior]
+
+- **[Issue name]**: [Description and pattern/solution]
+- **[Another issue]**: [Description and pattern/solution]
+
 ### Tasks
 - [ ] [Specific task 1]
 - [ ] [Specific task 2]
@@ -72,6 +109,18 @@ Working development environment with successful test deployment. Can iterate on 
 **Estimated**: [X hours]
 **Files**: [List specific files]
 
+### File Map
+[Include for API/UI/Integration phases]
+
+### Data Flow
+[Include Mermaid diagram if helpful]
+
+### Critical Dependencies
+**Internal**: | **External**: | **Configuration**: | **Bindings**:
+
+### Gotchas & Known Issues
+[Document non-obvious behavior]
+
 ### Tasks
 - [ ] [Tasks...]
 
@@ -87,6 +136,18 @@ Working development environment with successful test deployment. Can iterate on 
 **Type**: [Database/API/UI/Integration]
 **Estimated**: [X hours]
 **Files**: [List specific files]
+
+### File Map
+[Include for API/UI/Integration phases]
+
+### Data Flow
+[Include Mermaid diagram if helpful]
+
+### Critical Dependencies
+**Internal**: | **External**: | **Configuration**: | **Bindings**:
+
+### Gotchas & Known Issues
+[Document non-obvious behavior]
 
 ### Tasks
 - [ ] [Tasks...]

@@ -482,6 +482,316 @@ All endpoints return errors in this format:
 
 ---
 
+## File-Level Detail in Phases
+
+**Purpose**: Enhance phases with file maps, data flow diagrams, and gotchas to help Claude navigate code and make better decisions about which files to modify.
+
+### When to Include File-Level Detail
+
+**Always include** for these phase types:
+- **API phases**: Clear file map prevents wrong endpoint placement
+- **UI phases**: Component hierarchy helps with state management decisions
+- **Integration phases**: Shows exact touch points with external services
+
+**Optional** for these phase types:
+- **Infrastructure phases**: Usually obvious from scaffolding
+- **Database phases**: Schema files are self-documenting
+- **Testing phases**: Test files map to feature files
+
+### File Map Structure
+
+For each phase, add a **File Map** section that lists:
+
+```markdown
+### File Map
+
+- `src/routes/tasks.ts` (estimated ~150 lines)
+  - **Purpose**: CRUD endpoints for tasks
+  - **Key exports**: GET, POST, PATCH, DELETE handlers
+  - **Dependencies**: schemas.ts (validation), auth.ts (middleware), D1 binding
+  - **Used by**: Frontend task components
+
+- `src/lib/schemas.ts` (estimated ~80 lines)
+  - **Purpose**: Zod validation schemas for request/response
+  - **Key exports**: taskSchema, createTaskSchema, updateTaskSchema
+  - **Dependencies**: zod package
+  - **Used by**: routes/tasks.ts, frontend forms
+
+- `src/middleware/auth.ts` (existing, no changes)
+  - **Purpose**: JWT verification middleware
+  - **Used by**: All authenticated routes
+```
+
+**Key principles**:
+- List files in order of importance (entry points first)
+- Distinguish new files vs modifications to existing files
+- Estimate line counts for new files (helps with effort estimation)
+- Show clear dependency graph (what imports what)
+- Note which files are "used by" other parts (impact analysis)
+
+### Data Flow Diagrams
+
+**Use Mermaid diagrams** to show request/response flows, especially for:
+- API endpoints (sequence diagrams)
+- Component interactions (flowcharts)
+- System architecture (architecture diagrams)
+
+**Example for API Phase**:
+```markdown
+### Data Flow
+
+\`\`\`mermaid
+sequenceDiagram
+    participant C as Client
+    participant W as Worker
+    participant A as Auth Middleware
+    participant V as Validator
+    participant D as D1 Database
+
+    C->>W: POST /api/tasks
+    W->>A: authenticateUser()
+    A->>W: user object
+    W->>V: validateSchema(createTaskSchema)
+    V->>W: validated data
+    W->>D: INSERT INTO tasks
+    D->>W: task record
+    W->>C: 201 + task JSON
+\`\`\`
+```
+
+**Example for UI Phase**:
+```markdown
+### Data Flow
+
+\`\`\`mermaid
+flowchart TB
+    A[TaskList Component] --> B{Has Tasks?}
+    B -->|Yes| C[Render TaskCard]
+    B -->|No| D[Show Empty State]
+    C --> E[TaskCard Component]
+    E -->|Edit Click| F[Open TaskDialog]
+    E -->|Delete Click| G[Confirm Delete]
+    F --> H[Update via API]
+    G --> I[Delete via API]
+    H --> J[Refetch Tasks]
+    I --> J
+\`\`\`
+```
+
+**Mermaid Diagram Types**:
+- **Sequence diagrams** (`sequenceDiagram`): API calls, auth flows, webhooks
+- **Flowcharts** (`flowchart TB/LR`): Component logic, decision trees
+- **Architecture diagrams** (`graph TD`): System components, service boundaries
+- **ER diagrams** (`erDiagram`): Database relationships (if not in DATABASE_SCHEMA.md)
+
+### Critical Dependencies Section
+
+List internal, external, and configuration dependencies:
+
+```markdown
+### Critical Dependencies
+
+**Internal** (codebase files):
+- Auth middleware (`src/middleware/auth.ts`)
+- Zod schemas (`src/lib/schemas.ts`)
+- D1 binding (via `env.DB`)
+
+**External** (npm packages):
+- `zod` - Schema validation
+- `hono` - Web framework
+- `@clerk/backend` - JWT verification
+
+**Configuration** (environment variables, config files):
+- `CLERK_SECRET_KEY` - JWT verification key (wrangler.jsonc secret)
+- None needed for this phase (uses JWT from headers)
+
+**Cloudflare Bindings**:
+- `DB` (D1 database) - Must be configured in wrangler.jsonc
+```
+
+**Why this matters**:
+- Claude knows exactly what packages to import
+- Environment setup is clear before starting
+- Breaking changes to dependencies are predictable
+
+### Gotchas & Known Issues Section
+
+**Document non-obvious behavior** that Claude should know about:
+
+```markdown
+### Gotchas & Known Issues
+
+**Ownership Verification Required**:
+- PATCH/DELETE must check `task.user_id === user.id`
+- Failing to check allows users to modify others' tasks (security vulnerability)
+- Pattern: Fetch task, verify ownership, then mutate
+
+**Pagination Required for GET**:
+- Without pagination, endpoint returns ALL tasks (performance issue for users with 1000+ tasks)
+- Max: 50 tasks per page
+- Pattern: `SELECT * FROM tasks WHERE user_id = ? LIMIT ? OFFSET ?`
+
+**Soft Delete Pattern**:
+- Don't use `DELETE FROM tasks` (hard delete)
+- Use `UPDATE tasks SET deleted_at = ? WHERE id = ?` (soft delete)
+- Reason: Audit trail, undo capability, data recovery
+
+**Timezone Handling**:
+- Store all timestamps as UTC in database (INTEGER unix timestamp)
+- Convert to user's timezone in frontend only
+- Pattern: `new Date().getTime()` for storage, `new Date(timestamp)` for display
+```
+
+**What to document**:
+- Security concerns (auth, validation, ownership)
+- Performance issues (pagination, caching, query optimization)
+- Data integrity patterns (soft deletes, cascades, constraints)
+- Edge cases (empty states, invalid input, race conditions)
+- Framework-specific quirks (Cloudflare Workers limitations, Vite build issues)
+
+### Enhanced Phase Template
+
+Here's how a complete phase looks with file-level detail:
+
+```markdown
+## Phase 3: Tasks API
+
+**Type**: API
+**Estimated**: 4 hours (~4 minutes human time)
+**Files**: `src/routes/tasks.ts`, `src/lib/schemas.ts`, `src/middleware/auth.ts` (modify)
+
+### File Map
+
+- `src/routes/tasks.ts` (estimated ~150 lines)
+  - **Purpose**: CRUD endpoints for tasks
+  - **Key exports**: GET, POST, PATCH, DELETE handlers
+  - **Dependencies**: schemas.ts, auth middleware, D1 binding
+
+- `src/lib/schemas.ts` (add ~40 lines)
+  - **Purpose**: Task validation schemas
+  - **Key exports**: taskSchema, createTaskSchema, updateTaskSchema
+  - **Modifications**: Add to existing schema file
+
+### Data Flow
+
+\`\`\`mermaid
+sequenceDiagram
+    Client->>Worker: POST /api/tasks
+    Worker->>AuthMiddleware: authenticateUser()
+    AuthMiddleware->>Worker: user object
+    Worker->>Validator: validateSchema(createTaskSchema)
+    Validator->>Worker: validated data
+    Worker->>D1: INSERT INTO tasks
+    D1->>Worker: task record
+    Worker->>Client: 201 + task JSON
+\`\`\`
+
+### Critical Dependencies
+
+**Internal**: auth.ts, schemas.ts, D1 binding
+**External**: zod, hono, @clerk/backend
+**Configuration**: CLERK_SECRET_KEY (wrangler.jsonc)
+**Bindings**: DB (D1)
+
+### Gotchas & Known Issues
+
+- **Ownership verification**: PATCH/DELETE must check task.user_id === user.id
+- **Pagination required**: GET must limit to 50 tasks per page
+- **Soft delete**: Use deleted_at timestamp, not hard DELETE
+- **UTC timestamps**: Store as unix timestamp, convert in frontend
+
+### Tasks
+
+- [ ] Create task validation schemas in schemas.ts
+- [ ] Implement GET /api/tasks endpoint with pagination
+- [ ] Implement POST /api/tasks endpoint with validation
+- [ ] Implement PATCH /api/tasks/:id with ownership check
+- [ ] Implement DELETE /api/tasks/:id with soft delete
+- [ ] Add error handling for invalid IDs
+- [ ] Test all endpoints with valid/invalid data
+
+### Verification Criteria
+
+- [ ] GET /api/tasks returns 200 with array of tasks
+- [ ] GET /api/tasks?page=2 returns correct offset
+- [ ] POST /api/tasks with valid data returns 201 + created task
+- [ ] POST /api/tasks with invalid data returns 400 + error details
+- [ ] PATCH /api/tasks/:id updates task and returns 200
+- [ ] PATCH /api/tasks/:id with wrong user returns 403
+- [ ] DELETE /api/tasks/:id soft deletes (sets deleted_at)
+- [ ] All endpoints return 401 without valid JWT
+
+### Exit Criteria
+
+All CRUD operations work correctly with proper status codes, validation, authentication, and ownership checks. Pagination prevents performance issues. Soft delete preserves data.
+```
+
+### Integration with SESSION.md
+
+File maps make SESSION.md more effective:
+
+**In IMPLEMENTATION_PHASES.md**:
+```markdown
+### File Map
+- src/routes/tasks.ts (CRUD endpoints)
+- src/lib/schemas.ts (validation)
+```
+
+**In SESSION.md** (during phase):
+```markdown
+## Phase 3: Tasks API 🔄
+
+**Progress**:
+- [x] GET /api/tasks endpoint (commit: abc123)
+- [x] POST /api/tasks endpoint (commit: def456)
+- [ ] PATCH /api/tasks/:id ← **CURRENT**
+
+**Next Action**: Implement PATCH /api/tasks/:id in src/routes/tasks.ts:47, handle validation and ownership check
+
+**Key Files** (from IMPLEMENTATION_PHASES.md file map):
+- src/routes/tasks.ts
+- src/lib/schemas.ts
+```
+
+**Benefits**:
+- Claude knows exactly where to look (file + line number)
+- No grepping needed to find relevant code
+- Context switching is faster (fewer files to read)
+
+### Token Efficiency Gains
+
+**Without file-level detail**:
+```
+User: "Add task endpoints"
+Claude: [Reads 5-8 files via Glob/Grep to understand structure]
+Claude: [Writes code in wrong location]
+User: "That should be in routes/tasks.ts, not api/tasks.ts"
+Claude: [Reads more files, rewrites code]
+```
+Estimated tokens: ~12k-15k
+
+**With file-level detail**:
+```
+User: "Add task endpoints"
+Claude: [Reads IMPLEMENTATION_PHASES.md file map]
+Claude: [Writes code in correct location on first try]
+```
+Estimated tokens: ~4k-5k
+
+**Savings**: ~60-70% token reduction + faster implementation
+
+### When to Skip File-Level Detail
+
+**Skip file maps if**:
+- Phase is trivial (1-2 files, obvious structure)
+- Codebase is tiny (<10 total files)
+- Phase is exploratory (don't know files yet)
+- User explicitly prefers minimal planning
+
+**Example**: Infrastructure phase scaffolding doesn't need file maps because `create-cloudflare` generates standard structure.
+
+---
+
 ## Generation Logic
 
 ### When User Invokes Skill
