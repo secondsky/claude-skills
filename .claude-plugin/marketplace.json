@@ -1,0 +1,856 @@
+{
+  "name": "claude-skills",
+  "owner": {
+    "name": "Jeremy Dawes / Jezweb",
+    "email": "jeremy@jezweb.net",
+    "url": "https://jezweb.com.au"
+  },
+  "metadata": {
+    "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
+    "version": "1.0.0",
+    "homepage": "https://github.com/jezweb/claude-skills",
+    "pluginRoot": "./skills"
+  },
+  "plugins": [
+    {
+      "name": "cloudflare-worker-base",
+      "source": "./skills/cloudflare-worker-base",
+      "description": "Production-ready Cloudflare Workers setup with Vite, TypeScript, and modern best practices. Prevents 6+ common errors.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "workers", "vite", "typescript", "static-assets", "es-modules"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-d1",
+      "source": "./skills/cloudflare-d1",
+      "description": "Cloudflare D1 SQLite database integration with migrations, schemas, and best practices.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "d1", "sqlite", "database", "sql", "migrations"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-r2",
+      "source": "./skills/cloudflare-r2",
+      "description": "Cloudflare R2 object storage integration with upload, download, and management patterns.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "r2", "storage", "s3", "objects", "files"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-kv",
+      "source": "./skills/cloudflare-kv",
+      "description": "Cloudflare KV key-value storage with caching patterns and best practices.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "kv", "cache", "key-value", "storage"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-workers-ai",
+      "source": "./skills/cloudflare-workers-ai",
+      "description": "Cloudflare Workers AI integration for LLM inference, embeddings, and AI models.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "ai", "llm", "embeddings", "inference", "ml"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-vectorize",
+      "source": "./skills/cloudflare-vectorize",
+      "description": "Cloudflare Vectorize for vector search and embeddings storage.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "vectorize", "vector-search", "embeddings", "ai"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-queues",
+      "source": "./skills/cloudflare-queues",
+      "description": "Cloudflare Queues for async message processing and job queues.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "queues", "async", "jobs", "messaging"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-workflows",
+      "source": "./skills/cloudflare-workflows",
+      "description": "Cloudflare Workflows for orchestrating complex multi-step processes.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "workflows", "orchestration", "state-machine"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-durable-objects",
+      "source": "./skills/cloudflare-durable-objects",
+      "description": "Cloudflare Durable Objects for stateful, coordinated applications.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "durable-objects", "stateful", "websockets", "coordination"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-agents",
+      "source": "./skills/cloudflare-agents",
+      "description": "Cloudflare AI Agents for building autonomous AI applications.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "agents", "ai", "autonomous", "llm"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-mcp-server",
+      "source": "./skills/cloudflare-mcp-server",
+      "description": "Deploy MCP servers on Cloudflare Workers with proper routing and configuration.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "mcp", "server", "protocol", "claude"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-nextjs",
+      "source": "./skills/cloudflare-nextjs",
+      "description": "Deploy Next.js applications on Cloudflare Pages with proper configuration.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "nextjs", "react", "pages", "ssr"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-cron-triggers",
+      "source": "./skills/cloudflare-cron-triggers",
+      "description": "Cloudflare Cron Triggers for scheduled tasks and jobs.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "cron", "scheduled", "tasks", "jobs"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-email-routing",
+      "source": "./skills/cloudflare-email-routing",
+      "description": "Cloudflare Email Routing for handling incoming emails in Workers.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "email", "routing", "smtp", "workers"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-hyperdrive",
+      "source": "./skills/cloudflare-hyperdrive",
+      "description": "Cloudflare Hyperdrive for accelerated Postgres database connections.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "hyperdrive", "postgres", "database", "connection-pooling"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-images",
+      "source": "./skills/cloudflare-images",
+      "description": "Cloudflare Images for image optimization, transformation, and delivery.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "images", "optimization", "cdn", "transform"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-browser-rendering",
+      "source": "./skills/cloudflare-browser-rendering",
+      "description": "Cloudflare Browser Rendering for headless browser automation and screenshots.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "browser", "puppeteer", "screenshots", "automation"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-turnstile",
+      "source": "./skills/cloudflare-turnstile",
+      "description": "Cloudflare Turnstile for CAPTCHA-free bot protection.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "turnstile", "captcha", "security", "bot-protection"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-zero-trust-access",
+      "source": "./skills/cloudflare-zero-trust-access",
+      "description": "Cloudflare Zero Trust Access for secure authentication and authorization.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "zero-trust", "auth", "security", "access"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-full-stack-scaffold",
+      "source": "./skills/cloudflare-full-stack-scaffold",
+      "description": "Complete full-stack Cloudflare application scaffold with Workers, D1, R2, and frontend.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "full-stack", "scaffold", "template", "workers"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-full-stack-integration",
+      "source": "./skills/cloudflare-full-stack-integration",
+      "description": "Integrate multiple Cloudflare services into existing full-stack applications.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "integration", "full-stack", "workers", "services"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "cloudflare-sandbox",
+      "source": "./skills/cloudflare-sandbox",
+      "description": "Cloudflare sandbox environment for testing and development.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "sandbox", "testing", "development"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "tailwind-v4-shadcn",
+      "source": "./skills/tailwind-v4-shadcn",
+      "description": "Tailwind v4 + shadcn/ui setup with Vite. Prevents 8+ theming and configuration errors. Production-tested gold standard.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["tailwind", "shadcn", "vite", "react", "theming", "ui", "components"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "react-hook-form-zod",
+      "source": "./skills/react-hook-form-zod",
+      "description": "React Hook Form + Zod validation integration with best practices.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["react", "forms", "validation", "zod", "react-hook-form"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "tanstack-query",
+      "source": "./skills/tanstack-query",
+      "description": "TanStack Query (React Query) for data fetching and caching.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["react", "tanstack", "query", "data-fetching", "cache"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "zustand-state-management",
+      "source": "./skills/zustand-state-management",
+      "description": "Zustand state management with patterns and best practices.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["react", "zustand", "state", "state-management"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "nextjs",
+      "source": "./skills/nextjs",
+      "description": "Next.js application development with App Router and best practices.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["nextjs", "react", "ssr", "app-router", "framework"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "hono-routing",
+      "source": "./skills/hono-routing",
+      "description": "Hono web framework routing for Cloudflare Workers and edge runtimes.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["hono", "routing", "api", "workers", "edge"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "ai-sdk-core",
+      "source": "./skills/ai-sdk-core",
+      "description": "Vercel AI SDK core for unified LLM integration across providers.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["ai", "llm", "vercel", "sdk", "openai", "anthropic", "streaming"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "ai-sdk-ui",
+      "source": "./skills/ai-sdk-ui",
+      "description": "Vercel AI SDK UI for building chat interfaces and AI interactions.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["ai", "ui", "chat", "vercel", "sdk", "react"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "openai-api",
+      "source": "./skills/openai-api",
+      "description": "OpenAI API integration with GPT models, embeddings, and best practices.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["openai", "gpt", "api", "llm", "embeddings"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "openai-agents",
+      "source": "./skills/openai-agents",
+      "description": "OpenAI Agents SDK for JavaScript/TypeScript with realtime voice, multi-agent workflows, and comprehensive error prevention.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["openai", "agents", "sdk", "tools", "workflows", "realtime", "voice"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "openai-assistants",
+      "source": "./skills/openai-assistants",
+      "description": "OpenAI Assistants API for building stateful AI assistants.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["openai", "assistants", "api", "stateful", "threads"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "openai-responses",
+      "source": "./skills/openai-responses",
+      "description": "OpenAI Responses API for building conversational AI applications.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["openai", "responses", "api", "conversation", "chat"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "google-gemini-api",
+      "source": "./skills/google-gemini-api",
+      "description": "Google Gemini API integration with multimodal models.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["google", "gemini", "api", "llm", "multimodal"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "google-gemini-embeddings",
+      "source": "./skills/google-gemini-embeddings",
+      "description": "Google Gemini embeddings for semantic search and similarity.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["google", "gemini", "embeddings", "vector", "search"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "claude-api",
+      "source": "./skills/claude-api",
+      "description": "Anthropic Claude API integration with streaming and best practices.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["anthropic", "claude", "api", "llm", "streaming"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "claude-agent-sdk",
+      "source": "./skills/claude-agent-sdk",
+      "description": "Claude Agent SDK for building autonomous AI agents with Claude.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["anthropic", "claude", "agents", "sdk", "autonomous"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "thesys-generative-ui",
+      "source": "./skills/thesys-generative-ui",
+      "description": "Thesys C1 for LLM-powered dynamic UI generation.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["thesys", "generative-ui", "llm", "dynamic", "components"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "elevenlabs-agents",
+      "source": "./skills/elevenlabs-agents",
+      "description": "ElevenLabs Agents for voice AI applications.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["elevenlabs", "voice", "speech", "ai", "tts"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "clerk-auth",
+      "source": "./skills/clerk-auth",
+      "description": "Clerk authentication and user management integration.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": ["clerk", "auth", "authentication", "users", "jwt"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "auth-js",
+      "source": "./skills/auth-js",
+      "description": "Auth.js (NextAuth) open-source authentication with D1 adapter.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": ["authjs", "nextauth", "authentication", "oauth", "d1"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "better-auth",
+      "source": "./skills/better-auth",
+      "description": "Better Auth authentication library integration.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": ["better-auth", "authentication", "auth", "security"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "tinacms",
+      "source": "./skills/tinacms",
+      "description": "TinaCMS Git-backed content management system integration.",
+      "version": "1.0.0",
+      "category": "cms",
+      "keywords": ["tina", "cms", "content", "git", "markdown"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "sveltia-cms",
+      "source": "./skills/sveltia-cms",
+      "description": "Sveltia CMS for Git-based content management.",
+      "version": "1.0.0",
+      "category": "cms",
+      "keywords": ["sveltia", "cms", "content", "git", "netlify-cms"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "drizzle-orm-d1",
+      "source": "./skills/drizzle-orm-d1",
+      "description": "Drizzle ORM with Cloudflare D1 integration and migrations.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": ["drizzle", "orm", "d1", "cloudflare", "database", "sqlite"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "neon-vercel-postgres",
+      "source": "./skills/neon-vercel-postgres",
+      "description": "Neon Postgres with Vercel integration for serverless databases.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": ["neon", "postgres", "vercel", "serverless", "database"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "vercel-kv",
+      "source": "./skills/vercel-kv",
+      "description": "Vercel KV Redis-compatible key-value storage.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": ["vercel", "kv", "redis", "cache", "storage"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "vercel-blob",
+      "source": "./skills/vercel-blob",
+      "description": "Vercel Blob for file storage and uploads.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": ["vercel", "blob", "storage", "files", "uploads"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "typescript-mcp",
+      "source": "./skills/typescript-mcp",
+      "description": "Build MCP servers with TypeScript following official SDK patterns.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["mcp", "typescript", "server", "protocol", "claude"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "fastmcp",
+      "source": "./skills/fastmcp",
+      "description": "FastMCP Python framework for building MCP servers quickly.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["fastmcp", "mcp", "python", "server", "framework"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "project-planning",
+      "source": "./skills/project-planning",
+      "description": "Generate structured planning docs (IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, etc.) for context-safe project execution.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["planning", "documentation", "phases", "architecture", "project-management"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "project-session-management",
+      "source": "./skills/project-session-management",
+      "description": "Session handoff protocol for tracking progress across context windows.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["session", "handoff", "context", "progress", "tracking"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "firecrawl-scraper",
+      "source": "./skills/firecrawl-scraper",
+      "description": "Firecrawl web scraping API integration for content extraction.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["firecrawl", "scraping", "web", "api", "content"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "hugo",
+      "source": "./skills/hugo",
+      "description": "Hugo static site generator setup and deployment.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["hugo", "static-site", "generator", "blog", "website"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "github-project-automation",
+      "source": "./skills/github-project-automation",
+      "description": "Automate GitHub Projects with phases, custom fields, and CLI workflows.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["github", "projects", "automation", "workflow", "cli"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "open-source-contributions",
+      "source": "./skills/open-source-contributions",
+      "description": "Best practices and workflows for contributing to open-source projects.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["open-source", "contributions", "github", "pull-requests", "workflow"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "wordpress-plugin-core",
+      "source": "./skills/wordpress-plugin-core",
+      "description": "WordPress plugin development with modern practices and hooks.",
+      "version": "1.0.0",
+      "category": "cms",
+      "keywords": ["wordpress", "plugin", "php", "hooks", "development"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "better-chatbot",
+      "source": "./skills/better-chatbot",
+      "description": "Build production-ready chatbots with best practices.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["chatbot", "chat", "ai", "conversation", "messaging"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    },
+    {
+      "name": "better-chatbot-patterns",
+      "source": "./skills/better-chatbot-patterns",
+      "description": "Advanced chatbot patterns and architectures.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["chatbot", "patterns", "architecture", "ai", "design"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/jezweb/claude-skills"
+    }
+  ]
+}

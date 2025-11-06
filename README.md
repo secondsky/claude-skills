@@ -13,7 +13,24 @@ A curated collection of battle-tested skills for building modern web application
 
 ## 🚀 Quick Start
 
-### Installation
+### Option A: Marketplace Installation (Recommended for Users)
+
+**Easiest method** - install skills directly from the marketplace:
+
+```bash
+# Add the marketplace
+/plugin marketplace add https://github.com/jezweb/claude-skills
+
+# Install skills
+/plugin install cloudflare-worker-base@claude-skills
+/plugin install tailwind-v4-shadcn@claude-skills openai-agents@claude-skills
+```
+
+See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 60 available skills.
+
+### Option B: Direct Installation (For Contributors & Development)
+
+**Manual method** - clone and install locally:
 
 ```bash
 # Clone the repository
@@ -29,11 +46,15 @@ cd ~/Documents/claude-skills
 
 ### Verify Installation
 
-Skills will be symlinked to `~/.claude/skills/`. Claude Code will automatically discover and suggest them when relevant.
+Skills will be available in Claude Code and automatically suggested when relevant to your task.
 
 ---
 
-## 📦 Available Skills (52 Production-Ready)
+## 📦 Available Skills (60 Production-Ready)
+
+**📋 Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for the complete organized list of all 60 skills by category.
+
+**Below**: Featured skills with detailed descriptions and trigger keywords.
 
 ### Cloudflare Core Infrastructure
 

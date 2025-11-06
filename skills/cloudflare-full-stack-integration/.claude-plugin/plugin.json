@@ -1,0 +1,12 @@
+{
+  "name": "cloudflare-full-stack-integration",
+  "description": "Production-tested integration patterns for connecting React frontends to Cloudflare Worker backends with Hono, Clerk authentication, and D1 databases. Prevents common frontend-backend connection issues, CORS errors, auth token failures, and race conditions. Use when: connecting frontend to backend, implementing auth flow, setting up API calls, troubleshooting CORS, fixing race conditions, auth tokens not passing, frontend-backend connection errors, 401 errors, integrating Clerk with Workers, set",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": []
+}

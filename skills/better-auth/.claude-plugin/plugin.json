@@ -1,0 +1,12 @@
+{
+  "name": "better-auth",
+  "description": "Production-ready authentication framework for TypeScript with first-class Cloudflare D1 support. Use this skill when building auth systems as a self-hosted alternative to Clerk or Auth.js, particularly for Cloudflare Workers projects. Supports social providers (Google, GitHub, Microsoft, Apple), email/password, magic links, 2FA, passkeys, organizations, and RBAC. Prevents 10+ common authentication errors including session serialization issues, CORS misconfigurations, D1 adapter setup, social pro",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": []
+}

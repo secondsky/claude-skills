@@ -1,0 +1,12 @@
+{
+  "name": "cloudflare-cron-triggers",
+  "description": "Complete knowledge domain for Cloudflare Cron Triggers - scheduled execution of Workers using cron expressions for periodic tasks, maintenance jobs, and automated workflows. Use when: scheduling Workers to run periodically, adding cron triggers to Workers, configuring scheduled tasks, testing cron handlers, combining crons with Workflows, enabling Green Compute, handling multiple schedules, or encountering scheduled handler not found, cron expression invalid, changes not propagating, hand",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": []
+}
