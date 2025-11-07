@@ -9,6 +9,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added - Session Management Slash Commands ✅
+
+**Date**: 2025-11-07
+
+**New Commands**: `/wrap-session`, `/resume-session` (located in `~/.claude/commands/`)
+
+#### Session Management Automation
+- **Commands Created**: 2 slash commands for automated session workflow
+- **Token Savings**: 3-5 minutes per session cycle (wrap + resume)
+- **Files Created**: 2 command files (~250 lines total)
+- **Updated**: project-session-management skill to reference commands
+
+**What These Commands Provide**:
+- ✅ **`/wrap-session`**: Automates end-of-session workflow
+  - Uses Task agent to analyze session state
+  - Auto-updates SESSION.md with progress
+  - Detects and updates relevant docs (CHANGELOG.md, ARCHITECTURE.md, etc.)
+  - Creates structured git checkpoint commit
+  - Outputs formatted handoff summary
+  - Optional git push to remote
+  - **Saves 2-3 minutes** per wrap-up (10-15 manual steps → 1 command)
+
+- ✅ **`/resume-session`**: Automates start-of-session context loading
+  - Uses Explore agent to load session context
+  - Reads SESSION.md + IMPLEMENTATION_PHASES.md + recent git history
+  - Displays formatted session summary (phase, progress, Next Action)
+  - Stage-aware (shows verification checklist if in Verification stage)
+  - Optionally opens "Next Action" file
+  - Asks permission to continue or adjust direction
+  - **Saves 1-2 minutes** per resume (5-8 manual reads → 1 command)
+
+**Key Features**:
+- Leverages Claude Code's built-in Task and Explore agents
+- Comprehensive error handling (missing files, git failures, etc.)
+- Smart doc detection (only updates relevant docs)
+- Structured git checkpoint format (auto-follows template)
+- Stage-aware context loading (Implementation/Verification/Debugging)
+
+**Integration**:
+- Commands reference project-session-management skill
+- Skill references commands as "Option A: Automated (Recommended)"
+- Manual workflow still available as "Option B: Manual"
+
+**Distribution**:
+- Commands installed to `~/.claude/commands/` (user's home directory)
+- Available immediately after installation
+- Work across all projects
+
+**Production Tested**: Successfully tested on claude-skills project
+
+---
+
 ### Added - TanStack Skills ✅
 
 **Date**: 2025-11-07

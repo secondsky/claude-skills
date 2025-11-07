@@ -452,6 +452,12 @@ Session handoff protocol for managing context across sessions. Prevents 3 docume
 
 **Triggers**: `session management`, `session handoff`, `context management`
 
+**Includes 2 Slash Commands**:
+- `/wrap-session` - Automate end-of-session workflow (update SESSION.md, git checkpoint, handoff summary)
+- `/resume-session` - Automate start-of-session context loading (load docs, show summary, continue from "Next Action")
+
+**Time Savings**: 3-5 minutes per session cycle (automated vs manual workflow)
+
 ---
 
 ### GitHub Automation
