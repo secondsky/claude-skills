@@ -122,12 +122,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Full workflow** (with exploration and release):
 ```
-Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /resume-session → /plan-feature → /release → GitHub release
+Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /continue-session → /plan-feature → /release → GitHub release
 ```
 
 **Quick workflow** (clear requirements):
 ```
-Clear requirements → /plan-project → Work → /wrap-session → /resume-session → /release
+Clear requirements → /plan-project → Work → /wrap-session → /continue-session → /release
 ```
 
 **Helper workflows**:
@@ -165,7 +165,7 @@ Release project? → /release → [Safety checks + GitHub release]
 2. `/plan-project` - Generate planning docs
 3. `/plan-feature` - Add feature phases
 4. `/wrap-session` - Checkpoint progress
-5. `/resume-session` - Load context
+5. `/continue-session` - Load context
 6. `/workflow` - Interactive guide ← NEW
 7. `/release` - Pre-release safety ← NEW
 
@@ -219,8 +219,8 @@ Release project? → /release → [Safety checks + GitHub release]
 
 **Complete Workflow** (updated):
 ```
-Full flow: Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /resume-session → /plan-feature
-Quick flow: Clear requirements → /plan-project → Work → /wrap-session → /resume-session
+Full flow: Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /continue-session → /plan-feature
+Quick flow: Clear requirements → /plan-project → Work → /wrap-session → /continue-session
 ```
 
 **Total Time Savings**: Now 25-40 minutes per project lifecycle
@@ -288,7 +288,7 @@ Quick flow: Clear requirements → /plan-project → Work → /wrap-session → 
 
 **Complete Workflow**:
 ```
-Brainstorm → /plan-project → Work → /wrap-session → /resume-session → /plan-feature → Continue
+Brainstorm → /plan-project → Work → /wrap-session → /continue-session → /plan-feature → Continue
 ```
 
 **Total Time Savings**: 15-25 minutes per project lifecycle
@@ -310,7 +310,7 @@ Brainstorm → /plan-project → Work → /wrap-session → /resume-session → 
 
 **Date**: 2025-11-07
 
-**New Commands**: `/wrap-session`, `/resume-session` (located in `~/.claude/commands/`)
+**New Commands**: `/wrap-session`, `/continue-session` (located in `~/.claude/commands/`)
 
 #### Session Management Automation
 - **Commands Created**: 2 slash commands for automated session workflow
@@ -328,7 +328,7 @@ Brainstorm → /plan-project → Work → /wrap-session → /resume-session → 
   - Optional git push to remote
   - **Saves 2-3 minutes** per wrap-up (10-15 manual steps → 1 command)
 
-- ✅ **`/resume-session`**: Automates start-of-session context loading
+- ✅ **`/continue-session`**: Automates start-of-session context loading
   - Uses Explore agent to load session context
   - Reads SESSION.md + IMPLEMENTATION_PHASES.md + recent git history
   - Displays formatted session summary (phase, progress, Next Action)

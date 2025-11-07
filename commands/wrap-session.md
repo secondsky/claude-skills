@@ -203,7 +203,7 @@ Output:
 
 Ready to clear context or continue working.
 
-To resume: Run `/resume-session` in your next session.
+To resume: Run `/continue-session` in your next session.
 ```
 
 ---

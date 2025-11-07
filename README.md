@@ -461,7 +461,7 @@ Session handoff protocol for managing context across sessions. Prevents 3 docume
 
 **Includes 2 Slash Commands**:
 - `/wrap-session` - Automate end-of-session workflow (update SESSION.md, git checkpoint, handoff summary)
-- `/resume-session` - Automate start-of-session context loading (load docs, show summary, continue from "Next Action")
+- `/continue-session` - Automate start-of-session context loading (load docs, show summary, continue from "Next Action")
 
 **Time Savings**: 3-5 minutes per session cycle (automated vs manual workflow)
 
@@ -476,7 +476,7 @@ Session handoff protocol for managing context across sessions. Prevents 3 docume
 - `/plan-project` - Generate planning docs for NEW projects (5-7 min saved)
 - `/plan-feature` - Add features to existing projects (7-10 min saved)
 - `/wrap-session` - Checkpoint progress at end of session (2-3 min saved)
-- `/resume-session` - Load context at start of session (1-2 min saved)
+- `/continue-session` - Load context at start of session (1-2 min saved)
 
 **Helper Commands**:
 - `/workflow` - Interactive guide to the workflow system
@@ -484,12 +484,12 @@ Session handoff protocol for managing context across sessions. Prevents 3 docume
 
 **Full workflow** (with exploration):
 ```
-Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /resume-session → /plan-feature
+Rough idea → /explore-idea → [PROJECT_BRIEF.md] → /plan-project → Work → /wrap-session → /continue-session → /plan-feature
 ```
 
 **Quick workflow** (clear requirements):
 ```
-Clear requirements → /plan-project → Work → /wrap-session → /resume-session
+Clear requirements → /plan-project → Work → /wrap-session → /continue-session
 ```
 
 **Release workflow**:

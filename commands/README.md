@@ -12,7 +12,7 @@ cp commands/explore-idea.md ~/.claude/commands/
 cp commands/plan-project.md ~/.claude/commands/
 cp commands/plan-feature.md ~/.claude/commands/
 cp commands/wrap-session.md ~/.claude/commands/
-cp commands/resume-session.md ~/.claude/commands/
+cp commands/continue-session.md ~/.claude/commands/
 cp commands/workflow.md ~/.claude/commands/
 cp commands/release.md ~/.claude/commands/
 ```
@@ -113,11 +113,11 @@ Commands are immediately available in Claude Code after copying.
 
 ---
 
-### `/resume-session`
+### `/continue-session`
 
 **Purpose**: Automate start-of-session context loading
 
-**Usage**: Type `/resume-session` in Claude Code
+**Usage**: Type `/continue-session` in Claude Code
 
 **What it does**:
 1. Uses Explore agent to load session context (SESSION.md + planning docs)
@@ -241,7 +241,7 @@ These commands work together and integrate with planning/session skills:
 2. If proceeding → /plan-project → [Reads brief, creates IMPLEMENTATION_PHASES.md + SESSION.md]
 3. Start Phase 1 → Work on phases
 4. Context full → /wrap-session → [Updates SESSION.md, git checkpoint]
-5. New session → /resume-session → [Loads context, continues from "Next Action"]
+5. New session → /continue-session → [Loads context, continues from "Next Action"]
 6. Need feature → /plan-feature → [Adds phases to existing plan]
 7. Repeat wrap → resume cycle
 8. Ready to publish → /release → [Safety checks, sanitize, docs] → GitHub release
@@ -249,7 +249,7 @@ These commands work together and integrate with planning/session skills:
 
 **Quick workflow** (clear requirements):
 ```
-Clear requirements → /plan-project → Work → /wrap-session → /resume-session → /release
+Clear requirements → /plan-project → Work → /wrap-session → /continue-session → /release
 ```
 
 **Helper workflows**:
@@ -293,7 +293,7 @@ Release project? → /release → [Safety checks + GitHub release]
 - ✅ Structured git checkpoint format
 - ✅ Comprehensive error handling
 
-**`/resume-session`**:
+**`/continue-session`**:
 - ✅ Multi-file context loading
 - ✅ Stage-aware (shows verification checklist when needed)
 - ✅ Detects uncommitted changes

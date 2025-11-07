@@ -20,17 +20,17 @@ Display this summary first:
 1. /explore-idea     → Research & validate ideas (PRE-planning)
 2. /plan-project     → Generate planning docs (NEW projects)
 3. /wrap-session     → Checkpoint progress (end of session)
-4. /resume-session   → Load context (start of session)
+4. /continue-session   → Load context (start of session)
 5. /plan-feature     → Add features (EXISTING projects)
 
 Complete Workflow:
-Idea → /explore-idea → /plan-project → Work → /wrap-session → /resume-session (cycle)
+Idea → /explore-idea → /plan-project → Work → /wrap-session → /continue-session (cycle)
 
 Quick Workflow (clear requirements):
-Idea → /plan-project → Work → /wrap-session → /resume-session (cycle)
+Idea → /plan-project → Work → /wrap-session → /continue-session (cycle)
 
 Feature Addition:
-/plan-feature → Work → /wrap-session → /resume-session (cycle)
+/plan-feature → Work → /wrap-session → /continue-session (cycle)
 
 ═══════════════════════════════════════════════
 ```
@@ -237,7 +237,7 @@ Output:
 • Git checkpoint commit
 • Handoff summary
 
-Next step: Compact/clear context, then /resume-session
+Next step: Compact/clear context, then /continue-session
 
 Time saved: 2-3 minutes
 
@@ -255,21 +255,21 @@ Session wrapped! ✅
 Next steps:
 1. Compact context: Type /compact
    OR clear context: Use clear button
-2. Resume: Run /resume-session when ready
+2. Resume: Run /continue-session when ready
 
 Your Next Action is documented in SESSION.md
 ```
 
 ---
 
-#### Choice 5: Resume Session
+#### Choice 5: Continue Session
 
 ```
 ═══════════════════════════════════════════════
    RESUMING YOUR SESSION
 ═══════════════════════════════════════════════
 
-You should use: /resume-session
+You should use: /continue-session
 
 What it does:
 • Loads SESSION.md and planning docs
@@ -290,10 +290,10 @@ Time saved: 1-2 minutes
 
 ═══════════════════════════════════════════════
 
-Ready to run /resume-session? (y/n)
+Ready to run /continue-session? (y/n)
 ```
 
-If yes: Execute `/resume-session`
+If yes: Execute `/continue-session`
 
 ---
 
@@ -362,10 +362,10 @@ Related commands:
 ```
 Related commands:
 • After wrapping → Compact/clear context
-• To resume → Run /resume-session
+• To resume → Run /continue-session
 ```
 
-**After showing /resume-session guidance**:
+**After showing /continue-session guidance**:
 ```
 Related commands:
 • After resuming → Continue with Next Action
@@ -409,7 +409,7 @@ EXISTING PROJECT:
 │
 ├─ Continue working
 │  ├─ Context getting full → /wrap-session
-│  ├─ Resuming work → /resume-session
+│  ├─ Resuming work → /continue-session
 │  └─ Just keep working (no command needed)
 │
 └─ Major architectural change
@@ -436,18 +436,18 @@ COMMAND          | WHEN TO USE               | OUTPUT
 /explore-idea    | Rough idea, need research | PROJECT_BRIEF.md
 /plan-project    | New project, clear reqs   | IMPLEMENTATION_PHASES.md, SESSION.md
 /wrap-session    | Context full, end session | Updated SESSION.md, git commit
-/resume-session  | Start session, load state | Session summary, Next Action
+/continue-session  | Start session, load state | Session summary, Next Action
 /plan-feature    | Add feature to project    | Updated phases, SESSION.md
 
 ───────────────────────────────────────────────
 TYPICAL WORKFLOWS
 ───────────────────────────────────────────────
 
-Full: /explore-idea → /plan-project → Work → /wrap-session → /resume-session
+Full: /explore-idea → /plan-project → Work → /wrap-session → /continue-session
 
-Quick: /plan-project → Work → /wrap-session → /resume-session
+Quick: /plan-project → Work → /wrap-session → /continue-session
 
-Feature: /plan-feature → Work → /wrap-session → /resume-session
+Feature: /plan-feature → Work → /wrap-session → /continue-session
 
 ───────────────────────────────────────────────
 TIME SAVINGS

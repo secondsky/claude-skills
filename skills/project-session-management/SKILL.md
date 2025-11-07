@@ -78,7 +78,7 @@ Phase 3: Tasks API (estimated 4 hours)
 ### When Resuming
 
 **Option A: Automated (Recommended)**
-- Run `/resume-session` command to load context and continue from "Next Action"
+- Run `/continue-session` command to load context and continue from "Next Action"
 
 **Option B: Manual**
 1. ✅ **Read SESSION.md** to understand current state
@@ -106,7 +106,7 @@ Two slash commands are available to automate session management:
 
 **Token savings**: ~2-3 minutes saved per wrap-up (10-15 manual steps → 1 command)
 
-### `/resume-session`
+### `/continue-session`
 **Use when**: Starting a new session after context clear
 
 **What it does**:
@@ -117,7 +117,7 @@ Two slash commands are available to automate session management:
 5. Optionally opens "Next Action" file
 6. Asks permission to continue or adjust direction
 
-**Example**: User types `/resume-session` → Claude loads all context and resumes work
+**Example**: User types `/continue-session` → Claude loads all context and resumes work
 
 **Token savings**: ~1-2 minutes saved per resume (5-8 manual reads → 1 command)
 

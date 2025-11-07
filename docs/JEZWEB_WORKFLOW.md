@@ -40,7 +40,7 @@ The Jezweb Workflow provides **5 slash commands** that work together as an integ
 /explore-idea   → Research and validate ideas (PRE-planning)
 /plan-project   → Structure validated ideas into phases
 /wrap-session   → Checkpoint progress when context fills
-/resume-session → Continue exactly where you left off
+/continue-session → Continue exactly where you left off
 /plan-feature   → Add features to existing projects
 ```
 
@@ -63,7 +63,7 @@ The Jezweb Workflow provides **5 slash commands** that work together as an integ
 | `/explore-idea` | Pre-Planning | Research, validate, scope new project ideas | 10-15 min |
 | `/plan-project` | Planning | Generate IMPLEMENTATION_PHASES.md, create SESSION.md | 5-7 min |
 | `/wrap-session` | Session Management | Checkpoint progress, update SESSION.md, git commit | 2-3 min |
-| `/resume-session` | Session Management | Load context, show progress, continue work | 1-2 min |
+| `/continue-session` | Session Management | Load context, show progress, continue work | 1-2 min |
 | `/plan-feature` | Feature Addition | Add phases for new features to existing project | 7-10 min |
 
 **Total Time Savings**: 25-40 minutes per project lifecycle
@@ -75,7 +75,7 @@ The Jezweb Workflow provides **5 slash commands** that work together as an integ
 cp commands/explore-idea.md ~/.claude/commands/
 cp commands/plan-project.md ~/.claude/commands/
 cp commands/wrap-session.md ~/.claude/commands/
-cp commands/resume-session.md ~/.claude/commands/
+cp commands/continue-session.md ~/.claude/commands/
 cp commands/plan-feature.md ~/.claude/commands/
 ```
 
@@ -126,7 +126,7 @@ Commands are immediately available in Claude Code after copying.
    • /compact or clear conversation
    • Frees up context window
    ↓
-8. /resume-session
+8. /continue-session
    • Loads SESSION.md, planning docs
    • Shows recent git commits
    • Displays current phase, progress, Next Action
@@ -159,7 +159,7 @@ Commands are immediately available in Claude Code after copying.
    • Creates: IMPLEMENTATION_PHASES.md, SESSION.md
    • Asks permission to start Phase 1
    ↓
-3. Work → /wrap-session → /resume-session cycle
+3. Work → /wrap-session → /continue-session cycle
    (Same as Workflow 1, steps 5-9)
 ```
 
@@ -199,7 +199,7 @@ Commands are immediately available in Claude Code after copying.
    • Updates SESSION.md
    • Creates git commit
    ↓
-4. Work → /wrap-session → /resume-session cycle
+4. Work → /wrap-session → /continue-session cycle
    (Same as Workflow 1, steps 5-9)
 ```
 
@@ -574,17 +574,17 @@ TO RESUME
 ───────────────────────────────────────────────
 
 1. Compact or clear context: /compact or /clear
-2. Load context: /resume-session
+2. Load context: /continue-session
 3. Continue from Next Action
 
 ═══════════════════════════════════════════════
 ```
 
-**Integration**: Works with /resume-session to maintain session continuity
+**Integration**: Works with /continue-session to maintain session continuity
 
 ---
 
-### /resume-session
+### /continue-session
 
 **Purpose**: Automate start-of-session context loading
 
@@ -856,7 +856,7 @@ Git commit created: def5678
 Ready to continue current phase? (y/n)
 ```
 
-**Integration**: Works within existing /wrap-session → /resume-session cycle
+**Integration**: Works within existing /wrap-session → /continue-session cycle
 
 ---
 
@@ -886,13 +886,13 @@ START HERE: What are you trying to do?
 │
 ├─ I'm WORKING on a project
 │  │
-│  ├─ Context getting full → /wrap-session → /resume-session
+│  ├─ Context getting full → /wrap-session → /continue-session
 │  │
-│  ├─ Completed a phase → /wrap-session → /resume-session
+│  ├─ Completed a phase → /wrap-session → /continue-session
 │  │
 │  └─ Need to stop for now → /wrap-session
 │
-└─ I'm RESUMING work on a project → /resume-session
+└─ I'm RESUMING work on a project → /continue-session
 ```
 
 ### When Should I Wrap a Session?
@@ -1012,7 +1012,7 @@ Claude: [Sets Next Action: "Start Phase 2 - Create MCP server base"]
 **Session 2: Continue Phase 2**
 
 ```
-[Clear context, run /resume-session]
+[Clear context, run /continue-session]
 
 Claude: [Loads SESSION.md, IMPLEMENTATION_PHASES.md]
 Claude: [Shows: Phase 1 complete, Phase 2 current]
@@ -1036,7 +1036,7 @@ Claude: [Next Action: "Start Phase 3 - Integrate Firecrawl"]
 **Session 3: Add Caching Feature**
 
 ```
-[Run /resume-session]
+[Run /continue-session]
 
 You: "Before Phase 3, I want to add caching with R2"
 
@@ -1100,7 +1100,7 @@ Claude: [Updates: Phases 1-2 complete, Next: Phase 3 - Tasks API]
 **Session 2: Tasks API**
 
 ```
-[Run /resume-session]
+[Run /continue-session]
 
 You: "Continue"
 
@@ -1121,7 +1121,7 @@ Claude: [Next Action: "Implement PATCH /api/tasks/:id"]
 **Session 3: Finish API + Start UI**
 
 ```
-[Run /resume-session]
+[Run /continue-session]
 
 You: "Continue"
 
@@ -1213,7 +1213,7 @@ then start Phase 6 (Team Data Model)"
 
 ---
 
-#### Issue: "/resume-session shows wrong 'Next Action'"
+#### Issue: "/continue-session shows wrong 'Next Action'"
 
 **Possible Causes**:
 - SESSION.md wasn't updated in last /wrap-session
@@ -1441,7 +1441,7 @@ Feature is SO large it's basically a new project:
 1. Context fills up
 2. /wrap-session → Auto-updates SESSION.md, git commit (2-3 min)
 3. Clear context
-4. /resume-session → Auto-loads context, shows Next Action (1-2 min)
+4. /continue-session → Auto-loads context, shows Next Action (1-2 min)
 5. Resume work immediately
 
 **Total per session cycle**: ~3-5 minutes, zero context loss
@@ -1493,7 +1493,7 @@ Feature is SO large it's basically a new project:
 
 4. **Resume work** (~1 min):
    - Clear context
-   - Run `/resume-session`
+   - Run `/continue-session`
 
 **That's it!** The workflow guides you from there.
 
@@ -1624,7 +1624,7 @@ The Jezweb Workflow provides:
 
 ✅ **Exploration Before Commitment** (/explore-idea)
 ✅ **Automated Planning** (/plan-project)
-✅ **Session Continuity** (/wrap-session → /resume-session)
+✅ **Session Continuity** (/wrap-session → /continue-session)
 ✅ **Feature Integration** (/plan-feature)
 
 **Benefits**:

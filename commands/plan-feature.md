@@ -339,7 +339,7 @@ Your choice (1/2/3/4):
   - Output: "✅ SESSION.md updated. Starting [First Feature Phase Name]"
 
 **If choice 3 (Review first):**
-- Output: "Review new phases in docs/IMPLEMENTATION_PHASES.md. Run /resume-session when ready."
+- Output: "Review new phases in docs/IMPLEMENTATION_PHASES.md. Run /continue-session when ready."
 - Wait for user
 
 **If choice 4 (Push to remote):**

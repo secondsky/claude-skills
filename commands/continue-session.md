@@ -1,6 +1,6 @@
-# Resume Session
+# Continue Session
 
-Quickly resume work by loading context from SESSION.md, showing current state, and continuing from "Next Action".
+Quickly continue work by loading context from SESSION.md, showing current state, and continuing from "Next Action".
 
 ---
 
