@@ -50,8 +50,8 @@ A curated collection of battle-tested skills for building modern web application
 /plugin marketplace add https://github.com/secondsky/claude-skills
 
 # Install skills
-/plugin install cloudflare-worker-base@claude-skills
-/plugin install tailwind-v4-shadcn@claude-skills openai-agents@claude-skills
+/plugin install cloudflare-worker-base@claude-pro-skills
+/plugin install tailwind-v4-shadcn@claude-pro-skills openai-agents@claude-pro-skills
 ```
 
 See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 68 available skills.

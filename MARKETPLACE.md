@@ -16,10 +16,10 @@ Welcome to the **claude-skills** marketplace - a curated collection of 60 produc
 
 ```bash
 # Install a single skill
-/plugin install cloudflare-worker-base@claude-skills
+/plugin install cloudflare-worker-base@claude-pro-skills
 
 # Install multiple skills
-/plugin install tailwind-v4-shadcn@claude-skills openai-agents@claude-skills
+/plugin install tailwind-v4-shadcn@claude-pro-skills openai-agents@claude-pro-skills
 ```
 
 **Step 3: Use the skills**
@@ -170,10 +170,10 @@ Development tools and workflow automation:
 
 ```bash
 # Update single skill
-/plugin update cloudflare-worker-base@claude-skills
+/plugin update cloudflare-worker-base@claude-pro-skills
 
 # Update all skills from marketplace
-/plugin update-all@claude-skills
+/plugin update-all@claude-pro-skills
 ```
 
 ### List Installed Skills
@@ -185,7 +185,7 @@ Development tools and workflow automation:
 ### Remove Skills
 
 ```bash
-/plugin uninstall cloudflare-worker-base@claude-skills
+/plugin uninstall cloudflare-worker-base@claude-pro-skills
 ```
 
 ---
