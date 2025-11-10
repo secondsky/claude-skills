@@ -1,13 +1,41 @@
 # Claude Code Skills Collection
 
 **Production-ready skills for Claude Code CLI**
-**Last Updated**: 2025-11-07
+**Last Updated**: 2025-11-10
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, React, Tailwind, and AI integrations.
 
 **👋 New Here?** → Read [START_HERE.md](START_HERE.md) for quick navigation
 **🔨 Building a Skill?** → Use [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) and [templates/](templates/)
 **📖 Project Context?** → See [CLAUDE.md](CLAUDE.md)
+
+---
+
+## 🎉 v2.0.0 Release - Major Expansion (2025-11-10)
+
+**65 Production Skills** | **Bun-First Development** | **MCP Orchestration**
+
+### 🆕 What's New
+
+**6 New Skills Added:**
+- **nuxt-ui-v4** ⭐ - 100+ accessible components (Nuxt 4 + Tailwind v4 + Reka UI) | 70% token savings
+- **mcp-dynamic-orchestrator** - Registry-based MCP server management with progressive disclosure
+- **cloudflare-manager** - Unified deployment automation for all Cloudflare services
+- **nuxt-v4** - Core Nuxt 4 patterns with Cloudflare deployment focus
+- **dependency-upgrade** - Automated dependency management with Bun-first approach
+- **nano-banana-prompts** - Gemini 2.5 Flash Image optimization
+
+**Infrastructure:**
+- 🚀 **Bun is now the standard** - Preferred runtime and package manager across all skills
+- 📦 **Marketplace ready** - All 65 skills have `.claude-plugin/plugin.json` manifests
+- 🔧 **MCP orchestration** - New dynamic discovery system prevents context bloat
+- ✨ **Enhanced metadata** - Comprehensive keywords and descriptions for better discoverability
+
+**Quality Updates:**
+- swift-best-practices v1.0.0 (Modern Swift 6+ development)
+- skill-review v1.0.0 (Comprehensive review system)
+- better-auth v2.0.0 (Correct D1 patterns)
+- Removed auth-js (deprecated in favor of better-auth)
 
 ---
 
@@ -19,7 +47,7 @@ A curated collection of battle-tested skills for building modern web application
 
 ```bash
 # Add the marketplace
-/plugin marketplace add https://github.com/jezweb/claude-skills
+/plugin marketplace add https://github.com/secondsky/claude-skills
 
 # Install skills
 /plugin install cloudflare-worker-base@claude-skills
@@ -34,7 +62,7 @@ See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation incl
 
 ```bash
 # Clone the repository
-git clone https://github.com/jezweb/claude-skills.git ~/Documents/claude-skills
+git clone https://github.com/secondsky/claude-skills.git ~/Documents/claude-skills
 
 # Install all skills
 cd ~/Documents/claude-skills
@@ -492,7 +520,7 @@ Ready to publish → /release → [Safety checks, sanitize, docs validation] →
 
 **Total time savings**: 25-40 minutes per project lifecycle (exploration + planning + session management)
 
-**Complete Documentation**: See `docs/JEZWEB_WORKFLOW.md` for comprehensive guide with examples, decision trees, and troubleshooting
+**Complete Documentation**: See `docs/CLAUDE_SKILLS_WORKFLOW.md` for comprehensive guide with examples, decision trees, and troubleshooting
 
 **Quick Reference**: See `commands/README.md` for installation and usage details
 
@@ -689,8 +717,8 @@ MIT License - See [LICENSE](LICENSE)
 ## 🔗 Links
 
 - **Claude Code**: https://claude.com/claude-code
-- **Jezweb**: https://jezweb.com.au
-- **Issues**: https://github.com/jezweb/claude-skills/issues
+
+- **Issues**: https://github.com/secondsky/claude-skills/issues
 
 ---
 
@@ -768,4 +796,4 @@ Using skills vs manual setup (measured across 50 production skills):
 
 ---
 
-**Built with ❤️ by Jeremy Dawes | Jezweb**
+**Built with ❤️ by Claude Skills Maintainers**

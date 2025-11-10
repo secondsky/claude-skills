@@ -9,7 +9,7 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  author: Jeremy Dawes (Jez) | Jezweb
+  author: Claude Skills Maintainers
   based_on: https://github.com/cgoinglove/better-chatbot
   last_verified: 2025-10-29
   tech_stack: Next.js 15, Vercel AI SDK 5, Zod, Zustand

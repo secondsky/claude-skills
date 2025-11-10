@@ -23,7 +23,8 @@ license: MIT
 ### 1. Install SDK and Setup Wrangler
 
 ```bash
-npm install @cloudflare/sandbox@latest
+bun add @cloudflare/sandbox@latest  # preferred
+# or: npm install @cloudflare/sandbox@latest
 ```
 
 **wrangler.jsonc:**

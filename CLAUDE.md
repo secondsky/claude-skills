@@ -1,8 +1,8 @@
 # Claude Skills - Project Context
 
-**Repository**: https://github.com/jezweb/claude-skills
+**Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
-**Owner**: Jeremy Dawes (Jez) | Jezweb
+**Owner**: Claude Skills Maintainers
 **Status**: Active Development | 65 Skills Complete
 **Last Updated**: 2025-11-07
 
@@ -230,6 +230,8 @@ git add skills/my-skill/.claude-plugin/ && git commit -m "Add marketplace manife
 
 ## Commands & Scripts
 
+Note: Bun is the preferred runtime and package manager for Node-based workflows in this repo. npm/pnpm examples remain supported equivalents.
+
 ### Installing Skills
 
 ```bash
@@ -396,8 +398,8 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 - Review working examples in `skills/` directory
 
 **Technical Issues?**
-- Open issue: https://github.com/jezweb/claude-skills/issues
-- Email: jeremy@jezweb.net
+- Open issue: https://github.com/secondsky/claude-skills/issues
+- Email: maintainers@example.com
 - Check official Claude Code docs
 
 **Want to Contribute?**
@@ -449,4 +451,4 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 
 **Last Updated**: 2025-11-07
 **Next Review**: 2026-01-29 (Quarterly)
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net | https://jezweb.com.au
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com | https://github.com/secondsky/claude-skills

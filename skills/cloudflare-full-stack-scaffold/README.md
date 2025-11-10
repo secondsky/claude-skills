@@ -303,7 +303,7 @@ scaffold/
 - cloudflare-full-stack-integration skill
 - session-handoff-protocol skill
 - tailwind-v4-shadcn skill
-- Multiple production Jezweb projects
+- Multiple production projects
 
 **Verified working**: 2025-10-23
 **Package versions**: All current stable releases

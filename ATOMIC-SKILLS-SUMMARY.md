@@ -180,7 +180,7 @@ A skill is "complete" when:
 
 ## Community Benefits
 
-### For Jezweb:
+### For Claude Skills Maintainers:
 - Faster project setup (85% time savings)
 - Zero configuration errors
 - Consistent patterns across projects
@@ -199,7 +199,7 @@ A skill is "complete" when:
 - **Roadmap**: `/home/jez/Documents/claude-skills/planning/skills-roadmap.md`
 - **Research Protocol**: `/home/jez/Documents/claude-skills/planning/research-protocol.md`
 - **Official Standards**: `/home/jez/Documents/claude-skills/planning/claude-code-skill-standards.md`
-- **GitHub Repo**: https://github.com/jezweb/claude-skills
+- **GitHub Repo**: https://github.com/secondsky/claude-skills
 
 ---
 

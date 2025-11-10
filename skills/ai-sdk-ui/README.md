@@ -110,7 +110,8 @@ This skill should be automatically discovered when working with any of the follo
 ## Quick Start
 
 ```bash
-npm install ai @ai-sdk/openai
+bun add ai @ai-sdk/openai  # preferred
+# or: npm install ai @ai-sdk/openai
 ```
 
 **5-minute chat interface:**

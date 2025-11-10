@@ -101,8 +101,9 @@ Provides production-tested patterns for Zustand state management in React with T
 ## Quick Usage Example
 
 ```bash
-# Install Zustand
-npm install zustand
+# Install Zustand (Bun preferred)
+bun add zustand  # preferred
+# or: npm install zustand
 
 # Create store
 cat > src/store.ts << 'EOF'
@@ -222,7 +223,7 @@ zustand-state-management/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

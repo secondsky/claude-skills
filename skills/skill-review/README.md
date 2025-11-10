@@ -256,7 +256,7 @@ Claude recognizes these phrases and may suggest review:
 
 **Review Script**: `scripts/review-skill.sh`
 
-**Repository**: https://github.com/jezweb/claude-skills
+**Repository**: https://github.com/secondsky/claude-skills
 
 **Example Audit**: See process guide Appendix B
 
@@ -277,7 +277,7 @@ Claude recognizes these phrases and may suggest review:
 
 Found an issue with the review process? Suggestions for improvement?
 
-1. Open issue: https://github.com/jezweb/claude-skills/issues
+1. Open issue: https://github.com/secondsky/claude-skills/issues
 2. Describe: What phase could be improved?
 3. Provide: Example where current process fell short
 

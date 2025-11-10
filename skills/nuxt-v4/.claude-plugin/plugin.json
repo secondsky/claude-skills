@@ -1,0 +1,12 @@
+{
+  "name": "nuxt-v4",
+  "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["Nuxt 4","Nuxt v4","SSR","universal rendering","Nitro","Vue 3","useState","useFetch","useAsyncData","$fetch","composables","auto-imports","middleware","server routes","API routes"]
+}

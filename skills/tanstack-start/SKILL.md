@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: [Bash, Read, Write, Edit]
 metadata:
   version: 0.9.0
-  author: Jeremy Dawes | Jezweb
+  author: Claude Skills Maintainers
   last-verified: 2025-11-07
   production-tested: false
   status: draft

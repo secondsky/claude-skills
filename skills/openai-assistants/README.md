@@ -203,7 +203,8 @@ openai-assistants/
 ## Dependencies
 
 ```bash
-npm install openai@6.7.0
+bun add openai@6.7.0  # preferred
+# or: npm install openai@6.7.0
 ```
 
 **Environment Variables:**

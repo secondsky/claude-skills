@@ -278,4 +278,4 @@ See `references/pricing-and-limits.md` for detailed breakdown.
 
 **Status**: Production Ready ✅
 **Last Updated**: 2025-10-22
-**Maintainer**: Jeremy Dawes (Jezweb)
+**Maintainer**: Claude Skills Maintainers

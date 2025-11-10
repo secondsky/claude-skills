@@ -285,5 +285,5 @@ git log --grep="checkpoint:" -1 --format="%H %s%n%b"
 
 **License**: MIT
 **Version**: 1.0
-**Author**: Jeremy Dawes | Jezweb
+**Author**: Claude Skills Maintainers
 **Last Updated**: 2025-10-28

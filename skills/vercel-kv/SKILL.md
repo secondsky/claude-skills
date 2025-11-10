@@ -46,7 +46,8 @@ This automatically creates:
 ### 2. Install Package
 
 ```bash
-npm install @vercel/kv
+bun add @vercel/kv  # preferred
+# or: npm install @vercel/kv
 ```
 
 ### 3. Use in Your App

@@ -192,7 +192,8 @@ yarn install
 Even if you're using Hugo, Jekyll, or Eleventy, you MUST install React:
 
 ```bash
-npm install react@^19 react-dom@^19
+bun add react@^19 react-dom@^19  # preferred
+# or: npm install react@^19 react-dom@^19
 ```
 
 ### Prevention

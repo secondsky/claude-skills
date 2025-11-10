@@ -1,7 +1,7 @@
 # Hugo Static Site Generator - Research Log
 
 **Date**: 2025-11-04
-**Researcher**: Claude Code (for Jeremy Dawes)
+**Researcher**: Claude Code (for Claude Skills Maintainers)
 **Purpose**: Validate Hugo + Sveltia CMS + Cloudflare Workers for skill development
 **Hugo Version**: v0.152.2+extended
 **Status**: Phase 1 (Research & Validation) - In Progress

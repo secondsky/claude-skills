@@ -119,7 +119,8 @@ This skill provides comprehensive knowledge for building applications with Cloud
 
 ```bash
 # 1. Install SDK
-npm install @cloudflare/sandbox@latest
+bun add @cloudflare/sandbox@latest  # preferred
+# or: npm install @cloudflare/sandbox@latest
 
 # 2. Configure wrangler.jsonc (add nodejs_compat + containers)
 # See SKILL.md for full config
@@ -142,7 +143,8 @@ export default {
 
 ```bash
 # 4. Deploy
-npm run deploy
+bun run deploy  # preferred
+# or: npm run deploy
 ```
 
 **Result**: Secure Python code execution at the edge with full Ubuntu container
@@ -265,7 +267,7 @@ cloudflare-sandbox/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

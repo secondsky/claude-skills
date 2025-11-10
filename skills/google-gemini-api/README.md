@@ -441,4 +441,4 @@ export GEMINI_API_KEY="..."
 
 **Production Validated**: Templates tested with @google/genai@1.27.0
 **Last Updated**: 2025-10-25
-**Maintainer**: Jeremy Dawes | Jezweb
+**Maintainer**: Claude Skills Maintainers

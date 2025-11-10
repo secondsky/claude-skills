@@ -23,8 +23,10 @@ license: MIT
 ### 1. Install Dependencies
 
 ```bash
-npm install @tanstack/react-query@latest
-npm install -D @tanstack/react-query-devtools@latest
+bun add @tanstack/react-query@latest  # preferred
+# or: npm install @tanstack/react-query@latest
+bun add -d @tanstack/react-query-devtools@latest
+# or: npm install -D @tanstack/react-query-devtools@latest
 ```
 
 **Why this matters:**

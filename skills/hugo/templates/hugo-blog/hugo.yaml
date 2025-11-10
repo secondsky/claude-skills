@@ -12,7 +12,7 @@ params:
   env: production
   title: Hugo Blog Test
   description: Test blog for Hugo skill development
-  author: Jeremy Dawes
+  author: Claude Skills Maintainers
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true

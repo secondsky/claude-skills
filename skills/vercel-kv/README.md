@@ -38,7 +38,8 @@ Redis-compatible key-value storage for Vercel applications. Perfect for caching,
 vercel env pull .env.local
 
 # 2. Install
-npm install @vercel/kv
+bun add @vercel/kv  # preferred
+# or: npm install @vercel/kv
 
 # 3. Use
 import { kv } from '@vercel/kv';

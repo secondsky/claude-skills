@@ -49,8 +49,10 @@ Quick reference to official OpenAI Agents SDK documentation and resources.
 
 ### Installation
 ```bash
-npm install @openai/agents zod@3
-npm install @openai/agents-realtime  # For voice agents
+bun add @openai/agents zod@3  # preferred
+# or: npm install @openai/agents zod@3
+bun add @openai/agents-realtime  # preferred, for voice agents
+# or: npm install @openai/agents-realtime  # For voice agents
 ```
 
 ---

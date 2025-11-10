@@ -1,8 +1,8 @@
-# The Jezweb Workflow: Complete Project Lifecycle with Claude Code
+# The Claude Skills Workflow: Complete Project Lifecycle with Claude Code
 
 **Version**: 1.0.0
 **Last Updated**: 2025-11-07
-**Author**: Jeremy Dawes | Jezweb
+**Author**: Claude Skills Maintainers
 
 ---
 
@@ -34,7 +34,7 @@ Building software with AI assistance is incredibly powerful, but faces challenge
 
 ### The Solution: Integrated Command Suite
 
-The Jezweb Workflow provides **5 slash commands** that work together as an integrated system:
+The Claude Skills Workflow provides **5 slash commands** that work together as an integrated system:
 
 ```
 /explore-idea   → Research and validate ideas (PRE-planning)
@@ -1620,7 +1620,7 @@ Keep SESSION.md focused on current and upcoming work
 
 ## Summary
 
-The Jezweb Workflow provides:
+The Claude Skills Workflow provides:
 
 ✅ **Exploration Before Commitment** (/explore-idea)
 ✅ **Automated Planning** (/plan-project)

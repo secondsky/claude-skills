@@ -379,4 +379,4 @@ export OPENAI_API_KEY="sk-..."
 
 **Production Validated**: Templates tested with openai@6.7.0
 **Last Updated**: 2025-10-25
-**Maintainer**: Jeremy Dawes | Jezweb
+**Maintainer**: Claude Skills Maintainers

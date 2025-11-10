@@ -28,8 +28,10 @@ Complete skill for building AI applications with OpenAI Agents SDK (JavaScript/T
 Install required packages:
 
 ```bash
-npm install @openai/agents zod@3
-npm install @openai/agents-realtime  # For voice agents
+bun add @openai/agents zod@3  # preferred
+# or: npm install @openai/agents zod@3
+bun add @openai/agents-realtime  # preferred, for voice agents
+# or: npm install @openai/agents-realtime  # For voice agents
 ```
 
 Set environment variable:
@@ -654,5 +656,5 @@ console.log('Current Agent:', result.currentAgent?.name);
 
 **Version**: SDK v0.2.1
 **Last Verified**: 2025-10-26
-**Skill Author**: Jeremy Dawes (Jezweb)
+**Skill Author**: Claude Skills Maintainers
 **Production Tested**: Yes

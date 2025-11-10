@@ -10,8 +10,10 @@
  * - User avatars
  *
  * Dependencies:
- * npm install react-markdown react-syntax-highlighter
- * npm install --save-dev @types/react-syntax-highlighter
+ * bun add react-markdown react-syntax-highlighter  # preferred
+ * # or: npm install react-markdown react-syntax-highlighter
+ * bun add -d @types/react-syntax-highlighter
+ * # or: npm install --save-dev @types/react-syntax-highlighter
  *
  * Usage:
  * 1. Install dependencies

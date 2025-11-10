@@ -3,10 +3,10 @@
   "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflares edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering D1_ERROR, statement too long, too many requests queued, migration failures, or query performance issues.",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["d1","d1 database","cloudflare d1","wrangler d1","d1 migrations","d1 bindings","sqlite workers","serverless database","edge database","d1 queries","sql cloudflare","prepared statements","batch queries","d1 api","wrangler migrations"]
 }

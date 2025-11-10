@@ -1,0 +1,12 @@
+{
+  "name": "nuxt-ui-v4",
+  "description": "Production-ready Nuxt UI v4 component library for Nuxt v4 with 100+ accessible components, Tailwind CSS v4, and Reka UI foundation. Use when: setting up Nuxt v4 projects with UI component library, implementing design systems with semantic colors, building accessible forms and data displays, configuring dark mode and color themes, creating responsive layouts with Cards and Containers, implementing navigation with Tabs and CommandPalette, building overlays with Modal/Drawer/Popover/DropdownMenu, a",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["Nuxt v4","Nuxt 4","Nuxt UI v4","Nuxt UI 4","@nuxt/ui","Tailwind v4","Tailwind CSS 4","Reka UI","semantic colors","design system","accessible components","ARIA","WAI-ARIA","dark mode","color mode"]
+}

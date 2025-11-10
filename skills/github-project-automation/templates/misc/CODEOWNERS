@@ -10,61 +10,61 @@
 
 # Default owners for everything in the repo
 # These owners will be requested for review unless a more specific rule below applies
-* @jezweb
+* @secondsky
 
 # Documentation
-*.md @jezweb
-/docs/ @jezweb
+*.md @secondsky
+/docs/ @secondsky
 
 # Configuration files
-*.yml @jezweb
-*.yaml @jezweb
-*.json @jezweb
-*.toml @jezweb
-wrangler.jsonc @jezweb
-package.json @jezweb
-tsconfig.json @jezweb
+*.yml @secondsky
+*.yaml @secondsky
+*.json @secondsky
+*.toml @secondsky
+wrangler.jsonc @secondsky
+package.json @secondsky
+tsconfig.json @secondsky
 
 # GitHub workflows
-/.github/ @jezweb
+/.github/ @secondsky
 
 # Source code
-/src/ @jezweb
+/src/ @secondsky
 
 # Tests
-/test/ @jezweb
-/tests/ @jezweb
-/**/*.test.ts @jezweb
-/**/*.spec.ts @jezweb
+/test/ @secondsky
+/tests/ @secondsky
+/**/*.test.ts @secondsky
+/**/*.spec.ts @secondsky
 
 # Build configuration
-vite.config.ts @jezweb
-webpack.config.js @jezweb
-rollup.config.js @jezweb
+vite.config.ts @secondsky
+webpack.config.js @secondsky
+rollup.config.js @secondsky
 
 # Security-sensitive files
-SECURITY.md @jezweb
-/scripts/ @jezweb
+SECURITY.md @secondsky
+/scripts/ @secondsky
 
 # Database migrations (require extra scrutiny)
-/migrations/ @jezweb
-/prisma/ @jezweb
-/drizzle/ @jezweb
+/migrations/ @secondsky
+/prisma/ @secondsky
+/drizzle/ @secondsky
 
 # Dependencies (notify when packages change)
-package-lock.json @jezweb
-pnpm-lock.yaml @jezweb
-yarn.lock @jezweb
-requirements.txt @jezweb
-Gemfile.lock @jezweb
+package-lock.json @secondsky
+pnpm-lock.yaml @secondsky
+yarn.lock @secondsky
+requirements.txt @secondsky
+Gemfile.lock @secondsky
 
 # CI/CD
-/.github/workflows/ @jezweb
-/scripts/deploy.sh @jezweb
+/.github/workflows/ @secondsky
+/scripts/deploy.sh @secondsky
 
 # Examples (multiple owners can review)
-# /frontend/ @frontend-team @jezweb
-# /backend/ @backend-team @jezweb
+# /frontend/ @frontend-team @secondsky
+# /backend/ @backend-team @secondsky
 # /api/ @api-team @backend-team
 # *.css @design-team
 # *.scss @design-team

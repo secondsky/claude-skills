@@ -1,14 +1,14 @@
 {
   "name": "claude-skills",
   "owner": {
-    "name": "Jeremy Dawes / Jezweb",
-    "email": "jeremy@jezweb.net",
-    "url": "https://jezweb.com.au"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com",
+    "url": "https://github.com/secondsky/claude-skills"
   },
   "metadata": {
     "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
     "version": "1.0.0",
-    "homepage": "https://github.com/jezweb/claude-skills",
+    "homepage": "https://github.com/secondsky/claude-skills",
     "pluginRoot": "./skills"
   },
   "plugins": [
@@ -24,7 +24,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-d1",
@@ -38,7 +38,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-r2",
@@ -52,7 +52,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-kv",
@@ -66,7 +66,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-workers-ai",
@@ -80,7 +80,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-vectorize",
@@ -94,7 +94,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-queues",
@@ -108,7 +108,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-workflows",
@@ -122,7 +122,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-durable-objects",
@@ -136,7 +136,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-agents",
@@ -150,7 +150,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-mcp-server",
@@ -164,7 +164,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-nextjs",
@@ -178,7 +178,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-cron-triggers",
@@ -192,7 +192,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-email-routing",
@@ -206,7 +206,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-hyperdrive",
@@ -220,7 +220,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-images",
@@ -234,7 +234,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-browser-rendering",
@@ -248,7 +248,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-turnstile",
@@ -262,7 +262,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-zero-trust-access",
@@ -276,7 +276,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-full-stack-scaffold",
@@ -290,7 +290,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-full-stack-integration",
@@ -304,7 +304,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "cloudflare-sandbox",
@@ -318,7 +318,35 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
+    },
+    {
+      "name": "cloudflare-manager",
+      "source": "./skills/cloudflare-manager",
+      "description": "Comprehensive Cloudflare account and services manager using Bun scripts for Workers, KV, R2, Pages, DNS, and routes.",
+      "version": "1.0.0",
+      "category": "cloudflare",
+      "keywords": ["cloudflare", "manager", "workers", "kv", "r2", "pages", "dns", "routes", "bun"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    },
+    {
+      "name": "nano-banana-prompts",
+      "source": "./skills/nano-banana-prompts",
+      "description": "Generate high-quality Nano Banana style prompts for Gemini 2.5 Flash Image with structured templates and examples.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["nano-banana", "prompts", "image-generation", "gemini", "prompt-engineering"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "tailwind-v4-shadcn",
@@ -332,7 +360,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "react-hook-form-zod",
@@ -346,7 +374,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "tanstack-query",
@@ -360,7 +388,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "zustand-state-management",
@@ -374,7 +402,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "nextjs",
@@ -388,7 +416,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "hono-routing",
@@ -402,7 +430,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "ai-sdk-core",
@@ -416,7 +444,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "ai-sdk-ui",
@@ -430,7 +458,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "openai-api",
@@ -444,7 +472,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "openai-agents",
@@ -458,7 +486,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "openai-assistants",
@@ -472,7 +500,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "openai-responses",
@@ -486,7 +514,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "google-gemini-api",
@@ -500,7 +528,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "google-gemini-embeddings",
@@ -514,7 +542,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "claude-api",
@@ -528,7 +556,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "claude-agent-sdk",
@@ -542,7 +570,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "thesys-generative-ui",
@@ -556,7 +584,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "elevenlabs-agents",
@@ -570,7 +598,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "clerk-auth",
@@ -584,7 +612,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "auth-js",
@@ -598,7 +626,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "better-auth",
@@ -612,7 +640,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "tinacms",
@@ -626,7 +654,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "sveltia-cms",
@@ -640,7 +668,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "drizzle-orm-d1",
@@ -654,7 +682,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "neon-vercel-postgres",
@@ -668,7 +696,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "vercel-kv",
@@ -682,7 +710,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "vercel-blob",
@@ -696,7 +724,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "typescript-mcp",
@@ -710,7 +738,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "fastmcp",
@@ -724,7 +752,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "project-planning",
@@ -738,7 +766,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "project-session-management",
@@ -752,7 +780,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "firecrawl-scraper",
@@ -766,7 +794,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "hugo",
@@ -780,7 +808,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "github-project-automation",
@@ -794,7 +822,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "open-source-contributions",
@@ -808,7 +836,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "wordpress-plugin-core",
@@ -822,7 +850,35 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
+    },
+    {
+      "name": "swift-best-practices",
+      "source": "./skills/swift-best-practices",
+      "description": "Apply modern Swift 6+ best practices, concurrency patterns, and API design guidelines for iOS and macOS projects.",
+      "version": "1.0.0",
+      "category": "language",
+      "keywords": ["swift", "ios", "macos", "concurrency", "actors", "async-await", "api-design", "swift-6"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    },
+    {
+      "name": "dependency-upgrade",
+      "source": "./skills/dependency-upgrade",
+      "description": "Manage major dependency upgrades with semver analysis, staged rollout, Bun-first workflows, and comprehensive testing.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["dependencies", "upgrade", "semver", "framework-migration", "bun", "npm", "renovate", "dependabot"],
+      "author": {
+        "name": "Jeremy Dawes",
+        "email": "jeremy@jezweb.net"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "better-chatbot",
@@ -836,7 +892,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     },
     {
       "name": "better-chatbot-patterns",
@@ -850,7 +906,7 @@
         "email": "jeremy@jezweb.net"
       },
       "license": "MIT",
-      "repository": "https://github.com/jezweb/claude-skills"
+      "repository": "https://github.com/secondsky/claude-skills"
     }
   ]
 }

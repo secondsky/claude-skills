@@ -126,6 +126,8 @@ Sets up **production-ready** Content Collections for Vite + React, transforming 
 
 ```bash
 # 1. Install dependencies
+bun add -d @content-collections/core @content-collections/vite zod
+# or
 pnpm add -D @content-collections/core @content-collections/vite zod
 
 # 2. Add path alias to tsconfig.json

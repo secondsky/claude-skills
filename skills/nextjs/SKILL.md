@@ -11,8 +11,8 @@ metadata:
   nextjs_version: 16.0.0
   react_version: 19.2.0
   node_version: 20.9+
-  author: Jezweb
-  repository: https://github.com/jezweb/claude-skills
+  author: Claude Skills Maintainers
+  repository: https://github.com/secondsky/claude-skills
   production_tested: true
   token_savings: 65-70%
   errors_prevented: 18+
@@ -2393,8 +2393,8 @@ The following templates are available in `templates/`:
 
 **Last Verified**: 2025-10-24
 **Next Review**: 2026-01-24 (Quarterly)
-**Maintainer**: Jezweb | jeremy@jezweb.net
-**Repository**: https://github.com/jezweb/claude-skills
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com
+**Repository**: https://github.com/secondsky/claude-skills
 
 **Update Triggers**:
 - Next.js major/minor releases

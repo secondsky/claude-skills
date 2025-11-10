@@ -3,10 +3,10 @@
   "description": "Deploy Next.js applications (App Router and Pages Router) to Cloudflare Workers using the OpenNext adapter. This skill should be used when deploying Next.js apps with SSR, ISR, or server components to Cloudflares serverless platform. It covers setup for both new and existing projects, configuration requirements, development workflows, integration with Cloudflare services (D1, R2, KV, Workers AI), and prevention of 10+ documented errors including worker size limits, runtime compatibility, databas",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["Cloudflare Next.js","OpenNext Cloudflare","@opennextjs/cloudflare","Next.js Workers","Next.js App Router Cloudflare","Next.js Pages Router Cloudflare","Next.js SSR Cloudflare","Next.js ISR","server components cloudflare","server actions cloudflare","Next.js middleware workers","nextjs d1","nextjs r2","nextjs kv","Next.js deployment"]
 }

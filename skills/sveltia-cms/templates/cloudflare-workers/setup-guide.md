@@ -155,7 +155,7 @@ backend:
 ```yaml
 backend:
   name: github
-  repo: jezweb/my-blog
+  repo: secondsky/claude-skills
   branch: main
   base_url: https://sveltia-cms-auth.my-account.workers.dev
 ```

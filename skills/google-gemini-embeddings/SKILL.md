@@ -998,5 +998,5 @@ MIT License - Free to use in personal and commercial projects.
 
 **Questions or Issues?**
 
-- GitHub: https://github.com/jezweb/claude-skills
-- Email: jeremy@jezweb.net
+- GitHub: https://github.com/secondsky/claude-skills
+- Email: maintainers@example.com

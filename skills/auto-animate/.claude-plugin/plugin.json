@@ -3,10 +3,10 @@
   "description": "Production-tested setup for AutoAnimate (@formkit/auto-animate) - a zero-config, drop-in animation library that automatically adds smooth transitions when DOM elements are added, removed, or moved. This skill should be used when building UIs that need simple, automatic animations for lists, accordions, toasts, or form validation messages without the complexity of full animation libraries. Use when: Adding smooth animations to dynamic lists, building filter/sort interfaces, creating accordion com",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["auto-animate","@formkit/auto-animate","formkit","zero-config animation","automatic animations","drop-in animation","list animations","accordion animation","toast animation","form validation animation","lightweight animation","2kb animation","prefers-reduced-motion","accessible animations","vite react animation"]
 }

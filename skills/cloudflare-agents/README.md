@@ -273,6 +273,6 @@ Production-ready code examples:
 
 ---
 
-**Maintained by**: Jeremy Dawes (Jezweb)
+**Maintained by**: Claude Skills Maintainers
 **License**: MIT
 **Last Verified**: 2025-10-21

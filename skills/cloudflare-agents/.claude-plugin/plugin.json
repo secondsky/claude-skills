@@ -3,10 +3,10 @@
   "description": "Comprehensive guide for the Cloudflare Agents SDK - build AI-powered autonomous agents on Workers + Durable Objects. Use when: building AI agents, creating stateful agents with WebSockets, implementing chat agents with streaming, scheduling tasks with cron/delays, running asynchronous workflows, building RAG (Retrieval Augmented Generation) systems with Vectorize, creating MCP (Model Context Protocol) servers, implementing human-in-the-loop workflows, browsing the web with Browser Rendering, man",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["Cloudflare Agents","agents sdk","cloudflare agents sdk","Agent class","Durable Objects agents","stateful agents","WebSocket agents","this.setState","this.sql","this.schedule","schedule tasks","cron agents","run workflows","agent workflows","browse web"]
 }

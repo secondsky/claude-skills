@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: [Bash, Read, Write, Edit]
 metadata:
   version: 1.0.0
-  author: Jeremy Dawes | Jezweb
+  author: Claude Skills Maintainers
   last-verified: 2025-11-07
   production-tested: true
   keywords:
@@ -111,9 +111,11 @@ Documents and prevents 6+ common issues:
 ### Installation
 
 ```bash
-npm install @tanstack/react-table@latest
+bun add @tanstack/react-table@latest  # preferred
+# or: npm install @tanstack/react-table@latest
 # For virtualization (optional):
-npm install @tanstack/react-virtual@latest
+bun add @tanstack/react-virtual@latest
+# or: npm install @tanstack/react-virtual@latest
 ```
 
 **Latest verified versions:**

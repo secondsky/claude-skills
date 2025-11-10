@@ -228,6 +228,8 @@ Ask Claude Code to use the skill:
 
 ## Quick Command Reference
 
+Note: Bun is preferred; npm/pnpm commands below are equivalent. Use `bunx` for create-* CLIs and `bun run` for scripts when possible.
+
 ```bash
 # Copy template
 cp -r templates/skill-skeleton/ skills/my-skill-name/

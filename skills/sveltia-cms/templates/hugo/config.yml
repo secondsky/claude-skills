@@ -3,7 +3,7 @@
 
 backend:
   name: github
-  repo: owner/repo  # Change to your GitHub repository (e.g., jezweb/my-blog)
+  repo: owner/repo  # Change to your GitHub repository (e.g., secondsky/claude-skills)
   branch: main      # Change if your default branch is different
   base_url: https://your-worker.workers.dev  # Your Cloudflare Workers OAuth proxy URL
 

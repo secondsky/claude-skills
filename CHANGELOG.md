@@ -9,6 +9,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2025-11-10
+
+### 🎉 Major Repository Expansion - 65 Production Skills
+
+**Repository Status**: Complete reorganization and massive expansion from 9 to 65 production-ready skills.
+
+### Added
+
+#### New Skills (6)
+
+1. **cloudflare-manager** (v1.0.0)
+   - Unified Cloudflare service deployment and management
+   - Handles Workers, Pages, KV, R2, DNS, Routes, and more
+   - **Requires**: CLOUDFLARE_API_KEY, Bun runtime
+   - API key validation and comprehensive deployment automation
+
+2. **dependency-upgrade** (v1.0.0)
+   - Automated major dependency version upgrades
+   - Compatibility analysis and staged rollout strategies
+   - **Bun-first approach**: Prefers `bun outdated`, `bun audit`
+   - Comprehensive testing and rollback procedures
+
+3. **mcp-dynamic-orchestrator** (v1.0.0) 🆕 MCP System
+   - Dynamic MCP server discovery and code-mode execution
+   - Registry-based MCP management (mcp.registry.json)
+   - Progressive disclosure pattern for tool loading
+   - Prevents context bloat with on-demand MCP activation
+   - Example: Cloudflare MCP integration
+
+4. **nano-banana-prompts** (v1.0.0)
+   - Optimized prompt generation for Gemini 2.5 Flash Image
+   - Best practices from October 2025
+   - Photography, art styles, multi-turn editing workflows
+
+5. **nuxt-ui-v4** (v1.0.0) ⭐ Major Addition
+   - Comprehensive Nuxt UI v4 component library skill
+   - 100+ accessible components (Nuxt 4.0.0 + Tailwind v4 + Reka UI)
+   - 15 component templates, 13 reference documents
+   - AI SDK v5 integration patterns
+   - **Token savings**: 70% | **Errors prevented**: 20+
+   - Coverage: 52 components across all categories
+
+6. **nuxt-v4** (v1.0.0)
+   - Core Nuxt 4 framework patterns and best practices
+   - SSR, composables, data fetching, server routes
+   - Cloudflare deployment focus (Pages, Workers, NuxtHub)
+   - Vitest testing setup and modern tooling
+
+#### Infrastructure Updates
+
+- **Marketplace Manifests**: All 65 skills now have `.claude-plugin/plugin.json` manifests
+- **Bun Standardization**: Bun is now the preferred runtime and package manager (documented in CLAUDE.md:108)
+- **Metadata Enhancement**: All skills updated with comprehensive keywords and descriptions
+- **swift-best-practices** (v1.0.0): Modern Swift 6+ development patterns
+- **skill-review** (v1.0.0): Comprehensive skill review and validation system
+- **better-auth** (v2.0.0): Cleanup with correct D1 patterns
+
+### Changed
+
+- **Runtime Standard**: Bun is now the official preferred runtime/package manager
+- **Repository Scale**: Expanded from 9 to 65 production-ready skills
+- **MCP Architecture**: New dynamic orchestration system for efficient MCP management
+- **Documentation**: All skill metadata updated for better discoverability
+- **Script**: `generate-plugin-manifests.sh` for automated marketplace manifest generation
+
 ### Removed - auth-js skill (deprecated) ❌
 
 **Date**: 2025-11-08
@@ -39,13 +104,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Date**: 2025-11-07
 
 **New Commands**: `/workflow`, `/release` (located in `~/.claude/commands/`)
-**New Documentation**: `docs/JEZWEB_WORKFLOW.md` (~800 lines comprehensive guide)
+**New Documentation**: `docs/CLAUDE_SKILLS_WORKFLOW.md` (~800 lines comprehensive guide)
 **New Script**: `scripts/release-check.sh` (automated release safety checks)
 
-#### Workflow Documentation - "The Jezweb Way"
+#### Workflow Documentation - "Claude Skills Workflow"
 
 **Created comprehensive workflow documentation**:
-- **File**: `docs/JEZWEB_WORKFLOW.md` (~800 lines)
+- **File**: `docs/CLAUDE_SKILLS_WORKFLOW.md` (~800 lines)
 - **Purpose**: Complete guide to the 7-command workflow system
 - **Sections**:
   - Philosophy (why this workflow exists)
@@ -174,7 +239,7 @@ Release project? → /release → [Safety checks + GitHub release]
 #### Files Created/Modified
 
 **New Files**:
-- `docs/JEZWEB_WORKFLOW.md` (~800 lines)
+- `docs/CLAUDE_SKILLS_WORKFLOW.md` (~800 lines)
 - `~/.claude/commands/workflow.md` + `commands/workflow.md` (~200 lines)
 - `~/.claude/commands/release.md` + `commands/release.md` (~500 lines)
 - `scripts/release-check.sh` (~400 lines bash)
@@ -195,7 +260,7 @@ Release project? → /release → [Safety checks + GitHub release]
 7. `/release` - Pre-release safety ← NEW
 
 **Documentation**:
-- Comprehensive: `docs/JEZWEB_WORKFLOW.md`
+- Comprehensive: `docs/CLAUDE_SKILLS_WORKFLOW.md`
 - Quick reference: `commands/README.md`
 - Integration: `README.md`
 
@@ -1963,10 +2028,10 @@ Complete production-ready setup for Tailwind CSS v4 with shadcn/ui, Vite, and Re
 
 ## Project Information
 
-**Repository**: https://github.com/jezweb/claude-skills
-**Maintainer**: Jeremy Dawes (Jezweb)
+**Repository**: https://github.com/secondsky/claude-skills
+**Maintainer**: Claude Skills Maintainers
 **License**: MIT
-**Issues**: https://github.com/jezweb/claude-skills/issues
+**Issues**: https://github.com/secondsky/claude-skills/issues
 
 ---
 

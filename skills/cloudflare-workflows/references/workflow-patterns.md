@@ -582,4 +582,4 @@ await step.do('track metrics', async () => {
 ---
 
 **Last Updated**: 2025-10-22
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

@@ -203,4 +203,4 @@ Use this skill when:
 ---
 
 **License**: MIT
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

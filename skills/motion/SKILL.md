@@ -92,14 +92,10 @@ Motion (package: `motion`, formerly `framer-motion`) is the industry-standard Re
 ### Latest Stable Version
 
 ```bash
-# Using pnpm (recommended)
-pnpm add motion
-
-# Using npm
-npm install motion
-
-# Using yarn
-yarn add motion
+bun add motion  # preferred
+# or: pnpm add motion
+# or: npm install motion
+# or: yarn add motion
 ```
 
 **Current Version**: 12.23.24 (verified 2025-11-07)
@@ -1026,7 +1022,7 @@ See `references/motion-vs-auto-animate.md` for detailed comparison.
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See templates and references for detailed examples
 
 ---

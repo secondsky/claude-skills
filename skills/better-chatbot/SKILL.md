@@ -11,7 +11,7 @@ description: |
 license: MIT
 metadata:
   version: 2.1.0
-  author: Jeremy Dawes (Jez) | Jezweb
+  author: Claude Skills Maintainers
   upstream: https://github.com/cgoinglove/better-chatbot
   last_verified: 2025-11-04
   tech_stack: Next.js 15, Vercel AI SDK 5, Better Auth, Drizzle ORM, PostgreSQL, Playwright

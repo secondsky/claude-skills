@@ -23,7 +23,7 @@ Before starting a new skill, verify:
 Research completed before building:
 
 - [ ] Checked Context7 MCP for library documentation
-- [ ] Verified latest package versions on npm
+- [ ] Verified latest package versions on npm (or via Bun-compatible tooling)
 - [ ] Reviewed official documentation (bookmarked URLs)
 - [ ] Searched GitHub issues for common problems
 - [ ] Built working example project from scratch

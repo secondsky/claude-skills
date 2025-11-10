@@ -299,7 +299,7 @@ MIT License - See LICENSE file for details
 1. Check `SKILL.md` for comprehensive setup guide
 2. Review `references/common-errors.md` for troubleshooting
 3. Consult official Neon documentation: https://neon.tech/docs
-4. Open an issue: https://github.com/jezweb/claude-skills/issues
+4. Open an issue: https://github.com/secondsky/claude-skills/issues
 
 ---
 

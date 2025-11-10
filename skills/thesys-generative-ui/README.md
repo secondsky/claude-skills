@@ -256,5 +256,5 @@ A: Fully supported with `useThreadManager` and `useThreadListManager` hooks.
 
 **Skill Version**: 1.0.0
 **Last Updated**: 2025-10-26
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com
 **License**: MIT

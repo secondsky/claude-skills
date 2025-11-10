@@ -146,7 +146,8 @@ Use the appropriate setup pattern based on your framework choice.
 
 4. **Start development server:**
    ```bash
-   npm run dev
+   bun run dev  # preferred
+   # or: npm run dev
    ```
 
 5. **Access admin interface:**
@@ -223,7 +224,8 @@ export async function getStaticPaths() {
 
 1. **Install dependencies:**
    ```bash
-   npm install react@^19 react-dom@^19 tinacms
+   bun add react@^19 react-dom@^19 tinacms  # preferred
+   # or: npm install react@^19 react-dom@^19 tinacms
    ```
 
 2. **Initialize TinaCMS:**
@@ -1192,7 +1194,8 @@ Choose the deployment approach that fits your needs.
 
 1. **Install dependencies:**
    ```bash
-   npm install @tinacms/datalayer tinacms-authjs
+   bun add @tinacms/datalayer tinacms-authjs  # preferred
+   # or: npm install @tinacms/datalayer tinacms-authjs
    ```
 
 2. **Initialize backend:**
@@ -1285,7 +1288,8 @@ Choose the deployment approach that fits your needs.
 
 1. **Install dependencies:**
    ```bash
-   npm install @tinacms/datalayer tinacms-authjs
+   bun add @tinacms/datalayer tinacms-authjs  # preferred
+   # or: npm install @tinacms/datalayer tinacms-authjs
    ```
 
 2. **Create API route:**
@@ -1363,7 +1367,8 @@ Choose the deployment approach that fits your needs.
 
 1. **Install dependencies:**
    ```bash
-   npm install express serverless-http @tinacms/datalayer tinacms-authjs
+   bun add express serverless-http @tinacms/datalayer tinacms-authjs  # preferred
+# or: npm install express serverless-http @tinacms/datalayer tinacms-authjs
    ```
 
 2. **Create function:**
@@ -1443,7 +1448,8 @@ TINA_PUBLIC_IS_LOCAL=true
 
 **Install:**
 ```bash
-npm install next-auth tinacms-authjs
+bun add next-auth tinacms-authjs  # preferred
+# or: npm install next-auth tinacms-authjs
 ```
 
 **Configure:**

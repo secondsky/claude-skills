@@ -25,17 +25,8 @@ Production-ready backend AI with Vercel AI SDK v5.
 ### Installation
 
 ```bash
-# Core package
-npm install ai
-
-# Provider packages (install what you need)
-npm install @ai-sdk/openai       # OpenAI (GPT-5, GPT-4, GPT-3.5)
-npm install @ai-sdk/anthropic    # Anthropic (Claude Sonnet 4.5, Opus 4, Haiku 4)
-npm install @ai-sdk/google       # Google (Gemini 2.5 Pro/Flash/Lite)
-npm install workers-ai-provider  # Cloudflare Workers AI
-
-# Schema validation
-npm install zod
+bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod  # preferred
+# or: npm install ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod
 ```
 
 ### Environment Variables

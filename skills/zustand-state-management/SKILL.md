@@ -34,11 +34,10 @@ license: MIT
 ### 1. Install Zustand
 
 ```bash
-npm install zustand
-# or
-pnpm add zustand
-# or
-yarn add zustand
+bun add zustand  # preferred
+# or: npm install zustand
+# or: pnpm add zustand
+# or: yarn add zustand
 ```
 
 **Why Zustand?**

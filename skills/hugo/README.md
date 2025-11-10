@@ -229,7 +229,7 @@ hugo/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

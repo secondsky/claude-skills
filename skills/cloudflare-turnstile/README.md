@@ -242,8 +242,8 @@ cloudflare-turnstile/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
-- Email: jeremy@jezweb.net
+- Open an issue: https://github.com/secondsky/claude-skills/issues
+- Email: maintainers@example.com
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

@@ -525,5 +525,5 @@ Use Explore to compare planning/claude-code-skill-standards.md with official Ant
 ---
 
 **Last Updated**: 2025-10-29
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com
 **Next Review**: 2026-01-29 (Quarterly)

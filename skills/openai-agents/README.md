@@ -164,7 +164,8 @@ This skill auto-triggers when you mention:
 
 ```bash
 # Install
-npm install @openai/agents zod@3
+bun add @openai/agents zod@3  # preferred
+# or: npm install @openai/agents zod@3
 
 # Set API key
 export OPENAI_API_KEY="your-key"
@@ -221,4 +222,4 @@ This skill has been tested in production environments and includes:
 **Skill Version**: 1.0.0
 **SDK Version**: 0.2.1
 **License**: MIT
-**Author**: Jeremy Dawes (Jezweb)
+**Author**: Claude Skills Maintainers

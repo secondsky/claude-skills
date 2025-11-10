@@ -39,7 +39,8 @@ Creates: `BLOB_READ_WRITE_TOKEN`
 ### 2. Install
 
 ```bash
-npm install @vercel/blob
+bun add @vercel/blob  # preferred
+# or: npm install @vercel/blob
 ```
 
 ### 3. Upload File (Server Action)

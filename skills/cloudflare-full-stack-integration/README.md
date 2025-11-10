@@ -224,7 +224,7 @@ For those cases, check other skills or refer to official docs.
 ## Production Tested
 
 ✅ WordPress Auditor (https://wordpress-auditor.webfonts.workers.dev)
-✅ Multiple Jezweb client projects
+✅ Multiple production projects
 ✅ All templates verified working 2025-10-23
 
 ---

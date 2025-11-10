@@ -1,0 +1,45 @@
+{
+  "servers": [
+    {
+      "id": "cloudflare",
+      "title": "Cloudflare platform MCP",
+      "summary": "Interact with Cloudflare's MCP endpoint for documentation, examples, and platform operations exposed via the official Cloudflare MCP server.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://docs.mcp.cloudflare.com/sse"
+        ]
+      },
+      "domains": [
+        "cloudflare",
+        "workers",
+        "kv",
+        "r2",
+        "queues",
+        "zero_trust",
+        "networking",
+        "security",
+        "observability"
+      ],
+      "tags": [
+        "cloudflare",
+        "platform",
+        "infra",
+        "docs",
+        "workers",
+        "mcp"
+      ],
+      "examples": [
+        "Fetch Cloudflare Workers documentation for a specific API.",
+        "Search Cloudflare platform docs for queues or KV usage patterns.",
+        "Look up configuration guidance for Zero Trust or networking features."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 10,
+      "autoDiscoverTools": true
+    }
+  ]
+}

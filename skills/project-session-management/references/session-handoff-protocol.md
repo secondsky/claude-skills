@@ -315,4 +315,4 @@ This protocol has been tested across:
 
 **Last Updated**: 2025-10-28
 **Version**: 1.0
-**Author**: Jeremy Dawes | Jezweb
+**Author**: Claude Skills Maintainers

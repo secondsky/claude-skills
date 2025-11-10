@@ -233,6 +233,6 @@ OpenAI text-embedding-3-small/large integration with API key management and erro
 
 ---
 
-**Author**: Jezweb
+**Author**: Claude Skills Maintainers
 **License**: MIT
 **Category**: Cloudflare Infrastructure

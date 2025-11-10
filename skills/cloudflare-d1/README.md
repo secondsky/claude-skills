@@ -184,4 +184,4 @@ const user = await env.DB.prepare('SELECT * FROM users WHERE email = ?')
 
 **Status**: Production Ready ✅
 **Last Updated**: 2025-10-21
-**Maintainer**: Jeremy Dawes (Jezweb)
+**Maintainer**: Claude Skills Maintainers

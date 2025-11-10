@@ -504,7 +504,7 @@ license: MIT
 ---
 name: cloudflare-vectorize
 version: 1.0.0  # ← Custom field
-author: Jezweb  # ← Custom field
+author: Claude Skills Maintainers  # ← Custom field
 tags: [cloudflare, vectorize]  # ← Custom field
 description: Complete guide...
 ---

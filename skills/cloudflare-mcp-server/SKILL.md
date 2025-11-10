@@ -50,18 +50,26 @@ This skill teaches you to build **remote MCP servers** on Cloudflare - the ONLY 
 
 ## 🚀 Official Cloudflare Templates (Start Here!)
 
-**Before using this skill's templates**, know that Cloudflare provides **official starter templates** via `npm create`.
+**Before using this skill's templates**, know that Cloudflare provides **official starter templates** via `bunx create` (preferred) or `npm create`.
 
 ### Recommended Starting Point
 
 **For most projects, start with Cloudflare's official authless template:**
 
 ```bash
+bunx create cloudflare@latest -- my-mcp-server \
+  --template=cloudflare/ai/demos/remote-mcp-authless
+# or
 npm create cloudflare@latest -- my-mcp-server \
   --template=cloudflare/ai/demos/remote-mcp-authless
 
 cd my-mcp-server
+bun install
+bun run dev
+# or
 npm install
+bun run dev
+# or
 npm run dev
 ```
 
@@ -184,6 +192,9 @@ What are you building?
 
 ```bash
 # Replace [TEMPLATE] with your choice from Step 1
+bunx create cloudflare@latest -- my-mcp-server \
+  --template=cloudflare/ai/demos/[TEMPLATE]
+# or
 npm create cloudflare@latest -- my-mcp-server \
   --template=cloudflare/ai/demos/[TEMPLATE]
 
@@ -226,6 +237,8 @@ cp ~/.claude/skills/cloudflare-mcp-server/templates/mcp-with-workers-ai.ts src/m
 cp ~/.claude/skills/cloudflare-mcp-server/templates/mcp-with-d1.ts src/my-db-tools.ts
 
 # Create D1 database:
+bunx wrangler d1 create my-database
+# or
 npx wrangler d1 create my-database
 
 # Add binding to wrangler.jsonc
@@ -251,9 +264,13 @@ cp ~/.claude/skills/cloudflare-mcp-server/templates/mcp-bearer-auth.ts src/index
 
 ```bash
 # Login (first time only)
+bunx wrangler login
+# or
 npx wrangler login
 
 # Deploy to production
+bunx wrangler deploy
+# or
 npx wrangler deploy
 ```
 

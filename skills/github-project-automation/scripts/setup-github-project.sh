@@ -171,7 +171,7 @@ fi
 print_header "Customization Required"
 
 print_warning "Don't forget to customize the following:"
-echo "  1. Replace 'jezweb' with your GitHub username in:"
+echo "  1. Replace 'secondsky' with your GitHub username in:"
 echo "     - .github/ISSUE_TEMPLATE/*.yml (assignees)"
 echo "     - .github/dependabot.yml (reviewers)"
 echo "     - .github/CODEOWNERS"

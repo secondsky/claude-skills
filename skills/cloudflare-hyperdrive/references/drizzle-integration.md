@@ -23,20 +23,18 @@ Complete guide to using Drizzle ORM with Cloudflare Hyperdrive.
 
 ```bash
 # Drizzle ORM + postgres.js driver
-npm install drizzle-orm postgres
-
-# Dev dependencies
-npm install -D drizzle-kit @types/node
+bun add drizzle-orm postgres drizzle-kit @types/node  # preferred
+# or: npm install drizzle-orm postgres
+#     npm install -D drizzle-kit @types/node
 ```
 
 ### MySQL
 
 ```bash
 # Drizzle ORM + mysql2 driver
-npm install drizzle-orm mysql2
-
-# Dev dependencies
-npm install -D drizzle-kit @types/node
+bun add drizzle-orm mysql2 drizzle-kit @types/node  # preferred
+# or: npm install drizzle-orm mysql2
+#     npm install -D drizzle-kit @types/node
 ```
 
 ---

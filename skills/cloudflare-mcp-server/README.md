@@ -170,7 +170,10 @@ Claude Code will automatically suggest this skill when you mention:
 ## Quick Start
 
 ```bash
-# Option 1: Use Cloudflare template
+# Option 1: Use Cloudflare template (Bun preferred)
+bunx create cloudflare@latest -- my-mcp-server \
+  --template=cloudflare/ai/demos/remote-mcp-authless
+# or
 npm create cloudflare@latest -- my-mcp-server \
   --template=cloudflare/ai/demos/remote-mcp-authless
 
@@ -178,7 +181,10 @@ npm create cloudflare@latest -- my-mcp-server \
 cp ~/.claude/skills/cloudflare-mcp-server/templates/basic-mcp-server.ts src/index.ts
 cp ~/.claude/skills/cloudflare-mcp-server/templates/wrangler-basic.jsonc wrangler.jsonc
 
-# Install and run
+# Install and run (Bun preferred)
+bun install
+bun run dev
+# or
 npm install
 npm run dev
 
@@ -199,6 +205,9 @@ Your MCP server is live! 🎉
 
 ```bash
 # Gold standard: Authless MCP server (50 lines, production-ready)
+bunx create cloudflare@latest -- my-mcp \
+  --template=cloudflare/ai/demos/remote-mcp-authless
+# or
 npm create cloudflare@latest -- my-mcp \
   --template=cloudflare/ai/demos/remote-mcp-authless
 
@@ -372,7 +381,7 @@ This skill is designed for **Claude Code CLI**. To use it:
 
 ```bash
 # 1. Clone the claude-skills repo
-git clone https://github.com/jezweb/claude-skills
+git clone https://github.com/secondsky/claude-skills
 
 # 2. Install this skill
 cd claude-skills
@@ -393,8 +402,8 @@ Claude Code will automatically discover this skill when relevant keywords are me
 - Check `references/` for deep-dives
 
 **Technical Issues?**
-- Open issue: https://github.com/jezweb/claude-skills/issues
-- Email: jeremy@jezweb.net
+- Open issue: https://github.com/secondsky/claude-skills/issues
+- Email: maintainers@example.com
 
 **Official Resources**:
 - [Cloudflare Agents Docs](https://developers.cloudflare.com/agents/)
@@ -432,6 +441,6 @@ MIT License - See [LICENSE](../../LICENSE)
 
 ---
 
-**Built with ❤️ by Jezweb**
+**Built with ❤️ by Claude Skills Maintainers**
 
-**Claude Skills Repository**: https://github.com/jezweb/claude-skills
+**Claude Skills Repository**: https://github.com/secondsky/claude-skills

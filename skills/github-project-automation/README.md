@@ -283,7 +283,7 @@ node-version: ${{ node-version }}
 
 ### Required Customizations
 
-1. **Usernames**: Update `jezweb` to your GitHub username in templates
+1. **Usernames**: Update `secondsky` to your GitHub username in templates
 2. **Languages**: Add your languages to CodeQL matrix
 3. **Package Manager**: Update `npm` to `pip`/`yarn`/etc in Dependabot
 4. **Secrets**: Add deployment secrets via `gh secret set`
@@ -314,7 +314,7 @@ node-version: ${{ node-version }}
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

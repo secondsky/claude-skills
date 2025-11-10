@@ -3,10 +3,10 @@
   "description": "Complete guide for OpenAIs Assistants API v2: stateful conversational AI with built-in tools (Code Interpreter, File Search, Function Calling), vector stores for RAG (up to 10,000 files), thread/run lifecycle management, and streaming patterns. Both Node.js SDK and fetch approaches. ⚠️ DEPRECATION NOTICE: OpenAI plans to sunset Assistants API in H1 2026 in favor of Responses API. This skill remains valuable for existing apps and migration planning. Use when: building stateful chatbots with O",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["openai assistants","assistants api","openai threads","openai runs","code interpreter assistant","file search openai","vector store openai","openai rag","assistant streaming","thread persistence","stateful chatbot","thread already has active run","run status polling","vector store error"]
 }

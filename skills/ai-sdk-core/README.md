@@ -73,7 +73,8 @@ This skill should be discovered when working with:
 ## Installation
 
 ```bash
-npm install ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google zod
+bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google zod  # preferred
+# or: npm install ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google zod
 ```
 
 ## Usage

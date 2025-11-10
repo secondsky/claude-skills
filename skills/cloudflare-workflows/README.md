@@ -236,4 +236,4 @@ const status = await instance.status();
 
 ---
 
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

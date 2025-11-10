@@ -11,7 +11,7 @@ description: File a bug report to help us improve
 title: "[Bug]: "
 labels: ["bug", "triage"]
 assignees:
-  - jezweb  # Replace with your GitHub username
+  - secondsky  # Replace with your GitHub username
 
 body:
   - type: markdown

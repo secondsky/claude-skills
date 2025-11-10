@@ -195,7 +195,7 @@ A: See [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
 1. Check [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for what NOT to do
 2. Look at existing skills in `skills/` directory for working examples
 3. Review [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines
-4. Open an issue: https://github.com/jezweb/claude-skills/issues
+4. Open an issue: https://github.com/secondsky/claude-skills/issues
 
 ---
 

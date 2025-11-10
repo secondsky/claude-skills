@@ -6,7 +6,7 @@ license: MIT
 allowed-tools: [Bash, Read, Task, Write]
 metadata:
   version: 1.0.0
-  author: Jeremy Dawes | Jezweb
+  author: Claude Skills Maintainers
   last-verified: 2025-11-07
   production-tested: true
   keywords:
@@ -752,4 +752,4 @@ MIT License - See LICENSE file
 
 **Last Updated**: 2025-11-07
 **Status**: Production Ready
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net | https://jezweb.com.au
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

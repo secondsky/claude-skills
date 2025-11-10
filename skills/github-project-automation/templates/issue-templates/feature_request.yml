@@ -6,7 +6,7 @@ description: Suggest a new feature or enhancement
 title: "[Feature]: "
 labels: ["enhancement", "triage"]
 assignees:
-  - jezweb  # Replace with your GitHub username
+  - secondsky  # Replace with your GitHub username
 
 body:
   - type: markdown

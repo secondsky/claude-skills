@@ -263,10 +263,10 @@ This skill has been tested in:
 ## Contributing
 
 Found an issue or have a suggestion? Open an issue at:
-https://github.com/jezweb/claude-skills/issues
+https://github.com/secondsky/claude-skills/issues
 
 ---
 
 **License**: MIT
-**Maintainer**: Jeremy Dawes (jeremy@jezweb.net)
-**Repository**: https://github.com/jezweb/claude-skills
+**Maintainer**: Claude Skills Maintainers (maintainers@example.com)
+**Repository**: https://github.com/secondsky/claude-skills

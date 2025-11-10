@@ -1428,4 +1428,4 @@ See the `references/` directory for deep-dive documentation:
 
 **License**: MIT
 **Last Verified**: 2025-10-23
-**Maintainer**: Jeremy Dawes (jeremy@jezweb.net)
+**Maintainer**: Claude Skills Maintainers (maintainers@example.com)

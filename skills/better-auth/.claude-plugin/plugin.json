@@ -1,12 +1,12 @@
 {
   "name": "better-auth",
-  "description": "Production-ready authentication framework for TypeScript with Cloudflare D1 support via Drizzle ORM or Kysely. CRITICAL: better-auth requires Drizzle ORM or Kysely as adapters - there is NO direct d1Adapter. Use this skill when building auth systems as self-hosted alternative to Clerk or Auth.js for Cloudflare Workers. Supports social providers, email/password, magic links, 2FA, passkeys, organizations, RBAC. Prevents 12+ errors including D1 adapter misconfiguration, schema generation issues, session serialization, CORS, OAuth flows.",
-  "version": "2.0.0",
+  "description": "Production-ready authentication framework for TypeScript with Cloudflare D1 support via Drizzle ORM or Kysely. Use this skill when building auth systems as a self-hosted alternative to Clerk or Auth.js, particularly for Cloudflare Workers projects. CRITICAL: better-auth requires Drizzle ORM or Kysely as database adapters - there is NO direct D1 adapter. Supports social providers (Google, GitHub, Microsoft, Apple), email/password, magic links, 2FA, passkeys, organizations, and RBAC. Prevents 12+ ",
+  "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
-  "keywords": ["better-auth","authentication","cloudflare d1 auth","drizzle orm auth","kysely auth","self-hosted auth","typescript auth","clerk alternative","auth.js alternative","social login","oauth providers","session management","jwt tokens","2fa","two-factor","passkeys","webauthn","drizzle d1","kysely d1"]
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["better-auth","authentication","cloudflare d1 auth","drizzle orm auth","kysely auth","self-hosted auth","typescript auth","clerk alternative","auth.js alternative","social login","oauth providers","session management","jwt tokens","2fa","two-factor"]
 }

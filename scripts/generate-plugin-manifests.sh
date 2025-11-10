@@ -7,6 +7,17 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(cd "$SCRIPT_DIR/../skills" && pwd)"
 
+# Ensure we use the Unix 'head' command, not HTTP head (e.g., from XAMPP)
+# Try common locations, fallback to PATH
+if [ -x "/usr/bin/head" ]; then
+  HEAD_CMD="/usr/bin/head"
+elif [ -x "/bin/head" ]; then
+  HEAD_CMD="/bin/head"
+else
+  # Fallback to PATH, hoping it's the right one
+  HEAD_CMD="head"
+fi
+
 echo "Generating plugin.json files for all skills..."
 echo "Skills directory: $SKILLS_DIR"
 echo ""
@@ -64,7 +75,8 @@ for skill_dir in "$SKILLS_DIR"/*; do
 
   # Extract keywords BEFORE truncating description
   # Keywords are in the format "Keywords: keyword1, keyword2, ..."
-  keywords_raw=$(echo "$description" | grep -oP 'Keywords:\s*\K[^$]*' | tr -d '"' | tr -d "'")
+  # macOS compatible: use sed instead of grep -P
+  keywords_raw=$(echo "$description" | sed -n 's/.*Keywords:[[:space:]]*\(.*\)/\1/p' | tr -d '"' | tr -d "'")
 
   # If no keywords found in description, try YAML format
   if [ -z "$keywords_raw" ]; then
@@ -75,7 +87,7 @@ for skill_dir in "$SKILLS_DIR"/*; do
   keywords_json="[]"
   if [ -n "$keywords_raw" ]; then
     # Split by comma, trim whitespace, limit to first 15 keywords
-    keywords_json=$(echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | head -15 | awk '
+    keywords_json=$(echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | $HEAD_CMD -15 | awk '
       BEGIN { printf "[" }
       {
         gsub(/\\/, "\\\\")
@@ -88,7 +100,8 @@ for skill_dir in "$SKILLS_DIR"/*; do
   fi
 
   # Now clean up description (remove Keywords line, trim, limit to 500 chars)
-  description=$(echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | head -c 500)
+  # Cross-platform compatible: use HEAD_CMD variable to avoid XAMPP's HTTP head
+  description=$(echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | $HEAD_CMD -c 500)
 
   # Generate plugin.json
   cat > "$plugin_json" << EOF
@@ -97,11 +110,11 @@ for skill_dir in "$SKILLS_DIR"/*; do
   "description": "$description",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": $keywords_json
 }
 EOF
@@ -114,5 +127,5 @@ echo "✅ Done! Generated plugin.json for $count skills"
 echo ""
 echo "Next steps:"
 echo "1. Review generated files: find skills/ -name plugin.json"
-echo "2. Test marketplace: /plugin marketplace add https://github.com/jezweb/claude-skills"
+echo "2. Test marketplace: /plugin marketplace add https://github.com/secondsky/claude-skills"
 echo "3. Install a skill: /plugin install cloudflare-worker-base@claude-skills"

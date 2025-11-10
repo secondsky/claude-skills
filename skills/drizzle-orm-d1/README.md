@@ -121,8 +121,8 @@ Provides production-tested patterns for Drizzle ORM with Cloudflare D1 databases
 
 ```bash
 # Install Drizzle
-npm install drizzle-orm
-npm install -D drizzle-kit
+bun add drizzle-orm drizzle-kit  # preferred
+# or: npm install drizzle-orm drizzle-kit
 
 # Create drizzle.config.ts
 cat > drizzle.config.ts << 'EOF'
@@ -278,7 +278,7 @@ drizzle-orm-d1/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

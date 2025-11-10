@@ -153,7 +153,7 @@ Commands are immediately available in Claude Code after copying.
 - Want to see workflow examples
 - Need quick reference
 
-**Output**: Interactive guidance, optional command execution, reference to docs/JEZWEB_WORKFLOW.md
+**Output**: Interactive guidance, optional command execution, reference to docs/CLAUDE_SKILLS_WORKFLOW.md
 
 **Time savings**: Instant navigation to correct command (vs reading docs)
 
@@ -258,7 +258,7 @@ Need guidance? → /workflow → [Interactive guide to commands]
 Release project? → /release → [Safety checks + GitHub release]
 ```
 
-**Complete Documentation**: See `docs/JEZWEB_WORKFLOW.md` for comprehensive guide with examples, decision trees, troubleshooting, and real-world workflows.
+**Complete Documentation**: See `docs/CLAUDE_SKILLS_WORKFLOW.md` for comprehensive guide with examples, decision trees, troubleshooting, and real-world workflows.
 
 ## Features
 
@@ -335,4 +335,4 @@ Release project? → /release → [Safety checks + GitHub release]
 
 **Version**: 4.0.0
 **Last Updated**: 2025-11-07
-**Author**: Jeremy Dawes | Jezweb
+**Author**: Claude Skills Maintainers

@@ -3,10 +3,10 @@
   "description": "This skill provides complete coverage of Google Gemini embeddings API (gemini-embedding-001) for building RAG systems, semantic search, document clustering, and similarity matching. Use when implementing vector search with Googles embedding models, integrating with Cloudflare Vectorize, or building retrieval-augmented generation systems. Covers SDK usage (@google/genai), fetch-based Workers implementation, batch processing, 8 task types (RETRIEVAL_QUERY, RETRIEVAL_DOCUMENT, SEMANTIC_SIMILARITY, ",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["gemini embeddings","gemini-embedding-001","google embeddings","semantic search","RAG","vector search","document clustering","similarity search","retrieval augmented generation","vectorize integration","cloudflare vectorize embeddings","768 dimensions","embed content gemini","batch embeddings","embeddings api"]
 }

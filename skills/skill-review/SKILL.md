@@ -12,7 +12,7 @@ metadata:
   production_tested: better-auth v2.0.0 audit (2025-11-08)
   token_savings: ~80%
   errors_prevented: 20+
-  official_docs: https://github.com/jezweb/claude-skills
+  official_docs: https://github.com/secondsky/claude-skills
   triggers:
     - "review this skill"
     - "review the X skill"
@@ -404,7 +404,7 @@ This skill references:
 ## Additional Resources
 
 - **Full Process Guide**: `planning/SKILL_REVIEW_PROCESS.md`
-- **Repository**: https://github.com/jezweb/claude-skills
+- **Repository**: https://github.com/secondsky/claude-skills
 - **Example Audit**: See process guide Appendix B (better-auth v2.0.0)
 
 ---

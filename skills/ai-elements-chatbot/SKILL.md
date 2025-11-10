@@ -1083,4 +1083,4 @@ This skill works best when combined with:
 
 **Last Updated**: 2025-11-07
 **Skill Version**: 1.0.0
-**Maintainer**: Jeremy Dawes | Jezweb | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

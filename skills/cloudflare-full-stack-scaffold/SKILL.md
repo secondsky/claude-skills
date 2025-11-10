@@ -725,7 +725,7 @@ app.use('/api/protected/*', jwtAuthMiddleware)
 - cloudflare-full-stack-integration skill (tested frontend-backend patterns)
 - session-handoff-protocol skill (planning docs + SCRATCHPAD.md)
 - tailwind-v4-shadcn skill (UI component patterns)
-- Multiple production Jezweb projects
+- Multiple production projects
 
 **Package versions verified**: 2025-10-23
 

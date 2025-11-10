@@ -3,10 +3,10 @@
   "description": "Comprehensive knowledge for using the Bash tool in Claude Code effectively. This skill should be used when orchestrating CLI tools, configuring hooks, setting up automation workflows, managing git operations, handling multi-command patterns, or encountering Bash tool errors. Covers: PreToolUse hooks, command chaining patterns, git workflow automation, CLI tool integration, custom commands (.claude/commands/), security configurations, allowlisting, session persistence, output handling, error prev",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": []
 }

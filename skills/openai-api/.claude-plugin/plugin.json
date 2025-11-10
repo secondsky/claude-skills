@@ -3,10 +3,10 @@
   "description": "Complete guide for OpenAIs traditional/stateless APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), and Moderation. Includes both Node.js SDK and fetch-based approaches for maximum compatibility. Use when: integrating OpenAI APIs, implementing chat completions with GPT-5/GPT-4o, generating text with streaming, using function calling/tools, creating structured outputs with JSON schemas, implementing embeddings for RAG, generating images with DALL-E 3, tr",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["openai api","chat completions","gpt-5","gpt-5-mini","gpt-5-nano","gpt-4o","gpt-4-turbo","openai sdk","openai streaming","function calling","structured output","json schema","openai embeddings","text-embedding-3","dall-e-3"]
 }

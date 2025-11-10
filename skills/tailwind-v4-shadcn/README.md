@@ -183,7 +183,7 @@ category: frontend-setup
 stack: [vite, react, tailwind-v4, shadcn-ui]
 confidence: high  # Production-tested pattern
 auto_invoke_threshold: 0.7  # Invoke if 70%+ match
-maintained_by: jeremy@jezweb.net
+maintained_by: maintainers@example.com
 last_tested: 2025-10-20
 ```
 

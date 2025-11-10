@@ -365,4 +365,4 @@ When phases have dependencies:
 
 **Last Updated**: 2025-10-28
 **Version**: 1.0
-**Author**: Jeremy Dawes | Jezweb
+**Author**: Claude Skills Maintainers

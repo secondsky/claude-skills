@@ -1517,4 +1517,4 @@ Before deploying cron triggers to production:
 
 **Last Updated**: 2025-10-23
 **Version**: 1.0.0
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

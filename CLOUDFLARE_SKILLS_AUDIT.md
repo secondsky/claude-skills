@@ -221,7 +221,7 @@ description: |
 name: cloudflare-vectorize
 version: 1.0.0
 description: Complete guide for Cloudflare Vectorize - vector database...
-author: Jezweb
+author: Claude Skills Maintainers
 tags:
   - cloudflare
   - vectorize

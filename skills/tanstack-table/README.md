@@ -162,10 +162,12 @@ Cloudflare D1 Database         ← cloudflare-d1 skill
 ## Installation
 
 ```bash
-npm install @tanstack/react-table@latest
+bun add @tanstack/react-table@latest  # preferred
+# or: npm install @tanstack/react-table@latest
 
 # For virtualization (optional):
-npm install @tanstack/react-virtual@latest
+bun add @tanstack/react-virtual@latest
+# or: npm install @tanstack/react-virtual@latest
 ```
 
 **Latest Versions:**
@@ -221,5 +223,5 @@ npm install @tanstack/react-virtual@latest
 
 **Version:** 1.0.0
 **Last Updated:** 2025-11-07
-**Author:** Jeremy Dawes | Jezweb
+**Author:** Claude Skills Maintainers
 **License:** MIT

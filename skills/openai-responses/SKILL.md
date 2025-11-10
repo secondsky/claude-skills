@@ -58,7 +58,8 @@ export OPENAI_API_KEY="sk-proj-..."
 ### 2. Install SDK (Node.js)
 
 ```bash
-npm install openai
+bun add openai  # preferred
+# or: npm install openai
 ```
 
 ```typescript

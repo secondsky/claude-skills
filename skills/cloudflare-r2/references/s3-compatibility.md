@@ -58,8 +58,10 @@ https://<account_id>.r2.cloudflarestorage.com
 ### Installation
 
 ```bash
-npm install @aws-sdk/client-s3
-npm install @aws-sdk/s3-request-presigner
+bun add @aws-sdk/client-s3  # preferred
+# or: npm install @aws-sdk/client-s3
+bun add @aws-sdk/s3-request-presigner  # preferred
+# or: npm install @aws-sdk/s3-request-presigner
 ```
 
 ### Basic Usage
@@ -131,7 +133,8 @@ const downloadUrl = await getSignedUrl(s3Client, downloadCommand, {
 ### Installation
 
 ```bash
-npm install aws4fetch
+bun add aws4fetch  # preferred
+# or: npm install aws4fetch
 ```
 
 ### Usage

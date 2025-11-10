@@ -1,0 +1,12 @@
+{
+  "name": "mcp-dynamic-orchestrator",
+  "description": "This skill provides dynamic discovery and code-mode execution for MCP servers defined in a central registry file. It should be used when an agent needs to know which MCP integrations are available, what domains they cover, and how to call them efficiently via generated code without eagerly loading each MCP tool as a first-class tool. Use when: working with multiple MCP servers (APIs, internal systems, SaaS tools), especially when the set of available MCPs changes over time or is large enough tha",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["MCP","code-mode","registry","dynamic tools","tool discovery","progressive disclosure"]
+}

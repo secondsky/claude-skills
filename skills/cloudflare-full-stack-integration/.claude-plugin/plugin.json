@@ -3,10 +3,10 @@
   "description": "Production-tested integration patterns for connecting React frontends to Cloudflare Worker backends with Hono, Clerk authentication, and D1 databases. Prevents common frontend-backend connection issues, CORS errors, auth token failures, and race conditions. Use when: connecting frontend to backend, implementing auth flow, setting up API calls, troubleshooting CORS, fixing race conditions, auth tokens not passing, frontend-backend connection errors, 401 errors, integrating Clerk with Workers, set",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["frontend backend integration","Cloudflare Workers","Hono","Clerk auth","JWT verification","CORS","React API client","race conditions","auth loading","connection issues","full-stack integration","vite plugin","@cloudflare/vite-plugin","D1 database","environment variables"]
 }

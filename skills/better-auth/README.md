@@ -140,7 +140,8 @@ export default app
 
 **Required dependencies**:
 ```bash
-npm install better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono
+bun add better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono  # preferred
+# or: npm install better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono
 ```
 
 **Complete setup guide**: See SKILL.md for full step-by-step instructions including schema definition, migrations, and deployment.
@@ -189,21 +190,22 @@ npm install better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono
 ## Installation
 
 ```bash
-npm install better-auth
-# or
-pnpm add better-auth
-# or
-yarn add better-auth
+bun add better-auth  # preferred
+# or: npm install better-auth
+# or: pnpm add better-auth
+# or: yarn add better-auth
 ```
 
 **For Cloudflare D1**:
 ```bash
-npm install @cloudflare/workers-types
+bun add @cloudflare/workers-types  # preferred
+# or: npm install @cloudflare/workers-types
 ```
 
 **For PostgreSQL**:
 ```bash
-npm install pg drizzle-orm
+bun add pg drizzle-orm  # preferred
+# or: npm install pg drizzle-orm
 ```
 
 ---

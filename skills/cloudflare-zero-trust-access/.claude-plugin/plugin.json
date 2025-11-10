@@ -3,10 +3,10 @@
   "description": "Use this skill when integrating Cloudflare Zero Trust Access authentication with Cloudflare Workers applications. Provides Hono middleware setup, manual JWT validation patterns, service token authentication, CORS handling with Access, and multi-tenant configurations. Prevents 8 common errors including CORS preflight blocking (45 min saved), key cache race conditions (20 min), missing JWT headers (30 min), and dev/prod team mismatches (15 min). Saves ~58% tokens (3,250 tokens) and 2.5 hours per i",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["Cloudflare Access","Zero Trust","Cloudflare Zero Trust Access","Access authentication","JWT validation","access jwt","service tokens","hono cloudflare access","hono-cloudflare-access middleware","workers authentication","protect worker routes","admin authentication","access policy","identity providers","azure ad access"]
 }

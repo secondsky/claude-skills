@@ -55,7 +55,8 @@ Both capabilities are **free** and work together to enable complete email functi
 #### 1. Install Dependencies
 
 ```bash
-npm install postal-mime@2.5.0 mimetext@3.0.27
+bun add postal-mime@2.5.0 mimetext@3.0.27  # preferred
+# or: npm install postal-mime@2.5.0 mimetext@3.0.27
 ```
 
 **Why these packages:**

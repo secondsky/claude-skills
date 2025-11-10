@@ -547,4 +547,4 @@ Watch console for errors and warnings.
 - **Migration Guide**: `references/next-16-migration-guide.md`
 - **Templates**: `templates/` directory
 - **Next.js 16 Blog**: https://nextjs.org/blog/next-16
-- **Support**: jeremy@jezweb.net
+- **Support**: maintainers@example.com

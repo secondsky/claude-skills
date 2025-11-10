@@ -367,11 +367,11 @@ This skill prevents **18+ common mistakes**:
 
 ## Installation
 
-This skill is part of the [claude-skills](https://github.com/jezweb/claude-skills) repository.
+This skill is part of the [claude-skills](https://github.com/secondsky/claude-skills) repository.
 
 **Install**:
 ```bash
-git clone https://github.com/jezweb/claude-skills
+git clone https://github.com/secondsky/claude-skills
 cd claude-skills
 ./scripts/install-skill.sh nextjs
 ```
@@ -442,8 +442,8 @@ Contributions welcome! See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the claud
 ## Support
 
 - **Documentation Issues**: Check `references/` directory
-- **GitHub Issues**: https://github.com/jezweb/claude-skills/issues
-- **Email**: jeremy@jezweb.net
+- **GitHub Issues**: https://github.com/secondsky/claude-skills/issues
+- **Email**: maintainers@example.com
 
 ---
 
@@ -481,6 +481,6 @@ MIT License - See [LICENSE](../../LICENSE)
 
 ---
 
-**Maintained by**: Jezweb | https://jezweb.com.au
-**Repository**: https://github.com/jezweb/claude-skills
+**Maintained by**: Claude Skills Maintainers | https://github.com/secondsky/claude-skills
+**Repository**: https://github.com/secondsky/claude-skills
 **Last Updated**: 2025-10-24

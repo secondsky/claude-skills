@@ -3,10 +3,10 @@
   "description": "Complete TinaCMS skill for building content-heavy sites with Git-backed CMS. Use this skill when setting up blogs, documentation sites, or marketing sites that require visual editing and content management for non-technical users. Supports Next.js (App Router + Pages Router), Vite + React, Astro, and framework-agnostic setups. Prevents 9+ common errors including ESbuild compilation issues, module resolution problems, schema configuration errors, Docker binding issues, and deployment problems. Se",
   "version": "1.0.0",
   "author": {
-    "name": "Jeremy Dawes",
-    "email": "jeremy@jezweb.net"
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
   },
   "license": "MIT",
-  "repository": "https://github.com/jezweb/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["TinaCMS","Tina CMS","Git-backed CMS","visual editing CMS","content management","Next.js CMS","App Router TinaCMS","Pages Router TinaCMS","Vite React TinaCMS","Astro TinaCMS","framework-agnostic CMS","TinaCloud","self-hosted TinaCMS","blog CMS","documentation site CMS"]
 }

@@ -12,15 +12,17 @@ if [ ! -f "package.json" ]; then
   exit 1
 fi
 
-# Check for pnpm, npm, or yarn
-if command -v pnpm &> /dev/null; then
+# Check for bun (preferred), pnpm, npm, or yarn
+if command -v bun &> /dev/null; then
+  PKG_MANAGER="bun"
+elif command -v pnpm &> /dev/null; then
   PKG_MANAGER="pnpm"
 elif command -v yarn &> /dev/null; then
   PKG_MANAGER="yarn"
 elif command -v npm &> /dev/null; then
   PKG_MANAGER="npm"
 else
-  echo "❌ Error: No package manager found (pnpm, yarn, or npm)"
+  echo "❌ Error: No package manager found (bun, pnpm, yarn, or npm)"
   exit 1
 fi
 
@@ -141,7 +143,8 @@ echo '     "content-collections": ["./.content-collections/generated"]'
 echo '   }'
 echo ""
 echo "3. Start dev server:"
-echo "   $PKG_MANAGER dev"
+echo "   # bun (preferred): bun run dev"
+echo "   # or: $PKG_MANAGER dev"
 echo ""
 echo "4. Import and use:"
 echo '   import { allPosts } from "content-collections"'

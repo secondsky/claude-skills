@@ -232,7 +232,8 @@ Sign up at https://console.anthropic.com/ and create an API key.
 ### 2. Install SDK
 
 ```bash
-npm install @anthropic-ai/sdk
+bun add @anthropic-ai/sdk  # preferred
+# or: npm install @anthropic-ai/sdk
 ```
 
 ### 3. Use Template

@@ -30,7 +30,8 @@ Frontend React hooks for AI-powered user interfaces with Vercel AI SDK v5.
 ### Installation
 
 ```bash
-npm install ai @ai-sdk/openai
+bun add ai @ai-sdk/openai  # preferred
+# or: npm install ai @ai-sdk/openai
 ```
 
 ### Basic Chat Component (v5)

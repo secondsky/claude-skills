@@ -191,9 +191,10 @@ This skill prevents **8 common errors** encountered with the Responses API:
 
 ## Dependencies
 
-### Node.js
+### Node.js (Bun preferred)
 ```bash
-npm install openai
+bun add openai  # preferred
+# or: npm install openai
 ```
 
 **Latest Version**: openai@5.19.1+ (supports Responses API)
@@ -439,10 +440,10 @@ See `references/migration-guide.md` for complete details.
 ## Contributing
 
 Found an error or have an improvement? Open an issue at:
-https://github.com/jezweb/claude-skills/issues
+https://github.com/secondsky/claude-skills/issues
 
 ---
 
 **Last Updated**: 2025-10-25
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com
 **License**: MIT

@@ -115,8 +115,10 @@ Provides comprehensive knowledge for TanStack Query v5 (React Query) server stat
 
 ```bash
 # Install dependencies
-npm install @tanstack/react-query@latest
-npm install -D @tanstack/react-query-devtools@latest
+bun add @tanstack/react-query@latest  # preferred
+# or: npm install @tanstack/react-query@latest
+bun add -d @tanstack/react-query-devtools@latest
+# or: npm install -D @tanstack/react-query-devtools@latest
 
 # Set up QueryClient Provider (see SKILL.md for complete setup)
 ```
@@ -211,7 +213,7 @@ tanstack-query/
 ## Contributing
 
 Found an issue or have a suggestion?
-- Open an issue: https://github.com/jezweb/claude-skills/issues
+- Open an issue: https://github.com/secondsky/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 
 ---

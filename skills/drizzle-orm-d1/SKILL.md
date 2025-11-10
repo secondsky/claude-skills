@@ -38,12 +38,9 @@ license: MIT
 ### 1. Install Drizzle
 
 ```bash
-npm install drizzle-orm
-npm install -D drizzle-kit
-
-# Or with pnpm
-pnpm add drizzle-orm
-pnpm add -D drizzle-kit
+bun add drizzle-orm drizzle-kit  # preferred
+# or: npm install drizzle-orm drizzle-kit
+# or: pnpm add drizzle-orm drizzle-kit
 ```
 
 **Why Drizzle?**

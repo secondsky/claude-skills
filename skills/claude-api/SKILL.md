@@ -37,7 +37,8 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 ### 2. Install SDK (Node.js)
 
 ```bash
-npm install @anthropic-ai/sdk
+bun add @anthropic-ai/sdk  # preferred
+# or: npm install @anthropic-ai/sdk
 ```
 
 ```typescript

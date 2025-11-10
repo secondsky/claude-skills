@@ -1271,4 +1271,4 @@ Migration: See SKILL.md for new Drizzle setup workflow
 
 This process ensures systematic, evidence-based reviews that catch issues before they impact users. Follow all 9 phases for comprehensive audits, or use quick reviews for minor updates. Always document findings with evidence and maintain audit trails.
 
-**Questions?** See claude-skills repository: https://github.com/jezweb/claude-skills
+**Questions?** See claude-skills repository: https://github.com/secondsky/claude-skills

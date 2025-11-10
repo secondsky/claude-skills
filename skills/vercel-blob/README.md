@@ -38,7 +38,8 @@ Object storage for Vercel applications with automatic CDN distribution. Perfect 
 vercel env pull .env.local
 
 # 2. Install
-npm install @vercel/blob
+bun add @vercel/blob  # preferred
+# or: npm install @vercel/blob
 
 # 3. Upload (server)
 import { put } from '@vercel/blob';

@@ -200,11 +200,11 @@ cp templates/pr-templates/PULL_REQUEST_TEMPLATE.md .github/
    ```yaml
    # In issue templates
    assignees:
-     - jezweb  # ← Change to your GitHub username
+     - secondsky  # ← Change to your GitHub username
    
    # In dependabot.yml
    reviewers:
-     - "jezweb"  # ← Change to your username
+     - "secondsky"  # ← Change to your username
    ```
 
 2. **Adjust languages (CodeQL):**
@@ -447,7 +447,7 @@ updates:
       timezone: "Australia/Sydney"
     open-pull-requests-limit: 10  # GitHub hard limit
     reviewers:
-      - "jezweb"
+      - "secondsky"
     labels:
       - "dependencies"
       - "npm"

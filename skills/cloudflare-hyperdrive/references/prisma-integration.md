@@ -22,13 +22,16 @@ Complete guide to using Prisma ORM with Cloudflare Hyperdrive.
 
 ```bash
 # Prisma CLI and client
-npm install prisma @prisma/client
+bun add prisma @prisma/client  # preferred
+# or: npm install prisma @prisma/client
 
 # PostgreSQL driver and adapter
-npm install pg @prisma/adapter-pg
+bun add pg @prisma/adapter-pg  # preferred
+# or: npm install pg @prisma/adapter-pg
 
 # TypeScript types for pg
-npm install -D @types/pg
+bun add -d @types/pg  # preferred
+# or: npm install -D @types/pg
 ```
 
 ---

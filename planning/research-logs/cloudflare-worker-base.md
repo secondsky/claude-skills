@@ -234,7 +234,7 @@
 
 4. **Deploy to GitHub** (30 min)
    - Commit with detailed changelog
-   - Push to jezweb/claude-skills
+   - Push to secondsky/claude-skills
    - Symlink to ~/.claude/skills/
 
 ---

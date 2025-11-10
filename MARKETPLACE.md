@@ -9,7 +9,7 @@ Welcome to the **claude-skills** marketplace - a curated collection of 60 produc
 **Step 1: Add the marketplace**
 
 ```bash
-/plugin marketplace add https://github.com/jezweb/claude-skills
+/plugin marketplace add https://github.com/secondsky/claude-skills
 ```
 
 **Step 2: Install skills**
@@ -198,8 +198,8 @@ Add to `.claude/settings.json` for automatic marketplace availability:
 {
   "extraKnownMarketplaces": [
     {
-      "name": "jezweb-skills",
-      "url": "https://github.com/jezweb/claude-skills"
+      "name": "claude-skills",
+      "url": "https://github.com/secondsky/claude-skills"
     }
   ]
 }
@@ -215,7 +215,7 @@ If you prefer manual installation or want to contribute:
 
 ```bash
 # Clone repository
-git clone https://github.com/jezweb/claude-skills.git
+git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
 # Install single skill
@@ -231,8 +231,8 @@ See [README.md](README.md) for development workflow.
 
 ## Support
 
-**Issues**: https://github.com/jezweb/claude-skills/issues
-**Email**: jeremy@jezweb.net
+**Issues**: https://github.com/secondsky/claude-skills/issues
+**Email**: maintainers@example.com
 **Documentation**: See individual skill directories for detailed guides
 
 ---
@@ -258,4 +258,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 **Last Updated**: 2025-11-07
 **Marketplace Version**: 1.0.0
 **Skills**: 60
-**Maintainer**: Jeremy Dawes | Jezweb
+**Maintainer**: Claude Skills Maintainers

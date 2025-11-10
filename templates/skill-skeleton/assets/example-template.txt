@@ -5,7 +5,8 @@
 [TODO: Examples:]
 - Templates (.html, .tsx, .md)
 - Images (.png, .svg)
-- Fonts (.ttf, .woff)
+- Fonts (.ttf, .woff)continue
+
 - Boilerplate code
 - Configuration file templates
 

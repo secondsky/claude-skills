@@ -7,8 +7,8 @@ description: |
 license: MIT
 metadata:
   version: "1.1.0"
-  author: "Jeremy Dawes - Jezweb"
-  repository: "https://github.com/jezweb/claude-skills"
+  author: "Claude Skills Maintainers"
+  repository: "https://github.com/secondsky/claude-skills"
   last_verified: "2025-11-06"
   production_tested: true
   token_savings: "~70%"

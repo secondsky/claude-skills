@@ -10,7 +10,8 @@
  * - Global edge deployment
  *
  * Setup:
- * 1. Install dependencies: npm install @tinacms/datalayer tinacms-authjs
+ * 1. Install dependencies: bun add @tinacms/datalayer tinacms-authjs  # preferred
+ *    # or: npm install @tinacms/datalayer tinacms-authjs
  * 2. Generate database client: npx @tinacms/cli@latest init backend
  * 3. Configure wrangler.jsonc
  * 4. Deploy: npx wrangler deploy

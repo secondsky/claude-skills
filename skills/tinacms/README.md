@@ -202,7 +202,9 @@ npm run dev
 ```bash
 npx create-tina-app@latest my-docs --template tina-astro-starter
 cd my-docs
-npm install && npm run dev
+bun install && bun run dev  # preferred
+# or: bun install && bun run dev
+# or: npm install && npm run dev
 ```
 
 ### Example 3: Self-Hosted on Cloudflare Workers

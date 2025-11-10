@@ -349,9 +349,9 @@ Looking for ideas? We need skills for:
 
 ## 📞 Getting Help
 
-- **Issues**: https://github.com/jezweb/claude-skills/issues
-- **Discussions**: https://github.com/jezweb/claude-skills/discussions
-- **Email**: jeremy@jezweb.net
+- **Issues**: https://github.com/secondsky/claude-skills/issues
+- **Discussions**: https://github.com/secondsky/claude-skills/discussions
+- **Email**: maintainers@example.com
 
 ---
 

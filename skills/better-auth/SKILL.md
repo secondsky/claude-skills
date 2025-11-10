@@ -74,7 +74,8 @@ better-auth **DOES NOT** have a direct `d1Adapter()`. You **MUST** use either:
 **Option 1: Drizzle ORM (Recommended)**
 
 ```bash
-npm install better-auth drizzle-orm drizzle-kit
+bun add better-auth drizzle-orm drizzle-kit  # preferred
+# or: npm install better-auth drizzle-orm drizzle-kit
 # or
 pnpm add better-auth drizzle-orm drizzle-kit
 ```
@@ -82,7 +83,8 @@ pnpm add better-auth drizzle-orm drizzle-kit
 **Option 2: Kysely**
 
 ```bash
-npm install better-auth kysely @noxharmonium/kysely-d1
+bun add better-auth kysely @noxharmonium/kysely-d1  # preferred
+# or: npm install better-auth kysely @noxharmonium/kysely-d1
 # or
 pnpm add better-auth kysely @noxharmonium/kysely-d1
 ```
@@ -91,7 +93,8 @@ pnpm add better-auth kysely @noxharmonium/kysely-d1
 
 **For Cloudflare Workers**:
 ```bash
-npm install @cloudflare/workers-types hono
+bun add @cloudflare/workers-types hono  # preferred
+# or: npm install @cloudflare/workers-types hono
 ```
 
 **For PostgreSQL** (via Hyperdrive):

@@ -1,8 +1,8 @@
 # Claude Skills Roadmap
 
 **Project**: Claude Code Skills Collection
-**Maintainer**: Jeremy Dawes (Jezweb)
-**Repository**: https://github.com/jezweb/claude-skills
+**Maintainer**: Claude Skills Maintainers
+**Repository**: https://github.com/secondsky/claude-skills
 **Last Updated**: 2025-10-29
 
 ---
@@ -2144,4 +2144,4 @@ A skill is considered "complete" when:
 
 **Last Updated**: 2025-10-29 (All 50 skills complete! Added cloudflare-sandboxing to roadmap)
 **Next Review**: 2025-11-29
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com

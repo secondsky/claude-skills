@@ -1255,4 +1255,4 @@ Before deploying to production:
 
 **Last Updated**: 2025-10-21
 **Version**: 1.0.0
-**Maintainer**: Jeremy Dawes | jeremy@jezweb.net
+**Maintainer**: Claude Skills Maintainers | maintainers@example.com
