@@ -1,0 +1,28 @@
+{
+  "name": "aceternity-ui",
+  "description": "Build modern, animated React UI components with Aceternity UI - a premium component library featuring 100+ production-ready components including backgrounds, 3D effects, cards, animations, and interactive elements. Use when building Next.js applications with Tailwind CSS that need visually stunning hero sections, animated backgrounds, interactive cards, parallax effects, animated text, smooth transitions, or modern UI elements. Ideal for landing pages, portfolios, SaaS applications, and marketin",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "aceternity",
+    "aceternity-ui",
+    "react",
+    "nextjs",
+    "tailwind",
+    "tailwindcss",
+    "framer-motion",
+    "animations",
+    "ui-components",
+    "component-library",
+    "shadcn",
+    "3d-effects",
+    "background-effects",
+    "hero-sections",
+    "landing-pages"
+  ]
+}
