@@ -1,11 +1,17 @@
 # Zod Quick Reference Cheat Sheet
 
+> **Version**: Zod 4.x (4.1.12+)
+> **Note**: Some APIs shown here (z.codec, z.iso.*, error helpers) are Zod 4 only
+
 ## Installation
 
 ```bash
-npm install zod
 bun add zod
+# or
+npm install zod
+# or
 pnpm add zod
+# or
 yarn add zod
 ```
 

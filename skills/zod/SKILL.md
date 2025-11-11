@@ -77,18 +77,27 @@ Zod is a TypeScript-first validation library that enables developers to define s
 ## Installation
 
 ```bash
-npm install zod
-# or
 bun add zod
+# or
+npm install zod
 # or
 pnpm add zod
 # or
 yarn add zod
 ```
 
-**Requirements**: TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
+**Requirements**:
+- TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
+- Zod 4.x (4.1.12+)
 
-**Note**: This skill documents Zod 4.x (current stable: 4.1.12). For Zod 3.x users, some features like `z.codec()`, `z.iso.*`, `z.toJSONSchema()`, and new error helpers are not available. See migration notes at https://zod.dev
+**Important**: This skill documents **Zod 4.x** features. The following APIs require Zod 4 and are NOT available in Zod 3.x:
+- `z.codec()` - Bidirectional transformations
+- `z.iso.date()`, `z.iso.time()`, `z.iso.datetime()`, `z.iso.duration()` - ISO format validators
+- `z.toJSONSchema()` - JSON Schema generation
+- `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
+- `.meta()` - Enhanced metadata (Zod 3.x only has `.describe()`)
+
+For Zod 3.x compatibility or migration guidance, see https://zod.dev
 
 ## Core Concepts
 

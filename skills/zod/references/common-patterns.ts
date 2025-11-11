@@ -3,6 +3,9 @@
  *
  * This file contains frequently used Zod validation patterns
  * for real-world applications.
+ *
+ * @requires zod ^4.1.12 (Zod 4.x)
+ * @note Uses Zod 4 APIs: z.codec, z.iso.datetime, z.flattenError, z.prettifyError
  */
 
 import { z } from "zod";

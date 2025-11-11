@@ -58,18 +58,27 @@ This skill prevents 8+ common errors:
 ## 📦 Installation
 
 ```bash
-npm install zod
-# or
 bun add zod
+# or
+npm install zod
 # or
 pnpm add zod
 # or
 yarn add zod
 ```
 
-**Requirements**: TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
+**Requirements**:
+- TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
+- Zod 4.x (4.1.12+)
 
-**Version Note**: This skill documents Zod 4.x (current stable: 4.1.12). Features like `z.codec()`, `z.iso.*`, `z.toJSONSchema()`, and new error helpers (`z.treeifyError()`, `z.prettifyError()`, `z.flattenError()`) are Zod 4 only. For Zod 3.x compatibility, see https://zod.dev for migration guides.
+**⚠️ Important - Zod 4.x Only**: This skill documents **Zod 4.x** features. The following APIs require Zod 4 and are NOT available in Zod 3.x:
+- `z.codec()` - Bidirectional transformations
+- `z.iso.date()`, `z.iso.time()`, `z.iso.datetime()`, `z.iso.duration()` - ISO format validators
+- `z.toJSONSchema()` - JSON Schema generation
+- `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
+- `.meta()` - Enhanced metadata (Zod 3.x only has `.describe()`)
+
+For Zod 3.x compatibility or migration guidance, see https://zod.dev
 
 ## 🔥 Quick Examples
 
