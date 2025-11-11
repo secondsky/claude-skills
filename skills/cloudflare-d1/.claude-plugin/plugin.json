@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["d1","d1 database","cloudflare d1","wrangler d1","d1 migrations","d1 bindings","sqlite workers","serverless database","edge database","d1 queries","sql cloudflare","prepared statements","batch queries","d1 api","wrangler migrations","read replication","read replica","withSession","Sessions API","global replication","served_by_region"]
+  "keywords": ["d1","d1 database","cloudflare d1","wrangler d1","d1 migrations","d1 bindings","sqlite workers","serverless database","edge database","d1 queries","sql cloudflare","prepared statements","batch queries","d1 api","wrangler migrations"]
 }
