@@ -8,5 +8,21 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "aceternity",
+    "aceternity-ui",
+    "react",
+    "nextjs",
+    "tailwind",
+    "tailwindcss",
+    "framer-motion",
+    "animations",
+    "ui-components",
+    "component-library",
+    "shadcn",
+    "3d-effects",
+    "background-effects",
+    "hero-sections",
+    "landing-pages"
+  ]
 }
