@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["Swift","Swift 6","Swift 6.2","async","await","actor","MainActor","Sendable","@MainActor","nonisolated","concurrency","async/await","data race","region-based isolation","actor isolation","typed throws","InlineArray","SwiftUI","UIKit","iOS","macOS","Xcode","SourceKit-LSP","SwiftLens MCP","API design","@available","deprecated","Swift migration","SE-0414","SE-0413","Swift best practices","code review","BitwiseCopyable","~Copyable"]
+  "keywords": []
 }
