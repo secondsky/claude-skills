@@ -119,7 +119,7 @@ This skill provides comprehensive knowledge for building Vue 3 applications with
 
 ```bash
 # 1. Install Pinia
-npm install pinia
+bun add pinia
 
 # 2. Create and register Pinia
 # main.ts

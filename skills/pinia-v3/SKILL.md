@@ -23,16 +23,14 @@ license: MIT
 ### 1. Install Pinia
 
 ```bash
+bun add pinia
+# or
 npm install pinia
 # or
-yarn add pinia
-# or
 pnpm add pinia
-# or
-bun add pinia
 ```
 
-**For Vue <2.7 users**: Also install `@vue/composition-api`
+**For Vue <2.7 users**: Also install `@vue/composition-api` with `bun add @vue/composition-api`
 
 **Why this matters:**
 - Pinia is the official Vue state management library
@@ -931,6 +929,8 @@ describe('Store with Plugin', () => {
 ### Component Testing
 
 ```bash
+bun add -d @pinia/testing
+# or
 npm i -D @pinia/testing
 ```
 
@@ -1469,6 +1469,8 @@ This skill prevents **12** documented issues:
 ---
 
 ## Configuration Files Reference
+
+**Note**: Use `bun add` to install packages (preferred), or `npm install`/`pnpm add` as alternatives.
 
 ### package.json (Minimal Setup)
 

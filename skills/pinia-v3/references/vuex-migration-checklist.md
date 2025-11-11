@@ -13,7 +13,8 @@ Complete checklist for migrating from Vuex to Pinia safely and efficiently.
 
 - [ ] **Install Pinia alongside Vuex**
   ```bash
-  npm install pinia
+  bun add pinia
+  # or: npm install pinia
   ```
 
 - [ ] **Set up Pinia instance**
@@ -367,7 +368,8 @@ pinia.use(persistPlugin)
 
 - [ ] **Remove Vuex completely**
   ```bash
-  npm uninstall vuex
+  bun remove vuex
+  # or: npm uninstall vuex
   ```
 
 - [ ] **Delete Vuex files**
