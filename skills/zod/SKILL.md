@@ -15,7 +15,7 @@ license: MIT
 metadata:
   version: 1.0.0
   last_verified: 2025-11-11
-  package_version: 3.24.1
+  package_version: 4.1.12
   keywords:
     - zod
     - validation
@@ -87,6 +87,8 @@ yarn add zod
 ```
 
 **Requirements**: TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
+
+**Note**: This skill documents Zod 4.x (current stable: 4.1.12). For Zod 3.x users, some features like `z.codec()`, `z.iso.*`, `z.toJSONSchema()`, and new error helpers are not available. See migration notes at https://zod.dev
 
 ## Core Concepts
 
@@ -942,7 +944,7 @@ z.toJSONSchema(schema, options)
 ---
 
 **Production Notes**:
-- Package version: 3.24.1
+- Package version: 4.1.12 (Zod 4.x stable)
 - Zero dependencies
 - Bundle size: 2kb (gzipped)
 - TypeScript 5.5+ required

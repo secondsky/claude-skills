@@ -69,6 +69,8 @@ yarn add zod
 
 **Requirements**: TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
 
+**Version Note**: This skill documents Zod 4.x (current stable: 4.1.12). Features like `z.codec()`, `z.iso.*`, `z.toJSONSchema()`, and new error helpers (`z.treeifyError()`, `z.prettifyError()`, `z.flattenError()`) are Zod 4 only. For Zod 3.x compatibility, see https://zod.dev for migration guides.
+
 ## 🔥 Quick Examples
 
 ### Basic Schema
@@ -320,7 +322,7 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 ## 🔄 Version History
 
 - **1.0.0** (2025-11-11) - Initial release
-  - Comprehensive Zod 3.24.1+ coverage
+  - Comprehensive Zod 4.1.12+ coverage (Zod 4.x stable)
   - All primitive and complex types
   - Error handling patterns
   - JSON Schema conversion
@@ -331,7 +333,7 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Package Version**: 3.24.1
+**Package Version**: 4.1.12 (Zod 4.x stable)
 **Last Verified**: 2025-11-11
 **Token Savings**: ~65%
 **Errors Prevented**: 8+
