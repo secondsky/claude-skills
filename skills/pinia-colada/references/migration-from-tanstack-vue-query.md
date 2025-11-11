@@ -29,7 +29,7 @@ bun remove @tanstack/vue-query
 bun add @pinia/colada pinia
 
 # For Nuxt
-bun add @pinia/colada-nuxt
+bun add @pinia/nuxt @pinia/colada-nuxt
 ```
 
 ### Update Plugin Setup

@@ -125,7 +125,7 @@ This skill provides comprehensive guidance for implementing Pinia Colada, the sm
 bun add @pinia/colada pinia
 
 # Or for Nuxt project
-bun add @pinia/colada-nuxt
+bun add @pinia/nuxt @pinia/colada-nuxt
 
 # 2. Configure plugin (Vue)
 # Add to src/main.ts:

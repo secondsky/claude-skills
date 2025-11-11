@@ -30,8 +30,8 @@ bun add @pinia/colada pinia  # preferred
 
 **For Nuxt Projects:**
 ```bash
-bun add @pinia/colada-nuxt  # auto-installs @pinia/colada and sets up Pinia
-# or: npx nuxt module add @pinia/colada-nuxt
+bun add @pinia/nuxt @pinia/colada-nuxt  # install both Pinia and Pinia Colada modules
+# or: npm install @pinia/nuxt @pinia/colada-nuxt
 ```
 
 **Why this matters:**
@@ -1220,7 +1220,7 @@ cache.setQueryData<Todo[]>(['todos'], newTodos)
 - **vue@3.5.17+** - Framework (peer dependency)
 
 **Optional**:
-- **@pinia/colada-nuxt@0.17.8** - Nuxt module (auto-installs @pinia/colada)
+- **@pinia/colada-nuxt@0.17.8** - Nuxt module (requires @pinia/nuxt to be installed separately)
 - **@pinia/colada-plugin-auto-refetch** - Auto-refetch plugin
 - **@pinia/colada-plugin-auto-invalidate** - Auto-invalidate plugin
 
