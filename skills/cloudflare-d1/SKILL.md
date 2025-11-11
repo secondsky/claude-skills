@@ -10,14 +10,16 @@ description: |
   Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers,
   serverless database, edge database, d1 queries, sql cloudflare, prepared statements, batch queries,
   d1 api, wrangler migrations, D1_ERROR, D1_EXEC_ERROR, statement too long, database bindings,
-  sqlite cloudflare, sql workers api, d1 indexes, query optimization, d1 schema
+  sqlite cloudflare, sql workers api, d1 indexes, query optimization, d1 schema, read replication,
+  read replica, withSession, Sessions API, global replication, database replication, served_by_region,
+  bookmarks, sequential consistency
 license: MIT
 ---
 
 # Cloudflare D1 Database
 
-**Status**: Production Ready ✅
-**Last Updated**: 2025-10-21
+**Status**: Production Ready ✅ (Read Replication: Beta as of 2025-11-11)
+**Last Updated**: 2025-11-11
 **Dependencies**: cloudflare-worker-base (for Worker setup)
 **Latest Versions**: wrangler@4.43.0, @cloudflare/workers-types@4.20251014.0
 
@@ -756,6 +758,238 @@ const user = await env.DB.prepare('SELECT * FROM users WHERE email = ?')
 
 ---
 
+## Read Replication (Beta)
+
+**Status**: Beta (as of 2025-11-11)
+**Official Docs**: https://developers.cloudflare.com/d1/best-practices/read-replication/
+**Detailed Reference**: See `references/read-replication.md`
+
+### What Is Read Replication?
+
+D1 read replication creates asynchronously replicated read-only database copies across Cloudflare's global network. This reduces latency for read queries and scales read throughput by distributing operations to replicas located closer to users.
+
+**Architecture**:
+- **Primary Instance**: Handles all writes and can serve reads
+- **Read Replicas**: Read-only copies distributed globally across 6 regions
+- **Replication**: Asynchronous (replicas may lag slightly behind primary)
+- **Cost**: Free (included with D1)
+
+**Replica Locations**:
+- ENAM (Eastern North America)
+- WNAM (Western North America)
+- WEUR (Western Europe)
+- EEUR (Eastern Europe)
+- APAC (Asia-Pacific)
+- OC (Oceania)
+
+### Benefits
+
+✅ **Reduced Latency**: Users get faster responses from nearby replicas
+✅ **Increased Throughput**: Distributes read load globally
+✅ **Sequential Consistency**: Sessions API guarantees consistent reads
+✅ **Zero Cost**: Included at no additional charge
+
+### Enabling Read Replication
+
+**Method 1: Dashboard**
+1. Navigate to Workers & Pages > D1
+2. Select your database > Settings
+3. Enable Read Replication
+
+**Method 2: REST API**
+```bash
+curl -X PUT "https://api.cloudflare.com/client/v4/accounts/{account_id}/d1/database/{database_id}" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"read_replication": {"mode": "auto"}}'
+```
+
+Requires `D1:Edit` API token permission.
+
+### Sessions API for Consistency
+
+The Sessions API uses "bookmarks" to ensure sequential consistency across queries, preventing stale reads from lagging replicas.
+
+#### Pattern 1: Unconstrained (Any Instance)
+
+**Use when**: Slight staleness is acceptable (product catalogs, blogs)
+
+```typescript
+app.get('/api/products', async (c) => {
+  // Routes to nearest replica
+  const session = c.env.DB.withSession();
+
+  const { results } = await session
+    .prepare('SELECT * FROM products WHERE category = ? LIMIT 20')
+    .bind('electronics')
+    .all();
+
+  return c.json({ products: results });
+});
+```
+
+#### Pattern 2: Primary-First (Latest Data)
+
+**Use when**: Need most current data (user profiles, account settings)
+
+```typescript
+app.get('/api/user/profile', async (c) => {
+  // Always routes to primary for latest data
+  const session = c.env.DB.withSession('first-primary');
+
+  const user = await session
+    .prepare('SELECT * FROM users WHERE user_id = ?')
+    .bind(c.get('userId'))
+    .first();
+
+  return c.json({ user });
+});
+```
+
+#### Pattern 3: Bookmark-Based (Consistent Workflow)
+
+**Use when**: Multi-step workflows need consistency (checkout, wizards)
+
+```typescript
+app.post('/api/cart/add', async (c) => {
+  // Get bookmark from previous request
+  const bookmark = c.req.header('x-d1-bookmark') ?? 'first-unconstrained';
+  const session = c.env.DB.withSession(bookmark);
+
+  const { productId, quantity } = await c.req.json();
+
+  await session
+    .prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)')
+    .bind(c.get('userId'), productId, quantity)
+    .run();
+
+  // Return bookmark for next request
+  return c.json(
+    { success: true },
+    200,
+    { 'x-d1-bookmark': session.getBookmark() ?? '' }
+  );
+});
+
+app.get('/api/cart', async (c) => {
+  const bookmark = c.req.header('x-d1-bookmark') ?? 'first-unconstrained';
+  const session = c.env.DB.withSession(bookmark);
+
+  const { results } = await session
+    .prepare('SELECT * FROM cart_items WHERE user_id = ?')
+    .bind(c.get('userId'))
+    .all();
+
+  return c.json(
+    { items: results },
+    200,
+    { 'x-d1-bookmark': session.getBookmark() ?? '' }
+  );
+});
+```
+
+**Frontend**: Pass bookmark between requests
+```typescript
+let bookmark: string | null = null;
+
+async function apiCall(endpoint: string, options: RequestInit = {}) {
+  const headers = new Headers(options.headers);
+  if (bookmark) {
+    headers.set('x-d1-bookmark', bookmark);
+  }
+
+  const response = await fetch(endpoint, { ...options, headers });
+  bookmark = response.headers.get('x-d1-bookmark');
+
+  return response.json();
+}
+```
+
+### Monitoring Replica Usage
+
+Track which instance served your query:
+
+```typescript
+app.get('/api/data', async (c) => {
+  const session = c.env.DB.withSession();
+  const result = await session.prepare('SELECT * FROM data').all();
+
+  console.log({
+    servedByRegion: result.meta.served_by_region ?? 'unknown',
+    servedByPrimary: result.meta.served_by_primary ?? false,
+    rowsRead: result.meta.rows_read,
+    duration: result.meta.duration
+  });
+
+  return c.json({ data: result.results });
+});
+```
+
+**Metadata Fields**:
+- `served_by_region`: Region code (e.g., 'WNAM', 'EEUR')
+- `served_by_primary`: `true` if primary, `false` if replica
+- `rows_read` / `rows_written`: Query statistics
+- `duration`: Execution time in milliseconds
+
+### When to Use Read Replication
+
+**✅ Use When**:
+- Globally distributed users
+- Read-heavy workload (reads >> writes)
+- Read latency is critical
+- Can integrate Sessions API
+- Tolerates eventual consistency with proper bookmarks
+
+**❌ Don't Use When**:
+- Single-region application (no benefit)
+- Requires strong consistency without Sessions API
+- Write-heavy workload
+- Cannot implement Sessions API
+
+### Limitations (Beta)
+
+⚠️ **Current Limitations**:
+- Sessions API only via Worker Binding (not REST API yet)
+- Disabling replication takes up to 24 hours to propagate
+- All writes route to primary only (no write replicas)
+- Without Sessions API, replicas may serve stale data
+
+### Replica Lag
+
+**Normal lag**: Typically < 1 second
+**Problem without Sessions API**: May read stale data after writes
+
+```typescript
+// ❌ WITHOUT Sessions API - can read stale data
+await env.DB.prepare('INSERT INTO posts (title) VALUES (?)').bind('New Post').run();
+const posts = await env.DB.prepare('SELECT * FROM posts').all();  // Might miss new post
+
+// ✅ WITH Sessions API - guaranteed consistency
+const session = env.DB.withSession('first-primary');
+await session.prepare('INSERT INTO posts (title) VALUES (?)').bind('New Post').run();
+const posts = await session.prepare('SELECT * FROM posts').all();  // Always sees new post
+```
+
+### Best Practices
+
+✅ **Always Do**:
+- Use Sessions API for consistency
+- Implement bookmark passing for multi-step flows
+- Use `first-primary` after writes if immediate reads needed
+- Monitor `served_by_region` and `served_by_primary`
+- Test with replication enabled in development
+
+❌ **Never Do**:
+- Rely on strong consistency without Sessions API
+- Assume replicas are always current
+- Use for single-region apps (no benefit)
+- Forget bookmark passing in workflows
+- Enable without updating application code
+
+**Complete examples and migration guide**: See `references/read-replication.md`
+
+---
+
 ## Local Development
 
 ### Local vs Remote Databases
@@ -844,14 +1078,15 @@ npm install -D drizzle-kit
 
 ## Known Issues Prevented
 
-| Issue | Description | How to Avoid |
-|-------|-------------|--------------|
-| **Statement too long** | Large INSERT statements exceed D1 limits | Break into batches of 100-250 rows |
-| **Transaction conflicts** | `BEGIN TRANSACTION` in migration files | Remove BEGIN/COMMIT (D1 handles this) |
-| **Foreign key violations** | Schema changes break foreign key constraints | Use `PRAGMA defer_foreign_keys = true` |
-| **Rate limiting / queue overload** | Too many individual queries | Use `batch()` instead of loops |
-| **Memory limit exceeded** | Query loads too much data into memory | Add LIMIT, paginate results, shard queries |
-| **Type mismatch errors** | Using `undefined` instead of `null` | Always use `null` for optional values |
+| Issue | Description | How to Avoid | Reference |
+|-------|-------------|--------------|-----------|
+| **Statement too long** | Large INSERT statements exceed D1 limits | Break into batches of 100-250 rows | |
+| **Transaction conflicts** | `BEGIN TRANSACTION` in migration files | Remove BEGIN/COMMIT (D1 handles this) | |
+| **Foreign key violations** | Schema changes break foreign key constraints | Use `PRAGMA defer_foreign_keys = true` | |
+| **Rate limiting / queue overload** | Too many individual queries | Use `batch()` instead of loops | |
+| **Memory limit exceeded** | Query loads too much data into memory | Add LIMIT, paginate results, shard queries | |
+| **Type mismatch errors** | Using `undefined` instead of `null` | Always use `null` for optional values | |
+| **Read replica lag** | Async replication causes stale reads after writes | Use Sessions API with bookmarks for consistency | https://developers.cloudflare.com/d1/best-practices/read-replication/ |
 
 ---
 

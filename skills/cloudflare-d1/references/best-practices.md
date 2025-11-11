@@ -191,6 +191,175 @@ Benefits:
 
 ---
 
+## Read Replication (Beta)
+
+**Status**: Beta (as of 2025-11-11)
+**Reference**: See `read-replication.md` for complete guide
+**Official Docs**: https://developers.cloudflare.com/d1/best-practices/read-replication/
+
+### What It Is
+
+D1 read replication creates asynchronously replicated read-only database copies across Cloudflare's global network (6 regions: ENAM, WNAM, WEUR, EEUR, APAC, OC). This reduces read latency and increases throughput by routing queries to replicas closer to users.
+
+**Free feature** included with D1 at no additional cost.
+
+### Enabling Read Replication
+
+**Dashboard Method**:
+1. Navigate to Workers & Pages > D1
+2. Select your database > Settings
+3. Enable Read Replication
+
+**API Method**:
+```bash
+curl -X PUT "https://api.cloudflare.com/client/v4/accounts/{account_id}/d1/database/{database_id}" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"read_replication": {"mode": "auto"}}'
+```
+
+### Sessions API Patterns
+
+#### Unconstrained (Any Instance)
+
+Use when slight staleness is acceptable:
+
+```typescript
+// Routes to nearest replica
+const session = env.DB.withSession();
+const products = await session
+  .prepare('SELECT * FROM products WHERE category = ?')
+  .bind('electronics')
+  .all();
+```
+
+**Best for**: Product catalogs, blogs, public content
+
+#### Primary-First (Latest Data)
+
+Use when you need the most current data:
+
+```typescript
+// Always routes to primary
+const session = env.DB.withSession('first-primary');
+const user = await session
+  .prepare('SELECT * FROM users WHERE user_id = ?')
+  .bind(userId)
+  .first();
+```
+
+**Best for**: User profiles, account settings, financial data
+
+#### Bookmark-Based (Consistent Workflow)
+
+Use for multi-step workflows:
+
+```typescript
+// Get bookmark from previous request
+const bookmark = c.req.header('x-d1-bookmark') ?? 'first-unconstrained';
+const session = env.DB.withSession(bookmark);
+
+// Perform query
+const result = await session.prepare(query).bind(...params).run();
+
+// Return bookmark for next request
+return c.json(data, 200, {
+  'x-d1-bookmark': session.getBookmark() ?? ''
+});
+```
+
+**Best for**: Checkout flows, wizards, shopping carts
+
+### Monitoring
+
+Track which instance served your query:
+
+```typescript
+const result = await session.prepare(query).run();
+console.log({
+  servedByRegion: result.meta.served_by_region,
+  servedByPrimary: result.meta.served_by_primary,
+  rowsRead: result.meta.rows_read
+});
+```
+
+### When to Use
+
+✅ **Use When**:
+- Globally distributed users
+- Read-heavy workload (reads >> writes)
+- Read latency is a performance bottleneck
+- Can integrate Sessions API
+- Tolerate eventual consistency with bookmarks
+
+❌ **Don't Use When**:
+- Single-region application (no benefit)
+- Requires strong consistency without Sessions API
+- Write-heavy workload
+- Cannot implement Sessions API
+
+### Common Pitfalls
+
+**❌ Forgetting Sessions API**:
+```typescript
+// Bad: Can read stale data after write
+await env.DB.prepare('INSERT INTO posts VALUES (?)').bind('New').run();
+const posts = await env.DB.prepare('SELECT * FROM posts').all();  // Might not see new post
+```
+
+**✅ Using Sessions API**:
+```typescript
+// Good: Guaranteed consistency
+const session = env.DB.withSession('first-primary');
+await session.prepare('INSERT INTO posts VALUES (?)').bind('New').run();
+const posts = await session.prepare('SELECT * FROM posts').all();  // Always sees new post
+```
+
+**❌ Not Passing Bookmarks**:
+```typescript
+// Bad: Loses consistency across requests
+app.post('/cart/add', async (c) => {
+  const session = env.DB.withSession();
+  // ... add to cart ...
+  return c.json({ success: true });  // No bookmark returned!
+});
+```
+
+**✅ Passing Bookmarks**:
+```typescript
+// Good: Maintains consistency
+app.post('/cart/add', async (c) => {
+  const bookmark = c.req.header('x-d1-bookmark') ?? 'first-unconstrained';
+  const session = env.DB.withSession(bookmark);
+  // ... add to cart ...
+  return c.json({ success: true }, 200, {
+    'x-d1-bookmark': session.getBookmark() ?? ''
+  });
+});
+```
+
+### Limitations (Beta)
+
+⚠️ **Current Limitations**:
+- Sessions API only via Worker Binding (not REST API yet)
+- Disabling replication takes up to 24 hours to propagate
+- All writes always route to primary instance
+- Replica lag typically < 1 second (but not guaranteed)
+
+### Best Practices Checklist
+
+- [ ] Enable read replication via dashboard or API
+- [ ] Update code to use Sessions API (`withSession()`)
+- [ ] Implement bookmark passing for multi-step workflows
+- [ ] Use `first-primary` after writes if immediate reads needed
+- [ ] Monitor `served_by_region` and `served_by_primary` metrics
+- [ ] Test with replication enabled in development
+- [ ] Document which routes use which session pattern
+
+**For complete examples and migration guide**: See `read-replication.md`
+
+---
+
 ## Migrations
 
 ### Make Migrations Idempotent

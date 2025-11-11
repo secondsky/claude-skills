@@ -34,6 +34,12 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - sqlite cloudflare workers
 - sql workers api
 - database bindings cloudflare
+- read replication d1
+- d1 replicas
+- withSession
+- global d1 database
+- Sessions API
+- served_by_region
 
 ### Error-Based Triggers
 - "D1_ERROR"
@@ -76,6 +82,7 @@ Claude will automatically suggest this skill when you mention any of these keywo
 | **Memory Exceeded** | "DB's isolate exceeded its memory limit" | Adds LIMIT clauses and pagination patterns |
 | **Foreign Key Violations** | "foreign key constraint failed" | Uses `PRAGMA defer_foreign_keys = true` |
 | **Index Not Used** | Slow queries | Templates include EXPLAIN QUERY PLAN examples |
+| **Stale Reads from Replicas** | - | Uses Sessions API with bookmarks for consistency (Beta: 2025-11-11) |
 
 ---
 
@@ -183,5 +190,5 @@ const user = await env.DB.prepare('SELECT * FROM users WHERE email = ?')
 ---
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-11-11 (Read Replication added - Beta)
 **Maintainer**: Claude Skills Maintainers
