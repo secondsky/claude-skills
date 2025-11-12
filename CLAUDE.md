@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 86 Skills Complete
+**Status**: Active Development | 87 Skills Complete
 **Last Updated**: 2025-11-12
 
 ---
@@ -55,13 +55,13 @@ claude-skills/
 ├── CHANGELOG.md                  # Version history
 ├── LICENSE                       # MIT License
 │
-├── skills/                       # ← All production skills (86 total)
+├── skills/                       # ← All production skills (87 total)
 │   ├── tailwind-v4-shadcn/       # Gold standard example
 │   ├── cloudflare-worker-base/   # Foundation skill
 │   ├── ai-sdk-core/              # AI integration
 │   ├── openai-agents/            # OpenAI Agents SDK
 │   ├── project-planning/         # Planning automation
-│   └── [80 more skills...]       # Run ls skills/ for full list
+│   └── [81 more skills...]       # Run ls skills/ for full list
 │
 ├── templates/                    # ← Templates for new skills
 │   ├── SKILL-TEMPLATE.md         # Copy-paste SKILL.md starter
@@ -95,9 +95,9 @@ claude-skills/
 
 ## Current Status (2025-11-12)
 
-### ✅ Completed Skills (86)
+### ✅ Completed Skills (87)
 
-All 86 skills are production-ready and organized by domain:
+All 87 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -113,10 +113,10 @@ All 86 skills are production-ready and organized by domain:
 - google-gemini-api, google-gemini-embeddings, claude-api, claude-agent-sdk, thesys-generative-ui
 - elevenlabs-agents
 
-**Frontend & UI** (24 skills):
+**Frontend & UI** (25 skills):
 - tailwind-v4-shadcn, react-hook-form-zod, tanstack-query, zustand-state-management
 - nextjs, hono-routing, firecrawl-scraper, inspira-ui, aceternity-ui, shadcn-vue
-- base-ui-react, auto-animate, motion, nuxt-v4, nuxt-ui-v4
+- base-ui-react, auto-animate, motion, nuxt-v4, nuxt-ui-v4, frontend-design
 - tanstack-router, tanstack-start, tanstack-table, pinia-v3, pinia-colada
 - ultracite, zod, hugo, wordpress-plugin-core
 
