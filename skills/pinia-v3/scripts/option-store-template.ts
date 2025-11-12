@@ -1,7 +1,7 @@
 // Option Store Template
 // Copy this template when creating new stores with Options API style
 
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 
 // Define TypeScript interfaces for type safety
 interface User {

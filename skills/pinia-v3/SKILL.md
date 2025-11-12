@@ -152,6 +152,7 @@ export const useCounterStore = defineStore('counter', () => {
   // ref() = state
   const count = ref(0)
   const name = ref('Eduardo')
+  const items = ref([])
 
   // computed() = getters
   const doubleCount = computed(() => count.value * 2)
@@ -167,7 +168,7 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   // MUST return everything you want exposed
-  return { count, name, doubleCount, increment, fetchData }
+  return { count, name, items, doubleCount, increment, fetchData }
 })
 ```
 
@@ -687,7 +688,7 @@ const pinia = createPinia()
 
 // CRITICAL: Hydrate BEFORE using any stores
 if (typeof window !== 'undefined') {
-  pinia.state.value = JSON.parse(window.__pinia)
+  pinia.state.value = window.__pinia
 }
 
 const app = createApp(App)

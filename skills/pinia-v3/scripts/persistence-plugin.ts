@@ -70,12 +70,7 @@ export function selectivePersistPlugin({ options, store }: PiniaPluginContext) {
   })
 }
 
-// TypeScript declaration for custom option
-declare module 'pinia' {
-  export interface DefineStoreOptionsBase<S, Store> {
-    persist?: boolean
-  }
-}
+// TypeScript declaration for custom option (removed - see advanced plugin declaration below)
 
 // ============================================
 // ADVANCED PERSISTENCE PLUGIN
@@ -86,6 +81,7 @@ interface PersistOptions {
   storage?: 'local' | 'session'
   key?: string
   paths?: string[] // Specific state paths to persist
+  debounce?: number // Debounce delay in milliseconds
   beforeRestore?: (context: PiniaPluginContext) => void
   afterRestore?: (context: PiniaPluginContext) => void
 }
@@ -122,7 +118,10 @@ export function advancedPersistPlugin({ options, store }: PiniaPluginContext) {
   const setPathValue = (obj: any, path: string, value: any) => {
     const parts = path.split('.')
     const last = parts.pop()!
-    const target = parts.reduce((acc, part) => acc[part], obj)
+    const target = parts.reduce((acc, part) => {
+      if (!(part in acc)) acc[part] = {}
+      return acc[part]
+    }, obj)
     target[last] = value
   }
 
