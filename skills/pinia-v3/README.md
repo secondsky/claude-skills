@@ -189,11 +189,11 @@ const counter = useCounterStore()
 
 | Package | Version | Status |
 |---------|---------|--------|
-| pinia | 2.2.0 | ✅ Latest stable |
-| @pinia/nuxt | 0.5.0 | ✅ Latest stable |
-| @pinia/testing | 0.1.0 | ✅ Latest stable |
-| vue | 3.4.0+ | ✅ Compatible |
-| devalue | 5.0.0 | ✅ For SSR serialization |
+| pinia | 3.0.4 | ✅ Latest stable |
+| @pinia/nuxt | 0.11.2 | ✅ Latest stable |
+| @pinia/testing | 1.0.2 | ✅ Latest stable |
+| vue | 3.5.24 | ✅ Compatible |
+| devalue | 5.3.2 | ✅ For SSR serialization |
 
 ---
 

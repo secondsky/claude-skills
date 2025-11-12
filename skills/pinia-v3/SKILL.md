@@ -14,7 +14,7 @@ license: MIT
 **Status**: Production Ready ✅
 **Last Updated**: 2025-11-11
 **Dependencies**: Vue 3 (or Vue 2.7 with @vue/composition-api)
-**Latest Versions**: pinia@^2.2.0, @pinia/nuxt@^0.5.0, @pinia/testing@^0.1.0
+**Latest Versions**: pinia@^3.0.4, @pinia/nuxt@^0.11.2, @pinia/testing@^1.0.2
 
 ---
 
@@ -1479,8 +1479,8 @@ This skill prevents **12** documented issues:
   "name": "my-vue-app",
   "type": "module",
   "dependencies": {
-    "vue": "^3.4.0",
-    "pinia": "^2.2.0"
+    "vue": "^3.5.24",
+    "pinia": "^3.0.4"
   }
 }
 ```
@@ -1493,8 +1493,8 @@ This skill prevents **12** documented issues:
   "type": "module",
   "dependencies": {
     "nuxt": "^3.13.0",
-    "@pinia/nuxt": "^0.5.0",
-    "pinia": "^2.2.0"
+    "@pinia/nuxt": "^0.11.2",
+    "pinia": "^3.0.4"
   }
 }
 ```
@@ -1506,11 +1506,11 @@ This skill prevents **12** documented issues:
   "name": "my-vue-app",
   "type": "module",
   "dependencies": {
-    "vue": "^3.4.0",
-    "pinia": "^2.2.0"
+    "vue": "^3.5.24",
+    "pinia": "^3.0.4"
   },
   "devDependencies": {
-    "@pinia/testing": "^0.1.0",
+    "@pinia/testing": "^1.0.2",
     "@vue/test-utils": "^2.4.0",
     "vitest": "^1.0.0"
   }
@@ -1518,7 +1518,7 @@ This skill prevents **12** documented issues:
 ```
 
 **Why these settings:**
-- `pinia@^2.2.0` is the latest stable version
+- `pinia@^3.0.4` is the latest stable version
 - `@pinia/nuxt` auto-configures Pinia for Nuxt 3/4
 - `@pinia/testing` provides `createTestingPinia()` for component tests
 - Vuex not needed (Pinia replaces it)
@@ -1729,15 +1729,15 @@ export const useFormStore = defineStore('form', () => {
 ```json
 {
   "dependencies": {
-    "vue": "^3.4.0",
-    "pinia": "^2.2.0"
+    "vue": "^3.5.24",
+    "pinia": "^3.0.4"
   },
   "devDependencies": {
-    "@pinia/testing": "^0.1.0",
-    "@pinia/nuxt": "^0.5.0",
+    "@pinia/testing": "^1.0.2",
+    "@pinia/nuxt": "^0.11.2",
     "@vue/test-utils": "^2.4.0",
     "vitest": "^1.0.0",
-    "devalue": "^5.0.0"
+    "devalue": "^5.3.2"
   }
 }
 ```
