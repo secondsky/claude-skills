@@ -12,6 +12,9 @@ import { watch } from 'vue'
  * Basic plugin that persists ALL stores to localStorage
  */
 export function persistPlugin({ store }: PiniaPluginContext) {
+  // Guard against SSR environments where localStorage is undefined
+  if (typeof window === 'undefined' || !window.localStorage) return
+
   // Restore state from localStorage on store initialization
   const stored = localStorage.getItem(store.$id)
   if (stored) {
@@ -47,6 +50,9 @@ export function persistPlugin({ store }: PiniaPluginContext) {
  */
 export function selectivePersistPlugin({ options, store }: PiniaPluginContext) {
   if (!options.persist) return
+
+  // Guard against SSR environments where localStorage is undefined
+  if (typeof window === 'undefined' || !window.localStorage) return
 
   const storageKey = `pinia_${store.$id}`
 
@@ -106,6 +112,11 @@ export function advancedPersistPlugin({ options, store }: PiniaPluginContext) {
   const persist = options.persist as PersistOptions | undefined
 
   if (!persist || !persist.enabled) return
+
+  // Guard against SSR environments where storage APIs are undefined
+  if (typeof window === 'undefined') return
+  const requestedStorage = persist.storage === 'session' ? 'sessionStorage' : 'localStorage'
+  if (!window[requestedStorage]) return
 
   const storage = persist.storage === 'session' ? sessionStorage : localStorage
   const key = persist.key || `pinia_${store.$id}`
@@ -202,6 +213,9 @@ declare module 'pinia' {
  */
 export function debouncedPersistPlugin({ options, store }: PiniaPluginContext) {
   if (!options.persist) return
+
+  // Guard against SSR environments where localStorage is undefined
+  if (typeof window === 'undefined' || !window.localStorage) return
 
   const storageKey = `pinia_${store.$id}`
   const debounceMs = typeof options.persist === 'object'
