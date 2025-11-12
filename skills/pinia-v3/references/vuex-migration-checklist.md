@@ -38,7 +38,7 @@ Complete checklist for migrating from Vuex to Pinia safely and efficiently.
 ### Step 1: Directory Structure
 
 **Before (Vuex):**
-```
+```text
 src/store/
 ├── index.js
 └── modules/
@@ -51,7 +51,7 @@ src/store/
 ```
 
 **After (Pinia):**
-```
+```text
 src/stores/
 ├── auth.ts
 ├── cart.ts
