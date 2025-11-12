@@ -3,8 +3,8 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 65 Skills Complete
-**Last Updated**: 2025-11-07
+**Status**: Active Development | 86 Skills Complete
+**Last Updated**: 2025-11-12
 
 ---
 
@@ -55,13 +55,13 @@ claude-skills/
 ├── CHANGELOG.md                  # Version history
 ├── LICENSE                       # MIT License
 │
-├── skills/                       # ← All production skills (65 total)
+├── skills/                       # ← All production skills (86 total)
 │   ├── tailwind-v4-shadcn/       # Gold standard example
 │   ├── cloudflare-worker-base/   # Foundation skill
 │   ├── ai-sdk-core/              # AI integration
 │   ├── openai-agents/            # OpenAI Agents SDK
 │   ├── project-planning/         # Planning automation
-│   └── [45 more skills...]       # Run ls skills/ for full list
+│   └── [80 more skills...]       # Run ls skills/ for full list
 │
 ├── templates/                    # ← Templates for new skills
 │   ├── SKILL-TEMPLATE.md         # Copy-paste SKILL.md starter
@@ -93,40 +93,50 @@ claude-skills/
 
 ---
 
-## Current Status (2025-11-07)
+## Current Status (2025-11-12)
 
-### ✅ Completed Skills (65)
+### ✅ Completed Skills (86)
 
-All 65 skills are production-ready and organized by domain:
+All 86 skills are production-ready and organized by domain:
 
-**Cloudflare Platform** (27 skills):
+**Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
 - cloudflare-workers-ai, cloudflare-vectorize, cloudflare-queues, cloudflare-workflows
 - cloudflare-durable-objects, cloudflare-agents, cloudflare-mcp-server, cloudflare-turnstile
 - cloudflare-nextjs, cloudflare-cron-triggers, cloudflare-email-routing
 - cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
 - cloudflare-zero-trust-access, cloudflare-full-stack-scaffold, cloudflare-full-stack-integration
-- And 6 more...
+- cloudflare-manager, cloudflare-sandbox
 
-**AI & Machine Learning** (10 skills):
+**AI & Machine Learning** (12 skills):
 - ai-sdk-core, ai-sdk-ui, openai-api, openai-agents, openai-assistants, openai-responses
 - google-gemini-api, google-gemini-embeddings, claude-api, claude-agent-sdk, thesys-generative-ui
+- elevenlabs-agents
 
-**Frontend & UI** (7 skills):
+**Frontend & UI** (24 skills):
 - tailwind-v4-shadcn, react-hook-form-zod, tanstack-query, zustand-state-management
-- nextjs, hono-routing, firecrawl-scraper
+- nextjs, hono-routing, firecrawl-scraper, inspira-ui, aceternity-ui, shadcn-vue
+- base-ui-react, auto-animate, motion, nuxt-v4, nuxt-ui-v4
+- tanstack-router, tanstack-start, tanstack-table, pinia-v3, pinia-colada
+- ultracite, zod, hugo, wordpress-plugin-core
 
 **Auth & Security** (3 skills):
 - clerk-auth, better-auth, cloudflare-zero-trust-access
 
-**Content Management** (2 skills):
-- tinacms, sveltia-cms
+**Content Management** (5 skills):
+- tinacms, sveltia-cms, nuxt-content, nuxt-seo, content-collections
 
 **Database & ORM** (4 skills):
 - drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
 
-**Tooling & Planning** (4 skills):
+**Tooling & Planning** (11 skills):
 - typescript-mcp, fastmcp, project-planning, project-session-management
+- mcp-dynamic-orchestrator, skill-review, dependency-upgrade, github-project-automation
+- open-source-contributions, swift-best-practices, claude-code-bash-patterns
+
+**AI Chatbots & Prompts** (5 skills):
+- ai-elements-chatbot, better-chatbot, better-chatbot-patterns
+- multi-ai-consultant, nano-banana-prompts
 
 **Quality Standards**:
 - ✅ All production-tested
@@ -449,6 +459,6 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 
 ---
 
-**Last Updated**: 2025-11-07
-**Next Review**: 2026-01-29 (Quarterly)
+**Last Updated**: 2025-11-12
+**Next Review**: 2026-02-12 (Quarterly)
 **Maintainer**: Claude Skills Maintainers | maintainers@example.com | https://github.com/secondsky/claude-skills
