@@ -7,7 +7,7 @@
 
 ## Overview
 
-This skill enables Claude Code to expertly implement Inspira UI components in Vue 3 and Nuxt 3 applications. Inspira UI is a collection of 120+ beautifully animated, copy-paste components powered by TailwindCSS v4, motion-v, GSAP, and Three.js.
+This skill enables Claude Code to expertly implement Inspira UI components in Vue 3 and Nuxt 4 applications. Inspira UI is a collection of 120+ beautifully animated, copy-paste components powered by TailwindCSS v4, motion-v, GSAP, and Three.js.
 
 ## What is Inspira UI?
 
@@ -18,7 +18,7 @@ Inspira UI is **not a traditional npm component library**. It's a curated collec
 This skill automatically activates when you mention:
 
 ### Frameworks & Tools
-- Vue 3, Nuxt 3, Vue.js animations
+- Vue 3, Nuxt 4, Vue.js animations
 - TailwindCSS v4 animated components
 - motion-v animations, Three.js Vue components
 - WebGL Vue components, animated UI library
@@ -220,11 +220,11 @@ This skill prevents these common mistakes:
 ## Technical Requirements
 
 - **Vue**: 3.0+
-- **Nuxt**: 3.0+ (optional)
-- **TailwindCSS**: 4.0+ (v3 supported in Inspira UI v1)
+- **Nuxt**: 4.0+ (optional)
+- **TailwindCSS**: 4.0 (required - v3 supported in Inspira UI v1)
 - **Node.js**: 18+
 - **TypeScript**: Recommended
-- **Bun/npm/pnpm**: Any package manager
+- **Bun/npm/pnpm**: Any package manager (Bun preferred)
 
 ## File Structure
 

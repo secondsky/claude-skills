@@ -1,7 +1,7 @@
 ---
 name: inspira-ui
 description: |
-  This skill should be used when building Vue or Nuxt applications with animated UI components and effects. Inspira UI provides 120+ production-ready components including backgrounds (aurora, cosmic portal, particles), buttons (shimmer, ripple, rainbow), cards (3D, flip, spotlight), text animations (morphing, glitch, hyper text), special effects (confetti, meteors, neon borders), cursors (fluid, tailed), visualizations (3D globe, carousels, icon cloud), input forms (color picker, file upload), device mocks (iPhone, Safari), and miscellaneous components (dock, timeline, bento grid). Built with TailwindCSS v4, motion-v, GSAP, and Three.js for Vue 3 and Nuxt 3 projects. This skill should be used when implementing animated hero sections, interactive backgrounds, modern UI effects, 3D visualizations, form inputs with effects, testimonial blocks, or any animated web interface components for Vue/Nuxt applications. Prevents common pitfalls with TailwindCSS v4 setup, CSS variables configuration, motion-v integration, component prop typing, and WebGL dependencies.
+  This skill should be used when building Vue or Nuxt applications with animated UI components and effects. Inspira UI provides 120+ production-ready components including backgrounds (aurora, cosmic portal, particles), buttons (shimmer, ripple, rainbow), cards (3D, flip, spotlight), text animations (morphing, glitch, hyper text), special effects (confetti, meteors, neon borders), cursors (fluid, tailed), visualizations (3D globe, carousels, icon cloud), input forms (color picker, file upload), device mocks (iPhone, Safari), and miscellaneous components (dock, timeline, bento grid). Built with TailwindCSS v4, motion-v, GSAP, and Three.js for Vue 3 and Nuxt 4 projects. This skill should be used when implementing animated hero sections, interactive backgrounds, modern UI effects, 3D visualizations, form inputs with effects, testimonial blocks, or any animated web interface components for Vue/Nuxt applications. Prevents common pitfalls with TailwindCSS v4 setup, CSS variables configuration, motion-v integration, component prop typing, and WebGL dependencies.
 license: MIT
 metadata:
   package: N/A (copy-paste component library)
@@ -25,7 +25,7 @@ Use Inspira UI when building:
 - **Portfolio sites** with image galleries, carousels, and showcase effects
 - **Interactive experiences** with custom cursors, special effects, and particle systems
 - **Forms and inputs** with modern animated effects and validation
-- **Vue 3 or Nuxt 3 projects** requiring production-ready animated components
+- **Vue 3 or Nuxt 4 projects** requiring production-ready animated components
 
 **Key Benefits**:
 - 120+ copy-paste components (not a traditional library)
@@ -219,8 +219,8 @@ Use Inspira UI when building:
 ### Prerequisites
 
 Ensure you have:
-- **Vue 3** or **Nuxt 3** project
-- **TailwindCSS v4+** (for v3 users, see [Inspira UI v1](https://v1.inspira-ui.com))
+- **Vue 3** or **Nuxt 4** project
+- **TailwindCSS v4** (required - for TailwindCSS v3, see [Inspira UI v1](https://v1.inspira-ui.com))
 - **Node.js 18+** recommended
 - **Bun** (recommended) or npm/pnpm
 
@@ -715,7 +715,7 @@ For components using browser APIs:
 
 ## Keywords for Discovery
 
-**Frameworks**: Vue, Vue 3, Nuxt, Nuxt 3, Vue.js, Composition API, script setup
+**Frameworks**: Vue, Vue 3, Nuxt, Nuxt 4, Vue.js, Composition API, script setup
 
 **Styling**: TailwindCSS, TailwindCSS v4, Tailwind CSS, OkLch, CSS variables, dark mode, responsive design, utility-first CSS
 
@@ -772,8 +772,8 @@ For components using browser APIs:
 - **Previous Version**: [v1.0 for TailwindCSS v3](https://v1.inspira-ui.com)
 - **Last Verified**: 2025-11-12
 - **Vue Support**: Vue 3+
-- **Nuxt Support**: Nuxt 3+
-- **TailwindCSS**: v4+ (v3 supported in v1)
+- **Nuxt Support**: Nuxt 4+
+- **TailwindCSS**: v4 (required - v3 supported in Inspira UI v1)
 
 ## Related Technologies
 
