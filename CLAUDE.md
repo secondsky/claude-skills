@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 87 Skills Complete
+**Status**: Active Development | 88 Skills Complete
 **Last Updated**: 2025-11-12
 
 ---
@@ -55,13 +55,13 @@ claude-skills/
 ├── CHANGELOG.md                  # Version history
 ├── LICENSE                       # MIT License
 │
-├── skills/                       # ← All production skills (87 total)
+├── skills/                       # ← All production skills (88 total)
 │   ├── tailwind-v4-shadcn/       # Gold standard example
 │   ├── cloudflare-worker-base/   # Foundation skill
 │   ├── ai-sdk-core/              # AI integration
 │   ├── openai-agents/            # OpenAI Agents SDK
 │   ├── project-planning/         # Planning automation
-│   └── [81 more skills...]       # Run ls skills/ for full list
+│   └── [82 more skills...]       # Run ls skills/ for full list
 │
 ├── templates/                    # ← Templates for new skills
 │   ├── SKILL-TEMPLATE.md         # Copy-paste SKILL.md starter
@@ -95,9 +95,9 @@ claude-skills/
 
 ## Current Status (2025-11-12)
 
-### ✅ Completed Skills (87)
+### ✅ Completed Skills (88)
 
-All 87 skills are production-ready and organized by domain:
+All 88 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -129,10 +129,10 @@ All 87 skills are production-ready and organized by domain:
 **Database & ORM** (4 skills):
 - drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
 
-**Tooling & Planning** (11 skills):
+**Tooling & Planning** (12 skills):
 - typescript-mcp, fastmcp, project-planning, project-session-management
 - mcp-dynamic-orchestrator, skill-review, dependency-upgrade, github-project-automation
-- open-source-contributions, swift-best-practices, claude-code-bash-patterns
+- open-source-contributions, swift-best-practices, claude-code-bash-patterns, feature-dev
 
 **AI Chatbots & Prompts** (5 skills):
 - ai-elements-chatbot, better-chatbot, better-chatbot-patterns

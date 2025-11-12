@@ -1,0 +1,12 @@
+{
+  "name": "feature-dev",
+  "description": "A comprehensive, structured workflow for feature development with specialized agents for codebase exploration, architecture design, and quality review",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}
