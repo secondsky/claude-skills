@@ -8,22 +8,5 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "tools": [
-  {
-    "name": "list_mcp_capabilities",
-    "description": "List configured MCP servers and their high-level capabilities from mcp.registry.json with optional filters.",
-    "timeout": 10000
-  },
-  {
-    "name": "describe_mcp",
-    "description": "Describe a specific MCP: summary, tools, and bounded schema excerpts, based on registry and live metadata.",
-    "timeout": 15000
-  },
-  {
-    "name": "execute_mcp_code",
-    "description": "Execute sandboxed TypeScript/JavaScript that imports mcp-clients/* modules to call MCPs declared in the registry.",
-    "timeout": 60000
-  }
-],
-"keywords": ["MCP","code-mode","registry","dynamic tools","tool discovery","progressive disclosure"]
+  "keywords": ["MCP","code-mode","registry","dynamic tools","tool discovery","progressive disclosure"]
 }
