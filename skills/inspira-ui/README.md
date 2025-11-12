@@ -81,7 +81,7 @@ Animated Beam, Border Beam, Confetti, Glow Border, Glowing Effect, Meteors, Neon
 3D Text, Blur Reveal, Box Reveal, Colorful Text, Container Text Flip, Flip Words, Focus, Hyper Text, Letter Pullup, Line Shadow Text, Morphing Text, Number Ticker, Radiant Text, Sparkles Text, Spinning Text, Text Generate Effect, Text Glitch, Text Highlight, Text Hover Effect, Text Reveal, Text Reveal Card, Text Scroll Reveal
 
 ### 📊 21 Visualization Components
-Bending Gallery, 3D Carousel, File Tree, Github Globe, Globe, Icon Cloud, Infinite Grid, Light Speed, Liquid Glass, Liquid Logo, Logo Cloud, Logo Origami, Orbit, Spline, World Map
+Bending Gallery, 3D Carousel, File Tree, GitHub Globe, Globe, Icon Cloud, Infinite Grid, Light Speed, Liquid Glass, Liquid Logo, Logo Cloud, Logo Origami, Orbit, Spline, World Map
 
 ### 🧱 2 Pre-built Block Sections
 Hero, Testimonials

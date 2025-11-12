@@ -194,7 +194,7 @@ Use Inspira UI when building:
 1. **Bending Gallery** - Curved, scrollable 3D gallery with WebGL (OGL)
 2. **3D Carousel** - Dynamic interactive 3D carousel using Three.js and Motion-V
 3. **File Tree** - Component showcasing folder and file structure
-4. **Github Globe** - 3D interactive globe with arcs and points (GitHub-inspired)
+4. **GitHub Globe** - 3D interactive globe with arcs and points (GitHub-inspired)
 5. **Globe** - Interactive rotating globe component
 6. **Icon Cloud** - Interactive 3D tag cloud component
 7. **Infinite Grid** - High-performance interactive 3D infinite grid (OGL)

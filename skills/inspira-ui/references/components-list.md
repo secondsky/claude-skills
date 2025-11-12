@@ -158,7 +158,7 @@ Complete list of all 120+ components organized by category.
 | Bending Gallery | Curved, scrollable 3D gallery with WebGL | ogl |
 | 3D Carousel | Dynamic interactive 3D carousel | three, motion-v |
 | File Tree | Component showcasing folder and file structure | CSS |
-| Github Globe | 3D interactive globe with arcs and points | three |
+| GitHub Globe | 3D interactive globe with arcs and points | three |
 | Globe | Interactive rotating globe component | three |
 | Icon Cloud | Interactive 3D tag cloud component | three |
 | Infinite Grid | High-performance interactive 3D infinite grid | ogl |
