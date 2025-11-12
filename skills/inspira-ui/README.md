@@ -204,18 +204,19 @@ Visit [inspira-ui.com/components](https://inspira-ui.com/components), find the c
 
 This skill prevents these common mistakes:
 
-1. ❌ Missing `@import "tw-animate-css"` in CSS
-2. ❌ Incorrect OkLch color syntax in CSS variables
-3. ❌ Motion-V not configured for Vue/Nuxt
-4. ❌ Missing `cn()` utility causing class conflicts
-5. ❌ Props typed with object syntax instead of interfaces
-6. ❌ Three.js components without `<ClientOnly>` in Nuxt
-7. ❌ Missing explicit imports breaking Vue.js compatibility
-8. ❌ WebGL components failing without proper dependencies
-9. ❌ Dark mode CSS variables not defined
-10. ❌ `@theme inline` block missing or misconfigured
-11. ❌ Component-specific dependencies not installed
-12. ❌ Shader/canvas components without browser checks
+1. ❌ **CRITICAL**: `--destructive-foreground` same as `--destructive` causing invisible text (upstream Inspira UI bug)
+2. ❌ Missing `@import "tw-animate-css"` in CSS
+3. ❌ Incorrect OkLch color syntax in CSS variables
+4. ❌ Motion-V not configured for Vue/Nuxt
+5. ❌ Missing `cn()` utility causing class conflicts
+6. ❌ Props typed with object syntax instead of interfaces
+7. ❌ Three.js components without `<ClientOnly>` in Nuxt
+8. ❌ Missing explicit imports breaking Vue.js compatibility
+9. ❌ WebGL components failing without proper dependencies
+10. ❌ Dark mode CSS variables not defined
+11. ❌ `@theme inline` block missing or misconfigured
+12. ❌ Component-specific dependencies not installed
+13. ❌ Shader/canvas components without browser checks
 
 ## Technical Requirements
 

@@ -268,7 +268,7 @@ Add the following to your `main.css` or global CSS file:
   --accent: oklch(0.967 0.001 286.375);
   --accent-foreground: oklch(0.21 0.006 285.885);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
   --ring: oklch(0.705 0.015 286.067);
@@ -345,6 +345,8 @@ html.light {
   color-scheme: light;
 }
 ```
+
+**IMPORTANT NOTE**: The CSS variables above have been corrected from the original Inspira UI documentation. The original docs have a critical accessibility bug where `--destructive-foreground` in light mode is set to the same value as `--destructive` (both `oklch(0.577 0.245 27.325)`), making destructive text invisible against its background. This skill uses the corrected value `oklch(0.985 0 0)` for proper contrast.
 
 ### Step 4: Setup CN Utility
 
@@ -744,19 +746,20 @@ For components using browser APIs:
 - Without skill: ~15k tokens (trial-and-error with TailwindCSS v4, motion-v setup, component integration)
 - With skill: ~5k tokens (direct component implementation with proper setup)
 
-**Errors Prevented**: 12+ common issues
-1. TailwindCSS v4 CSS variables misconfiguration
-2. Missing `@import "tw-animate-css"` causing animation failures
-3. OkLch color space syntax errors
-4. Motion-V setup and import issues
-5. Missing `cn()` utility causing class merge problems
-6. Incorrect props typing (object syntax vs interface)
-7. Missing explicit imports breaking Vue.js compatibility
-8. Three.js/OGL components without `<ClientOnly>` in Nuxt
-9. WebGL/canvas components failing without proper dependencies
-10. CSS variable not mapped to Tailwind theme
-11. Dark mode variables missing or misconfigured
-12. Component-specific dependencies not installed
+**Errors Prevented**: 13+ common issues
+1. Critical accessibility bug: `--destructive-foreground` same as `--destructive` (upstream Inspira UI bug)
+2. TailwindCSS v4 CSS variables misconfiguration
+3. Missing `@import "tw-animate-css"` causing animation failures
+4. OkLch color space syntax errors
+5. Motion-V setup and import issues
+6. Missing `cn()` utility causing class merge problems
+7. Incorrect props typing (object syntax vs interface)
+8. Missing explicit imports breaking Vue.js compatibility
+9. Three.js/OGL components without `<ClientOnly>` in Nuxt
+10. WebGL/canvas components failing without proper dependencies
+11. CSS variable not mapped to Tailwind theme
+12. Dark mode variables missing or misconfigured
+13. Component-specific dependencies not installed
 
 ## Resources
 
