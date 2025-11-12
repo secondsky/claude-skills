@@ -1,0 +1,53 @@
+{
+  "name": "mcp-dynamic-orchestrator",
+  "version": "1.0.0",
+  "description": "Dynamic discovery and code-mode execution for MCP servers with progressive disclosure",
+  "type": "module",
+  "main": "src/orchestrator.ts",
+  "scripts": {
+    "test": "node --loader ts-node/esm tests/orchestrator.test.ts",
+    "lint": "eslint src/**/*.ts scripts/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "validate-registry": "node --loader ts-node/esm scripts/validate-registry.ts"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "orchestrator",
+    "code-mode",
+    "progressive-disclosure",
+    "dynamic-tools",
+    "registry",
+    "json-rpc",
+    "claude-code",
+    "skill"
+  ],
+  "author": "Claude Skills Maintainers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/secondsky/claude-skills",
+    "directory": "skills/mcp-dynamic-orchestrator"
+  },
+  "bugs": {
+    "url": "https://github.com/secondsky/claude-skills/issues"
+  },
+  "homepage": "https://github.com/secondsky/claude-skills/tree/main/skills/mcp-dynamic-orchestrator",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "comments": {
+    "dependencies": "This skill uses only Node.js built-in modules (node:fs, node:path, node:child_process, node:vm, node:crypto). No external dependencies required.",
+    "node_version": "Requires Node.js 18+ for fetch API support (used in HTTP transport)",
+    "runtime": "Designed to run within Claude Code's plugin system. Tool wrappers in scripts/ export functions that are called by Claude Code.",
+    "mcp_servers": "MCPs are external processes spawned via npx/uvx. They are not dependencies of this package.",
+    "security": "Sandbox execution is disabled by default. Set MCP_ORCH_ENABLE_SANDBOX=1 to enable (not secure for untrusted code)."
+  }
+}

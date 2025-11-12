@@ -95,3 +95,45 @@ from the MCP tool definitions; the agent should always:
 - Do not assume individual MCP tools are top-level tools.
 - Always: discover → describe → generate code → `execute_mcp_code`.
 - Request `detail: "schema"` in `describe_mcp` only when exact parameter shapes are required.
+
+## Known Limitations
+
+### Sandbox Security (CRITICAL)
+
+⚠️ **The current sandbox implementation is NOT secure for untrusted code.**
+
+- Uses `vm.createContext()` which is NOT a security boundary
+- Can be escaped via prototype pollution, require() manipulation, etc.
+- **Only enable for Claude-generated code** (trusted source)
+- Requires `MCP_ORCH_ENABLE_SANDBOX=1` environment variable
+- See `references/security-model.md` for complete security details
+
+### Other Limitations
+
+- **No TypeScript compilation**: User code in `.ts` format will fail
+- **No module resolution**: Imports from `mcp-clients/*` don't resolve; use `$call()` API
+- **Static registry**: Adding/removing MCPs requires restart
+- **Limited error handling**: Generic errors for MCP connection failures
+
+For detailed troubleshooting, see `references/troubleshooting.md`.
+
+## Production Status
+
+**What's Working** ✅:
+- Discovery via `list_mcp_capabilities` (fully functional)
+- Inspection via `describe_mcp` (fully functional)
+- Registry management (16 MCPs configured)
+- MCP clients (stdio + HTTP transports)
+- Safety controls (visibility, sensitivity, policies)
+
+**What's Limited** 🟡:
+- Code execution (requires env flag, sandbox not secure)
+- Testing (basic smoke tests only)
+
+**What's Planned** 🔮:
+- Secure sandbox with Worker threads (v1.1)
+- TypeScript compilation support (v1.1)
+- Module resolution (v1.1)
+- Dynamic registry updates (v1.2)
+
+For complete roadmap, see `plan.md` in repository root.

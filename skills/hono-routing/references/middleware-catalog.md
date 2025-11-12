@@ -12,7 +12,8 @@ Complete reference for all built-in Hono middleware with usage examples and conf
 All built-in middleware are included in the `hono` package. No additional dependencies required.
 
 ```bash
-npm install hono@4.10.2
+bun add hono@4.10.2  # preferred
+# or: npm install hono@4.10.2
 ```
 
 ---

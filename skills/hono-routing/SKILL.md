@@ -24,7 +24,8 @@ license: MIT
 ### 1. Install Hono
 
 ```bash
-npm install hono@4.10.2
+bun add hono@4.10.2  # preferred
+# or: npm install hono@4.10.2
 ```
 
 **Why Hono:**
@@ -55,7 +56,8 @@ export default app
 ### 3. Add Request Validation
 
 ```bash
-npm install zod@4.1.12 @hono/zod-validator@0.7.4
+bun add zod@4.1.12 @hono/zod-validator@0.7.4  # preferred
+# or: npm install zod@4.1.12 @hono/zod-validator@0.7.4
 ```
 
 ```typescript
@@ -449,7 +451,8 @@ app.get('/', (c) => {
 #### Validation with Zod
 
 ```bash
-npm install zod@4.1.12 @hono/zod-validator@0.7.4
+bun add zod@4.1.12 @hono/zod-validator@0.7.4  # preferred
+# or: npm install zod@4.1.12 @hono/zod-validator@0.7.4
 ```
 
 ```typescript
@@ -559,7 +562,8 @@ app.post(
 #### Validation with Valibot
 
 ```bash
-npm install valibot@1.1.0 @hono/valibot-validator@0.5.3
+bun add valibot@1.1.0 @hono/valibot-validator@0.5.3  # preferred
+# or: npm install valibot@1.1.0 @hono/valibot-validator@0.5.3
 ```
 
 ```typescript

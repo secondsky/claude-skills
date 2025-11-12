@@ -1,41 +1,12 @@
-import { loadRegistry, getToolMetadata } from "./orchestrator";
+import { describeMcp } from "../src/orchestrator";
 
-export async function describe_mcp(input: {
-  id: string;
-  detail?: "summary" | "tools" | "schema";
-}) {
-  const { id, detail = "summary" } = input;
-  const { servers } = loadRegistry();
-  const cfg = servers.find(s => s.id === id);
-  if (!cfg) {
-    throw new Error(`Unknown MCP id: ${id}`);
+export default async function tool(input: unknown) {
+  if (!input || typeof input !== "object") {
+    throw new Error("Missing describe_mcp params");
   }
-
-  const base = {
-    id: cfg.id,
-    title: cfg.title,
-    summary: cfg.summary,
-    domains: cfg.domains,
-    tags: cfg.tags,
-    examples: cfg.examples,
-  };
-
-  if (detail === "summary") return base;
-
-  const tools = await getToolMetadata(id);
-
-  if (detail === "tools") {
-    return {
-      ...base,
-      tools: tools.map(t => ({
-        name: t.name,
-        summary: t.summary,
-      })),
-    };
+  const { id, includeTools, maxTools } = input as any;
+  if (!id || typeof id !== "string") {
+    throw new Error("describe_mcp requires 'id' string");
   }
-
-  return {
-    ...base,
-    tools,
-  };
+  return describeMcp({ id, includeTools, maxTools });
 }

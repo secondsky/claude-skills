@@ -22,7 +22,8 @@ Comprehensive comparison of validation libraries for Hono: Zod, Valibot, Typia, 
 
 ## Zod
 
-**Install**: `npm install zod @hono/zod-validator`
+**Install**: `bun add zod @hono/zod-validator  # preferred`\
+`# or: npm install zod @hono/zod-validator`
 
 **Pros**:
 - ✅ Most popular (11M+ weekly downloads)
