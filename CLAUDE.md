@@ -181,10 +181,10 @@ All 88 skills are production-ready and organized by domain:
    • git push
 
 6. MARKETPLACE
-   • Generate manifest: ./scripts/generate-plugin-manifests.sh
-   • Verify created: skills/new-skill/.claude-plugin/plugin.json
-   • git add skills/new-skill/.claude-plugin/
-   • git commit -m "Add marketplace manifest for new-skill"
+   • Generate marketplace: ./scripts/generate-marketplace.sh
+   • Verify: jq '.plugins | length' .claude-plugin/marketplace.json
+   • git add .claude-plugin/marketplace.json scripts/generate-marketplace.sh
+   • git commit -m "Update marketplace with new-skill"
    • git push
 ```
 
@@ -203,9 +203,9 @@ cp -r templates/skill-skeleton/ skills/my-skill/
 # 5. Verify & Commit
 git add skills/my-skill && git commit -m "Add my-skill" && git push
 
-# 6. Generate marketplace manifest
-./scripts/generate-plugin-manifests.sh
-git add skills/my-skill/.claude-plugin/ && git commit -m "Add marketplace manifest for my-skill" && git push
+# 6. Update marketplace
+./scripts/generate-marketplace.sh
+git add .claude-plugin/marketplace.json && git commit -m "Update marketplace with my-skill" && git push
 ```
 
 ---

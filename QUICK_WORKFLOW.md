@@ -201,12 +201,19 @@ Ask Claude Code to use the skill:
    - Edit `planning/skills-roadmap.md`
    - Mark skill as complete
 
-4. **Push**
+4. **Update marketplace**
+   ```bash
+   ./scripts/generate-marketplace.sh
+   git add .claude-plugin/marketplace.json
+   git commit -m "Update marketplace with my-skill-name"
+   ```
+
+5. **Push**
    ```bash
    git push
    ```
 
-**Done when**: Skill is in GitHub
+**Done when**: Skill is in GitHub and marketplace
 
 ---
 
@@ -249,6 +256,13 @@ touch planning/research-logs/my-skill.md
 # Commit
 git add skills/my-skill-name/
 git commit -m "Add my-skill-name"
+
+# Update marketplace
+./scripts/generate-marketplace.sh
+git add .claude-plugin/marketplace.json
+git commit -m "Update marketplace with my-skill-name"
+
+# Push
 git push
 ```
 

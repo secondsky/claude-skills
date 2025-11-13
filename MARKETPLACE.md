@@ -1,6 +1,6 @@
 # Claude Skills Marketplace
 
-Welcome to the **claude-skills** marketplace - a curated collection of 60 production-tested skills for Claude Code CLI.
+Welcome to the **claude-skills** marketplace - a curated collection of 88 production-tested skills for Claude Code CLI.
 
 ## Quick Start
 
@@ -33,7 +33,7 @@ Claude: [Automatically uses cloudflare-worker-base skill]
 
 ---
 
-## Available Skills (60)
+## Available Skills (88)
 
 ### Cloudflare Platform (22 skills)
 
@@ -255,7 +255,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2025-11-07
+**Last Updated**: 2025-11-13
 **Marketplace Version**: 1.0.0
-**Skills**: 60
+**Skills**: 88
 **Maintainer**: Claude Skills Maintainers
