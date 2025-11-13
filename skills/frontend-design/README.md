@@ -196,6 +196,7 @@ Works with any frontend framework:
 ## Related Skills
 
 - **[tailwind-v4-shadcn](../tailwind-v4-shadcn/)** - Tailwind CSS v4 implementation with design system
+- **[nuxt-ui-v4](../nuxt-ui-v4/)** - Modern Nuxt UI component collection
 - **[inspira-ui](../inspira-ui/)** - Pre-built animated components library
 - **[aceternity-ui](../aceternity-ui/)** - Modern UI component collection
 - **[shadcn-vue](../shadcn-vue/)** - Vue.js component library
@@ -215,14 +216,3 @@ frontend-design/
 **Note**: This is a pure guidance skill with no code templates or scripts.
 
 ---
-
-## Contributing
-
-Open an issue: https://github.com/secondsky/claude-skills/issues
-
----
-
-**Production Ready**: Official Anthropic skill ✅
-**Token Savings**: ~60%
-**Design Quality**: Exceptional
-**Ready to use!** Ask Claude to design any frontend interface.
