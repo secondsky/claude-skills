@@ -274,9 +274,6 @@ EOF
     version="1.0.0"
   fi
 
-  # Extract last_verified for additional metadata
-  last_verified=$(extract_metadata_field "$skill_md" "last_verified")
-
   keywords_json=$(extract_keywords "$description" "$skill_md")
   description_clean=$(clean_description "$description")
   category=$(determine_category "$skill_name" "$keywords_json" "$description_clean")
@@ -284,20 +281,14 @@ EOF
   # Escape description for JSON
   description_escaped=$(echo "$description_clean" | sed 's/"/\\"/g' | sed 's/\\/\\\\/g')
 
-  # Build optional lastVerified field
-  last_verified_field=""
-  if [ -n "$last_verified" ]; then
-    last_verified_field="\"lastVerified\": \"$last_verified\","
-  fi
-
   # Create JSON entry with actual version from metadata
+  # Note: Only standard marketplace fields allowed (no custom fields like lastVerified)
   skill_entry=$(cat << EOF
     {
       "name": "$skill_name",
       "source": "./skills/$skill_name",
       "description": "$description_escaped",
       "version": "$version",
-      $last_verified_field
       "category": "$category",
       "keywords": $keywords_json,
       "author": {
