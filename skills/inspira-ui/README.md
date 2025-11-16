@@ -13,6 +13,26 @@ This skill enables Claude Code to expertly implement Inspira UI components in Vu
 
 Inspira UI is **not a traditional npm component library**. It's a curated collection of production-ready, animated Vue/Nuxt components that you copy directly into your project and customize. Think of it as a copy-paste component gallery with beautiful animations and modern effects.
 
+## Skill Structure
+
+This skill uses **progressive disclosure** for optimal token efficiency:
+
+```
+inspira-ui/
+├── SKILL.md                          # Main skill document (~300 lines)
+├── README.md                         # This file - skill overview
+├── scripts/
+│   ├── setup-inspira.sh              # Interactive setup wizard
+│   └── verify-setup.sh               # Setup verification with feedback
+└── references/
+    ├── SETUP.md                      # Complete setup guide with CSS
+    ├── TROUBLESHOOTING.md            # 13+ common issues & solutions
+    ├── CODE_PATTERNS.md              # TypeScript & Vue 3 conventions
+    └── components-list.md            # 120+ components with dependencies
+```
+
+**Why this structure?** SKILL.md contains essentials only (~300 lines vs. original 797). Detailed content lives in reference files, loaded on-demand. This reduces initial context usage by **65%**.
+
 ## When This Skill Triggers
 
 This skill automatically activates when you mention:
@@ -24,16 +44,14 @@ This skill automatically activates when you mention:
 - WebGL Vue components, animated UI library
 
 ### Component Types
-- Animated backgrounds (aurora, cosmic portal, particles, neural, vortex, wavy, stars)
-- Animated buttons (shimmer button, ripple button, rainbow button, gradient button)
-- 3D cards (flip card, spotlight card, direction-aware hover, glare card)
-- Text animations (morphing text, glitch text, hyper text, blur reveal, sparkles text)
-- Special effects (confetti, meteors, glow border, neon border, scratch to reveal)
-- Custom cursors (fluid cursor, tailed cursor, smooth cursor, image trail)
-- 3D visualizations (globe, 3D carousel, icon cloud, world map, bending gallery)
-- Animated forms (color picker, file upload, halo search, animated input)
-- Device mocks (iPhone mockup, Safari mockup)
-- UI components (dock, timeline, bento grid, marquee, testimonials, hero sections)
+- Animated backgrounds (aurora, cosmic portal, particles, neural, vortex)
+- Animated buttons (shimmer, ripple, rainbow, gradient)
+- 3D cards (flip, spotlight, direction-aware, glare)
+- Text animations (morphing, glitch, hyper text, blur reveal, sparkles)
+- Special effects (confetti, meteors, glow border, neon border)
+- Custom cursors (fluid, tailed, smooth, image trail)
+- 3D visualizations (globe, carousel, icon cloud, world map)
+- Animated forms (color picker, file upload, halo search)
 
 ### Use Cases
 - Animated landing pages, hero sections with effects
@@ -41,75 +59,25 @@ This skill automatically activates when you mention:
 - Modern web applications, 3D websites
 - Marketing sites, portfolio sites
 - Animated dashboards, data visualizations
-- Forms with animated effects, file uploads with animation
-- Custom cursor effects, mouse interactions
-
-### Problems & Errors
-- TailwindCSS v4 setup, CSS variables configuration
-- motion-v integration, Vue animation library
-- WebGL components not rendering, Three.js setup
-- OGL shader components, canvas animations
-- Dark mode with OkLch colors, Tailwind v4 theming
-
-## What's Included
-
-### 🌌 24 Background Components
-Aurora, Black Hole, Bubbles, Cosmic Portal, Falling Stars, Flickering Grid, Interactive Grid Pattern, Lamp Effect, Liquid, Neural, Particle Whirlpool, Particles, Pattern, Ripple, Silk, Snowfall, Sparkles, Stars, Stractium, Tetris, Video Text, Vortex, Warp, Wavy
-
-### 🔘 5 Button Components
-Gradient, Interactive Hover, Rainbow, Ripple, Shimmer
-
-### 🃏 6 Card Components
-3D Card, Apple Card Carousel, Card Spotlight, Direction Aware Hover, Flip Card, Glare Card
-
-### 🖱️ 5 Cursor Components
-Fluid, Image Trail, Sleek Line, Smooth, Tailed
-
-### 📱 2 Device Mock Components
-iPhone Mockup, Safari Mockup
-
-### ✏️ 5 Input & Form Components
-Color Picker, File Upload, Halo Search, Input, Placeholders and Vanish Input
-
-### 🎨 24 Miscellaneous Components
-Animate Grid, Animated Circular Progress Bar, Animated List, Animated Testimonials, Animated Tooltip, Balance Slider, Bento Grid, Book, Compare, Container Scroll, Dock, Expandable Gallery, Images Slider, Lens, Link Preview, Marquee, Morphing Tabs, Multi-Step Loader, Photo Gallery, Scroll Island, Shader Toy, SVG Mask, Testimonial Slider, Timeline, Tracing Beam
-
-### ✨ 12 Special Effects Components
-Animated Beam, Border Beam, Confetti, Glow Border, Glowing Effect, Meteors, Neon Border, Particle Image, Scratch To Reveal, Spring Calendar
-
-### 📝 24 Text Animation Components
-3D Text, Blur Reveal, Box Reveal, Colorful Text, Container Text Flip, Flip Words, Focus, Hyper Text, Letter Pullup, Line Shadow Text, Morphing Text, Number Ticker, Radiant Text, Sparkles Text, Spinning Text, Text Generate Effect, Text Glitch, Text Highlight, Text Hover Effect, Text Reveal, Text Reveal Card, Text Scroll Reveal
-
-### 📊 21 Visualization Components
-Bending Gallery, 3D Carousel, File Tree, GitHub Globe, Globe, Icon Cloud, Infinite Grid, Light Speed, Liquid Glass, Liquid Logo, Logo Cloud, Logo Origami, Orbit, Spline, World Map
-
-### 🧱 2 Pre-built Block Sections
-Hero, Testimonials
+- Forms with animated effects
 
 ## Quick Start
 
 ### 1. Install Dependencies
 
 ```bash
-# Core dependencies
+# Core dependencies (required)
 bun add -d clsx tailwind-merge class-variance-authority tw-animate-css
 bun add @vueuse/core motion-v
 
-# Optional: For 3D components
+# For 3D components (optional)
 bun add three @types/three
 
-# Optional: For OGL components
+# For WebGL components (optional)
 bun add ogl
-
-# Optional: For GSAP animations
-bun add gsap
 ```
 
-### 2. Configure CSS Variables
-
-Add to your `main.css` or global CSS file. See SKILL.md for complete CSS setup.
-
-### 3. Setup CN Utility
+### 2. Setup CN Utility
 
 Create `lib/utils.ts`:
 
@@ -122,89 +90,45 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-### 4. Browse & Copy Components
+### 3. Configure CSS Variables
 
-Visit [inspira-ui.com/components](https://inspira-ui.com/components), find the component you need, copy the code, and paste it into your project.
+See [references/SETUP.md](references/SETUP.md) for complete CSS configuration with OkLch colors and the critical accessibility bug fix.
+
+### 4. Verify Setup
+
+```bash
+./scripts/verify-setup.sh
+```
+
+### 5. Browse & Copy Components
+
+Visit [inspira-ui.com/components](https://inspira-ui.com/components), copy what you need, paste into `components/ui/`.
 
 ## Key Features
 
-- ✅ **120+ Components** - Comprehensive collection of animated UI components
+- ✅ **120+ Components** - Comprehensive animated UI collection
 - ✅ **Copy-Paste Model** - No npm dependency, copy what you need
 - ✅ **TailwindCSS v4** - Modern utility-first CSS with OkLch colors
 - ✅ **Motion-V** - Declarative animations for Vue
 - ✅ **Three.js & OGL** - 3D and WebGL effects
 - ✅ **Full TypeScript** - Complete type safety
 - ✅ **Composition API** - Modern Vue 3 patterns
-- ✅ **Responsive** - Mobile-optimized components
-- ✅ **Dark Mode** - Built-in dark mode support
+- ✅ **Dark Mode** - Built-in support with CSS variables
 - ✅ **Production-Ready** - Battle-tested components
 
-## Common Use Cases
+## Token Efficiency
 
-### Animated Landing Page
-```vue
-<template>
-  <AuroraBackground>
-    <Motion
-      :initial="{ opacity: 0, y: 40 }"
-      :animate="{ opacity: 1, y: 0 }"
-      class="text-center"
-    >
-      <h1 class="text-6xl font-bold">Welcome</h1>
-      <ShimmerButton>Get Started</ShimmerButton>
-    </Motion>
-  </AuroraBackground>
-</template>
-```
+**Average Token Savings**: ~65%
+- Without skill: ~15k tokens (trial-and-error with setup)
+- With skill: ~5k tokens (direct implementation)
 
-### 3D Visualization Dashboard
-```vue
-<template>
-  <div class="grid grid-cols-2 gap-4">
-    <Globe :markers="locations" />
-    <IconCloud :icons="techStack" />
-  </div>
-</template>
-```
-
-### Animated Form
-```vue
-<template>
-  <div class="space-y-4">
-    <HaloSearch v-model="search" placeholder="Search..." />
-    <FileUpload @upload="handleUpload" />
-    <ColorPicker v-model="color" />
-  </div>
-</template>
-```
-
-## Benefits Over Manual Implementation
-
-### Without Inspira UI Skill
-- ❌ 15k+ tokens spent on trial-and-error
-- ❌ 2-3 hours configuring TailwindCSS v4 + motion-v
-- ❌ Multiple errors with CSS variables, OkLch colors
-- ❌ WebGL/Three.js setup issues
-- ❌ Animation timing and easing problems
-- ❌ Responsive design issues
-- ❌ Dark mode configuration errors
-
-### With Inspira UI Skill
-- ✅ ~5k tokens for direct implementation
-- ✅ 30 minutes to working components
-- ✅ Zero setup errors
-- ✅ Production-ready code patterns
-- ✅ Proper TypeScript types
-- ✅ Mobile-optimized by default
-- ✅ Dark mode working out of the box
-
-**Token Savings**: ~65% (10k tokens saved per implementation)
+**SKILL.md Optimization**: Reduced from 797 lines to ~300 lines (62% reduction) by using progressive disclosure with reference files.
 
 ## Errors Prevented
 
-This skill prevents these common mistakes:
+This skill prevents **13+ common mistakes**:
 
-1. ❌ **CRITICAL**: `--destructive-foreground` same as `--destructive` causing invisible text (upstream Inspira UI bug)
+1. ❌ **CRITICAL**: `--destructive-foreground` same as `--destructive` (invisible text)
 2. ❌ Missing `@import "tw-animate-css"` in CSS
 3. ❌ Incorrect OkLch color syntax in CSS variables
 4. ❌ Motion-V not configured for Vue/Nuxt
@@ -215,35 +139,32 @@ This skill prevents these common mistakes:
 9. ❌ WebGL components failing without proper dependencies
 10. ❌ Dark mode CSS variables not defined
 11. ❌ `@theme inline` block missing or misconfigured
-12. ❌ Component-specific dependencies not installed
-13. ❌ Shader/canvas components without browser checks
+12. ❌ Using TypeScript enums instead of `as const`
+13. ❌ No cleanup for WebGL/Canvas resources (memory leaks)
+
+## Detailed Documentation
+
+| Document | Description |
+|----------|-------------|
+| [SKILL.md](SKILL.md) | Main skill - quick start, core patterns, critical pitfalls |
+| [references/SETUP.md](references/SETUP.md) | Complete setup with all CSS variables |
+| [references/TROUBLESHOOTING.md](references/TROUBLESHOOTING.md) | All 13+ issues with detailed solutions |
+| [references/CODE_PATTERNS.md](references/CODE_PATTERNS.md) | TypeScript patterns, Vue 3 conventions |
+| [references/components-list.md](references/components-list.md) | All 120+ components with dependency matrix |
 
 ## Technical Requirements
 
 - **Vue**: 3.0+
 - **Nuxt**: 4.0+ (optional)
-- **TailwindCSS**: 4.0 (required - v3 supported in Inspira UI v1)
+- **TailwindCSS**: 4.0 (required - v3 uses Inspira UI v1)
 - **Node.js**: 18+
 - **TypeScript**: Recommended
 - **Bun/npm/pnpm**: Any package manager (Bun preferred)
 
-## File Structure
-
-This skill includes:
-
-```
-inspira-ui/
-├── SKILL.md              # Main skill documentation (comprehensive guide)
-├── README.md             # This file (skill overview)
-├── scripts/              # Helper scripts
-│   └── setup-inspira.sh  # Automated setup script
-└── references/           # Quick reference materials
-    └── components-list.md # Categorized component list
-```
-
 ## Resources
 
 - **Official Docs**: https://inspira-ui.com/docs
+- **LLM-Optimized Docs**: https://inspira-ui.com/docs/llms-full.txt (complete props, code examples)
 - **Component Gallery**: https://inspira-ui.com/components
 - **Blocks Gallery**: https://inspira-ui.com/blocks
 - **GitHub**: https://github.com/unovue/inspira-ui
@@ -253,19 +174,9 @@ inspira-ui/
 
 This skill works well with:
 - `tailwind-v4-shadcn` - For additional UI components
-- `vue-composition-api` - For Vue 3 patterns
+- `nuxt-v4` - For Nuxt 4 setup patterns
 - `typescript-mcp` - For type safety
-- `project-planning` - For project setup
-
-## Contributing
-
-Found an issue or want to improve this skill? Contributions welcome!
-
-1. Check component documentation at https://inspira-ui.com
-2. Verify latest package versions
-3. Test with both Vue and Nuxt
-4. Update SKILL.md with new patterns
-5. Submit PR to claude-skills repository
+- `motion` - For advanced animation patterns
 
 ## Credits
 

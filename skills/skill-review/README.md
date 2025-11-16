@@ -2,7 +2,7 @@
 
 Comprehensive deep-dive documentation review for claude-skills repository.
 
-**Version**: 1.0.0 | **Last Verified**: 2025-11-08
+**Version**: 1.1.0 | **Last Verified**: 2025-11-16
 
 ---
 
@@ -26,6 +26,8 @@ Comprehensive deep-dive documentation review for claude-skills repository.
 ### Automated Checks ✅
 
 - YAML frontmatter validity (syntax, required fields)
+- **Exact validation rules** (name: 64 chars, description: 1024 chars, no reserved words)
+- **SKILL.md line count** (<500 lines for optimal performance)
 - Package version currency (vs npm registry)
 - Broken links (HTTP status codes)
 - TODO markers in code
@@ -39,6 +41,11 @@ Comprehensive deep-dive documentation review for claude-skills repository.
 - Production repository patterns (real usage)
 - Code example accuracy (imports, signatures)
 - Schema consistency across files
+- **Progressive disclosure architecture** (reference depth, TOC)
+- **Conciseness & degrees of freedom** (over-explained content, appropriate detail)
+- **Anti-pattern detection** (Windows paths, inconsistent terminology)
+- **Testing & evaluation** (multi-model, 3+ test scenarios)
+- **Security & MCP** (qualified tool references, error handling)
 
 ### Issue Classification 🎯
 
@@ -89,17 +96,22 @@ ls ~/.claude/skills/skill-review
 
 ---
 
-## 9-Phase Process
+## 14-Phase Process
 
 1. **Pre-Review Setup** - Install, version check, discovery test
-2. **Standards Compliance** - YAML, keywords, description
+2. **Standards Compliance** - YAML exact rules (64 char name, 1024 char desc, <500 line SKILL.md)
 3. **Official Docs Verification** - Context7, GitHub, npm
 4. **Code Examples Audit** - Imports, APIs, schemas
 5. **Cross-File Consistency** - SKILL.md vs README vs references
 6. **Dependencies & Versions** - Currency, breaking changes
-7. **Issue Categorization** - Severity classification
-8. **Fix Implementation** - Auto-fix or ask user
-9. **Post-Fix Verification** - Test, commit
+7. **Progressive Disclosure Architecture** - Reference depth, TOC, 3-tier model
+8. **Conciseness & Degrees of Freedom** - Over-explanation, terminology consistency
+9. **Anti-Pattern Detection** - Windows paths, time-sensitive info, defaults
+10. **Testing & Evaluation** - Multi-model, 3+ test scenarios, real problems
+11. **Security & MCP** - URL fetches, qualified tool references, error handling
+12. **Issue Categorization** - Severity classification
+13. **Fix Implementation** - Auto-fix or ask user
+14. **Post-Fix Verification** - Test, commit
 
 **Detailed guide**: `planning/SKILL_REVIEW_PROCESS.md`
 
@@ -219,12 +231,19 @@ Claude recognizes these phrases and may suggest review:
 |----------------|----------|----------|
 | Fake APIs | Non-existent imports/adapters | 🔴 Critical |
 | Stale methods | Changed API signatures | 🔴 Critical |
+| **Name/Description violations** | >64 chars, >1024 chars, reserved words | 🔴 Critical |
+| **SKILL.md too long** | >500 lines (performance impact) | 🟡 High |
 | Schema inconsistency | Different table names | 🟡 High |
 | Outdated scripts | Deprecated patterns | 🟡 High |
+| **Progressive disclosure issues** | Deeply nested references, no TOC | 🟡 High |
 | Version drift | Packages >90 days old | 🟠 Medium |
 | Contradictory examples | Multiple conflicting patterns | 🟡 High |
 | Broken links | 404 documentation URLs | 🟡 High |
 | YAML errors | Invalid frontmatter | 🔴 Critical |
+| **Anti-patterns** | Windows paths, inconsistent terminology | 🟠 Medium |
+| **Over-explained content** | Claude already knows this | 🟠 Medium |
+| **Missing tests** | No test scenarios, single model testing | 🟠 Medium |
+| **Security issues** | Unqualified MCP refs, silent errors | 🟡 High |
 
 ---
 
@@ -266,10 +285,12 @@ Claude recognizes these phrases and may suggest review:
 
 1. ✅ **Always cite sources** - GitHub URL, docs link, npm changelog
 2. ✅ **No assumptions** - Verify against current official docs
-3. ✅ **Be systematic** - Follow all 9 phases
+3. ✅ **Be systematic** - Follow all 14 phases
 4. ✅ **Fix consistency** - Update all files, not just one
 5. ✅ **Document thoroughly** - Detailed commit messages
 6. ✅ **Test after fixes** - Verify skill still works
+7. ✅ **Check exact rules** - Name 64 chars, desc 1024 chars, SKILL.md <500 lines
+8. ✅ **Progressive disclosure** - References one level deep, TOC for long files
 
 ---
 
@@ -284,6 +305,18 @@ Found an issue with the review process? Suggestions for improvement?
 ---
 
 ## Version History
+
+**v1.1.0** (2025-11-16)
+- Enhanced with official Claude best practices documentation
+- 14-phase systematic audit process (was 9-phase)
+- Added exact YAML validation rules (name: 64 chars, description: 1024 chars)
+- Added SKILL.md line count check (<500 lines)
+- Added progressive disclosure architecture review
+- Added conciseness & degrees of freedom audit
+- Added anti-pattern detection
+- Added testing & evaluation review (multi-model, 3+ scenarios)
+- Added security & MCP considerations
+- Errors prevented: 20+ → 30+
 
 **v1.0.0** (2025-11-08)
 - Initial release
@@ -301,5 +334,5 @@ MIT License - See LICENSE file in repository root
 ---
 
 **Maintained by**: claude-skills project
-**Last verified**: 2025-11-08
+**Last verified**: 2025-11-16
 **Production status**: ✅ Tested (better-auth v2.0.0)

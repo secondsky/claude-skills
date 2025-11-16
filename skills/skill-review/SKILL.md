@@ -1,17 +1,17 @@
 ---
 name: skill-review
 description: |
-  Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 9-phase audit: pre-review setup, standards compliance, official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency version checks, issue categorization by severity, fix implementation with minimal user questions, and post-fix verification. Prevents outdated documentation, incorrect API patterns, contradictory examples, version drift, broken links, YAML errors, schema inconsistencies, and missing dependencies. Combines automated technical checks (YAML syntax, package versions via npm, link validation, TODO markers) with AI-powered verification. Auto-fixes unambiguous issues, asks user only for architectural decisions or breaking change confirmations. Outputs severity-classified issue list (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations (GitHub URLs, official docs, npm changelogs) and detailed remediation plan. Production-tested on better-auth v2.0.0 audit (found 6 critical/high issues, removed 665 lines of incorrect code, added 1,931 lines of correct patterns).
+  Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 14-phase audit: pre-review setup, standards compliance (exact YAML validation rules), official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency version checks, progressive disclosure architecture review, conciseness & degrees of freedom audit, anti-pattern detection, testing & evaluation review, security & MCP considerations, issue categorization by severity, fix implementation with minimal user questions, and post-fix verification. Enforces official Claude best practices including name validation (64 chars, lowercase/hyphens), description limits (1024 chars), SKILL.md line count (<500 lines), third-person writing style, progressive disclosure depth (one level), and multi-model testing verification. Prevents outdated documentation, incorrect API patterns, contradictory examples, version drift, broken links, YAML errors, schema inconsistencies, missing dependencies, Windows paths, inconsistent terminology, and over-explained content. Combines automated technical checks (YAML syntax, package versions via npm, link validation, TODO markers) with AI-powered verification. Auto-fixes unambiguous issues, asks user only for architectural decisions or breaking change confirmations. Outputs severity-classified issue list (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations (GitHub URLs, official docs, npm changelogs) and detailed remediation plan. Production-tested on better-auth v2.0.0 audit (found 6 critical/high issues, removed 665 lines of incorrect code, added 1,931 lines of correct patterns).
 
   Keywords: skill review, skill audit, documentation review, version check, api verification, package updates, skill maintenance, quality assurance, standards compliance, breaking changes, github verification, official docs check, context7 verification, skill-review, audit-skill, review-documentation, check-skill-currency, verify-skill-accuracy, outdated skill, skill needs update, review better-auth, check cloudflare skill, verify api methods, package version drift, stale documentation, contradictory examples, broken links check, yaml frontmatter validation, skill discovery test, production testing
 
 license: MIT
 metadata:
-  version: 1.0.0
-  last_verified: 2025-11-08
+  version: 1.1.0
+  last_verified: 2025-11-16
   production_tested: better-auth v2.0.0 audit (2025-11-08)
   token_savings: ~80%
-  errors_prevented: 20+
+  errors_prevented: 30+
   official_docs: https://github.com/secondsky/claude-skills
   triggers:
     - "review this skill"
@@ -78,7 +78,7 @@ with D1 changes."
 
 ## What This Skill Does
 
-### 9-Phase Systematic Audit
+### 14-Phase Systematic Audit
 
 1. **Pre-Review Setup** (5-10 min)
    - Install skill locally: `./scripts/install-skill.sh <skill-name>`
@@ -86,9 +86,14 @@ with D1 changes."
    - Test skill discovery
 
 2. **Standards Compliance** (10-15 min)
-   - Validate YAML frontmatter (name, description, license)
+   - Validate YAML frontmatter with **exact rules**:
+     - `name`: Max 64 chars, pattern `^[a-z0-9-]+$`, NO "anthropic" or "claude"
+     - `description`: Max 1024 chars, NO XML tags (`<tag>`), non-empty
+     - `license`: Present and valid (MIT, Apache-2.0, etc.)
+   - **SKILL.md line count**: Body should be <500 lines (optimal performance)
    - Check keyword comprehensiveness
-   - Verify third-person description style
+   - Verify **third-person description style** (NOT "You should..." but "This skill should be used when...")
+   - Ensure gerund form naming (e.g., "processing-pdfs" not "pdf-processor")
    - Ensure directory structure matches spec
 
 3. **Official Documentation Verification** (15-30 min)
@@ -113,21 +118,65 @@ with D1 changes."
    - Check for breaking changes in package updates
    - Verify "Last Verified" date is recent
 
-7. **Issue Categorization** (10-20 min)
-   - Classify by severity: 🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low
-   - Document with evidence (GitHub URL, docs link, npm changelog)
+7. **Progressive Disclosure Architecture Review** (10-15 min)
+   - Check reference depth: Resources should be **ONE LEVEL DEEP** from SKILL.md
+   - Verify files >100 lines have **Table of Contents**
+   - Assess 3-tier model compliance:
+     - Level 1 (Metadata): Always in context (~100 tokens)
+     - Level 2 (SKILL.md body): Loaded when triggered (<500 lines)
+     - Level 3 (Bundled resources): On-demand loading
+   - Flag deeply nested references (references → sub-references → ❌)
 
-8. **Fix Implementation** (30 min - 4 hours)
-   - Auto-fix unambiguous issues
-   - Ask user only for architectural decisions
-   - Update all affected files consistently
-   - Bump version if breaking changes
+8. **Conciseness & Degrees of Freedom Audit** (15-20 min)
+   - Identify **over-explained concepts** (Claude already knows this)
+   - Flag verbose sections that could be trimmed
+   - Assess **degrees of freedom** appropriateness:
+     - High freedom: Exploratory tasks, vague requirements
+     - Medium freedom: Conventional solutions, some flexibility
+     - Low freedom: Fragile tasks, exact patterns required
+   - Check for **defaults with escape hatches** (not endless options)
+   - Apply "context window is a public good" mindset
+   - Verify consistent terminology (same concept = same words throughout)
 
-9. **Post-Fix Verification** (10-15 min)
-   - Test skill discovery
-   - Verify templates work
-   - Check no contradictions remain
-   - Commit with detailed changelog
+9. **Anti-Pattern Detection** (10-15 min)
+   - ❌ Windows-style paths (`C:\path\file` → use forward slashes)
+   - ❌ Inconsistent terminology (endpoint/URL/path mixed usage)
+   - ❌ Time-sensitive information ("as of 2024" → use "old patterns" sections)
+   - ❌ Too many options without defaults (decision paralysis)
+   - ❌ Deeply nested references (>1 level)
+   - ❌ Vague phrases without examples
+   - ❌ Missing input/output examples for templates
+   - ❌ No feedback loops in complex workflows
+
+10. **Testing & Evaluation Review** (10-15 min)
+    - Check for **at least 3 test scenarios/evaluations**
+    - Verify **multi-model consideration** (Haiku/Sonnet/Opus may need different detail)
+    - Assess if skill solves **real problems** vs imagined ones
+    - Check for iterative development evidence (Claude A creates, Claude B tests)
+    - Verify production testing claims with evidence
+
+11. **Security & MCP Considerations** (5-10 min)
+    - Flag external URL fetches (potential risks)
+    - Check for skills from untrusted sources warnings
+    - Verify MCP tool references are **fully qualified** (ServerName:tool_name)
+    - Review script permissions and error handling
+    - Check "solve, don't punt" pattern (explicit error handling, not silent failures)
+
+12. **Issue Categorization** (10-20 min)
+    - Classify by severity: 🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low
+    - Document with evidence (GitHub URL, docs link, npm changelog)
+
+13. **Fix Implementation** (30 min - 4 hours)
+    - Auto-fix unambiguous issues
+    - Ask user only for architectural decisions
+    - Update all affected files consistently
+    - Bump version if breaking changes
+
+14. **Post-Fix Verification** (10-15 min)
+    - Test skill discovery
+    - Verify templates work
+    - Check no contradictions remain
+    - Commit with detailed changelog
 
 ### Automated Checks (via script)
 
@@ -314,7 +363,7 @@ If breaking changes:
 
 This skill references:
 
-1. **`planning/SKILL_REVIEW_PROCESS.md`** - Complete 9-phase manual guide
+1. **`planning/SKILL_REVIEW_PROCESS.md`** - Complete 14-phase manual guide
 2. **`scripts/review-skill.sh`** - Automated validation script
 3. **`.claude/commands/review-skill.md`** - Slash command definition
 
@@ -356,16 +405,47 @@ This skill references:
 
 ## Common Issues Prevented
 
+### Content & API Issues
 1. **Fake API adapters** - Non-existent imports
 2. **Stale API methods** - Changed signatures
 3. **Schema inconsistency** - Different table names
 4. **Outdated scripts** - Deprecated approaches
-5. **Version drift** - Packages >90 days old
-6. **Contradictory examples** - Multiple conflicting patterns
-7. **Broken links** - 404 documentation URLs
-8. **YAML errors** - Invalid frontmatter syntax
-9. **Missing keywords** - Poor discoverability
-10. **Incomplete bundled resources** - Listed files don't exist
+5. **Contradictory examples** - Multiple conflicting patterns
+6. **Incomplete bundled resources** - Listed files don't exist
+
+### Structure & Standards Issues
+7. **YAML errors** - Invalid frontmatter syntax
+8. **Name too long** - Exceeds 64 char limit
+9. **Description too long** - Exceeds 1024 char limit
+10. **Invalid name format** - Not lowercase/hyphens only
+11. **Reserved words** - Contains "anthropic" or "claude"
+12. **Second-person descriptions** - "You should..." instead of "This skill should be used when..."
+13. **SKILL.md too long** - Body exceeds 500 lines (performance impact)
+
+### Architecture Issues
+14. **Deeply nested references** - More than one level deep from SKILL.md
+15. **Missing table of contents** - Files >100 lines without navigation
+16. **Over-explained concepts** - Claude already knows this content
+
+### Quality & Testing Issues
+17. **Missing keywords** - Poor discoverability
+18. **Version drift** - Packages >90 days old
+19. **Broken links** - 404 documentation URLs
+20. **No test scenarios** - Missing evaluation cases
+21. **No multi-model consideration** - Only tested with one model
+
+### Anti-Patterns
+22. **Windows-style paths** - Backslashes instead of forward slashes
+23. **Inconsistent terminology** - Same concept, different words
+24. **Time-sensitive info** - "As of 2024" instead of version-based
+25. **Too many options** - No defaults provided
+26. **No feedback loops** - Complex workflows without validation steps
+
+### Security & MCP Issues
+27. **Unqualified MCP references** - Missing ServerName:tool_name format
+28. **Silent error handling** - "Punt" instead of "solve"
+29. **Unvalidated external URLs** - Fetching from untrusted sources
+30. **Missing permissions warnings** - Scripts without clear scope
 
 ---
 
@@ -373,7 +453,7 @@ This skill references:
 
 1. **Always cite sources** - GitHub URL, docs link, npm changelog
 2. **No assumptions** - Verify against current official docs
-3. **Be systematic** - Follow all 9 phases
+3. **Be systematic** - Follow all 14 phases
 4. **Fix consistency** - Update all files, not just one
 5. **Document thoroughly** - Detailed commit messages
 6. **Test after fixes** - Verify skill still works
@@ -392,6 +472,17 @@ This skill references:
 
 ## Version History
 
+**v1.1.0** (2025-11-16)
+- Enhanced with official Claude best practices documentation
+- 14-phase systematic audit process (was 9-phase)
+- Added exact YAML validation rules (name: 64 chars, description: 1024 chars)
+- Added SKILL.md line count check (<500 lines)
+- Added progressive disclosure architecture review
+- Added conciseness & degrees of freedom audit
+- Added anti-pattern detection (Windows paths, inconsistent terminology)
+- Added testing & evaluation review (multi-model, 3+ test scenarios)
+- Added security & MCP considerations
+
 **v1.0.0** (2025-11-08)
 - Initial release
 - 9-phase systematic audit process
@@ -409,4 +500,4 @@ This skill references:
 
 ---
 
-**Last verified**: 2025-11-08 | **Version**: 1.0.0
+**Last verified**: 2025-11-16 | **Version**: 1.1.0

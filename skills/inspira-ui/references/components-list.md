@@ -2,6 +2,9 @@
 
 Complete list of all 120+ components organized by category.
 
+> **💡 Need complete implementation details?** For full props documentation, code examples, and installation instructions, fetch:
+> https://inspira-ui.com/docs/llms-full.txt (LLM-optimized documentation)
+
 ## 🌌 Backgrounds (24)
 
 | Component | Description | Dependencies |
