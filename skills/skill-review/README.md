@@ -2,7 +2,7 @@
 
 Comprehensive deep-dive documentation review for claude-skills repository.
 
-**Version**: 1.1.0 | **Last Verified**: 2025-11-16
+**Version**: 1.2.0 | **Last Verified**: 2025-11-16
 
 ---
 
@@ -108,7 +108,7 @@ ls ~/.claude/skills/skill-review
 8. **Conciseness & Degrees of Freedom** - Over-explanation, terminology consistency
 9. **Anti-Pattern Detection** - Windows paths, time-sensitive info, defaults
 10. **Testing & Evaluation** - Multi-model, 3+ test scenarios, real problems
-11. **Security & MCP** - URL fetches, qualified tool references, error handling
+11. **Security & MCP** - URL fetches, qualified tool references, error handling, marketplace schema compliance
 12. **Issue Categorization** - Severity classification
 13. **Fix Implementation** - Auto-fix or ask user
 14. **Post-Fix Verification** - Test, commit
@@ -243,7 +243,7 @@ Claude recognizes these phrases and may suggest review:
 | **Anti-patterns** | Windows paths, inconsistent terminology | 🟠 Medium |
 | **Over-explained content** | Claude already knows this | 🟠 Medium |
 | **Missing tests** | No test scenarios, single model testing | 🟠 Medium |
-| **Security issues** | Unqualified MCP refs, silent errors | 🟡 High |
+| **Security issues** | Unqualified MCP refs, silent errors, non-standard marketplace fields | 🟡 High |
 
 ---
 
@@ -305,6 +305,10 @@ Found an issue with the review process? Suggestions for improvement?
 ---
 
 ## Version History
+
+**v1.2.0** (2025-11-16)
+- Added marketplace schema compliance check (no custom fields)
+- Errors prevented: 30+ → 31+
 
 **v1.1.0** (2025-11-16)
 - Enhanced with official Claude best practices documentation

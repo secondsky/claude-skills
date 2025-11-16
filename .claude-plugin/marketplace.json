@@ -1126,7 +1126,7 @@
       "name": "skill-review",
       "source": "./skills/skill-review",
       "description": "Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 14-phase audit: pre-review setup, standards compliance (exact YAML validation rules), official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency version checks, progressive disclosure architecture review, conciseness & degrees of freedom audit, anti-pattern detection, testing & evaluation review, security & MCP considerations, issue categorization by severity, fix implementation with minimal user questions, and post-fix verification. Enforces official Claude best practices including name validation (64 chars, lowercase/hyphens), description limits (1024 chars), SKILL.md line count (<500 lines), third-person writing style, progressive d",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "ai",
       "keywords": ["skill review","skill audit","documentation review","version check","api verification","package updates","skill maintenance","quality assurance","standards compliance","breaking changes","github verification","official docs check","context7 verification","skill-review","audit-skill","review-documentation","check-skill-currency","verify-skill-accuracy","outdated skill","skill needs update"],
       "author": {

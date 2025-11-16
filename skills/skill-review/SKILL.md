@@ -7,11 +7,11 @@ description: |
 
 license: MIT
 metadata:
-  version: 1.1.0
+  version: 1.2.0
   last_verified: 2025-11-16
   production_tested: better-auth v2.0.0 audit (2025-11-08)
   token_savings: ~80%
-  errors_prevented: 30+
+  errors_prevented: 31+
   official_docs: https://github.com/secondsky/claude-skills
   triggers:
     - "review this skill"
@@ -161,6 +161,7 @@ with D1 changes."
     - Verify MCP tool references are **fully qualified** (ServerName:tool_name)
     - Review script permissions and error handling
     - Check "solve, don't punt" pattern (explicit error handling, not silent failures)
+    - **Marketplace schema compliance**: Only standard fields allowed (name, source, description, version, category, keywords, author, license, repository) - NO custom fields like `lastVerified`
 
 12. **Issue Categorization** (10-20 min)
     - Classify by severity: 🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low
@@ -446,6 +447,7 @@ This skill references:
 28. **Silent error handling** - "Punt" instead of "solve"
 29. **Unvalidated external URLs** - Fetching from untrusted sources
 30. **Missing permissions warnings** - Scripts without clear scope
+31. **Non-standard marketplace fields** - Custom fields rejected by schema (e.g., lastVerified)
 
 ---
 
@@ -471,6 +473,10 @@ This skill references:
 ---
 
 ## Version History
+
+**v1.2.0** (2025-11-16)
+- Added marketplace schema compliance check (no custom fields like lastVerified)
+- Errors prevented: 31+ (was 30+)
 
 **v1.1.0** (2025-11-16)
 - Enhanced with official Claude best practices documentation
@@ -500,4 +506,4 @@ This skill references:
 
 ---
 
-**Last verified**: 2025-11-16 | **Version**: 1.1.0
+**Last verified**: 2025-11-16 | **Version**: 1.2.0
