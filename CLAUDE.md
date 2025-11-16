@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 87 Skills Complete
+**Status**: Active Development | 90 Skills Complete
 **Last Updated**: 2025-11-12
 
 ---
@@ -95,9 +95,9 @@ claude-skills/
 
 ## Current Status (2025-11-12)
 
-### ✅ Completed Skills (87)
+### ✅ Completed Skills (90)
 
-All 87 skills are production-ready and organized by domain:
+All 90 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -108,10 +108,10 @@ All 87 skills are production-ready and organized by domain:
 - cloudflare-zero-trust-access, cloudflare-full-stack-scaffold, cloudflare-full-stack-integration
 - cloudflare-manager, cloudflare-sandbox
 
-**AI & Machine Learning** (12 skills):
+**AI & Machine Learning** (14 skills):
 - ai-sdk-core, ai-sdk-ui, openai-api, openai-agents, openai-assistants, openai-responses
-- google-gemini-api, google-gemini-embeddings, claude-api, claude-agent-sdk, thesys-generative-ui
-- elevenlabs-agents
+- google-gemini-api, google-gemini-embeddings, google-gemini-file-search, gemini-cli
+- claude-api, claude-agent-sdk, thesys-generative-ui, elevenlabs-agents
 
 **Frontend & UI** (25 skills):
 - tailwind-v4-shadcn, react-hook-form-zod, tanstack-query, zustand-state-management
@@ -129,8 +129,8 @@ All 87 skills are production-ready and organized by domain:
 **Database & ORM** (4 skills):
 - drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
 
-**Tooling & Planning** (12 skills):
-- typescript-mcp, fastmcp, project-planning, project-session-management
+**Tooling & Planning** (13 skills):
+- typescript-mcp, fastmcp, project-planning, project-session-management, project-workflow
 - mcp-dynamic-orchestrator, skill-review, dependency-upgrade, github-project-automation
 - open-source-contributions, swift-best-practices, claude-code-bash-patterns, feature-dev
 

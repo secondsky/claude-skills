@@ -673,21 +673,6 @@
     }
 ,
     {
-      "name": "gemini-cli",
-      "source": "./skills/gemini-cli",
-      "description": "Use Google Gemini CLI directly from Claude Code for second opinions, architectural advice, debugging help, code reviews, and security audits. Leverage Geminis 1M+ context window for comprehensive code analysis using the official gemini command-line tool. Use when: Need second opinion on architectural decisions, stuck debugging after 2+ attempts, writing security-sensitive code (auth, payments, data handling), planning large refactors (5+ files), approaching 70%+ context capacity, unfamiliar with",
-      "version": "1.0.0",
-      "category": "ai",
-      "keywords": ["gemini-cli","google gemini","gemini command line","second opinion","model comparison","gemini-2.5-flash","gemini-2.5-pro","architectural decisions","debugging assistant","code review gemini","security audit gemini","1M context window","AI pair programming","gemini consultation","flash vs pro"],
-      "author": {
-        "name": "Jeremy Dawes",
-        "email": "jeremy@jezweb.net"
-      },
-      "license": "MIT",
-      "repository": "https://github.com/secondsky/claude-skills"
-    }
-,
-    {
       "name": "github-project-automation",
       "source": "./skills/github-project-automation",
       "description": "This skill provides comprehensive automation for GitHub repository setup and configuration. It should be used when creating new projects, setting up CI/CD pipelines, configuring issue templates, enabling security scanning, or migrating existing projects to GitHub automation. The skill prevents 18 documented errors in GitHub Actions YAML syntax, workflow configuration, issue template structure, Dependabot setup, and CodeQL security scanning. It includes 12 production-tested workflow templates, 4 ",
@@ -724,21 +709,6 @@
       "version": "1.0.0",
       "category": "cloudflare",
       "keywords": ["gemini embeddings","gemini-embedding-001","google embeddings","semantic search","RAG","vector search","document clustering","similarity search","retrieval augmented generation","vectorize integration","cloudflare vectorize embeddings","768 dimensions","embed content gemini","batch embeddings","embeddings api"],
-      "author": {
-        "name": "Jeremy Dawes",
-        "email": "jeremy@jezweb.net"
-      },
-      "license": "MIT",
-      "repository": "https://github.com/secondsky/claude-skills"
-    }
-,
-    {
-      "name": "google-gemini-file-search",
-      "source": "./skills/google-gemini-file-search",
-      "description": "Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation). This skill should be used when building document Q&A systems, searchable knowledge bases, or semantic search with automatic chunking, embedding generation, and citation support. Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors: document immutability (delete+re-upload pattern required), storage quota calculation (3x input size for embeddings), chunking configuration (5",
-      "version": "1.0.0",
-      "category": "ai",
-      "keywords": [],
       "author": {
         "name": "Jeremy Dawes",
         "email": "jeremy@jezweb.net"
@@ -1069,21 +1039,6 @@
       "version": "1.0.0",
       "category": "ai",
       "keywords": ["session management","SESSION.md","session handoff protocol","context handoff","multi-session projects","phase tracking","git checkpoints","session state tracking","resume work","context clear","phase progress tracking","implementation phases","verification stage","debugging stage","next action tracking"],
-      "author": {
-        "name": "Jeremy Dawes",
-        "email": "jeremy@jezweb.net"
-      },
-      "license": "MIT",
-      "repository": "https://github.com/secondsky/claude-skills"
-    }
-,
-    {
-      "name": "project-workflow",
-      "source": "./skills/project-workflow",
-      "description": "Production-ready skill for project-workflow",
-      "version": "1.0.0",
-      "category": "other",
-      "keywords": [],
       "author": {
         "name": "Jeremy Dawes",
         "email": "jeremy@jezweb.net"

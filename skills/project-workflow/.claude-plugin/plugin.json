@@ -1,0 +1,36 @@
+{
+  "name": "project-workflow",
+  "description": "Complete project lifecycle automation with 7 slash commands for exploration, planning, session management, and release safety. Includes /explore-idea (pre-planning research), /plan-project (generate IMPLEMENTATION_PHASES.md), /plan-feature (add features), /wrap-session (checkpoint progress), /continue-session (resume context), /workflow (interactive guide), and /release (safety checks). Saves 35-55 minutes per project lifecycle.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": [
+    "project planning",
+    "session management",
+    "workflow automation",
+    "slash commands",
+    "explore-idea",
+    "plan-project",
+    "plan-feature",
+    "wrap-session",
+    "continue-session",
+    "release checks",
+    "project lifecycle",
+    "context management",
+    "implementation phases",
+    "session handoff"
+  ],
+  "commands": [
+    "./commands/explore-idea.md",
+    "./commands/plan-project.md",
+    "./commands/plan-feature.md",
+    "./commands/wrap-session.md",
+    "./commands/continue-session.md",
+    "./commands/workflow.md",
+    "./commands/release.md"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "gemini-cli",
+  "description": "Use Google Gemini CLI directly from Claude Code for second opinions, architectural advice, debugging help, code reviews, and security audits. Leverage Gemini's 1M+ context window with the official gemini command-line tool.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": [
+    "gemini-cli",
+    "google gemini",
+    "gemini command line",
+    "second opinion",
+    "model comparison",
+    "gemini-2.5-flash",
+    "gemini-2.5-pro",
+    "architectural decisions",
+    "debugging assistant",
+    "code review",
+    "security audit",
+    "1M context window",
+    "AI pair programming",
+    "AI-to-AI prompting",
+    "peer review",
+    "codebase analysis"
+  ]
+}

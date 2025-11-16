@@ -1,0 +1,28 @@
+{
+  "name": "google-gemini-file-search",
+  "description": "Fully managed RAG system using Google Gemini File Search API. No vector database needed - automatic chunking, embedding generation, and semantic search with citations. Upload 100+ file formats (PDF, Word, Excel, code) and query with metadata filtering.",
+  "version": "1.0.0-beta",
+  "author": {
+    "name": "Jeremy Dawes",
+    "email": "jeremy@jezweb.net"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/jezweb/claude-skills",
+  "keywords": [
+    "google gemini",
+    "file search",
+    "RAG",
+    "semantic search",
+    "document retrieval",
+    "embeddings",
+    "chunking",
+    "citations",
+    "managed RAG",
+    "google AI",
+    "gemini-2.5-pro",
+    "gemini-2.5-flash",
+    "knowledge base",
+    "document search",
+    "no vector db"
+  ]
+}

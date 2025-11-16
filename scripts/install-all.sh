@@ -47,10 +47,10 @@ for skill_dir in "$SKILLS_DIR"/*/ ; do
         echo -e "${BLUE}Installing: $skill_name${NC}"
 
         if "$INSTALL_SCRIPT" "$skill_name"; then
-            ((SUCCESS_COUNT++))
+            SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
             echo ""
         else
-            ((FAIL_COUNT++))
+            FAIL_COUNT=$((FAIL_COUNT + 1))
             echo -e "${RED}Failed to install: $skill_name${NC}"
             echo ""
         fi
