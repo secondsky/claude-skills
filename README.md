@@ -402,13 +402,6 @@ Thesys generative UI for dynamic, AI-powered interfaces. Prevents 8 documented e
 
 ### Content Management
 
-#### **tinacms**
-TinaCMS for Git-backed content management. Prevents 9 documented errors.
-
-**Triggers**: `tinacms`, `tina cms`, `git cms`, `content management`
-
----
-
 #### **sveltia-cms**
 Sveltia CMS for lightweight, Git-based content editing. Prevents 6 documented errors.
 

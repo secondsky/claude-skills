@@ -168,9 +168,8 @@ Update `planning/skills-roadmap.md`:
 23. react-hook-form-zod
 24. tanstack-query *(status correction needed)*
 
-**CMS & Content (2):**
-25. tinacms
-26. sveltia-cms
+**CMS & Content (1):**
+25. sveltia-cms
 
 **Other (2):**
 27. firecrawl-scraper

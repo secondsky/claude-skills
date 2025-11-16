@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 88 Skills Complete
+**Status**: Active Development | 87 Skills Complete
 **Last Updated**: 2025-11-12
 
 ---
@@ -95,9 +95,9 @@ claude-skills/
 
 ## Current Status (2025-11-12)
 
-### ✅ Completed Skills (88)
+### ✅ Completed Skills (87)
 
-All 88 skills are production-ready and organized by domain:
+All 87 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -123,8 +123,8 @@ All 88 skills are production-ready and organized by domain:
 **Auth & Security** (3 skills):
 - clerk-auth, better-auth, cloudflare-zero-trust-access
 
-**Content Management** (5 skills):
-- tinacms, sveltia-cms, nuxt-content, nuxt-seo, content-collections
+**Content Management** (4 skills):
+- sveltia-cms, nuxt-content, nuxt-seo, content-collections
 
 **Database & ORM** (4 skills):
 - drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
