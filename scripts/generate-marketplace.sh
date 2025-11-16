@@ -67,18 +67,23 @@ extract_keywords() {
   local description="$1"
   local skill_md="$2"
   local keywords_raw=""
-  
-  # Try to extract from description (Keywords: line)
+
+  # Priority 1: Try to extract from description (Keywords: line within description text)
   keywords_raw=$(echo "$description" | sed -n 's/.*Keywords:[[:space:]]*\(.*\)/\1/p' | tr -d '"' | tr -d "'")
-  
-  # If no keywords found in description, try YAML format
+
+  # Priority 2: If no keywords in description, try metadata.keywords YAML list
+  if [ -z "$keywords_raw" ]; then
+    keywords_raw=$(extract_metadata_keywords "$skill_md")
+  fi
+
+  # Priority 3: If still no keywords, try top-level keywords: YAML list
   if [ -z "$keywords_raw" ]; then
     keywords_raw=$(awk '/^keywords:/{flag=1; next} /^[a-z-]+:/{flag=0} flag && /^  - /{gsub(/^  - /, ""); print}' "$skill_md" | tr '\n' ',' | sed 's/,$//')
   fi
-  
-  # Clean up and convert to JSON array (limit to 15 keywords)
+
+  # Clean up and convert to JSON array (limit to 20 keywords for better discoverability)
   if [ -n "$keywords_raw" ]; then
-    echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | $HEAD_CMD -15 | awk '
+    echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | $HEAD_CMD -20 | awk '
       BEGIN { printf "[" }
       {
         gsub(/\\/, "\\\\")
@@ -93,10 +98,52 @@ extract_keywords() {
   fi
 }
 
-# Function to clean description (remove Keywords line, limit to 500 chars)
+# Function to clean description (remove Keywords line, limit to 1024 chars - official spec limit)
 clean_description() {
   local description="$1"
-  echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | $HEAD_CMD -c 500
+  echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | $HEAD_CMD -c 1024
+}
+
+# Function to extract metadata field from SKILL.md (e.g., version, last_verified)
+extract_metadata_field() {
+  local skill_md="$1"
+  local field="$2"
+  local value=""
+
+  # Look for field within metadata: block
+  # Pattern: metadata: ... field: value
+  value=$(awk -v field="$field" '
+    /^metadata:/{in_meta=1; next}
+    /^[a-z-]+:/ && !/^  /{in_meta=0}
+    in_meta && $0 ~ "^  "field":" {
+      gsub(/^  [a-z_-]+: */, "")
+      gsub(/^ *"/, "")
+      gsub(/" *$/, "")
+      gsub(/^ *'"'"'/, "")
+      gsub(/'"'"' *$/, "")
+      print
+      exit
+    }
+  ' "$skill_md")
+
+  echo "$value"
+}
+
+# Function to extract keywords from metadata.keywords YAML list
+extract_metadata_keywords() {
+  local skill_md="$1"
+  local keywords=""
+
+  # Look for keywords: list within metadata: block
+  keywords=$(awk '
+    /^metadata:/{in_meta=1; next}
+    /^[a-z-]+:/ && !/^  /{in_meta=0}
+    in_meta && /^  keywords:/{in_kw=1; next}
+    in_meta && in_kw && /^    - /{gsub(/^    - /, ""); print; next}
+    in_meta && in_kw && /^  [a-z]/{in_kw=0}
+  ' "$skill_md" | tr '\n' ',' | sed 's/,$//')
+
+  echo "$keywords"
 }
 
 # Function to determine category based on keywords and skill name
@@ -213,33 +260,49 @@ EOF
 
   # Extract metadata from SKILL.md
   description=$(extract_description "$skill_md")
-  
+
   if [ -z "$description" ]; then
     description="Production-ready skill for $skill_name"
     echo "⚠️  WARN (using default description)"
   else
     echo "✅"
   fi
-  
+
+  # Extract version from metadata.version (fallback to 1.0.0)
+  version=$(extract_metadata_field "$skill_md" "version")
+  if [ -z "$version" ]; then
+    version="1.0.0"
+  fi
+
+  # Extract last_verified for additional metadata
+  last_verified=$(extract_metadata_field "$skill_md" "last_verified")
+
   keywords_json=$(extract_keywords "$description" "$skill_md")
   description_clean=$(clean_description "$description")
   category=$(determine_category "$skill_name" "$keywords_json" "$description_clean")
-  
+
   # Escape description for JSON
   description_escaped=$(echo "$description_clean" | sed 's/"/\\"/g' | sed 's/\\/\\\\/g')
-  
-  # Create JSON entry
+
+  # Build optional lastVerified field
+  last_verified_field=""
+  if [ -n "$last_verified" ]; then
+    last_verified_field="\"lastVerified\": \"$last_verified\","
+  fi
+
+  # Create JSON entry with actual version from metadata
   skill_entry=$(cat << EOF
     {
       "name": "$skill_name",
       "source": "./skills/$skill_name",
       "description": "$description_escaped",
-      "version": "1.0.0",
+      "version": "$version",
+      $last_verified_field
       "category": "$category",
       "keywords": $keywords_json,
       "author": {
-        "name": "Jeremy Dawes",
-        "email": "jeremy@jezweb.net"
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
       },
       "license": "MIT",
       "repository": "https://github.com/secondsky/claude-skills"
