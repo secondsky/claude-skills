@@ -13,9 +13,9 @@ description: >
   inefficient schema composition, missing refinements for business logic, incorrect async validation setup.
 license: MIT
 metadata:
-  version: 1.0.0
-  last_verified: 2025-11-11
-  package_version: 4.1.12
+  version: 2.0.0
+  last_verified: 2025-11-17
+  package_version: 4.1.12+
   keywords:
     - zod
     - validation
@@ -50,6 +50,19 @@ metadata:
     - z.intersection
     - z.codec
     - z.toJSONSchema
+    - z.treeifyError
+    - z.flattenError
+    - z.prettifyError
+    - z.registry
+    - z.globalRegistry
+    - .register
+    - .meta
+    - error-customization
+    - localization
+    - i18n
+    - migration
+    - v3-to-v4
+    - breaking-changes
     - tRPC
     - prisma-zod
     - react-hook-form
@@ -96,8 +109,175 @@ yarn add zod
 - `z.toJSONSchema()` - JSON Schema generation
 - `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
 - `.meta()` - Enhanced metadata (Zod 3.x only has `.describe()`)
+- Unified `error` parameter - Replaces `message`, `invalid_type_error`, `required_error`, `errorMap`
 
 For Zod 3.x compatibility or migration guidance, see https://zod.dev
+
+## Migrating from Zod v3 to v4
+
+Zod v4 introduces several breaking changes that improve performance and API consistency. Here are the key changes to be aware of when upgrading:
+
+### 1. Error Customization Unified
+
+**Breaking Change**: The `error` parameter replaces fragmented error options.
+
+```typescript
+// ❌ Zod v3 (No longer works)
+z.string({
+  message: "Custom message",
+  invalid_type_error: "Must be a string",
+  required_error: "Field is required"
+});
+
+z.string().email({ errorMap: (issue) => ({ message: "Invalid email" }) });
+
+// ✅ Zod v4 (Use unified 'error' parameter)
+z.string({
+  error: "Custom message"
+});
+
+z.string().email({
+  error: (issue) => ({ message: "Invalid email" })
+});
+```
+
+### 2. Number Validation Stricter
+
+**Breaking Change**: Infinite values and unsafe integers are now rejected.
+
+```typescript
+// ❌ Zod v3 (Accepted these values)
+z.number().parse(Infinity);           // OK in v3
+z.number().parse(-Infinity);          // OK in v3
+z.number().int().parse(9007199254740992); // OK in v3 (unsafe integer)
+
+// ✅ Zod v4 (Rejects invalid numbers)
+z.number().parse(Infinity);           // ✗ Error: infinite values rejected
+z.number().parse(-Infinity);          // ✗ Error: infinite values rejected
+z.number().int().parse(9007199254740992); // ✗ Error: outside safe integer range
+
+// If you need to allow infinite values, use a refinement:
+z.number().refine((n) => Number.isFinite(n) || !Number.isNaN(n));
+
+// .int() now enforces Number.MIN_SAFE_INTEGER to Number.MAX_SAFE_INTEGER
+// .safe() no longer permits floats (integers only)
+```
+
+### 3. String Format Methods Moved to Top-Level
+
+**Breaking Change**: Format validators are now top-level functions, not methods.
+
+```typescript
+// ❌ Zod v3 (Methods on z.string())
+z.string().email();
+z.string().uuid();
+z.string().url();
+z.string().ipv4();
+z.string().ipv6();
+
+// ✅ Zod v4 (Top-level functions)
+z.email();        // Shorthand for validated email
+z.uuid();         // Stricter UUID validation (RFC 9562/4122)
+z.url();
+z.ipv4();
+z.ipv6();
+
+// Both still work for now, but top-level is preferred
+z.string().email();  // Still works in v4
+z.email();          // Preferred in v4
+```
+
+### 4. Object Defaults Behavior Changed
+
+**Breaking Change**: Defaults inside properties are now applied even within optional fields.
+
+```typescript
+const schema = z.object({
+  name: z.string().default("Anonymous"),
+  age: z.number().optional().default(18),
+});
+
+// ❌ Zod v3 behavior
+schema.parse({ age: undefined });
+// Result: { name: "Anonymous", age: undefined }
+
+// ✅ Zod v4 behavior
+schema.parse({ age: undefined });
+// Result: { name: "Anonymous", age: 18 }
+// Default is applied even though field was optional
+```
+
+### 5. Deprecated APIs Removed or Changed
+
+**Breaking Changes**: Several APIs have been deprecated or consolidated.
+
+```typescript
+// ❌ Zod v3 APIs (Deprecated in v4)
+schema1.merge(schema2);           // Use .extend() instead
+error.format();                   // Use z.treeifyError(error)
+error.flatten();                  // Use z.flattenError(error)
+z.nativeEnum(MyEnum);             // Use z.enum() (now handles both)
+z.promise(schema);                // Deprecated
+
+// ✅ Zod v4 Replacements
+schema1.extend(schema2);          // Preferred way to merge
+z.treeifyError(error);           // New error formatting
+z.flattenError(error);           // New flat error format
+z.enum(MyEnum);                  // Unified enum handling
+// No direct replacement for z.promise() - use async refinements
+```
+
+### 6. Function Validation Redesigned
+
+**Breaking Change**: `z.function()` no longer returns a schema directly.
+
+```typescript
+// ❌ Zod v3
+const myFunc = z.function()
+  .args(z.string())
+  .returns(z.number())
+  .parse(someFunction);
+
+// ✅ Zod v4
+const myFunc = z.function()
+  .args(z.string())
+  .returns(z.number())
+  .implement((str) => {
+    return parseInt(str); // Type-checked!
+  });
+
+// Or with new syntax:
+const myFunc = z.function({
+  input: [z.string()],
+  output: z.number()
+}).implement((str) => parseInt(str));
+```
+
+### 7. UUID Validation Stricter
+
+**Breaking Change**: UUID validation now follows RFC 9562/4122 specification strictly.
+
+```typescript
+// Some previously valid UUIDs may now fail validation
+// Ensure UUIDs conform to RFC 9562/4122 format
+const uuid = z.uuid().parse("550e8400-e29b-41d4-a716-446655440000"); // ✓
+```
+
+### Migration Checklist
+
+- [ ] Replace `message`, `invalid_type_error`, `required_error`, `errorMap` with unified `error` parameter
+- [ ] Check for `Infinity` or `-Infinity` in number validations
+- [ ] Update `.int()` usage if relying on unsafe integers
+- [ ] Replace `.merge()` with `.extend()`
+- [ ] Replace `error.format()` with `z.treeifyError()`
+- [ ] Replace `error.flatten()` with `z.flattenError()`
+- [ ] Update `z.nativeEnum()` to `z.enum()` (or keep for clarity)
+- [ ] Replace `z.promise()` with async refinements
+- [ ] Update function validation to use `.implement()` or new syntax
+- [ ] Consider using top-level format functions (`z.email()` instead of `z.string().email()`)
+- [ ] Test UUID validation if using custom UUID formats
+
+**Performance Improvements**: Zod v4 eliminates the `ZodEffects` class, moving refinements directly into schemas and introducing `ZodTransform` for dedicated transformation handling. This results in faster validation and better tree-shaking.
 
 ## Core Concepts
 
@@ -411,34 +591,233 @@ const NumberStringSchema = z.string().pipe(z.coerce.number());
 
 ### Codecs (Bidirectional Transformations)
 
-Codecs enable encoding and decoding between two schema types:
+**New in Zod v4.1**: Codecs enable bidirectional transformations between two schemas, perfect for handling data at network boundaries or converting between different representations.
+
+#### What Are Codecs?
+
+Unlike `.transform()` which is unidirectional (input → output), codecs define transformations in both directions:
+- **Forward (decode)**: Convert from input format to output format
+- **Backward (encode)**: Convert from output format back to input format
+
+All Zod schemas support both directions via `.decode()` and `.encode()` methods.
+
+#### Basic Example: Date Codec
 
 ```typescript
-// Date codec: string <-> Date
+// String <-> Date codec
 const DateCodec = z.codec(
-  z.iso.datetime(),    // Input schema (string)
-  z.date(),            // Output schema (Date)
+  z.iso.datetime(),    // Input schema (ISO string)
+  z.date(),            // Output schema (Date object)
   {
-    decode: (str) => new Date(str),
-    encode: (date) => date.toISOString(),
+    decode: (str) => new Date(str),      // String → Date
+    encode: (date) => date.toISOString(), // Date → String
   }
 );
 
-// Usage
-const date = DateCodec.decode("2024-01-01T00:00:00Z"); // Date object
-const str = DateCodec.encode(new Date());               // ISO string
+// Decode: string → Date
+const date = DateCodec.decode("2024-01-01T00:00:00Z");
+console.log(date instanceof Date); // true
 
-// Codecs in objects
-const EventSchema = z.object({
-  id: z.string(),
-  createdAt: DateCodec, // Automatically converts
+// Encode: Date → string
+const isoString = DateCodec.encode(new Date());
+console.log(typeof isoString); // "string"
+```
+
+#### Type Safety
+
+Unlike `.parse()` which accepts `unknown`, codec methods require strongly-typed inputs:
+
+```typescript
+const DateCodec = z.codec(z.iso.datetime(), z.date(), {
+  decode: (str) => new Date(str),
+  encode: (date) => date.toISOString(),
 });
 
-// Safe variants
-DateCodec.decodeSafe(data);
-DateCodec.encodeSafe(data);
-DateCodec.decodeSafeAsync(data);
-DateCodec.encodeSafeAsync(data);
+// ✓ Type-safe decode (expects string)
+DateCodec.decode("2024-01-01T00:00:00Z");
+
+// ✗ Type error: number is not assignable to string
+DateCodec.decode(123456789);
+
+// ✓ Type-safe encode (expects Date)
+DateCodec.encode(new Date());
+
+// ✗ Type error: string is not assignable to Date
+DateCodec.encode("2024-01-01");
+```
+
+#### Safe Variants (No Exceptions)
+
+Codecs provide safe methods that return result objects instead of throwing:
+
+```typescript
+// Safe decode
+const decodeResult = DateCodec.decodeSafe("2024-01-01T00:00:00Z");
+if (decodeResult.success) {
+  console.log(decodeResult.data); // Date object
+} else {
+  console.error(decodeResult.error); // ZodError
+}
+
+// Safe encode
+const encodeResult = DateCodec.encodeSafe(new Date());
+if (encodeResult.success) {
+  console.log(encodeResult.data); // ISO string
+} else {
+  console.error(encodeResult.error); // ZodError
+}
+
+// Async safe variants
+await DateCodec.decodeAsync(data);
+await DateCodec.decodeSafeAsync(data);
+await DateCodec.encodeAsync(data);
+await DateCodec.encodeSafeAsync(data);
+```
+
+#### Composability
+
+Codecs work seamlessly within objects, arrays, and other schemas:
+
+```typescript
+const EventSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  createdAt: DateCodec,     // Automatically handles conversion
+  updatedAt: DateCodec,
+  metadata: z.record(z.string()),
+});
+
+// When parsing API response (JSON with ISO strings)
+const event = EventSchema.decode({
+  id: "550e8400-e29b-41d4-a716-446655440000",
+  title: "Launch Event",
+  createdAt: "2024-01-01T00:00:00Z",  // String → Date
+  updatedAt: "2024-01-02T00:00:00Z",  // String → Date
+  metadata: { location: "Online" },
+});
+
+console.log(event.createdAt instanceof Date); // true
+
+// When sending to API (Date objects → ISO strings)
+const payload = EventSchema.encode({
+  id: "550e8400-e29b-41d4-a716-446655440000",
+  title: "Launch Event",
+  createdAt: new Date("2024-01-01"),  // Date → String
+  updatedAt: new Date("2024-01-02"),  // Date → String
+  metadata: { location: "Online" },
+});
+
+console.log(typeof payload.createdAt); // "string"
+```
+
+#### Common Codec Patterns
+
+```typescript
+// 1. JSON String Codec
+const JSONCodec = <T extends z.ZodTypeAny>(schema: T) =>
+  z.codec(
+    z.string(),
+    schema,
+    {
+      decode: (str) => JSON.parse(str),
+      encode: (obj) => JSON.stringify(obj),
+    }
+  );
+
+const UserJSONCodec = JSONCodec(z.object({
+  name: z.string(),
+  age: z.number(),
+}));
+
+// 2. Base64 Codec
+const Base64Codec = z.codec(
+  z.string(),
+  z.instanceof(Uint8Array),
+  {
+    decode: (base64) => Uint8Array.from(atob(base64), c => c.charCodeAt(0)),
+    encode: (bytes) => btoa(String.fromCharCode(...bytes)),
+  }
+);
+
+// 3. URL Search Params Codec
+const QueryParamsCodec = <T extends z.ZodTypeAny>(schema: T) =>
+  z.codec(
+    z.string(),
+    schema,
+    {
+      decode: (queryString) => {
+        const params = new URLSearchParams(queryString);
+        return Object.fromEntries(params.entries());
+      },
+      encode: (obj) => new URLSearchParams(obj).toString(),
+    }
+  );
+
+// 4. Milliseconds <-> Seconds Codec
+const SecondsCodec = z.codec(
+  z.number().int().nonnegative(), // Input: seconds
+  z.number().int().nonnegative(), // Output: milliseconds
+  {
+    decode: (seconds) => seconds * 1000,
+    encode: (ms) => Math.floor(ms / 1000),
+  }
+);
+```
+
+#### When to Use Codecs
+
+**Use codecs when**:
+- Parsing data at network boundaries (API requests/responses)
+- Converting between storage and runtime formats
+- Handling serialization/deserialization (JSON, Base64, etc.)
+- Working with timestamps in different units
+- Need bidirectional type-safe conversions
+
+**Use `.transform()` when**:
+- One-way transformation is sufficient
+- Don't need to convert back to original format
+- Simpler use case without encode/decode symmetry
+
+#### Practical Example: API Client
+
+```typescript
+// Define API schema with codecs
+const UserAPISchema = z.object({
+  id: z.string().uuid(),
+  email: z.string().email(),
+  createdAt: z.codec(
+    z.iso.datetime(),
+    z.date(),
+    {
+      decode: (str) => new Date(str),
+      encode: (date) => date.toISOString(),
+    }
+  ),
+  lastLogin: z.codec(
+    z.iso.datetime(),
+    z.date(),
+    {
+      decode: (str) => new Date(str),
+      encode: (date) => date.toISOString(),
+    }
+  ).nullable(),
+});
+
+// Fetch from API (JSON → TypeScript objects)
+async function getUser(id: string) {
+  const response = await fetch(`/api/users/${id}`);
+  const json = await response.json();
+  return UserAPISchema.decode(json); // Dates are Date objects
+}
+
+// Send to API (TypeScript objects → JSON)
+async function updateUser(user: z.output<typeof UserAPISchema>) {
+  const payload = UserAPISchema.encode(user); // Dates are ISO strings
+  await fetch(`/api/users/${user.id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
 ```
 
 ### Recursive Types
@@ -522,53 +901,316 @@ if (!result.success) {
 
 ### Error Formatting
 
+Zod v4 provides three powerful utilities for formatting `ZodError` objects into more usable formats.
+
+#### z.flattenError() - Best for Flat Schemas and Forms
+
+Converts errors into a flat object structure with top-level and field-specific errors:
+
 ```typescript
-// Flatten errors (best for forms)
-const flattened = z.flattenError(result.error);
-console.log(flattened.formErrors);      // Top-level errors
-console.log(flattened.fieldErrors.username); // Field-specific errors
+const FormSchema = z.object({
+  username: z.string().min(3),
+  email: z.string().email(),
+  age: z.number().int().positive(),
+});
 
-// Tree structure (best for nested data)
-const tree = z.treeifyError(result.error);
-console.log(tree.errors);              // Errors at this level
-console.log(tree.properties?.username); // Nested errors
+const result = FormSchema.safeParse({
+  username: "ab",
+  email: "not-an-email",
+  age: -5,
+});
 
-// Prettify (human-readable output)
-const pretty = z.prettifyError(result.error);
-// ✖ Invalid input: expected string, received number
-//   → at username
+if (!result.success) {
+  const flattened = z.flattenError(result.error);
+
+  console.log(flattened.formErrors);
+  // [] - No top-level errors
+
+  console.log(flattened.fieldErrors);
+  /*
+  {
+    username: ["String must contain at least 3 character(s)"],
+    email: ["Invalid email"],
+    age: ["Number must be greater than 0"]
+  }
+  */
+
+  // Access specific field errors
+  console.log(flattened.fieldErrors.username);
+  // ["String must contain at least 3 character(s)"]
+}
+```
+
+**When to use**: Single-level schemas, form validation, displaying field-specific errors in UI.
+
+#### z.treeifyError() - Best for Nested Data Structures
+
+Converts errors into a nested tree mirroring your schema structure:
+
+```typescript
+const NestedSchema = z.object({
+  user: z.object({
+    profile: z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+    }),
+    settings: z.object({
+      notifications: z.boolean(),
+    }),
+  }),
+  posts: z.array(z.object({
+    title: z.string(),
+    content: z.string(),
+  })),
+});
+
+const result = NestedSchema.safeParse({
+  user: {
+    profile: {
+      name: "",
+      email: "invalid",
+    },
+    settings: {
+      notifications: "yes", // Should be boolean
+    },
+  },
+  posts: [
+    { title: "Post 1", content: 123 }, // Content should be string
+  ],
+});
+
+if (!result.success) {
+  const tree = z.treeifyError(result.error);
+
+  // Tree structure mirrors schema
+  console.log(tree.errors);
+  // [] - No errors at root level
+
+  // Navigate nested errors with optional chaining (IMPORTANT!)
+  console.log(tree.properties?.user?.properties?.profile?.properties?.name?.errors);
+  // ["String must contain at least 1 character(s)"]
+
+  console.log(tree.properties?.user?.properties?.profile?.properties?.email?.errors);
+  // ["Invalid email"]
+
+  console.log(tree.properties?.user?.properties?.settings?.properties?.notifications?.errors);
+  // ["Expected boolean, received string"]
+
+  // Array errors use 'items' property
+  console.log(tree.properties?.posts?.items?.[0]?.properties?.content?.errors);
+  // ["Expected string, received number"]
+}
+```
+
+**Tree Structure**:
+```typescript
+interface ErrorTree {
+  errors: string[];              // Errors at current level
+  properties?: {                 // Object property errors
+    [key: string]: ErrorTree;
+  };
+  items?: ErrorTree[];           // Array item errors
+}
+```
+
+**Best Practice**: Always use optional chaining (`?.`) when accessing nested tree properties to prevent runtime errors.
+
+**When to use**: Nested schemas, complex data structures, displaying errors next to nested form fields.
+
+#### z.prettifyError() - Best for Debugging and Logging
+
+Generates a human-readable string representation of all validation errors:
+
+```typescript
+const UserSchema = z.object({
+  profile: z.object({
+    username: z.string().min(3),
+    email: z.string().email(),
+  }),
+  favoriteNumbers: z.array(z.number()),
+});
+
+const result = UserSchema.safeParse({
+  profile: {
+    username: "ab",
+    email: "not-email",
+  },
+  favoriteNumbers: ["one", "two"],
+});
+
+if (!result.success) {
+  const pretty = z.prettifyError(result.error);
+  console.log(pretty);
+}
+
+/*
+Output:
+✖ String must contain at least 3 character(s)
+  → at profile.username
+
+✖ Invalid email
+  → at profile.email
+
+✖ Expected number, received string
+  → at favoriteNumbers[0]
+
+✖ Expected number, received string
+  → at favoriteNumbers[1]
+*/
+```
+
+**When to use**: Development logging, error debugging, console output, error monitoring services.
+
+#### Comparison Table
+
+| Method | Best For | Output Type | Nested Support |
+|--------|----------|-------------|----------------|
+| `z.flattenError()` | Forms, single-level schemas | Object `{ formErrors, fieldErrors }` | No |
+| `z.treeifyError()` | Nested data, complex structures | Tree object | Yes |
+| `z.prettifyError()` | Debugging, logging | String | Yes |
+
+#### Legacy Methods (Deprecated)
+
+```typescript
+// ❌ Zod v3 (Deprecated in v4)
+error.format();   // Use z.treeifyError(error) instead
+error.flatten();  // Use z.flattenError(error) instead
+
+// ✅ Zod v4
+z.treeifyError(error);
+z.flattenError(error);
 ```
 
 ### Custom Error Messages
 
+Zod v4 unifies error customization with the `error` parameter, replacing the fragmented `message`, `invalid_type_error`, `required_error`, and `errorMap` options from v3.
+
+#### Three-Level Error Customization System
+
+Zod provides three levels of error customization with clear precedence:
+
 ```typescript
-// Inline custom message
+// 1. SCHEMA-LEVEL (Highest Priority)
+// Define custom messages when creating schemas
+const NameSchema = z.string({
+  error: "Name must be a string",
+});
+
+const EmailSchema = z.string().email({
+  error: (issue) => {
+    if (issue.code === "invalid_string") {
+      return { message: "Please provide a valid email address" };
+    }
+  },
+});
+
+const AgeSchema = z.number().min(18, {
+  error: "Must be at least 18 years old",
+});
+
+// 2. PER-PARSE LEVEL (Medium Priority)
+// Override errors for a specific parse call
+const result = UserSchema.parse(data, {
+  error: (issue) => {
+    // Custom error logic for this specific parse
+    return { message: `Validation failed at ${issue.path.join('.')}` };
+  },
+});
+
+// 3. GLOBAL LEVEL (Lowest Priority)
+// Set application-wide error defaults
+z.config({
+  customError: (issue) => {
+    // Global error handler - applies when schema/parse don't specify
+    return { message: `Global error: ${issue.code}` };
+  },
+});
+```
+
+#### Error Function Parameters
+
+Error customization functions receive an issue context object with detailed information:
+
+```typescript
+z.string().min(5, {
+  error: (issue) => {
+    // Available properties:
+    console.log(issue.code);      // Error type (e.g., "too_small")
+    console.log(issue.input);     // The data being validated
+    console.log(issue.inst);      // The schema instance
+    console.log(issue.path);      // Path in nested structures
+
+    // Type-specific properties
+    if (issue.code === "too_small") {
+      console.log(issue.minimum);   // The minimum value
+      console.log(issue.inclusive); // Whether minimum is inclusive
+    }
+
+    // Return undefined to defer to next handler in precedence chain
+    return undefined;
+  },
+});
+```
+
+#### Quick Examples
+
+```typescript
+// Simple string message
 z.string().min(5, "Must be at least 5 characters");
 z.string("Invalid string!");
 
-// Error map function
+// Conditional error messages
 z.string({
   error: (issue) => {
     if (issue.code === "too_small") {
       return { message: `Minimum length: ${issue.minimum}` };
     }
+    if (issue.code === "invalid_type") {
+      return { message: `Expected string, got ${issue.received}` };
+    }
     return undefined; // Use default message
   },
 });
 
-// Per-parse error override
+// Include input data in errors (disabled by default for security)
 schema.parse(data, {
-  error: (issue) => "Custom error for this parse",
-});
-
-// Global error configuration
-z.config({
-  customError: (issue) => {
-    // Global error handler (lowest precedence)
-    return { message: "Globally customized error" };
-  },
+  reportInput: true, // Now error.issues will include input data
+  error: (issue) => ({
+    message: `Invalid value: ${JSON.stringify(issue.input)}`,
+  }),
 });
 ```
+
+#### Localization Support
+
+Zod v4 includes built-in support for 40+ locales:
+
+```typescript
+import { z } from "zod";
+
+// Set global locale
+z.config(z.locales.en());  // English (default)
+z.config(z.locales.es());  // Spanish
+z.config(z.locales.fr());  // French
+z.config(z.locales.de());  // German
+z.config(z.locales.ja());  // Japanese
+z.config(z.locales.zh());  // Chinese
+// ... and 34+ more locales
+
+// Per-parse locale override
+const result = schema.parse(data, {
+  locale: z.locales.es(),
+});
+
+// Custom i18n integration
+z.config({
+  customError: (issue) => ({
+    message: t(`validation.${issue.code}`, issue),
+  }),
+});
+```
+
+**Available Locales**: `ar`, `bg`, `cs`, `da`, `de`, `el`, `en`, `es`, `et`, `fa`, `fi`, `fr`, `he`, `hi`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `th`, `tr`, `uk`, `vi`, `zh`, `zh-TW`
 
 ## Type Inference
 
@@ -624,20 +1266,217 @@ z.toJSONSchema(schema, {
 
 ## Metadata
 
+Zod v4 provides a powerful metadata system for associating additional information with schemas, useful for documentation, code generation, AI structured outputs, and form validation.
+
+### Global Registry (Quick Start)
+
+The easiest way to add metadata is using the global registry:
+
 ```typescript
-// Add metadata to schemas
+// Add metadata with .meta()
 const EmailSchema = z.string().email().meta({
   id: "email_address",
   title: "Email Address",
   description: "User's email address",
   deprecated: false,
+  // Add any custom fields
+  placeholder: "user@example.com",
+  helpText: "We'll never share your email",
 });
 
 // Retrieve metadata
 const meta = EmailSchema.meta();
+console.log(meta.title); // "Email Address"
 
-// Legacy .describe() method (still supported)
+// .meta() without arguments retrieves existing metadata
+const existingMeta = EmailSchema.meta();
+
+// Legacy .describe() method (still supported for Zod 3 compatibility)
 const DescribedSchema = z.string().describe("A user's name");
+// Equivalent to: z.string().meta({ description: "A user's name" })
+```
+
+### Global Metadata Interface
+
+The global registry accepts this interface by default:
+
+```typescript
+interface GlobalMeta {
+  id?: string;
+  title?: string;
+  description?: string;
+  deprecated?: boolean;
+  [k: string]: unknown; // Any additional custom fields
+}
+
+// Extend with TypeScript declaration merging for type safety
+declare module "zod" {
+  interface GlobalMeta {
+    placeholder?: string;
+    helpText?: string;
+    uiComponent?: "input" | "textarea" | "select";
+  }
+}
+
+// Now TypeScript knows about custom fields
+const schema = z.string().meta({
+  placeholder: "Enter text...",
+  uiComponent: "textarea", // Autocomplete works!
+});
+```
+
+### Custom Registries
+
+For advanced use cases, create custom registries with strongly-typed metadata:
+
+```typescript
+// Define custom metadata type
+interface FormFieldMeta {
+  label: string;
+  placeholder?: string;
+  helpText?: string;
+  validation?: {
+    showOnChange?: boolean;
+    showOnBlur?: boolean;
+  };
+}
+
+// Create typed registry
+const formRegistry = z.registry<FormFieldMeta>();
+
+// Register schemas with metadata
+const UsernameSchema = z.string().min(3).max(20);
+formRegistry.add(UsernameSchema, {
+  label: "Username",
+  placeholder: "Choose a username",
+  helpText: "3-20 characters, alphanumeric only",
+  validation: {
+    showOnBlur: true,
+  },
+});
+
+// Check if schema exists
+if (formRegistry.has(UsernameSchema)) {
+  // Retrieve metadata
+  const meta = formRegistry.get(UsernameSchema);
+  console.log(meta.label); // "Username"
+}
+
+// Remove schema from registry
+formRegistry.remove(UsernameSchema);
+
+// Clear entire registry
+formRegistry.clear();
+```
+
+### .register() Method
+
+The `.register()` method adds metadata and returns the original schema (not a new instance):
+
+```typescript
+const EmailSchema = z.string().email().register({
+  title: "Email Address",
+  description: "User's email address",
+});
+
+// Returns the same schema instance, allowing inline registration
+const UserSchema = z.object({
+  email: z.string().email().register({
+    id: "user_email",
+    title: "Email",
+  }),
+  name: z.string().register({
+    id: "user_name",
+    title: "Full Name",
+  }),
+});
+```
+
+### Advanced: Inferred Types in Metadata
+
+Reference schema types within metadata using `z.$input` and `z.$output`:
+
+```typescript
+const TransformSchema = z.string().transform((s) => s.length);
+
+const registry = z.registry<{
+  description: string;
+  // Use schema's input/output types
+  exampleInput?: z.$input<typeof TransformSchema>;
+  exampleOutput?: z.$output<typeof TransformSchema>;
+}>();
+
+registry.add(TransformSchema, {
+  description: "Converts string to length",
+  exampleInput: "hello",    // Type: string
+  exampleOutput: 5,         // Type: number
+});
+```
+
+### Advanced: Schema Type Constraints
+
+Restrict which schema types can be registered in a custom registry:
+
+```typescript
+// Only allow string schemas
+const stringRegistry = z.registry<
+  { label: string },
+  z.ZodString
+>();
+
+const nameSchema = z.string();
+stringRegistry.add(nameSchema, { label: "Name" }); // ✓ OK
+
+const ageSchema = z.number();
+stringRegistry.add(ageSchema, { label: "Age" }); // ✗ Type error!
+```
+
+### Metadata for JSON Schema Generation
+
+Metadata integrates seamlessly with `z.toJSONSchema()`:
+
+```typescript
+const UserSchema = z.object({
+  email: z.string().email().meta({
+    title: "Email Address",
+    description: "The user's email",
+    examples: ["user@example.com"],
+  }),
+  age: z.number().int().positive().meta({
+    title: "Age",
+    description: "User's age in years",
+    minimum: 1,
+    maximum: 120,
+  }),
+});
+
+// Include metadata in JSON Schema output
+const jsonSchema = z.toJSONSchema(UserSchema, {
+  metadata: true, // ← Includes .meta() data
+});
+
+/*
+{
+  type: "object",
+  properties: {
+    email: {
+      type: "string",
+      format: "email",
+      title: "Email Address",
+      description: "The user's email",
+      examples: ["user@example.com"]
+    },
+    age: {
+      type: "number",
+      title: "Age",
+      description: "User's age in years",
+      minimum: 1,
+      maximum: 120
+    }
+  },
+  required: ["email", "age"]
+}
+*/
 ```
 
 ## Functions
@@ -953,9 +1792,19 @@ z.toJSONSchema(schema, options)
 ---
 
 **Production Notes**:
-- Package version: 4.1.12 (Zod 4.x stable)
+- Package version: 4.1.12+ (Zod 4.x stable)
 - Zero dependencies
 - Bundle size: 2kb (gzipped)
 - TypeScript 5.5+ required
 - Strict mode required
-- Last verified: 2025-11-11
+- Last verified: 2025-11-17
+- Skill version: 2.0.0 (Updated with v4.1 enhancements)
+
+**What's New in This Version**:
+- ✨ Comprehensive v3 to v4 migration guide with breaking changes
+- ✨ Enhanced error customization with three-level system
+- ✨ Expanded metadata API with registry system
+- ✨ Improved error formatting with practical examples
+- ✨ Built-in localization support for 40+ locales
+- ✨ Detailed codec documentation with real-world patterns
+- ✨ Performance improvements and architectural changes explained

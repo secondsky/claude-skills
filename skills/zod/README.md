@@ -19,15 +19,20 @@ Claude will automatically suggest this skill when you're working with:
 
 ## 🚀 What This Skill Provides
 
-### Comprehensive Coverage
+### Comprehensive Coverage (v2.0.0 - Updated 2025-11-17)
 
 - ✅ **All primitive types**: strings, numbers, booleans, dates, bigints
 - ✅ **Complex types**: objects, arrays, tuples, enums, unions, intersections
 - ✅ **Advanced patterns**: refinements, transformations, codecs, recursive types
 - ✅ **Error handling**: parse vs safeParse, error formatting, custom messages
+- ✅ **Error customization**: Three-level system (schema, per-parse, global)
+- ✅ **Error formatting**: flattenError, treeifyError, prettifyError with detailed examples
 - ✅ **Type inference**: z.infer, input/output types
 - ✅ **JSON Schema**: conversion to JSON Schema for OpenAPI
-- ✅ **Metadata**: .meta(), .describe() for documentation
+- ✅ **Metadata system**: .meta(), .register(), registries, global registry
+- ✅ **Localization**: Built-in support for 40+ locales (i18n)
+- ✅ **Migration guide**: Comprehensive v3 to v4 upgrade documentation
+- ✅ **Codecs**: Bidirectional transformations with practical examples
 - ✅ **Ecosystem**: ESLint plugins, tRPC, Prisma, React Hook Form
 - ✅ **Best practices**: performance tips, common patterns
 - ✅ **Known issues**: documented solutions with examples
@@ -71,12 +76,16 @@ yarn add zod
 - TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
 - Zod 4.x (4.1.12+)
 
-**⚠️ Important - Zod 4.x Only**: This skill documents **Zod 4.x** features. The following APIs require Zod 4 and are NOT available in Zod 3.x:
-- `z.codec()` - Bidirectional transformations
+**⚠️ Important - Zod 4.x Only**: This skill documents **Zod 4.x** features with comprehensive v4.1 enhancements. The following APIs require Zod 4 and are NOT available in Zod 3.x:
+- `z.codec()` - Bidirectional transformations (new in v4.1)
 - `z.iso.date()`, `z.iso.time()`, `z.iso.datetime()`, `z.iso.duration()` - ISO format validators
 - `z.toJSONSchema()` - JSON Schema generation
 - `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
-- `.meta()` - Enhanced metadata (Zod 3.x only has `.describe()`)
+- `.meta()`, `.register()`, `z.registry()` - Enhanced metadata system
+- Unified `error` parameter - Replaces `message`, `invalid_type_error`, `required_error`, `errorMap`
+- Built-in localization support for 40+ languages
+
+**📖 Includes Migration Guide**: Comprehensive v3 to v4 migration documentation with breaking changes, checklist, and upgrade strategies.
 
 For Zod 3.x compatibility or migration guidance, see https://zod.dev
 
@@ -231,38 +240,42 @@ Claude will suggest this skill when you mention:
 
 **Core Concepts**: zod, schema, validation, runtime validation, type inference, z.infer
 
-**Types**: z.object, z.string, z.number, z.array, z.enum, z.union, z.discriminatedUnion, z.tuple, z.record
+**Types**: z.object, z.string, z.number, z.array, z.enum, z.union, z.discriminatedUnion, z.tuple, z.record, z.codec
 
-**Methods**: parse, safeParse, parseAsync, refine, transform, coerce
+**Methods**: parse, safeParse, parseAsync, refine, transform, coerce, decode, encode
 
 **Use Cases**: API validation, form validation, environment variables, DTO validation, request validation, response validation
 
 **Ecosystem**: tRPC, Prisma, React Hook Form, NestJS, zodResolver
 
-**Errors**: ZodError, validation error, error formatting, custom error messages
+**Errors**: ZodError, validation error, error formatting, custom error messages, treeifyError, flattenError, prettifyError
 
-**Advanced**: refinement, transformation, codec, JSON Schema, OpenAPI
+**Advanced**: refinement, transformation, codec, JSON Schema, OpenAPI, metadata, registry, localization, i18n
+
+**Migration**: v3 to v4, breaking changes, upgrade guide, migration checklist
 
 ## 📚 What's Included
 
 ### SKILL.md Contents
 
 1. **Overview & Installation** - Getting started, requirements
-2. **Core Concepts** - Parsing methods, basic patterns
-3. **Primitive Types** - Strings, numbers, dates with all validators
-4. **Complex Types** - Objects, arrays, tuples, enums, unions
-5. **Advanced Patterns** - Refinements, transforms, codecs, recursive types
-6. **Error Handling** - Parse methods, error formatting, custom messages
-7. **Type Inference** - z.infer, input/output types
-8. **JSON Schema** - Conversion to JSON Schema
-9. **Metadata** - .meta(), .describe()
-10. **Functions** - Function validation and implementation
-11. **Common Patterns** - Env vars, APIs, forms, partial updates
-12. **Ecosystem** - ESLint, tRPC, Prisma, code generation
-13. **Known Issues** - 8 documented issues with solutions
-14. **Performance Tips** - Optimization strategies
-15. **Best Practices** - Production-ready recommendations
-16. **Quick Reference** - Comprehensive API cheat sheet
+2. **Migration Guide (v3 → v4)** - Breaking changes, migration checklist, upgrade strategies
+3. **Core Concepts** - Parsing methods, basic patterns
+4. **Primitive Types** - Strings, numbers, dates with all validators
+5. **Complex Types** - Objects, arrays, tuples, enums, unions
+6. **Advanced Patterns** - Refinements, transforms, codecs, recursive types
+7. **Error Handling** - Parse methods, error formatting (flatten, treeify, prettify)
+8. **Error Customization** - Three-level system (schema, per-parse, global), localization
+9. **Type Inference** - z.infer, input/output types
+10. **JSON Schema** - Conversion to JSON Schema with metadata
+11. **Metadata System** - .meta(), .register(), registries, global registry
+12. **Functions** - Function validation and implementation
+13. **Common Patterns** - Env vars, APIs, forms, partial updates
+14. **Ecosystem** - ESLint, tRPC, Prisma, code generation
+15. **Known Issues** - 8 documented issues with solutions
+16. **Performance Tips** - Optimization strategies
+17. **Best Practices** - Production-ready recommendations
+18. **Quick Reference** - Comprehensive API cheat sheet
 
 ## 🔗 Resources
 
@@ -330,6 +343,16 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 
 ## 🔄 Version History
 
+- **2.0.0** (2025-11-17) - Major Update: v4.1 Enhancements
+  - ✨ Comprehensive v3 to v4 migration guide with breaking changes
+  - ✨ Enhanced error customization with three-level system
+  - ✨ Expanded metadata API with registry system documentation
+  - ✨ Improved error formatting with practical nested examples
+  - ✨ Built-in localization support for 40+ locales
+  - ✨ Detailed codec documentation with real-world patterns
+  - ✨ Performance improvements and architectural changes explained
+  - ✨ Updated all examples to reflect v4.1 best practices
+
 - **1.0.0** (2025-11-11) - Initial release
   - Comprehensive Zod 4.1.12+ coverage (Zod 4.x stable)
   - All primitive and complex types
@@ -342,8 +365,9 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Package Version**: 4.1.12 (Zod 4.x stable)
-**Last Verified**: 2025-11-11
+**Skill Version**: 2.0.0
+**Package Version**: 4.1.12+ (Zod 4.x stable)
+**Last Verified**: 2025-11-17
 **Token Savings**: ~65%
 **Errors Prevented**: 8+
 **Production Status**: ✅ Tested
