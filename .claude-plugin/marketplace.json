@@ -88,6 +88,21 @@
     }
 ,
     {
+      "name": "api-testing",
+      "source": "./skills/api-testing",
+      "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "architecture-patterns",
       "source": "./skills/architecture-patterns",
       "description": "Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.",
@@ -883,6 +898,21 @@
     }
 ,
     {
+      "name": "jest-generator",
+      "source": "./skills/jest-generator",
+      "description": "Generate Jest-based unit tests for JavaScript/TypeScript code. Creates test files following Jest conventions with proper mocking, describe blocks, and coverage. Use when generating tests for JS/TS modules, React components, or adding missing test coverage.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "mcp-dynamic-orchestrator",
       "source": "./skills/mcp-dynamic-orchestrator",
       "description": "This skill provides dynamic discovery and code-mode execution for MCP servers defined in a central registry file. It should be used when an agent needs to know which MCP integrations are available, what domains they cover, and how to call them efficiently via generated code without eagerly loading each MCP tool as a first-class tool. Use when: working with multiple MCP servers (APIs, internal systems, SaaS tools), especially when the set of available MCPs changes over time or is large enough that exposing all tools directly would bloat context.",
@@ -949,6 +979,21 @@
       "version": "1.0.0",
       "category": "ai",
       "keywords": ["ai consultation","second opinion","gemini","openai","codex","debugging","architecture","multi-ai","synthesis","fresh perspective","stuck","web research","thinking mode","repo-aware"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mutation-testing",
+      "source": "./skills/mutation-testing",
+      "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1159,6 +1204,21 @@
       "version": "1.0.0",
       "category": "frontend",
       "keywords": ["pinia","vue state management","pinia stores","defineStore","vue 3 state","state management","getters","actions","pinia plugins","pinia ssr","nuxt pinia","vuex migration","store composition","pinia testing","setup stores","option stores","storeToRefs","mapState","mapActions","state hydration"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "playwright-testing",
+      "source": "./skills/playwright-testing",
+      "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1408,6 +1468,21 @@
     }
 ,
     {
+      "name": "test-quality-analysis",
+      "source": "./skills/test-quality-analysis",
+      "description": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "thesys-generative-ui",
       "source": "./skills/thesys-generative-ui",
       "description": "Production-ready skill for integrating TheSys C1 Generative UI API into React applications. This skill should be used when building AI-powered interfaces that stream interactive components (forms, charts, tables) instead of plain text responses. Covers complete integration patterns for Vite+React, Next.js, and Cloudflare Workers with OpenAI, Anthropic Claude, and Cloudflare Workers AI. Includes tool calling with Zod schemas, theming, thread management, and production deployment. Prevents 12+ common integration errors and provides working templates for chat interfaces, data visualization, and dynamic forms. Use this skill when implementing conversational UIs, AI assistants, search interfaces, or any application requiring real-time generative user interfaces with streaming LLM responses.",
@@ -1488,6 +1563,21 @@
       "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.",
       "version": "1.0.0",
       "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "vitest-testing",
+      "source": "./skills/vitest-testing",
+      "description": "Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects.",
+      "version": "1.0.0",
+      "category": "tooling",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
