@@ -11,6 +11,33 @@ Skills with GOOD descriptions:   63 (70% of total, 71% of analyzed)
 Skills with ISSUES:              26 (29% of total, 29% of analyzed)
 Skills MISSING SKILL.md:         1  (feature-dev - CRITICAL)
 
+IMPORTANT CLARIFICATION
+================================================================================
+This report measures DESCRIPTION QUALITY ONLY (third-person, action verbs,
+"Use when", keywords). Many skills with "good descriptions" still have OTHER
+anti-patterns like:
+  - Exceeding 500-line limit
+  - Time-sensitive information
+  - Missing verification steps
+  - Second-person language in body
+
+For OVERALL quality (zero anti-patterns), see AUDIT_REPORT_2025-11-16.md
+
+CROSS-REFERENCE
+================================================================================
+Skills with EXCELLENT descriptions AND zero anti-patterns: 20 (22%)
+  See SKILLS_QUALITY_MATRIX.md for complete breakdown
+
+Skills with GOOD descriptions but HAVE anti-patterns:     43 (48%)
+  Most common: over 500-line limit, time-sensitive info
+
+Skills with ZERO anti-patterns but POOR description:      5 (6%)
+  cloudflare-cron-triggers, cloudflare-queues, firecrawl-scraper,
+  multi-ai-consultant, open-source-contributions
+
+Skills with BOTH description issues AND anti-patterns:    21 (23%)
+  See SKILLS_QUALITY_MATRIX.md for prioritized fix list
+
 METRIC PASS RATES
 ================================================================================
 ✓ Third person language:         83/86 (96%)  - EXCELLENT
