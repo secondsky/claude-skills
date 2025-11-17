@@ -18,19 +18,30 @@ export async function getBrowser(options = {}) {
     return browserInstance;
   }
 
+  // Required security flags that cannot be overridden
+  const requiredArgs = [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage'
+  ];
+
+  // Merge user args with required args, ensuring required args are present
+  const userArgs = options.args || [];
+  const mergedArgs = [...requiredArgs];
+  for (const arg of userArgs) {
+    if (!mergedArgs.includes(arg)) {
+      mergedArgs.push(arg);
+    }
+  }
+
   const launchOptions = {
+    ...options, // Spread options first
     headless: options.headless !== false,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      ...(options.args || [])
-    ],
+    args: mergedArgs,
     defaultViewport: options.viewport || {
       width: 1920,
       height: 1080
-    },
-    ...options
+    }
   };
 
   if (options.browserUrl || options.wsEndpoint) {

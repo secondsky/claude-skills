@@ -6,8 +6,7 @@
   "scripts": {},
   "dependencies": {
     "puppeteer": "^24.15.0",
-    "debug": "^4.4.0",
-    "yargs": "^17.7.2"
+    "debug": "^4.4.0"
   },
   "engines": {
     "node": ">=18.0.0"

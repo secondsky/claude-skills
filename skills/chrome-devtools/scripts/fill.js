@@ -65,7 +65,6 @@ async function fill() {
     // Enhance error message with troubleshooting tips
     const enhanced = enhanceError(error, args.selector);
     outputError(enhanced);
-    process.exit(1);
   }
 }
 

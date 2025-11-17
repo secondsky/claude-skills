@@ -27,13 +27,18 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
     return { compressed: false, originalSize, finalSize: originalSize };
   }
 
+  let imageMagickBin = null;
+  let tempPath = null;
+
   try {
-    // Check if ImageMagick is available
+    // Check if ImageMagick is available and determine which binary to use
     try {
       execSync('magick -version', { stdio: 'pipe' });
+      imageMagickBin = 'magick';
     } catch {
       try {
         execSync('convert -version', { stdio: 'pipe' });
+        imageMagickBin = 'convert';
       } catch {
         console.error('Warning: ImageMagick not found. Install it to enable automatic compression.');
         return { compressed: false, originalSize, finalSize: originalSize };
@@ -41,19 +46,21 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
     }
 
     const ext = path.extname(filePath).toLowerCase();
-    const tempPath = filePath.replace(ext, `.temp${ext}`);
 
     // Determine compression strategy based on file type
     let compressionCmd;
     if (ext === '.png') {
       // For PNG: resize and compress with quality
-      compressionCmd = `magick "${filePath}" -strip -resize 90% -quality 85 "${tempPath}"`;
+      tempPath = filePath.replace(ext, `.temp${ext}`);
+      compressionCmd = `${imageMagickBin} "${filePath}" -strip -resize 90% -quality 85 "${tempPath}"`;
     } else if (ext === '.jpg' || ext === '.jpeg') {
       // For JPEG: compress with quality and progressive
-      compressionCmd = `magick "${filePath}" -strip -quality 80 -interlace Plane "${tempPath}"`;
+      tempPath = filePath.replace(ext, `.temp${ext}`);
+      compressionCmd = `${imageMagickBin} "${filePath}" -strip -quality 80 -interlace Plane "${tempPath}"`;
     } else {
       // For other formats: convert to JPEG with compression
-      compressionCmd = `magick "${filePath}" -strip -quality 80 "${tempPath.replace(ext, '.jpg')}"`;
+      tempPath = filePath.replace(ext, '.temp.jpg');
+      compressionCmd = `${imageMagickBin} "${filePath}" -strip -quality 80 "${tempPath}"`;
     }
 
     // Try compression
@@ -68,9 +75,9 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
       let aggressiveCmd;
 
       if (ext === '.png') {
-        aggressiveCmd = `magick "${tempPath}" -strip -resize 75% -quality 70 "${finalPath}"`;
+        aggressiveCmd = `${imageMagickBin} "${tempPath}" -strip -resize 75% -quality 70 "${finalPath}"`;
       } else {
-        aggressiveCmd = `magick "${tempPath}" -strip -quality 60 -sampling-factor 4:2:0 "${finalPath}"`;
+        aggressiveCmd = `${imageMagickBin} "${tempPath}" -strip -quality 60 -sampling-factor 4:2:0 "${finalPath}"`;
       }
 
       execSync(aggressiveCmd, { stdio: 'pipe' });
@@ -84,11 +91,19 @@ async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
     return { compressed: true, originalSize, finalSize: finalStats.size };
   } catch (error) {
     console.error('Compression error:', error.message);
-    // If compression fails, keep original file
-    try {
-      const tempPath = filePath.replace(path.extname(filePath), '.temp' + path.extname(filePath));
+    // If compression fails, keep original file and clean up any temp files
+    if (tempPath) {
       await fs.unlink(tempPath).catch(() => {});
-    } catch {}
+    }
+    // Also try to clean up potential orphan files
+    const ext = path.extname(filePath).toLowerCase();
+    const possibleTempFiles = [
+      filePath.replace(ext, `.temp${ext}`),
+      filePath.replace(ext, '.temp.jpg')
+    ];
+    for (const file of possibleTempFiles) {
+      await fs.unlink(file).catch(() => {});
+    }
     return { compressed: false, originalSize, finalSize: originalSize };
   }
 }
@@ -148,7 +163,7 @@ async function screenshot() {
     };
 
     // Compress image if needed (unless --no-compress flag is set)
-    if (args['no-compress'] !== 'true') {
+    if (!args['no-compress']) {
       const maxSize = args['max-size'] ? parseFloat(args['max-size']) : 5;
       const compressionResult = await compressImageIfNeeded(args.output, maxSize);
 
@@ -173,7 +188,6 @@ async function screenshot() {
     } else {
       outputError(error);
     }
-    process.exit(1);
   }
 }
 
