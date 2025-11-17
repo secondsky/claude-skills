@@ -148,6 +148,21 @@
     }
 ,
     {
+      "name": "chrome-devtools",
+      "source": "./skills/chrome-devtools",
+      "description": "Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Use for automating browsers, taking screenshots, analyzing performance, monitoring network traffic, web scraping, form automation, and JavaScript debugging.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "claude-agent-sdk",
       "source": "./skills/claude-agent-sdk",
       "description": "This skill provides comprehensive knowledge for working with the Anthropic Claude Agent SDK. It should be used when building autonomous AI agents, creating multi-step reasoning workflows, orchestrating specialized subagents, integrating custom tools and MCP servers, or implementing production-ready agentic systems with Claude Codes capabilities. Use when building coding agents, SRE systems, security auditors, incident responders, code review bots, or any autonomous system that requires programmatic interaction with Claude Code CLI, persistent sessions, tool orchestration, and fine-grained permission control.",
@@ -568,9 +583,39 @@
     }
 ,
     {
+      "name": "code-review",
+      "source": "./skills/code-review",
+      "description": "Use when receiving code review feedback (especially if unclear or technically questionable), when completing tasks or major features requiring review before proceeding, or before making any completion/success claims. Covers three practices - receiving feedback with technical rigor over performative agreement, requesting reviews via code-reviewer subagent, and verification gates requiring evidence before any status claims. Essential for subagent-driven development, pull requests, and preventing false completion claims.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "content-collections",
       "source": "./skills/content-collections",
       "description": "Introduction to Content Collections",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "defense-in-depth-validation",
+      "source": "./skills/defense-in-depth-validation",
+      "description": "Validate at every layer data passes through to make bugs impossible. Use when invalid data causes failures deep in execution, requiring validation at multiple system layers.",
       "version": "1.0.0",
       "category": "other",
       "keywords": [],
@@ -1123,6 +1168,21 @@
     }
 ,
     {
+      "name": "root-cause-tracing",
+      "source": "./skills/root-cause-tracing",
+      "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
       "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with npx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.",
@@ -1173,6 +1233,21 @@
       "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes.",
       "version": "1.0.0",
       "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "systematic-debugging",
+      "source": "./skills/systematic-debugging",
+      "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -1333,6 +1408,21 @@
     }
 ,
     {
+      "name": "verification-before-completion",
+      "source": "./skills/verification-before-completion",
+      "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "woocommerce-backend-dev",
       "source": "./skills/woocommerce-backend-dev",
       "description": "Add or modify WooCommerce backend PHP code following project conventions. Use when creating new classes, methods, hooks, or modifying existing backend code in WooCommerce projects.",
@@ -1352,7 +1442,7 @@
       "source": "./skills/woocommerce-code-review",
       "description": "Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.",
       "version": "1.0.0",
-      "category": "database",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
