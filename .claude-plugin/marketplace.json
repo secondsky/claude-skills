@@ -73,6 +73,51 @@
     }
 ,
     {
+      "name": "api-design-principles",
+      "source": "./skills/api-design-principles",
+      "description": "Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-testing",
+      "source": "./skills/api-testing",
+      "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "architecture-patterns",
+      "source": "./skills/architecture-patterns",
+      "description": "Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "auto-animate",
       "source": "./skills/auto-animate",
       "description": "Production-tested setup for AutoAnimate (@formkit/auto-animate) - a zero-config, drop-in animation library that automatically adds smooth transitions when DOM elements are added, removed, or moved. This skill should be used when building UIs that need simple, automatic animations for lists, accordions, toasts, or form validation messages without the complexity of full animation libraries. Use when: Adding smooth animations to dynamic lists, building filter/sort interfaces, creating accordion components, implementing toast notifications, animating form validation messages, needing simple transitions without animation code, working with Vite + React + Tailwind, deploying to Cloudflare Workers Static Assets, or encountering SSR errors with animation libraries.",
@@ -139,6 +184,21 @@
       "version": "1.0.0",
       "category": "ai",
       "keywords": ["AI chatbot patterns","server action validators","tool abstraction","multi-AI providers","workflow execution","MCP integration","validated actions","tool type checking","Vercel AI SDK patterns","chatbot architecture"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "chrome-devtools",
+      "source": "./skills/chrome-devtools",
+      "description": "Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Use for automating browsers, taking screenshots, analyzing performance, monitoring network traffic, web scraping, form automation, and JavaScript debugging.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -568,9 +628,39 @@
     }
 ,
     {
+      "name": "code-review",
+      "source": "./skills/code-review",
+      "description": "Use when receiving code review feedback (especially if unclear or technically questionable), when completing tasks or major features requiring review before proceeding, or before making any completion/success claims. Covers three practices - receiving feedback with technical rigor over performative agreement, requesting reviews via code-reviewer subagent, and verification gates requiring evidence before any status claims. Essential for subagent-driven development, pull requests, and preventing false completion claims.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "content-collections",
       "source": "./skills/content-collections",
       "description": "Introduction to Content Collections",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "defense-in-depth-validation",
+      "source": "./skills/defense-in-depth-validation",
+      "description": "Validate at every layer data passes through to make bugs impossible. Use when invalid data causes failures deep in execution, requiring validation at multiple system layers.",
       "version": "1.0.0",
       "category": "other",
       "keywords": [],
@@ -808,12 +898,57 @@
     }
 ,
     {
+      "name": "jest-generator",
+      "source": "./skills/jest-generator",
+      "description": "Generate Jest-based unit tests for JavaScript/TypeScript code. Creates test files following Jest conventions with proper mocking, describe blocks, and coverage. Use when generating tests for JS/TS modules, React components, or adding missing test coverage.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "mcp-dynamic-orchestrator",
       "source": "./skills/mcp-dynamic-orchestrator",
       "description": "This skill provides dynamic discovery and code-mode execution for MCP servers defined in a central registry file. It should be used when an agent needs to know which MCP integrations are available, what domains they cover, and how to call them efficiently via generated code without eagerly loading each MCP tool as a first-class tool. Use when: working with multiple MCP servers (APIs, internal systems, SaaS tools), especially when the set of available MCPs changes over time or is large enough that exposing all tools directly would bloat context.",
       "version": "1.0.0",
       "category": "tooling",
       "keywords": ["MCP","code-mode","registry","dynamic tools","tool discovery","progressive disclosure"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mcp-management",
+      "source": "./skills/mcp-management",
+      "description": "Manage Model Context Protocol (MCP) servers - discover, analyze, and execute tools/prompts/resources from configured MCP servers. Use when working with MCP integrations, need to discover available MCP capabilities, filter MCP tools for specific tasks, execute MCP tools programmatically, access MCP prompts/resources, or implement MCP client functionality. Supports intelligent tool selection, multi-server management, and context-efficient capability discovery.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "microservices-patterns",
+      "source": "./skills/microservices-patterns",
+      "description": "Design microservices architectures with service boundaries, event-driven communication, and resilience patterns. Use when building distributed systems, decomposing monoliths, or implementing microservices.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -844,6 +979,21 @@
       "version": "1.0.0",
       "category": "ai",
       "keywords": ["ai consultation","second opinion","gemini","openai","codex","debugging","architecture","multi-ai","synthesis","fresh perspective","stuck","web research","thinking mode","repo-aware"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mutation-testing",
+      "source": "./skills/mutation-testing",
+      "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1063,6 +1213,21 @@
     }
 ,
     {
+      "name": "playwright-testing",
+      "source": "./skills/playwright-testing",
+      "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "project-planning",
       "source": "./skills/project-planning",
       "description": "Generates comprehensive planning documentation for web application projects, structuring work into context-safe phases with built-in verification criteria. Creates IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md, and other planning docs based on project needs. Optimized for Cloudflare Workers + Vite + React stack. Use when starting new projects, adding major features, or restructuring existing work into manageable phases.",
@@ -1123,6 +1288,36 @@
     }
 ,
     {
+      "name": "root-cause-tracing",
+      "source": "./skills/root-cause-tracing",
+      "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "sequential-thinking",
+      "source": "./skills/sequential-thinking",
+      "description": "Use when complex problems require systematic step-by-step reasoning with ability to revise thoughts, branch into alternative approaches, or dynamically adjust scope. Ideal for multi-stage analysis, design planning, problem decomposition, or tasks with initially unclear scope.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
       "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with npx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.",
@@ -1173,6 +1368,21 @@
       "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes.",
       "version": "1.0.0",
       "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "systematic-debugging",
+      "source": "./skills/systematic-debugging",
+      "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -1258,6 +1468,21 @@
     }
 ,
     {
+      "name": "test-quality-analysis",
+      "source": "./skills/test-quality-analysis",
+      "description": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "thesys-generative-ui",
       "source": "./skills/thesys-generative-ui",
       "description": "Production-ready skill for integrating TheSys C1 Generative UI API into React applications. This skill should be used when building AI-powered interfaces that stream interactive components (forms, charts, tables) instead of plain text responses. Covers complete integration patterns for Vite+React, Next.js, and Cloudflare Workers with OpenAI, Anthropic Claude, and Cloudflare Workers AI. Includes tool calling with Zod schemas, theming, thread management, and production deployment. Prevents 12+ common integration errors and provides working templates for chat interfaces, data visualization, and dynamic forms. Use this skill when implementing conversational UIs, AI assistants, search interfaces, or any application requiring real-time generative user interfaces with streaming LLM responses.",
@@ -1333,6 +1558,36 @@
     }
 ,
     {
+      "name": "verification-before-completion",
+      "source": "./skills/verification-before-completion",
+      "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "vitest-testing",
+      "source": "./skills/vitest-testing",
+      "description": "Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "woocommerce-backend-dev",
       "source": "./skills/woocommerce-backend-dev",
       "description": "Add or modify WooCommerce backend PHP code following project conventions. Use when creating new classes, methods, hooks, or modifying existing backend code in WooCommerce projects.",
@@ -1352,7 +1607,7 @@
       "source": "./skills/woocommerce-code-review",
       "description": "Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.",
       "version": "1.0.0",
-      "category": "database",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
