@@ -16,7 +16,7 @@ license: MIT
 **Status**: Production Ready
 **Last Updated**: 2025-01-10
 **Dependencies**: None
-**Latest Versions**: @nuxt/content@^3.0.0, nuxt-studio@^0.1.0-alpha, zod@^3.23.0, valibot@^0.42.0, better-sqlite3@^11.0.0
+**Latest Versions**: @nuxt/content@^3.0.0, nuxt-studio@^0.1.0-alpha, zod@^4.1.12, valibot@^0.42.0, better-sqlite3@^11.0.0
 
 ---
 
@@ -630,14 +630,43 @@ content/blog/hello.md   → /blog/hello
 
 ### Schema Validation
 
-#### With Zod v3
+#### With Zod v4 (Recommended)
 
 ```bash
-bun add -D zod zod-to-json-schema
+bun add -D zod@^4.1.12
 ```
 
 ```ts
 import { z } from 'zod'
+
+// Native JSON Schema support built-in
+schema: z.object({
+  title: z.string(),
+  date: z.date(),
+  published: z.boolean().default(false),
+  tags: z.array(z.string()).optional(),
+  category: z.enum(['news', 'tutorial', 'update'])
+})
+
+// Use .toJsonSchema() if you need JSON Schema output
+const jsonSchema = schema.toJsonSchema()
+```
+
+**Why Zod v4:**
+- Native `.toJsonSchema()` method built-in
+- No external `zod-to-json-schema` dependency needed
+- Better TypeScript integration
+- Same API as v3
+
+#### With Zod v3 (Legacy)
+
+```bash
+bun add -D zod@^3.23.0 zod-to-json-schema
+```
+
+```ts
+import { z } from 'zod'
+import zodToJsonSchema from 'zod-to-json-schema'
 
 schema: z.object({
   title: z.string(),
@@ -646,23 +675,12 @@ schema: z.object({
   tags: z.array(z.string()).optional(),
   category: z.enum(['news', 'tutorial', 'update'])
 })
+
+// Manual conversion required
+const jsonSchema = zodToJsonSchema(schema)
 ```
 
-#### With Zod v4
-
-```bash
-bun add -D zod
-```
-
-```ts
-import { z } from 'zod/v4'
-
-// Same API, native JSON Schema support
-schema: z.object({
-  title: z.string(),
-  date: z.date()
-})
-```
+**Note:** v3 requires external package for JSON Schema conversion.
 
 #### With Valibot
 
@@ -2111,8 +2129,7 @@ Template files for quick setup:
 
 **Optional**:
 - `nuxt-studio@^0.1.0-alpha` - Self-hosted content editor
-- `zod@^3.23.0` - Schema validation (v3)
-- `zod@^4.0.0` - Schema validation (v4 with native JSON Schema)
+- `zod@^4.1.12` - Schema validation (recommended, native JSON Schema support)
 - `valibot@^0.42.0` - Alternative schema validation
 - `minisearch@^7.0.0` - Full-text search library
 - `fuse.js@^7.0.0` - Fuzzy search library
@@ -2143,7 +2160,7 @@ Template files for quick setup:
   "devDependencies": {
     "better-sqlite3": "^11.0.0",
     "nuxt-studio": "^0.1.0-alpha",
-    "zod": "^3.23.0",
+    "zod": "^4.1.12",
     "valibot": "^0.42.0"
   }
 }

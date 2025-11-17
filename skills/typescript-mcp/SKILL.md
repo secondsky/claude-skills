@@ -687,8 +687,7 @@ jobs:
     "@modelcontextprotocol/sdk": "^1.20.2",
     "@cloudflare/workers-types": "^4.20251011.0",
     "hono": "^4.10.1",
-    "zod": "^3.23.8",
-    "zod-to-json-schema": "^3.24.1"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.29",

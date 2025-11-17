@@ -160,7 +160,7 @@ npm run deploy
 | @modelcontextprotocol/sdk | 1.20.2 | ✅ Latest stable |
 | @cloudflare/workers-types | 4.20251011.0 | ✅ Latest |
 | hono | 4.10.1 | ✅ Latest stable |
-| zod | 3.23.8 | ✅ Latest stable |
+| zod | 4.1.12 | ✅ Latest stable (v4) |
 | wrangler | 4.43.0 | ✅ Latest stable |
 | typescript | 5.7.0 | ✅ Latest stable |
 
