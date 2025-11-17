@@ -1,0 +1,214 @@
+================================================================================
+CLAUDE SKILLS AUDIT - PRIORITY ACTION ITEMS (2025-11-16)
+================================================================================
+
+OVERALL HEALTH: 72% good/excellent | 28% need improvement
+Total skills analyzed: 90
+Total anti-patterns found: 118 (avg 1.31 per skill)
+
+================================================================================
+PHASE 1: CRITICAL (Week 1) - Fix immediately
+================================================================================
+
+Issue: Missing License Field (5 skills) - VIOLATES OFFICIAL SPEC
+Impact: Prevents skill discovery in marketplace
+
+Skills requiring fix:
+  [ ] cloudflare-manager          - Add: license: MIT
+  [ ] dependency-upgrade          - Add: license: MIT  
+  [ ] frontend-design             - Add: license: MIT (also needs error + verify sections)
+  [ ] nano-banana-prompts         - Add: license: MIT (also needs error + verify sections)
+  [ ] project-workflow            - Add: license: MIT
+
+Effort: 5 minutes per skill
+Total: ~30 minutes
+
+================================================================================
+Issue: No Error Handling Guidance (2 skills) - HIGH IMPACT
+Impact: Users confused when things fail
+
+Skills requiring fix:
+  [ ] frontend-design             - Add "Common Design Issues" section
+  [ ] nano-banana-prompts         - Add "Prompt Validation" section
+
+Effort: 1-2 hours per skill
+Total: 2-4 hours
+
+================================================================================
+PHASE 2: HIGH VALUE (Week 2-3) - Quick wins with high impact
+================================================================================
+
+Issue: Missing Verification Steps (21 skills) - MEDIUM IMPACT
+Impact: Users unsure if setup works
+
+Priority skills (start with these):
+  [ ] ai-sdk-core                 - Add "Test Your Setup" section
+  [ ] openai-api                  - Add "Verification Checklist"
+  [ ] openai-assistants           - Add "Test Your Assistant"
+  [ ] cloudflare-d1               - Add "Verify Database"
+  [ ] tanstack-query              - Add "Verify Installation"
+  ... (16 more similar)
+
+Template to use:
+  ## Verification Checklist
+  - [ ] Dependencies installed: npm ls shows correct versions
+  - [ ] Configuration correct: Check files match template
+  - [ ] Test run: Execute example code from Quick Start
+  - [ ] Expected output: You should see [result]
+
+Effort: 30-45 minutes per skill
+Total: ~20 hours for all 21 skills
+
+---
+
+Issue: Missing Dependency Declarations (31 skills) - MEDIUM IMPACT
+Impact: Users unclear what to install
+
+Example of what to add:
+  ## Dependencies & Installation
+  
+  ### Required Packages
+  - `package-name@^1.0.0` - Description of what it does
+  
+  ### Installation
+  \`\`\`bash
+  bun add package-name  # or npm install package-name
+  \`\`\`
+
+Effort: 15-30 minutes per skill
+Total: ~15 hours for all 31 skills
+
+================================================================================
+PHASE 3: MEDIUM VALUE (Week 4-6) - Documentation longevity
+================================================================================
+
+Issue: Time-Sensitive Information (29 skills) - MEDIUM IMPACT
+Impact: Documentation becomes outdated over time
+
+Examples of problems found:
+  ✗ "As of 2024, the best practice is..."
+  ✗ "Latest model (November 2024)"
+  ✗ "Dec 18, 2024: Assistants API v1 deprecated"
+  ✓ "Current best practice is..." (GOOD)
+  ✓ "Use the latest model in production" (GOOD)
+  ✓ "This API is deprecated: See [link] for timeline" (GOOD)
+
+Strategy:
+  1. Replace year references with version numbers
+  2. Move deprecation dates to metadata/references
+  3. Use "current" instead of specific years
+  4. Link to official changelogs for date-specific info
+
+Skills requiring attention:
+  - ai-sdk-core, better-auth, claude-api, clerk-auth
+  - cloudflare-d1, cloudflare-durable-objects, cloudflare-email-routing
+  - cloudflare-hyperdrive, cloudflare-manager, cloudflare-mcp-server
+  - cloudflare-r2, cloudflare-sandbox, cloudflare-vectorize
+  - cloudflare-worker-base, cloudflare-workflows, drizzle-orm-d1
+  - github-project-automation, google-gemini-api, hugo
+  - nuxt-content, nuxt-ui-v4, nuxt-v4, openai-api, openai-assistants
+  - openai-responses, skill-review, zod
+
+Effort: 15-30 minutes per skill
+Total: ~20 hours for all 29 skills
+
+================================================================================
+PHASE 4: POLISH (Ongoing) - Standards compliance
+================================================================================
+
+Issue: Second-Person Language (32 skills) - CONTEXT-DEPENDENT
+Impact: Violates third-person style guide (but many are false positives)
+
+Note: Most flagged instances are in code comments/instructions (acceptable).
+Only review NARRATIVE sections for violations.
+
+Skills to review:
+  - Most violations acceptable in code examples
+  - Focus only on pure narrative sections
+  - Code instructions should be imperative (OK)
+
+Effort: 10-20 minutes per skill (only actual violations)
+Total: ~10-15 hours
+
+================================================================================
+EXEMPLARY SKILLS - Use as reference models:
+================================================================================
+
+These 25 skills have ZERO anti-patterns and demonstrate best practices:
+
+✅ ai-elements-chatbot       ✅ cloudflare-queues       ✅ project-session-management
+✅ auto-animate              ✅ cloudflare-turnstile    ✅ tailwind-v4-shadcn
+✅ better-chatbot            ✅ cloudflare-zero-trust   ✅ tanstack-query
+✅ claude-agent-sdk          ✅ firecrawl-scraper       ✅ ultracite
+✅ cloudflare-agents         ✅ gemini-cli              ✅ vercel-blob
+✅ cloudflare-cron-triggers  ✅ google-gemini-embeddings ✅ wordpress-plugin-core
+                             ✅ hono-routing           ✅ zustand-state-management
+                             ✅ multi-ai-consultant
+                             ✅ neon-vercel-postgres
+                             ✅ nuxt-seo
+                             ✅ open-source-contributions
+                             ✅ pinia-v3
+
+When fixing other skills, compare with these for style/structure patterns.
+
+================================================================================
+CRITICAL SKILLS TO FIX FIRST (Ranked by impact):
+================================================================================
+
+HIGHEST PRIORITY:
+1. frontend-design           - Missing license + errors + verification (3 issues)
+2. nano-banana-prompts       - Missing license + errors + verification (3 issues)
+3. openai-assistants         - Time-sensitive + second-person + no verify (3 issues)
+4. openai-api               - Time-sensitive + second-person + no verify (3 issues)
+5. skill-review             - Time-sensitive + second-person (2 issues)
+
+Start with these 5 to establish patterns, then apply fixes systematically.
+
+================================================================================
+ESTIMATED TOTAL REMEDIATION TIME:
+================================================================================
+
+Phase 1 (Critical):              4-5 hours
+Phase 2 (High Value):           ~35 hours
+Phase 3 (Medium Value):         ~20 hours
+Phase 4 (Polish):              ~10-15 hours
+                               ___________
+TOTAL ESTIMATED:               70-75 hours
+
+Recommendation: Spread over 4-6 weeks with 15 hours/week = 5-6 week project
+
+Or: 1 full FTE week (40 hours) for Phases 1-2, then 1 day/week for Phase 3-4
+
+================================================================================
+TOOLS FOR FIXING:
+================================================================================
+
+1. License field fix:
+   sed -i '2a license: MIT' SKILL.md
+
+2. Add verification section:
+   (Use template from Phase 2 above)
+
+3. Find time-sensitive references:
+   grep -n "as of 20[0-9][0-9]\|2024\|2023\|deprecated.*20" SKILL.md
+
+4. Validate fixes:
+   - Check YAML syntax: python3 -c "import yaml; yaml.safe_load(open('SKILL.md'))"
+   - Grep for fixes: grep -c "license:" SKILL.md
+
+================================================================================
+NEXT STEPS:
+================================================================================
+
+1. [ ] Commit this audit report to repo
+2. [ ] Schedule Phase 1 fixes (5 critical skills)
+3. [ ] Create checklist template for contributors
+4. [ ] Add pre-commit hook to verify license field
+5. [ ] Update skill template with required sections
+6. [ ] Re-run audit after each phase to track progress
+
+Report location: /home/user/claude-skills/AUDIT_REPORT_2025-11-16.md
+
+================================================================================
+END OF SUMMARY
+================================================================================
