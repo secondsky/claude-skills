@@ -155,7 +155,7 @@ bun add @nuxt/content better-sqlite3
 | @nuxt/content | ^3.0.0 | ✅ Latest stable |
 | nuxt-studio | ^0.1.0-alpha | ✅ Alpha release |
 | better-sqlite3 | ^11.0.0 | ✅ Latest stable |
-| zod | ^3.23.0 / ^4.0.0 | ✅ Both supported |
+| zod | ^4.1.12 | ✅ Latest stable (v4 recommended) |
 | valibot | ^0.42.0 | ✅ Latest stable |
 
 ---

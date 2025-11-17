@@ -104,17 +104,27 @@ server.registerTool(
   }
 );
 
-// ❌ WRONG - Manual conversion not needed
-import { zodToJsonSchema } from 'zod-to-json-schema';
+// ❌ WRONG - External conversion package not needed
+import zodToJsonSchema from 'zod-to-json-schema';
 server.registerTool('tool-name', {
   inputSchema: zodToJsonSchema(schema)  // Don't do this
+}, handler);
+
+// ❌ ALSO WRONG - Zod v4's .toJsonSchema() not needed here
+server.registerTool('tool-name', {
+  inputSchema: schema.toJsonSchema()  // Don't do this either
 }, handler);
 ```
 
 **How to Fix:**
 1. Ensure using SDK v1.20.2+
-2. Pass Zod schema directly to `inputSchema`
-3. Do NOT manually convert with `zodToJsonSchema()` unless absolutely necessary
+2. Pass Zod schema directly to `inputSchema` - MCP SDK handles conversion automatically
+3. Do NOT use external `zod-to-json-schema` package
+4. Do NOT use Zod v4's `.toJsonSchema()` method - let MCP SDK handle it
+
+**Note on Zod v4**: While Zod v4 now has built-in `.toJsonSchema()` method, the MCP SDK
+still prefers receiving the raw Zod schema object for optimal type inference and validation.
+Only use `.toJsonSchema()` if you need JSON Schema for other purposes outside of MCP.
 
 ---
 

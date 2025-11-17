@@ -37,9 +37,9 @@ echo ""
 echo "📥 Installing @nuxt/content and better-sqlite3..."
 $INSTALL_CMD @nuxt/content better-sqlite3
 
-# Install Zod for schema validation
-echo "📥 Installing zod for schema validation..."
-$INSTALL_CMD -D zod zod-to-json-schema
+# Install Zod v4 for schema validation
+echo "📥 Installing zod v4 for schema validation..."
+$INSTALL_CMD -D zod@^4.1.12
 
 echo ""
 echo "✅ Dependencies installed!"
