@@ -36,10 +36,24 @@ case $OS in
         $SUDO apt-get update
 
         # Install Chrome dependencies
+        # Detect Ubuntu version for version-specific packages
+        UBUNTU_VERSION=$(lsb_release -rs 2>/dev/null || echo "0")
+        MAJOR_VERSION=${UBUNTU_VERSION%.*}
+
+        # Choose correct package names based on version
+        if [ "$MAJOR_VERSION" -ge 24 ]; then
+            ALSA_PKG="libasound2t64"
+            GCC_PKG="libgcc-s1"
+        else
+            ALSA_PKG="libasound2"
+            GCC_PKG="libgcc1"
+        fi
+
+        # Install Chrome dependencies
         $SUDO apt-get install -y \
             ca-certificates \
             fonts-liberation \
-            libasound2t64 \
+            $ALSA_PKG \
             libatk-bridge2.0-0 \
             libatk1.0-0 \
             libc6 \
@@ -49,7 +63,7 @@ case $OS in
             libexpat1 \
             libfontconfig1 \
             libgbm1 \
-            libgcc1 \
+            $GCC_PKG \
             libglib2.0-0 \
             libgtk-3-0 \
             libnspr4 \
