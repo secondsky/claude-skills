@@ -156,19 +156,37 @@ determine_category() {
   local text=$(echo "$skill_name $keywords $description" | tr '[:upper:]' '[:lower:]')
   
   # Category rules (order matters - more specific first)
-  if echo "$text" | grep -q "cloudflare"; then
+  # Use word boundaries (\b) to avoid false positives (e.g., "orm" matching "transform")
+  # Priority: Skill name patterns > specific categories > general categories
+
+  # 1. Cloudflare: Skill name starts with "cloudflare-"
+  if echo "$skill_name" | grep -q "^cloudflare-"; then
     echo "cloudflare"
-  elif echo "$text" | grep -q -E "ai|llm|openai|claude|gemini|agents|embeddings|elevenlabs"; then
-    echo "ai"
-  elif echo "$text" | grep -q -E "auth|clerk|nextauth|better-auth"; then
-    echo "auth"
-  elif echo "$text" | grep -q -E "cms|tinacms|sveltia|wordpress|content"; then
-    echo "cms"
-  elif echo "$text" | grep -q -E "database|orm|drizzle|postgres|neon|kv|blob|sql"; then
+  # 2. Database: Check skill names first (vercel-kv, vercel-blob, neon-vercel-postgres)
+  elif echo "$skill_name" | grep -q -E "^vercel-kv$|^vercel-blob$|^neon-|^drizzle-"; then
     echo "database"
-  elif echo "$text" | grep -q -E "react|nextjs|tailwind|shadcn|vue|nuxt|svelte|ui|frontend|components|tanstack|zustand"; then
+  # 3. Auth: Skill names with auth/clerk
+  elif echo "$skill_name" | grep -q -E "auth|clerk"; then
+    echo "auth"
+  # 4. Tooling: Specific tooling skill names
+  elif echo "$skill_name" | grep -q -E "^skill-review$|^dependency-|^project-|^mcp-|^typescript-|^github-|^open-source-|^swift-|^claude-code-bash"; then
+    echo "tooling"
+  # 5. CMS: Content management systems
+  elif echo "$text" | grep -q -E "\bcms\b|\btinacms\b|\bsveltia\b|\bwordpress\b"; then
+    echo "cms"
+  # 6. AI: Core AI/ML tools (check before frontend to catch AI-specific skills)
+  elif echo "$skill_name" | grep -q -E "^ai-|^openai-|^claude-|^gemini-|^elevenlabs-|chatbot|prompt"; then
+    echo "ai"
+  elif echo "$text" | grep -q -E "\bllm\b|\bopenai\b|\bclaude\b|\bgemini\b|\bagents\b|\bembeddings\b|\belevenlabs\b|\bchatbot\b|\bprompt\b"; then
+    echo "ai"
+  # 7. Frontend: UI frameworks and components (broad category)
+  elif echo "$text" | grep -q -E "\breact\b|\bnextjs\b|\btailwind\b|\bshadcn\b|\bvue\b|\bnuxt\b|\bsvelte\b|\bfrontend\b|\bcomponents\b|\btanstack\b|\bzustand\b|\banimation\b|\bmotion\b|\binspira\b|\baceternity\b|\bui\b"; then
     echo "frontend"
-  elif echo "$text" | grep -q -E "mcp|typescript|planning|hugo|github|tooling|dependency|swift|bash"; then
+  # 8. Database: Content-based (fallback)
+  elif echo "$text" | grep -q -E "\bdatabase\b|\borm\b|\bdrizzle\b|\bpostgres\b|\bkv\b|\bblob\b|\bsql\b"; then
+    echo "database"
+  # 9. Tooling: Content-based (fallback)
+  elif echo "$text" | grep -q -E "\bmcp\b|\btypescript\b|\bplanning\b|\bhugo\b|\bgithub\b|\btooling\b|\bdependency\b|\bswift\b|\bbash\b"; then
     echo "tooling"
   else
     echo "other"
