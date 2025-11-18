@@ -515,3 +515,27 @@ Skills in this range (800-1,500 lines) typically need:
 - **Time taken**: 25 minutes
 
 ---
+
+### 18. cloudflare-d1 (1,129 lines)
+**Status**: ✅ COMPLETE
+**Time Taken**: 25 minutes
+
+**Enhancement Completed**:
+- [x] Created SKILL-ORIGINAL-BACKUP.md (1,129 lines backup)
+- [x] Created references/setup-guide.md (complete D1 setup walkthrough)
+- [x] Leveraged 3 existing references (best-practices, query-patterns, read-replication)
+- [x] Leveraged 3 existing templates (d1-setup-migration.sh, d1-worker-queries.ts, schema-example.sql)
+- [x] Updated SKILL.md (538 lines, 52% reduction)
+- [x] Kept: Quick Start, Critical Rules, D1 API Methods, Top 5 Use Cases, Migrations, Common Patterns inline
+- [x] Referenced: Complete setup, query patterns, read replication, best practices in bundled resources
+
+**Quality Metrics**:
+- **Original lines**: 1,129
+- **New SKILL.md lines**: 538 (52% reduction)
+- **Information preserved**: YES (100%)
+- **References leveraged**: 3 (all existed)
+- **New references created**: 1 (setup-guide.md)
+- **Templates leveraged**: 3 (all existed)
+- **Time taken**: 25 minutes
+
+---
