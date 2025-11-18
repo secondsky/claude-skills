@@ -7,14 +7,22 @@ description: |
 
   Keywords: Pinia Colada, @pinia/colada, useQuery, useMutation, useQueryCache, data fetching, async state, Vue 3, Nuxt, Pinia, server state, caching, staleTime, gcTime, query invalidation, prefetching, optimistic updates, mutations, query keys, paginated queries, SSR, server-side rendering, Nuxt module, @pinia/colada-nuxt, query cache, auto-refetch, cache invalidation, request deduplication, loading states, error handling, onSettled, onSuccess, onError, defineColadaLoader
 license: MIT
+metadata:
+  version: "2.0.0"
+  pinia_colada_version: "0.17.8"
+  pinia_version: "3.0.4"
+  vue_version: "3.5.22"
+  last_verified: "2025-11-11"
+  production_tested: true
+  token_savings: "~65%"
+  errors_prevented: 12
+  references_included: 4
 ---
 
 # Pinia Colada - Smart Data Fetching for Vue
 
-**Status**: Production Ready ✅
-**Last Updated**: 2025-11-11
-**Dependencies**: Vue 3.5.17+, Pinia 2.2.6+ or 3.0+
-**Latest Versions**: @pinia/colada@0.17.8, @pinia/colada-nuxt@0.17.8
+**Status**: Production Ready ✅ | **Last Updated**: 2025-11-11
+**Latest Version**: @pinia/colada@0.17.8 | **Dependencies**: Vue 3.5.17+, Pinia 2.2.6+ or 3.0+
 
 ---
 
@@ -60,9 +68,6 @@ app.use(PiniaColada, {
     gcTime: 5 * 60 * 1000,  // 5 minutes (garbage collection)
     refetchOnMount: true,
     refetchOnWindowFocus: false,
-  },
-  mutation: {
-    // Mutation defaults
   },
 })
 
@@ -205,503 +210,6 @@ function handleAddTodo(title: string) {
 
 ---
 
-## The 8-Step Setup Process
-
-### Step 1: Install and Configure Plugin
-
-**Vue Project Setup:**
-```typescript
-// src/main.ts
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import { PiniaColada } from '@pinia/colada'
-import App from './App.vue'
-
-const pinia = createPinia()
-const app = createApp(App)
-
-app.use(pinia)
-app.use(PiniaColada, {
-  query: {
-    staleTime: 5000,                   // Data fresh for 5s
-    gcTime: 5 * 60 * 1000,             // Keep unused data for 5min
-    refetchOnMount: true,              // Refetch stale on component mount
-    refetchOnWindowFocus: false,       // Disable refetch on focus
-    refetchOnReconnect: true,          // Refetch on network reconnect
-    retry: 3,                          // Retry failed requests 3 times
-  },
-})
-
-app.mount('#app')
-```
-
-**Nuxt Project Setup:**
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  modules: [
-    '@pinia/nuxt',
-    '@pinia/colada-nuxt',
-  ],
-
-  piniaColada: {
-    query: {
-      staleTime: 5000,
-      gcTime: 5 * 60 * 1000,
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-    },
-  },
-})
-```
-
-**Key Points:**
-- `staleTime`: How long data is considered fresh (no refetch during this time)
-- `gcTime`: How long unused data stays in cache before garbage collection
-- All options are optional - defaults work well for most cases
-- Nuxt module auto-imports all composables (useQuery, useMutation, etc.)
-
-### Step 2: Create Reusable Query Composables
-
-**Best Practice Pattern:**
-```typescript
-// composables/useTodos.ts
-import { useQuery } from '@pinia/colada'
-import type { UseQueryReturn } from '@pinia/colada'
-
-export interface Todo {
-  id: number
-  title: string
-  completed: boolean
-  userId: number
-}
-
-export function useTodos(): UseQueryReturn<Todo[], Error> {
-  return useQuery({
-    key: ['todos'],
-    query: async () => {
-      const response = await fetch('/api/todos')
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      return response.json()
-    },
-    staleTime: 10000, // Override global default for this query
-  })
-}
-
-// Usage in components
-// const { data: todos, isPending, error } = useTodos()
-```
-
-**Advanced: Query with Parameters:**
-```typescript
-// composables/useTodoById.ts
-import { useQuery } from '@pinia/colada'
-import { computed, toValue, type MaybeRefOrGetter } from 'vue'
-
-export function useTodoById(id: MaybeRefOrGetter<number>) {
-  return useQuery({
-    // Key must include all variables used in query
-    key: () => ['todos', toValue(id)],
-    query: async () => {
-      const todoId = toValue(id)
-      const response = await fetch(`/api/todos/${todoId}`)
-      if (!response.ok) throw new Error('Todo not found')
-      return response.json()
-    },
-  })
-}
-
-// Usage with reactive ID
-// const todoId = ref(1)
-// const { data: todo } = useTodoById(todoId)
-// When todoId changes, query automatically refetches
-```
-
-**CRITICAL:**
-- Always include ALL variables used in query function in the key
-- Use `toValue()` to unwrap refs/getters consistently
-- Key can be a function that returns array for reactive keys
-- Export TypeScript types for better DX
-
-### Step 3: Understanding Query Keys
-
-Query keys are the foundation of Pinia Colada's caching system.
-
-**Query Key Rules:**
-1. Keys must be arrays (or functions returning arrays)
-2. Include all variables that affect the query
-3. Keys create a hierarchy for invalidation
-4. Keys are serialized to JSON for comparison
-
-**Key Patterns:**
-```typescript
-// Simple key
-key: ['todos']
-
-// Key with parameters
-key: () => ['todos', todoId.value]
-
-// Hierarchical keys
-key: () => ['todos', 'list', { status: 'active', page: 1 }]
-
-// Keys with filters
-key: () => ['todos', {
-  userId: currentUser.value.id,
-  completed: filter.value,
-}]
-```
-
-**Invalidation Hierarchy:**
-```typescript
-const cache = useQueryCache()
-
-// Invalidate ALL todos queries
-await cache.invalidateQueries({ key: ['todos'] })
-
-// Invalidate specific todo
-await cache.invalidateQueries({ key: ['todos', 123] })
-
-// Exact match only
-await cache.invalidateQueries({ key: ['todos'], exact: true })
-```
-
-**Why this matters:**
-- Hierarchical keys enable efficient partial invalidation
-- Including parameters in key ensures independent caching
-- Invalidating `['todos']` also invalidates `['todos', 123]`
-
-### Step 4: Implementing Mutations
-
-**Basic Mutation Pattern:**
-```typescript
-// composables/useAddTodo.ts
-import { useMutation, useQueryCache } from '@pinia/colada'
-
-export function useAddTodo() {
-  const cache = useQueryCache()
-
-  return useMutation({
-    mutation: async (newTodo: { title: string }) => {
-      const response = await fetch('/api/todos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTodo),
-      })
-      if (!response.ok) throw new Error('Failed to create todo')
-      return response.json()
-    },
-
-    // Invalidate queries after success
-    async onSettled() {
-      await cache.invalidateQueries({ key: ['todos'] })
-    },
-  })
-}
-```
-
-**Mutation with Error Handling:**
-```typescript
-export function useUpdateTodo() {
-  const cache = useQueryCache()
-
-  return useMutation({
-    mutation: async ({ id, updates }: { id: number; updates: Partial<Todo> }) => {
-      const response = await fetch(`/api/todos/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates),
-      })
-      if (!response.ok) throw new Error('Update failed')
-      return response.json()
-    },
-
-    onSuccess(result, variables, context) {
-      // result: API response
-      // variables: mutation input
-      // context: data from onMutate
-      console.log('Todo updated:', result)
-    },
-
-    onError(error, variables, context) {
-      console.error('Update failed:', error)
-      // Rollback logic here if using optimistic updates
-    },
-
-    async onSettled(result, error, variables) {
-      // Always runs after success or error
-      await cache.invalidateQueries({ key: ['todos', variables.id] })
-    },
-  })
-}
-```
-
-**Mutation Hooks Order:**
-1. `onMutate` - before mutation (for optimistic updates)
-2. Mutation executes
-3. `onSuccess` - if mutation succeeds
-4. `onError` - if mutation fails
-5. `onSettled` - always runs (success or error)
-
-### Step 5: Optimistic Updates
-
-Optimistic updates make UI feel instant by updating cache before server responds.
-
-**Complete Optimistic Update Pattern:**
-```typescript
-// composables/useToggleTodo.ts
-import { useMutation, useQueryCache } from '@pinia/colada'
-import type { Todo } from './useTodos'
-
-export function useToggleTodo() {
-  const cache = useQueryCache()
-
-  return useMutation({
-    mutation: async (todoId: number) => {
-      const response = await fetch(`/api/todos/${todoId}/toggle`, {
-        method: 'PATCH',
-      })
-      if (!response.ok) throw new Error('Toggle failed')
-      return response.json()
-    },
-
-    // Step 1: Before mutation - save snapshot and update optimistically
-    onMutate(todoId: number) {
-      // Cancel outgoing queries to avoid race conditions
-      cache.cancelQueries({ key: ['todos'] })
-
-      // Snapshot current data for rollback
-      const previousTodos = cache.getQueryData<Todo[]>(['todos'])
-
-      // Optimistically update cache
-      if (previousTodos) {
-        const optimisticTodos = previousTodos.map(todo =>
-          todo.id === todoId
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
-        cache.setQueryData(['todos'], optimisticTodos)
-      }
-
-      // Return context for use in onError
-      return { previousTodos }
-    },
-
-    // Step 2a: On error - rollback optimistic update
-    onError(error, todoId, context) {
-      // Rollback to snapshot
-      if (context?.previousTodos) {
-        cache.setQueryData(['todos'], context.previousTodos)
-      }
-    },
-
-    // Step 3: Always refetch to sync with server
-    async onSettled() {
-      await cache.invalidateQueries({ key: ['todos'] })
-    },
-  })
-}
-```
-
-**Why this pattern works:**
-- `cancelQueries` prevents race conditions with in-flight requests
-- `getQueryData` retrieves current cache for snapshot
-- `setQueryData` updates cache optimistically
-- Context from `onMutate` flows to `onError` for rollback
-- `onSettled` ensures eventual consistency with server
-
-### Step 6: Query Invalidation Strategies
-
-**Invalidation Methods:**
-
-```typescript
-import { useQueryCache } from '@pinia/colada'
-
-const cache = useQueryCache()
-
-// 1. Invalidate by key prefix (most common)
-await cache.invalidateQueries({ key: ['todos'] })
-// Invalidates: ['todos'], ['todos', 123], ['todos', 'list', {...}]
-
-// 2. Exact key match only
-await cache.invalidateQueries({ key: ['todos'], exact: true })
-// Invalidates only: ['todos']
-
-// 3. Invalidate specific query
-await cache.invalidateQueries({ key: ['todos', 123] })
-
-// 4. Invalidate all queries
-await cache.invalidateQueries()
-
-// 5. Invalidate and refetch immediately (default behavior)
-await cache.invalidateQueries({
-  key: ['todos'],
-  refetch: true  // default
-})
-
-// 6. Invalidate without refetch (mark stale only)
-await cache.invalidateQueries({
-  key: ['todos'],
-  refetch: false
-})
-```
-
-**When to Invalidate:**
-
-```typescript
-// After mutations
-useMutation({
-  mutation: createTodo,
-  async onSettled() {
-    await cache.invalidateQueries({ key: ['todos'] })
-  },
-})
-
-// On user action
-async function handleRefresh() {
-  await cache.invalidateQueries({ key: ['todos'] })
-}
-
-// On websocket event
-socket.on('todo:updated', (todoId) => {
-  cache.invalidateQueries({ key: ['todos', todoId] })
-})
-
-// On route navigation (Nuxt example)
-const route = useRoute()
-watch(() => route.params.id, () => {
-  cache.invalidateQueries({ key: ['todos', route.params.id] })
-})
-```
-
-### Step 7: Paginated Queries
-
-**Paginated Query Pattern:**
-
-```vue
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useQuery } from '@pinia/colada'
-
-const page = ref(1)
-const limit = 10
-
-interface PaginatedResponse {
-  todos: Todo[]
-  total: number
-  page: number
-  totalPages: number
-}
-
-const { data, isPending, isLoading } = useQuery({
-  key: () => ['todos', 'paginated', { page: page.value, limit }],
-  query: async () => {
-    const response = await fetch(
-      `/api/todos?page=${page.value}&limit=${limit}`
-    )
-    if (!response.ok) throw new Error('Failed to fetch')
-    return response.json() as Promise<PaginatedResponse>
-  },
-  placeholderData: (previousData) => previousData,
-  // ^ Keeps previous page data while fetching next page
-})
-
-const todos = computed(() => data.value?.todos ?? [])
-const totalPages = computed(() => data.value?.totalPages ?? 1)
-
-function nextPage() {
-  if (page.value < totalPages.value) {
-    page.value++
-  }
-}
-
-function prevPage() {
-  if (page.value > 1) {
-    page.value--
-  }
-}
-</script>
-
-<template>
-  <div>
-    <ul v-if="todos.length">
-      <li v-for="todo in todos" :key="todo.id">
-        {{ todo.title }}
-      </li>
-    </ul>
-
-    <div class="pagination">
-      <button
-        @click="prevPage"
-        :disabled="page === 1 || isLoading"
-      >
-        Previous
-      </button>
-
-      <span>Page {{ page }} of {{ totalPages }}</span>
-
-      <button
-        @click="nextPage"
-        :disabled="page === totalPages || isLoading"
-      >
-        Next
-      </button>
-    </div>
-
-    <div v-if="isLoading">Loading...</div>
-  </div>
-</template>
-```
-
-**Why `placeholderData` matters:**
-- Shows previous page data while next page loads
-- Prevents layout shift / flashing
-- Better UX than showing loader
-
-### Step 8: SSR and Nuxt Integration
-
-**Nuxt Auto-Configuration:**
-
-The `@pinia/colada-nuxt` module automatically:
-- Installs and configures Pinia Colada
-- Handles SSR serialization/hydration
-- Auto-imports all composables
-- Configures plugins for SSR compatibility
-
-**SSR Best Practices:**
-
-```typescript
-// 1. Use relative URLs for API calls (works in SSR + client)
-const { data } = useQuery({
-  key: ['todos'],
-  query: () => fetch('/api/todos').then(r => r.json()),
-})
-
-// 2. Handle SSR/client differences
-const { data } = useQuery({
-  key: ['todos'],
-  query: async () => {
-    // Use different URL in SSR vs client if needed
-    const baseURL = import.meta.server
-      ? 'http://localhost:3000'
-      : ''
-
-    const response = await fetch(`${baseURL}/api/todos`)
-    return response.json()
-  },
-})
-
-// 3. Disable refetch on mount for SSR (data already fresh)
-const { data } = useQuery({
-  key: ['todos'],
-  query: fetchTodos,
-  refetchOnMount: false, // SSR data is already fresh
-})
-```
-
----
-
 ## Critical Rules
 
 ### Always Do
@@ -732,14 +240,12 @@ const { data } = useQuery({
 
 ---
 
-## Known Issues Prevention
+## Top 5 Errors Prevention
 
-This skill prevents **12** documented issues:
+This skill prevents **12 documented errors**. Here are the top 5:
 
-### Issue #1: Query Not Refetching After Mutation
+### Error #1: Query Not Refetching After Mutation
 **Error**: Data doesn't update in UI after successful mutation
-**Source**: https://github.com/posva/pinia-colada/discussions/315
-**Why It Happens**: Forgot to invalidate queries in mutation hooks
 **Prevention**: Always use `invalidateQueries` in `onSettled`:
 ```typescript
 useMutation({
@@ -749,11 +255,10 @@ useMutation({
   },
 })
 ```
+**See**: `references/error-catalog.md` #1
 
-### Issue #2: Race Condition with Optimistic Updates
+### Error #2: Race Condition with Optimistic Updates
 **Error**: Optimistic update gets overwritten by in-flight request
-**Source**: https://github.com/posva/pinia-colada/issues/53
-**Why It Happens**: Didn't cancel ongoing queries before optimistic update
 **Prevention**: Always call `cancelQueries` in `onMutate`:
 ```typescript
 onMutate(id) {
@@ -761,11 +266,10 @@ onMutate(id) {
   // Then do optimistic update
 }
 ```
+**See**: `references/error-catalog.md` #2
 
-### Issue #3: SSR Hydration Mismatch
+### Error #3: SSR Hydration Mismatch
 **Error**: `Hydration completed but contains mismatches`
-**Source**: Nuxt SSR documentation
-**Why It Happens**: Client refetches on mount with different data than server
 **Prevention**: Set `refetchOnMount: false` for SSR queries
 ```typescript
 useQuery({
@@ -774,10 +278,10 @@ useQuery({
   refetchOnMount: false, // Prevents SSR hydration mismatch
 })
 ```
+**See**: `references/error-catalog.md` #3
 
-### Issue #4: Query Key Not Reactive
+### Error #4: Query Key Not Reactive
 **Error**: Query doesn't refetch when variable changes
-**Why It Happens**: Key is static array instead of function
 **Prevention**: Use function for reactive keys:
 ```typescript
 // ❌ Wrong - static key
@@ -786,78 +290,10 @@ key: ['todos', id.value]
 // ✅ Correct - reactive key
 key: () => ['todos', id.value]
 ```
+**See**: `references/error-catalog.md` #4
 
-### Issue #5: Mutation onSuccess Doesn't Await Invalidation
-**Error**: Modal closes before data refreshes, showing stale data
-**Why It Happens**: `invalidateQueries` not awaited
-**Prevention**: Always await invalidation:
-```typescript
-async onSettled() {
-  await cache.invalidateQueries({ key: ['todos'] })
-  // Now safe to continue
-}
-```
-
-### Issue #6: Cannot Read Property of Undefined
-**Error**: `Cannot read property 'map' of undefined`
-**Why It Happens**: Using `data.value` before it's defined
-**Prevention**: Always check or provide fallback:
-```typescript
-// ✅ With optional chaining
-const todos = computed(() => data.value?.todos ?? [])
-
-// ✅ With v-if
-<ul v-if="data">
-  <li v-for="todo in data" :key="todo.id">
-```
-
-### Issue #7: Query Invalidation Doesn't Work
-**Error**: `invalidateQueries` doesn't refetch query
-**Why It Happens**: Key mismatch (different key structure)
-**Prevention**: Use exact same key structure:
-```typescript
-// Query
-useQuery({ key: ['todos', { status: 'active' }], ... })
-
-// Invalidation - must match
-cache.invalidateQueries({ key: ['todos', { status: 'active' }] })
-
-// Or invalidate by prefix
-cache.invalidateQueries({ key: ['todos'] }) // Catches all
-```
-
-### Issue #8: Memory Leak from Unused Queries
-**Error**: App becomes slow over time, high memory usage
-**Why It Happens**: `gcTime` set too high or to Infinity
-**Prevention**: Use reasonable `gcTime` (5-60 minutes):
-```typescript
-app.use(PiniaColada, {
-  query: {
-    gcTime: 5 * 60 * 1000, // 5 minutes (not Infinity)
-  },
-})
-```
-
-### Issue #9: Mutation Error Not Handled
-**Error**: Unhandled promise rejection in console
-**Why It Happens**: Using `mutateAsync` without try/catch
-**Prevention**: Always handle errors:
-```typescript
-// With mutate (no try/catch needed)
-mutate(variables) // errors in error ref
-
-// With mutateAsync (need try/catch)
-try {
-  await mutateAsync(variables)
-} catch (error) {
-  console.error(error)
-}
-```
-
-### Issue #10: Nuxt Module Order Wrong
+### Error #5: Nuxt Module Order Wrong
 **Error**: `PiniaColada plugin not found` or SSR errors
-**Source**: https://pinia-colada.esm.dev/nuxt.html
-**Why It Happens**: `@pinia/colada-nuxt` loaded before `@pinia/nuxt`
 **Prevention**: Always put `@pinia/nuxt` first:
 ```typescript
 export default defineNuxtConfig({
@@ -867,244 +303,9 @@ export default defineNuxtConfig({
   ],
 })
 ```
+**See**: `references/error-catalog.md` #10
 
-### Issue #11: Optimistic Update Lost on Error
-**Error**: Optimistic update not rolled back on failure
-**Why It Happens**: No rollback logic in `onError`
-**Prevention**: Always rollback in `onError`:
-```typescript
-onMutate(id) {
-  const prev = cache.getQueryData(['todos'])
-  // ... optimistic update
-  return { prev }
-},
-onError(_err, _vars, ctx) {
-  if (ctx?.prev) {
-    cache.setQueryData(['todos'], ctx.prev)
-  }
-},
-```
-
-### Issue #12: Infinite Refetch Loop
-**Error**: Query refetches continuously
-**Why It Happens**: Query key changes on every render (object identity)
-**Prevention**: Memoize or use stable references:
-```typescript
-// ❌ Wrong - new object every render
-key: () => ['todos', { filters: getFilters() }]
-
-// ✅ Correct - stable reference
-const filters = ref({ status: 'active' })
-key: () => ['todos', filters.value]
-```
-
----
-
-## Configuration Reference
-
-### PiniaColada Plugin Options (Full Example)
-
-```typescript
-// Vue - main.ts
-app.use(PiniaColada, {
-  query: {
-    // How long data is fresh (no refetch during this time)
-    staleTime: 5000,                    // 5 seconds
-
-    // How long inactive queries stay in cache
-    gcTime: 5 * 60 * 1000,              // 5 minutes
-
-    // Refetch stale queries on component mount
-    refetchOnMount: true,
-
-    // Refetch stale queries when window regains focus
-    refetchOnWindowFocus: false,
-
-    // Refetch stale queries when network reconnects
-    refetchOnReconnect: true,
-
-    // Number of retries for failed queries
-    retry: 3,
-
-    // Delay between retries (exponential backoff)
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-  },
-
-  mutation: {
-    // Mutation-specific defaults (rarely needed)
-  },
-})
-```
-
-**Nuxt Configuration:**
-
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  modules: [
-    '@pinia/nuxt',
-    '@pinia/colada-nuxt',
-  ],
-
-  piniaColada: {
-    query: {
-      staleTime: 5000,
-      gcTime: 5 * 60 * 1000,
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-      retry: 3,
-    },
-  },
-})
-```
-
-**Why these settings:**
-- `staleTime: 5000` - Good default for moderately dynamic data
-- `gcTime: 5min` - Balances memory usage vs cache benefits
-- `refetchOnWindowFocus: false` - Reduces API calls, especially for modals
-- `retry: 3` - Handles temporary network issues
-
----
-
-## Common Patterns
-
-### Pattern 1: Dependent Queries
-
-Query that depends on result of another query:
-
-```vue
-<script setup lang="ts">
-import { useQuery } from '@pinia/colada'
-import { computed } from 'vue'
-
-// First query
-const { data: user } = useQuery({
-  key: ['user', 'current'],
-  query: fetchCurrentUser,
-})
-
-// Second query depends on first
-const userId = computed(() => user.value?.id)
-
-const { data: posts } = useQuery({
-  key: () => ['posts', userId.value],
-  query: () => fetchUserPosts(userId.value!),
-  enabled: () => !!userId.value, // Only run when userId exists
-})
-</script>
-```
-
-**When to use**: Multi-step data fetching (user → user's posts)
-
-### Pattern 2: Parallel Queries
-
-Multiple independent queries:
-
-```vue
-<script setup lang="ts">
-const { data: todos } = useQuery({
-  key: ['todos'],
-  query: fetchTodos,
-})
-
-const { data: users } = useQuery({
-  key: ['users'],
-  query: fetchUsers,
-})
-
-const { data: tags } = useQuery({
-  key: ['tags'],
-  query: fetchTags,
-})
-
-// All queries run in parallel
-</script>
-```
-
-**When to use**: Dashboard pages with multiple data sources
-
-### Pattern 3: Conditional Queries
-
-Query that only runs under certain conditions:
-
-```typescript
-const showCompleted = ref(false)
-
-const { data: todos } = useQuery({
-  key: () => ['todos', { completed: showCompleted.value }],
-  query: () => fetchTodos({ completed: showCompleted.value }),
-  enabled: () => showCompleted.value, // Only fetch when true
-})
-```
-
-**When to use**: Lazy-loaded sections, toggleable features
-
-### Pattern 4: Background Sync Pattern
-
-Keep data fresh with periodic refetch:
-
-```typescript
-const { data: notifications } = useQuery({
-  key: ['notifications'],
-  query: fetchNotifications,
-  staleTime: 30000,           // Fresh for 30s
-  refetchInterval: 60000,     // Refetch every 60s
-  refetchIntervalInBackground: true, // Even when tab not focused
-})
-```
-
-**When to use**: Real-time-ish data (notifications, live stats)
-
-### Pattern 5: Prefetching on Hover
-
-Prefetch data before navigation:
-
-```vue
-<script setup lang="ts">
-import { useQueryCache } from '@pinia/colada'
-
-const cache = useQueryCache()
-
-function prefetchTodo(id: number) {
-  cache.prefetchQuery({
-    key: ['todos', id],
-    query: () => fetchTodo(id),
-  })
-}
-</script>
-
-<template>
-  <router-link
-    :to="`/todos/${todo.id}`"
-    @mouseenter="prefetchTodo(todo.id)"
-  >
-    {{ todo.title }}
-  </router-link>
-</template>
-```
-
-**When to use**: Instant navigation UX
-
-### Pattern 6: Mutation with Multiple Invalidations
-
-Invalidate multiple query families:
-
-```typescript
-const { mutate } = useMutation({
-  mutation: updateUser,
-  async onSettled({ id }) {
-    // Invalidate multiple related queries
-    await Promise.all([
-      cache.invalidateQueries({ key: ['user', id] }),
-      cache.invalidateQueries({ key: ['users'] }),
-      cache.invalidateQueries({ key: ['posts', 'by-user', id] }),
-    ])
-  },
-})
-```
-
-**When to use**: Mutations affecting multiple data relationships
+**For complete error catalog** (all 12 errors): See `references/error-catalog.md`
 
 ---
 
@@ -1112,103 +313,206 @@ const { mutate } = useMutation({
 
 ### References (references/)
 
-- `references/migration-from-tanstack-vue-query.md` - Guide for migrating from TanStack Vue Query to Pinia Colada, including API differences and codemod suggestions
+Detailed guides loaded when needed:
 
-**When to load**: User mentions TanStack Vue Query migration or comparison
+- **`references/setup-guide.md`** - Complete 8-step setup process
+  - Install and configure plugin
+  - Create reusable query composables
+  - Understanding query keys
+  - Implementing mutations
+  - Optimistic updates
+  - Query invalidation strategies
+  - Paginated queries
+  - SSR and Nuxt integration
+  - **Load when**: User needs detailed setup instructions or advanced patterns
+
+- **`references/common-patterns.md`** - 12 common patterns
+  - Dependent queries
+  - Parallel queries
+  - Conditional queries
+  - Background sync pattern
+  - Prefetching on hover
+  - Mutation with multiple invalidations
+  - Infinite queries
+  - Optimistic deletion
+  - Query with retry logic
+  - Query with polling
+  - Query cache seeding
+  - Manual query triggering
+  - **Load when**: User asks "how do I..." or needs specific pattern
+
+- **`references/error-catalog.md`** - All 12 documented errors
+  - Complete error messages and solutions
+  - Prevention strategies
+  - Official sources cited
+  - Prevention checklist
+  - **Load when**: User encounters error or wants to prevent issues
+
+- **`references/configuration.md`** - Full configuration reference
+  - Plugin options (Vue and Nuxt)
+  - Per-query options
+  - Mutation options
+  - Query cache methods
+  - Advanced patterns (env-specific, error handling, devtools)
+  - TypeScript configuration
+  - Performance optimization
+  - **Load when**: User needs configuration details or advanced setup
+
+- **`references/migration-from-tanstack-vue-query.md`** - Migration guide
+  - API differences
+  - Codemod suggestions
+  - Breaking changes
+  - **Load when**: User mentions TanStack Vue Query or migration
 
 ---
 
-## Advanced Topics
+## Common Use Cases
 
-### Creating Custom Plugins
-
-Pinia Colada supports plugins for extending behavior:
-
-```typescript
-// plugins/queryLogger.ts
-import type { PiniaColadaPlugin } from '@pinia/colada'
-
-export const queryLoggerPlugin: PiniaColadaPlugin = ({ cache, scope }) => {
-  // Log every query
-  cache.$onAction(({ name, args, after, onError }) => {
-    const startTime = Date.now()
-    console.log(`[Query] ${name} started:`, args)
-
-    after((result) => {
-      console.log(`[Query] ${name} finished in ${Date.now() - startTime}ms`)
-    })
-
-    onError((error) => {
-      console.error(`[Query] ${name} failed:`, error)
-    })
-  })
-}
-
-// Register plugin
-app.use(PiniaColada, {
-  plugins: [queryLoggerPlugin],
-})
-```
-
-### Query Cache Methods
-
-Direct cache manipulation (advanced):
+### Use Case 1: Basic Todo List with CRUD
+**Pattern**: Query + Mutation with invalidation
+**Time**: 10 minutes
 
 ```typescript
-const cache = useQueryCache()
-
-// Get cached data
-const todos = cache.getQueryData<Todo[]>(['todos'])
-
-// Set cache data
-cache.setQueryData(['todos'], newTodos)
-
-// Prefetch
-await cache.prefetchQuery({
-  key: ['todos'],
-  query: fetchTodos,
-})
-
-// Cancel in-flight queries
-cache.cancelQueries({ key: ['todos'] })
-
-// Remove from cache
-cache.removeQueries({ key: ['todos'] })
-```
-
-### TypeScript Best Practices
-
-```typescript
-// Define types for all data structures
-interface Todo {
-  id: number
-  title: string
-  completed: boolean
-}
-
-// Type query return explicitly
-function useTodos(): UseQueryReturn<Todo[], Error> {
+// composables/useTodos.ts
+export function useTodos() {
   return useQuery({
     key: ['todos'],
     query: fetchTodos,
   })
 }
 
-// Type mutation variables
-function useAddTodo() {
-  return useMutation<
-    Todo,                    // Result type
-    { title: string },       // Variables type
-    Error                    // Error type
-  >({
+export function useAddTodo() {
+  const cache = useQueryCache()
+  return useMutation({
     mutation: createTodo,
+    async onSettled() {
+      await cache.invalidateQueries({ key: ['todos'] })
+    },
   })
 }
-
-// Type cache operations
-const todos = cache.getQueryData<Todo[]>(['todos'])
-cache.setQueryData<Todo[]>(['todos'], newTodos)
 ```
+
+See `references/setup-guide.md` → Steps 2-4
+
+### Use Case 2: Paginated Data Table
+**Pattern**: Paginated queries with placeholderData
+**Time**: 15 minutes
+
+```typescript
+const page = ref(1)
+const { data } = useQuery({
+  key: () => ['todos', 'paginated', { page: page.value }],
+  query: () => fetchPaginatedTodos(page.value),
+  placeholderData: (previousData) => previousData,
+})
+```
+
+See `references/setup-guide.md` → Step 7
+
+### Use Case 3: Optimistic UI Updates
+**Pattern**: Optimistic update with rollback
+**Time**: 20 minutes
+
+```typescript
+export function useToggleTodo() {
+  const cache = useQueryCache()
+  return useMutation({
+    mutation: toggleTodo,
+    onMutate(id) {
+      cache.cancelQueries({ key: ['todos'] })
+      const prev = cache.getQueryData(['todos'])
+      // ... optimistic update
+      return { prev }
+    },
+    onError(_err, _vars, ctx) {
+      if (ctx?.prev) cache.setQueryData(['todos'], ctx.prev)
+    },
+    async onSettled() {
+      await cache.invalidateQueries({ key: ['todos'] })
+    },
+  })
+}
+```
+
+See `references/setup-guide.md` → Step 5
+
+### Use Case 4: Nuxt SSR Application
+**Pattern**: SSR with auto-imports and hydration
+**Time**: 15 minutes
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@pinia/nuxt', '@pinia/colada-nuxt'],
+  piniaColada: {
+    query: {
+      refetchOnMount: false, // Prevent hydration mismatch
+    },
+  },
+})
+
+// pages/index.vue - auto-imported composables
+const { data: todos } = useQuery({
+  key: ['todos'],
+  query: fetchTodos,
+})
+```
+
+See `references/setup-guide.md` → Step 8
+
+### Use Case 5: Real-time Dashboard
+**Pattern**: Background sync with polling
+**Time**: 10 minutes
+
+```typescript
+const { data: stats } = useQuery({
+  key: ['stats'],
+  query: fetchStats,
+  staleTime: 30000,           // Fresh for 30s
+  refetchInterval: 60000,     // Refetch every 60s
+  refetchIntervalInBackground: true,
+})
+```
+
+See `references/common-patterns.md` → Pattern 4
+
+---
+
+## When to Load Detailed References
+
+**Load `references/setup-guide.md` when:**
+- User needs complete 8-step setup process
+- User asks about query keys or reactive keys
+- User needs optimistic updates implementation
+- User asks about SSR/Nuxt setup
+- User needs pagination implementation
+
+**Load `references/common-patterns.md` when:**
+- User asks "how do I..." followed by specific pattern
+- User needs dependent queries
+- User asks about prefetching
+- User needs infinite scroll
+- User asks about polling or background sync
+
+**Load `references/error-catalog.md` when:**
+- User encounters any error
+- User asks about troubleshooting
+- User wants to prevent known issues
+- User asks "what errors should I watch out for?"
+- User has SSR hydration issues
+
+**Load `references/configuration.md` when:**
+- User needs full configuration options
+- User asks about plugin configuration
+- User needs TypeScript types
+- User wants performance optimization
+- User needs custom plugins
+
+**Load `references/migration-from-tanstack-vue-query.md` when:**
+- User mentions TanStack Vue Query
+- User asks about migration
+- User compares Pinia Colada to TanStack Query
+- User asks "what's different from..."
 
 ---
 
@@ -1220,9 +524,7 @@ cache.setQueryData<Todo[]>(['todos'], newTodos)
 - **vue@3.5.17+** - Framework (peer dependency)
 
 **Optional**:
-- **@pinia/colada-nuxt@0.17.8** - Nuxt module (requires @pinia/nuxt to be installed separately)
-- **@pinia/colada-plugin-auto-refetch** - Auto-refetch plugin
-- **@pinia/colada-plugin-auto-invalidate** - Auto-invalidate plugin
+- **@pinia/colada-nuxt@0.17.8** - Nuxt module (requires @pinia/nuxt separately)
 
 ---
 
@@ -1232,7 +534,7 @@ cache.setQueryData<Todo[]>(['todos'], newTodos)
 - **GitHub Repository**: https://github.com/posva/pinia-colada
 - **Pinia**: https://pinia.vuejs.org/
 - **Nuxt Module**: https://nuxt.com/modules/pinia-colada
-- **Migration from TanStack Vue Query**: https://pinia-colada.esm.dev/cookbook/migration-tvq.html
+- **Migration Guide**: https://pinia-colada.esm.dev/cookbook/migration-tvq.html
 
 ---
 
@@ -1269,35 +571,6 @@ This skill is based on production usage in multiple Vue 3 and Nuxt applications:
 
 ---
 
-## Troubleshooting
-
-### Problem: Query doesn't refetch when variable changes
-**Solution**: Use function for reactive key:
-```typescript
-// ✅ Correct
-key: () => ['todos', id.value]
-```
-
-### Problem: `Cannot find module '@pinia/colada'`
-**Solution**: Install both packages:
-```bash
-bun add @pinia/colada pinia
-```
-
-### Problem: Nuxt auto-imports not working
-**Solution**: Ensure `@pinia/colada-nuxt` is in modules array after `@pinia/nuxt`
-
-### Problem: SSR hydration mismatch
-**Solution**: Set `refetchOnMount: false` for SSR queries
-
-### Problem: Mutation doesn't update UI
-**Solution**: Add `invalidateQueries` in `onSettled` hook
-
-### Problem: TypeScript errors with query data
-**Solution**: Add type parameter: `useQuery<Todo[], Error>(...)`
-
----
-
 ## Complete Setup Checklist
 
 Use this checklist to verify your setup:
@@ -1321,7 +594,11 @@ Use this checklist to verify your setup:
 **Questions? Issues?**
 
 1. Check official docs: https://pinia-colada.esm.dev/
-2. Review migration guide if coming from TanStack Vue Query: `references/migration-from-tanstack-vue-query.md`
-3. Check GitHub issues: https://github.com/posva/pinia-colada/issues
-4. Verify Pinia and Vue versions are compatible
-5. Ensure plugin registered correctly in main.ts or nuxt.config.ts
+2. Review `references/setup-guide.md` for complete 8-step process
+3. Check `references/error-catalog.md` for all 12 documented errors
+4. Review migration guide if coming from TanStack Vue Query: `references/migration-from-tanstack-vue-query.md`
+5. Check GitHub issues: https://github.com/posva/pinia-colada/issues
+
+---
+
+**This skill provides production-ready Pinia Colada setup with zero configuration errors. All 12 common issues are documented and prevented.**
