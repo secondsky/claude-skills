@@ -660,7 +660,15 @@ const conversation = await client.conversations.create({
 - `basic-cli-agent.json` - CLI agent configuration with 6-component prompt
 
 **References** (`references/`):
+- `api-reference.md` - Complete API reference (endpoints, parameters, responses)
+- `cli-commands.md` - CLI commands and usage patterns
+- `compliance-guide.md` - GDPR, HIPAA, SOC 2 compliance details
+- `cost-optimization.md` - LLM caching, model swapping, burst pricing strategies
 - `error-catalog.md` - All 17 documented errors with solutions
+- `system-prompt-guide.md` - Agent configuration and prompt engineering
+- `testing-guide.md` - Scenario testing, tool testing, load testing, evaluation
+- `tool-examples.md` - Client tools integration examples
+- `workflow-examples.md` - End-to-end workflow patterns
 
 ---
 
