@@ -1,6 +1,7 @@
 ---
-name: Cloudflare Manager
+name: cloudflare-manager
 description: Comprehensive Cloudflare account management for deploying Workers, KV Storage, R2, Pages, DNS, and Routes. Use when deploying cloudflare services, managing worker containers, configuring KV/R2 storage, or setting up DNS/routing. Requires CLOUDFLARE_API_KEY in .env and Bun runtime with dependencies installed.
+license: MIT
 ---
 
 # Cloudflare Manager
