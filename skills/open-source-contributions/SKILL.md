@@ -608,6 +608,18 @@ Create separate focused PRs, reference original for context.
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `error-catalog.md` - All 16 common mistakes that annoy maintainers with prevention strategies
+- `pr-templates.md` - PR description templates and writing best practices
+- `workflow-guide.md` - Complete contribution workflow (includes commit message best practices, PR sizing guidelines)
+
+**Templates** (`templates/`):
+- `validate-pr.sh` - Pre-PR validation script
+
+---
+
 ## Related Skills
 
 - **github-project-automation** - GitHub workflow automation

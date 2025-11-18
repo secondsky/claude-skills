@@ -340,6 +340,18 @@ const result = streamText({
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `component-catalog.md` - All 8 AI Elements components with examples
+- `example-reference.md` - Complete integration examples and patterns
+- `setup-guide.md` - Step-by-step setup with Next.js 15 and shadcn/ui
+
+**Templates** (`templates/`):
+- Component examples available in reference files
+
+---
+
 ## Official Documentation
 
 - **AI Elements**: https://ai-elements.vercel.app

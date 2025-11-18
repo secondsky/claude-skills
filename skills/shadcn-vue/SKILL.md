@@ -509,6 +509,18 @@ This skill composes well with:
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `component-examples.md` - All 50+ component examples with code
+- `dark-mode-setup.md` - Complete dark mode implementation guide
+- `error-catalog.md` - Common errors and solutions
+
+**Templates** (`templates/`):
+- Component templates available in references/component-examples.md
+
+---
+
 ## Additional Resources
 
 **Official Documentation**:

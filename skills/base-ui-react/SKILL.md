@@ -270,6 +270,24 @@ import * as Tooltip from '@base-ui-components/react/tooltip';
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `example-reference.md` - Detailed component examples and patterns
+- `migration-from-radix.md` - Complete migration guide from Radix UI (includes render prop pattern explanation)
+- `setup-guide.md` - Installation and setup walkthrough
+
+**Templates** (`templates/`):
+- `Accordion.tsx` - Accordion component with render props
+- `Dialog.tsx` - Modal dialog example
+- `NumberField.tsx` - Number input with validation
+- `Popover.tsx` - Popover with positioning
+- `Select.tsx` - Select dropdown
+- `Tooltip.tsx` - Tooltip component
+- `migration-example.tsx` - Radix to Base UI migration example
+
+---
+
 ## Official Documentation
 
 - **Base UI**: https://base-ui.mui.com/

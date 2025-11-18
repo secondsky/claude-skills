@@ -486,6 +486,26 @@ while (!operation.done) {
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `error-catalog.md` - All 8 documented errors with solutions (includes chunking, metadata, cost issues)
+- `setup-guide.md` - Complete setup walkthrough with authentication, store creation, file upload, querying
+
+**Planned References** (documented in `references/README.md`):
+- `api-reference.md` - Complete API documentation (planned)
+- `chunking-best-practices.md` - Chunking strategies for different content types (planned)
+- `pricing-calculator.md` - Cost estimation and ROI comparison vs alternatives (planned)
+- `migration-from-openai.md` - Migration guide from OpenAI Files API (planned)
+
+**Templates** (`templates/`):
+- `basic-file-search.ts` - Complete example with store creation, file upload, and querying
+- `package.json` - Required dependencies
+
+**Note**: Current references cover essential topics (errors, setup, chunking basics, metadata limits, cost calculation). Planned references will provide deeper technical details for advanced use cases.
+
+---
+
 ## Official Documentation
 
 - **File Search Overview**: https://ai.google.dev/api/file-search
