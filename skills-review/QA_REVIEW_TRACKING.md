@@ -277,9 +277,12 @@ All have good references/ directories but incomplete SKILL.md resource listings:
   - [ ] Create `references/when-to-use.md` - Use cases and anti-patterns
   - [ ] Update SKILL.md to reference all new files
 
-- [ ] **openai-api**: Update SKILL.md Resources section to list all 9 existing reference files
-  - Current: Only mentions 2 files (basic-usage.ts, error-catalog.md)
-  - Add: audio-guide.md, cost-optimization.md, embeddings-guide.md, function-calling-patterns.md, images-guide.md, models-guide.md, structured-output-guide.md, top-errors.md
+- [x] **openai-api**: Update SKILL.md Resources section to list all 9 existing reference files ✅ COMPLETED
+  - Was: Only mentions 2 files (basic-usage.ts, error-catalog.md)
+  - Now: Lists all 9 reference files + all 16 templates in organized sections
+  - Added: models-guide.md, function-calling-patterns.md, structured-output-guide.md, embeddings-guide.md, images-guide.md, audio-guide.md, cost-optimization.md, top-errors.md, error-catalog.md
+  - Added: All 16 template files with descriptions
+  - Impact: Massively improved resource discoverability
 
 ### Priority 2 - HIGH (Do Next)
 

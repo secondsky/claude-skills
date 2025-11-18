@@ -135,7 +135,33 @@ const speech = await client.audio.speech.create({
 
 ## Resources
 
-- `templates/basic-usage.ts` - Complete examples
-- `references/error-catalog.md` - All errors + solutions
+### Reference Guides
+- `references/models-guide.md` - Complete model comparison and selection
+- `references/function-calling-patterns.md` - Function calling best practices
+- `references/structured-output-guide.md` - Structured outputs with JSON Schema
+- `references/embeddings-guide.md` - Text embeddings and vector search
+- `references/images-guide.md` - DALL-E 3 image generation
+- `references/audio-guide.md` - Whisper transcription + TTS
+- `references/cost-optimization.md` - Token optimization and pricing
+- `references/top-errors.md` - Top 20 errors with solutions
+- `references/error-catalog.md` - Complete error reference
+
+### Templates
+- `templates/basic-usage.ts` - Quick start example
+- `templates/chat-completion-basic.ts` - Basic chat completion
+- `templates/chat-completion-nodejs.ts` - Node.js implementation
+- `templates/streaming-chat.ts` - Streaming responses
+- `templates/streaming-fetch.ts` - Streaming with fetch API
+- `templates/function-calling.ts` - Tools and function calling
+- `templates/structured-output.ts` - JSON Schema outputs
+- `templates/vision-gpt4o.ts` - Vision with GPT-4o
+- `templates/embeddings.ts` - Text embeddings
+- `templates/image-generation.ts` - DALL-E 3 generation
+- `templates/image-editing.ts` - Image editing
+- `templates/audio-transcription.ts` - Whisper transcription
+- `templates/text-to-speech.ts` - TTS with voices
+- `templates/moderation.ts` - Content moderation
+- `templates/rate-limit-handling.ts` - Exponential backoff
+- `templates/cloudflare-worker.ts` - Cloudflare Workers integration
 
 **Docs**: https://platform.openai.com/docs
