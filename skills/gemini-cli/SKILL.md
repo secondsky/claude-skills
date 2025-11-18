@@ -1,5 +1,5 @@
 ---
-name: Gemini CLI
+name: gemini-cli
 description: |
   Use Google Gemini CLI directly from Claude Code for second opinions, architectural advice, debugging help, code reviews, and security audits. Leverage Gemini's 1M+ context window for comprehensive code analysis using the official gemini command-line tool.
 

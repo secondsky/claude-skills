@@ -1,3 +1,18 @@
+---
+name: project-workflow
+description: |
+  Automate complete project lifecycle from idea exploration to safe deployment with 7
+  integrated slash commands. Use when starting projects, planning features, managing
+  development sessions, or ensuring safe releases. Includes /explore-idea, /plan-project,
+  /add-feature, /start-session, /end-session, /safe-merge, /prepare-release commands.
+  Saves 35-55 minutes per project by automating repetitive tasks and enforcing best
+  practices for context management, planning documentation, and release safety checks.
+
+  Keywords: project workflow, lifecycle automation, slash commands, planning, session management, release safety, implementation phases
+license: MIT
+allowed-tools: ["Read", "Write", "Edit", "Bash"]
+---
+
 # Project Workflow Skill
 
 **Complete project lifecycle automation for Claude Code**
