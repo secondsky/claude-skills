@@ -270,12 +270,14 @@ All have good references/ directories but incomplete SKILL.md resource listings:
   - [ ] Create `references/official-templates.md` - Cloudflare template catalog
   - [ ] Update SKILL.md to reference all new files
 
-- [ ] **thesys-generative-ui**: Extract content from backup, create 4 reference files
-  - [ ] Create `references/what-is-thesys.md` - Conceptual overview of TheSys C1
-  - [ ] Create `references/tool-calling.md` - Zod schemas and tool integration
-  - [ ] Create `references/integration-guide.md` - Step-by-step integration guide
-  - [ ] Create `references/when-to-use.md` - Use cases and anti-patterns
-  - [ ] Update SKILL.md to reference all new files
+- [x] **thesys-generative-ui**: Extract content from backup, create 4 reference files ✅ COMPLETED
+  - [x] Created `references/what-is-thesys.md` (55 lines) - What is TheSys C1, success metrics, next steps
+  - [x] Created `references/use-cases-examples.md` (114 lines) - 5 use cases, 12 errors prevented, 15+ templates catalog, additional resources
+  - [x] Created `references/tool-calling.md` (193 lines) - Complete Zod schema guide with 5 detailed examples
+  - [x] Created `references/integration-guide.md` (1,698 lines) - Comprehensive setup for all frameworks (Vite, Next.js, Cloudflare Workers), core components, AI providers, advanced features, production patterns, common errors
+  - [x] Updated SKILL.md Resources section to reference all new files plus existing references
+  - **Impact**: Restored 2,060 lines of detailed documentation from 51-line over-condensed version
+  - **Content**: 100% information preservation verified
 
 - [x] **openai-api**: Update SKILL.md Resources section to list all 9 existing reference files ✅ COMPLETED
   - Was: Only mentions 2 files (basic-usage.ts, error-catalog.md)

@@ -44,7 +44,23 @@ const form = await generateUI({
 
 ## Resources
 
-- `templates/basic-usage.tsx` - Usage examples
-- `references/error-catalog.md` - Common errors
+### Core Documentation
+- `references/what-is-thesys.md` - What is TheSys C1, success metrics, getting started
+- `references/use-cases-examples.md` - When to use, 12 errors prevented, all templates catalog
+- `references/tool-calling.md` - Complete tool calling guide with Zod schemas
+- `references/integration-guide.md` - Complete setup for Vite, Next.js, Cloudflare Workers
 
-**Docs**: https://thesys.io
+### Additional References
+- `references/component-api.md` - Complete component prop reference
+- `references/ai-provider-setup.md` - OpenAI, Anthropic, Cloudflare Workers AI setup
+- `references/tool-calling-guide.md` - Tool calling patterns
+- `references/theme-customization.md` - Theme system deep dive
+- `references/common-errors.md` - Expanded error catalog
+
+### Templates (15+ files)
+- **Vite + React**: `basic-chat.tsx`, `custom-component.tsx`, `tool-calling.tsx`, `theme-dark-mode.tsx`
+- **Next.js**: `app/page.tsx`, `app/api/chat/route.ts`, `tool-calling-route.ts`
+- **Cloudflare Workers**: `worker-backend.ts`, `frontend-setup.tsx`
+- **Utilities**: `theme-config.ts`, `tool-schemas.ts`, `streaming-utils.ts`
+
+**Official Docs**: https://docs.thesys.dev | **Playground**: https://console.thesys.dev/playground
