@@ -1,9 +1,15 @@
 # PHASE 4 PROGRESS - SMALLER SKILLS REVIEW
 ## Quick Review for Well-Sized Skills (44 skills, <800 lines each)
 
-**Status**: ⬜ NOT STARTED (0 of 44 complete)
+**Status**: 🔄 IN PROGRESS (0 of 44 complete)
 **Estimated Time**: 8-12 hours
-**Approach**: Light touch review, most may already be well-organized
+**Approach**: Light touch review based on actual size, most small skills already well-organized
+
+**Processing Strategy**:
+- Tier 1 (<500 lines): 11 skills - Quick scan, likely "good as is" (15-30 min total)
+- Tier 2 (500-800 lines): 12 skills - Light review, maybe 1 template (2-3 hours)
+- Tier 3 (800-1500 lines): 13 skills - Phase 3 approach (6-8 hours)
+- Tier 4 (>1500 lines): 8 skills - Phase 2 approach (4-6 hours)
 
 ---
 
@@ -31,7 +37,80 @@ For each skill, ask:
 
 ---
 
-## SKILLS LIST (44 skills alphabetically)
+## SKILLS BY ACTUAL SIZE TIERS
+
+### Tier 1: Truly Small (<500 lines) - 11 skills
+**Approach**: Quick scan (2-3 min each), likely "good as is"
+
+1. **tanstack-start** (82 lines) - ⬜ NOT STARTED
+2. **mcp-dynamic-orchestrator** (139 lines) - ⬜ NOT STARTED
+3. **frontend-design** (165 lines) - ⬜ NOT STARTED
+4. **swift-best-practices** (276 lines) - ⬜ NOT STARTED
+5. **inspira-ui** (328 lines) - ⬜ NOT STARTED
+6. **tanstack-router** (330 lines) - ⬜ NOT STARTED
+7. **auto-animate** (395 lines) - ⬜ NOT STARTED
+8. **cloudflare-full-stack-integration** (410 lines) - ⬜ NOT STARTED
+9. **nano-banana-prompts** (413 lines) - ⬜ NOT STARTED
+10. **project-session-management** (425 lines) - ⬜ NOT STARTED
+11. **dependency-upgrade** (436 lines) - ⬜ NOT STARTED
+
+---
+
+### Tier 2: Small-Medium (500-800 lines) - 12 skills
+**Approach**: Light review (10-15 min each), maybe 1 template/reference
+
+12. **skill-review** (509 lines) - ⬜ NOT STARTED
+13. **vercel-blob** (606 lines) - ⬜ NOT STARTED
+14. **cloudflare-vectorize** (614 lines) - ⬜ NOT STARTED
+15. **better-chatbot-patterns** (622 lines) - ⬜ NOT STARTED
+16. **vercel-kv** (656 lines) - ⬜ NOT STARTED
+17. **cloudflare-zero-trust-access** (684 lines) - ⬜ NOT STARTED
+18. **firecrawl-scraper** (689 lines) - ⬜ NOT STARTED
+19. **aceternity-ui** (702 lines) - ⬜ NOT STARTED
+20. **project-workflow** (712 lines) - ⬜ NOT STARTED
+21. **content-collections** (717 lines) - ⬜ NOT STARTED
+22. **tanstack-table** (725 lines) - ⬜ NOT STARTED
+23. **multi-ai-consultant** (755 lines) - ⬜ NOT STARTED
+24. **clerk-auth** (764 lines) - ⬜ NOT STARTED
+25. **cloudflare-full-stack-scaffold** (773 lines) - ⬜ NOT STARTED
+
+---
+
+### Tier 3: Medium (800-1500 lines) - 13 skills
+**Approach**: Phase 3 approach (20-40 min each)
+
+26. **cloudflare-turnstile** (911 lines) - ⬜ NOT STARTED
+27. **cloudflare-nextjs** (949 lines) - ⬜ NOT STARTED
+28. **cloudflare-sandbox** (959 lines) - ⬜ NOT STARTED
+29. **github-project-automation** (970 lines) - ⬜ NOT STARTED
+30. **project-planning** (1,022 lines) - ⬜ NOT STARTED
+31. **motion** (1,035 lines) - ⬜ NOT STARTED
+32. **ai-sdk-ui** (1,050 lines) - ⬜ NOT STARTED
+33. **nuxt-seo** (1,504 lines) - ⬜ NOT STARTED
+34. **cloudflare-cron-triggers** (1,520 lines) - ⬜ NOT STARTED
+35. **wordpress-plugin-core** (1,521 lines) - ⬜ NOT STARTED
+36. **claude-agent-sdk** (1,557 lines) - ⬜ NOT STARTED
+37. **cloudflare-browser-rendering** (1,588 lines) - ⬜ NOT STARTED
+38. **tanstack-query** (1,589 lines) - ⬜ NOT STARTED
+
+---
+
+### Tier 4: Large (>1500 lines) - 8 skills
+**Approach**: Phase 2 approach (40-90 min each)
+
+39. **better-chatbot** (1,665 lines) - ⬜ NOT STARTED
+40. **nuxt-v4** (1,694 lines) - ⬜ NOT STARTED
+41. **ultracite** (1,695 lines) - ⬜ NOT STARTED
+42. **nuxt-ui-v4** (1,696 lines) - ⬜ NOT STARTED
+43. **cloudflare-durable-objects** (1,760 lines) - ⬜ NOT STARTED
+44. **zod** (1,810 lines) - ⬜ NOT STARTED
+45. **ai-sdk-core** (1,812 lines) - ⬜ NOT STARTED
+46. **pinia-v3** (1,814 lines) - ⬜ NOT STARTED
+47. **sveltia-cms** (1,913 lines) - ⬜ NOT STARTED
+
+---
+
+## ORIGINAL GROUPING (For Reference)
 
 ### Group A: AI & LLM Skills (7 skills)
 
