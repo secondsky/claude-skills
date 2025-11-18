@@ -303,6 +303,20 @@ const value = await env.MY_NAMESPACE.get('key');  // Might be null
 
 ---
 
+## Resources
+
+**References** (`references/`):
+- `best-practices.md` - Production patterns, caching strategies, rate limit handling, error recovery
+- `setup-guide.md` - Complete setup with Wrangler CLI commands, namespace creation, bindings configuration
+- `workers-api.md` - Complete API reference, consistency model (eventual consistency), limits & quotas, performance optimization
+
+**Templates** (`templates/`):
+- `basic-kv-worker.ts` - Basic KV operations (get, put, delete, list)
+- `cache-pattern.ts` - HTTP caching with KV
+- `session-store.ts` - Session management example
+
+---
+
 ## Official Documentation
 
 - **KV Overview**: https://developers.cloudflare.com/kv/
