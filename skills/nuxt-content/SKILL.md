@@ -651,7 +651,12 @@ rm -rf .nuxt && bun dev
 - `blog-collection-setup.ts` - Complete blog setup with collections, queries, navigation, search, and deployment (334 lines)
 
 **References** (`references/`):
+- `collection-examples.md` - Collection setup patterns and examples
+- `deployment-checklists.md` - Vercel, Cloudflare Pages, and Cloudflare Workers deployment guides
 - `error-catalog.md` - All 18 documented issues with solutions (491 lines)
+- `mdc-syntax-reference.md` - Complete MDC (Markdown Components) syntax
+- `query-operators.md` - All query methods and operators reference
+- `studio-setup-guide.md` - Nuxt Studio configuration and usage
 
 ---
 
