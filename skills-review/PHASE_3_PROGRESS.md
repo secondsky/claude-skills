@@ -470,3 +470,24 @@ Skills in this range (800-1,500 lines) typically need:
 - **Time taken**: 30 minutes
 
 ---
+
+### 16. google-gemini-file-search (1,166 lines)
+**Status**: ✅ COMPLETE
+**Time Taken**: 30 minutes
+
+**Enhancement Completed**:
+- [x] Created SKILL-ORIGINAL-BACKUP.md (1,166 lines backup)
+- [x] Created references/setup-guide.md (complete File Search setup walkthrough)
+- [x] Created references/error-catalog.md (all 8 errors with detailed solutions)
+- [x] Updated SKILL.md (502 lines, 57% reduction)
+- [x] Kept: Quick Start, Critical Rules, Top 5 Errors, When to Use, Common Use Cases inline
+- [x] Referenced: Complete setup, all 8 errors in bundled resources
+
+**Quality Metrics**:
+- **Original lines**: 1,166
+- **New SKILL.md lines**: 502 (57% reduction)
+- **Information preserved**: YES (100%)
+- **New references created**: 2 (setup-guide.md, error-catalog.md)
+- **Time taken**: 30 minutes
+
+---
