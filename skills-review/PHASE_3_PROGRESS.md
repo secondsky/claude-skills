@@ -446,3 +446,27 @@ Skills in this range (800-1,500 lines) typically need:
 
 **Last Updated**: 2025-11-18
 **Next Action**: Complete Phase 2 first, then begin Phase 3
+
+### 15. cloudflare-r2 (1,175 lines)
+**Status**: ✅ COMPLETE
+**Time Taken**: 30 minutes
+
+**Enhancement Completed**:
+- [x] Created SKILL-ORIGINAL-BACKUP.md (1,175 lines backup)
+- [x] Created references/setup-guide.md (complete R2 setup: bucket → deployment)
+- [x] Leveraged 3 existing references (common-patterns, s3-compatibility, workers-api)
+- [x] Leveraged 5 existing templates (r2-cors-config, r2-multipart-upload, r2-presigned-urls, r2-simple-upload, wrangler-r2-config)
+- [x] Updated SKILL.md (643 lines, 45% reduction)
+- [x] Kept: Quick Start, Core R2 API (put/get/head/delete/list), Critical Rules, Top 5 Use Cases, CORS, Error Handling inline
+- [x] Referenced: Multipart upload, presigned URLs, S3 compatibility, complete API reference in bundled resources
+
+**Quality Metrics**:
+- **Original lines**: 1,175
+- **New SKILL.md lines**: 643 (45% reduction)
+- **Information preserved**: YES (100%)
+- **References leveraged**: 3 (all existed)
+- **New references created**: 1 (setup-guide.md)
+- **Templates leveraged**: 5 (all existed)
+- **Time taken**: 30 minutes
+
+---
