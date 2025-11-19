@@ -16,6 +16,33 @@ if [ -z "$PROJECT_NAME" ]; then
   exit 1
 fi
 
+# Validate project name against npm package naming rules
+if [[ ! "$PROJECT_NAME" =~ ^[a-z0-9][a-z0-9._-]*$ ]]; then
+  echo "❌ Invalid project name: '$PROJECT_NAME'"
+  echo ""
+  echo "Project name must:"
+  echo "  - Be lowercase only (no uppercase letters)"
+  echo "  - Start with a letter or number (not . or _)"
+  echo "  - Contain only letters, numbers, hyphens, dots, or underscores"
+  echo "  - Not contain spaces or special characters"
+  echo ""
+  # Suggest a sanitized version
+  SUGGESTED=$(echo "$PROJECT_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9._-')
+  if [ -n "$SUGGESTED" ]; then
+    echo "Suggested name: $SUGGESTED"
+  fi
+  exit 1
+fi
+
+# Additional check: reject leading dot or underscore
+if [[ "$PROJECT_NAME" =~ ^[._] ]]; then
+  echo "❌ Invalid project name: '$PROJECT_NAME'"
+  echo ""
+  echo "Project name cannot start with '.' or '_' (reserved for npm scopes)"
+  echo ""
+  exit 1
+fi
+
 # Get package manager
 echo ""
 echo "Select package manager:"
@@ -34,6 +61,31 @@ case $PM_CHOICE in
   *) echo "Invalid choice, using bun"; PACKAGE_MANAGER="bun" ;;
 esac
 
+# Validate package manager is installed
+if ! command -v "$PACKAGE_MANAGER" >/dev/null 2>&1; then
+  echo "❌ Required package manager '$PACKAGE_MANAGER' is not installed."
+  echo ""
+  echo "Please install it or choose another package manager."
+  echo ""
+  case $PACKAGE_MANAGER in
+    npm)
+      echo "Install npm: https://nodejs.org/ (comes with Node.js)"
+      ;;
+    pnpm)
+      echo "Install pnpm: npm install -g pnpm"
+      echo "Or: curl -fsSL https://get.pnpm.io/install.sh | sh -"
+      ;;
+    yarn)
+      echo "Install yarn: npm install -g yarn"
+      echo "Or: corepack enable"
+      ;;
+    bun)
+      echo "Install bun: curl -fsSL https://bun.sh/install | bash"
+      ;;
+  esac
+  exit 1
+fi
+
 echo ""
 echo "Creating monorepo with:"
 echo "  Name: $PROJECT_NAME"
@@ -50,11 +102,48 @@ echo "📁 Creating directory structure..."
 mkdir -p "$PROJECT_NAME"/{apps,packages,tooling}
 cd "$PROJECT_NAME"
 
+# Helper function to escape JSON strings
+json_escape() {
+  local str="$1"
+  # Escape backslashes first, then quotes, then newlines, tabs, etc.
+  str="${str//\\/\\\\}"
+  str="${str//\"/\\\"}"
+  str="${str//$'\n'/\\n}"
+  str="${str//$'\r'/\\r}"
+  str="${str//$'\t'/\\t}"
+  echo "$str"
+}
+
+# Escape project name for JSON
+ESCAPED_PROJECT_NAME=$(json_escape "$PROJECT_NAME")
+
 # Create root package.json
 echo "📝 Creating package.json..."
-cat > package.json <<EOF
+if command -v jq >/dev/null 2>&1; then
+  # Use jq for safe JSON generation if available
+  jq -n \
+    --arg name "$PROJECT_NAME" \
+    '{
+      name: $name,
+      version: "0.0.0",
+      private: true,
+      workspaces: ["apps/*", "packages/*"],
+      scripts: {
+        build: "turbo run build",
+        dev: "turbo run dev",
+        lint: "turbo run lint",
+        test: "turbo run test",
+        clean: "turbo run clean && rm -rf node_modules"
+      },
+      devDependencies: {
+        turbo: "latest"
+      }
+    }' > package.json
+else
+  # Fallback: use escaped string in heredoc
+  cat > package.json <<EOF
 {
-  "name": "$PROJECT_NAME",
+  "name": "$ESCAPED_PROJECT_NAME",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -73,12 +162,13 @@ cat > package.json <<EOF
   }
 }
 EOF
+fi
 
 # Create turbo.json
 echo "📝 Creating turbo.json..."
-cat > turbo.json <<EOF
+cat > turbo.json <<'EOF'
 {
-  "\$schema": "https://turbo.build/schema.json",
+  "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {
@@ -102,7 +192,7 @@ EOF
 
 # Create .gitignore
 echo "📝 Creating .gitignore..."
-cat > .gitignore <<EOF
+cat > .gitignore <<'EOF'
 # Dependencies
 node_modules/
 .pnp
@@ -189,9 +279,32 @@ EOF
 # Create example package
 echo "📦 Creating example shared package..."
 mkdir -p packages/ui/src
-cat > packages/ui/package.json <<EOF
+
+# Create packages/ui/package.json with properly escaped JSON
+if command -v jq >/dev/null 2>&1; then
+  # Use jq for safe JSON generation
+  jq -n \
+    --arg name "@$PROJECT_NAME/ui" \
+    '{
+      name: $name,
+      version: "0.0.0",
+      main: "./dist/index.js",
+      types: "./dist/index.d.ts",
+      scripts: {
+        build: "tsc",
+        dev: "tsc --watch",
+        lint: "eslint .",
+        clean: "rm -rf dist"
+      },
+      devDependencies: {
+        typescript: "^5.0.0"
+      }
+    }' > packages/ui/package.json
+else
+  # Fallback: use escaped string
+  cat > packages/ui/package.json <<EOF
 {
-  "name": "@$PROJECT_NAME/ui",
+  "name": "@$ESCAPED_PROJECT_NAME/ui",
   "version": "0.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -206,14 +319,15 @@ cat > packages/ui/package.json <<EOF
   }
 }
 EOF
+fi
 
-cat > packages/ui/src/index.ts <<EOF
+cat > packages/ui/src/index.ts <<'EOF'
 export function hello(name: string): string {
-  return \`Hello, \${name}!\`;
+  return `Hello, ${name}!`;
 }
 EOF
 
-cat > packages/ui/tsconfig.json <<EOF
+cat > packages/ui/tsconfig.json <<'EOF'
 {
   "compilerOptions": {
     "target": "ES2020",
