@@ -567,7 +567,7 @@ binding = "ASSETS"
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "bun run build && wrangler deploy"  # or: pnpm build && wrangler deploy
+    "deploy": "bun run build && wrangler deploy"  # or: npm run build && wrangler deploy
   }
 }
 ```

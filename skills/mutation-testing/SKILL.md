@@ -24,7 +24,7 @@ Expert knowledge for mutation testing - validating that your tests actually catc
 bun add -d @stryker-mutator/core @stryker-mutator/vitest-runner
 
 # Using npm
-bun add -d @stryker-mutator/core @stryker-mutator/vitest-runner
+npm install -D @stryker-mutator/core @stryker-mutator/vitest-runner
 ```
 
 ### Configuration

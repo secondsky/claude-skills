@@ -1,12 +1,13 @@
 # PHASE 5 PROGRESS - BUN PACKAGE MANAGER MIGRATION
 ## Update all skills to prefer Bun over npm/npx/pnpm
 
-**Status**: ✅ COMPLETE (75 of 75 skills migrated, 11 bugs found & fixed)
-**Time Spent**: ~2.5 hours (1.5h initial + 0.5h QA & 8 fixes + 0.5h follow-up QA & 3 fixes)
+**Status**: ✅ COMPLETE (75 of 75 skills migrated, 16 bugs found & fixed)
+**Time Spent**: ~3 hours (1.5h initial + 0.5h QA & 8 fixes + 0.5h follow-up QA & 3 fixes + 0.5h additional QA & 5 fixes)
 **Approach**: Automated sed-based replacements with multi-pass QA review
 **Completion Date**: 2025-11-19
 **Initial QA**: 2025-11-19 (8 bugs found and fixed)
-**Follow-up QA**: 2025-11-19 (3 additional bugs found and fixed)
+**Follow-up QA #1**: 2025-11-19 (3 additional bugs found and fixed)
+**Follow-up QA #2**: 2025-11-19 (5 additional bugs found and fixed)
 
 ---
 
@@ -54,14 +55,16 @@
 - **Files fully migrated to Bun**: 75 (100% of affected files) ✅
 - **Files with intentional npm refs**: 6 (8% - preserved intentionally)
 - **Bugs found during initial QA**: 8 bugs across 6 skills - All fixed
-- **Bugs found during follow-up QA**: 3 additional bugs across 3 skills - All fixed
-- **Total bugs fixed**: 11 (100%) - All fixed 2025-11-19
+- **Bugs found during follow-up QA #1**: 3 additional bugs across 3 skills - All fixed
+- **Bugs found during follow-up QA #2**: 5 additional bugs across 5 skills - All fixed
+- **Total bugs fixed**: 16 (100%) - All fixed 2025-11-19
 
 ### Conversion Summary
-- ✅ **66 skills**: 100% migrated to Bun (no bugs found)
-- ✅ **9 skills**: Had bugs, now fixed:
-  - Initial QA: aceternity-ui, nuxt-seo, shadcn-vue, ultracite, motion, zustand
-  - Follow-up QA: nuxt-content, nuxt-seo (additional bug), tailwind-v4-shadcn
+- ✅ **63 skills**: 100% migrated to Bun (no bugs found)
+- ✅ **12 skills**: Had bugs, now all fixed:
+  - Initial QA: aceternity-ui (3), nuxt-seo (1), shadcn-vue (1), ultracite (1), motion (1), zustand (1)
+  - Follow-up QA #1: nuxt-content (1), nuxt-seo (1 more), tailwind-v4-shadcn (1)
+  - Follow-up QA #2: aceternity-ui (1 more), chrome-devtools (1), content-collections (1), mutation-testing (1), vitest-testing (1)
 - ✅ **6 skills**: Migrated with intentional npm-specific command preservation
 - ✅ **38 skills**: No package manager references (unchanged)
 
@@ -118,12 +121,19 @@ sed -i 's/# pnpm:/# or:/g' "$file"
 - ✅ motion (1 bug): Lines 96-97
 - ✅ zustand-state-management (1 bug): Lines 38-39
 
-**Follow-up QA Bugs Fixed** (3 additional bugs):
+**Follow-up QA #1 Bugs Fixed** (3 additional bugs):
 - ✅ nuxt-content (1 bug): Lines 58-62 - npm/pnpm comments with bun commands
 - ✅ nuxt-seo (1 bug): Lines 220-224 - npm comment with bunx commands
 - ✅ tailwind-v4-shadcn (1 bug): Line 78 - Added explanation for pnpm usage
 
-**Total**: 11 bugs fixed across 8 unique skills (nuxt-seo had 2 bugs in different sections)
+**Follow-up QA #2 Bugs Fixed** (5 additional bugs):
+- ✅ aceternity-ui (1 bug): Line 140 - Duplicate bunx line, should be npx
+- ✅ chrome-devtools (1 bug): Line 38 - "Alternative: Using npm" with bun install
+- ✅ content-collections (1 bug): Line 570 - Comment mixed bun and pnpm
+- ✅ mutation-testing (1 bug): Line 27 - "Using npm" with bun add -d
+- ✅ vitest-testing (1 bug): Line 20 - "Using npm" with bun add -d
+
+**Total**: 16 bugs fixed across 12 unique skills (aceternity-ui and nuxt-seo each had 2 bugs in different sections)
 
 **See PHASE_5_QA_REPORT.md for comprehensive initial QA analysis.**
 
@@ -400,18 +410,20 @@ From CLAUDE.md:
 ---
 
 **Phase 5 Status**: ✅ COMPLETE (with multi-pass QA & all bug fixes)
-**Total Time**: ~2.5 hours (1.5h initial + 1h QA & fixes)
+**Total Time**: ~3 hours (1.5h initial + 1.5h QA & fixes across 3 passes)
 **Files Changed**: 75 SKILL.md files
 **Instances Converted**: ~320+ occurrences
-**Initial Success Rate**: 84% fully correct (63/75), 8% with bugs (6/75), 8% intentional (6/75)
-**After Initial QA**: 100% of initial bugs fixed
-**After Follow-up QA**: 100% of all bugs fixed ✅
-**Total Bugs Found**: 11 across 8 unique skills
-**Total Bugs Fixed**: 11 (100%)
+**Initial Success Rate**: 84% fully correct (63/75), 16% with bugs (12/75), 8% intentional (6/75)
+**After Initial QA**: 8 bugs fixed (6 skills)
+**After Follow-up QA #1**: 3 bugs fixed (3 skills)
+**After Follow-up QA #2**: 5 bugs fixed (5 skills) ✅
+**Total Bugs Found**: 16 across 12 unique skills
+**Total Bugs Fixed**: 16 (100%) ✅
 
-**Last Updated**: 2025-11-19 (all 11 bugs fixed)
+**Last Updated**: 2025-11-19 (all 16 bugs fixed)
 **Initial Completion**: 2025-11-19
 **Initial QA Review**: 2025-11-19 (8 bugs found & fixed)
-**Follow-up QA Review**: 2025-11-19 (3 additional bugs found & fixed)
+**Follow-up QA #1**: 2025-11-19 (3 additional bugs found & fixed)
+**Follow-up QA #2**: 2025-11-19 (5 additional bugs found & fixed)
 **Completed By**: Claude Code Agent
 **Branch**: `claude/implement-phase-5-01RdxgvWvWyf1p7ndBgAo8Qh`

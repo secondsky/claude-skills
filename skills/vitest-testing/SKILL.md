@@ -17,7 +17,7 @@ Expert knowledge for testing JavaScript/TypeScript projects using Vitest - a bla
 bun add -d vitest
 
 # Using npm
-bun add -d vitest
+npm install -D vitest
 ```
 
 ### Configuration

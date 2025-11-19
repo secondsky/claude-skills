@@ -137,7 +137,7 @@ After initialization, update `components.json` to add Aceternity registry:
 ```bash
 # Install specific component
 bunx shadcn@latest add @aceternity/background-beams
-# or: bunx shadcn@latest add @aceternity/background-beams
+# or: npx shadcn@latest add @aceternity/background-beams
 # or: pnpm dlx shadcn@latest add @aceternity/background-beams
 
 # Component will be added to: components/ui/background-beams.tsx
