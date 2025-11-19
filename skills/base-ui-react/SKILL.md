@@ -26,8 +26,8 @@ metadata:
   production_tested: true
   token_savings: "~62%"
   errors_prevented: 10
-  templates_included: 0
-  references_included: 1
+  templates_included: 7
+  references_included: 3
 ---
 
 # Base UI React
