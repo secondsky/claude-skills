@@ -11,8 +11,37 @@ echo ""
 
 # Check if turbo is installed
 if ! command -v turbo &> /dev/null; then
-  echo "❌ Turborepo not found. Installing..."
-  npm install -g turbo
+  echo "❌ Turborepo not found. Installing globally..."
+  echo ""
+
+  # Detect package manager or use npm as fallback
+  if command -v bun &> /dev/null; then
+    PM="bun"
+  elif command -v pnpm &> /dev/null; then
+    PM="pnpm"
+  elif command -v yarn &> /dev/null; then
+    PM="yarn"
+  else
+    PM="npm"
+  fi
+
+  echo "Using $PM to install turbo..."
+
+  # Install turbo globally with error handling
+  if ! $PM install -g turbo; then
+    echo ""
+    echo "⚠️ Failed to install Turborepo globally."
+    echo ""
+    echo "This may be due to permission issues. Try one of:"
+    echo "  - Run with sudo: sudo $PM install -g turbo"
+    echo "  - Install locally in project: $PM add turbo --dev"
+    echo "  - Use npx: npx turbo login (no installation needed)"
+    echo ""
+    exit 1
+  fi
+
+  echo "✅ Turborepo installed successfully!"
+  echo ""
 fi
 
 echo "This script will:"

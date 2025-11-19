@@ -258,6 +258,22 @@ echo "  - Create shared packages in packages/"
 echo "  - Update turbo.json pipeline as needed"
 echo ""
 echo "Enable remote caching:"
-echo "  bunx turbo login"
-echo "  bunx turbo link"
+case $PACKAGE_MANAGER in
+  bun)
+    echo "  bunx turbo login"
+    echo "  bunx turbo link"
+    ;;
+  npm)
+    echo "  npx turbo login"
+    echo "  npx turbo link"
+    ;;
+  pnpm)
+    echo "  pnpm dlx turbo login"
+    echo "  pnpm dlx turbo link"
+    ;;
+  yarn)
+    echo "  yarn dlx turbo login"
+    echo "  yarn dlx turbo link"
+    ;;
+esac
 echo ""
