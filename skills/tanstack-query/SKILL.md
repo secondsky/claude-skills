@@ -24,9 +24,9 @@ license: MIT
 
 ```bash
 bun add @tanstack/react-query@latest  # preferred
-# or: npm install @tanstack/react-query@latest
+# or: bun add @tanstack/react-query@latest
 bun add -d @tanstack/react-query-devtools@latest
-# or: npm install -D @tanstack/react-query-devtools@latest
+# or: bun add -d @tanstack/react-query-devtools@latest
 ```
 
 **Why this matters:**
@@ -188,13 +188,13 @@ function AddTodoForm() {
 
 ```bash
 # Core library (required)
-npm install @tanstack/react-query
+bun add @tanstack/react-query
 
 # DevTools (highly recommended for development)
-npm install -D @tanstack/react-query-devtools
+bun add -d @tanstack/react-query-devtools
 
 # Optional: ESLint plugin for best practices
-npm install -D @tanstack/eslint-plugin-query
+bun add -d @tanstack/eslint-plugin-query
 ```
 
 **Package roles:**

@@ -354,7 +354,7 @@ Jekyll is commonly used with GitHub Pages and Sveltia CMS.
 
 5. **Start 11ty dev server:**
    ```bash
-   npx @11ty/eleventy --serve
+   bunx @11ty/eleventy --serve
    ```
 
 6. **Access admin:**
@@ -505,10 +505,10 @@ This uses the official `sveltia-cms-auth` Cloudflare Worker for OAuth.
    cd sveltia-cms-auth
 
    # Install dependencies
-   npm install
+   bun install
 
    # Deploy to Cloudflare Workers
-   npx wrangler deploy
+   bunx wrangler deploy
    ```
 
    **Or use one-click deploy**:
@@ -526,14 +526,14 @@ This uses the official `sveltia-cms-auth` Cloudflare Worker for OAuth.
 3. **Configure Worker Environment Variables:**
    ```bash
    # Set GitHub credentials
-   npx wrangler secret put GITHUB_CLIENT_ID
+   bunx wrangler secret put GITHUB_CLIENT_ID
    # Paste your Client ID
 
-   npx wrangler secret put GITHUB_CLIENT_SECRET
+   bunx wrangler secret put GITHUB_CLIENT_SECRET
    # Paste your Client Secret
 
    # Optional: Restrict to specific domains
-   npx wrangler secret put ALLOWED_DOMAINS
+   bunx wrangler secret put ALLOWED_DOMAINS
    # Example: yourdomain.com,*.yourdomain.com
    ```
 
@@ -1011,7 +1011,7 @@ backend:
 
 **Step 3: Verify Worker environment variables:**
 ```bash
-npx wrangler secret list
+bunx wrangler secret list
 # Should show: GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
 ```
 
@@ -1837,7 +1837,7 @@ cp [path-to-skill]/templates/hugo/config.yml static/admin/
 # 4. Deploy OAuth Worker
 git clone https://github.com/sveltia/sveltia-cms-auth
 cd sveltia-cms-auth
-npx wrangler deploy
+bunx wrangler deploy
 
 # 5. Configure and test
 hugo server

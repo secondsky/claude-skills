@@ -35,7 +35,7 @@ Supports: Ubuntu, Debian, Fedora, RHEL, CentOS, Arch, Manjaro
 bun install  # Installs puppeteer, debug, yargs
 
 # Alternative: Using npm
-npm install
+bun install
 ```
 
 #### Step 3: Install ImageMagick (Optional, Recommended)

@@ -72,7 +72,7 @@ Aceternity UI is a premium, production-ready React component library designed fo
 ```bash
 # Create Next.js project (bun preferred)
 bunx create-next-app@latest my-app
-# Or with npm: npx create-next-app@latest my-app
+# Or with npm: bunx create-next-app@latest my-app
 # Or with pnpm: pnpm create next-app@latest my-app
 
 cd my-app
@@ -93,7 +93,7 @@ cd my-app
 bunx --bun shadcn@latest init
 
 # Using npm
-npx shadcn@latest init
+bunx shadcn@latest init
 
 # Using pnpm
 pnpm dlx shadcn@latest init
@@ -137,8 +137,8 @@ After initialization, update `components.json` to add Aceternity registry:
 ```bash
 # Install specific component
 bunx shadcn@latest add @aceternity/background-beams
-# npm: npx shadcn@latest add @aceternity/background-beams
-# pnpm: pnpm dlx shadcn@latest add @aceternity/background-beams
+# or: bunx shadcn@latest add @aceternity/background-beams
+# or: pnpm dlx shadcn@latest add @aceternity/background-beams
 
 # Component will be added to: components/ui/background-beams.tsx
 ```
@@ -150,8 +150,8 @@ If the registry method doesn't work, install manually:
 1. Install required dependencies:
 ```bash
 bun add motion clsx tailwind-merge
-# npm: npm install motion clsx tailwind-merge
-# pnpm: pnpm add motion clsx tailwind-merge
+# or: bun add motion clsx tailwind-merge
+# or: bun add motion clsx tailwind-merge
 ```
 
 2. Add utility function to `lib/utils.ts`:
@@ -633,7 +633,7 @@ export function Card({ title, description, image }: CardProps) {
 **1. "Module not found: motion"**
 ```bash
 bun add motion
-# or: npm install motion
+# or: bun add motion
 ```
 
 **2. "cn is not defined"**

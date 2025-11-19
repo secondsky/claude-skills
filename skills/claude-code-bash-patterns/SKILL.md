@@ -42,7 +42,7 @@ ls -la
 ### Command Chaining
 
 ```bash
-npm install && npm run build && npm test
+bun install && bun run build && bun test
 ```
 
 ### Hooks
@@ -218,7 +218,7 @@ bun install && bun run build
 ### wrangler (Cloudflare)
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 ### gh (GitHub CLI)
@@ -291,7 +291,7 @@ npm test && git add . && git commit -m "message"
 ### Use Case 2: Deploy with Validation
 
 ```bash
-npm run lint && npm test && npm run build && npx wrangler deploy
+npm run lint && npm test && npm run build && bunx wrangler deploy
 ```
 
 ### Use Case 3: Multi-Repo Operations
@@ -409,13 +409,13 @@ git checkout -b feature/oauth && \
 npm run lint && \
   npm test && \
   npm run build && \
-  npx wrangler deploy
+  bunx wrangler deploy
 ```
 
 ### Multi-Project Update
 
 ```bash
-cd project1 && npm install && cd ../project2 && npm install
+cd project1 && bun install && cd ../project2 && bun install
 ```
 
 ---

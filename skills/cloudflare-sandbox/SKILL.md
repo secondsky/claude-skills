@@ -24,7 +24,7 @@ license: MIT
 
 ```bash
 bun add @cloudflare/sandbox@latest  # preferred
-# or: npm install @cloudflare/sandbox@latest
+# or: bun add @cloudflare/sandbox@latest
 ```
 
 **wrangler.jsonc:**
@@ -763,7 +763,7 @@ async function runClaudeCodeOnRepo(
 ./scripts/setup-sandbox-binding.sh
 
 # Test sandbox
-npx tsx scripts/test-sandbox.ts
+bunx tsx scripts/test-sandbox.ts
 ```
 
 ### References (references/)
@@ -936,7 +936,7 @@ This skill is based on official Cloudflare tutorials:
 
 ## Complete Setup Checklist
 
-- [ ] `npm install @cloudflare/sandbox@latest`
+- [ ] `bun add @cloudflare/sandbox@latest`
 - [ ] Add `nodejs_compat` to compatibility_flags
 - [ ] Add containers configuration with correct image version
 - [ ] Add Durable Objects binding

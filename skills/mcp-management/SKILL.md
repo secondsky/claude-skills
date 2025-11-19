@@ -46,10 +46,10 @@ bunx tsx scripts/cli.ts list-tools  # Saves to assets/tools.json
 bunx tsx scripts/cli.ts list-prompts
 bunx tsx scripts/cli.ts list-resources
 
-# Alternative: Using npx
-npx tsx scripts/cli.ts list-tools
-npx tsx scripts/cli.ts list-prompts
-npx tsx scripts/cli.ts list-resources
+# Alternative: Using bunx
+bunx tsx scripts/cli.ts list-tools
+bunx tsx scripts/cli.ts list-prompts
+bunx tsx scripts/cli.ts list-resources
 ```
 
 Aggregates capabilities from multiple servers with server identification.
@@ -70,8 +70,8 @@ gemini -y -m gemini-2.5-flash -p "Take a screenshot of https://example.com"
 # Preferred: Using bun
 bunx tsx scripts/cli.ts call-tool memory create_entities '{"entities":[...]}'
 
-# Alternative: Using npx
-npx tsx scripts/cli.ts call-tool memory create_entities '{"entities":[...]}'
+# Alternative: Using bunx
+bunx tsx scripts/cli.ts call-tool memory create_entities '{"entities":[...]}'
 ```
 
 **Fallback: mcp-manager Subagent**
@@ -107,7 +107,7 @@ Coordinate tools across multiple servers. Each tool knows its source server for 
 
 **Method 1: Gemini CLI** (recommended)
 ```bash
-bun install -g gemini-cli  # or: npm install -g gemini-cli
+bun install -g gemini-cli  # or: bun add -g gemini-cli
 mkdir -p .gemini && ln -sf .claude/.mcp.json .gemini/settings.json
 gemini -y -m gemini-2.5-flash -p "Take a screenshot of https://example.com"
 ```
@@ -115,7 +115,7 @@ gemini -y -m gemini-2.5-flash -p "Take a screenshot of https://example.com"
 **Method 2: Scripts**
 ```bash
 cd .claude/skills/mcp-management/scripts
-bun install  # or: npm install
+bun install  # or: bun install
 bunx tsx cli.ts list-tools  # Saves to assets/tools.json
 bunx tsx cli.ts call-tool memory create_entities '{"entities":[...]}'
 ```

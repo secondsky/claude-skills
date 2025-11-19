@@ -47,13 +47,13 @@ This skill provides comprehensive coverage of the `gemini-embedding-001` model f
 Install the Google Generative AI SDK:
 
 ```bash
-npm install @google/genai@^1.27.0
+bun add @google/genai@^1.27.0
 ```
 
 For TypeScript projects:
 
 ```bash
-npm install -D typescript@^5.0.0
+bun add -d typescript@^5.0.0
 ```
 
 ### Environment Setup
@@ -545,7 +545,7 @@ async function ragQuery(env: Env, userQuery: string): Promise<string> {
 **Create Vectorize Index** (768 dimensions for Gemini):
 
 ```bash
-npx wrangler vectorize create gemini-embeddings --dimensions 768 --metric cosine
+bunx wrangler vectorize create gemini-embeddings --dimensions 768 --metric cosine
 ```
 
 **Bind in wrangler.jsonc**:

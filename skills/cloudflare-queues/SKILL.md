@@ -36,8 +36,8 @@ metadata:
 ### 1. Create Queue
 
 ```bash
-npx wrangler queues create my-queue
-npx wrangler queues list
+bunx wrangler queues create my-queue
+bunx wrangler queues list
 ```
 
 ### 2. Producer (Send Messages)
@@ -123,7 +123,7 @@ export default {
 **Deploy:**
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 **Load**: `references/setup-guide.md` for complete 6-step setup with DLQ configuration
@@ -256,7 +256,7 @@ export default {
 
 ```bash
 # Create DLQ
-npx wrangler queues create my-dlq
+bunx wrangler queues create my-dlq
 ```
 
 ```jsonc
@@ -527,17 +527,17 @@ interface MessageBatch {
 
 ```bash
 # Check queue status
-npx wrangler queues info my-queue
+bunx wrangler queues info my-queue
 
 # Monitor consumer logs
-npx wrangler tail my-consumer
+bunx wrangler tail my-consumer
 
 # Check DLQ
-npx wrangler queues info my-dlq
+bunx wrangler queues info my-dlq
 
 # Pause/resume delivery
-npx wrangler queues pause-delivery my-queue
-npx wrangler queues resume-delivery my-queue
+bunx wrangler queues pause-delivery my-queue
+bunx wrangler queues resume-delivery my-queue
 ```
 
 **Load `references/wrangler-commands.md` for complete CLI reference.**

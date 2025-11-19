@@ -480,7 +480,7 @@ Located in `scripts/`:
 ### 1. Install Package
 
 ```bash
-npm install hono @hono/cloudflare-access
+bun add hono @hono/cloudflare-access
 ```
 
 ### 2. Configure Access
@@ -526,7 +526,7 @@ export default app
 ### 4. Deploy and Test
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 Access: `https://your-worker.example.com/admin/dashboard`

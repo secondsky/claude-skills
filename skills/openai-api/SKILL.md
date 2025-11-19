@@ -11,7 +11,7 @@ license: MIT
 ## Quick Start
 
 ```bash
-npm install openai
+bun add openai
 export OPENAI_API_KEY="sk-..."
 ```
 

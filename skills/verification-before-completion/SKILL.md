@@ -72,8 +72,7 @@ npm run lint
 # Preferred: bun
 bunx tsc --noEmit
 
-# Alternative: npx
-npx tsc --noEmit
+# or: npx tsc --noEmit
 ```
 
 ## Common Failures

@@ -92,7 +92,7 @@ export default {
 **Deploy and connect:**
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 Dashboard → Email Workers → **Create address** → Select worker

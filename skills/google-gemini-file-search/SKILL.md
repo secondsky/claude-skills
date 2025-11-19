@@ -55,7 +55,7 @@ https://aistudio.google.com/apikey
 ### 2. Install SDK
 
 ```bash
-npm install @google/genai
+bun add @google/genai
 ```
 
 **Version:** 0.21.0+ | **Node.js:** 18+

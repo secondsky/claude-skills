@@ -49,11 +49,11 @@ ElevenLabs migrated to new scoped packages in August 2025:
 
 **Current packages:**
 ```bash
-npm install @elevenlabs/react@0.9.1        # React SDK
-npm install @elevenlabs/client@0.9.1       # JavaScript SDK
-npm install @elevenlabs/react-native@0.5.2 # React Native SDK
-npm install @elevenlabs/elevenlabs-js@2.21.0 # Base SDK
-npm install -g @elevenlabs/agents-cli@0.2.0  # CLI
+bun add @elevenlabs/react@0.9.1        # React SDK
+bun add @elevenlabs/client@0.9.1       # JavaScript SDK
+bun add @elevenlabs/react-native@0.5.2 # React Native SDK
+bun add @elevenlabs/elevenlabs-js@2.21.0 # Base SDK
+bun add -g @elevenlabs/agents-cli@0.2.0  # CLI
 ```
 
 If you have old packages installed, uninstall them first:
@@ -85,7 +85,7 @@ For building voice chat interfaces in React applications.
 
 **Installation**:
 ```bash
-npm install @elevenlabs/react zod
+bun add @elevenlabs/react zod
 ```
 
 **Basic Example**:
@@ -155,9 +155,9 @@ For managing agents via code with version control and CI/CD.
 
 **Installation**:
 ```bash
-npm install -g @elevenlabs/agents-cli
+bun add -g @elevenlabs/agents-cli
 # or
-pnpm install -g @elevenlabs/agents-cli
+bun add -g @elevenlabs/agents-cli
 ```
 
 **Workflow**:
@@ -191,7 +191,7 @@ For creating agents dynamically (multi-tenant, SaaS platforms).
 
 **Installation**:
 ```bash
-npm install elevenlabs
+bun add elevenlabs
 ```
 
 **Example**:
@@ -476,7 +476,7 @@ Built-in platform tools.
 npm uninstall @11labs/react @11labs/client
 
 # Install new packages
-npm install @elevenlabs/react@0.9.1 @elevenlabs/client@0.9.1
+bun add @elevenlabs/react@0.9.1 @elevenlabs/client@0.9.1
 ```
 
 **Update imports**:

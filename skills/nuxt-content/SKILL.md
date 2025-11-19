@@ -56,10 +56,10 @@ Use this skill when:
 bun add @nuxt/content better-sqlite3
 
 # npm
-npm install @nuxt/content better-sqlite3
+bun add @nuxt/content better-sqlite3
 
 # pnpm
-pnpm add @nuxt/content better-sqlite3
+bun add @nuxt/content better-sqlite3
 ```
 
 **Why this matters:**
@@ -496,13 +496,13 @@ const results = await queryCollectionSearchSections('blog', 'nuxt content')
 bun add -D @nuxthub/core
 
 # Create D1 database
-npx wrangler d1 create nuxt-content
+bunx wrangler d1 create nuxt-content
 
 # Build for Cloudflare
 bun run build
 
 # Deploy
-npx wrangler pages deploy dist
+bunx wrangler pages deploy dist
 ```
 
 **wrangler.toml**:

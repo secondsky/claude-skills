@@ -58,8 +58,8 @@ Build type-safe, file-based routing for React SPAs with TanStack Router, optimiz
 ### Installation
 
 ```bash
-npm install @tanstack/react-router @tanstack/router-devtools
-npm install -D @tanstack/router-plugin
+bun add @tanstack/react-router @tanstack/router-devtools
+bun add -d @tanstack/router-plugin
 ```
 
 **Latest version:** v1.134.13 (verified 2025-11-07)
@@ -186,7 +186,7 @@ export const Route = createFileRoute('/posts/$postId')({
 
 **Solution:**
 ```bash
-npm install @tanstack/router-devtools
+bun add @tanstack/router-devtools
 ```
 
 ### Error 2: Vite Plugin Order

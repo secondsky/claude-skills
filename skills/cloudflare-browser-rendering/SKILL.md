@@ -68,7 +68,7 @@ Production-ready knowledge domain for building browser automation workflows with
 ### 2. Install Puppeteer
 
 ```bash
-npm install @cloudflare/puppeteer
+bun add @cloudflare/puppeteer
 ```
 
 ### 3. Take Your First Screenshot
@@ -106,7 +106,7 @@ export default {
 ### 4. Deploy
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 Test at: `https://your-worker.workers.dev/?url=https://example.com`
@@ -624,7 +624,7 @@ Playwright provides a similar API to Puppeteer with slight differences.
 ### Installation
 
 ```bash
-npm install @cloudflare/playwright
+bun add @cloudflare/playwright
 ```
 
 ### Basic Example

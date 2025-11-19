@@ -112,10 +112,10 @@ Documents and prevents 6+ common issues:
 
 ```bash
 bun add @tanstack/react-table@latest  # preferred
-# or: npm install @tanstack/react-table@latest
+# or: bun add @tanstack/react-table@latest
 # For virtualization (optional):
 bun add @tanstack/react-virtual@latest
-# or: npm install @tanstack/react-virtual@latest
+# or: bun add @tanstack/react-virtual@latest
 ```
 
 **Latest verified versions:**

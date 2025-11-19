@@ -165,7 +165,7 @@ bun scripts/pages.ts get-url my-app
 
 **Note**: The API creates the project structure, but for actual file uploads, you'll need Wrangler CLI:
 ```bash
-npx wrangler pages deploy ./dist --project-name=my-app
+bunx wrangler pages deploy ./dist --project-name=my-app
 ```
 
 **Why this works**: The skill creates/verifies the Pages project and returns the URL. For the initial deployment with files, Wrangler handles the complex multipart upload process.

@@ -144,7 +144,7 @@ Install all 8 modules at once:
 bunx nuxi module add @nuxtjs/seo
 
 # Using npm (backup)
-npx nuxi module add @nuxtjs/seo
+bunx nuxi module add @nuxtjs/seo
 
 # Using pnpm (backup)
 pnpm dlx nuxi module add @nuxtjs/seo
@@ -218,9 +218,9 @@ bunx nuxi module add nuxt-sitemap
 bunx nuxi module add nuxt-og-image
 
 # npm
-npx nuxi module add nuxt-robots
-npx nuxi module add nuxt-sitemap
-npx nuxi module add nuxt-og-image
+bunx nuxi module add nuxt-robots
+bunx nuxi module add nuxt-sitemap
+bunx nuxi module add nuxt-og-image
 
 # pnpm
 pnpm dlx nuxi module add nuxt-robots

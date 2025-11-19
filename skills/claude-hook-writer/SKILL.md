@@ -745,7 +745,7 @@ prpm install @yourname/my-hook
 
 ## Requirements
 
-- prettier (install: `bun install -g prettier` or `npm install -g prettier`)
+- prettier (install: `bun install -g prettier` or `bun add -g prettier`)
 - jq (install: `brew install jq`)
 
 ## Configuration

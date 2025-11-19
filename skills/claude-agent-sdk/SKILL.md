@@ -23,7 +23,7 @@ license: MIT
 ### 1. Install SDK
 
 ```bash
-npm install @anthropic-ai/claude-agent-sdk zod
+bun add @anthropic-ai/claude-agent-sdk zod
 ```
 
 **Why these packages:**
@@ -1276,7 +1276,7 @@ try {
 
 | Error Code | Cause | Solution |
 |------------|-------|----------|
-| `CLI_NOT_FOUND` | Claude Code not installed | Install: `npm install -g @anthropic-ai/claude-code` |
+| `CLI_NOT_FOUND` | Claude Code not installed | Install: `bun add -g @anthropic-ai/claude-code` |
 | `AUTHENTICATION_FAILED` | Invalid API key | Check ANTHROPIC_API_KEY env var |
 | `RATE_LIMIT_EXCEEDED` | Too many requests | Implement retry with backoff |
 | `CONTEXT_LENGTH_EXCEEDED` | Prompt too long | Use session compaction, reduce context |
@@ -1376,7 +1376,7 @@ This skill prevents **12** documented issues:
 **Error**: `"Claude Code CLI not installed"`
 **Source**: SDK requires Claude Code CLI
 **Why It Happens**: CLI not installed globally
-**Prevention**: Install before using SDK: `npm install -g @anthropic-ai/claude-code`
+**Prevention**: Install before using SDK: `bun add -g @anthropic-ai/claude-code`
 
 ### Issue #2: Authentication Failed
 **Error**: `"Invalid API key"`
@@ -1458,7 +1458,7 @@ This skill prevents **12** documented issues:
 
 **System Requirements**:
 - Node.js 18.0.0+
-- Claude Code CLI (install: `npm install -g @anthropic-ai/claude-code`)
+- Claude Code CLI (install: `bun add -g @anthropic-ai/claude-code`)
 - Valid ANTHROPIC_API_KEY
 
 ---
@@ -1505,7 +1505,7 @@ This skill is based on official Anthropic documentation and SDK patterns:
 ## Troubleshooting
 
 ### Problem: CLI not found error
-**Solution**: Install Claude Code CLI: `npm install -g @anthropic-ai/claude-code`
+**Solution**: Install Claude Code CLI: `bun add -g @anthropic-ai/claude-code`
 
 ### Problem: Permission denied on tool execution
 **Solution**: Check `allowedTools`, implement custom `canUseTool`, or use `permissionMode: "acceptEdits"`
@@ -1529,8 +1529,8 @@ This skill is based on official Anthropic documentation and SDK patterns:
 ## Complete Setup Checklist
 
 - [ ] Node.js 18.0.0+ installed
-- [ ] Claude Code CLI installed (`npm install -g @anthropic-ai/claude-code`)
-- [ ] SDK installed (`npm install @anthropic-ai/claude-agent-sdk zod`)
+- [ ] Claude Code CLI installed (`bun add -g @anthropic-ai/claude-code`)
+- [ ] SDK installed (`bun add @anthropic-ai/claude-agent-sdk zod`)
 - [ ] ANTHROPIC_API_KEY environment variable set
 - [ ] workingDirectory set for project
 - [ ] allowedTools configured (or using default)

@@ -138,7 +138,7 @@ Every consultation must follow this format (prevents parroting):
 
 **Gemini CLI** (required):
 ```bash
-npm install -g @google/generative-ai-cli
+bun add -g @google/generative-ai-cli
 export GEMINI_API_KEY="your-key"
 ```
 
@@ -146,7 +146,7 @@ Get API key: https://aistudio.google.com/apikey
 
 **Codex CLI** (optional):
 ```bash
-npm install -g codex
+bun add -g codex
 export OPENAI_API_KEY="sk-..."
 ```
 
@@ -482,8 +482,8 @@ git status --ignored
 
 **Fix**:
 ```bash
-npm install -g @google/generative-ai-cli
-npm install -g codex
+bun add -g @google/generative-ai-cli
+bun add -g codex
 ```
 
 **Prevention**: Pre-flight checks in slash commands

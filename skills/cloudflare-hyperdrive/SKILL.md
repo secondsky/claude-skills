@@ -38,7 +38,7 @@ Connect Workers to existing PostgreSQL/MySQL databases:
 ### 1. Create Hyperdrive Config
 
 ```bash
-npx wrangler hyperdrive create my-db \
+bunx wrangler hyperdrive create my-db \
   --connection-string="postgres://user:pass@host:5432/database"
 ```
 

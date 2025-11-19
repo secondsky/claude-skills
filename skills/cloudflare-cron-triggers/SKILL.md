@@ -77,7 +77,7 @@ export default {
 
 ```bash
 # Enable scheduled testing
-npx wrangler dev --test-scheduled
+bunx wrangler dev --test-scheduled
 
 # In another terminal, trigger the scheduled handler
 curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
@@ -95,7 +95,7 @@ curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
 ```bash
 npm run deploy
 # or
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 **After deployment:**
@@ -681,10 +681,10 @@ async function sendAlert(details: any): Promise<void> {
 
 ```bash
 # Deploy to dev
-npx wrangler deploy --env dev
+bunx wrangler deploy --env dev
 
 # Deploy to production
-npx wrangler deploy --env production
+bunx wrangler deploy --env production
 ```
 
 ---
@@ -709,7 +709,7 @@ After deploy, Worker will no longer execute on schedule.
 
 ```bash
 # Start dev server with scheduled testing enabled
-npx wrangler dev --test-scheduled
+bunx wrangler dev --test-scheduled
 ```
 
 This exposes `/__scheduled` endpoint for triggering scheduled handlers.
@@ -737,7 +737,7 @@ curl "http://localhost:8787/__scheduled?cron=*/5+*+*+*+*"
 
 ```bash
 # Start dev server
-npx wrangler dev --test-scheduled
+bunx wrangler dev --test-scheduled
 
 # In another terminal, trigger and watch output
 curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"
@@ -827,7 +827,7 @@ This skill prevents **6** documented issues:
 
 ```bash
 # If you only changed triggers (not code), use:
-npx wrangler triggers deploy
+bunx wrangler triggers deploy
 
 # Wait 15 minutes, then verify in dashboard
 ```
@@ -1385,7 +1385,7 @@ Cron triggers use **Standard Workers pricing**:
 
 ```bash
 # Re-deploy
-npx wrangler deploy
+bunx wrangler deploy
 
 # Wait 15 minutes
 
@@ -1472,7 +1472,7 @@ Convert your desired local time to UTC:
 
 ```bash
 # Correct: Start with flag
-npx wrangler dev --test-scheduled
+bunx wrangler dev --test-scheduled
 
 # In another terminal
 curl "http://localhost:8787/__scheduled?cron=0+*+*+*+*"

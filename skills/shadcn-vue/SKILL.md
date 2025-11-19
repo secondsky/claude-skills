@@ -5,9 +5,9 @@ description: |
 
   Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components.
 
-  Covers: CLI setup with npx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.
+  Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.
 
-  Keywords: shadcn-vue, shadcn vue, Reka UI, radix-vue, Vue components, Nuxt components, Tailwind CSS, accessible components, headless ui, Auto Form, Zod validation, TanStack Table, data tables, Unovis charts, dark mode, useColorMode, components.json, npx shadcn-vue, vueuse, composables, Vue 3, Nuxt 3, TypeScript, accessibility, ARIA, component library, UI components, form builder, schema validation
+  Keywords: shadcn-vue, shadcn vue, Reka UI, radix-vue, Vue components, Nuxt components, Tailwind CSS, accessible components, headless ui, Auto Form, Zod validation, TanStack Table, data tables, Unovis charts, dark mode, useColorMode, components.json, bunx shadcn-vue, vueuse, composables, Vue 3, Nuxt 3, TypeScript, accessibility, ARIA, component library, UI components, form builder, schema validation
 license: MIT
 ---
 
@@ -32,7 +32,7 @@ license: MIT
 bunx shadcn-vue@latest init
 
 # Using npm
-npx shadcn-vue@latest init
+bunx shadcn-vue@latest init
 ```
 
 **During initialization**:

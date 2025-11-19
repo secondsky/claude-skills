@@ -68,7 +68,7 @@ cp -r scaffold/ my-new-app/
 cd my-new-app/
 
 # Install dependencies
-npm install
+bun install
 
 # Initialize core services (D1, KV, R2)
 ./scripts/init-services.sh
@@ -161,7 +161,7 @@ scaffold/
 - Copies scaffold to new directory
 - Renames project in package.json
 - Initializes git repository
-- Runs npm install
+- Runs bun install
 - Prompts to initialize services
 
 **`scripts/init-services.sh`**:
@@ -450,19 +450,19 @@ cp -r scaffold/ ~/projects/my-new-app/
 cd ~/projects/my-new-app/
 
 # 2. Run setup
-npm install
+bun install
 
 # 3. Initialize Cloudflare services
-npx wrangler d1 create my-app-db
-npx wrangler kv:namespace create my-app-kv
-npx wrangler r2 bucket create my-app-bucket
-npx wrangler vectorize create my-app-index --dimensions=1536
-npx wrangler queues create my-app-queue
+bunx wrangler d1 create my-app-db
+bunx wrangler kv:namespace create my-app-kv
+bunx wrangler r2 bucket create my-app-bucket
+bunx wrangler vectorize create my-app-index --dimensions=1536
+bunx wrangler queues create my-app-queue
 
 # 4. Update wrangler.jsonc with IDs from step 3
 
 # 5. Create D1 tables
-npx wrangler d1 execute my-app-db --local --file=schema.sql
+bunx wrangler d1 execute my-app-db --local --file=schema.sql
 
 # 6. Start dev server
 npm run dev
@@ -501,14 +501,14 @@ npm run dev
 npm run build
 
 # Deploy
-npx wrangler deploy
+bunx wrangler deploy
 
 # Migrate production database
-npx wrangler d1 execute my-app-db --remote --file=schema.sql
+bunx wrangler d1 execute my-app-db --remote --file=schema.sql
 
 # Set production secrets
-npx wrangler secret put CLERK_SECRET_KEY
-npx wrangler secret put OPENAI_API_KEY
+bunx wrangler secret put CLERK_SECRET_KEY
+bunx wrangler secret put OPENAI_API_KEY
 ```
 
 ## Customization Patterns
@@ -741,7 +741,7 @@ app.use('/api/protected/*', jwtAuthMiddleware)
 ```bash
 cp -r scaffold/ my-app/
 cd my-app/
-npm install
+bun install
 # Follow quick-start-guide.md
 ```
 
@@ -758,7 +758,7 @@ npm install
 **Deploy**:
 ```bash
 npm run build
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 **Key Files**:

@@ -55,7 +55,7 @@ Content Collections transforms local content files (Markdown/MDX) into **type-sa
 ```bash
 bun add -d @content-collections/core @content-collections/vite zod
 # or
-pnpm add -D @content-collections/core @content-collections/vite zod
+bun add -d @content-collections/core @content-collections/vite zod
 ```
 
 ### 2. Configure TypeScript Path Alias

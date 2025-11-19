@@ -54,16 +54,16 @@ Complete implementation guide for Cloudflare Vectorize - a globally distributed 
 ### ⚠️ MUST DO BEFORE INSERTING VECTORS
 ```bash
 # 1. Create the index with FIXED dimensions and metric
-npx wrangler vectorize create my-index \
+bunx wrangler vectorize create my-index \
   --dimensions=768 \
   --metric=cosine
 
 # 2. Create metadata indexes IMMEDIATELY (before inserting vectors!)
-npx wrangler vectorize create-metadata-index my-index \
+bunx wrangler vectorize create-metadata-index my-index \
   --property-name=category \
   --type=string
 
-npx wrangler vectorize create-metadata-index my-index \
+bunx wrangler vectorize create-metadata-index my-index \
   --property-name=timestamp \
   --type=number
 ```
@@ -502,54 +502,54 @@ Solution:
 
 ```bash
 # Create index (dimensions and metric cannot be changed later!)
-npx wrangler vectorize create <name> \
+bunx wrangler vectorize create <name> \
   --dimensions=768 \
   --metric=cosine
 
 # List indexes
-npx wrangler vectorize list
+bunx wrangler vectorize list
 
 # Get index details
-npx wrangler vectorize get <name>
+bunx wrangler vectorize get <name>
 
 # Get index info (vector count, mutations)
-npx wrangler vectorize info <name>
+bunx wrangler vectorize info <name>
 
 # Delete index
-npx wrangler vectorize delete <name>
+bunx wrangler vectorize delete <name>
 
 # Create metadata index (BEFORE inserting vectors!)
-npx wrangler vectorize create-metadata-index <name> \
+bunx wrangler vectorize create-metadata-index <name> \
   --property-name=category \
   --type=string
 
 # List metadata indexes
-npx wrangler vectorize list-metadata-index <name>
+bunx wrangler vectorize list-metadata-index <name>
 
 # Delete metadata index
-npx wrangler vectorize delete-metadata-index <name> \
+bunx wrangler vectorize delete-metadata-index <name> \
   --property-name=category
 
 # Insert vectors from file
-npx wrangler vectorize insert <name> \
+bunx wrangler vectorize insert <name> \
   --file=vectors.ndjson
 
 # Query vectors
-npx wrangler vectorize query <name> \
+bunx wrangler vectorize query <name> \
   --vector="[0.1, 0.2, ...]" \
   --top-k=5 \
   --return-metadata=all
 
 # List vector IDs
-npx wrangler vectorize list-vectors <name> \
+bunx wrangler vectorize list-vectors <name> \
   --count=100
 
 # Get vectors by IDs
-npx wrangler vectorize get-vectors <name> \
+bunx wrangler vectorize get-vectors <name> \
   --ids="id1,id2,id3"
 
 # Delete vectors by IDs
-npx wrangler vectorize delete-vectors <name> \
+bunx wrangler vectorize delete-vectors <name> \
   --ids="id1,id2,id3"
 ```
 

@@ -25,9 +25,9 @@ license: MIT
 ```bash
 bun add pinia
 # or
-npm install pinia
+bun add pinia
 # or
-pnpm add pinia
+bun add pinia
 ```
 
 **For Vue <2.7 users**: Also install `@vue/composition-api` with `bun add @vue/composition-api`
@@ -705,7 +705,7 @@ app.use(pinia)
 Install the official module:
 
 ```bash
-npx nuxi@latest module add pinia
+bunx nuxi@latest module add pinia
 ```
 
 **Configuration:**
@@ -932,7 +932,7 @@ describe('Store with Plugin', () => {
 ```bash
 bun add -d @pinia/testing
 # or
-npm i -D @pinia/testing
+bun add -d @pinia/testing
 ```
 
 ```typescript

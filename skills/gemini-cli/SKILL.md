@@ -42,7 +42,7 @@ This skill teaches Claude Code how to use the official Google Gemini CLI (`gemin
 ## Quick Start
 
 **Prerequisites**:
-- Gemini CLI installed (`npm install -g @google/gemini-cli`)
+- Gemini CLI installed (`bun add -g @google/gemini-cli`)
 - Authenticated with Google account (run `gemini` once to authenticate)
 
 **Basic Usage Patterns**:
@@ -127,7 +127,7 @@ Claude Code should **automatically invoke Gemini** in these situations:
 ### 1. Install Gemini CLI
 
 ```bash
-npm install -g @google/gemini-cli
+bun add -g @google/gemini-cli
 ```
 
 ### 2. Authenticate

@@ -208,11 +208,11 @@ print(result)
 ### Installation
 
 ```bash
-npm install @mendable/firecrawl-js
+bun add @mendable/firecrawl-js
 # or
-pnpm add @mendable/firecrawl-js
+bun add @mendable/firecrawl-js
 # or use the unscoped package:
-npm install firecrawl
+bun add firecrawl
 ```
 
 **Latest Version**: `@mendable/firecrawl-js v4.4.1+` (or `firecrawl v4.4.1+`)
@@ -527,7 +527,7 @@ export default {
 **Environment Setup**: Add `FIRECRAWL_API_KEY` in Wrangler secrets:
 
 ```bash
-npx wrangler secret put FIRECRAWL_API_KEY
+bunx wrangler secret put FIRECRAWL_API_KEY
 ```
 
 **Optional KV Binding** (for caching - add to `wrangler.jsonc`):

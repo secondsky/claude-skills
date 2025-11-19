@@ -108,7 +108,7 @@ Do NOT use this skill when:
 
 ```bash
 # Create new Nuxt v4 project
-npx nuxi init my-app
+bunx nuxi init my-app
 cd my-app
 ```
 
@@ -116,7 +116,7 @@ cd my-app
 
 ```bash
 # Install @nuxt/ui
-npm install @nuxt/ui
+bun add @nuxt/ui
 ```
 
 ### 3. Configure Nuxt
@@ -1308,7 +1308,7 @@ See reference: `references/accessibility-patterns.md`
 
 ```bash
 # Generate Nuxt types (includes Nuxt UI component types)
-npx nuxt prepare
+bunx nuxt prepare
 ```
 
 ### Type-Safe Component Props
@@ -1427,7 +1427,7 @@ defineShortcuts({
 **Solution**: Install embla-carousel-vue:
 
 ```bash
-npm install embla-carousel-vue
+bun add embla-carousel-vue
 ```
 
 ### 8. Drawer Not Responsive
@@ -1560,7 +1560,7 @@ See reference: `references/overlay-decision-guide.md`
 **Solution**: Run type generation:
 
 ```bash
-npx nuxt prepare
+bunx nuxt prepare
 ```
 
 ### 19. Theme Variants Not Applying

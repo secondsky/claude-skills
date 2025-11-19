@@ -122,8 +122,8 @@ export default app;
 
 **Install dependencies:**
 ```bash
-npm install @modelcontextprotocol/sdk hono zod
-npm install -D @cloudflare/workers-types wrangler typescript
+bun add @modelcontextprotocol/sdk hono zod
+bun add -d @cloudflare/workers-types wrangler typescript
 ```
 
 **Deploy:**
@@ -443,12 +443,12 @@ describe('Calculator Tool', () => {
 
 **Install:**
 ```bash
-npm install -D vitest @cloudflare/vitest-pool-workers
+bun add -d vitest @cloudflare/vitest-pool-workers
 ```
 
 **Run:**
 ```bash
-npx vitest
+bunx vitest
 ```
 
 ### 2. Integration Testing with MCP Inspector
@@ -458,7 +458,7 @@ npx vitest
 npm run dev
 
 # In another terminal
-npx @modelcontextprotocol/inspector
+bunx @modelcontextprotocol/inspector
 
 # Connect to: http://localhost:8787/mcp
 ```
@@ -627,7 +627,7 @@ try {
 
 ```bash
 # Install dependencies
-npm install
+bun install
 
 # Run locally with Wrangler
 npm run dev
@@ -839,7 +839,7 @@ This skill is based on patterns from:
 
 1. Check `references/common-errors.md` for troubleshooting
 2. Verify all steps in the Quick Start section
-3. Test with MCP Inspector: `npx @modelcontextprotocol/inspector`
+3. Test with MCP Inspector: `bunx @modelcontextprotocol/inspector`
 4. Check official docs: https://spec.modelcontextprotocol.io/
 5. Ensure SDK version is 1.20.2 or later
 

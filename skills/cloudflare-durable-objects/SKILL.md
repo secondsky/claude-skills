@@ -56,7 +56,7 @@ npm create cloudflare@latest my-durable-app -- \
   --deploy false
 
 cd my-durable-app
-npm install
+bun install
 npm run dev
 ```
 
@@ -71,7 +71,7 @@ npm run dev
 
 ```bash
 cd my-existing-worker
-npm install -D @cloudflare/workers-types
+bun add -d @cloudflare/workers-types
 ```
 
 **Create a Durable Object class** (`src/counter.ts`):
@@ -161,7 +161,7 @@ export default {
 **Deploy:**
 
 ```bash
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 ---

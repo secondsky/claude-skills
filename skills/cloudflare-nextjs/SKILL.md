@@ -89,7 +89,7 @@ To add the OpenNext adapter to an existing Next.js application:
 #### 1. Install the adapter
 
 ```bash
-npm install --save-dev @opennextjs/cloudflare
+bun add -d @opennextjs/cloudflare
 ```
 
 #### 2. Create wrangler.jsonc
@@ -293,7 +293,7 @@ export async function GET(request: NextRequest) {
 
 **Bundle analysis**:
 ```bash
-npx opennextjs-cloudflare build
+bunx opennextjs-cloudflare build
 cd .open-next/server-functions/default
 # Analyze handler.mjs.meta.json with ESBuild Bundle Analyzer
 ```
@@ -309,7 +309,7 @@ cd .open-next/server-functions/default
 **Cause**: Unnecessary code bundled into Worker
 
 **Debug workflow**:
-1. Run `npx opennextjs-cloudflare build`
+1. Run `bunx opennextjs-cloudflare build`
 2. Navigate to `.open-next/server-functions/default`
 3. Analyze `handler.mjs.meta.json` using ESBuild Bundle Analyzer
 4. Identify and remove/externalize large dependencies
@@ -440,7 +440,7 @@ WRANGLER_BUILD_PLATFORM="node"
 **Solution**: Upgrade to version 1.3.0 or later:
 
 ```bash
-npm install --save-dev @opennextjs/cloudflare@^1.3.0
+bun add -d @opennextjs/cloudflare@^1.3.0
 ```
 
 **Impact**: Allows unauthenticated users to proxy arbitrary remote content
@@ -773,8 +773,8 @@ export default defineCloudflareConfig({
 npm run deploy
 
 # Or step by step:
-npx opennextjs-cloudflare build
-npx opennextjs-cloudflare deploy
+bunx opennextjs-cloudflare build
+bunx opennextjs-cloudflare deploy
 ```
 
 ### Deploy from CI/CD

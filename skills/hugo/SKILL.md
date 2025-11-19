@@ -360,7 +360,7 @@ See `references/common-patterns.md` → Pattern 4
 **2. Deploy:**
 ```bash
 hugo --minify
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 **For complete deployment guide:** See `references/setup-guide.md` → Step 7

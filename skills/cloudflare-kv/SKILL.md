@@ -43,8 +43,8 @@ Global key-value storage on Cloudflare edge:
 ### 1. Create KV Namespace
 
 ```bash
-npx wrangler kv namespace create MY_NAMESPACE
-npx wrangler kv namespace create MY_NAMESPACE --preview
+bunx wrangler kv namespace create MY_NAMESPACE
+bunx wrangler kv namespace create MY_NAMESPACE --preview
 ```
 
 ### 2. Configure Binding
