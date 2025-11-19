@@ -170,9 +170,12 @@ cp ~/.claude/skills/multi-ai-consultant/templates/GEMINI.md ./
 cp ~/.claude/skills/multi-ai-consultant/templates/codex.md ./
 cp ~/.claude/skills/multi-ai-consultant/templates/.geminiignore ./
 
-# Copy log parser (optional)
+# Copy log parser (optional - requires ~/bin in PATH)
+mkdir -p ~/bin
 cp ~/.claude/skills/multi-ai-consultant/templates/consultation-log-parser.sh ~/bin/
 chmod +x ~/bin/consultation-log-parser.sh
+# Alternatively, copy to /usr/local/bin (requires sudo):
+# sudo cp ~/.claude/skills/multi-ai-consultant/templates/consultation-log-parser.sh /usr/local/bin/
 ```
 
 ### 4. Verify Installation
@@ -415,9 +418,9 @@ Every consultation is logged to `~/.claude/ai-consultations/consultations.log`
 
 **Format**:
 ```csv
-2025-11-07T14:23:45-05:00,gemini,gemini-2.5-pro,15420,850,0.1834,/home/user/project
-2025-11-07T15:10:22-05:00,codex,gpt-4-turbo,8230,430,0.0952,/home/user/project
-2025-11-07T16:05:11-05:00,claude-subagent,claude-sonnet-4-5,0,0,0.00,/home/user/project
+2025-11-07T14:23:45-05:00,gemini,gemini-2.5-pro,15420,850,0.1834,/path/to/project
+2025-11-07T15:10:22-05:00,codex,gpt-4-turbo,8230,430,0.0952,/path/to/project
+2025-11-07T16:05:11-05:00,claude-subagent,claude-sonnet-4-5,0,0,0.00,/path/to/project
 ```
 
 **View logs**:
