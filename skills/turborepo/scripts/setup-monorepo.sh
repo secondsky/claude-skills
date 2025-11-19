@@ -97,6 +97,14 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   exit 1
 fi
 
+# Check if directory already exists
+if [ -d "$PROJECT_NAME" ]; then
+  echo "❌ Directory '$PROJECT_NAME' already exists"
+  echo ""
+  echo "Please choose a different project name or remove the existing directory."
+  exit 1
+fi
+
 # Create directory structure
 echo "📁 Creating directory structure..."
 mkdir -p "$PROJECT_NAME"/{apps,packages,tooling}
