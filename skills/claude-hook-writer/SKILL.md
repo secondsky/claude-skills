@@ -214,8 +214,8 @@ prettier --write "$FILE" # Safe
 # RIGHT - explicit path
 "${CLAUDE_PLUGIN_ROOT}/scripts/my-script.sh"
 
-# ALSO RIGHT - use full path
-/Users/username/.claude/scripts/my-script.sh
+# ALSO RIGHT - use environment variable
+"$HOME/.claude/scripts/my-script.sh"
 ```
 
 ## Reliability Requirements

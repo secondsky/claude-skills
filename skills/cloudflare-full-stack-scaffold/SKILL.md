@@ -444,10 +444,10 @@ All auth patterns included but **COMMENTED** - uncomment to enable:
 ### Quick Start (5 Minutes)
 
 ```bash
-# 1. Copy scaffold
+# 1. Copy scaffold (choose your preferred location)
 cd /path/to/skills/cloudflare-full-stack-scaffold
-cp -r scaffold/ ~/projects/my-new-app/
-cd ~/projects/my-new-app/
+cp -r scaffold/ ~/my-new-app/
+cd ~/my-new-app/
 
 # 2. Run setup
 bun install

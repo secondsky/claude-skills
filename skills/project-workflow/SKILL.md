@@ -49,11 +49,12 @@ All 7 slash commands will be automatically available in Claude Code.
 ### Manual Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/jezweb/claude-skills ~/claude-skills
+# Clone the repository (choose your preferred location)
+INSTALL_DIR="${HOME}/claude-skills"  # or your preferred path
+git clone https://github.com/jezweb/claude-skills "$INSTALL_DIR"
 
 # Copy commands to your Claude config
-cp ~/claude-skills/skills/project-workflow/commands/*.md ~/.claude/commands/
+cp "$INSTALL_DIR/skills/project-workflow/commands/"*.md ~/.claude/commands/
 ```
 
 ## The 7 Commands
@@ -528,7 +529,7 @@ The planning commands invoke the `project-planning` skill, which can be customiz
    /plugin install project-planning@claude-skills
    ```
 
-2. Modifying templates in `~/.claude/skills/project-planning/templates/`
+2. Modifying templates in `~/.claude/skills/project-planning/templates/` (if skill is installed)
 
 ### Customizing Session Protocol
 
@@ -539,7 +540,7 @@ The session management format can be customized by:
    /plugin install project-session-management@claude-skills
    ```
 
-2. Modifying templates in `~/.claude/skills/project-session-management/templates/`
+2. Modifying templates in `~/.claude/skills/project-session-management/templates/` (if skill is installed)
 
 ---
 

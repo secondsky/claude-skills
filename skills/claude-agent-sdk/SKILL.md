@@ -157,7 +157,7 @@ Follow these principles:
 const response = query({
   prompt: "Refactor the user service",
   options: {
-    workingDirectory: "/Users/dev/projects/my-app",
+    workingDirectory: process.cwd(), // or "/path/to/my-app"
     // Agent operates within this directory
     // Relative paths resolved from here
   }
@@ -425,7 +425,7 @@ const response = query({
         command: "npx",
         args: ["@modelcontextprotocol/server-filesystem"],
         env: {
-          ALLOWED_PATHS: "/Users/developer/projects:/tmp"
+          ALLOWED_PATHS: `${process.env.HOME}/projects:/tmp`
         }
       },
       // Git operations server
@@ -433,7 +433,7 @@ const response = query({
         command: "npx",
         args: ["@modelcontextprotocol/server-git"],
         env: {
-          GIT_REPO_PATH: "/Users/developer/projects/my-repo"
+          GIT_REPO_PATH: `${process.env.HOME}/projects/my-repo`
         }
       }
     },
