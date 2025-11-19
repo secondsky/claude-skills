@@ -14,7 +14,7 @@ metadata:
   token_savings: "~68%"
   errors_prevented: 8
   templates_included: 0
-  references_included: 1
+  references_included: 3
 ---
 
 # AI Elements Chatbot Components
