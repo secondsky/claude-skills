@@ -290,9 +290,9 @@ import * as Tooltip from '@base-ui-components/react/tooltip';
 
 ## Official Documentation
 
-- **Base UI**: https://base-ui.mui.com/
-- **Components**: https://base-ui.mui.com/components/
-- **Migration Guide**: https://base-ui.mui.com/base-ui/getting-started/migration/
+- **Base UI**: <https://base-ui.mui.com/>
+- **Components**: <https://base-ui.mui.com/components/>
+- **Migration Guide**: <https://base-ui.mui.com/base-ui/getting-started/migration/>
 
 ---
 
