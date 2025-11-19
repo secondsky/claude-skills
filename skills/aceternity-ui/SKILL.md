@@ -72,8 +72,8 @@ Aceternity UI is a premium, production-ready React component library designed fo
 ```bash
 # Create Next.js project (bun preferred)
 bunx create-next-app@latest my-app
-# Or with npm: bunx create-next-app@latest my-app
-# Or with pnpm: pnpm create next-app@latest my-app
+# or: npx create-next-app@latest my-app
+# or: pnpm create next-app@latest my-app
 
 cd my-app
 
@@ -93,7 +93,7 @@ cd my-app
 bunx --bun shadcn@latest init
 
 # Using npm
-bunx shadcn@latest init
+npx shadcn@latest init
 
 # Using pnpm
 pnpm dlx shadcn@latest init
@@ -150,8 +150,7 @@ If the registry method doesn't work, install manually:
 1. Install required dependencies:
 ```bash
 bun add motion clsx tailwind-merge
-# or: bun add motion clsx tailwind-merge
-# or: bun add motion clsx tailwind-merge
+# or: npm install motion clsx tailwind-merge
 ```
 
 2. Add utility function to `lib/utils.ts`:

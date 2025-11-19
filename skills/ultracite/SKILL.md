@@ -196,7 +196,7 @@ When this skill is invoked, scan the project and assess:
 bun x ultracite init
 
 # Using npm
-bunx ultracite init
+npx ultracite init
 
 # Using pnpm
 pnpm dlx ultracite init

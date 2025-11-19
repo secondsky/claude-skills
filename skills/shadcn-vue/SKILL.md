@@ -32,7 +32,7 @@ license: MIT
 bunx shadcn-vue@latest init
 
 # Using npm
-bunx shadcn-vue@latest init
+npx shadcn-vue@latest init
 ```
 
 **During initialization**:

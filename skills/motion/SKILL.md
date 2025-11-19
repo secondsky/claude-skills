@@ -93,8 +93,7 @@ Motion (package: `motion`, formerly `framer-motion`) is the industry-standard Re
 
 ```bash
 bun add motion  # preferred
-# or: bun add motion
-# or: bun add motion
+# or: npm install motion
 # or: yarn add motion
 ```
 

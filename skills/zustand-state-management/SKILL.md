@@ -35,8 +35,7 @@ license: MIT
 
 ```bash
 bun add zustand  # preferred
-# or: bun add zustand
-# or: bun add zustand
+# or: npm install zustand
 # or: yarn add zustand
 ```
 
