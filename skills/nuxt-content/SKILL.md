@@ -56,10 +56,10 @@ Use this skill when:
 bun add @nuxt/content better-sqlite3
 
 # npm
-bun add @nuxt/content better-sqlite3
+npm install @nuxt/content better-sqlite3
 
 # pnpm
-bun add @nuxt/content better-sqlite3
+pnpm add @nuxt/content better-sqlite3
 ```
 
 **Why this matters:**

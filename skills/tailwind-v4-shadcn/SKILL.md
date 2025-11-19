@@ -75,6 +75,9 @@ All of these are handled automatically when the skill is active.
 ```bash
 bun add tailwindcss @tailwindcss/vite
 bun add -d @types/node
+
+# Note: Using pnpm for shadcn init due to known Bun compatibility issues
+# (bunx has "Script not found" and postinstall/msw problems)
 pnpm dlx shadcn@latest init
 ```
 

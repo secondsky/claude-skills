@@ -218,11 +218,11 @@ bunx nuxi module add nuxt-sitemap
 bunx nuxi module add nuxt-og-image
 
 # npm
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
+npx nuxi module add nuxt-robots
+npx nuxi module add nuxt-sitemap
+npx nuxi module add nuxt-og-image
 
-# pnpm
+# pnpm (backup)
 pnpm dlx nuxi module add nuxt-robots
 pnpm dlx nuxi module add nuxt-sitemap
 pnpm dlx nuxi module add nuxt-og-image
