@@ -34,7 +34,7 @@ Choose your framework:
 ### 1. Install Clerk
 
 \`\`\`bash
-npm install @clerk/clerk-react
+bun add @clerk/clerk-react
 \`\`\`
 
 **Latest Version**: @clerk/clerk-react@5.51.0 (verified 2025-10-22)
@@ -128,7 +128,7 @@ function App() {
 ### 1. Install Clerk
 
 \`\`\`bash
-npm install @clerk/nextjs
+bun add @clerk/nextjs
 \`\`\`
 
 **Latest Version**: @clerk/nextjs@6.33.3 (verified 2025-10-22)
@@ -254,7 +254,7 @@ export default async function DashboardPage() {
 ### 1. Install Dependencies
 
 \`\`\`bash
-npm install @clerk/backend hono
+bun add @clerk/backend hono
 \`\`\`
 
 **Latest Versions**:
@@ -569,7 +569,7 @@ CLERK_SECRET_KEY=sk_test_... node scripts/generate-session-token.js --refresh
 Install `@clerk/testing` for automatic Testing Token management:
 
 ```bash
-npm install -D @clerk/testing
+bun add -d @clerk/testing
 ```
 
 **Global Setup** (`global.setup.ts`):

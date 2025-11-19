@@ -220,10 +220,10 @@ The interactive setup will:
 
 ```bash
 # Auto-detect settings, skip prompts
-npx ultracite init --quiet
+bunx ultracite init --quiet
 
 # Specify options explicitly
-npx ultracite init \
+bunx ultracite init \
   --pm bun \
   --frameworks react,next \
   --editors vscode \
@@ -231,6 +231,14 @@ npx ultracite init \
   --integrations husky \
   --migrate eslint,prettier \
   --quiet
+# or: npx ultracite init \
+#   --pm bun \
+#   --frameworks react,next \
+#   --editors vscode \
+#   --agents cursor,claude \
+#   --integrations husky \
+#   --migrate eslint,prettier \
+#   --quiet
 ```
 
 **Available flags:**
@@ -282,7 +290,7 @@ EOF
 
 ```bash
 # Check installation
-npx ultracite doctor
+bunx ultracite doctor
 
 # Expected output:
 # ✔ Biome is installed
@@ -574,27 +582,30 @@ project-root/
 
 ```bash
 # Check all files
-npx ultracite check
+bunx ultracite check
 
 # Check specific directory
-npx ultracite check src/
+bunx ultracite check src/
 
 # Filter by severity
-npx ultracite check --diagnostic-level error  # Only errors
-npx ultracite check --diagnostic-level warn   # Warnings and errors
+bunx ultracite check --diagnostic-level error  # Only errors
+# or: npx ultracite check --diagnostic-level error
+
+bunx ultracite check --diagnostic-level warn   # Warnings and errors
 ```
 
 #### Fix Code (Auto-fix)
 
 ```bash
 # Fix all files
-npx ultracite fix
+bunx ultracite fix
 
 # Fix specific directory
-npx ultracite fix src/
+bunx ultracite fix src/
 
 # Apply unsafe fixes (use with caution)
-npx ultracite fix --unsafe
+bunx ultracite fix --unsafe
+# or: npx ultracite fix --unsafe
 ```
 
 **Safe vs Unsafe fixes:**
@@ -605,7 +616,7 @@ npx ultracite fix --unsafe
 
 ```bash
 # Check configuration and installation
-npx ultracite doctor
+bunx ultracite doctor
 
 # Output example:
 # ✔ Biome version: 1.9.4
@@ -653,18 +664,22 @@ cat .git/hooks/pre-commit 2>/dev/null || echo "No pre-commit hook"
 
 ### Husky Integration
 
-**What it does:** Runs `npx ultracite fix` before every commit
+**What it does:** Runs `bunx ultracite fix` before every commit
 
 **Setup (if Husky not installed):**
 
 ```bash
 # Automatic during init
-npx ultracite init --integrations husky
+bunx ultracite init --integrations husky
 
 # Manual setup
 bun add -D husky
-npx husky install
-npx husky add .husky/pre-commit "npx ultracite fix"
+# or: npm install -D husky
+
+bunx husky install
+# or: npx husky install
+
+bunx husky add .husky/pre-commit "bunx ultracite fix"
 chmod +x .husky/pre-commit
 ```
 
@@ -676,7 +691,7 @@ chmod +x .husky/pre-commit
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Add before existing commands
-npx ultracite fix
+bunx ultracite fix
 
 # ... existing commands ...
 ```
@@ -685,7 +700,7 @@ npx ultracite fix
 ```
 .husky/
 ├── _/husky.sh
-└── pre-commit    # Contains: npx ultracite fix
+└── pre-commit    # Contains: bunx ultracite fix
 ```
 
 **Bypass hook (emergency only):**
@@ -701,11 +716,14 @@ git commit --no-verify
 
 ```bash
 # Automatic during init
-npx ultracite init --integrations lefthook
+bunx ultracite init --integrations lefthook
 
 # Manual setup
 bun add -D lefthook
-npx lefthook install
+# or: npm install -D lefthook
+
+bunx lefthook install
+# or: npx lefthook install
 ```
 
 **Configuration (lefthook.yml):**
@@ -713,7 +731,7 @@ npx lefthook install
 ```yaml
 pre-commit:
   jobs:
-    - run: npx ultracite fix
+    - run: bunx ultracite fix
       glob:
         - "*.js"
         - "*.jsx"
@@ -732,7 +750,7 @@ pre-commit:
 pre-commit:
   jobs:
     # Add this job
-    - run: npx ultracite fix
+    - run: bunx ultracite fix
       glob:
         - "*.{js,jsx,ts,tsx,json,jsonc,css}"
       stage_fixed: true
@@ -754,10 +772,11 @@ pre-commit:
 
 ```bash
 # Automatic during init
-npx ultracite init --integrations lint-staged
+bunx ultracite init --integrations lint-staged
 
 # Manual setup
 bun add -D lint-staged
+# or: npm install -D lint-staged
 ```
 
 **Configuration (.lintstagedrc.json):**
@@ -765,7 +784,7 @@ bun add -D lint-staged
 ```json
 {
   "*.{js,jsx,ts,tsx,json,jsonc,css,md,mdx}": [
-    "npx ultracite fix"
+    "bunx ultracite fix"
   ]
 }
 ```
@@ -776,7 +795,7 @@ bun add -D lint-staged
 // package.json
 {
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css}": ["npx ultracite fix"]
+    "*.{js,jsx,ts,tsx,json,jsonc,css}": ["bunx ultracite fix"]
   }
 }
 ```
@@ -784,14 +803,14 @@ bun add -D lint-staged
 ```js
 // .lintstagedrc.js (CommonJS)
 module.exports = {
-  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['npx ultracite fix'],
+  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['bunx ultracite fix'],
 };
 ```
 
 ```js
 // .lintstagedrc.mjs (ESM)
 export default {
-  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['npx ultracite fix'],
+  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['bunx ultracite fix'],
 };
 ```
 
@@ -799,7 +818,8 @@ export default {
 
 ```bash
 # .husky/pre-commit
-npx lint-staged
+bunx lint-staged
+# or: npx lint-staged
 ```
 
 ```yaml
@@ -807,7 +827,7 @@ npx lint-staged
 pre-commit:
   commands:
     lint:
-      run: npx lint-staged
+      run: bunx lint-staged
 ```
 
 **Benefits:**
@@ -870,13 +890,14 @@ These rules work **alongside Biome's linting** to guide AI tools (Cursor, Claude
 
 ```bash
 # Automatic during init (select editors when prompted)
-npx ultracite init
+bunx ultracite init
 
 # Specify editors explicitly
-npx ultracite init --agents cursor,claude,copilot
+bunx ultracite init --agents cursor,claude,copilot
 
 # Multiple agents
-npx ultracite init --agents cursor,claude,cline,windsurf
+bunx ultracite init --agents cursor,claude,cline,windsurf
+# or: npx ultracite init --agents cursor,claude,cline,windsurf
 ```
 
 **What gets created:**
@@ -914,7 +935,7 @@ EOF
 
 ### What Are Editor Hooks?
 
-Hooks execute `npx ultracite fix` automatically after an AI agent modifies a file.
+Hooks execute `bunx ultracite fix` automatically after an AI agent modifies a file.
 
 **Supported editors:**
 - Cursor (`.cursor/hooks.json`)
@@ -924,7 +945,7 @@ Hooks execute `npx ultracite fix` automatically after an AI agent modifies a fil
 
 ```bash
 # Automatic during init
-npx ultracite init --hooks cursor,claude
+bunx ultracite init --hooks cursor,claude
 
 # Verify configuration
 cat .cursor/hooks.json  # Cursor
@@ -935,7 +956,7 @@ cat .claude/settings.json  # Claude Code
 ```json
 {
   "hooks": {
-    "postFileEdit": ["npx ultracite fix ${file}"]
+    "postFileEdit": ["bunx ultracite fix ${file}"]
   }
 }
 ```
@@ -945,8 +966,8 @@ cat .claude/settings.json  # Claude Code
 {
   "hooks": {
     "postToolUse": {
-      "Edit": ["npx ultracite fix ${file}"],
-      "Write": ["npx ultracite fix ${file}"]
+      "Edit": ["bunx ultracite fix ${file}"],
+      "Write": ["bunx ultracite fix ${file}"]
     }
   }
 }
@@ -1062,7 +1083,7 @@ If specific packages need different rules:
 
 ```bash
 # Automatic migration
-npx ultracite init --migrate eslint
+bunx ultracite init --migrate eslint
 
 # What it does:
 # 1. Installs Ultracite
@@ -1102,8 +1123,8 @@ rm -f .eslintrc* eslint.config.*
 **Post-migration:**
 - Review `biome.jsonc` for unnecessary overrides
 - Restart editor
-- Run `npx ultracite check` to see initial issues
-- Run `npx ultracite fix` to auto-fix
+- Run `bunx ultracite check` to see initial issues
+- Run `bunx ultracite fix` to auto-fix
 
 **Known differences:**
 - Some ESLint plugin rules not available in Biome
@@ -1121,7 +1142,7 @@ rm -f .eslintrc* eslint.config.*
 
 ```bash
 # Automatic migration
-npx ultracite init --migrate prettier
+bunx ultracite init --migrate prettier
 
 # What it does:
 # 1. Installs Ultracite
@@ -1188,7 +1209,7 @@ Ultracite's defaults:
 
 ```bash
 # Automatic migration
-npx ultracite init --migrate biome
+bunx ultracite init --migrate biome
 
 # What it does:
 # 1. Installs Ultracite
@@ -1358,19 +1379,19 @@ bun add -D ultracite
 
 1. **Run locally before committing:**
    ```bash
-   npx ultracite fix
+   bunx ultracite fix
    git add .
    git commit
    ```
 
 2. **Check what fails:**
    ```bash
-   npx ultracite check
+   bunx ultracite check
    ```
 
 3. **Auto-fix everything:**
    ```bash
-   npx ultracite fix --unsafe
+   bunx ultracite fix --unsafe
    ```
 
 4. **Bypass hook (emergency only):**
@@ -1483,14 +1504,14 @@ const name = user?.name ?? 'Guest';
    nvm use 22
    ```
 
-2. **Use npx instead:**
+2. **Use bunx instead:**
    ```bash
-   npx ultracite init  # Instead of pnpm dlx
+   bunx ultracite init  # Instead of pnpm dlx
    ```
 
 3. **Update corepack:**
    ```bash
-   npm install -g corepack@latest
+   bun add -g corepack@latest
    corepack enable
    ```
 

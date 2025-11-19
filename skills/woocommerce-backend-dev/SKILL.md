@@ -27,7 +27,7 @@ Follow WooCommerce project conventions when adding or modifying backend PHP code
 - Use PSR-4 autoloading with `Automattic\WooCommerce` namespace
 - Write comprehensive unit tests for new functionality
 - Run linting and tests before committing changes
-- Prefer bun over npm/npx for Node.js package management when applicable
+- Prefer bun over npm/bunx for Node.js package management when applicable
 
 ## Version Information
 

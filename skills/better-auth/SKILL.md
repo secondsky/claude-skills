@@ -29,12 +29,12 @@ metadata:
 
 **Option 1: Drizzle ORM (Recommended)**
 ```bash
-npm install better-auth drizzle-orm drizzle-kit
+bun add better-auth drizzle-orm drizzle-kit
 ```
 
 **Option 2: Kysely**
 ```bash
-npm install better-auth kysely @noxharmonium/kysely-d1
+bun add better-auth kysely @noxharmonium/kysely-d1
 ```
 
 ### ⚠️ CRITICAL: D1 Adapter Requirements
@@ -117,7 +117,7 @@ export default app;
 
 **5. Deploy:**
 ```bash
-npx drizzle-kit generate
+bunx drizzle-kit generate
 wrangler d1 migrations apply my-app-db --remote
 wrangler deploy
 ```
@@ -180,7 +180,7 @@ wrangler deploy
 
 ### Error #2: Schema Generation Fails
 **Problem**: `better-auth migrate` doesn't work with D1
-**Solution**: Use `npx drizzle-kit generate` then `wrangler d1 migrations apply`
+**Solution**: Use `bunx drizzle-kit generate` then `wrangler d1 migrations apply`
 
 ### Error #3: CamelCase vs snake_case Mismatch
 **Problem**: Database uses `email_verified` but better-auth expects `emailVerified`

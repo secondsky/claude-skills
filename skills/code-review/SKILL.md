@@ -133,7 +133,7 @@ bun run build  # or: npm run build
 bun run lint  # or: npm run lint
 
 # Type check
-bun run typecheck  # or: npx tsc --noEmit
+bun run typecheck  # or: bunx tsc --noEmit
 ```
 
 ### Red Flags - STOP

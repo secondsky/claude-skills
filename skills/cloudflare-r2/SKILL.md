@@ -34,7 +34,7 @@ metadata:
 ### 1. Create R2 Bucket
 
 ```bash
-npx wrangler r2 bucket create my-bucket
+bunx wrangler r2 bucket create my-bucket
 ```
 
 **Bucket naming:** 3-63 chars, lowercase, numbers, hyphens only

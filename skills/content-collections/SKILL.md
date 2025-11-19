@@ -53,8 +53,13 @@ Content Collections transforms local content files (Markdown/MDX) into **type-sa
 ### 1. Install Dependencies
 
 ```bash
+# Bun (recommended)
 bun add -d @content-collections/core @content-collections/vite zod
-# or
+
+# npm
+npm install -D @content-collections/core @content-collections/vite zod
+
+# pnpm
 pnpm add -D @content-collections/core @content-collections/vite zod
 ```
 
@@ -567,7 +572,7 @@ binding = "ASSETS"
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "bun run build && wrangler deploy"  # or: pnpm build && wrangler deploy
+    "deploy": "bun run build && wrangler deploy"  # or: npm run build && wrangler deploy
   }
 }
 ```

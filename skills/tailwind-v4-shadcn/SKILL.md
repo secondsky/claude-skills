@@ -73,8 +73,13 @@ All of these are handled automatically when the skill is active.
 ### 1. Install Dependencies
 
 ```bash
-pnpm add tailwindcss @tailwindcss/vite
-pnpm add -D @types/node
+bun add tailwindcss @tailwindcss/vite
+# or: npm install tailwindcss @tailwindcss/vite
+
+bun add -d @types/node
+
+# Note: Using pnpm for shadcn init due to known Bun compatibility issues
+# (bunx has "Script not found" and postinstall/msw problems)
 pnpm dlx shadcn@latest init
 ```
 
@@ -470,8 +475,10 @@ See `reference/migration-guide.md` for complete v3 → v4 migration steps.
 
 ```bash
 # These packages will cause build errors:
-npm install tailwindcss-animate  # ❌ Deprecated
-npm install tw-animate-css      # ❌ Doesn't exist
+bun add tailwindcss-animate  # ❌ Deprecated
+# or: npm install tailwindcss-animate  # ❌ Deprecated
+
+bun add tw-animate-css      # ❌ Doesn't exist
 ```
 
 **If you see import errors for these packages**, remove them and use native CSS animations or `@tailwindcss/motion` instead.
@@ -490,7 +497,8 @@ Tailwind v4 supports official plugins using the `@plugin` directive in CSS.
 
 **Installation:**
 ```bash
-pnpm add -D @tailwindcss/typography
+bun add -d @tailwindcss/typography
+# or: npm install -D @tailwindcss/typography
 ```
 
 **Configuration (v4 syntax):**
@@ -520,7 +528,8 @@ pnpm add -D @tailwindcss/typography
 
 **Installation:**
 ```bash
-pnpm add -D @tailwindcss/forms
+bun add -d @tailwindcss/forms
+# or: npm install -D @tailwindcss/forms
 ```
 
 **Configuration (v4 syntax):**

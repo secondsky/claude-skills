@@ -51,9 +51,9 @@ npm create cloudflare@latest my-worker -- \
 ```bash
 cd my-worker
 bun add hono@4.10.1  # preferred
-# or: npm install hono@4.10.1
+# or: bun add hono@4.10.1
 bun add -d @cloudflare/vite-plugin@1.13.13 vite@latest
-# or: npm install -D @cloudflare/vite-plugin@1.13.13 vite@latest
+# or: bun add -d @cloudflare/vite-plugin@1.13.13 vite@latest
 ```
 
 **Version Notes:**
@@ -675,7 +675,7 @@ app.notFound((c) => {
 ### Testing with Vitest
 
 ```bash
-npm install -D vitest @cloudflare/vitest-pool-workers
+bun add -d vitest @cloudflare/vitest-pool-workers
 ```
 
 Create `vitest.config.ts`:

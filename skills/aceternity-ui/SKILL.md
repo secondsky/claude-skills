@@ -72,8 +72,8 @@ Aceternity UI is a premium, production-ready React component library designed fo
 ```bash
 # Create Next.js project (bun preferred)
 bunx create-next-app@latest my-app
-# Or with npm: npx create-next-app@latest my-app
-# Or with pnpm: pnpm create next-app@latest my-app
+# or: npx create-next-app@latest my-app
+# or: pnpm create next-app@latest my-app
 
 cd my-app
 
@@ -137,8 +137,8 @@ After initialization, update `components.json` to add Aceternity registry:
 ```bash
 # Install specific component
 bunx shadcn@latest add @aceternity/background-beams
-# npm: npx shadcn@latest add @aceternity/background-beams
-# pnpm: pnpm dlx shadcn@latest add @aceternity/background-beams
+# or: npx shadcn@latest add @aceternity/background-beams
+# or: pnpm dlx shadcn@latest add @aceternity/background-beams
 
 # Component will be added to: components/ui/background-beams.tsx
 ```
@@ -150,8 +150,7 @@ If the registry method doesn't work, install manually:
 1. Install required dependencies:
 ```bash
 bun add motion clsx tailwind-merge
-# npm: npm install motion clsx tailwind-merge
-# pnpm: pnpm add motion clsx tailwind-merge
+# or: npm install motion clsx tailwind-merge
 ```
 
 2. Add utility function to `lib/utils.ts`:

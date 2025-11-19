@@ -26,7 +26,7 @@ Production-ready backend AI with Vercel AI SDK v5.
 
 ```bash
 bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod  # preferred
-# or: npm install ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod
+# or: bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod
 ```
 
 ### Environment Variables
@@ -1018,7 +1018,7 @@ const result = await generateText({
 AI SDK provides a migration tool:
 
 ```bash
-npx ai migrate
+bunx ai migrate
 ```
 
 This will update most breaking changes automatically. Review changes carefully.

@@ -553,7 +553,7 @@ jobs:
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - run: npx wrangler deploy
+      - run: bunx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 ```
@@ -732,12 +732,12 @@ jobs:
   deploy-staging:
     if: github.ref == 'refs/heads/develop'
     steps:
-      - run: npx wrangler deploy --env staging
+      - run: bunx wrangler deploy --env staging
 
   deploy-production:
     if: github.ref == 'refs/heads/main'
     steps:
-      - run: npx wrangler deploy --env production
+      - run: bunx wrangler deploy --env production
 ```
 
 **Requires**: Wrangler environments configured in `wrangler.jsonc`

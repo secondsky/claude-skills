@@ -93,7 +93,6 @@ Motion (package: `motion`, formerly `framer-motion`) is the industry-standard Re
 
 ```bash
 bun add motion  # preferred
-# or: pnpm add motion
 # or: npm install motion
 # or: yarn add motion
 ```
@@ -103,7 +102,8 @@ bun add motion  # preferred
 **Alternative for Cloudflare Workers**:
 ```bash
 # Use framer-motion if deploying to Cloudflare Workers
-pnpm add framer-motion
+bun add framer-motion
+# or: npm install framer-motion
 ```
 
 ### Package Information
@@ -333,7 +333,8 @@ Natural, physics-based easing:
 ```bash
 pnpm create vite my-app --template react-ts
 cd my-app
-pnpm add motion
+bun add motion
+# or: npm install motion
 ```
 
 **Import:**
@@ -456,7 +457,8 @@ export default function Page() {
 
 **Workaround**: Use `framer-motion` v12.23.24 instead:
 ```bash
-pnpm add framer-motion
+bun add framer-motion
+# or: npm install framer-motion
 ```
 
 **Import stays the same:**
@@ -527,11 +529,15 @@ function Component() {
 
 **Solutions:**
 ```bash
-pnpm add react-window
-# or
-pnpm add react-virtuoso
-# or
-pnpm add @tanstack/react-virtual
+bun add react-window
+# or: npm install react-window
+
+# Alternative libraries:
+bun add react-virtuoso
+# or: npm install react-virtuoso
+
+bun add @tanstack/react-virtual
+# or: npm install @tanstack/react-virtual
 ```
 
 **Pattern:**
@@ -802,7 +808,8 @@ See `references/common-patterns.md` for 10+ more patterns with full code.
 
 **Solution**: Use virtualization:
 ```bash
-pnpm add react-window
+bun add react-window
+# or: npm install react-window
 ```
 
 See `references/performance-optimization.md` for full guide.
@@ -854,7 +861,8 @@ See `references/nextjs-integration.md` for App Router patterns.
 
 **Solution**: Use `framer-motion` v12.23.24 instead:
 ```bash
-pnpm add framer-motion
+bun add framer-motion
+# or: npm install framer-motion
 ```
 
 GitHub issue: #2918 (monitor for resolution)

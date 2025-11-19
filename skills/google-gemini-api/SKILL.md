@@ -41,12 +41,12 @@ license: MIT
 
 **✅ CORRECT SDK:**
 ```bash
-npm install @google/genai@1.27.0
+bun add @google/genai@1.27.0
 ```
 
 **❌ WRONG (DEPRECATED):**
 ```bash
-npm install @google/generative-ai  # DO NOT USE!
+bun add @google/generative-ai  # DO NOT USE!
 ```
 
 ### Environment Setup
@@ -432,7 +432,7 @@ console.log('Sources:', response.groundingMetadata);
 
 ```bash
 npm uninstall @google/generative-ai
-npm install @google/genai@1.27.0
+bun add @google/genai@1.27.0
 ```
 
 ---
@@ -509,7 +509,7 @@ async function generateWithRetry(request, maxRetries = 3) {
 npm uninstall @google/generative-ai
 
 # Install current SDK
-npm install @google/genai@1.27.0
+bun add @google/genai@1.27.0
 ```
 
 ```typescript

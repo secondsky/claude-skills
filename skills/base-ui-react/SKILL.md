@@ -54,7 +54,7 @@ MUI's unstyled, accessible React component library:
 ### Install
 
 ```bash
-pnpm add @base-ui-components/react
+bun add @base-ui-components/react
 ```
 
 ### Basic Dialog

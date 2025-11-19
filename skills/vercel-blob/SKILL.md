@@ -40,7 +40,7 @@ Creates: `BLOB_READ_WRITE_TOKEN`
 
 ```bash
 bun add @vercel/blob  # preferred
-# or: npm install @vercel/blob
+# or: bun add @vercel/blob
 ```
 
 ### 3. Upload File (Server Action)

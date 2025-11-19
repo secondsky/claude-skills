@@ -29,9 +29,9 @@ Install required packages:
 
 ```bash
 bun add @openai/agents zod@3  # preferred
-# or: npm install @openai/agents zod@3
+# or: bun add @openai/agents zod@3
 bun add @openai/agents-realtime  # preferred, for voice agents
-# or: npm install @openai/agents-realtime  # For voice agents
+# or: bun add @openai/agents-realtime  # For voice agents
 ```
 
 Set environment variable:

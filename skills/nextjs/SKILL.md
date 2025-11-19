@@ -121,7 +121,7 @@ export async function MyComponent() {
 }
 ```
 
-**Codemod**: Run `npx @next/codemod@canary upgrade latest` to automatically migrate.
+**Codemod**: Run `bunx @next/codemod@canary upgrade latest` to automatically migrate.
 
 **See Template**: `templates/async-params-page.tsx`
 
@@ -283,7 +283,7 @@ npm list react  # Must be 19.2+
 
 # Upgrade
 nvm install 20
-npm install react@19.2 react-dom@19.2 next@16
+bun add react@19.2 react-dom@19.2 next@16
 ```
 
 ---

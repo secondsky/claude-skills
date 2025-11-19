@@ -148,8 +148,8 @@ npm create cloudflare@latest my-app
 cd my-app
 
 # Install dependencies
-npm install hono @clerk/clerk-react @clerk/backend
-npm install -D @cloudflare/vite-plugin @tailwindcss/vite
+bun add hono @clerk/clerk-react @clerk/backend
+bun add -d @cloudflare/vite-plugin @tailwindcss/vite
 ```
 
 ### Step 2: Configure Vite

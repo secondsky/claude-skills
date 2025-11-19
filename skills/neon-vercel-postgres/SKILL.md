@@ -40,12 +40,12 @@ metadata:
 
 **Option A: Neon Direct** (multi-cloud, Cloudflare Workers, any serverless)
 ```bash
-npm install @neondatabase/serverless
+bun add @neondatabase/serverless
 ```
 
 **Option B: Vercel Postgres** (Vercel-only, zero-config on Vercel)
 ```bash
-npm install @vercel/postgres
+bun add @vercel/postgres
 ```
 
 **Why this matters:**

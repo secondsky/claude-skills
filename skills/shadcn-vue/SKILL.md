@@ -5,9 +5,9 @@ description: |
 
   Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components.
 
-  Covers: CLI setup with npx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.
+  Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.
 
-  Keywords: shadcn-vue, shadcn vue, Reka UI, radix-vue, Vue components, Nuxt components, Tailwind CSS, accessible components, headless ui, Auto Form, Zod validation, TanStack Table, data tables, Unovis charts, dark mode, useColorMode, components.json, npx shadcn-vue, vueuse, composables, Vue 3, Nuxt 3, TypeScript, accessibility, ARIA, component library, UI components, form builder, schema validation
+  Keywords: shadcn-vue, shadcn vue, Reka UI, radix-vue, Vue components, Nuxt components, Tailwind CSS, accessible components, headless ui, Auto Form, Zod validation, TanStack Table, data tables, Unovis charts, dark mode, useColorMode, components.json, bunx shadcn-vue, vueuse, composables, Vue 3, Nuxt 3, TypeScript, accessibility, ARIA, component library, UI components, form builder, schema validation
 license: MIT
 ---
 
@@ -77,6 +77,7 @@ export default defineConfig({
 
 ```bash
 bunx shadcn-vue@latest add button
+# or: npx shadcn-vue@latest add button
 ```
 
 **See Full Setup**: `templates/quick-setup.ts`
@@ -99,6 +100,8 @@ export default defineNuxtConfig({
 
 # Initialize shadcn-vue
 bunx shadcn-vue@latest init
+# or: npx shadcn-vue@latest init
+# or: pnpm dlx shadcn-vue@latest init
 ```
 
 ---
@@ -127,7 +130,10 @@ bunx shadcn-vue@latest init
 
 ```bash
 bunx shadcn-vue@latest add auto-form
+# or: npx shadcn-vue@latest add auto-form
+
 bun add zod
+# or: npm install zod
 ```
 
 ### Basic Usage
@@ -169,7 +175,10 @@ function onSubmit(values: z.infer<typeof schema>) {
 
 ```bash
 bunx shadcn-vue@latest add data-table
+# or: npx shadcn-vue@latest add data-table
+
 bun add @tanstack/vue-table
+# or: npm install @tanstack/vue-table
 ```
 
 ### Basic Setup
@@ -215,6 +224,7 @@ const data = [
 
 ```bash
 bun add @vueuse/core
+# or: npm install @vueuse/core
 ```
 
 ### Setup Theme Provider
@@ -379,9 +389,11 @@ export default defineConfig({
 ```bash
 # Initialize in current directory
 bunx shadcn-vue@latest init
+# or: npx shadcn-vue@latest init
 
 # Initialize in specific directory (monorepo)
 bunx shadcn-vue@latest init -c ./apps/web
+# or: npx shadcn-vue@latest init -c ./apps/web
 ```
 
 ### add Command
@@ -389,12 +401,14 @@ bunx shadcn-vue@latest init -c ./apps/web
 ```bash
 # Add single component
 bunx shadcn-vue@latest add button
+# or: npx shadcn-vue@latest add button
 
 # Add multiple components
 bunx shadcn-vue@latest add button card dialog
 
 # Add all components
 bunx shadcn-vue@latest add --all
+# or: npx shadcn-vue@latest add --all
 ```
 
 ### diff Command
@@ -402,6 +416,7 @@ bunx shadcn-vue@latest add --all
 ```bash
 # Check for component updates
 bunx shadcn-vue@latest diff button
+# or: npx shadcn-vue@latest diff button
 ```
 
 ---
@@ -424,6 +439,8 @@ For projects using Radix Vue:
 ```bash
 # Use legacy version
 bunx shadcn-vue@radix init
+# or: npx shadcn-vue@radix init
+
 bunx shadcn-vue@radix add button
 ```
 

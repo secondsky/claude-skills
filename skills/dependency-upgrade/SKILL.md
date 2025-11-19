@@ -50,8 +50,8 @@ yarn outdated
 yarn audit
 
 # Check for major updates
-npx npm-check-updates
-npx npm-check-updates -u  # Update package.json
+bunx npm-check-updates
+bunx npm-check-updates -u  # Update package.json
 ```
 
 ### Analyze Dependency Tree
@@ -65,7 +65,7 @@ npm dedupe
 yarn dedupe
 
 # Visualize dependencies
-npx madge --image graph.png src/
+bunx madge --image graph.png src/
 ```
 
 ## Compatibility Matrix
@@ -124,7 +124,7 @@ echo "Upgrade order:
 bun add -D typescript@latest
 
 # Or with npm
-npm install typescript@latest
+bun add typescript@latest
 
 # Test (preferred)
 bun test
@@ -139,7 +139,7 @@ npm run build
 bun add react@17 react-dom@17
 
 # Or with npm
-npm install react@17 react-dom@17
+bun add react@17 react-dom@17
 
 # Test again (preferred)
 bun test
@@ -152,7 +152,7 @@ npm run test
 bun add react-router-dom@6
 
 # Or with npm
-npm install react-router-dom@6
+bun add react-router-dom@6
 
 # And so on...
 ```
@@ -179,7 +179,7 @@ describe('Dependency Compatibility', () => {
 ### Identifying Breaking Changes
 ```bash
 # Use changelog parsers
-npx changelog-parser react 16.0.0 17.0.0
+bunx changelog-parser react 16.0.0 17.0.0
 
 # Or manually check
 curl https://raw.githubusercontent.com/facebook/react/main/CHANGELOG.md
@@ -188,10 +188,10 @@ curl https://raw.githubusercontent.com/facebook/react/main/CHANGELOG.md
 ### Codemod for Automated Fixes
 ```bash
 # React upgrade codemods
-npx react-codeshift <transform> <path>
+bunx react-codeshift <transform> <path>
 
 # Example: Update lifecycle methods
-npx react-codeshift \
+bunx react-codeshift \
   --parser tsx \
   --transform react-codeshift/transforms/rename-unsafe-lifecycles.js \
   src/
@@ -232,7 +232,7 @@ glob('src/**/*.tsx', (err, files) => {
 npm run test
 
 // Update test utilities if needed
-npm install @testing-library/react@latest
+bun add @testing-library/react@latest
 ```
 
 ### Integration Tests
@@ -327,7 +327,7 @@ git stash
 git checkout -b upgrade-branch
 
 # Attempt upgrade
-npm install package@latest
+bun add package@latest
 
 # Run tests
 if npm run test; then
@@ -373,7 +373,7 @@ npm install --force
 npm install --workspaces
 
 # Update specific workspace
-npm install package@latest --workspace=packages/app
+bun add package@latest --workspace=packages/app
 ```
 
 ## Resources

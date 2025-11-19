@@ -16,8 +16,7 @@ Expert knowledge for testing HTTP APIs with Supertest (TypeScript/JavaScript) an
 # Using Bun
 bun add -d supertest @types/supertest
 
-# Using npm
-npm install -D supertest @types/supertest
+# or: npm install -D supertest @types/supertest
 ```
 
 ### Basic Setup

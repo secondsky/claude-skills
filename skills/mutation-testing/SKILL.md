@@ -183,6 +183,7 @@ open reports/mutation/html/index.html
 # 4. Fix survived mutants
 # 5. Re-run incrementally
 bunx stryker run --incremental
+# or: npx stryker run --incremental
 ```
 
 ## See Also

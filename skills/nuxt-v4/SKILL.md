@@ -52,7 +52,7 @@ Production-ready patterns for building modern Nuxt 4 applications with SSR, comp
 
 ```bash
 # Create new project
-npx nuxi@latest init my-app
+bunx nuxi@latest init my-app
 
 # Development
 npm run dev
@@ -65,14 +65,14 @@ npm run preview
 
 # Type checking
 npm run postinstall  # Generates .nuxt directory
-npx nuxi typecheck
+bunx nuxi typecheck
 
 # Testing (Vitest)
 npm run test
 npm run test:watch
 
 # Deploy to Cloudflare
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 ### Directory Structure (Nuxt v4)
@@ -996,7 +996,7 @@ export const useCart = () => {
 ### Pinia (For Complex State)
 
 ```bash
-npm install pinia @pinia/nuxt
+bun add pinia @pinia/nuxt
 ```
 
 ```typescript
@@ -1258,7 +1258,7 @@ For more optimization strategies, see `references/performance.md`.
 ### Setup
 
 ```bash
-npm install -D @nuxt/test-utils vitest @vue/test-utils happy-dom
+bun add -d @nuxt/test-utils vitest @vue/test-utils happy-dom
 ```
 
 ```typescript
@@ -1341,14 +1341,14 @@ For more testing patterns, see `references/testing-vitest.md`.
 
 ```bash
 npm run build
-npx wrangler pages deploy .output/public
+bunx wrangler pages deploy .output/public
 ```
 
 ### Cloudflare Workers
 
 ```bash
 npm run build
-npx wrangler deploy
+bunx wrangler deploy
 ```
 
 **wrangler.toml:**
@@ -1380,7 +1380,7 @@ bucket_name = "my-bucket"
 ### NuxtHub Integration
 
 ```bash
-npm install @nuxthub/core
+bun add @nuxthub/core
 ```
 
 ```typescript
@@ -1622,7 +1622,7 @@ npm run postinstall
 rm -rf .nuxt .output node_modules/.vite
 
 # Reinstall
-npm install
+bun install
 
 # Build again
 npm run build

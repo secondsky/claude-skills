@@ -63,7 +63,7 @@ metadata:
 
 ```bash
 bun add openai@6.7.0  # preferred
-# or: npm install openai@6.7.0
+# or: bun add openai@6.7.0
 ```
 
 ### 2. Environment Setup

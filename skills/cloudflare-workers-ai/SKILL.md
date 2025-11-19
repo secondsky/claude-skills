@@ -580,7 +580,7 @@ const embeddings = await openai.embeddings.create({
 ## Vercel AI SDK Integration
 
 ```bash
-npm install workers-ai-provider ai
+bun add workers-ai-provider ai
 ```
 
 ```typescript

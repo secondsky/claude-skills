@@ -31,7 +31,7 @@ license: MIT
 ### 1. Install AutoAnimate
 
 ```bash
-pnpm add @formkit/auto-animate
+bun add @formkit/auto-animate
 ```
 
 **Why this matters:**

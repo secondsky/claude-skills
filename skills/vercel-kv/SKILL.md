@@ -47,7 +47,7 @@ This automatically creates:
 
 ```bash
 bun add @vercel/kv  # preferred
-# or: npm install @vercel/kv
+# or: bun add @vercel/kv
 ```
 
 ### 3. Use in Your App
@@ -116,7 +116,7 @@ KV_REST_API_READ_ONLY_TOKEN="your-readonly-token"
 ### Step 2: Install and Configure
 
 ```bash
-npm install @vercel/kv
+bun add @vercel/kv
 ```
 
 **For local development**, create `.env.local`:

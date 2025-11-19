@@ -197,6 +197,7 @@ Visit these URLs to verify:
 
 ```bash
 bunx nuxi module add @nuxtjs/seo
+# or: npx nuxi module add @nuxtjs/seo
 ```
 
 Configuration:
@@ -222,7 +223,7 @@ npx nuxi module add nuxt-robots
 npx nuxi module add nuxt-sitemap
 npx nuxi module add nuxt-og-image
 
-# pnpm
+# pnpm (backup)
 pnpm dlx nuxi module add nuxt-robots
 pnpm dlx nuxi module add nuxt-sitemap
 pnpm dlx nuxi module add nuxt-og-image

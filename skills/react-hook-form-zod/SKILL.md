@@ -24,7 +24,7 @@ license: MIT
 ### 1. Install Packages
 
 ```bash
-npm install react-hook-form@7.65.0 zod@4.1.12 @hookform/resolvers@5.2.2
+bun add react-hook-form@7.65.0 zod@4.1.12 @hookform/resolvers@5.2.2
 ```
 
 **Why These Packages**:
@@ -307,7 +307,7 @@ Module not found: Can't resolve '@hookform/resolvers/zod'
 **Solution:**
 ```bash
 # Install the resolvers package
-npm install @hookform/resolvers@5.2.2
+bun add @hookform/resolvers@5.2.2
 ```
 
 ---

@@ -42,7 +42,7 @@ license: MIT
 
 ```bash
 bun add drizzle-orm drizzle-kit  # preferred
-# or: npm install drizzle-orm drizzle-kit
+# or: bun add drizzle-orm drizzle-kit
 ```
 
 **Why Drizzle?**
@@ -138,13 +138,13 @@ export const postsRelations = relations(posts, ({ one }) => ({
 
 ```bash
 # Generate SQL migration from schema
-npx drizzle-kit generate
+bunx drizzle-kit generate
 
 # Apply to local database (for testing)
-npx wrangler d1 migrations apply my-database --local
+bunx wrangler d1 migrations apply my-database --local
 
 # Apply to production database
-npx wrangler d1 migrations apply my-database --remote
+bunx wrangler d1 migrations apply my-database --remote
 ```
 
 ### 6. Query in Your Worker

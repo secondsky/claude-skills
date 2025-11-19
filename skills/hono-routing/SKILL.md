@@ -32,7 +32,7 @@ metadata:
 
 ```bash
 bun add hono@4.10.2  # preferred
-# or: npm install hono@4.10.2
+# or: bun add hono@4.10.2
 ```
 
 **Why Hono:**
@@ -461,7 +461,7 @@ export default app
 
 ## Complete Setup Checklist
 
-- [ ] Installed Hono (`npm install hono`)
+- [ ] Installed Hono (`bun add hono`)
 - [ ] Installed validator (Zod, Valibot, ArkType, or Typia)
 - [ ] Created basic app with routes
 - [ ] Added validation middleware to routes

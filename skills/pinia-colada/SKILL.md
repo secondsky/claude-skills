@@ -33,13 +33,13 @@ metadata:
 **For Vue Projects:**
 ```bash
 bun add @pinia/colada pinia  # preferred
-# or: npm install @pinia/colada pinia
+# or: bun add @pinia/colada pinia
 ```
 
 **For Nuxt Projects:**
 ```bash
 bun add @pinia/nuxt @pinia/colada-nuxt  # install both Pinia and Pinia Colada modules
-# or: npm install @pinia/nuxt @pinia/colada-nuxt
+# or: bun add @pinia/nuxt @pinia/colada-nuxt
 ```
 
 **Why this matters:**

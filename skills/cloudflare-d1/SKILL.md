@@ -46,7 +46,7 @@ Cloudflare D1 is **serverless SQLite** on the edge:
 ### 1. Create Database
 
 ```bash
-npx wrangler d1 create my-database
+bunx wrangler d1 create my-database
 ```
 
 Save the `database_id` from output!
@@ -74,7 +74,7 @@ Add to `wrangler.jsonc`:
 ### 3. Create Migration
 
 ```bash
-npx wrangler d1 migrations create my-database create_users
+bunx wrangler d1 migrations create my-database create_users
 ```
 
 Edit `migrations/0001_create_users.sql`:
@@ -96,10 +96,10 @@ PRAGMA optimize;
 
 ```bash
 # Local
-npx wrangler d1 migrations apply my-database --local
+bunx wrangler d1 migrations apply my-database --local
 
 # Production
-npx wrangler d1 migrations apply my-database --remote
+bunx wrangler d1 migrations apply my-database --remote
 ```
 
 ### 5. Query from Worker
@@ -366,7 +366,7 @@ app.get('/users', async (c) => {
 ### 1. Always Use Migrations
 
 ```bash
-npx wrangler d1 migrations create my-database add_users_avatar
+bunx wrangler d1 migrations create my-database add_users_avatar
 ```
 
 ### 2. Make Migrations Idempotent
@@ -385,8 +385,8 @@ CREATE INDEX idx_email ON users(email);
 ### 3. Test Locally First
 
 ```bash
-npx wrangler d1 migrations apply my-database --local
-npx wrangler d1 execute my-database --local --command "SELECT * FROM users"
+bunx wrangler d1 migrations apply my-database --local
+bunx wrangler d1 execute my-database --local --command "SELECT * FROM users"
 ```
 
 ### 4. Add PRAGMA optimize
