@@ -237,6 +237,7 @@ content/blog/hello.md   → /blog/hello
 
 ```bash
 bun add -D zod@^4.1.12
+# or: npm install -D zod@^4.1.12
 ```
 
 ```ts
@@ -255,6 +256,7 @@ schema: z.object({
 
 ```bash
 bun add -D valibot@^0.42.0
+# or: npm install -D valibot@^0.42.0
 ```
 
 ```ts
@@ -503,6 +505,7 @@ bun run build
 
 # Deploy
 bunx wrangler pages deploy dist
+# or: npx wrangler pages deploy dist
 ```
 
 **wrangler.toml**:
@@ -551,6 +554,7 @@ vercel deploy
 
 ```bash
 bun add -D nuxt-studio@alpha
+# or: npm install -D nuxt-studio@alpha
 ```
 
 ```ts

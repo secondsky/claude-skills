@@ -197,6 +197,7 @@ Visit these URLs to verify:
 
 ```bash
 bunx nuxi module add @nuxtjs/seo
+# or: npx nuxi module add @nuxtjs/seo
 ```
 
 Configuration:

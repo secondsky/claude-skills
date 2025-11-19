@@ -74,6 +74,8 @@ All of these are handled automatically when the skill is active.
 
 ```bash
 bun add tailwindcss @tailwindcss/vite
+# or: npm install tailwindcss @tailwindcss/vite
+
 bun add -d @types/node
 
 # Note: Using pnpm for shadcn init due to known Bun compatibility issues
@@ -474,6 +476,8 @@ See `reference/migration-guide.md` for complete v3 → v4 migration steps.
 ```bash
 # These packages will cause build errors:
 bun add tailwindcss-animate  # ❌ Deprecated
+# or: npm install tailwindcss-animate  # ❌ Deprecated
+
 bun add tw-animate-css      # ❌ Doesn't exist
 ```
 
@@ -494,6 +498,7 @@ Tailwind v4 supports official plugins using the `@plugin` directive in CSS.
 **Installation:**
 ```bash
 bun add -d @tailwindcss/typography
+# or: npm install -D @tailwindcss/typography
 ```
 
 **Configuration (v4 syntax):**
@@ -524,6 +529,7 @@ bun add -d @tailwindcss/typography
 **Installation:**
 ```bash
 bun add -d @tailwindcss/forms
+# or: npm install -D @tailwindcss/forms
 ```
 
 **Configuration (v4 syntax):**

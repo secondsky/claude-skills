@@ -632,7 +632,7 @@ export function Card({ title, description, image }: CardProps) {
 **1. "Module not found: motion"**
 ```bash
 bun add motion
-# or: bun add motion
+# or: npm install motion
 ```
 
 **2. "cn is not defined"**

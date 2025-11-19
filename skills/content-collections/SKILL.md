@@ -53,9 +53,14 @@ Content Collections transforms local content files (Markdown/MDX) into **type-sa
 ### 1. Install Dependencies
 
 ```bash
+# Bun (recommended)
 bun add -d @content-collections/core @content-collections/vite zod
-# or
-bun add -d @content-collections/core @content-collections/vite zod
+
+# npm
+npm install -D @content-collections/core @content-collections/vite zod
+
+# pnpm
+pnpm add -D @content-collections/core @content-collections/vite zod
 ```
 
 ### 2. Configure TypeScript Path Alias

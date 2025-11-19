@@ -103,6 +103,7 @@ bun add motion  # preferred
 ```bash
 # Use framer-motion if deploying to Cloudflare Workers
 bun add framer-motion
+# or: npm install framer-motion
 ```
 
 ### Package Information
@@ -333,6 +334,7 @@ Natural, physics-based easing:
 pnpm create vite my-app --template react-ts
 cd my-app
 bun add motion
+# or: npm install motion
 ```
 
 **Import:**
@@ -456,6 +458,7 @@ export default function Page() {
 **Workaround**: Use `framer-motion` v12.23.24 instead:
 ```bash
 bun add framer-motion
+# or: npm install framer-motion
 ```
 
 **Import stays the same:**
@@ -527,10 +530,14 @@ function Component() {
 **Solutions:**
 ```bash
 bun add react-window
-# or
+# or: npm install react-window
+
+# Alternative libraries:
 bun add react-virtuoso
-# or
+# or: npm install react-virtuoso
+
 bun add @tanstack/react-virtual
+# or: npm install @tanstack/react-virtual
 ```
 
 **Pattern:**
@@ -802,6 +809,7 @@ See `references/common-patterns.md` for 10+ more patterns with full code.
 **Solution**: Use virtualization:
 ```bash
 bun add react-window
+# or: npm install react-window
 ```
 
 See `references/performance-optimization.md` for full guide.
@@ -854,6 +862,7 @@ See `references/nextjs-integration.md` for App Router patterns.
 **Solution**: Use `framer-motion` v12.23.24 instead:
 ```bash
 bun add framer-motion
+# or: npm install framer-motion
 ```
 
 GitHub issue: #2918 (monitor for resolution)

@@ -589,6 +589,8 @@ bunx ultracite check src/
 
 # Filter by severity
 bunx ultracite check --diagnostic-level error  # Only errors
+# or: npx ultracite check --diagnostic-level error
+
 bunx ultracite check --diagnostic-level warn   # Warnings and errors
 ```
 
@@ -603,6 +605,7 @@ bunx ultracite fix src/
 
 # Apply unsafe fixes (use with caution)
 bunx ultracite fix --unsafe
+# or: npx ultracite fix --unsafe
 ```
 
 **Safe vs Unsafe fixes:**
@@ -671,7 +674,11 @@ bunx ultracite init --integrations husky
 
 # Manual setup
 bun add -D husky
+# or: npm install -D husky
+
 bunx husky install
+# or: npx husky install
+
 bunx husky add .husky/pre-commit "bunx ultracite fix"
 chmod +x .husky/pre-commit
 ```
@@ -713,7 +720,10 @@ bunx ultracite init --integrations lefthook
 
 # Manual setup
 bun add -D lefthook
+# or: npm install -D lefthook
+
 bunx lefthook install
+# or: npx lefthook install
 ```
 
 **Configuration (lefthook.yml):**
@@ -766,6 +776,7 @@ bunx ultracite init --integrations lint-staged
 
 # Manual setup
 bun add -D lint-staged
+# or: npm install -D lint-staged
 ```
 
 **Configuration (.lintstagedrc.json):**
@@ -808,6 +819,7 @@ export default {
 ```bash
 # .husky/pre-commit
 bunx lint-staged
+# or: npx lint-staged
 ```
 
 ```yaml
@@ -885,6 +897,7 @@ bunx ultracite init --agents cursor,claude,copilot
 
 # Multiple agents
 bunx ultracite init --agents cursor,claude,cline,windsurf
+# or: npx ultracite init --agents cursor,claude,cline,windsurf
 ```
 
 **What gets created:**
