@@ -16,7 +16,7 @@ total=0
 updated=0
 
 # Find all SKILL.md files
-find "$SKILLS_DIR" -name "SKILL.md" -type f | sort | while read -r file; do
+while read -r file; do
     ((total++))
 
     skill_name=$(basename "$(dirname "$file")")
@@ -59,7 +59,7 @@ find "$SKILLS_DIR" -name "SKILL.md" -type f | sort | while read -r file; do
 
         ((updated++))
     fi
-done
+done < <(find "$SKILLS_DIR" -name "SKILL.md" -type f | sort)
 
 echo "================================================"
 echo "Migration complete!"
