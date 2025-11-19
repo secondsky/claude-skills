@@ -504,13 +504,16 @@ export default defineConfig({
 Copy-paste ready code examples:
 
 - **basic-schema.ts** - Complete schema with users, posts, comments, relations
+- **schema.ts** - Alternative schema patterns
 - **basic-queries.ts** - All CRUD operations and query patterns
+- **client.ts** - Drizzle client initialization and setup
 - **transactions.ts** - D1 batch API patterns with error handling
 - **relations-queries.ts** - Nested queries and manual joins
 - **prepared-statements.ts** - Reusable query patterns
 - **cloudflare-worker-integration.ts** - Complete Worker setup
 - **drizzle.config.ts** - Configuration file template
 - **package.json** - npm scripts for migrations
+- **migrations/** - Migration files directory
 
 ### References (references/)
 

@@ -398,13 +398,28 @@ fastmcp test server.py             # Run tests
 
 ## Bundled Resources
 
-**Templates** (`templates/`):
-- `basic-server.py` - Minimal server with tools, resources, prompts
-- (See skill directory for additional templates)
-
 **References** (`references/`):
-- `error-catalog.md` - All 25 common errors with solutions
-- (See skill directory for additional references)
+- `cli-commands.md` - Complete CLI command reference (dev, run, deploy, test)
+- `cloud-deployment.md` - FastMCP Cloud deployment guide with module-level requirements
+- `common-errors.md` - All 25 documented errors with solutions and prevention
+- `context-features.md` - Progress tracking, user input, and Context API patterns
+- `error-catalog.md` - Comprehensive error catalog with fixes
+- `integration-patterns.md` - Server composition (import/mount), OAuth Proxy, OpenAPI
+- `production-patterns.md` - Storage backends, lifespans, middleware, architecture patterns
+
+**Templates** (`templates/`):
+- `basic-server.py` - Minimal MCP server with tools, resources, prompts
+- `client-example.py` - MCP client integration examples
+- `api-client-pattern.py` - API integration patterns
+- `error-handling.py` - Error handling best practices
+- `openapi-integration.py` - OpenAPI schema integration
+- `prompts-examples.py` - Prompt template patterns
+- `resources-examples.py` - Resource URI patterns and examples
+- `tools-examples.py` - Tool definition patterns
+- `self-contained-server.py` - Complete production-ready self-contained server
+- `.env.example` - Environment variables template
+- `requirements.txt` - Python dependencies
+- `pyproject.toml` - Python project configuration
 
 ## Dependencies
 

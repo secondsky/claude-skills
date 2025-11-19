@@ -1191,12 +1191,21 @@ import { db } from '@/lib/db'
 
 ## Bundled Resources
 
+**References** (`references/`):
+- `error-catalog.md` - All 18 documented errors with solutions and prevention strategies
+- `top-errors.md` - Top 5 critical errors with detailed fixes and workarounds
+- `next-16-migration-guide.md` - Complete Next.js 16 migration guide with async params, middleware changes, codemod usage
+
 **Templates** (`templates/`):
 - `async-params-page.tsx` - Next.js 16 async params pattern (pages, layouts, metadata)
+- `app-router-async-params.tsx` - App Router with async params implementation
 - `server-action-form.tsx` - Server Actions with forms (create, update, delete, error handling)
-
-**References** (`references/`):
-- `error-catalog.md` - All 18 documented errors with solutions
+- `server-actions-form.tsx` - Additional Server Actions patterns
+- `route-handler-api.ts` - API route handlers with Request/Response
+- `cache-component-use-cache.tsx` - Component caching with "use cache" directive
+- `parallel-routes-with-default.tsx` - Parallel routes with default.js fallback
+- `proxy-migration.ts` - Middleware to Proxy migration example
+- `package.json` - Dependencies and scripts configuration
 
 ---
 

@@ -364,20 +364,75 @@ All have good references/ directories but incomplete SKILL.md resource listings:
 
 Update SKILL.md Resources sections for all 14 moderate-issue skills:
 
-- [ ] **fastmcp**: List all references/ files (7 files)
-- [ ] **cloudflare-hyperdrive**: List all references/ files
-- [ ] **better-auth**: List all references/ files
-- [ ] **cloudflare-email-routing**: List all references/ files
-- [ ] **claude-api**: List all references/ files
-- [ ] **claude-code-bash-patterns**: List all references/ files
-- [ ] **nextjs**: List all references/ files
-- [ ] **drizzle-orm-d1**: List all references/ files
-- [ ] **cloudflare-workflows**: List all references/ files
-- [ ] **cloudflare-queues**: List all references/ files
-- [ ] **cloudflare-images**: List all references/ files
-- [ ] **cloudflare-r2**: List all references/ files
-- [ ] **hugo**: List all references/ files
-- [ ] **cloudflare-d1**: List all references/ files
+- [x] **fastmcp**: List all references/ files (7 files) ✅ COMPLETED
+  - Added comprehensive Resources section listing all 7 references + 12 templates
+  - References: cli-commands.md, cloud-deployment.md, common-errors.md, context-features.md, error-catalog.md, integration-patterns.md, production-patterns.md
+  - Templates: 12 Python files including basic-server.py, client-example.py, api-client-pattern.py, etc.
+
+- [x] **cloudflare-hyperdrive**: List all references/ files ✅ COMPLETED
+  - Added new "Bundled Resources" section (previously had NONE)
+  - Listed all 9 references: setup-guide.md, connection-pooling.md, query-caching.md, drizzle-integration.md, prisma-integration.md, supported-databases.md, tls-ssl-setup.md, troubleshooting.md, wrangler-commands.md
+  - Listed all 9 templates: postgres-basic.ts, postgres-js.ts, postgres-pool.ts, mysql2-basic.ts, drizzle-postgres.ts, drizzle-mysql.ts, prisma-postgres.ts, local-dev-setup.sh, wrangler-hyperdrive-config.jsonc
+
+- [x] **better-auth**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "When to Load References" and "Using Bundled Resources" sections
+  - All 7 references properly listed with descriptions
+  - No action needed - this is one of the well-documented skills
+
+- [x] **cloudflare-email-routing**: List all references/ files ✅ COMPLETED
+  - Expanded Resources section from 1 to 4 references + 7 templates
+  - Added: common-errors.md, dns-setup.md, local-development.md (in addition to existing setup-guide.md)
+  - Templates: receive-basic.ts, receive-allowlist.ts, receive-blocklist.ts, receive-reply.ts, send-basic.ts, send-notification.ts, wrangler-email.jsonc
+
+- [x] **claude-api**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "When to Load References" and "Using Bundled Resources" sections
+  - All 7 references + 13 templates properly listed
+  - No action needed - this is one of the well-documented skills
+
+- [x] **claude-code-bash-patterns**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 5 references + 5 templates properly listed with descriptions
+  - No action needed - this is one of the well-documented skills
+
+- [x] **nextjs**: List all references/ files ✅ COMPLETED
+  - Expanded Resources section from 2 to 9 templates + from 1 to 3 references
+  - Added templates: app-router-async-params.tsx, cache-component-use-cache.tsx, parallel-routes-with-default.tsx, proxy-migration.ts, route-handler-api.ts, server-actions-form.tsx, package.json
+  - Added references: top-errors.md, next-16-migration-guide.md
+
+- [x] **drizzle-orm-d1**: List all references/ files ✅ COMPLETED
+  - Expanded Templates section from 8 to 11 items
+  - Added: client.ts, schema.ts, migrations/ directory
+  - All 7 references already properly listed
+
+- [x] **cloudflare-workflows**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 6 templates + 2 references properly listed
+  - No action needed - this is one of the well-documented skills
+
+- [x] **cloudflare-queues**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 6 references + 6 templates properly listed with detailed descriptions
+  - No action needed - this is one of the well-documented skills
+
+- [x] **cloudflare-images**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 9 references + all 12 templates properly listed
+  - No action needed - this is one of the well-documented skills
+
+- [x] **cloudflare-r2**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 4 references + all 5 templates properly listed
+  - No action needed - this is one of the well-documented skills
+
+- [x] **hugo**: List all references/ files ✅ COMPLETED
+  - Added References section (was previously missing)
+  - Listed all 6 references: setup-guide.md, error-catalog.md, common-patterns.md, cms-integration.md, tailwind-integration.md, advanced-topics.md
+  - All 4 template directories already properly listed
+
+- [x] **cloudflare-d1**: List all references/ files ✅ VERIFIED (Already Complete)
+  - Already has comprehensive "Using Bundled Resources" section
+  - All 4 references + all 3 templates properly listed
+  - No action needed - this is one of the well-documented skills
 
 ### Priority 4 - DOCUMENTATION
 

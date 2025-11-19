@@ -397,9 +397,20 @@ async email(message, env, ctx) {
 
 ## Using Bundled Resources
 
-### References (references/)
+**References** (`references/`):
+- `setup-guide.md` - Complete setup walkthrough (enabling routing, email workers, send email)
+- `common-errors.md` - All 8 documented errors with solutions and prevention
+- `dns-setup.md` - MX records, SPF, DKIM configuration guide
+- `local-development.md` - Local testing and development patterns
 
-- **setup-guide.md** - Complete setup walkthrough (receive + send)
+**Templates** (`templates/`):
+- `receive-basic.ts` - Basic email receiving worker
+- `receive-allowlist.ts` - Email allowlist implementation
+- `receive-blocklist.ts` - Email blocklist implementation
+- `receive-reply.ts` - Auto-reply email worker
+- `send-basic.ts` - Basic send email example
+- `send-notification.ts` - Notification email pattern
+- `wrangler-email.jsonc` - Wrangler configuration for email routing
 
 ---
 

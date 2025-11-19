@@ -166,6 +166,14 @@ This skill prevents **15 documented errors**. Here are the top 5:
 
 ## Using Bundled Resources
 
+**References** (`references/`):
+- `setup-guide.md` - Complete Hugo setup walkthrough (installation, themes, deployment)
+- `error-catalog.md` - All 15 common Hugo errors with solutions and prevention
+- `common-patterns.md` - Best practices and patterns (taxonomies, content organization, multilingual)
+- `cms-integration.md` - Sveltia CMS integration guide with configuration
+- `tailwind-integration.md` - Tailwind CSS integration with Hugo Pipes
+- `advanced-topics.md` - Advanced Hugo features (modules, data files, internationalization)
+
 ### Templates (templates/)
 
 Complete, production-ready Hugo projects ready to copy:

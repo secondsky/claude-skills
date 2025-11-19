@@ -253,6 +253,32 @@ try {
 
 ---
 
+## Bundled Resources
+
+**References** (`references/`):
+- `setup-guide.md` - Complete setup walkthrough (create config, bind, query)
+- `connection-pooling.md` - Connection pool configuration and best practices
+- `query-caching.md` - Query caching strategies and optimization
+- `drizzle-integration.md` - Drizzle ORM integration patterns
+- `prisma-integration.md` - Prisma ORM integration patterns
+- `supported-databases.md` - Complete list of supported PostgreSQL and MySQL providers
+- `tls-ssl-setup.md` - TLS/SSL configuration for secure connections
+- `troubleshooting.md` - Common issues and solutions
+- `wrangler-commands.md` - Complete wrangler CLI commands for Hyperdrive
+
+**Templates** (`templates/`):
+- `postgres-basic.ts` - Basic PostgreSQL with node-postgres
+- `postgres-js.ts` - PostgreSQL with postgres.js driver
+- `postgres-pool.ts` - PostgreSQL with connection pooling
+- `mysql2-basic.ts` - MySQL with mysql2 driver
+- `drizzle-postgres.ts` - Drizzle ORM with PostgreSQL
+- `drizzle-mysql.ts` - Drizzle ORM with MySQL
+- `prisma-postgres.ts` - Prisma ORM with PostgreSQL
+- `local-dev-setup.sh` - Local development setup script
+- `wrangler-hyperdrive-config.jsonc` - Wrangler configuration example
+
+---
+
 **Questions? Issues?**
 
 1. Check `references/setup-guide.md` for complete setup
