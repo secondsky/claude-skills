@@ -934,5 +934,5 @@ When setting up Turborepo:
 
 **Last Updated**: 2025-11-19
 **Skill Version**: 1.0.0
-**Turborepo Version**: 2.3.0+
+**Turborepo Version**: 2.6.1+
 **Official LLM Docs**: <https://turborepo.com/llms.txt>

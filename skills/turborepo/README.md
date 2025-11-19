@@ -98,7 +98,7 @@ All in `scripts/` directory:
 
 ## Version Information
 
-- **Current Stable**: 2.3.0+ (as of 2025-11)
+- **Current Stable**: 2.6.1+ (as of 2025-11)
 - **Minimum Required**: 2.0.0
 - **Node.js Required**: 18.0.0+
 - **Last Verified**: 2025-11-19
@@ -204,4 +204,4 @@ This skill follows the official Anthropic skills standards. See [claude-skills r
 
 **Last Updated**: 2025-11-19
 **Skill Version**: 1.0.0
-**Turborepo Version**: 2.3.0+
+**Turborepo Version**: 2.6.1+
