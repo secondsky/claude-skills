@@ -1,5 +1,5 @@
 ---
-name: TanStack Router
+name: tanstack-router
 description: |
   Build type-safe, file-based routing for React applications with TanStack Router. This skill provides patterns for client-side routing, data loading, and Cloudflare Workers integration. Use when: building SPAs with type-safe navigation, implementing file-based routing, integrating with TanStack Query for data fetching, or deploying to Cloudflare Workers. Includes 7+ documented error solutions and prevents common issues: devtools dependency errors, type safety problems, loader configuration mistakes, and Vite bundling issues.
 license: MIT

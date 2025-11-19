@@ -1,6 +1,7 @@
 ---
 name: nano-banana-prompts
 description: Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use when user wants to create images with Gemini, needs help crafting image prompts, or requests "nano banana" style prompts. Applies proven best practices for natural language descriptions, photography, art styles, and multi-turn editing workflows.
+license: MIT
 ---
 
 # Nano Banana Image Prompt Generator
@@ -222,3 +223,191 @@ When requesting specific artistic styles, reference:
 ✅ Style or technical specs
 ✅ Aspect ratio chosen
 ✅ Complete sentences, not keywords
+
+## Common Issues & Solutions
+
+### Prompt Quality Issues
+
+**Issue**: Generic or vague output
+**Cause**: Prompt too short or lacks specificity
+**Solution**: Expand to 50-100 words. Add lighting details, mood, and specific technical specs (lens, style, etc.).
+
+**Example**:
+- ❌ Too vague: "A woman in an office"
+- ✅ Specific: "Professional businesswoman in navy suit stands confidently in modern glass-walled office overlooking city skyline at golden hour. Warm afternoon light streams through floor-to-ceiling windows creating soft rim lighting. Shot with 50mm f/2.0, shallow depth of field blurs cityscape background. Confident yet approachable mood. 4:5 portrait format."
+
+**Issue**: Conflicting style instructions
+**Cause**: Mixing incompatible styles (e.g., "photorealistic watercolor")
+**Solution**: Choose one primary style. For photography, use camera terminology. For art, use medium/technique terminology.
+
+**Issue**: Text rendering failures
+**Cause**: Too much text, complex fonts, or unclear positioning
+**Solution**:
+- Limit to under 25 characters total
+- Use simple, clear fonts (bold, script, sans-serif)
+- Specify exact position ("at top", "centered", "bottom right")
+- Put text in quotes: "SUMMER"
+
+**Issue**: Unwanted elements in image
+**Cause**: Ambiguous phrasing or conflicting descriptors
+**Solution**: Be explicit about what should NOT appear. Use precise, unambiguous language.
+
+### Generation Issues
+
+**Issue**: Image doesn't match prompt
+**Cause**: Prompt too complex or contradictory elements
+**Solution**:
+1. Simplify prompt to core concept
+2. Use multi-turn editing workflow
+3. Start basic, refine iteratively
+
+**Issue**: Inconsistent results across generations
+**Cause**: Vague descriptors allowing wide interpretation
+**Solution**: Add specific details about colors, materials, lighting angles, camera settings, and composition rules (rule of thirds, golden ratio).
+
+**Issue**: Poor composition
+**Cause**: No compositional guidance in prompt
+**Solution**: Explicitly mention composition rules:
+- "Rule of thirds composition"
+- "Centered subject with symmetrical framing"
+- "Leading lines draw eye to focal point"
+- "Foreground, mid-ground, background layers"
+
+### Multi-Turn Editing Issues
+
+**Issue**: Too many changes at once causing confusion
+**Cause**: Requesting multiple edits simultaneously
+**Solution**: Make one change per turn. Wait for result before next edit.
+
+**Example sequence**:
+1. ✅ "Change background to sunset"
+2. ✅ "Make the lighting warmer"
+3. ✅ "Add reflections on water"
+vs.
+4. ❌ "Change background to sunset with warmer lighting and add reflections"
+
+**Issue**: Losing context from earlier turns
+**Cause**: Vague references without reinforcing key details
+**Solution**: Briefly reinforce context: "In this mountain landscape, add a hiking trail in the foreground"
+
+## Prompt Validation
+
+Before submitting a prompt, verify:
+
+### Content Completeness
+- [ ] Subject clearly identified (who/what)
+- [ ] Action or state described (what subject is doing)
+- [ ] Environment/setting specified (where)
+- [ ] Lighting described (source, quality, direction)
+- [ ] Mood or atmosphere indicated (emotional tone)
+- [ ] Style or medium specified (photography, watercolor, etc.)
+- [ ] Aspect ratio chosen (1:1, 16:9, 4:5, etc.)
+
+### Technical Specifications
+
+**For Photography:**
+- [ ] Camera/lens mentioned (50mm, 85mm, wide-angle)
+- [ ] Camera settings if relevant (f/2.8, shallow DOF)
+- [ ] Lighting type (golden hour, studio three-point, dramatic side)
+- [ ] Shot type (close-up, wide shot, overhead)
+
+**For Art/Illustration:**
+- [ ] Medium specified (watercolor, digital art, oil painting)
+- [ ] Technique mentioned (loose brushstrokes, sharp vector)
+- [ ] Color palette described (pastels, vibrant, monochrome)
+- [ ] Style reference if applicable (children's book, manga, minimalist)
+
+### Quality Checks
+- [ ] Uses complete sentences, not keyword lists
+- [ ] Specific rather than vague ("charcoal blazer" vs. "suit")
+- [ ] No conflicting style instructions
+- [ ] Text under 25 characters if included
+- [ ] Length appropriate: 50-100 words for balanced control
+- [ ] No contradictory elements (photorealistic watercolor)
+
+### Text Rendering Validation
+
+If prompt includes text:
+- [ ] Total characters under 25
+- [ ] Maximum 2-3 text phrases
+- [ ] Text in quotes ("SUMMER")
+- [ ] Font style specified (bold, script, sans-serif)
+- [ ] Position explicitly stated (top, bottom, centered)
+- [ ] Text color contrasts with background
+
+## Testing Your Prompts
+
+### Quick Test
+Generate image and evaluate:
+1. **Subject accuracy**: Is the main subject as described?
+2. **Composition**: Does layout match prompt intent?
+3. **Lighting**: Is lighting source and quality correct?
+4. **Style**: Does aesthetic match requested style?
+5. **Technical specs**: Are camera/art specs honored?
+6. **Mood**: Does image convey intended atmosphere?
+
+### Refinement Workflow
+
+If image doesn't match expectations:
+
+**Step 1: Identify the gap**
+- What element is wrong/missing?
+- Is it subject, lighting, style, composition, or mood?
+
+**Step 2: Use multi-turn editing**
+- Don't regenerate from scratch
+- Make targeted edit: "Make the lighting softer"
+- One change at a time
+
+**Step 3: Refine prompt for future use**
+- If you need to regenerate, add more specificity to weak areas
+- Save successful prompts as templates
+
+### Comparison Test
+
+For critical images, generate 2-3 variations with slightly different prompts:
+
+**Version A**: Medium detail (50-75 words)
+**Version B**: High detail (100-150 words)
+**Version C**: Different style/lighting approach
+
+Compare results to find optimal prompt verbosity and approach.
+
+## Example: Complete Validation
+
+**Prompt**:
+```
+Photorealistic close-up portrait of elderly fisherman with weathered hands mending
+fishing net at dawn. Seated on wooden dock with misty harbor in background. Soft
+golden light from rising sun creates warm rim lighting on his profile. Shot with
+85mm f/2.0 creating shallow depth of field, net and hands in sharp focus while
+background gently blurs. Contemplative and peaceful mood. 4:5 portrait format.
+```
+
+**Validation**:
+- ✅ Subject: elderly fisherman
+- ✅ Action: mending fishing net
+- ✅ Environment: wooden dock at harbor
+- ✅ Lighting: golden hour, rim lighting
+- ✅ Mood: contemplative, peaceful
+- ✅ Technical: 85mm f/2.0, shallow DOF
+- ✅ Aspect ratio: 4:5 portrait
+- ✅ Complete sentences: yes
+- ✅ Specific details: weathered hands, wooden dock, misty harbor
+- ✅ Length: ~85 words (optimal range)
+- ✅ Style consistency: photorealistic throughout
+
+**Expected result**: High-quality, detailed image matching all specifications.
+
+## Troubleshooting Guide
+
+| Problem | Likely Cause | Fix |
+|---------|--------------|-----|
+| Blurry/low quality | Missing technical specs | Add camera, lens, "ultra-high resolution" |
+| Wrong colors | Vague color description | Specify exact colors, hex codes if needed |
+| Bad composition | No compositional guidance | Add "rule of thirds", "centered", etc. |
+| Missing elements | Element mentioned too late | Put critical elements early in prompt |
+| Generic look | Keyword listing | Rewrite as natural sentences |
+| Text garbled | Too much text | Reduce to <25 chars, simplify font |
+| Wrong style | Conflicting instructions | Choose one consistent style |
+| Unexpected objects | Ambiguous phrasing | Be more explicit and specific |

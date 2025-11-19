@@ -1,5 +1,3 @@
-# Motion Animation Library
-
 ---
 name: motion
 description: |
@@ -13,6 +11,8 @@ description: |
 
 license: MIT
 ---
+
+# Motion Animation Library
 
 ## Overview
 

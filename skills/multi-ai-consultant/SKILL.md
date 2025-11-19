@@ -1,5 +1,5 @@
 ---
-name: Multi-AI Consultant
+name: multi-ai-consultant
 description: |
   Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, fresh Claude) for second opinions when stuck on bugs or making architectural decisions. Use when: debugging attempts have failed, making significant architectural choices, security concerns, or need fresh perspective. Automatically suggests consultation after one failed attempt. Provides synthesis comparing multiple AI perspectives with web research, thinking mode, and repo-aware analysis.
 license: MIT

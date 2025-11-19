@@ -1,5 +1,5 @@
 ---
-name: TanStack Table
+name: tanstack-table
 description: |
   Build production-ready data tables with headless TanStack Table v8. This skill provides server-side pagination, filtering, and sorting patterns optimized for Cloudflare Workers + D1 databases. Use when: building data tables with large datasets, implementing server-side table features, integrating with TanStack Query for data fetching, or need virtualization for performance. Includes 6+ documented error solutions and Cloudflare D1 integration examples. Prevents common issues: server-side state management confusion, TanStack Query coordination errors, manual sorting setup mistakes, URL state sync problems, and performance issues with large datasets.
 license: MIT

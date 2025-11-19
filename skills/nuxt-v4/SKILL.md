@@ -1,5 +1,5 @@
 ---
-name: Nuxt 4
+name: nuxt-v4
 description: |
   Production-ready Nuxt 4 framework development with SSR, composables,
   data fetching, server routes, and Cloudflare deployment.

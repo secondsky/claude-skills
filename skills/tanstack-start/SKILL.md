@@ -1,5 +1,5 @@
 ---
-name: TanStack Start
+name: tanstack-start
 description: |
   [⚠️ RC STATUS - MONITORING FOR v1.0 STABLE] Full-stack React framework built on TanStack Router with official Cloudflare Workers support. This skill will be published when v1.0 stable is released and critical issues are resolved. Use when: building full-stack React applications, need SSR with Cloudflare Workers, want type-safe server functions, or migrating from Next.js. Currently monitoring: GitHub #5734 (memory leak), "needed-for-start-stable" issues.
 license: MIT
