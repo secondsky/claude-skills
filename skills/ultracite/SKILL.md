@@ -231,6 +231,14 @@ bunx ultracite init \
   --integrations husky \
   --migrate eslint,prettier \
   --quiet
+# or: npx ultracite init \
+#   --pm bun \
+#   --frameworks react,next \
+#   --editors vscode \
+#   --agents cursor,claude \
+#   --integrations husky \
+#   --migrate eslint,prettier \
+#   --quiet
 ```
 
 **Available flags:**
