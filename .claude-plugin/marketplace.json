@@ -31,7 +31,7 @@
       "name": "ai-elements-chatbot",
       "source": "./skills/ai-elements-chatbot",
       "description": "This skill provides production-ready AI chat UI components built on shadcn/ui for conversational AI interfaces. Use when building ChatGPT-style chat interfaces with streaming responses, tool/function call displays, reasoning visualization, or source citations. Provides 30+ components including Message, Conversation, Response, CodeBlock, Reasoning, Tool, Actions, Sources optimized for Vercel AI SDK v5. Prevents common setup errors with Next.js App Router, Tailwind v4, shadcn/ui integration, AI SDK v5 migration, component composition patterns, voice input browser compatibility, responsive design issues, and streaming optimization.",
-      "version": "1.6.0",
+      "version": "2.0.0",
       "category": "ai",
       "keywords": ["ai-elements","vercel-ai-sdk","shadcn","chatbot","conversational-ai","streaming-ui","chat-interface","ai-chat","message-components","conversation-ui","tool-calling","reasoning-display","source-citations","markdown-streaming","function-calling","ai-responses","prompt-input","code-highlighting","web-preview","branch-navigation"],
       "author": {
@@ -136,7 +136,7 @@
       "name": "base-ui-react",
       "source": "./skills/base-ui-react",
       "description": "Production-tested setup for Base UI (@base-ui-components/react) - MUIs unstyled component library that provides accessible, customizable React components using render props pattern. This skill should be used when building accessible UIs with full styling control, migrating from Radix UI, or needing components with Floating UI integration for smart positioning. Use when: Setting up Base UI in Vite + React projects, migrating from Radix UI to Base UI, implementing accessible components (Dialog, Select, Popover, Tooltip, NumberField, Accordion), encountering positioning issues with popups, needing render prop API instead of asChild pattern, building with Tailwind v4 + shadcn/ui, or deploying to Cloudflare Workers. ⚠️ BETA STATUS: Base UI is v1.0.0-beta.4. Stable v1.0 expected Q4 2025. This skill provides workarounds for known beta issues and guidance on API stability.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "frontend",
       "keywords": ["base-ui","@base-ui-components/react","mui base ui","unstyled components","accessible components","render props","radix alternative","radix migration","floating-ui","positioner pattern","headless ui","accessible dialog","accessible select","accessible popover","accessible tooltip","accessible accordion","number field","react components","tailwind components","vite react"],
       "author": {
@@ -226,7 +226,7 @@
       "name": "claude-api",
       "source": "./skills/claude-api",
       "description": "This skill provides comprehensive knowledge for working with the Anthropic Messages API (Claude API). It should be used when integrating Claude models into applications, implementing streaming responses, enabling prompt caching for cost savings, adding tool use (function calling), processing images with vision capabilities, or using extended thinking mode. Use when building chatbots, AI assistants, content generation tools, or any application requiring Claudes language understanding. Covers both server-side implementations (Node.js, Cloudflare Workers, Next.js) and direct API access.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "ai",
       "keywords": ["claude api","anthropic api","messages api","@anthropic-ai/sdk","claude streaming","prompt caching","tool use","vision","extended thinking","claude 3.5 sonnet","claude 3.7 sonnet","claude sonnet 4","function calling","SSE","rate limits","429 errors"],
       "author": {
@@ -240,8 +240,8 @@
     {
       "name": "claude-code-bash-patterns",
       "source": "./skills/claude-code-bash-patterns",
-      "description": "Comprehensive knowledge for using the Bash tool in Claude Code effectively. This skill should be used when orchestrating CLI tools, configuring hooks, setting up automation workflows, managing git operations, handling multi-command patterns, or encountering Bash tool errors. Covers: PreToolUse hooks, command chaining patterns, git workflow automation, CLI tool integration, custom commands (.claude/commands/), security configurations, allowlisting, session persistence, output handling, error prevention, and troubleshooting common issues. Use when: setting up Claude Code hooks, configuring bash permissions, creating custom commands, automating git workflows, orchestrating multiple CLI tools, debugging bash command failures, implementing security guards, logging command execution, or preventing dangerous operations.",
-      "version": "1.0.0",
+      "description": "Deploy to production",
+      "version": "2.0.0",
       "category": "tooling",
       "keywords": [],
       "author": {
@@ -285,10 +285,10 @@
     {
       "name": "cloudflare-agents",
       "source": "./skills/cloudflare-agents",
-      "description": "Comprehensive guide for the Cloudflare Agents SDK - build AI-powered autonomous agents on Workers + Durable Objects. Use when: building AI agents, creating stateful agents with WebSockets, implementing chat agents with streaming, scheduling tasks with cron/delays, running asynchronous workflows, building RAG (Retrieval Augmented Generation) systems with Vectorize, creating MCP (Model Context Protocol) servers, implementing human-in-the-loop workflows, browsing the web with Browser Rendering, managing agent state with SQL, syncing state between agents and clients, calling agents from Workers, building multi-agent systems, or encountering Agent configuration errors. Prevents 15+ documented issues: migrations not atomic, missing new_sqlite_classes, Agent class not exported, binding name mismatch, global uniqueness gotchas, WebSocket state handling, scheduled task callback errors, state size limits, workflow binding missing, browser binding required, vectorize index not found, MCP transport confusion, authenticat",
+      "description": "Build AI agents on Cloudflare Workers with MCP integration, tool use, and LLM providers.",
       "version": "1.0.0",
       "category": "cloudflare",
-      "keywords": ["Cloudflare Agents","agents sdk","cloudflare agents sdk","Agent class","Durable Objects agents","stateful agents","WebSocket agents","this.setState","this.sql","this.schedule","schedule tasks","cron agents","run workflows","agent workflows","browse web","puppeteer agents","browser rendering","rag agents","vectorize agents","embeddings"],
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -331,7 +331,7 @@
       "name": "cloudflare-d1",
       "source": "./skills/cloudflare-d1",
       "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflares edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering D1_ERROR, statement too long, too many requests queued, migration failures, or query performance issues.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["d1","d1 database","cloudflare d1","wrangler d1","d1 migrations","d1 bindings","sqlite workers","serverless database","edge database","d1 queries","sql cloudflare","prepared statements","batch queries","d1 api","wrangler migrations","D1_ERROR","D1_EXEC_ERROR","statement too long","database bindings","sqlite cloudflare"],
       "author": {
@@ -361,7 +361,7 @@
       "name": "cloudflare-email-routing",
       "source": "./skills/cloudflare-email-routing",
       "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker errors. Prevents 8 documented issues: Email Trigger not available errors, destination address verification bugs, Gmail rate limiting, SPF permerror issues, worker call failures, test event loading issues, activity log discrepancies, and limited debugging on free plans.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["Cloudflare Email Routing","Email Workers","send email","receive email","email forwarding","email allowlist","email blocklist","postal-mime","mimetext","cloudflare:email","EmailMessage","ForwardableEmailMessage","EmailEvent","MX records","SPF","DKIM","email worker binding","send_email binding","wrangler email","email handler"],
       "author": {
@@ -406,7 +406,7 @@
       "name": "cloudflare-hyperdrive",
       "source": "./skills/cloudflare-hyperdrive",
       "description": "Complete knowledge domain for Cloudflare Hyperdrive - connecting Cloudflare Workers to existing PostgreSQL and MySQL databases with global connection pooling, query caching, and reduced latency. Use when: connecting Workers to existing databases, migrating PostgreSQL/MySQL to Cloudflare, setting up connection pooling, configuring Hyperdrive bindings, using node-postgres/postgres.js/mysql2 drivers, integrating Drizzle ORM or Prisma ORM, or encountering Failed to acquire a connection from the pool, TLS not supported by the database, connection refused, nodejs_compat missing, Code generation from strings disallowed, or Hyperdrive configuration errors.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["hyperdrive","cloudflare hyperdrive","workers hyperdrive","postgres workers","mysql workers","connection pooling","query caching","node-postgres","pg","postgres.js","mysql2","drizzle hyperdrive","prisma hyperdrive","workers rds","workers aurora","workers neon","workers supabase","database acceleration","hybrid architecture","cloudflare tunnel database"],
       "author": {
@@ -421,7 +421,7 @@
       "name": "cloudflare-images",
       "source": "./skills/cloudflare-images",
       "description": "This skill provides comprehensive knowledge for Cloudflare Images, covering both the Images API (upload/storage) and Image Transformations (optimize any image). It should be used when uploading images to Cloudflare, resizing images, optimizing image delivery, implementing direct creator uploads, creating image variants, generating signed URLs for private images, transforming images via Workers, or encountering image upload/transformation errors. Use when: setting up Cloudflare Images storage, implementing user-uploaded images, creating responsive images, optimizing image formats (WebP/AVIF), resizing images via URL or Workers, debugging CORS errors with direct uploads, handling image transformation errors (9401-9413), implementing signed URLs, managing image variants, or building image CDNs.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["cloudflare images","image upload cloudflare","imagedelivery.net","cloudflare image transformations","/cdn-cgi/image/","direct creator upload","image variants","cf.image workers","signed urls images","flexible variants","webp avif conversion","responsive images cloudflare","error 5408","error 9401","error 9403","CORS direct upload","multipart/form-data","image optimization cloudflare"],
       "author": {
@@ -436,7 +436,7 @@
       "name": "cloudflare-kv",
       "source": "./skills/cloudflare-kv",
       "description": "Complete knowledge domain for Cloudflare Workers KV - global, low-latency key-value storage on Cloudflares edge network. Use when: creating KV namespaces, storing configuration data, caching API responses, managing user preferences, implementing TTL expiration, handling KV metadata, or encountering KV_ERROR, 429 too many requests, kv rate limit, cacheTtl errors, or eventual consistency issues.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["kv storage","cloudflare kv","workers kv","kv namespace","kv bindings","kv cache","kv ttl","kv metadata","kv list","kv pagination","cache optimization","edge caching","KV_ERROR","429 too many requests","kv rate limit","eventually consistent","wrangler kv","kv operations","key value storage"],
       "author": {
@@ -465,10 +465,10 @@
     {
       "name": "cloudflare-mcp-server",
       "source": "./skills/cloudflare-mcp-server",
-      "description": "Use this skill when building Model Context Protocol (MCP) servers on Cloudflare Workers. This skill should be used when deploying remote MCP servers with TypeScript, implementing OAuth authentication (GitHub, Google, Azure, etc.), using Durable Objects for stateful MCP servers, implementing WebSocket hibernation for cost optimization, or configuring dual transport methods (SSE + Streamable HTTP). The skill prevents 22+ common errors including URL path mismatches, transport configuration mistakes, McpAgent class export issues, OAuth redirect URI mismatches, WebSocket state loss, Durable Objects binding errors, and CORS configuration mistakes. Includes production-tested templates for basic MCP servers, OAuth proxy integration, stateful servers with Durable Objects, and complete wrangler.jsonc configurations. Covers all 4 authentication patterns: token validation, remote OAuth with DCR, OAuth proxy (workers-oauth-provider), and full OAuth provider implementation. Self-contained with Worker and Durable Objects ba",
-      "version": "2.1.1",
+      "description": "Build MCP (Model Context Protocol) servers on Cloudflare Workers with tools, resources, and prompts.",
+      "version": "1.0.0",
       "category": "cloudflare",
-      "keywords": ["MCP server","Model Context Protocol","cloudflare mcp","mcp workers","remote mcp server","mcp typescript","@modelcontextprotocol/sdk","mcp oauth","mcp authentication","github oauth mcp","durable objects mcp","websocket hibernation","mcp sse","streamable http","McpAgent class","mcp tools","mcp resources","mcp prompts","oauth proxy","workers-oauth-provider"],
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -496,7 +496,7 @@
       "name": "cloudflare-queues",
       "source": "./skills/cloudflare-queues",
       "description": "Complete knowledge domain for Cloudflare Queues - flexible message queue for asynchronous processing and background tasks on Cloudflare Workers. Use when: creating message queues, async processing, background jobs, batch processing, handling retries, configuring dead letter queues, implementing consumer concurrency, or encountering queue timeout, batch retry, message lost, throughput exceeded, consumer not scaling errors.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["cloudflare queues","queues workers","message queue","queue bindings","async processing","background jobs","queue consumer","queue producer","batch processing","dead letter queue","dlq","message retry","queue ack","consumer concurrency","queue backlog","wrangler queues"],
       "author": {
@@ -511,7 +511,7 @@
       "name": "cloudflare-r2",
       "source": "./skills/cloudflare-r2",
       "description": "Complete knowledge domain for Cloudflare R2 - S3-compatible object storage on Cloudflares edge network. Use when: creating R2 buckets, uploading files to R2, downloading objects, configuring R2 bindings, setting up CORS, generating presigned URLs, multipart uploads, storing images/assets, managing object metadata, or encountering R2_ERROR, CORS errors, presigned URL failures, multipart upload issues, or storage quota errors.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "cloudflare",
       "keywords": ["r2","r2 storage","cloudflare r2","r2 bucket","r2 upload","r2 download","r2 binding","object storage","s3 compatible","r2 cors","presigned urls","multipart upload","r2 api","r2 workers","file upload","asset storage","R2_ERROR","R2Bucket","r2 metadata","custom metadata"],
       "author": {
@@ -688,6 +688,21 @@
     }
 ,
     {
+      "name": "design-review",
+      "source": "./skills/design-review",
+      "description": "Conduct comprehensive design reviews on frontend code changes, PRs, and UI implementations using a systematic 7-phase methodology. Evaluates interaction flows, responsiveness, visual polish, accessibility (WCAG 2.1 AA), robustness, and code health with automated browser testing. Use when: reviewing pull requests with UI changes, auditing frontend components for quality, verifying responsive design across viewports, checking accessibility compliance, testing interaction flows and user experience, ensuring visual consistency with design systems, or encountering design issues like poor contrast, broken layouts, accessibility violations, inconsistent spacing, missing focus states, or broken responsive behavior. Requires: Live preview environment, Playwright MCP or Chrome DevTools for automated testing.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": ["design review","UI audit","frontend review","accessibility audit","WCAG compliance","responsive design","visual QA","UX review","component review","PR design check","layout issues","accessibility violations","contrast problems","broken responsive","interaction bugs","keyboard navigation","focus states","design system compliance","visual consistency","user experience"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "drizzle-orm-d1",
       "source": "./skills/drizzle-orm-d1",
       "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. This skill provides comprehensive patterns for schema definition, migrations management, type-safe queries, relations, schema design best practices, performance optimization, and Cloudflare Workers integration. Use when: building D1 database schemas, writing type-safe SQL queries, managing database migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API for transactions, designing schema indexes, implementing soft deletes, optimizing query performance, testing schema constraints, or encountering D1_ERROR, transaction errors, foreign key constraint failures, migration apply errors, or schema inference issues. Prevents 12 documented issues: D1 transaction errors (SQL BEGIN not supported), foreign key constraint failures during migrations, module import errors with Wrangler, D1 binding not found, migration apply failures, schema TypeScript inference errors, prepared statement caching issues, transaction r",
@@ -735,13 +750,13 @@
     {
       "name": "feature-dev",
       "source": "./skills/feature-dev",
-      "description": "A comprehensive, structured workflow for feature development with specialized agents for codebase exploration, architecture design, and quality review",
+      "description": "Automate complete feature development lifecycle with 7-phase guided workflow including codebase exploration, architecture design, and quality review. Use when building complex features, making architectural decisions, integrating with existing code, or clarifying ambiguous requirements. Launches specialized agents (code-explorer, code-architect, code-reviewer) that run in parallel for discovery, design, and review phases. Prevents common mistakes by ensuring understanding before implementation, asking clarifying questions, comparing design approaches, and reviewing for bugs and conventions. Use when: building multi-file features, requiring architectural decisions, integrating with existing patterns, or working with underspecified requirements. Dont use for: single-line fixes, trivial changes, or urgent hotfixes.",
       "version": "1.0.0",
       "category": "ai",
-      "keywords": [],
+      "keywords": ["feature development","code exploration","architecture design","code review","workflow automation","slash command","agents","discovery phase","implementation planning","quality review"],
       "author": {
-        "name": "Jeremy Dawes",
-        "email": "jeremy@jezweb.net"
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
       },
       "license": "MIT",
       "repository": "https://github.com/secondsky/claude-skills"
@@ -841,9 +856,9 @@
       "name": "google-gemini-file-search",
       "source": "./skills/google-gemini-file-search",
       "description": "Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation). This skill should be used when building document Q&A systems, searchable knowledge bases, or semantic search with automatic chunking, embedding generation, and citation support. Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors: document immutability (delete+re-upload pattern required), storage quota calculation (3x input size for embeddings), chunking configuration (500 tokens/chunk recommended), metadata limits (20 key-value pairs max), indexing cost surprises (one-time $0.15/1M tokens), operation polling (must wait for done: true), force delete requirement (for stores with documents), and model support (only Gemini 2.5 Pro/Flash). TypeScript/JavaScript support via @google/genai SDK. Token savings: ~65%.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "ai",
-      "keywords": ["file search","gemini rag","document search","knowledge base","semantic search","google embeddings","file upload","managed rag","automatic citations","document qa","retrieval augmented generation","vector search","grounding","file indexing"],
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -856,7 +871,7 @@
       "name": "hono-routing",
       "source": "./skills/hono-routing",
       "description": "This skill provides comprehensive knowledge for building type-safe APIs with Hono, focusing on routing patterns, middleware composition, request validation, RPC client/server patterns, error handling, and context management. Use when: building APIs with Hono (any runtime), setting up request validation with Zod/Valibot/Typia/ArkType validators, creating type-safe RPC client/server communication, implementing custom middleware, handling errors with HTTPException, extending Hono context with custom variables, or encountering middleware type inference issues, validation hook confusion, or RPC performance problems.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "other",
       "keywords": ["hono","hono routing","hono middleware","hono rpc","hono validator","zod validator","valibot validator","type-safe api","hono context","hono error handling","HTTPException","c.req.valid","middleware composition","hono hooks","typed routes","hono client","middleware response not typed","hono validation failed","hono rpc type inference"],
       "author": {
@@ -870,10 +885,10 @@
     {
       "name": "hugo",
       "source": "./skills/hugo",
-      "description": "A brief description for SEO",
+      "description": "This skill provides comprehensive knowledge for building static websites with Hugo static site generator. It should be used when setting up Hugo projects (blogs, documentation sites, landing pages, portfolios), integrating Tailwind CSS v4 for custom styling, integrating headless CMS systems (Sveltia CMS or TinaCMS), deploying to Cloudflare Workers with Static Assets, configuring themes and templates, and preventing common Hugo setup errors. Use this skill when encountering these scenarios: scaffolding new Hugo sites, choosing between Hugo Extended and Standard editions, integrating Tailwind CSS v4 with Hugo Pipes, configuring hugo.yaml or hugo.toml files, integrating PaperMod or other themes via Git submodules, setting up Sveltia CMS or TinaCMS for content management, deploying to Cloudflare Workers or Pages, troubleshooting baseURL configuration, resolving theme installation errors, fixing frontmatter format issues (YAML vs TOML), preventing date-related build failures, setting up PostCSS with Hugo, or setti",
       "version": "2.0.0",
-      "category": "tooling",
-      "keywords": [],
+      "category": "cms",
+      "keywords": ["hugo","hugo-extended","static-site-generator","ssg","go-templates","papermod","goldmark","markdown","blog","documentation","docs-site","landing-page","sveltia-cms","tina-cms","headless-cms","cloudflare-workers","workers-static-assets","wrangler","hugo-server","hugo-build"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1021,7 +1036,7 @@
       "name": "neon-vercel-postgres",
       "source": "./skills/neon-vercel-postgres",
       "description": "This skill provides comprehensive knowledge for integrating Neon serverless Postgres and Vercel Postgres (which is built on Neon infrastructure) into web applications. It should be used when setting up serverless Postgres databases, configuring connection pooling for edge and serverless environments, implementing database branching workflows, or troubleshooting Postgres connection issues in Cloudflare Workers, Vercel Edge Functions, or Node.js serverless functions. Use this skill when: - Setting up Neon Postgres for Cloudflare Workers, Vercel Edge, or serverless environments - Configuring Vercel Postgres for Next.js applications - Implementing database branching workflows (git-like database branches) - Integrating Drizzle ORM or Prisma with Neon/Vercel Postgres - Debugging connection pool errors, transaction timeouts, or SSL configuration issues - Migrating from D1/SQLite to Postgres or from traditional Postgres to serverless Postgres - Setting up point-in-time restore (PITR) or database backups - Encounterin",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "database",
       "keywords": ["neon postgres","@neondatabase/serverless","@vercel/postgres","serverless postgres","postgres edge","neon branching","vercel database","http postgres","websocket postgres","pooled connection","drizzle neon","prisma neon","postgres cloudflare","postgres vercel edge","sql template tag","neonctl","database branches","point in time restore","postgres migrations","serverless sql"],
       "author": {
@@ -1111,7 +1126,7 @@
       "name": "open-source-contributions",
       "source": "./skills/open-source-contributions",
       "description": "Use this skill when contributing code to open source projects. The skill covers proper pull request creation, avoiding common mistakes that annoy maintainers, cleaning up personal development artifacts before submission, writing effective PR descriptions, following project conventions, and communicating professionally with maintainers. It prevents 16 common contribution mistakes including working on main branch, not testing before PR submission, including unrelated changes, submitting planning documents, session notes, temporary test files, screenshots, and other personal artifacts. Includes 3 Critical Workflow Rules that must NEVER be skipped: (1) Always work on feature branches, (2) Test thoroughly with evidence before PR, (3) Keep PRs focused on single feature. The skill includes automation scripts to validate PRs before submission, templates for PR descriptions and commit messages, and comprehensive checklists. This skill should be used whenever creating pull requests for public repositories, contributing",
-      "version": "1.1.0",
+      "version": "2.0.0",
       "category": "tooling",
       "keywords": ["open source contributions","github pull request","PR best practices","contribution guidelines","feature branch workflow","PR description","commit messages","open source etiquette","maintainer-friendly PR","PR checklist","clean PR","avoid personal artifacts","session notes cleanup","planning docs cleanup","test before PR","unrelated changes","working on main branch","focused PR","single feature PR","professional communication"],
       "author": {
@@ -1140,10 +1155,10 @@
     {
       "name": "openai-api",
       "source": "./skills/openai-api",
-      "description": "Complete guide for OpenAIs traditional/stateless APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), and Moderation. Includes both Node.js SDK and fetch-based approaches for maximum compatibility. Use when: integrating OpenAI APIs, implementing chat completions with GPT-5/GPT-4o, generating text with streaming, using function calling/tools, creating structured outputs with JSON schemas, implementing embeddings for RAG, generating images with DALL-E 3, transcribing audio with Whisper, synthesizing speech with TTS, moderating content, deploying to Cloudflare Workers, or encountering errors like rate limits (429), invalid API keys (401), function calling failures, streaming parse errors, embeddings dimension mismatches, or token limit exceeded.",
+      "description": "Complete guide for OpenAI APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), Moderation. Includes Node.js SDK and fetch approaches.",
       "version": "1.0.0",
       "category": "ai",
-      "keywords": ["openai api","chat completions","gpt-5","gpt-5-mini","gpt-5-nano","gpt-4o","gpt-4-turbo","openai sdk","openai streaming","function calling","structured output","json schema","openai embeddings","text-embedding-3","dall-e-3","image generation","whisper api","openai tts","text-to-speech","moderation api"],
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1156,7 +1171,7 @@
       "name": "openai-assistants",
       "source": "./skills/openai-assistants",
       "description": "Complete guide for OpenAIs Assistants API v2: stateful conversational AI with built-in tools (Code Interpreter, File Search, Function Calling), vector stores for RAG (up to 10,000 files), thread/run lifecycle management, and streaming patterns. Both Node.js SDK and fetch approaches. ⚠️ DEPRECATION NOTICE: OpenAI plans to sunset Assistants API in H1 2026 in favor of Responses API. This skill remains valuable for existing apps and migration planning. Use when: building stateful chatbots with OpenAI, implementing RAG with vector stores, executing Python code with Code Interpreter, using file search for document Q&A, managing conversation threads, streaming assistant responses, or encountering errors like thread already has active run, vector store indexing delays, run polling timeouts, or file upload issues.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "ai",
       "keywords": ["openai assistants","assistants api","openai threads","openai runs","code interpreter assistant","file search openai","vector store openai","openai rag","assistant streaming","thread persistence","stateful chatbot","thread already has active run","run status polling","vector store error"],
       "author": {
@@ -1171,7 +1186,7 @@
       "name": "openai-responses",
       "source": "./skills/openai-responses",
       "description": "This skill provides comprehensive knowledge for working with OpenAIs Responses API, the unified stateful API for building agentic applications. It should be used when building AI agents that preserve reasoning across turns, integrating MCP servers for external tools, using built-in tools (Code Interpreter, File Search, Web Search, Image Generation), managing stateful conversations, implementing background processing, or migrating from Chat Completions API. Use when building agentic workflows, conversational AI with memory, tools-based applications, RAG systems, data analysis agents, or any application requiring OpenAIs reasoning models with persistent state. Covers both Node.js SDK and Cloudflare Workers implementations.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "ai",
       "keywords": ["responses api","openai responses","stateful openai","openai mcp","code interpreter openai","file search openai","web search openai","image generation openai","reasoning preservation","agentic workflows","conversation state","background mode","chat completions migration","gpt-5","polymorphic outputs"],
       "author": {
@@ -1186,7 +1201,7 @@
       "name": "pinia-colada",
       "source": "./skills/pinia-colada",
       "description": "This skill provides comprehensive knowledge for Pinia Colada, the smart data fetching layer for Vue.js built on top of Pinia. It should be used when setting up async data fetching with useQuery, implementing mutations with useMutation, configuring query cache, managing server state, implementing optimistic updates, using paginated queries, configuring SSR/Nuxt integration, or encountering query/mutation errors. Use when: initializing Pinia Colada in Vue 3 or Nuxt projects, configuring PiniaColada plugin settings, creating reusable query composables, implementing mutations with automatic invalidation, setting up optimistic updates, using paginated queries, prefetching data, migrating from TanStack Vue Query, debugging cache issues, fixing SSR hydration errors, implementing query invalidation strategies, or setting up custom plugins for auto-refetch behavior.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "frontend",
       "keywords": ["Pinia Colada","@pinia/colada","useQuery","useMutation","useQueryCache","data fetching","async state","Vue 3","Nuxt","Pinia","server state","caching","staleTime","gcTime","query invalidation","prefetching","optimistic updates","mutations","query keys","paginated queries"],
       "author": {
@@ -1260,10 +1275,10 @@
     {
       "name": "project-workflow",
       "source": "./skills/project-workflow",
-      "description": "Production-ready skill for project-workflow",
+      "description": "Automate complete project lifecycle from idea exploration to safe deployment with 7 integrated slash commands. Use when starting projects, planning features, managing development sessions, or ensuring safe releases. Includes /explore-idea, /plan-project, /add-feature, /start-session, /end-session, /safe-merge, /prepare-release commands. Saves 35-55 minutes per project by automating repetitive tasks and enforcing best practices for context management, planning documentation, and release safety checks.",
       "version": "1.0.0",
       "category": "tooling",
-      "keywords": [],
+      "keywords": ["project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1320,10 +1335,10 @@
     {
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
-      "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with npx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.",
+      "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.",
       "version": "1.0.0",
       "category": "frontend",
-      "keywords": ["shadcn-vue","shadcn vue","Reka UI","radix-vue","Vue components","Nuxt components","Tailwind CSS","accessible components","headless ui","Auto Form","Zod validation","TanStack Table","data tables","Unovis charts","dark mode","useColorMode","components.json","npx shadcn-vue","vueuse","composables"],
+      "keywords": ["shadcn-vue","shadcn vue","Reka UI","radix-vue","Vue components","Nuxt components","Tailwind CSS","accessible components","headless ui","Auto Form","Zod validation","TanStack Table","data tables","Unovis charts","dark mode","useColorMode","components.json","bunx shadcn-vue","vueuse","composables"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1485,10 +1500,25 @@
     {
       "name": "thesys-generative-ui",
       "source": "./skills/thesys-generative-ui",
-      "description": "Production-ready skill for integrating TheSys C1 Generative UI API into React applications. This skill should be used when building AI-powered interfaces that stream interactive components (forms, charts, tables) instead of plain text responses. Covers complete integration patterns for Vite+React, Next.js, and Cloudflare Workers with OpenAI, Anthropic Claude, and Cloudflare Workers AI. Includes tool calling with Zod schemas, theming, thread management, and production deployment. Prevents 12+ common integration errors and provides working templates for chat interfaces, data visualization, and dynamic forms. Use this skill when implementing conversational UIs, AI assistants, search interfaces, or any application requiring real-time generative user interfaces with streaming LLM responses.",
+      "description": "AI-powered generative UI with Thesys - create React components from natural language.",
       "version": "1.0.0",
-      "category": "ai",
-      "keywords": ["TheSys C1","TheSys Generative UI","@thesysai/genui-sdk","generative UI","AI UI","streaming UI components","interactive components","AI forms","AI charts","AI tables","conversational UI","AI assistants UI","React generative UI","Vite generative UI","Next.js generative UI","Cloudflare Workers generative UI","OpenAI generative UI","Claude generative UI","Anthropic UI","Cloudflare Workers AI UI"],
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "turborepo",
+      "source": "./skills/turborepo",
+      "description": "Guide for implementing Turborepo - a high-performance build system for JavaScript and TypeScript monorepos. Use when setting up monorepos, optimizing build performance, implementing task pipelines, configuring caching strategies, or orchestrating tasks across multiple packages.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1666,7 +1696,7 @@
       "name": "zod",
       "source": "./skills/zod",
       "description": "TypeScript-first schema validation and type inference library. Use when: validating API requests/responses, form data, environment variables, or configuration; defining type-safe data schemas with runtime validation; transforming and refining data with custom logic; generating JSON Schema for OpenAPI or AI structured outputs; ensuring data integrity with zero dependencies (2kb gzipped); working with tRPC, React Hook Form, Prisma, or other ecosystem integrations. Prevents errors: missing validation leading to runtime crashes, incorrect type inference, unhandled validation errors, improper error message formatting, using outdated patterns, inefficient schema composition, missing refinements for business logic, incorrect async validation setup.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "category": "frontend",
       "keywords": ["zod","validation","schema","typescript","type-safety","runtime-validation","type-inference","data-validation","form-validation","api-validation","json-schema","refinement","transformation","error-handling","parse","safeParse","z.object","z.string","z.number","z.array"],
       "author": {

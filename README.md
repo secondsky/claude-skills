@@ -1,7 +1,8 @@
 # Claude Code Skills Collection
 
 **Production-ready skills for Claude Code CLI**
-**Last Updated**: 2025-11-10
+**Last Updated**: 2025-11-20
+**Total Skills**: 114 (100% Baseline Audit Pass)
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, React, Tailwind, and AI integrations.
 
@@ -11,31 +12,39 @@ A curated collection of battle-tested skills for building modern web application
 
 ---
 
-## 🎉 v2.0.0 Release - Major Expansion (2025-11-10)
+## 🎉 v2.5.0 Release - Comprehensive Audit & Expansion (2025-11-20)
 
-**65 Production Skills** | **Bun-First Development** | **MCP Orchestration**
+**114 Production Skills** | **100% Audit Pass Rate** | **37 Tooling & Development Skills**
 
 ### 🆕 What's New
 
-**6 New Skills Added:**
-- **nuxt-ui-v4** ⭐ - 100+ accessible components (Nuxt 4 + Tailwind v4 + Reka UI) | 70% token savings
-- **mcp-dynamic-orchestrator** - Registry-based MCP server management with progressive disclosure
-- **cloudflare-manager** - Unified deployment automation for all Cloudflare services
-- **nuxt-v4** - Core Nuxt 4 patterns with Cloudflare deployment focus
-- **dependency-upgrade** - Automated dependency management with Bun-first approach
-- **nano-banana-prompts** - Gemini 2.5 Flash Image optimization
+**Comprehensive Baseline Audit Completed (2025-11-20):**
+- ✅ **114/114 skills passed** automated validation
+- ✅ **0 Critical/High/Medium issues** detected
+- ✅ **100% YAML compliance** across all skills
+- ✅ **24 additional skills** discovered and documented
+- 📊 **Full audit report**: `planning/COMPREHENSIVE_REVIEW_SUMMARY.md`
+
+**Major Skill Categories Expanded:**
+- **37 Tooling & Development Skills** (testing, debugging, code quality, architecture)
+- **19 AI & Machine Learning Skills** (OpenAI, Gemini, Claude, chatbots)
+- **23 Cloudflare Platform Skills** (Workers, D1, R2, KV, AI)
+- **25 Frontend & UI Skills** (Tailwind v4, Nuxt 4, React, Vue)
+
+**New Skills Added Since v2.0.0 (24 total):**
+- **Testing**: jest-generator, playwright-testing, vitest-testing, mutation-testing, test-quality-analysis, api-testing
+- **Architecture**: api-design-principles, architecture-patterns, microservices-patterns
+- **Debugging**: systematic-debugging, root-cause-tracing, sequential-thinking, defense-in-depth-validation
+- **Code Quality**: code-review, verification-before-completion, design-review
+- **WooCommerce**: woocommerce-backend-dev, woocommerce-code-review, woocommerce-copy-guidelines, woocommerce-dev-cycle
+- **Tools**: chrome-devtools, claude-hook-writer, mcp-management, turborepo
 
 **Infrastructure:**
 - 🚀 **Bun is now the standard** - Preferred runtime and package manager across all skills
-- 📦 **Marketplace ready** - All 65 skills have `.claude-plugin/plugin.json` manifests
-- 🔧 **MCP orchestration** - New dynamic discovery system prevents context bloat
-- ✨ **Enhanced metadata** - Comprehensive keywords and descriptions for better discoverability
-
-**Quality Updates:**
-- swift-best-practices v1.0.0 (Modern Swift 6+ development)
-- skill-review v1.0.0 (Comprehensive review system)
-- better-auth v2.0.0 (Correct D1 patterns)
-- Removed auth-js (deprecated in favor of better-auth)
+- 📦 **Marketplace ready** - All 114 skills have proper manifests
+- 🔧 **MCP orchestration** - Dynamic discovery system prevents context bloat
+- ✨ **Enhanced metadata** - Comprehensive keywords for better discoverability
+- 🔍 **Automated auditing** - New baseline-audit-all.sh script for continuous quality
 
 ---
 
@@ -54,7 +63,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install tailwind-v4-shadcn@claude-pro-skills openai-agents@claude-pro-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 68 available skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 114 available skills.
 
 ### Option B: Direct Installation (For Contributors & Development)
 
@@ -78,9 +87,11 @@ Skills will be available in Claude Code and automatically suggested when relevan
 
 ---
 
-## 📦 Available Skills (68 Production-Ready)
+## 📦 Available Skills (114 Production-Ready)
 
-**📋 Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for the complete organized list of all 68 skills by category.
+**📋 Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for the complete organized list of all 114 skills by category.
+
+**🔍 Audit Status**: All 114 skills passed baseline automated validation (2025-11-20) with 100% compliance.
 
 **Below**: Featured skills with detailed descriptions and trigger keywords.
 

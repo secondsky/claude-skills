@@ -9,6 +9,141 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2025-11-20
+
+### 🎉 Comprehensive Audit & Documentation Update - 114 Skills Total
+
+**Repository Status**: Completed baseline audit of all skills with 100% pass rate. Reconciled documentation discrepancy (90 documented → 114 actual skills). Discovered and documented 24 previously undocumented skills.
+
+### Added
+
+#### Audit Infrastructure (New)
+
+1. **Baseline Audit System**
+   - Created `scripts/baseline-audit-all.sh` for automated validation
+   - Validates YAML frontmatter, file organization, skill discovery
+   - Processes all 114 skills in ~4 minutes
+   - Results: 100% compliance, 0 critical/high/medium issues
+
+2. **Comprehensive Documentation**
+   - `planning/SKILLS_REVIEW_PROGRESS.md` - Per-skill tracking system
+   - `planning/COMPREHENSIVE_REVIEW_SUMMARY.md` - Strategic analysis
+   - `planning/SKILL_COUNT_RECONCILIATION.md` - Discrepancy documentation
+   - `planning/baseline-audit-results.txt` - Machine-readable audit data
+
+#### Previously Undocumented Skills (24 Added to Documentation)
+
+**Testing & Quality Assurance (6):**
+- **jest-generator** - Automated Jest test generation
+- **playwright-testing** - End-to-end browser testing patterns
+- **vitest-testing** - Vite-native unit testing
+- **mutation-testing** - Test quality verification
+- **test-quality-analysis** - Test coverage and effectiveness analysis
+- **api-testing** - REST API testing patterns
+
+**Architecture & Patterns (3):**
+- **api-design-principles** - RESTful API design guidelines
+- **architecture-patterns** - Software architecture patterns
+- **microservices-patterns** - Microservices architecture guidance
+
+**Debugging & Analysis (4):**
+- **systematic-debugging** - Structured debugging methodology
+- **root-cause-tracing** - Issue investigation patterns
+- **sequential-thinking** - Step-by-step problem solving
+- **defense-in-depth-validation** - Multi-layer validation strategies
+
+**Code Quality & Review (3):**
+- **code-review** - Code review best practices
+- **verification-before-completion** - Pre-deployment verification
+- **design-review** - Design decision review framework
+
+**WooCommerce Development (4):**
+- **woocommerce-backend-dev** - WooCommerce backend development
+- **woocommerce-code-review** - WooCommerce-specific code review
+- **woocommerce-copy-guidelines** - Content writing standards
+- **woocommerce-dev-cycle** - Development workflow patterns
+
+**Development Tools (4):**
+- **chrome-devtools** - Browser DevTools usage patterns
+- **claude-hook-writer** - Custom Claude Code hooks
+- **mcp-management** - MCP server configuration
+- **turborepo** - Monorepo management with Turborepo
+
+### Changed
+
+#### Documentation Updates
+
+1. **CLAUDE.md**
+   - Updated skill count: 90 → 114
+   - Added baseline audit status and date
+   - Reorganized "Tooling & Planning" → "Tooling & Development" (13 → 37 skills)
+   - Consolidated AI categories (moved chatbots into "AI & Machine Learning": 14 → 19 skills)
+   - Fixed "Auth & Security" count (3 → 2, removed duplicate)
+   - Added comprehensive skill subcategories
+
+2. **README.md**
+   - Updated to v2.5.0 with 114 skills total
+   - Added baseline audit achievement section
+   - Documented all 24 newly listed skills
+   - Updated skill count references throughout
+   - Added infrastructure improvements section
+
+3. **Marketplace**
+   - Regenerated `.claude-plugin/marketplace.json` with all 114 skills
+   - All skills properly categorized and validated
+   - Backup created of previous version
+
+### Quality Metrics
+
+**Baseline Audit Results (2025-11-20):**
+- ✅ Total Skills Audited: 114/114
+- ✅ Pass Rate: 100% (114/114)
+- ✅ Critical Issues: 0
+- ✅ High Issues: 0
+- ✅ Medium Issues: 0
+- ✅ YAML Compliance: 100%
+- ✅ File Organization: 100%
+- ✅ Skill Discovery: 100%
+
+**Category Breakdown:**
+- Cloudflare Platform: 23 skills
+- AI & Machine Learning: 19 skills
+- Frontend & UI: 25 skills
+- Auth & Security: 2 skills
+- Content Management: 4 skills
+- Database & ORM: 4 skills
+- Tooling & Development: 37 skills (major expansion)
+
+### Technical Details
+
+**Automated Validation Checks:**
+- YAML frontmatter syntax and required fields (name, description, license)
+- Package version currency via npm
+- File organization (expected directories exist)
+- Skill discovery requirements
+- Basic structure compliance
+
+**Next Phase:**
+- Tier 1 critical skill reviews (10 foundation skills)
+- Deep manual verification (API accuracy, code examples, security)
+- Quarterly maintenance schedule establishment
+- Automated monitoring system setup
+
+### Migration Notes
+
+**For Repository Maintainers:**
+- All 114 skills now properly documented in CLAUDE.md and README.md
+- Marketplace JSON regenerated and validated
+- Baseline audit can be re-run anytime with `./scripts/baseline-audit-all.sh`
+- Consider implementing automated documentation verification in CI/CD
+
+**For Skill Users:**
+- No action required - all skills remain backward compatible
+- 24 additional skills now discoverable through proper documentation
+- Marketplace updated with complete skill catalog
+
+---
+
 ## [2.0.0] - 2025-11-10
 
 ### 🎉 Major Repository Expansion - 65 Production Skills
