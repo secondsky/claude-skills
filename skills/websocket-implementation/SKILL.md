@@ -176,6 +176,27 @@ See [references/python-websocket.md](references/python-websocket.md) for:
 | 10K-100K | Redis pub/sub |
 | >100K | Sharded Redis + load balancer |
 
+## Monitoring Endpoints
+
+```javascript
+// Express endpoints for operational visibility
+app.get('/api/ws/stats', (req, res) => {
+  res.json({
+    activeConnections: io.sockets.sockets.size,
+    rooms: [...io.sockets.adapter.rooms.keys()],
+    users: users.size
+  });
+});
+
+app.get('/api/ws/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    uptime: process.uptime(),
+    memoryUsage: process.memoryUsage()
+  });
+});
+```
+
 ## Best Practices
 
 - Authenticate before allowing operations

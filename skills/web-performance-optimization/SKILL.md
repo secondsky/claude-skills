@@ -143,6 +143,14 @@ gzip_comp_level 6;
 - [ ] Monitor Core Web Vitals
 - [ ] Minimize render-blocking resources
 
+## Additional Configuration
+
+See [references/compression-monitoring.md](references/compression-monitoring.md) for:
+- Webpack compression plugin setup
+- Apache .htaccess compression config
+- TTFB monitoring implementation
+- Puppeteer automation for measurement
+
 ## Tools
 
 - Lighthouse / PageSpeed Insights
