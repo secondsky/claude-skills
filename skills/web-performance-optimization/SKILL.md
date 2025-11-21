@@ -153,9 +153,11 @@ new PerformanceObserver((list) => {
 | Metric | Good | Needs Improvement |
 |--------|------|-------------------|
 | LCP | <2.5s | 2.5-4s |
-| FID | <100ms | 100-300ms |
+| INP | <200ms | 200-500ms |
 | CLS | <0.1 | 0.1-0.25 |
 | TTI | <3.8s | 3.8-7.3s |
+
+**Note:** INP (Interaction to Next Paint) replaced FID (First Input Delay) as a Core Web Vital in March 2024. INP provides a more comprehensive measure of page responsiveness by capturing the full duration of interactions, not just the input delay.
 
 ## Compression (Nginx)
 
