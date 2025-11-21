@@ -87,7 +87,7 @@ validate_skill_exists() {
     error "Skill '$skill' not found in $SKILLS_DIR"
     echo ""
     echo "Available skills:"
-    ls -1 "$SKILLS_DIR" 2>/dev/null | head -10
+    ls -1 "$SKILLS_DIR" 2>/dev/null | /usr/bin/head -10
     exit 1
   fi
 
@@ -111,7 +111,7 @@ check_yaml_frontmatter() {
   echo "📋 Checking YAML frontmatter..."
 
   # Extract frontmatter (between --- markers)
-  local frontmatter=$(sed -n '/^---$/,/^---$/p' "$skill_file" | head -n -1 | tail -n +2)
+  local frontmatter=$(sed -n '/^---$/,/^---$/p' "$skill_file" | sed '1d;$d')
 
   if [ -z "$frontmatter" ]; then
     error "No YAML frontmatter found"
@@ -152,7 +152,7 @@ check_yaml_frontmatter() {
   fi
 
   # Check name matches directory
-  local yaml_name=$(echo "$frontmatter" | grep "^name:" | head -1 | sed 's/name:[[:space:]]*//')
+  local yaml_name=$(echo "$frontmatter" | grep "^name:" | /usr/bin/head -1 | sed 's/name:[[:space:]]*//')
   local dir_name=$(basename "$(dirname "$skill_file")")
 
   if [ "$yaml_name" != "$dir_name" ]; then
@@ -238,7 +238,7 @@ check_broken_links() {
   echo "🔗 Checking for broken links..."
 
   # Extract URLs from markdown files
-  local urls=$(grep -rhoE 'https?://[^)"\s]+' "$skill_dir" 2>/dev/null | sort -u | head -20)
+  local urls=$(grep -rhoE 'https?://[^)"\s]+' "$skill_dir" 2>/dev/null | sort -u | /usr/bin/head -20)
 
   if [ -z "$urls" ]; then
     info "No HTTP links found"
@@ -294,7 +294,7 @@ check_todo_markers() {
 
   local count=$(echo "$todos" | wc -l)
   warning "Found $count TODO/FIXME marker(s):"
-  echo "$todos" | head -5 | while read -r line; do
+  echo "$todos" | /usr/bin/head -5 | while read -r line; do
     echo "  $line"
   done
 
