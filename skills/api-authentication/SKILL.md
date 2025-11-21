@@ -67,6 +67,13 @@ app.use((req, res, next) => {
 });
 ```
 
+## Additional Implementations
+
+See [references/python-flask.md](references/python-flask.md) for:
+- Flask JWT with role-based access control decorators
+- OAuth 2.0 Google integration with Authlib
+- API key authentication with secure hashing
+
 ## Common Mistakes to Avoid
 
 - Storing plain-text passwords

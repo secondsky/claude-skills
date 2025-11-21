@@ -77,6 +77,13 @@ app.use(session({
 - Implement token expiration (1 hour typical)
 - Combine multiple defense layers
 
+## Additional Implementations
+
+See [references/python-react.md](references/python-react.md) for:
+- Flask-WTF complete CSRF setup
+- React hooks for CSRF token management
+- Double submit cookie pattern
+
 ## Common Mistakes
 
 - Assuming authentication prevents CSRF

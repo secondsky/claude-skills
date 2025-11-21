@@ -64,6 +64,14 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self'" alway
 - [ ] Referrer-Policy configured
 - [ ] Permissions-Policy disables unused features
 
+## Additional Implementations
+
+See [references/python-apache.md](references/python-apache.md) for:
+- Python Flask security headers middleware
+- Flask-Talisman library configuration
+- Apache .htaccess configuration
+- Header testing script
+
 ## Common Mistakes
 
 - Setting CSP to report-only permanently
