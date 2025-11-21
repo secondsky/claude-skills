@@ -59,6 +59,22 @@ io.on('connection', (socket) => {
     users.delete(socket.user.id);
   });
 });
+
+// Utility methods for message distribution
+function broadcastUserUpdate(userId, data) {
+  io.to(`user:${userId}`).emit('user-update', data);
+}
+
+function notifyRoom(roomId, event, data) {
+  io.to(`room:${roomId}`).emit(event, data);
+}
+
+function sendDirectMessage(userId, message) {
+  const socketId = users.get(userId);
+  if (socketId) {
+    io.to(socketId).emit('direct-message', message);
+  }
+}
 ```
 
 ## Client Implementation
@@ -200,11 +216,16 @@ app.get('/api/ws/health', (req, res) => {
 ## Best Practices
 
 - Authenticate before allowing operations
-- Implement reconnection with backoff
-- Use rooms for targeted broadcasting
+- Implement reconnection with exponential backoff
+- Use rooms and channels for targeted broadcasting
 - Add heartbeat/ping for connection health
 - Persist important messages to database
-- Monitor connection counts
+- Monitor active connection counts
+- Display user presence/availability status
+- Implement rate limiting on incoming messages
+- Use acknowledgments to confirm message delivery
+- Leverage Redis for distributed deployments
+- Implement comprehensive error handling
 
 ## Never Do
 
@@ -213,3 +234,9 @@ app.get('/api/ws/health', (req, res) => {
 - Skip authorization on room joins
 - Ignore connection error handling
 - Allow unbounded room subscriptions
+- Neglect cleanup of disconnected user data
+- Send frequent oversized message payloads
+- Include authentication credentials in message bodies
+- Deploy without security validation
+- Allow uncontrolled connection accumulation
+- Build without scalability consideration
