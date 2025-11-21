@@ -90,10 +90,18 @@ def comment_view(request):
 ```
 
 ```html
-<!-- Django template - auto-escaped -->
+<!-- Django template - auto-escaped by default -->
 <p>{{ user_input }}</p>
 
-<!-- Only use autoescape off with sanitized content -->
+<!-- For pre-sanitized content (like Comment.content), use |safe filter -->
+<!-- Since clean_user_html() already sanitized it, safe to render -->
+{% for comment in comments %}
+    <div class="comment">
+        {{ comment.content|safe }}
+    </div>
+{% endfor %}
+
+<!-- Alternative: use autoescape off for blocks of sanitized content -->
 {% autoescape off %}
     {{ already_sanitized_html }}
 {% endautoescape %}
@@ -106,7 +114,7 @@ import re
 from urllib.parse import urlparse
 
 def validate_url(url):
-    """Validate URL is safe to use"""
+    """Validate URL is safe to use. Returns url if valid, None otherwise."""
     try:
         parsed = urlparse(url)
         if parsed.scheme not in ('http', 'https'):
@@ -118,14 +126,37 @@ def validate_url(url):
         return None
 
 def validate_username(username):
-    """Alphanumeric usernames only"""
+    """Validate alphanumeric username (3-30 chars). Returns username if valid, None otherwise."""
+    if not isinstance(username, str):
+        return None
     if re.match(r'^[a-zA-Z0-9_]{3,30}$', username):
         return username
-    raise ValueError('Invalid username format')
+    return None
 
 def sanitize_filename(filename):
-    """Remove path traversal characters"""
-    return re.sub(r'[^\w\-.]', '', filename)
+    """Remove path traversal and unsafe characters. Returns sanitized filename or None if empty."""
+    if not isinstance(filename, str):
+        return None
+    sanitized = re.sub(r'[^\w\-.]', '', filename)
+    # Return None if sanitization resulted in empty string
+    return sanitized if sanitized else None
+
+# Usage example
+url = validate_url(user_input)
+if url:
+    # Safe to use
+    redirect(url)
+else:
+    # Invalid URL
+    return error("Invalid URL")
+
+username = validate_username(user_input)
+if username:
+    # Valid username
+    save_user(username)
+else:
+    # Invalid username
+    return error("Invalid username format")
 ```
 
 ## CSP with Flask
