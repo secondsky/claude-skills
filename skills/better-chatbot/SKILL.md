@@ -23,9 +23,9 @@ metadata:
 # better-chatbot Contribution & Standards Skill
 
 **Status**: Production Ready
-**Last Updated**: 2025-11-04 (v2.1.0 - Added extension points + UX patterns)
+**Last Updated**: 2025-11-21 (v2.1.0 - Added extension points + UX patterns)
 **Dependencies**: None (references better-chatbot project)
-**Latest Versions**: Next.js 15.3.2, Vercel AI SDK 5.0.82, Better Auth 1.3.34, Drizzle ORM 0.41.0
+**Latest Versions**: Next.js 16.0.3, Vercel AI SDK 5.0.98, Better Auth 1.3.34, Drizzle ORM 0.41.0
 
 ---
 

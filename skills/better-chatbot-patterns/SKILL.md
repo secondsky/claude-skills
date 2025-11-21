@@ -20,9 +20,9 @@ metadata:
 # better-chatbot-patterns
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Dependencies**: None
-**Latest Versions**: next@15.3.2, ai@5.0.82, zod@3.24.2, zustand@5.0.3
+**Latest Versions**: next@16.0.3, ai@5.0.98, zod@3.24.2, zustand@5.0.8
 
 ---
 

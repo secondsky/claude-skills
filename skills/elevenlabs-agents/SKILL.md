@@ -7,17 +7,17 @@ description: |
 license: MIT
 metadata:
   version: 1.1.0
-  last_updated: 2025-11-03
+  last_updated: 2025-11-21
   production_tested: true
   packages:
     - name: "@elevenlabs/elevenlabs-js"
-      version: 2.21.0
+      version: 2.25.0
     - name: "@elevenlabs/agents-cli"
       version: 0.2.0
     - name: "@elevenlabs/react"
-      version: 0.9.1
+      version: 0.11.0
     - name: "@elevenlabs/client"
-      version: 0.9.1
+      version: 0.11.0
     - name: "@elevenlabs/react-native"
       version: 0.5.2
   documentation:
