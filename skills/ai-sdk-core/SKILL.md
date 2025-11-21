@@ -20,6 +20,23 @@ license: MIT
 
 Production-ready backend AI with Vercel AI SDK v5.
 
+**Last Updated**: 2025-11-21
+
+## Table of Contents
+1. [Quick Start](#quick-start-5-minutes)
+2. [Core Functions](#core-functions)
+3. [Provider Setup & Configuration](#provider-setup--configuration)
+4. [Tool Calling & Agents](#tool-calling--agents)
+5. [Critical v4→v5 Migration](#critical-v4v5-migration)
+6. [Top 12 Errors & Solutions](#top-12-errors--solutions)
+7. [Production Best Practices](#production-best-practices)
+8. [When to Use This Skill](#when-to-use-this-skill)
+9. [Dependencies & Versions](#dependencies--versions)
+10. [Links to Official Documentation](#links-to-official-documentation)
+11. [Templates & References](#templates--references)
+
+---
+
 ## Quick Start (5 Minutes)
 
 ### Installation
@@ -1700,22 +1717,22 @@ See Vercel's official deployment documentation: https://vercel.com/docs/function
 ```json
 {
   "dependencies": {
-    "ai": "^5.0.81",
-    "@ai-sdk/openai": "^2.0.56",
-    "@ai-sdk/anthropic": "^2.0.38",
-    "@ai-sdk/google": "^2.0.24",
+    "ai": "^5.0.98",
+    "@ai-sdk/openai": "^2.0.71",
+    "@ai-sdk/anthropic": "^2.0.45",
+    "@ai-sdk/google": "^2.0.40",
     "workers-ai-provider": "^2.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "typescript": "^5.3.3"
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3"
   }
 }
 ```
 
 **Version Notes:**
-- AI SDK v5.0.81+ (stable, latest as of October 2025)
+- AI SDK v5.0.98+ (stable, latest as of November 2025)
 - v6 is in beta - not covered in this skill
 - **Zod compatibility**: This skill uses Zod 3.x, but AI SDK 5 officially supports both Zod 3.x and Zod 4.x (4.1.12 latest)
   - Zod 4 recommended for new projects (released August 2025)

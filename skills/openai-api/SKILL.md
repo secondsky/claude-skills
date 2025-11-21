@@ -6,7 +6,7 @@ license: MIT
 
 # OpenAI API
 
-**Package**: openai@6.7.0 | **Last Updated**: 2025-10-25
+**Package**: openai@6.9.1 | **Last Updated**: 2025-11-21
 
 ## Quick Start
 

@@ -7,8 +7,8 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_verified: 2025-10-24
-  nextjs_version: 16.0.0
+  last_verified: 2025-11-21
+  nextjs_version: 16.0.3
   react_version: 19.2.0
   node_version: 20.9+
   author: Claude Skills Maintainers
@@ -21,10 +21,25 @@ allowed-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep"]
 
 # Next.js App Router - Production Patterns
 
-**Version**: Next.js 16.0.0
+**Version**: Next.js 16.0.3
 **React Version**: 19.2.0
 **Node.js**: 20.9+
-**Last Verified**: 2025-10-24
+**Last Verified**: 2025-11-21
+
+## Table of Contents
+1. [When to Use This Skill](#when-to-use-this-skill)
+2. [When NOT to Use This Skill](#when-not-to-use-this-skill)
+3. [Next.js 16 Breaking Changes](#nextjs-16-breaking-changes)
+4. [Cache Components & Caching APIs](#cache-components--caching-apis)
+5. [Server Components](#server-components)
+6. [Server Actions](#server-actions)
+7. [Route Handlers](#route-handlers)
+8. [React 19.2 Features](#react-192-features)
+9. [Metadata API](#metadata-api)
+10. [Image & Font Optimization](#image--font-optimization)
+11. [Top 5 Critical Errors](#top-5-critical-errors)
+12. [Performance Patterns](#performance-patterns)
+13. [TypeScript Configuration](#typescript-configuration)
 
 ---
 

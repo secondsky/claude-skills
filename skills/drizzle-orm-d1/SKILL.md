@@ -30,8 +30,8 @@ license: MIT
 # Drizzle ORM for Cloudflare D1
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-11-16
-**Latest Version**: drizzle-orm@0.44.7, drizzle-kit@0.31.5
+**Last Updated**: 2025-11-21
+**Latest Version**: drizzle-orm@0.44.7, drizzle-kit@0.31.7
 **Dependencies**: cloudflare-d1, cloudflare-worker-base
 
 ---
@@ -574,7 +574,7 @@ const newUser: NewUser = {
 
 **Required**:
 - `drizzle-orm@0.44.7` - ORM runtime
-- `drizzle-kit@0.31.5` - CLI tool for migrations
+- `drizzle-kit@0.31.7` - CLI tool for migrations
 
 **Optional**:
 - `better-sqlite3@12.4.1` - For local SQLite development

@@ -9,15 +9,15 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  last_verified: "2025-11-18"
-  sdk_version: "@anthropic-ai/sdk@0.67.0"
+  last_verified: "2025-11-21"
+  sdk_version: "@anthropic-ai/sdk@0.70.1"
   templates_included: 12
   references_included: 7
 ---
 
 # Claude API (Anthropic Messages API)
 
-**Status**: Production Ready | **SDK**: @anthropic-ai/sdk@0.67.0
+**Status**: Production Ready | **SDK**: @anthropic-ai/sdk@0.70.1
 
 ---
 

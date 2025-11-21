@@ -21,8 +21,22 @@ license: MIT
 # Cloudflare Worker Base Stack
 
 **Production-tested**: cloudflare-worker-base-test (https://cloudflare-worker-base-test.webfonts.workers.dev)
-**Last Updated**: 2025-10-20
+**Last Updated**: 2025-11-20
 **Status**: Production Ready ✅
+
+---
+
+## Table of Contents
+
+1. [Quick Start (5 Minutes)](#quick-start-5-minutes)
+2. [Configuration Deep Dive](#configuration-deep-dive)
+3. [Common Issues & Solutions](#common-issues--solutions)
+4. [Development Workflow](#development-workflow)
+5. [Deployment](#deployment)
+6. [Advanced Patterns](#advanced-patterns)
+7. [Troubleshooting](#troubleshooting)
+8. [Templates](#templates)
+9. [Production Example](#production-example)
 
 ---
 
@@ -50,15 +64,15 @@ npm create cloudflare@latest my-worker -- \
 
 ```bash
 cd my-worker
-bun add hono@4.10.1  # preferred
-# or: bun add hono@4.10.1
-bun add -d @cloudflare/vite-plugin@1.13.13 vite@latest
-# or: bun add -d @cloudflare/vite-plugin@1.13.13 vite@latest
+bun add hono@4.10.6  # preferred
+# or: npm add hono@4.10.6
+bun add -d @cloudflare/vite-plugin@1.15.2 vite@latest
+# or: npm add -d @cloudflare/vite-plugin@1.15.2 vite@latest
 ```
 
 **Version Notes:**
-- `hono@4.10.1`: Latest stable (verified 2025-10-20)
-- `@cloudflare/vite-plugin@1.13.13`: Latest stable, fixes HMR race condition
+- `hono@4.10.6`: Minimum recommended version (verified 2025-11-20)
+- `@cloudflare/vite-plugin@1.15.2`: Minimum recommended version, includes HMR fixes
 - `vite`: Latest version compatible with Cloudflare plugin
 
 ### 3. Configure Wrangler
@@ -110,7 +124,7 @@ export default defineConfig({
 - Official plugin from Cloudflare
 - Supports HMR with Workers
 - Enables local development with Miniflare
-- Version 1.13.13 fixes "A hanging Promise was canceled" error
+- Version 1.15.2 fixes "A hanging Promise was canceled" error
 
 ---
 
@@ -301,7 +315,7 @@ export default {
 ### Issue #4: HMR Race Condition
 **Error**: "A hanging Promise was canceled" during development
 **Source**: [workers-sdk #9518](https://github.com/cloudflare/workers-sdk/issues/9518)
-**Prevention**: Use `@cloudflare/vite-plugin@1.13.13` or later
+**Prevention**: Use `@cloudflare/vite-plugin@1.15.2` or later
 
 ### Issue #5: Static Assets Upload Race
 **Error**: Non-deterministic deployment failures in CI/CD
@@ -597,7 +611,7 @@ wrangler deployments list
 ## Complete Setup Checklist
 
 - [ ] Project scaffolded with `npm create cloudflare@latest`
-- [ ] Dependencies installed: `hono@4.10.1`, `@cloudflare/vite-plugin@1.13.13`
+- [ ] Dependencies installed: `hono@4.10.6`, `@cloudflare/vite-plugin@1.15.2`
 - [ ] `wrangler.jsonc` created with:
   - [ ] `account_id` set to your Cloudflare account
   - [ ] `assets.directory` pointing to `./public/`
@@ -736,15 +750,15 @@ For deeper understanding, see:
 
 ---
 
-## Dependencies (Latest Verified 2025-10-20)
+## Dependencies (Verified 2025-11-20)
 
 ```json
 {
   "dependencies": {
-    "hono": "^4.10.1"
+    "hono": "^4.10.6"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.13.13",
+    "@cloudflare/vite-plugin": "^1.15.2",
     "@cloudflare/workers-types": "^4.20251011.0",
     "vite": "^7.0.0",
     "wrangler": "^4.43.0",

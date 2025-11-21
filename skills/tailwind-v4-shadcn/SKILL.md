@@ -22,8 +22,23 @@ license: MIT
 # Tailwind v4 + shadcn/ui Production Stack
 
 **Production-tested**: WordPress Auditor (https://wordpress-auditor.webfonts.workers.dev)
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Status**: Production Ready ✅
+
+## Table of Contents
+1. [Before You Start](#-before-you-start-read-this)
+2. [Quick Start](#quick-start-5-minutes---follow-this-exact-order)
+3. [Four-Step Architecture](#the-four-step-architecture-critical)
+4. [Dark Mode Setup](#dark-mode-setup)
+5. [Critical Rules](#critical-rules-must-follow)
+6. [Semantic Color Tokens](#semantic-color-tokens)
+7. [Common Issues & Fixes](#common-issues--quick-fixes)
+8. [File Templates](#file-templates)
+9. [Setup Checklist](#complete-setup-checklist)
+10. [Advanced Topics](#advanced-topics)
+11. [Dependencies](#dependencies)
+12. [Tailwind v4 Plugins](#tailwind-v4-plugins)
+13. [Reference Documentation](#reference-documentation)
 
 ---
 
@@ -453,20 +468,20 @@ See `reference/migration-guide.md` for complete v3 → v4 migration steps.
 ```json
 {
   "dependencies": {
-    "tailwindcss": "^4.1.14",
-    "@tailwindcss/vite": "^4.1.14",
+    "tailwindcss": "^4.1.17",
+    "@tailwindcss/vite": "^4.1.17",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.1",
     "@radix-ui/react-*": "latest",
-    "lucide-react": "^0.545.0",
+    "lucide-react": "^0.554.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.0",
-    "@vitejs/plugin-react": "^5.0.4",
-    "vite": "^7.0.0",
-    "typescript": "~5.9.0"
+    "@types/node": "^24.10.1",
+    "@vitejs/plugin-react": "^5.1.1",
+    "vite": "^7.2.4",
+    "typescript": "~5.9.3"
   }
 }
 ```
@@ -618,7 +633,7 @@ This skill is based on the WordPress Auditor project:
 - **Live**: https://wordpress-auditor.webfonts.workers.dev
 - **Stack**: Vite + React 19 + Tailwind v4 + shadcn/ui + Cloudflare Workers
 - **Dark Mode**: Full system/light/dark support
-- **Version**: Tailwind v4.1.14 + shadcn/ui latest (Oct 2025)
+- **Version**: Tailwind v4.1.17 + shadcn/ui latest (Nov 2025)
 
 All patterns in this skill have been validated in production.
 
