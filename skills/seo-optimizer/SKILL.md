@@ -76,6 +76,10 @@ const readabilityMetrics = {
 - Content freshness (current examples, recent data)
 - Clear answer to user intent
 
+### 6. Provide Actionable Recommendations
+
+Organize findings into prioritized action items based on impact and implementation effort.
+
 ## Priority Levels
 
 ### Critical (Fix Immediately) 🚨
@@ -124,12 +128,24 @@ const readabilityMetrics = {
 
 ## Content Gaps
 - Missing subtopics
-- Competitor insights
 - Coverage recommendations
+- Topic expansion opportunities
+
+## Competitor Insights
+- Top ranking pages analysis
+- Word count comparison
+- Unique angles they cover
+- Our competitive advantage
 
 ## Implementation Checklist
 - [ ] Action item 1
 - [ ] Action item 2
+
+## Estimated Impact
+- **Time to Implement**: X hours
+- **Expected Improvement**: [Moderate/Significant] ranking boost
+- **Priority**: [High/Medium/Low]
+- **Timeframe**: [Weeks until results]
 ```
 
 ## Best Practices
