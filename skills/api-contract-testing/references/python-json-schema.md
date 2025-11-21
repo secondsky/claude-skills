@@ -195,7 +195,167 @@ class TestOrderAPIContract:
         response = api_client.get("/api/orders")
         orders = response.json()["data"]
 
-        valid_statuses = {"pending", "processing", "shipped", "delivered", "cancelled"}
+        # DRY: Derive valid statuses from schema instead of hard-coding
+        valid_statuses = set(ORDER_SCHEMA["properties"]["status"]["enum"])
         for order in orders:
             assert order["status"] in valid_statuses
+```
+
+## Mock-Based Unit Tests
+
+For faster, more reliable tests that don't depend on live endpoints, use mocking:
+
+```python
+from unittest.mock import Mock, patch
+import pytest
+
+class TestUserAPIContractWithMocks:
+    """Unit tests using mocked responses - faster and more reliable than integration tests."""
+
+    def test_get_user_matches_schema_with_mock(self, validator):
+        # Mock response data
+        mock_user_data = {
+            "id": "123",
+            "email": "test@example.com",
+            "name": "Test User",
+            "createdAt": "2024-01-15T10:30:00Z"
+        }
+
+        # Validate against schema without hitting real API
+        is_valid, error = validator.validate("user", mock_user_data)
+        assert is_valid, f"Response doesn't match user schema: {error}"
+
+    @patch('requests.Session.get')
+    def test_list_users_with_mock_response(self, mock_get, validator):
+        # Mock the HTTP response
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "data": [
+                {
+                    "id": "123",
+                    "email": "user1@example.com",
+                    "name": "User One",
+                    "createdAt": "2024-01-15T10:30:00Z"
+                },
+                {
+                    "id": "124",
+                    "email": "user2@example.com",
+                    "name": "User Two",
+                    "createdAt": "2024-01-15T11:00:00Z"
+                }
+            ],
+            "pagination": {
+                "page": 1,
+                "limit": 10,
+                "total": 2,
+                "totalPages": 1
+            }
+        }
+        mock_get.return_value = mock_response
+
+        # Create client and make request (will use mocked response)
+        client = APIClient()
+        response = client.get("/api/users?page=1&limit=10")
+
+        # Verify schema validation
+        data = response.json()
+        is_valid, error = validator.validate("paginated", data)
+        assert is_valid, f"Response doesn't match paginated schema: {error}"
+
+        # Validate each user
+        for user in data["data"]:
+            is_valid, error = validator.validate("user", user)
+            assert is_valid, f"User in list doesn't match schema: {error}"
+
+    @patch('requests.Session.post')
+    def test_create_user_with_mock(self, mock_post, validator):
+        # Mock successful creation
+        mock_response = Mock()
+        mock_response.status_code = 201
+        mock_response.json.return_value = {
+            "id": "125",
+            "email": "newuser@example.com",
+            "name": "New User",
+            "createdAt": "2024-01-15T12:00:00Z"
+        }
+        mock_post.return_value = mock_response
+
+        client = APIClient()
+        response = client.post("/api/users", {
+            "email": "newuser@example.com",
+            "name": "New User"
+        })
+
+        assert response.status_code == 201
+        is_valid, error = validator.validate("user", response.json())
+        assert is_valid, f"Created user doesn't match schema: {error}"
+
+
+class TestOrderAPIContractWithMocks:
+    """Unit tests for Order API using mocks."""
+
+    def test_order_status_values_with_mock(self, validator):
+        """Verify status validation without live API."""
+        # Derive valid statuses from schema (DRY principle)
+        valid_statuses = set(ORDER_SCHEMA["properties"]["status"]["enum"])
+
+        # Test valid status values
+        for status in valid_statuses:
+            mock_order = {
+                "id": "456",
+                "userId": "123",
+                "items": [
+                    {
+                        "productId": "prod-1",
+                        "quantity": 2,
+                        "price": 29.99
+                    }
+                ],
+                "total": 59.98,
+                "status": status,
+                "createdAt": "2024-01-15T10:30:00Z"
+            }
+            is_valid, error = validator.validate("order", mock_order)
+            assert is_valid, f"Order with status '{status}' should be valid: {error}"
+
+        # Test invalid status value
+        invalid_order = {
+            "id": "457",
+            "userId": "123",
+            "items": [{"productId": "prod-1", "quantity": 1, "price": 19.99}],
+            "total": 19.99,
+            "status": "invalid_status",  # Not in enum
+            "createdAt": "2024-01-15T10:30:00Z"
+        }
+        is_valid, error = validator.validate("order", invalid_order)
+        assert not is_valid, "Order with invalid status should fail validation"
+        assert "enum" in error.lower() or "invalid_status" in error
+
+    @patch('requests.Session.get')
+    def test_get_order_with_mock(self, mock_get, validator):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "id": "456",
+            "userId": "123",
+            "items": [
+                {
+                    "productId": "prod-1",
+                    "quantity": 2,
+                    "price": 29.99
+                }
+            ],
+            "total": 59.98,
+            "status": "processing",
+            "createdAt": "2024-01-15T10:30:00Z"
+        }
+        mock_get.return_value = mock_response
+
+        client = APIClient()
+        response = client.get("/api/orders/456")
+
+        assert response.status_code == 200
+        is_valid, error = validator.validate("order", response.json())
+        assert is_valid, f"Response doesn't match order schema: {error}"
 ```
