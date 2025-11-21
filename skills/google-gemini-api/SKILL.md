@@ -22,7 +22,7 @@ license: MIT
 # Google Gemini API - Complete Guide
 
 **Package**: @google/genai@1.27.0 (⚠️ NOT @google/generative-ai)
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-11-21
 
 ---
 

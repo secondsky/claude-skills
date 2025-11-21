@@ -14,10 +14,24 @@ license: MIT
 # Cloudflare Durable Objects
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
 **Dependencies**: cloudflare-worker-base (recommended)
 **Latest Versions**: wrangler@4.43.0+, @cloudflare/workers-types@4.20251014.0+
 **Official Docs**: https://developers.cloudflare.com/durable-objects/
+
+## Table of Contents
+1. [What are Durable Objects?](#what-are-durable-objects)
+2. [Quick Start](#quick-start-10-minutes)
+3. [Durable Object Class Structure](#durable-object-class-structure)
+4. [State API](#state-api---persistent-storage)
+5. [WebSocket Hibernation API](#websocket-hibernation-api)
+6. [Alarms API](#alarms-api---scheduled-tasks)
+7. [RPC vs HTTP Fetch](#rpc-vs-http-fetch)
+8. [Creating Stubs and Routing](#creating-durable-object-stubs-and-routing)
+9. [Migrations](#migrations---managing-do-classes)
+10. [Common Patterns](#common-patterns)
+11. [Critical Rules](#critical-rules)
+12. [Known Issues Prevention](#known-issues-prevention)
 
 ---
 

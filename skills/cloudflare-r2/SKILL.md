@@ -25,7 +25,17 @@ metadata:
 
 # Cloudflare R2 Object Storage
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-18
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-21
+
+## Table of Contents
+1. [Quick Start](#quick-start-5-minutes)
+2. [Core R2 Workers API](#core-r2-workers-api)
+3. [Critical Rules](#critical-rules)
+4. [Top 5 Use Cases](#top-5-use-cases)
+5. [CORS Configuration](#cors-configuration)
+6. [Error Handling](#error-handling)
+7. [Known Issues Prevented](#known-issues-prevented)
+8. [Wrangler Commands](#wrangler-commands)
 
 ---
 

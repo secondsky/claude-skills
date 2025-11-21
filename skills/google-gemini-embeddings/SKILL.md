@@ -7,7 +7,7 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_updated: 2025-10-25
+  last_updated: 2025-11-21
   tested_package_version: "@google/genai@1.27.0"
   target_audience: "Developers building RAG, semantic search, or vector-based applications"
   complexity: intermediate

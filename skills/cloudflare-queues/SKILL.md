@@ -25,7 +25,7 @@ metadata:
 # Cloudflare Queues
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-11-21
 **Dependencies**: cloudflare-worker-base (for Worker setup)
 **Latest Versions**: wrangler@4.43.0, @cloudflare/workers-types@4.20251014.0
 

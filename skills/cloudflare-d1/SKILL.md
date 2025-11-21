@@ -26,7 +26,18 @@ metadata:
 
 # Cloudflare D1 Database
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-18
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-21
+
+## Table of Contents
+1. [What Is D1?](#what-is-d1)
+2. [Quick Start](#quick-start-5-minutes)
+3. [Critical Rules](#critical-rules)
+4. [D1 API Methods](#d1-api-methods)
+5. [Top 5 Use Cases](#top-5-use-cases)
+6. [Migrations Best Practices](#migrations-best-practices)
+7. [Common Patterns](#common-patterns)
+8. [SQLite Type Affinity](#sqlite-type-affinity)
+9. [Top 5 Errors Prevented](#top-5-errors-prevented)
 
 ---
 
