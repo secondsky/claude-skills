@@ -12,7 +12,7 @@ license: MIT
 # Firecrawl Web Scraper Skill
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-24
+**Last Updated**: 2025-11-21
 **Official Docs**: https://docs.firecrawl.dev
 **API Version**: v2
 

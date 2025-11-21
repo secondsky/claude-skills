@@ -21,7 +21,7 @@ metadata:
 
 # Hugo Static Site Generator
 
-**Status**: Production Ready | **Last Updated**: 2025-11-04
+**Status**: Production Ready | **Last Updated**: 2025-11-21
 **Latest Version**: hugo@0.152.2+extended | **Build Speed**: <100ms
 
 ---
