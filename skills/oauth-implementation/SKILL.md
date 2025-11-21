@@ -83,6 +83,14 @@ function generatePKCE() {
 - Implement token rotation
 - Use short-lived access tokens (15 min)
 
+## Additional Implementations
+
+See [references/python-java.md](references/python-java.md) for:
+- Python Flask with Authlib OIDC provider
+- OpenID Connect discovery and JWKS endpoints
+- Java Spring Security OAuth2 server
+- Token introspection and revocation
+
 ## Never Do
 
 - Store tokens in localStorage

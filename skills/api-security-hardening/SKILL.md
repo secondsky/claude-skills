@@ -74,6 +74,14 @@ app.use((req, res, next) => {
 - [ ] Audit logging enabled
 - [ ] Dependencies regularly updated
 
+## Additional Implementations
+
+See [references/python-nginx.md](references/python-nginx.md) for:
+- Python FastAPI security middleware
+- Pydantic input validation with password rules
+- Nginx SSL/TLS and security headers configuration
+- HTTP Parameter Pollution prevention
+
 ## Never Do
 
 - Trust user input without validation
