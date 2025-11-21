@@ -12,7 +12,7 @@ license: MIT
 # Cloudflare Turnstile
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
 **Dependencies**: None (optional: @marsidev/react-turnstile for React)
 **Latest Versions**: @marsidev/react-turnstile@1.3.1, turnstile-types@1.2.3
 

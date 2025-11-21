@@ -12,9 +12,9 @@ license: MIT
 # Cloudflare Sandboxes SDK
 
 **Status**: Production Ready (Open Beta)
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Dependencies**: `cloudflare-worker-base`, `cloudflare-durable-objects` (recommended for understanding)
-**Latest Versions**: `@cloudflare/sandbox@0.4.12`, Docker image: `cloudflare/sandbox:0.4.12`
+**Latest Versions**: `@cloudflare/sandbox@0.5.1`, Docker image: `cloudflare/sandbox:0.5.1`
 
 ---
 
@@ -35,7 +35,7 @@ bun add @cloudflare/sandbox@latest  # preferred
   "compatibility_flags": ["nodejs_compat"],
   "containers": [{
     "class_name": "Sandbox",
-    "image": "cloudflare/sandbox:0.4.12",
+    "image": "cloudflare/sandbox:0.5.1",
     "instance_type": "lite"
   }],
   "durable_objects": {
@@ -524,7 +524,7 @@ This skill prevents **10** documented issues:
 
   "containers": [{
     "class_name": "Sandbox",
-    "image": "cloudflare/sandbox:0.4.12",
+    "image": "cloudflare/sandbox:0.5.1",
     "instance_type": "lite"
   }],
 

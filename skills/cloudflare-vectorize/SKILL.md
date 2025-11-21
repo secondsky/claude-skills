@@ -24,9 +24,9 @@ license: MIT
 Complete implementation guide for Cloudflare Vectorize - a globally distributed vector database for building semantic search, RAG (Retrieval Augmented Generation), and AI-powered applications with Cloudflare Workers.
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-11-21
 **Dependencies**: cloudflare-worker-base (for Worker setup), cloudflare-workers-ai (for embeddings)
-**Latest Versions**: wrangler@4.43.0, @cloudflare/workers-types@4.20251014.0
+**Latest Versions**: wrangler@4.50.0, @cloudflare/workers-types@4.20251014.0
 **Token Savings**: ~65%
 **Errors Prevented**: 8
 **Dev Time Saved**: ~3 hours

@@ -7,11 +7,11 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_verified: 2025-10-21
+  last_verified: 2025-11-21
   package_versions:
-    "@opennextjs/cloudflare": "^1.3.0"
-    "next": "^14.2.0 || ^15.0.0"
-    "wrangler": "latest"
+    "@opennextjs/cloudflare": "^1.13.1"
+    "next": "^14.2.0 || ^15.0.0 || ^16.0.0"
+    "wrangler": "^4.50.0"
   compatibility_requirements:
     compatibility_date: "2025-05-05"
     compatibility_flags: ["nodejs_compat"]

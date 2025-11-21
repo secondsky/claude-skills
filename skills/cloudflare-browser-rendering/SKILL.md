@@ -26,9 +26,9 @@ license: MIT
 Production-ready knowledge domain for building browser automation workflows with Cloudflare Browser Rendering.
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
 **Dependencies**: cloudflare-worker-base (for Worker setup)
-**Latest Versions**: @cloudflare/puppeteer@1.0.4, @cloudflare/playwright@1.0.0, wrangler@4.43.0
+**Latest Versions**: @cloudflare/puppeteer@1.0.4, @cloudflare/playwright@1.0.0, wrangler@4.50.0
 
 ---
 

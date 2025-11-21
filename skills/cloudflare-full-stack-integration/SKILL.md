@@ -18,13 +18,13 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_updated: 2025-10-23
+  last_updated: 2025-11-21
   packages:
-    - "@clerk/clerk-react: 5.53.3"
-    - "@clerk/backend: 2.19.0"
-    - "hono: 4.10.2"
-    - "vite: 7.1.11"
-    - "@cloudflare/vite-plugin: 1.13.14"
+    - "@clerk/clerk-react: 5.56.1"
+    - "@clerk/backend: 2.23.1"
+    - "hono: 4.10.6"
+    - "vite: 7.2.4"
+    - "@cloudflare/vite-plugin: 1.15.2"
   production_tested: true
   token_savings: "60-70%"
   errors_prevented: "6+ common integration errors"

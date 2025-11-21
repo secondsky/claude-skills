@@ -6,7 +6,7 @@ license: MIT
 
 # Cloudflare Agents
 
-**Last Updated**: 2025-11-10
+**Last Updated**: 2025-11-21
 
 ## Quick Start
 

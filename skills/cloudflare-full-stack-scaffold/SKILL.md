@@ -20,19 +20,19 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_updated: 2025-10-23
+  last_updated: 2025-11-21
   packages:
     - "react: ^19.2.0"
     - "react-router-dom: ^7.1.3"
-    - "hono: ^4.10.2"
-    - "@cloudflare/vite-plugin: ^1.13.14"
-    - "ai: ^5.0.76"
-    - "@ai-sdk/openai: ^1.0.0"
-    - "@ai-sdk/anthropic: ^1.0.0"
+    - "hono: ^4.10.6"
+    - "@cloudflare/vite-plugin: ^1.15.2"
+    - "ai: ^5.0.98"
+    - "@ai-sdk/openai: ^2.0.71"
+    - "@ai-sdk/anthropic: ^2.0.45"
     - "workers-ai-provider: ^2.0.0"
-    - "@ai-sdk/react: ^2.0.76"
-    - "@clerk/clerk-react: ^5.53.3"
-    - "tailwindcss: ^4.1.14"
+    - "@ai-sdk/react: ^2.0.88"
+    - "@clerk/clerk-react: ^5.56.1"
+    - "tailwindcss: ^4.1.17"
   production_tested: true
   token_savings: "75-80%"
   errors_prevented: "12+ setup and configuration errors"
