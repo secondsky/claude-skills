@@ -30,10 +30,11 @@ Production-ready backend AI with Vercel AI SDK v5.
 5. [Critical v4→v5 Migration](#critical-v4v5-migration)
 6. [Top 12 Errors & Solutions](#top-12-errors--solutions)
 7. [Production Best Practices](#production-best-practices)
-8. [When to Use This Skill](#when-to-use-this-skill)
-9. [Dependencies & Versions](#dependencies--versions)
-10. [Links to Official Documentation](#links-to-official-documentation)
-11. [Templates & References](#templates--references)
+8. [When to Load References](#when-to-load-references)
+9. [When to Use This Skill](#when-to-use-this-skill)
+10. [Dependencies & Versions](#dependencies--versions)
+11. [Links to Official Documentation](#links-to-official-documentation)
+12. [Templates & References](#templates--references)
 
 ---
 
@@ -112,27 +113,20 @@ console.log(result.object);
 
 ## Core Functions
 
-### generateText()
+**Load `references/core-functions.md` for complete API reference** of all 4 core functions.
 
-Generate text completion with optional tools and multi-step execution.
+### Quick Overview
 
-**Signature:**
+AI SDK v5 provides 4 core functions:
 
-```typescript
-async function generateText(options: {
-  model: LanguageModel;
-  prompt?: string;
-  messages?: Array<ModelMessage>;
-  system?: string;
-  tools?: Record<string, Tool>;
-  maxOutputTokens?: number;
-  temperature?: number;
-  stopWhen?: StopCondition;
-  // ... other options
-}): Promise<GenerateTextResult>
-```
+| Function | Output | Streaming | Use Case |
+|----------|--------|-----------|----------|
+| `generateText()` | Text | No | Batch processing, simple completions |
+| `streamText()` | Text | Yes | Chat UIs, long responses |
+| `generateObject()` | Structured | No | Data extraction, JSON generation |
+| `streamObject()` | Structured | Yes | Real-time forms, progressive UIs |
 
-**Basic Usage:**
+### Basic Example
 
 ```typescript
 import { generateText } from 'ai';
@@ -141,44 +135,73 @@ import { openai } from '@ai-sdk/openai';
 const result = await generateText({
   model: openai('gpt-4-turbo'),
   prompt: 'Explain quantum computing',
-  maxOutputTokens: 500,
-  temperature: 0.7,
 });
 
 console.log(result.text);
-console.log(`Tokens: ${result.usage.totalTokens}`);
 ```
 
-**With Messages (Chat Format):**
+**→ Load `references/core-functions.md` for:** Complete signatures, tool usage patterns, error handling, streaming examples, comparison table
+
+---
+
+## Provider Setup & Configuration
+
+**Load `references/provider-setup.md` for complete setup instructions** for all providers.
+
+### Quick Overview
+
+AI SDK v5 supports 4 major providers:
+
+| Provider | Environment Variable | Latest Models |
+|----------|---------------------|---------------|
+| OpenAI | `OPENAI_API_KEY` | GPT-5, GPT-4 Turbo |
+| Anthropic | `ANTHROPIC_API_KEY` | Claude Sonnet 4.5, Opus 4 |
+| Google | `GOOGLE_GENERATIVE_AI_API_KEY` | Gemini 2.5 Pro/Flash |
+| Cloudflare | Workers AI binding | Llama 3.1, Qwen 2.5 |
+
+### Basic Setup
 
 ```typescript
+import { openai } from '@ai-sdk/openai';
+import { generateText } from 'ai';
+
+// API key from environment
 const result = await generateText({
   model: openai('gpt-4-turbo'),
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'What is the weather?' },
-    { role: 'assistant', content: 'I need your location.' },
-    { role: 'user', content: 'San Francisco' },
-  ],
+  prompt: 'Hello',
 });
 ```
 
-**With Tools:**
+**→ Load `references/provider-setup.md` for:** Complete API configuration, rate limiting, error handling, Cloudflare Workers optimization, model selection guides
+
+---
+
+## Tool Calling & Agents
+
+**Load `references/tools-and-agents.md` for complete tool and agent documentation**.
+
+### Quick Overview
+
+Tools allow models to call external functions. Agents manage multi-step workflows.
+
+**v5 Tool Changes:**
+- `parameters` → `inputSchema` (Zod schema)
+- Tool properties: `args` → `input`, `result` → `output`
+- `maxSteps` → `stopWhen(stepCountIs(n))`
+
+### Basic Tool Example
 
 ```typescript
-import { tool } from 'ai';
+import { generateText, tool } from 'ai';
 import { z } from 'zod';
 
 const result = await generateText({
   model: openai('gpt-4'),
   tools: {
     weather: tool({
-      description: 'Get the weather for a location',
-      inputSchema: z.object({
-        location: z.string(),
-      }),
+      description: 'Get weather for a location',
+      inputSchema: z.object({ location: z.string() }),
       execute: async ({ location }) => {
-        // API call here
         return { temperature: 72, condition: 'sunny' };
       },
     }),
@@ -187,861 +210,30 @@ const result = await generateText({
 });
 ```
 
-**When to Use:**
-- Need final response (not streaming)
-- Want to wait for tool executions to complete
-- Simpler code when streaming not needed
-- Building batch/scheduled tasks
-
-**Error Handling:**
-
-```typescript
-import { AI_APICallError, AI_NoContentGeneratedError } from 'ai';
-
-try {
-  const result = await generateText({
-    model: openai('gpt-4-turbo'),
-    prompt: 'Hello',
-  });
-  console.log(result.text);
-} catch (error) {
-  if (error instanceof AI_APICallError) {
-    console.error('API call failed:', error.message);
-    // Check rate limits, API key, network
-  } else if (error instanceof AI_NoContentGeneratedError) {
-    console.error('No content generated');
-    // Prompt may have been filtered
-  } else {
-    console.error('Unknown error:', error);
-  }
-}
-```
-
----
-
-### streamText()
-
-Stream text completion with real-time chunks.
-
-**Signature:**
-
-```typescript
-function streamText(options: {
-  model: LanguageModel;
-  prompt?: string;
-  messages?: Array<ModelMessage>;
-  system?: string;
-  tools?: Record<string, Tool>;
-  maxOutputTokens?: number;
-  temperature?: number;
-  stopWhen?: StopCondition;
-  // ... other options
-}): StreamTextResult
-```
-
-**Basic Streaming:**
-
-```typescript
-import { streamText } from 'ai';
-import { anthropic } from '@ai-sdk/anthropic';
-
-const stream = streamText({
-  model: anthropic('claude-sonnet-4-5-20250929'),
-  prompt: 'Write a poem about AI',
-});
-
-// Stream to console
-for await (const chunk of stream.textStream) {
-  process.stdout.write(chunk);
-}
-
-// Or get final result
-const finalResult = await stream.result;
-console.log(finalResult.text);
-```
-
-**Streaming with Tools:**
-
-```typescript
-const stream = streamText({
-  model: openai('gpt-4'),
-  tools: {
-    // ... tools definition
-  },
-  prompt: 'What is the weather?',
-});
-
-// Stream text chunks
-for await (const chunk of stream.textStream) {
-  process.stdout.write(chunk);
-}
-```
-
-**Handling the Stream:**
-
-```typescript
-const stream = streamText({
-  model: openai('gpt-4-turbo'),
-  prompt: 'Explain AI',
-});
-
-// Option 1: Text stream
-for await (const text of stream.textStream) {
-  console.log(text);
-}
-
-// Option 2: Full stream (includes metadata)
-for await (const part of stream.fullStream) {
-  if (part.type === 'text-delta') {
-    console.log(part.textDelta);
-  } else if (part.type === 'tool-call') {
-    console.log('Tool called:', part.toolName);
-  }
-}
-
-// Option 3: Wait for final result
-const result = await stream.result;
-console.log(result.text, result.usage);
-```
-
-**When to Use:**
-- Real-time user-facing responses
-- Long-form content generation
-- Want to show progress
-- Better perceived performance
-
-**Production Pattern:**
-
-```typescript
-// Next.js API Route
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-export async function POST(request: Request) {
-  const { messages } = await request.json();
-
-  const stream = streamText({
-    model: openai('gpt-4-turbo'),
-    messages,
-  });
-
-  // Return stream to client
-  return stream.toDataStreamResponse();
-}
-```
-
-**Error Handling:**
-
-```typescript
-// Recommended: Use onError callback (added in v4.1.22)
-const stream = streamText({
-  model: openai('gpt-4-turbo'),
-  prompt: 'Hello',
-  onError({ error }) {
-    console.error('Stream error:', error);
-    // Custom error handling
-  },
-});
-
-for await (const chunk of stream.textStream) {
-  process.stdout.write(chunk);
-}
-
-// Alternative: Manual try-catch
-try {
-  const stream = streamText({
-    model: openai('gpt-4-turbo'),
-    prompt: 'Hello',
-  });
-
-  for await (const chunk of stream.textStream) {
-    process.stdout.write(chunk);
-  }
-} catch (error) {
-  console.error('Stream error:', error);
-}
-```
-
----
-
-### generateObject()
-
-Generate structured output validated by Zod schema.
-
-**Signature:**
-
-```typescript
-async function generateObject<T>(options: {
-  model: LanguageModel;
-  schema: z.Schema<T>;
-  prompt?: string;
-  messages?: Array<ModelMessage>;
-  system?: string;
-  mode?: 'auto' | 'json' | 'tool';
-  // ... other options
-}): Promise<GenerateObjectResult<T>>
-```
-
-**Basic Usage:**
-
-```typescript
-import { generateObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
-
-const result = await generateObject({
-  model: openai('gpt-4'),
-  schema: z.object({
-    recipe: z.object({
-      name: z.string(),
-      ingredients: z.array(z.object({
-        name: z.string(),
-        amount: z.string(),
-      })),
-      instructions: z.array(z.string()),
-    }),
-  }),
-  prompt: 'Generate a recipe for chocolate chip cookies',
-});
-
-console.log(result.object.recipe);
-```
-
-**Nested Schemas:**
-
-```typescript
-const PersonSchema = z.object({
-  name: z.string(),
-  age: z.number(),
-  address: z.object({
-    street: z.string(),
-    city: z.string(),
-    country: z.string(),
-  }),
-  hobbies: z.array(z.string()),
-});
-
-const result = await generateObject({
-  model: openai('gpt-4'),
-  schema: PersonSchema,
-  prompt: 'Generate a person profile',
-});
-```
-
-**Arrays and Unions:**
-
-```typescript
-// Array of objects
-const result = await generateObject({
-  model: openai('gpt-4'),
-  schema: z.object({
-    people: z.array(z.object({
-      name: z.string(),
-      role: z.enum(['engineer', 'designer', 'manager']),
-    })),
-  }),
-  prompt: 'Generate a team of 5 people',
-});
-
-// Union types
-const result = await generateObject({
-  model: openai('gpt-4'),
-  schema: z.discriminatedUnion('type', [
-    z.object({ type: z.literal('text'), content: z.string() }),
-    z.object({ type: z.literal('image'), url: z.string() }),
-  ]),
-  prompt: 'Generate content',
-});
-```
-
-**When to Use:**
-- Need structured data (JSON, forms, etc.)
-- Validation is critical
-- Extracting data from unstructured input
-- Building AI workflows that consume JSON
-
-**Error Handling:**
-
-```typescript
-import { AI_NoObjectGeneratedError, AI_TypeValidationError } from 'ai';
-
-try {
-  const result = await generateObject({
-    model: openai('gpt-4'),
-    schema: z.object({ name: z.string() }),
-    prompt: 'Generate a person',
-  });
-} catch (error) {
-  if (error instanceof AI_NoObjectGeneratedError) {
-    console.error('Model did not generate valid object');
-    // Try simplifying schema or adding examples
-  } else if (error instanceof AI_TypeValidationError) {
-    console.error('Zod validation failed:', error.message);
-    // Schema doesn't match output
-  }
-}
-```
-
----
-
-### streamObject()
-
-Stream structured output with partial updates.
-
-**Signature:**
-
-```typescript
-function streamObject<T>(options: {
-  model: LanguageModel;
-  schema: z.Schema<T>;
-  prompt?: string;
-  messages?: Array<ModelMessage>;
-  mode?: 'auto' | 'json' | 'tool';
-  // ... other options
-}): StreamObjectResult<T>
-```
-
-**Basic Usage:**
-
-```typescript
-import { streamObject } from 'ai';
-import { google } from '@ai-sdk/google';
-import { z } from 'zod';
-
-const stream = streamObject({
-  model: google('gemini-2.5-pro'),
-  schema: z.object({
-    characters: z.array(z.object({
-      name: z.string(),
-      class: z.string(),
-      stats: z.object({
-        hp: z.number(),
-        mana: z.number(),
-      }),
-    })),
-  }),
-  prompt: 'Generate 3 RPG characters',
-});
-
-// Stream partial updates
-for await (const partialObject of stream.partialObjectStream) {
-  console.log(partialObject);
-  // { characters: [{ name: "Aria" }] }
-  // { characters: [{ name: "Aria", class: "Mage" }] }
-  // { characters: [{ name: "Aria", class: "Mage", stats: { hp: 100 } }] }
-  // ...
-}
-```
-
-**UI Integration Pattern:**
-
-```typescript
-// Server endpoint
-export async function POST(request: Request) {
-  const { prompt } = await request.json();
-
-  const stream = streamObject({
-    model: openai('gpt-4'),
-    schema: z.object({
-      summary: z.string(),
-      keyPoints: z.array(z.string()),
-    }),
-    prompt,
-  });
-
-  return stream.toTextStreamResponse();
-}
-
-// Client (with useObject hook from ai-sdk-ui)
-const { object, isLoading } = useObject({
-  api: '/api/analyze',
-  schema: /* same schema */,
-});
-
-// Render partial object as it streams
-{object?.summary && <p>{object.summary}</p>}
-{object?.keyPoints?.map(point => <li key={point}>{point}</li>)}
-```
-
-**When to Use:**
-- Real-time structured data (forms, dashboards)
-- Show progressive completion
-- Large structured outputs
-- Better UX for slow generations
-
----
-
-## Provider Setup & Configuration
-
-### OpenAI
-
-```typescript
-import { openai } from '@ai-sdk/openai';
-import { generateText } from 'ai';
-
-// API key from environment (recommended)
-// OPENAI_API_KEY=sk-...
-const model = openai('gpt-4-turbo');
-
-// Or explicit API key
-const model = openai('gpt-4', {
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// Available models
-const gpt5 = openai('gpt-5');           // Latest (released August 2025)
-const gpt4 = openai('gpt-4-turbo');
-const gpt35 = openai('gpt-3.5-turbo');
-
-const result = await generateText({
-  model: gpt4,
-  prompt: 'Hello',
-});
-```
-
-**Common Errors:**
-- `AI_LoadAPIKeyError`: Check `OPENAI_API_KEY` environment variable
-- `429 Rate Limit`: Implement exponential backoff, upgrade tier
-- `401 Unauthorized`: Invalid API key format
-
-**Rate Limiting:**
-OpenAI enforces RPM (requests per minute) and TPM (tokens per minute) limits. Implement retry logic:
-
-```typescript
-const result = await generateText({
-  model: openai('gpt-4'),
-  prompt: 'Hello',
-  maxRetries: 3,  // Built-in retry
-});
-```
-
----
-
-### Anthropic
-
-```typescript
-import { anthropic } from '@ai-sdk/anthropic';
-
-// ANTHROPIC_API_KEY=sk-ant-...
-const claude = anthropic('claude-sonnet-4-5-20250929');
-
-// Available models (Claude 4.x family, released 2025)
-const sonnet45 = anthropic('claude-sonnet-4-5-20250929');  // Latest, recommended
-const sonnet4 = anthropic('claude-sonnet-4-20250522');     // Released May 2025
-const opus4 = anthropic('claude-opus-4-20250522');         // Highest quality
-
-// Legacy models (Claude 3.x, deprecated)
-// const sonnet35 = anthropic('claude-3-5-sonnet-20241022');  // Use Claude 4.x instead
-// const opus3 = anthropic('claude-3-opus-20240229');
-// const haiku3 = anthropic('claude-3-haiku-20240307');
-
-const result = await generateText({
-  model: sonnet45,
-  prompt: 'Explain quantum entanglement',
-});
-```
-
-**Common Errors:**
-- `AI_LoadAPIKeyError`: Check `ANTHROPIC_API_KEY` environment variable
-- `overloaded_error`: Retry with exponential backoff
-- `rate_limit_error`: Wait and retry
-
-**Best Practices:**
-- Claude excels at long-context tasks (200K+ tokens)
-- **Claude 4.x recommended**: Anthropic deprecated Claude 3.x in 2025
-- Use Sonnet 4.5 for balance of speed/quality (latest model)
-- Use Sonnet 4 for production stability (if avoiding latest)
-- Use Opus 4 for highest quality reasoning and complex tasks
-
----
-
-### Google
-
-```typescript
-import { google } from '@ai-sdk/google';
-
-// GOOGLE_GENERATIVE_AI_API_KEY=...
-const gemini = google('gemini-2.5-pro');
-
-// Available models (all GA since June-July 2025)
-const pro = google('gemini-2.5-pro');
-const flash = google('gemini-2.5-flash');
-const lite = google('gemini-2.5-flash-lite');
-
-const result = await generateText({
-  model: pro,
-  prompt: 'Analyze this data',
-});
-```
-
-**Common Errors:**
-- `AI_LoadAPIKeyError`: Check `GOOGLE_GENERATIVE_AI_API_KEY`
-- `SAFETY`: Content filtered by safety settings
-- `QUOTA_EXCEEDED`: Rate limit hit
-
-**Best Practices:**
-- Gemini Pro: Best for reasoning and analysis
-- Gemini Flash: Fast, cost-effective for most tasks
-- Free tier has generous limits
-- Good for multimodal tasks (combine with image inputs)
-
----
-
-### Cloudflare Workers AI
-
-```typescript
-import { Hono } from 'hono';
-import { generateText } from 'ai';
-import { createWorkersAI } from 'workers-ai-provider';
-
-interface Env {
-  AI: Ai;
-}
-
-const app = new Hono<{ Bindings: Env }>();
-
-app.post('/chat', async (c) => {
-  // Create provider inside handler (avoid startup overhead)
-  const workersai = createWorkersAI({ binding: c.env.AI });
-
-  const result = await generateText({
-    model: workersai('@cf/meta/llama-3.1-8b-instruct'),
-    prompt: 'What is Cloudflare?',
-  });
-
-  return c.json({ response: result.text });
-});
-
-export default app;
-```
-
-**wrangler.jsonc:**
-
-```jsonc
-{
-  "name": "ai-sdk-worker",
-  "compatibility_date": "2025-10-21",
-  "ai": {
-    "binding": "AI"
-  }
-}
-```
-
-**Important Notes:**
-
-**Startup Optimization:**
-AI SDK v5 + Zod can cause >270ms startup time in Workers. Solutions:
-
-1. **Move imports inside handler:**
-```typescript
-// BAD (startup overhead)
-import { createWorkersAI } from 'workers-ai-provider';
-const workersai = createWorkersAI({ binding: env.AI });
-
-// GOOD (lazy init)
-app.post('/chat', async (c) => {
-  const { createWorkersAI } = await import('workers-ai-provider');
-  const workersai = createWorkersAI({ binding: c.env.AI });
-  // ...
-});
-```
-
-2. **Minimize top-level Zod schemas:**
-```typescript
-// Move complex schemas into route handlers
-```
-
-**When to Use workers-ai-provider:**
-- Multi-provider scenarios (OpenAI + Workers AI)
-- Using AI SDK UI hooks with Workers AI
-- Need consistent API across providers
-
-**When to Use Native Binding:**
-For Cloudflare-only deployments without multi-provider support, use the `cloudflare-workers-ai` skill instead for maximum performance.
-
----
-
-## Tool Calling & Agents
-
-### Basic Tool Definition
-
-```typescript
-import { generateText, tool } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
-
-const result = await generateText({
-  model: openai('gpt-4'),
-  tools: {
-    weather: tool({
-      description: 'Get the weather for a location',
-      inputSchema: z.object({
-        location: z.string().describe('The city and country, e.g. "Paris, France"'),
-        unit: z.enum(['celsius', 'fahrenheit']).optional(),
-      }),
-      execute: async ({ location, unit = 'celsius' }) => {
-        // Simulate API call
-        const data = await fetch(`https://api.weather.com/${location}`);
-        return { temperature: 72, condition: 'sunny', unit };
-      },
-    }),
-    convertTemperature: tool({
-      description: 'Convert temperature between units',
-      inputSchema: z.object({
-        value: z.number(),
-        from: z.enum(['celsius', 'fahrenheit']),
-        to: z.enum(['celsius', 'fahrenheit']),
-      }),
-      execute: async ({ value, from, to }) => {
-        if (from === to) return { value };
-        if (from === 'celsius' && to === 'fahrenheit') {
-          return { value: (value * 9/5) + 32 };
-        }
-        return { value: (value - 32) * 5/9 };
-      },
-    }),
-  },
-  prompt: 'What is the weather in Tokyo in Fahrenheit?',
-});
-
-console.log(result.text);
-// Model will call weather tool, potentially convertTemperature, then answer
-```
-
-**v5 Tool Changes:**
-- `parameters` → `inputSchema` (Zod schema)
-- Tool properties: `args` → `input`, `result` → `output`
-- `ToolExecutionError` removed (now `tool-error` content parts)
-
----
-
-### Agent Class
-
-The Agent class simplifies multi-step execution with tools.
-
-```typescript
-import { Agent, tool } from 'ai';
-import { anthropic } from '@ai-sdk/anthropic';
-import { z } from 'zod';
-
-const weatherAgent = new Agent({
-  model: anthropic('claude-sonnet-4-5-20250929'),
-  system: 'You are a weather assistant. Always convert temperatures to the user\'s preferred unit.',
-  tools: {
-    getWeather: tool({
-      description: 'Get current weather for a location',
-      inputSchema: z.object({
-        location: z.string(),
-      }),
-      execute: async ({ location }) => {
-        return { temp: 72, condition: 'sunny', unit: 'fahrenheit' };
-      },
-    }),
-    convertTemp: tool({
-      description: 'Convert temperature between units',
-      inputSchema: z.object({
-        fahrenheit: z.number(),
-      }),
-      execute: async ({ fahrenheit }) => {
-        return { celsius: (fahrenheit - 32) * 5/9 };
-      },
-    }),
-  },
-});
-
-const result = await weatherAgent.run({
-  messages: [
-    { role: 'user', content: 'What is the weather in SF in Celsius?' },
-  ],
-});
-
-console.log(result.text);
-// Agent will call getWeather, then convertTemp, then respond
-```
-
-**When to Use Agent vs Raw generateText:**
-- **Use Agent when:** Multiple tools, complex workflows, multi-step reasoning
-- **Use generateText when:** Simple single-step, one or two tools, full control needed
-
----
-
-### Multi-Step Execution
-
-Control when multi-step execution stops with `stopWhen` conditions.
-
-```typescript
-import { generateText, stopWhen, stepCountIs, hasToolCall } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-// Stop after specific number of steps
-const result = await generateText({
-  model: openai('gpt-4'),
-  tools: { /* ... */ },
-  prompt: 'Research TypeScript and create a summary',
-  stopWhen: stepCountIs(5),  // Max 5 steps (tool calls + responses)
-});
-
-// Stop when specific tool is called
-const result = await generateText({
-  model: openai('gpt-4'),
-  tools: {
-    research: tool({ /* ... */ }),
-    finalize: tool({ /* ... */ }),
-  },
-  prompt: 'Research and finalize a report',
-  stopWhen: hasToolCall('finalize'),  // Stop when finalize is called
-});
-
-// Combine conditions
-const result = await generateText({
-  model: openai('gpt-4'),
-  tools: { /* ... */ },
-  prompt: 'Complex task',
-  stopWhen: (step) => step.stepCount >= 10 || step.hasToolCall('finish'),
-});
-```
-
-**v5 Change:**
-`maxSteps` parameter removed. Use `stopWhen(stepCountIs(n))` instead.
-
----
-
-### Dynamic Tools (v5 New Feature)
-
-Add tools at runtime based on context:
-
-```typescript
-const result = await generateText({
-  model: openai('gpt-4'),
-  tools: (context) => {
-    // Context includes messages, step count, etc.
-    const baseTool = {
-      search: tool({ /* ... */ }),
-    };
-
-    // Add tools based on context
-    if (context.messages.some(m => m.content.includes('weather'))) {
-      baseTool.weather = tool({ /* ... */ });
-    }
-
-    return baseTools;
-  },
-  prompt: 'Help me with my task',
-});
-```
+**→ Load `references/tools-and-agents.md` for:** Agent class usage, multi-step execution, dynamic tools, stop conditions
 
 ---
 
 ## Critical v4→v5 Migration
 
-AI SDK v5 introduced extensive breaking changes. If migrating from v4, follow this guide.
+**Load `references/v4-to-v5-migration.md` for complete migration guide**.
 
-### Breaking Changes Overview
+### Key Breaking Changes
 
-1. **Parameter Renames**
-   - `maxTokens` → `maxOutputTokens`
-   - `providerMetadata` → `providerOptions`
-
-2. **Tool Definitions**
-   - `parameters` → `inputSchema`
-   - Tool properties: `args` → `input`, `result` → `output`
-
-3. **Message Types**
-   - `CoreMessage` → `ModelMessage`
-   - `Message` → `UIMessage`
-   - `convertToCoreMessages` → `convertToModelMessages`
-
-4. **Tool Error Handling**
-   - `ToolExecutionError` class removed
-   - Now `tool-error` content parts
-   - Enables automated retry
-
-5. **Multi-Step Execution**
-   - `maxSteps` → `stopWhen`
-   - Use `stepCountIs()` or `hasToolCall()`
-
-6. **Message Structure**
-   - Simple `content` string → `parts` array
-   - Parts: text, file, reasoning, tool-call, tool-result
-
-7. **Streaming Architecture**
-   - Single chunk → start/delta/end lifecycle
-   - Unique IDs for concurrent streams
-
-8. **Tool Streaming**
-   - Enabled by default
-   - `toolCallStreaming` option removed
-
-9. **Package Reorganization**
-   - `ai/rsc` → `@ai-sdk/rsc`
-   - `ai/react` → `@ai-sdk/react`
-   - `LangChainAdapter` → `@ai-sdk/langchain`
-
-### Migration Examples
-
-**Before (v4):**
-```typescript
-import { generateText } from 'ai';
-
-const result = await generateText({
-  model: openai.chat('gpt-4'),
-  maxTokens: 500,
-  providerMetadata: { openai: { user: 'user-123' } },
-  tools: {
-    weather: {
-      description: 'Get weather',
-      parameters: z.object({ location: z.string() }),
-      execute: async (args) => { /* args.location */ },
-    },
-  },
-  maxSteps: 5,
-});
-```
-
-**After (v5):**
-```typescript
-import { generateText, tool, stopWhen, stepCountIs } from 'ai';
-
-const result = await generateText({
-  model: openai('gpt-4'),
-  maxOutputTokens: 500,
-  providerOptions: { openai: { user: 'user-123' } },
-  tools: {
-    weather: tool({
-      description: 'Get weather',
-      inputSchema: z.object({ location: z.string() }),
-      execute: async ({ location }) => { /* input.location */ },
-    }),
-  },
-  stopWhen: stepCountIs(5),
-});
-```
-
-### Migration Checklist
-
-- [ ] Update all `maxTokens` to `maxOutputTokens`
-- [ ] Update `providerMetadata` to `providerOptions`
-- [ ] Convert tool `parameters` to `inputSchema`
-- [ ] Update tool execute functions: `args` → `input`
-- [ ] Replace `maxSteps` with `stopWhen(stepCountIs(n))`
-- [ ] Update message types: `CoreMessage` → `ModelMessage`
-- [ ] Remove `ToolExecutionError` handling
-- [ ] Update package imports (`ai/rsc` → `@ai-sdk/rsc`)
-- [ ] Test streaming behavior (architecture changed)
-- [ ] Update TypeScript types
+AI SDK v5 has 9 major breaking changes:
+- `maxTokens` → `maxOutputTokens`
+- `parameters` → `inputSchema` (Zod)
+- `maxSteps` → `stopWhen(stepCountIs(n))`
+- `CoreMessage` → `ModelMessage`
+- Package reorganization (`ai/rsc` → `@ai-sdk/rsc`)
 
 ### Automated Migration
 
-AI SDK provides a migration tool:
-
 ```bash
-bunx ai migrate
+bunx ai migrate  # Auto-migrates most changes
 ```
 
-This will update most breaking changes automatically. Review changes carefully.
-
-**Official Migration Guide:**
-https://ai-sdk.dev/docs/migration-guides/migration-guide-5-0
+**→ Load `references/v4-to-v5-migration.md` for:** Complete breaking changes list, migration examples, checklist, official migration guide link
 
 ---
 
@@ -1154,536 +346,93 @@ export default {
 
 ---
 
-### 4. streamText Fails Silently
-
-**Cause:** Stream errors can be swallowed by `createDataStreamResponse`.
-
-**Status:** ✅ **RESOLVED** - Fixed in ai@4.1.22 (February 2025)
-
-**Solution (Recommended):**
-```typescript
-// Use the onError callback (added in v4.1.22)
-const stream = streamText({
-  model: openai('gpt-4'),
-  prompt: 'Hello',
-  onError({ error }) {
-    console.error('Stream error:', error);
-    // Custom error logging and handling
-  },
-});
-
-// Stream safely
-for await (const chunk of stream.textStream) {
-  process.stdout.write(chunk);
-}
-```
-
-**Alternative (Manual try-catch):**
-```typescript
-// Fallback if not using onError callback
-try {
-  const stream = streamText({
-    model: openai('gpt-4'),
-    prompt: 'Hello',
-  });
-
-  for await (const chunk of stream.textStream) {
-    process.stdout.write(chunk);
-  }
-} catch (error) {
-  console.error('Stream error:', error);
-}
-```
-
-**Prevention:**
-- **Use `onError` callback** for proper error capture (recommended)
-- Implement server-side error monitoring
-- Test stream error handling explicitly
-- Always log on server side in production
-
-**GitHub Issue:** #4726 (RESOLVED)
-
----
-
-### 5. AI_LoadAPIKeyError
-
-**Cause:** Missing or invalid API key.
-
-**Solution:**
-```typescript
-import { AI_LoadAPIKeyError } from 'ai';
-
-try {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    prompt: 'Hello',
-  });
-} catch (error) {
-  if (error instanceof AI_LoadAPIKeyError) {
-    console.error('API key error:', error.message);
-
-    // Check:
-    // 1. .env file exists and loaded
-    // 2. Correct env variable name (OPENAI_API_KEY)
-    // 3. Key format is valid (starts with sk-)
-  }
-}
-```
-
-**Prevention:**
-- Validate API keys at application startup
-- Use environment variable validation (e.g., zod)
-- Provide clear error messages in development
-- Document required environment variables
-
----
-
-### 6. AI_InvalidArgumentError
-
-**Cause:** Invalid parameters passed to function.
-
-**Solution:**
-```typescript
-import { AI_InvalidArgumentError } from 'ai';
-
-try {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    maxOutputTokens: -1,  // Invalid!
-    prompt: 'Hello',
-  });
-} catch (error) {
-  if (error instanceof AI_InvalidArgumentError) {
-    console.error('Invalid argument:', error.message);
-    // Check parameter types and values
-  }
-}
-```
-
-**Prevention:**
-- Use TypeScript for type checking
-- Validate inputs before calling AI SDK functions
-- Read function signatures carefully
-- Check official docs for parameter constraints
-
----
-
-### 7. AI_NoContentGeneratedError
-
-**Cause:** Model generated no content (safety filters, etc.).
-
-**Solution:**
-```typescript
-import { AI_NoContentGeneratedError } from 'ai';
-
-try {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    prompt: 'Some prompt',
-  });
-} catch (error) {
-  if (error instanceof AI_NoContentGeneratedError) {
-    console.error('No content generated');
-
-    // Possible causes:
-    // 1. Safety filters blocked output
-    // 2. Prompt triggered content policy
-    // 3. Model configuration issue
-
-    // Handle gracefully:
-    return { text: 'Unable to generate response. Please try different input.' };
-  }
-}
-```
-
-**Prevention:**
-- Sanitize user inputs
-- Avoid prompts that may trigger safety filters
-- Have fallback messaging
-- Log occurrences for analysis
-
----
-
-### 8. AI_TypeValidationError
-
-**Cause:** Zod schema validation failed on generated output.
-
-**Solution:**
-```typescript
-import { AI_TypeValidationError } from 'ai';
-
-try {
-  const result = await generateObject({
-    model: openai('gpt-4'),
-    schema: z.object({
-      age: z.number().min(0).max(120),  // Strict validation
-    }),
-    prompt: 'Generate person',
-  });
-} catch (error) {
-  if (error instanceof AI_TypeValidationError) {
-    console.error('Validation failed:', error.message);
-
-    // Solutions:
-    // 1. Relax schema constraints
-    // 2. Add more guidance in prompt
-    // 3. Use .optional() for unreliable fields
-  }
-}
-```
-
-**Prevention:**
-- Start with lenient schemas, tighten gradually
-- Use `.optional()` for fields that may not always be present
-- Add validation hints in field descriptions
-- Test with various prompts
-
----
-
-### 9. AI_RetryError
-
-**Cause:** All retry attempts failed.
-
-**Solution:**
-```typescript
-import { AI_RetryError } from 'ai';
-
-try {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    prompt: 'Hello',
-    maxRetries: 3,  // Default is 2
-  });
-} catch (error) {
-  if (error instanceof AI_RetryError) {
-    console.error('All retries failed');
-    console.error('Last error:', error.lastError);
-
-    // Check root cause:
-    // - Persistent network issue
-    // - Provider outage
-    // - Invalid configuration
-  }
-}
-```
-
-**Prevention:**
-- Investigate root cause of failures
-- Adjust retry configuration if needed
-- Implement circuit breaker pattern for provider outages
-- Have fallback providers
-
----
-
-### 10. Rate Limiting Errors
-
-**Cause:** Exceeded provider rate limits (RPM/TPM).
-
-**Solution:**
-```typescript
-// Implement exponential backoff
-async function generateWithBackoff(prompt: string, retries = 3) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      return await generateText({
-        model: openai('gpt-4'),
-        prompt,
-      });
-    } catch (error) {
-      if (error instanceof AI_APICallError && error.statusCode === 429) {
-        const delay = Math.pow(2, i) * 1000;  // Exponential backoff
-        console.log(`Rate limited, waiting ${delay}ms`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      } else {
-        throw error;
-      }
-    }
-  }
-  throw new Error('Rate limit retries exhausted');
-}
-```
-
-**Prevention:**
-- Monitor rate limit headers
-- Queue requests to stay under limits
-- Upgrade provider tier if needed
-- Implement request throttling
-
----
-
-### 11. TypeScript Performance with Zod
-
-**Cause:** Complex Zod schemas slow down TypeScript type checking.
-
-**Solution:**
-```typescript
-// Instead of deeply nested schemas at top level:
-// const complexSchema = z.object({ /* 100+ fields */ });
-
-// Define inside functions or use type assertions:
-function generateData() {
-  const schema = z.object({ /* complex schema */ });
-  return generateObject({ model: openai('gpt-4'), schema, prompt: '...' });
-}
-
-// Or use z.lazy() for recursive schemas:
-type Category = { name: string; subcategories?: Category[] };
-const CategorySchema: z.ZodType<Category> = z.lazy(() =>
-  z.object({
-    name: z.string(),
-    subcategories: z.array(CategorySchema).optional(),
-  })
-);
-```
-
-**Prevention:**
-- Avoid top-level complex schemas
-- Use `z.lazy()` for recursive types
-- Split large schemas into smaller ones
-- Use type assertions where appropriate
-
-**Official Docs:**
-https://ai-sdk.dev/docs/troubleshooting/common-issues/slow-type-checking
-
----
-
-### 12. Invalid JSON Response (Provider-Specific)
-
-**Cause:** Some models occasionally return invalid JSON.
-
-**Solution:**
-```typescript
-// Use built-in retry and mode selection
-const result = await generateObject({
-  model: openai('gpt-4'),
-  schema: mySchema,
-  prompt: 'Generate data',
-  mode: 'json',  // Force JSON mode (supported by GPT-4)
-  maxRetries: 3,  // Retry on invalid JSON
-});
-
-// Or catch and retry manually:
-try {
-  const result = await generateObject({
-    model: openai('gpt-4'),
-    schema: mySchema,
-    prompt: 'Generate data',
-  });
-} catch (error) {
-  // Retry with different model
-  const result = await generateObject({
-    model: openai('gpt-4-turbo'),
-    schema: mySchema,
-    prompt: 'Generate data',
-  });
-}
-```
-
-**Prevention:**
-- Use `mode: 'json'` when available
-- Prefer GPT-4 for structured output
-- Implement retry logic
-- Validate responses
-
-**GitHub Issue:** #4302 (Imagen 3.0 Invalid JSON)
-
----
-
-**For More Errors:**
+**→ Load `references/error-catalog.md` for errors #4-#12** with complete solutions.
+
+**Remaining 9 errors:**
+4. streamText Fails Silently (RESOLVED in v4.1.22)
+5. AI_LoadAPIKeyError
+6. AI_InvalidArgumentError
+7. AI_NoContentGeneratedError
+8. AI_TypeValidationError
+9. AI_RetryError
+10. Rate Limiting Errors
+11. TypeScript Performance with Zod
+12. Invalid JSON Response (Provider-Specific)
+
+**For complete error catalog:**
 See complete error reference at https://ai-sdk.dev/docs/reference/ai-sdk-errors
 
 ---
 
 ## Production Best Practices
 
-### Performance
+**Load `references/production-guide.md` for complete production deployment guide**.
 
-**1. Always use streaming for long-form content:**
+### Key Categories
+
+1. **Performance**: Streaming patterns, token limits, provider caching, Zod optimization
+2. **Error Handling**: try-catch patterns, retry logic, proper logging
+3. **Cost Optimization**: Model selection, token limits, response caching
+4. **Cloudflare Workers**: Lazy imports, startup monitoring, streaming responses
+5. **Next.js/Vercel**: Server Actions, Server Components, loading states
+
+### Quick Example
+
 ```typescript
-// User-facing: Use streamText
-const stream = streamText({ model: openai('gpt-4'), prompt: 'Long essay' });
-return stream.toDataStreamResponse();
-
-// Background tasks: Use generateText
-const result = await generateText({ model: openai('gpt-4'), prompt: 'Analyze data' });
-```
-
-**2. Set appropriate maxOutputTokens:**
-```typescript
-const result = await generateText({
+// Use streaming for user-facing responses
+const stream = streamText({
   model: openai('gpt-4'),
-  prompt: 'Short answer',
-  maxOutputTokens: 100,  // Limit tokens to save cost
-});
-```
-
-**3. Cache provider instances:**
-```typescript
-// Good: Reuse provider instances
-const gpt4 = openai('gpt-4-turbo');
-const result1 = await generateText({ model: gpt4, prompt: 'Hello' });
-const result2 = await generateText({ model: gpt4, prompt: 'World' });
-```
-
-**4. Optimize Zod schemas:**
-```typescript
-// Avoid complex nested schemas at top level in Workers
-// Move into route handlers to prevent startup overhead
-```
-
-### Error Handling
-
-**1. Wrap all AI calls in try-catch:**
-```typescript
-try {
-  const result = await generateText({ /* ... */ });
-} catch (error) {
-  // Handle specific errors
-  if (error instanceof AI_APICallError) { /* ... */ }
-  else if (error instanceof AI_NoContentGeneratedError) { /* ... */ }
-  else { /* ... */ }
-}
-```
-
-**2. Implement retry logic:**
-```typescript
-const result = await generateText({
-  model: openai('gpt-4'),
-  prompt: 'Hello',
+  prompt: 'Long essay',
+  maxOutputTokens: 500,
   maxRetries: 3,
 });
+
+return stream.toDataStreamResponse();
 ```
 
-**3. Log errors properly:**
-```typescript
-console.error('AI SDK Error:', {
-  type: error.constructor.name,
-  message: error.message,
-  statusCode: error.statusCode,
-  timestamp: new Date().toISOString(),
-});
-```
+**→ Load `references/production-guide.md` for:** Platform-specific patterns, deployment checklists, optimization strategies
 
-### Cost Optimization
+---
 
-**1. Choose appropriate models:**
-```typescript
-// Simple tasks: Use cheaper models
-const simple = await generateText({ model: openai('gpt-3.5-turbo'), prompt: 'Hello' });
+## When to Load References
 
-// Complex reasoning: Use GPT-4
-const complex = await generateText({ model: openai('gpt-4'), prompt: 'Analyze...' });
-```
+**Load `references/core-functions.md` when:**
+- User needs complete API documentation for generateText, streamText, generateObject, or streamObject
+- Questions about function signatures, parameters, or return types
+- Need detailed tool usage patterns or streaming examples
+- Troubleshooting function-specific errors
 
-**2. Set maxOutputTokens appropriately:**
-```typescript
-const result = await generateText({
-  model: openai('gpt-4'),
-  prompt: 'Summarize in 2 sentences',
-  maxOutputTokens: 100,  // Prevent over-generation
-});
-```
+**Load `references/provider-setup.md` when:**
+- Setting up OpenAI, Anthropic, Google, or Cloudflare Workers AI
+- Configuring API keys or environment variables
+- Troubleshooting provider-specific errors (rate limits, authentication)
+- Questions about model selection or best practices for each provider
+- Cloudflare Workers startup optimization needed
 
-**3. Cache results when possible:**
-```typescript
-const cache = new Map();
+**Load `references/tools-and-agents.md` when:**
+- Implementing tool calling or agent workflows
+- Questions about Agent class vs raw generateText
+- Setting up multi-step execution with stopWhen
+- Dynamic tools or complex agentic patterns
 
-async function getCachedResponse(prompt: string) {
-  if (cache.has(prompt)) return cache.get(prompt);
+**Load `references/v4-to-v5-migration.md` when:**
+- Migrating existing v4 codebase to v5
+- Questions about breaking changes
+- Need migration examples or automated migration tool
+- Troubleshooting migration-related errors
 
-  const result = await generateText({ model: openai('gpt-4'), prompt });
-  cache.set(prompt, result.text);
-  return result.text;
-}
-```
+**Load `references/error-catalog.md` when:**
+- User encounters any of the 12 common errors (beyond top 3 shown inline)
+- Need complete error solutions with code examples
+- Troubleshooting production errors
+- Questions about error prevention strategies
 
-### Cloudflare Workers Specific
-
-**1. Move imports inside handlers:**
-```typescript
-// Avoid startup overhead
-export default {
-  async fetch(request, env) {
-    const { generateText } = await import('ai');
-    const { openai } = await import('@ai-sdk/openai');
-    // Use here
-  }
-}
-```
-
-**2. Monitor startup time:**
-```bash
-# Wrangler reports startup time
-wrangler deploy
-# Check output for startup duration (must be <400ms)
-```
-
-**3. Handle streaming properly:**
-```typescript
-// Return ReadableStream for streaming responses
-const stream = streamText({ model: openai('gpt-4'), prompt: 'Hello' });
-return new Response(stream.toTextStream(), {
-  headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-});
-```
-
-### Next.js / Vercel Specific
-
-**1. Use Server Actions for mutations:**
-```typescript
-'use server';
-
-export async function generateContent(input: string) {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    prompt: input,
-  });
-  return result.text;
-}
-```
-
-**2. Use Server Components for initial loads:**
-```typescript
-// app/page.tsx
-export default async function Page() {
-  const result = await generateText({
-    model: openai('gpt-4'),
-    prompt: 'Welcome message',
-  });
-
-  return <div>{result.text}</div>;
-}
-```
-
-**3. Implement loading states:**
-```typescript
-'use client';
-
-import { useState } from 'react';
-import { generateContent } from './actions';
-
-export default function Form() {
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(formData: FormData) {
-    setLoading(true);
-    const result = await generateContent(formData.get('input'));
-    setLoading(false);
-  }
-
-  return (
-    <form action={handleSubmit}>
-      <input name="input" />
-      <button disabled={loading}>
-        {loading ? 'Generating...' : 'Submit'}
-      </button>
-    </form>
-  );
-}
-```
-
-**4. For deployment:**
-See Vercel's official deployment documentation: https://vercel.com/docs/functions
+**Load `references/production-guide.md` when:**
+- Deploying to production (any platform)
+- Performance optimization needed
+- Cost optimization questions
+- Platform-specific patterns (Cloudflare Workers, Next.js/Vercel)
+- Error handling or logging strategies
 
 ---
 
