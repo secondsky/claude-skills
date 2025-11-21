@@ -12,9 +12,9 @@ license: MIT
 # TanStack Query (React Query) v5
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
 **Dependencies**: React 18.0+, TypeScript 4.7+ (recommended)
-**Latest Versions**: @tanstack/react-query@5.90.5, @tanstack/react-query-devtools@5.90.2
+**Latest Versions**: @tanstack/react-query@5.90.10, @tanstack/react-query-devtools@5.90.2
 
 ---
 

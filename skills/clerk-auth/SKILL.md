@@ -14,9 +14,9 @@ license: MIT
 # Clerk Authentication
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-28
+**Last Updated**: 2025-11-21
 **Dependencies**: None
-**Latest Versions**: @clerk/nextjs@6.33.3, @clerk/backend@2.17.2, @clerk/clerk-react@5.51.0, @clerk/testing@1.4.4
+**Latest Versions**: @clerk/nextjs@6.35.3, @clerk/backend@2.17.2, @clerk/clerk-react@5.51.0, @clerk/testing@1.4.4
 
 ---
 

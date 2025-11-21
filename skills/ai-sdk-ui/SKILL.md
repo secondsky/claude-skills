@@ -19,9 +19,20 @@ license: MIT
 
 Frontend React hooks for AI-powered user interfaces with Vercel AI SDK v5.
 
-**Version**: AI SDK v5.0.76+ (Stable)
+**Version**: AI SDK v5.0.98+ (Stable)
 **Framework**: React 18+, Next.js 14+
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
+
+## Table of Contents
+1. [Quick Start](#quick-start-5-minutes)
+2. [useChat Hook](#usechat-hook---complete-reference)
+3. [useCompletion Hook](#usecompletion-hook---complete-reference)
+4. [useObject Hook](#useobject-hook---complete-reference)
+5. [Next.js Integration](#nextjs-integration)
+6. [Top UI Errors & Solutions](#top-ui-errors--solutions)
+7. [Streaming Best Practices](#streaming-best-practices)
+8. [When to Use This Skill](#when-to-use-this-skill)
+9. [Package Versions](#package-versions)
 
 ---
 

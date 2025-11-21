@@ -12,9 +12,9 @@ license: MIT
 # Claude Agent SDK
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-25
-**Dependencies**: @anthropic-ai/claude-agent-sdk, zod
-**Latest Versions**: @anthropic-ai/claude-agent-sdk@0.1.0+, zod@3.23.0+
+**Last Updated**: 2025-11-21
+**Dependencies**: @anthropic-ai/claude-code, zod
+**Latest Versions**: @anthropic-ai/claude-code@2.0.49+, zod@3.23.0+
 
 ---
 

@@ -7,11 +7,11 @@ description: |
 license: MIT
 metadata:
   packages:
-    - "@openai/agents@0.2.1"
-    - "@openai/agents-realtime@0.2.1"
+    - "@openai/agents@0.3.3"
+    - "@openai/agents-realtime@0.3.3"
     - "zod@^3.24.1"
   frameworks: ["Cloudflare Workers", "Next.js", "React", "Node.js", "Hono"]
-  last_verified: "2025-10-26"
+  last_verified: "2025-11-21"
   production_tested: true
   token_savings: "~60%"
   errors_prevented: 9

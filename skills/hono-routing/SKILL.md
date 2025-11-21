@@ -10,8 +10,8 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  package_version: "4.10.2"
-  last_verified: "2025-10-22"
+  package_version: "4.10.6"
+  last_verified: "2025-11-21"
   errors_prevented: 12
   templates_included: 9
   references_included: 6
@@ -20,9 +20,9 @@ metadata:
 # Hono Routing & Middleware
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-11-21
 **Dependencies**: None (framework-agnostic)
-**Latest Versions**: hono@4.10.2, zod@4.1.12, valibot@1.1.0
+**Latest Versions**: hono@4.10.6, zod@4.1.12, valibot@1.1.0
 
 ---
 
@@ -31,8 +31,8 @@ metadata:
 ### Install
 
 ```bash
-bun add hono@4.10.2  # preferred
-# or: bun add hono@4.10.2
+bun add hono@4.10.6  # preferred
+# or: bun add hono@4.10.6
 ```
 
 **Why Hono:**
