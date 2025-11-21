@@ -5,7 +5,18 @@ description: Prevents Cross-Site Scripting attacks through input sanitization, o
 
 # XSS Prevention
 
-Defend against Cross-Site Scripting attacks with proper sanitization and encoding.
+## Overview
+
+Implement comprehensive Cross-Site Scripting attack prevention through input sanitization, output encoding, Content Security Policy headers, and secure coding practices.
+
+## When to Use
+
+- User-generated content display
+- Rich text editors
+- Comment systems
+- Search functionality
+- Dynamic HTML generation
+- Template rendering scenarios
 
 ## XSS Attack Types
 
@@ -118,6 +129,18 @@ function isSafeURL(url) {
 const href = isSafeURL(userURL) ? userURL : '#';
 ```
 
+## Context-Specific Encoding
+
+Different contexts require different encoding approaches:
+
+- **HTML Entity Encoding**: Safest option for text content
+- **Attribute Encoding**: For HTML attributes
+- **JavaScript Escaping**: For script contexts
+- **URL Encoding**: For URL parameters
+- **CSS Escaping**: For stylesheet contexts
+
+Always encode output by the specific context where data will be rendered.
+
 ## Additional Implementations
 
 See [references/python-sanitization.md](references/python-sanitization.md) for:
@@ -131,6 +154,27 @@ See [references/nodejs-advanced.md](references/nodejs-advanced.md) for:
 - React components (SafeText, SafeHTML, SafeLink, useSanitizedInput)
 - Helmet CSP configuration
 
+## Best Practices
+
+**✅ DO:**
+- Encode output by default
+- Use templating engines with auto-escaping
+- Implement CSP headers
+- Sanitize rich content with allowlists
+- Validate URLs with protocol whitelisting
+- Use HTTPOnly cookies
+- Conduct regular security testing
+- Leverage secure frameworks
+
+**❌ DON'T:**
+- Trust user input
+- Use unsafe functions (eval, innerHTML)
+- Disable security features for convenience
+- Rely solely on client-side validation
+- Use blocklists instead of allowlists
+- Skip context-specific encoding
+- Allow arbitrary script execution
+
 ## Security Checklist
 
 - [ ] Encode all output by context (HTML, attribute, JS)
@@ -141,10 +185,9 @@ See [references/nodejs-advanced.md](references/nodejs-advanced.md) for:
 - [ ] Avoid innerHTML with user content
 - [ ] Regular security testing
 
-## Never Do
+## Resources
 
-- Trust user input without validation
-- Use innerHTML with unsanitized content
-- Disable CSP for convenience
-- Use eval() or Function() with user data
-- Rely on client-side validation alone
+- [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+- [DOMPurify Documentation](https://github.com/cure53/DOMPurify)
+- [Content Security Policy Reference](https://content-security-policy.com/)
+- [Web Security by Mozilla](https://developer.mozilla.org/en-US/docs/Web/Security)

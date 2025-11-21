@@ -5,7 +5,17 @@ description: Optimizes web application performance through code splitting, lazy 
 
 # Web Performance Optimization
 
-Improve web application performance through strategic optimization techniques.
+## Overview
+
+Implement performance optimization strategies including lazy loading, code splitting, caching, compression, and monitoring to improve Core Web Vitals and user experience.
+
+## When to Use
+
+- Slow page load times
+- High Largest Contentful Paint (LCP)
+- Large bundle sizes
+- Frequent Cumulative Layout Shift (CLS)
+- Mobile performance issues
 
 ## Code Splitting (React)
 
@@ -133,6 +143,19 @@ gzip_min_length 1000;
 gzip_comp_level 6;
 ```
 
+## Best Practices
+
+- Minimize bundle size with code splitting
+- Optimize images with appropriate formats
+- Implement lazy loading strategically
+- Use HTTP caching headers
+- Enable gzip/brotli compression
+- Monitor Core Web Vitals continuously
+- Implement service workers
+- Defer non-critical JavaScript
+- Optimize critical rendering path
+- Test on real devices and networks
+
 ## Optimization Checklist
 
 - [ ] Enable code splitting for routes
@@ -164,3 +187,11 @@ See [references/typescript-advanced.md](references/typescript-advanced.md) for:
 - WebPageTest
 - Chrome DevTools Performance tab
 - web-vitals npm package
+
+## Resources
+
+- [Web Vitals](https://web.dev/vitals/)
+- [Google PageSpeed Insights](https://pagespeed.web.dev/)
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse)
+- [WebPageTest](https://www.webpagetest.org/)
+- [Performance API](https://developer.mozilla.org/en-US/docs/Web/API/Performance)
