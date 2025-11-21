@@ -102,502 +102,81 @@ const counter = useCounterStore()
 
 ## The Two Store Syntaxes
 
-### Option Stores (Recommended for Beginners)
+**Load `references/store-syntax-guide.md` for complete comparison of Option vs Setup stores.**
 
-Similar to Vue's Options API structure:
+### Quick Overview
 
-```typescript
-export const useCounterStore = defineStore('counter', {
-  // State = data()
-  state: () => ({
-    count: 0,
-    name: 'Eduardo',
-    items: [] as Item[]
-  }),
+Pinia supports two store definition syntaxes:
 
-  // Getters = computed properties
-  getters: {
-    doubleCount: (state) => state.count * 2,
-    // Access other getters with regular functions
-    doublePlusOne(): number {
-      return this.doubleCount + 1
-    }
-  },
-
-  // Actions = methods
-  actions: {
-    increment() {
-      this.count++
-    },
-    async fetchData() {
-      // Actions can be async
-      const data = await api.fetch()
-      this.items = data
-    }
-  }
-})
-```
-
-**When to use:**
-- Simpler mental model (matches Options API)
+**Option Stores:**
+- Similar to Vue Options API
 - Built-in `$reset()` method
-- Better for teams familiar with Vuex
-
-### Setup Stores (Recommended for Advanced Users)
-
-Uses Composition API pattern for greater flexibility:
-
-```typescript
-export const useCounterStore = defineStore('counter', () => {
-  // ref() = state
-  const count = ref(0)
-  const name = ref('Eduardo')
-  const items = ref([])
-
-  // computed() = getters
-  const doubleCount = computed(() => count.value * 2)
-
-  // function() = actions
-  function increment() {
-    count.value++
-  }
-
-  async function fetchData() {
-    const data = await api.fetch()
-    items.value = data
-  }
-
-  // MUST return everything you want exposed
-  return { count, name, items, doubleCount, increment, fetchData }
-})
-```
-
-**CRITICAL for Setup Stores:**
-- Must return ALL state properties for Pinia to track them
-- Private properties (not returned) break SSR, DevTools, and plugins
-- Can use watchers and composables directly
-- No built-in `$reset()` - must implement manually
-
-**When to use:**
-- Need composables integration
-- Want reactive watches in stores
-- Prefer Composition API mental model
-- Need complex state logic
-
----
-
-## State Management
-
-### Defining State
-
-**Option Stores:**
-```typescript
-state: () => ({
-  count: 0,
-  name: 'Eduardo',
-  isAdmin: true,
-  items: [],
-  // Even undefined values must be declared
-  user: undefined as User | undefined
-})
-```
+- Best for: Simpler use cases, teams familiar with Vuex
 
 **Setup Stores:**
-```typescript
-const count = ref(0)
-const name = ref('Eduardo')
-const isAdmin = ref(true)
-const items = ref<Item[]>([])
-const user = ref<User>()
+- Uses Composition API pattern
+- Full composables integration
+- Best for: Advanced patterns, need watchers/VueUse integration
 
-return { count, name, isAdmin, items, user }
-```
-
-**CRITICAL:**
-- ALL state properties MUST be defined in `state()` or returned from setup
-- Cannot add new state properties dynamically after store creation
-- Use proper types for TypeScript inference
-
-### Accessing State
-
-Direct access - read and write:
-
-```typescript
-const store = useCounterStore()
-
-// Read
-console.log(store.count)
-
-// Write
-store.count++
-store.name = 'Alice'
-
-// Works with v-model
-<input v-model="store.name" />
-```
-
-### Mutating State
-
-**Method 1: Direct Mutation**
-```typescript
-store.count++
-store.name = 'Alice'
-```
-
-**Method 2: $patch with Object**
-```typescript
-store.$patch({
-  count: store.count + 1,
-  name: 'Alice'
-})
-```
-
-**Method 3: $patch with Function**
-```typescript
-// Best for complex mutations (arrays, etc.)
-store.$patch((state) => {
-  state.items.push({ name: 'shoes', quantity: 1 })
-  state.hasChanged = true
-})
-```
-
-### Resetting State
-
-**Option Stores:**
-```typescript
-store.$reset() // Restores to initial state
-```
-
-**Setup Stores:**
-```typescript
-// Must implement manually
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-
-  function $reset() {
-    count.value = 0
-  }
-
-  return { count, $reset }
-})
-```
-
-### Subscribing to State Changes
-
-```typescript
-store.$subscribe((mutation, state) => {
-  // Called after each patch
-  console.log(mutation.type) // 'direct' | 'patch object' | 'patch function'
-  console.log(mutation.storeId) // 'counter'
-  console.log(mutation.payload) // patch object
-
-  // Persist to localStorage
-  localStorage.setItem('counter', JSON.stringify(state))
-})
-
-// Options
-store.$subscribe(callback, {
-  detached: true // Keep subscription after component unmounts
-})
-
-store.$subscribe(callback, {
-  flush: 'sync' // Call immediately (instead of post-component-update)
-})
-```
+**→ Load `references/store-syntax-guide.md` for:** Complete syntax comparison, examples, choosing criteria
 
 ---
 
-## Getters (Computed State)
+## State, Getters, and Actions
 
-### Defining Getters
+**Load `references/state-getters-actions.md` for complete API reference.**
 
-**Arrow Functions (Recommended):**
-```typescript
-getters: {
-  doubleCount: (state) => state.count * 2,
-  upperName: (state) => state.name.toUpperCase()
-}
-```
+### Quick Reference
 
-**Regular Functions:**
-```typescript
-getters: {
-  doubleCount(state) {
-    return state.count * 2
-  }
-}
-```
+**State:**
+- Define in `state: () => ({...})` (option) or `ref()` (setup)
+- Access directly: `store.count`
+- Mutate directly: `store.count++` or `store.$patch({...})`
+- Reset: `store.$reset()` (option stores only)
 
-### Accessing Other Getters
+**Getters:**
+- Computed properties: `getters: { double: (state) => state.count * 2 }`
+- Access other getters with `this` (must type return value)
 
-**IMPORTANT**: When using `this`, must use regular function and type return value:
+**Actions:**
+- Business logic: `actions: { increment() { this.count++ } }`
+- Can be async
+- Access other stores directly
 
-```typescript
-getters: {
-  doubleCount: (state) => state.count * 2,
-
-  // Must type return when using 'this'
-  doublePlusOne(): number {
-    return this.doubleCount + 1
-  }
-}
-```
-
-### Passing Arguments to Getters
-
-Return a function from the getter:
-
-```typescript
-getters: {
-  getUserById: (state) => {
-    return (userId: number) => state.users.find(user => user.id === userId)
-  }
-}
-
-// Usage in component
-<script setup>
-import { storeToRefs } from 'pinia'
-
-const store = useUserStore()
-const { getUserById } = storeToRefs(store)
-</script>
-
-<template>
-  <p>User 2: {{ getUserById(2) }}</p>
-</template>
-```
-
-**NOTE:** Returning functions prevents caching. Consider internal caching if performance matters.
-
-### Accessing Other Stores' Getters
-
-```typescript
-import { useOtherStore } from './other-store'
-
-getters: {
-  combinedData(state) {
-    const otherStore = useOtherStore()
-    return state.localData + otherStore.data
-  }
-}
-```
-
----
-
-## Actions (Business Logic)
-
-### Defining Actions
-
-```typescript
-actions: {
-  increment() {
-    this.count++
-  },
-
-  incrementBy(amount: number) {
-    this.count += amount
-  },
-
-  reset() {
-    this.count = 0
-  }
-}
-```
-
-**NOTE:** Cannot use arrow functions (need `this` context)
-
-### Async Actions
-
-Actions can be async and await any promises:
-
-```typescript
-actions: {
-  async registerUser(login: string, password: string) {
-    try {
-      this.userData = await api.post({ login, password })
-      showToast('Registration successful')
-    } catch (error) {
-      showToast(error)
-      return error
-    }
-  },
-
-  async fetchUserPreferences() {
-    const auth = useAuthStore()
-    if (auth.isAuthenticated) {
-      this.preferences = await fetchPreferences()
-    }
-  }
-}
-```
-
-### Accessing Other Store Actions
-
-```typescript
-actions: {
-  async loginAndLoad() {
-    const auth = useAuthStore()
-    await auth.login()
-
-    // After auth succeeds, load user data
-    await this.loadUserData()
-  }
-}
-```
-
-### Subscribing to Actions
-
-```typescript
-const unsubscribe = store.$onAction(
-  ({
-    name, // action name
-    store, // store instance
-    args, // array of action parameters
-    after, // hook after action returns/resolves
-    onError // hook if action throws/rejects
-  }) => {
-    const startTime = Date.now()
-    console.log(`Action "${name}" started with params:`, args)
-
-    after((result) => {
-      console.log(`Finished in ${Date.now() - startTime}ms`)
-      console.log('Result:', result)
-    })
-
-    onError((error) => {
-      console.error(`Failed: ${error}`)
-    })
-  }
-)
-
-// With second parameter true, subscription persists after component unmount
-store.$onAction(callback, true)
-```
-
----
-
-## Store Destructuring with Reactivity
-
-### Problem: Direct Destructuring Breaks Reactivity
-
-```typescript
-// ❌ DON'T DO THIS
-const { name, count } = store // Loses reactivity!
-```
-
-### Solution: Use storeToRefs()
-
+**Store Destructuring:**
 ```typescript
 import { storeToRefs } from 'pinia'
 
-// ✅ Extract state/getters with reactivity
-const { name, count, doubleCount } = storeToRefs(store)
+// ✅ For reactivity
+const { name, count } = storeToRefs(store)
 
-// ✅ Actions can be destructured directly (no need for storeToRefs)
-const { increment, reset } = store
-
-// Now reactive in templates
-<template>
-  <p>{{ name }}</p> <!-- Reactive -->
-  <button @click="increment">+</button>
-</template>
+// ✅ Actions can destructure directly
+const { increment } = store
 ```
+
+**→ Load `references/state-getters-actions.md` for:** Complete API, subscriptions, store composition patterns, Options API usage
 
 ---
 
-## Plugins
+## Plugins and Composables
 
-### Creating a Plugin
+**Load `references/plugins-composables.md` for complete plugin and composables guide.**
 
-```typescript
-export function myPlugin(context) {
-  context.pinia // Pinia instance
-  context.app // Vue app instance (createApp)
-  context.store // Store being augmented
-  context.options // Store definition options
-
-  // Return object to add properties to every store
-  return {
-    secret: 'the cake is a lie'
-  }
-}
-
-// Register
-const pinia = createPinia()
-pinia.use(myPlugin)
-```
-
-### Adding State via Plugins
+### Plugin Basics
 
 ```typescript
-import { ref } from 'vue'
-
-pinia.use(({ store }) => {
-  const secret = ref('my-secret')
-
-  // Add to both store and $state for SSR
-  store.secret = secret
-  store.$state.secret = secret
-
-  return { secret }
+pinia.use(({ store, options }) => {
+  // Add properties to every store
+  return { customProperty: 'value' }
 })
 ```
 
-### Adding Options via Plugins
+### Composables Integration
 
-```typescript
-// Define custom store option
-defineStore('search', {
-  // Custom option
-  debounce: {
-    search: 300,
-    reset: 100
-  },
+**Option Stores:** Limited to `useLocalStorage` style in `state()`
+**Setup Stores:** Full VueUse/composables support
 
-  actions: {
-    search() { /* ... */ },
-    reset() { /* ... */ }
-  }
-})
-
-// Plugin reads and implements
-import { debounce } from 'lodash'
-
-pinia.use(({ options, store }) => {
-  if (options.debounce) {
-    return Object.keys(options.debounce).reduce((debouncedActions, action) => {
-      debouncedActions[action] = debounce(
-        store[action],
-        options.debounce[action]
-      )
-      return debouncedActions
-    }, {})
-  }
-})
-```
-
-### TypeScript Plugin Typing
-
-```typescript
-import 'pinia'
-
-declare module 'pinia' {
-  export interface PiniaCustomProperties {
-    // Add custom store properties
-    router: Router
-  }
-
-  export interface PiniaCustomStateProperties<S> {
-    // Add custom state properties
-    myCustomState: string
-  }
-
-  export interface DefineStoreOptionsBase<S, Store> {
-    // Add custom store options
-    debounce?: Partial<Record<keyof StoreActions<Store>, number>>
-  }
-}
-```
+**→ Load `references/plugins-composables.md` for:** Complete plugin patterns, VueUse integration, TypeScript typing, common patterns (persistence, router, logger)
 
 ---
 
@@ -650,280 +229,40 @@ export function setupRouter(pinia) {
 
 ---
 
-## Server-Side Rendering (SSR)
+## Server-Side Rendering & Nuxt
 
-### Basic SSR Setup
+**Load `references/ssr-and-nuxt.md` for complete SSR and Nuxt integration guide.**
 
-Works automatically when using stores in `setup()`, getters, or actions.
+### SSR Quick Reference
 
-### State Hydration
+**State Hydration:**
+- Server: Serialize with `devalue()` (not `JSON.stringify`)
+- Client: Hydrate BEFORE calling `useStore()`
+- Critical: Call all `useStore()` BEFORE `await` in actions
 
-**Server Side:**
-```typescript
-import { renderToString } from '@vue/server-renderer'
-import devalue from 'devalue'
-
-const pinia = createPinia()
-const app = createSSRApp(App)
-app.use(pinia)
-
-const html = await renderToString(app)
-
-// Serialize state (devalue prevents XSS)
-const state = devalue(pinia.state.value)
-
-const fullHtml = `
-  <html>
-    <body>
-      <div id="app">${html}</div>
-      <script>window.__pinia = ${state}</script>
-    </body>
-  </html>
-`
-```
-
-**Client Side:**
-```typescript
-const pinia = createPinia()
-
-// CRITICAL: Hydrate BEFORE using any stores
-if (typeof window !== 'undefined') {
-  pinia.state.value = window.__pinia
-}
-
-const app = createApp(App)
-app.use(pinia)
-```
-
-**CRITICAL:**
-- Always escape serialized state to prevent XSS
-- Use `devalue` library (not JSON.stringify) for complex data
-- Hydrate before calling any `useStore()`
-
-### Nuxt Integration
-
-Install the official module:
+### Nuxt 3/4 Integration
 
 ```bash
 bunx nuxi@latest module add pinia
 ```
 
-**Configuration:**
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  modules: ['@pinia/nuxt'],
-  pinia: {
-    storesDirs: ['./stores/**', './custom-folder/stores/**']
-  }
-})
-```
+**Auto-imports:** `defineStore`, `storeToRefs`, `usePinia`, `acceptHMRUpdate`, all stores
 
-**Auto-imports:**
-- `defineStore()`
-- `storeToRefs()`
-- `usePinia()`
-- `acceptHMRUpdate()`
-- All stores in `stores/` directory
-
-**Server-side data fetching:**
-```vue
-<script setup>
-const store = useStore()
-
-// Runs once on server, cached
-await callOnce('user', () => store.fetchUser())
-
-// Refetch on every navigation
-await callOnce('user', () => store.fetchUser(), { mode: 'navigation' })
-</script>
-```
-
----
-
-## Store Composition
-
-### Three Safe Patterns
-
-**1. Nested Stores (Setup Pattern):**
-```typescript
-export const useCartStore = defineStore('cart', () => {
-  const user = useUserStore() // ✅ Top-level call
-
-  const items = ref([])
-
-  function addItem(item) {
-    items.value.push(item)
-  }
-
-  return { items, addItem, user }
-})
-```
-
-**2. Shared Getters:**
-```typescript
-getters: {
-  userData() {
-    const user = useUserStore() // ✅ Inside getter
-    return user.data
-  }
-}
-```
-
-**3. Shared Actions:**
-```typescript
-actions: {
-  async loadData() {
-    const user = useUserStore() // ✅ Inside action
-    if (user.isAuthenticated) {
-      this.data = await fetch('/data')
-    }
-  }
-}
-```
-
-### ❌ Circular Dependencies to Avoid
-
-```typescript
-// ❌ NEVER: Both stores read each other's state at setup
-export const useStoreA = defineStore('a', () => {
-  const storeB = useStoreB()
-  const value = storeB.value // ❌ Circular dependency
-  return { value }
-})
-
-export const useStoreB = defineStore('b', () => {
-  const storeA = useStoreA()
-  const value = storeA.value // ❌ Circular dependency
-  return { value }
-})
-```
-
-### SSR Consideration for Async Actions
-
-```typescript
-actions: {
-  async loadData() {
-    // ✅ All useStore() calls BEFORE await
-    const authStore = useAuthStore()
-    const settingsStore = useSettingsStore()
-
-    // ❌ Don't call useStore() after await (breaks SSR)
-    const data = await fetch('/api')
-
-    // Store calls already made, safe to use
-    if (authStore.isAuthenticated) {
-      this.data = data
-    }
-  }
-}
-```
-
----
-
-## Using Composables in Stores
-
-### Option Stores
-
-Call composables in `state()`:
-
-```typescript
-import { useLocalStorage } from '@vueuse/core'
-
-export const useStore = defineStore('store', {
-  state: () => ({
-    // ✅ Works - returns writable ref
-    theme: useLocalStorage('theme', 'dark')
-  })
-})
-```
-
-**Limitations:**
-- Can only return writable state (`ref()`)
-- Cannot use composables that return functions or readonly data
-
-### Setup Stores
-
-Almost any composable works:
-
-```typescript
-import { useMediaControls } from '@vueuse/core'
-
-export const useVideoStore = defineStore('video', () => {
-  const videoEl = ref<HTMLVideoElement>()
-
-  // ✅ All properties auto-categorized
-  const { playing, volume, currentTime, togglePictureInPicture } =
-    useMediaControls(videoEl, { src: '/video.mp4' })
-
-  return {
-    playing,
-    volume,
-    currentTime,
-    togglePictureInPicture,
-    videoEl
-  }
-})
-```
-
-**SSR Handling:**
-```typescript
-import { skipHydrate } from 'pinia'
-
-return {
-  // Don't hydrate this from SSR state
-  videoEl: skipHydrate(videoEl)
-}
-```
+**→ Load `references/ssr-and-nuxt.md` for:** Complete SSR patterns, Nuxt configuration, server-side data fetching, SSR pitfalls, debugging
 
 ---
 
 ## Testing
 
-### Unit Testing Stores
+**Load `references/testing-guide.md` for complete testing guide.**
+
+### Testing Quick Start
 
 ```typescript
 import { setActivePinia, createPinia } from 'pinia'
-import { useCounterStore } from '@/stores/counter'
-import { describe, it, expect, beforeEach } from 'vitest'
 
-describe('Counter Store', () => {
-  beforeEach(() => {
-    // Fresh Pinia for each test
-    setActivePinia(createPinia())
-  })
-
-  it('increments', () => {
-    const counter = useCounterStore()
-    expect(counter.count).toBe(0)
-    counter.increment()
-    expect(counter.count).toBe(1)
-  })
-
-  it('doubles count', () => {
-    const counter = useCounterStore()
-    counter.count = 5
-    expect(counter.doubleCount).toBe(10)
-  })
-})
-```
-
-### Testing with Plugins
-
-```typescript
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import { somePlugin } from './plugins'
-
-describe('Store with Plugin', () => {
-  let app
-
-  beforeEach(() => {
-    app = createApp({})
-    const pinia = createPinia().use(somePlugin)
-    app.use(pinia)
-    setActivePinia(pinia)
-  })
+beforeEach(() => {
+  setActivePinia(createPinia()) // Fresh Pinia for each test
 })
 ```
 
@@ -931,98 +270,17 @@ describe('Store with Plugin', () => {
 
 ```bash
 bun add -d @pinia/testing
-# or
-bun add -d @pinia/testing
 ```
 
 ```typescript
-import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import Counter from './Counter.vue'
 
-describe('Counter Component', () => {
-  it('displays count', () => {
-    const wrapper = mount(Counter, {
-      global: {
-        plugins: [createTestingPinia()]
-      }
-    })
-
-    expect(wrapper.text()).toContain('Count: 0')
-  })
+mount(Component, {
+  global: { plugins: [createTestingPinia()] }
 })
 ```
 
-### Setting Initial State
-
-```typescript
-const wrapper = mount(Counter, {
-  global: {
-    plugins: [
-      createTestingPinia({
-        initialState: {
-          counter: { count: 20 }
-        }
-      })
-    ]
-  }
-})
-```
-
-### Stubbing Actions
-
-**Default: All actions stubbed**
-```typescript
-createTestingPinia() // Actions don't execute
-```
-
-**Execute all actions:**
-```typescript
-createTestingPinia({ stubActions: false })
-```
-
-**Selective stubbing:**
-```typescript
-createTestingPinia({
-  stubActions: ['increment', 'reset'] // Only these are stubbed
-})
-```
-
-**Custom logic:**
-```typescript
-createTestingPinia({
-  stubActions: (actionName, store) => {
-    return actionName.startsWith('set') // Stub setters only
-  }
-})
-```
-
-### Mocking Getters
-
-```typescript
-const store = useCounterStore()
-
-// Override getter
-store.doubleCount = 999
-
-// Reset to default
-store.doubleCount = undefined
-```
-
-### Vitest Spy Setup
-
-```typescript
-import { vi } from 'vitest'
-
-createTestingPinia({
-  createSpy: vi.fn,
-  stubActions: false
-})
-
-// Then mock specific actions
-const store = useCounterStore()
-vi.spyOn(store, 'fetchData').mockResolvedValue({ data: [] })
-```
+**→ Load `references/testing-guide.md` for:** Complete test patterns, stubbing actions, mocking getters, async testing, SSR testing
 
 ---
 
@@ -1060,316 +318,28 @@ if (import.meta.webpackHot) {
 
 ## Options API Usage
 
-### With setup()
+For projects still using Options API, load complete mapper documentation.
 
-```vue
-<script>
-import { useCounterStore } from '@/stores/counter'
-
-export default {
-  setup() {
-    const counterStore = useCounterStore()
-
-    return { counterStore }
-  },
-
-  methods: {
-    handleClick() {
-      this.counterStore.increment()
-    }
-  }
-}
-</script>
-```
-
-### Without setup() - Using Mappers
-
-**mapStores:**
-```vue
-<script>
-import { mapStores } from 'pinia'
-import { useCounterStore, useUserStore } from '@/stores'
-
-export default {
-  computed: {
-    ...mapStores(useCounterStore, useUserStore)
-    // Adds this.counterStore and this.userStore
-  },
-
-  methods: {
-    handleClick() {
-      this.counterStore.increment()
-    }
-  }
-}
-</script>
-```
-
-**mapState (read-only):**
-```vue
-<script>
-import { mapState } from 'pinia'
-import { useCounterStore } from '@/stores/counter'
-
-export default {
-  computed: {
-    ...mapState(useCounterStore, ['count', 'doubleCount']),
-    // Adds this.count and this.doubleCount (read-only)
-
-    ...mapState(useCounterStore, {
-      myCount: 'count',
-      myDouble: store => store.doubleCount
-    })
-  }
-}
-</script>
-```
-
-**mapWritableState (read-write):**
-```vue
-<script>
-import { mapWritableState } from 'pinia'
-import { useCounterStore } from '@/stores/counter'
-
-export default {
-  computed: {
-    ...mapWritableState(useCounterStore, ['count', 'name'])
-    // Can modify: this.count++
-  }
-}
-</script>
-```
-
-**mapActions:**
-```vue
-<script>
-import { mapActions } from 'pinia'
-import { useCounterStore } from '@/stores/counter'
-
-export default {
-  methods: {
-    ...mapActions(useCounterStore, ['increment', 'reset'])
-    // Adds this.increment() and this.reset()
-  }
-}
-</script>
-```
-
-**Customizing Store Suffix:**
-```typescript
-import { setMapStoreSuffix } from 'pinia'
-
-setMapStoreSuffix('') // Remove 'Store' suffix
-// ...mapStores(useCounter) -> this.counter (not this.counterStore)
-
-setMapStoreSuffix('_store')
-// ...mapStores(useCounter) -> this.counter_store
-```
+**→ Load `references/state-getters-actions.md` for:** Complete Options API integration, all mappers (`mapStores`, `mapState`, `mapWritableState`, `mapActions`)
 
 ---
 
 ## Migrating from Vuex
 
-### Directory Structure Change
+**Load `references/vuex-migration.md` for complete migration guide.**
 
-**Vuex:**
-```
-src/store/
-├── index.js
-└── modules/
-    ├── user.js
-    ├── cart.js
-    └── nested/
-        └── settings.js
-```
+### Quick Conversion Overview
 
-**Pinia:**
-```
-src/stores/
-├── user.ts
-├── cart.ts
-└── nested-settings.ts
-```
+**Key Changes:**
+1. Remove `namespaced` (automatic via store ID)
+2. Eliminate `mutations` (direct state mutation)
+3. Replace `commit()` with direct mutations
+4. Replace `rootState`/`rootGetters` with store imports
+5. Use `store.$reset()` instead of custom clear mutations
 
-**Key difference:** Each module becomes an independent store.
+**Directory:** `store/modules/` → `stores/` (each module = separate store)
 
-### Conversion Steps
-
-**1. Remove module namespacing - built into store IDs**
-
-Vuex:
-```typescript
-// modules/user.js
-export default {
-  namespaced: true,
-  state: () => ({ ... })
-}
-```
-
-Pinia:
-```typescript
-// stores/user.ts
-export const useUserStore = defineStore('user', {
-  state: () => ({ ... })
-})
-```
-
-**2. Convert state to function (if not already)**
-
-Pinia requires state to be a function:
-```typescript
-state: () => ({
-  firstName: '',
-  lastName: ''
-})
-```
-
-**3. Remove identity getters**
-
-Vuex often had getters that just returned state:
-```typescript
-// ❌ Remove these
-getters: {
-  firstName: state => state.firstName
-}
-```
-
-In Pinia, just access `store.firstName` directly.
-
-**4. Access other stores instead of rootState/rootGetters**
-
-Vuex:
-```typescript
-getters: {
-  fullData(state, getters, rootState, rootGetters) {
-    return rootGetters['otherModule/data'] + state.local
-  }
-}
-```
-
-Pinia:
-```typescript
-import { useOtherStore } from './other'
-
-getters: {
-  fullData(state) {
-    const other = useOtherStore()
-    return other.data + state.local
-  }
-}
-```
-
-**5. Convert actions - remove context parameter**
-
-Vuex:
-```typescript
-actions: {
-  updateUser({ commit, state, dispatch, rootState }, payload) {
-    commit('SET_USER', payload)
-    dispatch('otherModule/action', null, { root: true })
-  }
-}
-```
-
-Pinia:
-```typescript
-import { useOtherStore } from './other'
-
-actions: {
-  updateUser(payload) {
-    this.user = payload // Direct mutation
-
-    const other = useOtherStore()
-    other.someAction() // Direct call
-  }
-}
-```
-
-**6. Eliminate mutations**
-
-Vuex:
-```typescript
-mutations: {
-  SET_USER(state, user) {
-    state.user = user
-  }
-}
-
-actions: {
-  updateUser({ commit }, user) {
-    commit('SET_USER', user)
-  }
-}
-```
-
-Pinia (Option 1 - Direct mutation in action):
-```typescript
-actions: {
-  updateUser(user) {
-    this.user = user // No mutation needed
-  }
-}
-```
-
-Pinia (Option 2 - Allow components to mutate):
-```typescript
-// Component
-store.user = newUser // Directly mutate (acceptable in Pinia)
-```
-
-**7. Use $reset() instead of custom clear mutations**
-
-Pinia provides built-in reset:
-```typescript
-store.$reset() // Returns to initial state
-```
-
-### Component Migration
-
-**Vuex:**
-```vue
-<script>
-import { mapState, mapActions } from 'vuex'
-
-export default {
-  computed: {
-    ...mapState('user', ['firstName', 'lastName'])
-  },
-  methods: {
-    ...mapActions('user', ['updateUser'])
-  }
-}
-</script>
-```
-
-**Pinia (Composition API):**
-```vue
-<script setup>
-import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
-const { firstName, lastName } = storeToRefs(userStore)
-const { updateUser } = userStore
-</script>
-```
-
-**Pinia (Options API):**
-```vue
-<script>
-import { mapState, mapActions } from 'pinia'
-import { useUserStore } from '@/stores/user'
-
-export default {
-  computed: {
-    ...mapState(useUserStore, ['firstName', 'lastName'])
-  },
-  methods: {
-    ...mapActions(useUserStore, ['updateUser'])
-  }
-}
-</script>
-```
+**→ Load `references/vuex-migration.md` for:** Complete conversion steps, component migration, checklist, gradual migration strategy
 
 ---
 
@@ -1469,246 +439,22 @@ This skill prevents **12** documented issues:
 
 ---
 
-## Configuration Files Reference
+## Package Versions (Verified 2025-11-21)
 
-**Note**: Use `bun add` to install packages (preferred), or `npm install`/`pnpm add` as alternatives.
-
-### package.json (Minimal Setup)
-
-```json
-{
-  "name": "my-vue-app",
-  "type": "module",
-  "dependencies": {
-    "vue": "^3.5.24",
-    "pinia": "^3.0.4"
-  }
-}
-```
-
-### package.json (With Nuxt)
-
-```json
-{
-  "name": "my-nuxt-app",
-  "type": "module",
-  "dependencies": {
-    "nuxt": "^3.13.0",
-    "@pinia/nuxt": "^0.11.2",
-    "pinia": "^3.0.4"
-  }
-}
-```
-
-### package.json (With Testing)
-
-```json
-{
-  "name": "my-vue-app",
-  "type": "module",
-  "dependencies": {
-    "vue": "^3.5.24",
-    "pinia": "^3.0.4"
-  },
-  "devDependencies": {
-    "@pinia/testing": "^1.0.2",
-    "@vue/test-utils": "^2.4.0",
-    "vitest": "^1.0.0"
-  }
-}
-```
-
-**Why these settings:**
-- `pinia@^3.0.4` is the latest stable version
-- `@pinia/nuxt` auto-configures Pinia for Nuxt 3/4
-- `@pinia/testing` provides `createTestingPinia()` for component tests
-- Vuex not needed (Pinia replaces it)
+**Core:** `pinia@^3.0.4`, `vue@^3.5.24`
+**Nuxt:** `@pinia/nuxt@^0.11.2`, `nuxt@^3.13.0`
+**Testing:** `@pinia/testing@^1.0.2`, `vitest@^1.0.0`
+**SSR:** `devalue@^5.3.2` (for safe serialization)
 
 ---
 
 ## Common Patterns
 
-### Pattern 1: Authentication Store
-
-```typescript
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-
-export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(null)
-  const user = ref<User | null>(null)
-
-  const isAuthenticated = computed(() => !!token.value)
-
-  async function login(email: string, password: string) {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    })
-
-    if (!response.ok) throw new Error('Login failed')
-
-    const data = await response.json()
-    token.value = data.token
-    user.value = data.user
-  }
-
-  function logout() {
-    token.value = null
-    user.value = null
-  }
-
-  return { token, user, isAuthenticated, login, logout }
-})
-```
-
-**When to use**: User authentication and session management
-
-### Pattern 2: API Data Store with Loading States
-
-```typescript
-import { defineStore } from 'pinia'
-
-export const useProductsStore = defineStore('products', {
-  state: () => ({
-    products: [] as Product[],
-    loading: false,
-    error: null as string | null
-  }),
-
-  getters: {
-    getProductById: (state) => (id: number) => {
-      return state.products.find(p => p.id === id)
-    }
-  },
-
-  actions: {
-    async fetchProducts() {
-      this.loading = true
-      this.error = null
-
-      try {
-        const response = await fetch('/api/products')
-        this.products = await response.json()
-      } catch (e) {
-        this.error = e.message
-      } finally {
-        this.loading = false
-      }
-    }
-  }
-})
-```
-
-**When to use**: Loading data from APIs with loading/error states
-
-### Pattern 3: LocalStorage Persistence Plugin
-
-```typescript
-import { PiniaPluginContext } from 'pinia'
-
-export function persistPlugin({ store }: PiniaPluginContext) {
-  // Restore state from localStorage
-  const stored = localStorage.getItem(store.$id)
-  if (stored) {
-    store.$patch(JSON.parse(stored))
-  }
-
-  // Save state to localStorage on every change
-  store.$subscribe((mutation, state) => {
-    localStorage.setItem(store.$id, JSON.stringify(state))
-  })
-}
-
-// Register
-const pinia = createPinia()
-pinia.use(persistPlugin)
-```
-
-**When to use**: Persisting user preferences, cart data, etc.
-
-### Pattern 4: Router Integration
-
-```typescript
-// router/index.ts
-import { useAuthStore } from '@/stores/auth'
-
-router.beforeEach((to, from) => {
-  const auth = useAuthStore() // ✅ Called inside guard
-
-  if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    return { name: 'login' }
-  }
-})
-```
-
-**When to use**: Protected routes, navigation guards
-
-### Pattern 5: Form Store with Validation
-
-```typescript
-import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-
-export const useFormStore = defineStore('form', () => {
-  const firstName = ref('')
-  const lastName = ref('')
-  const email = ref('')
-
-  const errors = ref<Record<string, string>>({})
-
-  const isValid = computed(() => {
-    return Object.keys(errors.value).length === 0
-  })
-
-  function validate() {
-    errors.value = {}
-
-    if (!firstName.value) {
-      errors.value.firstName = 'First name is required'
-    }
-
-    if (!email.value.includes('@')) {
-      errors.value.email = 'Invalid email'
-    }
-  }
-
-  async function submit() {
-    validate()
-    if (!isValid.value) return
-
-    await fetch('/api/submit', {
-      method: 'POST',
-      body: JSON.stringify({
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value
-      })
-    })
-  }
-
-  function $reset() {
-    firstName.value = ''
-    lastName.value = ''
-    email.value = ''
-    errors.value = {}
-  }
-
-  return {
-    firstName,
-    lastName,
-    email,
-    errors,
-    isValid,
-    validate,
-    submit,
-    $reset
-  }
-})
-```
-
-**When to use**: Complex multi-step forms, form state management
+See reference files for complete pattern examples:
+- **Authentication stores** → `references/state-getters-actions.md`
+- **Persistence plugins** → `references/plugins-composables.md`
+- **Form stores** → `references/store-syntax-guide.md` (setup store examples)
+- **Router integration** → `references/state-getters-actions.md` (accessing stores outside components)
 
 ---
 
@@ -1722,26 +468,6 @@ export const useFormStore = defineStore('form', () => {
 - **Testing**: https://pinia.vuejs.org/cookbook/testing.html
 - **Vuex Migration**: https://pinia.vuejs.org/cookbook/migration-vuex.html
 - **GitHub**: https://github.com/vuejs/pinia
-
----
-
-## Package Versions (Verified 2025-11-11)
-
-```json
-{
-  "dependencies": {
-    "vue": "^3.5.24",
-    "pinia": "^3.0.4"
-  },
-  "devDependencies": {
-    "@pinia/testing": "^1.0.2",
-    "@pinia/nuxt": "^0.11.2",
-    "@vue/test-utils": "^2.4.0",
-    "vitest": "^1.0.0",
-    "devalue": "^5.3.2"
-  }
-}
-```
 
 ---
 
@@ -1784,6 +510,52 @@ beforeEach(() => {
   setActivePinia(createPinia())
 })
 ```
+
+---
+
+## When to Load References
+
+**Load `references/store-syntax-guide.md` when:**
+- Need detailed comparison between Option and Setup store syntaxes
+- Deciding which syntax to use for a new store
+- Questions about Option vs Setup stores trade-offs
+- Need complete examples of both syntaxes
+
+**Load `references/state-getters-actions.md` when:**
+- Need complete API reference for state, getters, or actions
+- Questions about `$patch`, `$subscribe`, or `$onAction`
+- Implementing store composition patterns
+- Using Options API mappers (`mapStores`, `mapState`, `mapActions`)
+- Accessing stores outside components (router, plugins)
+
+**Load `references/plugins-composables.md` when:**
+- Creating custom Pinia plugins
+- Integrating VueUse or other composables into stores
+- Need persistence, routing, or logging plugin patterns
+- Questions about TypeScript typing for plugins
+- Advanced composables integration
+
+**Load `references/ssr-and-nuxt.md` when:**
+- Setting up server-side rendering
+- Integrating with Nuxt 3/4
+- Questions about state hydration or serialization
+- SSR-related errors (wrong Pinia instance, hydration mismatch)
+- Nuxt auto-imports or configuration
+- Server-side data fetching patterns
+
+**Load `references/testing-guide.md` when:**
+- Setting up unit tests for stores
+- Testing components that use Pinia stores
+- Need to stub actions or mock getters
+- Questions about `createTestingPinia`
+- Testing SSR stores
+- Vitest or testing framework integration
+
+**Load `references/vuex-migration.md` when:**
+- Migrating existing Vuex codebase to Pinia
+- Questions about Vuex→Pinia conversion
+- Need migration checklist or examples
+- Gradual migration strategy needed
 
 ---
 
