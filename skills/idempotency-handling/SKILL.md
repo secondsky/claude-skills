@@ -134,3 +134,61 @@ async function processPayment(idempotencyKey, payload) {
 - Validate request body matches stored request
 - Set appropriate TTL (24 hours typical)
 - Use atomic database operations
+- Implement cleanup jobs to prevent table bloat
+
+### TTL Cleanup Strategy
+
+To prevent unbounded table growth, implement periodic cleanup of expired keys:
+
+**Option 1: Scheduled Database Job (PostgreSQL)**
+```sql
+-- Run hourly via pg_cron or external scheduler
+DELETE FROM idempotency_keys
+WHERE expires_at < NOW()
+LIMIT 1000; -- Batch delete to avoid long locks
+```
+
+**Option 2: Application Cleanup Job (Node.js)**
+```javascript
+// Run via cron or job scheduler (e.g., node-cron, Bull)
+async function cleanupExpiredKeys() {
+  try {
+    const result = await db.query(
+      'DELETE FROM idempotency_keys WHERE expires_at < NOW()'
+    );
+    console.log(`Cleaned up ${result.rowCount} expired idempotency keys`);
+  } catch (error) {
+    console.error('Cleanup job failed:', error);
+  }
+}
+
+// Schedule to run every hour
+cron.schedule('0 * * * *', cleanupExpiredKeys);
+```
+
+**Option 3: Application Cleanup Job (Python)**
+```python
+import asyncio
+from datetime import datetime
+
+async def cleanup_expired_keys():
+    """Remove expired idempotency keys to prevent table bloat."""
+    try:
+        result = await db.execute(
+            "DELETE FROM idempotency_keys WHERE expires_at < $1",
+            datetime.now()
+        )
+        print(f"Cleaned up {result} expired idempotency keys")
+    except Exception as e:
+        print(f"Cleanup job failed: {e}")
+
+# Run with APScheduler, Celery, or similar
+# scheduler.add_job(cleanup_expired_keys, 'interval', hours=1)
+```
+
+**Cleanup Best Practices:**
+- Run cleanup during low-traffic periods to minimize lock contention
+- Use batched deletes (`LIMIT 1000`) for large tables
+- Monitor cleanup job execution and failures
+- Consider partitioning the table by created_at for easier cleanup
+- Set up alerts if table size grows unexpectedly
