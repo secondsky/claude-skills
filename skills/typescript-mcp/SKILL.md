@@ -7,8 +7,8 @@ description: |
 license: MIT
 metadata:
   version: 1.0.0
-  last_updated: 2025-10-28
-  sdk_version: "@modelcontextprotocol/sdk@1.20.2"
+  last_updated: 2025-11-21
+  sdk_version: "@modelcontextprotocol/sdk@1.22.0"
   platform: cloudflare-workers
   production_tested: true
   token_efficiency: 70%

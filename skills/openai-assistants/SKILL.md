@@ -19,8 +19,8 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  openai_version: "6.7.0"
-  last_verified: "2025-10-25"
+  openai_version: "6.9.1"
+  last_verified: "2025-11-21"
   api_version: "v2"
   v1_deprecated: "2024-12-18"
   v2_sunset: "H1 2026"
@@ -33,8 +33,8 @@ metadata:
 
 # OpenAI Assistants API v2
 
-**Status**: Production Ready (Deprecated H1 2026) | **Package**: openai@6.7.0
-**Last Updated**: 2025-10-25 | **v2 Sunset**: H1 2026
+**Status**: Production Ready (Deprecated H1 2026) | **Package**: openai@6.9.1
+**Last Updated**: 2025-11-21 | **v2 Sunset**: H1 2026
 
 ---
 
