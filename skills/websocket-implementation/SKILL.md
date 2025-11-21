@@ -140,6 +140,11 @@ function useWebSocket(url) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    // getToken() is a user-supplied helper that returns the current auth token
+    // Example implementations:
+    // - From localStorage: () => localStorage.getItem('authToken')
+    // - From context: () => authContext.token
+    // - From cookie: () => document.cookie.split('token=')[1]
     const ws = io(url, { auth: { token: getToken() } });
 
     ws.on('connect', () => setConnected(true));

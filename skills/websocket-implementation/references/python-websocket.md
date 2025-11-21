@@ -167,13 +167,19 @@ class RedisPubSubManager:
         self.redis = None
 
     async def connect(self):
-        # redis.asyncio.from_url() returns an async Redis client
-        self.redis = await redis.from_url(
-            self.redis_url,
-            encoding="utf-8",
-            decode_responses=True
-        )
-        self.pubsub = self.redis.pubsub()
+        """Connect to Redis with error handling"""
+        try:
+            # redis.asyncio.from_url() returns an async Redis client
+            self.redis = await redis.from_url(
+                self.redis_url,
+                encoding="utf-8",
+                decode_responses=True
+            )
+            self.pubsub = self.redis.pubsub()
+        except redis.ConnectionError as e:
+            raise RuntimeError(f"Failed to connect to Redis at {self.redis_url}: {e}") from e
+        except Exception as e:
+            raise RuntimeError(f"Unexpected error connecting to Redis: {e}") from e
 
     async def disconnect(self):
         """Cleanup Redis connections"""
