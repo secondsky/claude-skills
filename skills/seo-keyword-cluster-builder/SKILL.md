@@ -52,7 +52,7 @@ A topic cluster consists of:
 - **Cluster content**: Detailed articles on specific subtopics (800-1500 words each)
 - **Internal links**: Bidirectional links connecting all related content
 
-```
+```text
                     [Pillar Page]
                   "Project Management"
                           |
@@ -91,19 +91,19 @@ Example keyword list:
 
 Group by semantic similarity:
 
-**Cluster 1: Software Selection**
+#### Cluster 1: Software Selection
 - project management software
 - best project management tools
 - project management apps
 - top pm software
 
-**Cluster 2: Budget/Pricing**
+#### Cluster 2: Budget/Pricing
 - free project management software
 - project management software pricing
 - affordable pm tools
 - pm software cost
 
-**Cluster 3: Team Size**
+#### Cluster 3: Team Size
 - pm tools for small teams
 - enterprise project management
 - pm for startups
@@ -195,7 +195,7 @@ For thorough analysis, use this expanded format:
 
 ### Internal Linking Strategy
 
-```
+```text
 [Pillar Page] ←→ [Cluster Article 1]
       ↕               ↕
 [Cluster Article 2] → [Cluster Article 3]
@@ -306,7 +306,7 @@ For thorough analysis, use this expanded format:
 
 ### Pattern 1: Feature-Based
 
-```
+```text
 Pillar: "Email Marketing Software"
 ├── Email Marketing Features
 ├── Email Marketing Automation
@@ -316,7 +316,7 @@ Pillar: "Email Marketing Software"
 
 ### Pattern 2: Problem-Solution
 
-```
+```text
 Pillar: "CRM for Small Business"
 ├── How to Choose a CRM
 ├── CRM Implementation Guide
@@ -326,7 +326,7 @@ Pillar: "CRM for Small Business"
 
 ### Pattern 3: Comparison-Based
 
-```
+```text
 Pillar: "Project Management Tools Comparison"
 ├── Asana vs Monday.com
 ├── Trello vs ClickUp
@@ -336,7 +336,7 @@ Pillar: "Project Management Tools Comparison"
 
 ### Pattern 4: Stage-Based
 
-```
+```text
 Pillar: "Content Marketing Guide"
 ├── Content Strategy Planning
 ├── Content Creation Process
@@ -402,7 +402,7 @@ Long-Tail (<100/month):
 ### Link Structure
 
 **Hub-and-Spoke Model**:
-```
+```text
 Every cluster article links:
 → To pillar page (1 link)
 → To 2-3 related cluster articles (lateral links)

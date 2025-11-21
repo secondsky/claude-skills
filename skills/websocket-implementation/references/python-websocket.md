@@ -7,6 +7,19 @@ from aiohttp import web, WSMsgType
 import asyncio
 import json
 
+# NOTE: verify_token() is application-specific and must be implemented
+# Example implementation:
+# def verify_token(token):
+#     """Verify JWT token and return user_id, or None if invalid"""
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+#         return payload.get('user_id')
+#     except jwt.InvalidTokenError:
+#         return None
+#
+# Or import from your auth module:
+# from auth import verify_token
+
 class WebSocketManager:
     def __init__(self):
         self.connections = {}  # user_id -> websocket
@@ -184,20 +197,46 @@ await redis_manager.subscribe('chat_messages', on_redis_message)
 
 ```python
 import asyncio
+import logging
 
-async def heartbeat(websocket: WebSocket, interval: int = 30):
+logger = logging.getLogger(__name__)
+
+async def heartbeat(websocket: WebSocket, user_id: str, interval: int = 30):
     """Send periodic pings to keep connection alive"""
-    while True:
-        try:
+    try:
+        while True:
             await asyncio.sleep(interval)
             await websocket.send_json({'type': 'ping'})
-        except Exception:
-            break
+    except asyncio.CancelledError:
+        # Normal shutdown - task was cancelled
+        logger.debug(f"Heartbeat cancelled for user {user_id}")
+        raise
+    except Exception as e:
+        # Unexpected error - log and allow cleanup
+        logger.error(f"Heartbeat failed for user {user_id}: {e}")
+        raise
+
+def on_heartbeat_done(task: asyncio.Task, websocket: WebSocket, user_id: str):
+    """Monitor heartbeat task completion and handle failures"""
+    try:
+        task.result()  # Will raise if task failed
+    except asyncio.CancelledError:
+        # Normal cancellation - no action needed
+        pass
+    except Exception as e:
+        # Heartbeat failed unexpectedly - close connection
+        logger.error(f"Heartbeat task failed for user {user_id}: {e}")
+        asyncio.create_task(websocket.close(code=1011, reason="Heartbeat failed"))
 
 # Start heartbeat task on connect
 async def websocket_endpoint(websocket: WebSocket, user_id: str):
     await manager.connect(websocket, user_id)
-    heartbeat_task = asyncio.create_task(heartbeat(websocket))
+
+    # Create heartbeat task with failure monitoring
+    heartbeat_task = asyncio.create_task(heartbeat(websocket, user_id))
+    heartbeat_task.add_done_callback(
+        lambda t: on_heartbeat_done(t, websocket, user_id)
+    )
 
     try:
         while True:
@@ -206,6 +245,11 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
                 continue  # Heartbeat response
             # Handle other messages...
     finally:
+        # Cancel heartbeat and cleanup
         heartbeat_task.cancel()
+        try:
+            await heartbeat_task  # Wait for cancellation to complete
+        except asyncio.CancelledError:
+            pass
         manager.disconnect(user_id)
 ```

@@ -220,11 +220,15 @@ function SafeLink({ href, children }) {
   );
 }
 
+// Import the canonical sanitizeURL from XSSPrevention class
+// NOTE: This uses the same implementation as XSSPrevention.sanitizeURL
+// which allows 'http:', 'https:', and 'mailto:' protocols
 function sanitizeURL(url) {
   try {
     const parsed = new URL(url);
 
-    if (!['http:', 'https:'].includes(parsed.protocol)) {
+    // Consistent with XSSPrevention.sanitizeURL - allows mailto for email links
+    if (!['http:', 'https:', 'mailto:'].includes(parsed.protocol)) {
       return '';
     }
 
@@ -233,6 +237,10 @@ function sanitizeURL(url) {
     return '';
   }
 }
+
+// Alternative: Use XSSPrevention class directly for consistency
+// import { XSSPrevention } from './xss-prevention';
+// const sanitizeURL = XSSPrevention.sanitizeURL;
 
 // Input sanitization hook
 function useSanitizedInput(initialValue = '') {

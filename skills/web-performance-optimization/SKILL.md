@@ -107,15 +107,28 @@ self.addEventListener('fetch', (event) => {
 ## Core Web Vitals Monitoring
 
 ```javascript
-// Track LCP, CLS, FID
+// Track LCP, CLS, INP (Note: INP replaced FID as of March 2024)
+// sendToAnalytics is a placeholder function that sends metrics to your analytics endpoint
+// Expected signature: sendToAnalytics({ metric: string, value: number }) => void
+// Example implementation:
+function sendToAnalytics({ metric, value }) {
+  // Replace with your analytics implementation (e.g., Google Analytics, Segment)
+  fetch('/api/analytics', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ metric, value, timestamp: Date.now() })
+  });
+}
+
+// Largest Contentful Paint (LCP)
 new PerformanceObserver((list) => {
   for (const entry of list.getEntries()) {
-    console.log(`${entry.name}: ${entry.startTime}ms`);
-    // Send to analytics
-    sendToAnalytics({ metric: entry.name, value: entry.startTime });
+    console.log(`LCP: ${entry.startTime}ms`);
+    sendToAnalytics({ metric: 'LCP', value: entry.startTime });
   }
 }).observe({ type: 'largest-contentful-paint', buffered: true });
 
+// Cumulative Layout Shift (CLS)
 new PerformanceObserver((list) => {
   let cls = 0;
   for (const entry of list.getEntries()) {
@@ -123,6 +136,16 @@ new PerformanceObserver((list) => {
   }
   sendToAnalytics({ metric: 'CLS', value: cls });
 }).observe({ type: 'layout-shift', buffered: true });
+
+// Interaction to Next Paint (INP) - replaces FID
+new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    // INP measures responsiveness - duration of slowest interaction
+    const inp = entry.processingEnd - entry.processingStart;
+    console.log(`INP: ${inp}ms`);
+    sendToAnalytics({ metric: 'INP', value: inp });
+  }
+}).observe({ type: 'event', buffered: true }); // 'event' captures interaction events
 ```
 
 ## Performance Targets

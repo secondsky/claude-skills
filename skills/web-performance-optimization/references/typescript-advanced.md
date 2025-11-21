@@ -42,9 +42,13 @@ export const App = () => {
     <BrowserRouter>
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          {routes.map(route => (
-            <Route key={route.path} path={route.path} element={<route.lazy />} />
-          ))}
+          {routes.map(route => {
+            // JSX requires PascalCase for component references
+            const LazyComponent = route.lazy;
+            return (
+              <Route key={route.path} path={route.path} element={<LazyComponent />} />
+            );
+          })}
         </Routes>
       </Suspense>
     </BrowserRouter>
@@ -213,7 +217,7 @@ export const observeWebVitals = (callback: (metrics: Partial<PerformanceMetrics>
     console.warn('CLS observer not supported');
   }
 
-  // FID via INP
+  // FID via INP (First Input Delay)
   const inputObserver = new PerformanceObserver((list) => {
     const entries = list.getEntries();
     const firstEntry = entries[0];
@@ -222,15 +226,20 @@ export const observeWebVitals = (callback: (metrics: Partial<PerformanceMetrics>
   });
 
   try {
-    inputObserver.observe({ entryTypes: ['first-input', 'event'] });
+    // NOTE: 'event' is not a valid entryType - use only 'first-input'
+    // For INP tracking, use 'layout-shift', 'largest-contentful-paint', etc.
+    inputObserver.observe({ entryTypes: ['first-input'] });
   } catch (e) {
     console.warn('FID observer not supported');
   }
 
-  // TTFB
+  // TTFB (Time to First Byte) - measure from fetch start to first byte
   const navigationTiming = performance.getEntriesByType('navigation')[0];
   if (navigationTiming) {
-    metrics.ttfb = (navigationTiming as any).responseStart - (navigationTiming as any).requestStart;
+    const nav = navigationTiming as PerformanceNavigationTiming;
+    // CORRECT: responseStart - fetchStart measures time from fetch start to first byte
+    // INCORRECT: responseStart - requestStart only measures request duration
+    metrics.ttfb = nav.responseStart - nav.fetchStart;
     callback(metrics);
   }
 };
