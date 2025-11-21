@@ -89,19 +89,36 @@ CREATE TABLE resources (
 - [ ] Documentation complete
 ```
 
+## Full Template
+
+See [references/template.md](references/template.md) for a comprehensive copy-paste template including:
+- Complete metadata section
+- Success metrics tables
+- Architecture diagrams
+- Detailed API design sections
+- Security threat analysis
+- Monitoring & observability
+- Risk assessment matrix
+- Rollout and rollback plans
+- Dependencies tracking
+- Open questions section
+
 ## Best Practices
 
+**Do:**
 - Include measurable acceptance criteria
 - Add architecture diagrams
 - Define explicit API contracts
 - Quantify performance targets
 - Document risks and mitigations
 - Get stakeholder review before implementation
+- Include security considerations
+- Define rollback procedures
 
-## Avoid
-
-- Vague requirements ("fast", "scalable")
-- Missing non-functional requirements
-- No security considerations
-- Unexplored alternatives
-- Incomplete testing strategy
+**Don't:**
+- Use vague requirements ("fast", "scalable")
+- Skip non-functional requirements
+- Ignore security considerations
+- Leave alternatives unexplored
+- Omit testing strategy
+- Forget dependencies and risks

@@ -97,9 +97,27 @@ throw new GraphQLError('User not found', {
 - Validate all inputs
 - Use descriptive naming conventions
 
-## Avoid
+## Python Graphene
 
-- Deeply nested queries without limits
-- Exposing database internals
-- N+1 query problems
-- Returning unauthorized data
+See [references/python-graphene.md](references/python-graphene.md) for complete Flask implementation with:
+- ObjectType definitions
+- Query and Mutation classes
+- Input types
+- Flask integration
+
+## Best Practices
+
+**Do:**
+- Use DataLoader to batch queries
+- Implement query complexity limits
+- Design schema around client needs
+- Validate all inputs
+- Use descriptive naming conventions
+- Add subscriptions for real-time data
+
+**Don't:**
+- Allow deeply nested queries without limits
+- Expose database internals
+- Ignore N+1 query problems
+- Return unauthorized data
+- Skip input validation

@@ -65,6 +65,15 @@ app.post('/webhooks/stripe', express.raw({ type: 'application/json' }), (req, re
 });
 ```
 
+## PayPal Integration
+
+See [references/paypal-integration.md](references/paypal-integration.md) for complete PayPal implementation with:
+- Order creation and capture
+- Refund processing
+- Webhook handling
+- Frontend SDK integration
+- Success/cancel callbacks
+
 ## Security Checklist
 
 - [ ] Use official SDK only
@@ -74,11 +83,23 @@ app.post('/webhooks/stripe', express.raw({ type: 'application/json' }), (req, re
 - [ ] Test in sandbox first
 - [ ] HTTPS for all payment routes
 - [ ] Handle all error cases
+- [ ] Use idempotency keys
+- [ ] Implement retry logic
 
-## Never Do
+## Best Practices
 
+**Do:**
+- Use official SDK libraries
+- Verify all webhook signatures
+- Log transaction IDs (not card data)
+- Test in sandbox environment
+- Handle all payment states
+- Implement proper error messages
+
+**Don't:**
 - Process raw card data directly
 - Store sensitive payment info
 - Hardcode API keys
 - Skip webhook signature validation
 - Ignore failed payment events
+- Use test keys in production

@@ -94,10 +94,35 @@ for epoch in range(100):
 | Classification | Accuracy, Precision, Recall, F1, AUC-ROC |
 | Regression | MSE, RMSE, MAE, R² |
 
+## Complete Framework Examples
+
+- **PyTorch**: See [references/pytorch-training.md](references/pytorch-training.md) for complete training with:
+  - Custom model classes with BatchNorm and Dropout
+  - Training/validation loops with early stopping
+  - Learning rate scheduling
+  - Model checkpointing
+  - Full evaluation with classification report
+
+- **TensorFlow/Keras**: See [references/tensorflow-keras.md](references/tensorflow-keras.md) for:
+  - Sequential model architecture
+  - Callbacks (EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard)
+  - Training history visualization
+  - TFLite conversion for mobile deployment
+  - Custom training loops
+
 ## Best Practices
 
+**Do:**
 - Use cross-validation for robust evaluation
 - Track experiments with MLflow
-- Save model checkpoints
+- Save model checkpoints regularly
 - Monitor for overfitting
 - Document hyperparameters
+- Use 70/15/15 train/val/test split
+
+**Don't:**
+- Train without a validation set
+- Ignore class imbalance
+- Skip feature scaling
+- Use test set for hyperparameter tuning
+- Forget to set random seeds
