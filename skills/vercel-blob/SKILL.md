@@ -19,7 +19,7 @@ license: MIT
 # Vercel Blob (Object Storage)
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Dependencies**: None
 **Latest Versions**: `@vercel/blob@2.0.0`
 

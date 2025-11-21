@@ -20,7 +20,7 @@ license: MIT
 # Vercel KV (Redis-Compatible Storage)
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Dependencies**: None
 **Latest Versions**: `@vercel/kv@3.0.0`
 

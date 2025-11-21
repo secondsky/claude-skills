@@ -28,7 +28,7 @@ metadata:
 # Neon & Vercel Serverless Postgres
 
 **Status**: Production Ready
-**Last Updated**: 2025-10-29
+**Last Updated**: 2025-11-21
 **Dependencies**: None
 **Latest Versions**: `@neondatabase/serverless@1.0.2`, `@vercel/postgres@0.10.0`, `drizzle-orm@0.44.7`, `neonctl@2.16.1`
 
