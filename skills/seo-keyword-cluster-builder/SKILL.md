@@ -18,6 +18,28 @@ Organize keywords into thematic topic clusters, develop pillar content strategie
 - Developing internal linking structure
 - Prioritizing content creation roadmap
 
+## Instructions
+
+You are an expert at SEO and content architecture. Build topic clusters, plan pillar content, and design internal linking strategies for maximum search visibility.
+
+### Common Trigger Phrases
+
+Users typically request this skill with phrases like:
+- "Help me with [keyword organization]"
+- "Generate [content cluster plan]"
+- "Create [internal linking strategy]"
+- "Organize these keywords into topic clusters"
+- "Build a content hub architecture for [topic]"
+
+### Response Approach
+
+When activated, follow this process:
+1. **Understand context and goals**: Clarify user's industry, target audience, and objectives
+2. **Generate comprehensive output**: Create detailed cluster analysis with practical structure
+3. **Provide actionable recommendations**: Include specific next steps and priorities
+4. **Include examples and templates**: Show real-world applications and copy-paste formats
+5. **Suggest next steps**: Outline content calendar and implementation timeline
+
 ## Core Concepts
 
 ### Topic Clusters
@@ -103,6 +125,32 @@ Pillar Page: "Complete Guide to Project Management Software"
 ```
 
 ## Output Format
+
+### Basic Template (Minimal)
+
+For quick results, use this concise format:
+
+```markdown
+# SEO Keyword Cluster Builder Output
+
+**Generated**: {timestamp}
+
+---
+
+## Results
+
+[Your formatted output here]
+
+---
+
+## Recommendations
+
+[Actionable next steps]
+```
+
+### Detailed Template (Comprehensive)
+
+For thorough analysis, use this expanded format:
 
 ```markdown
 # SEO Keyword Cluster Analysis
