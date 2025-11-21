@@ -49,15 +49,21 @@ class OfflineManager {
   }
 
   async processQueue() {
+    const failedItems = [];
     for (const item of this.syncQueue) {
       try {
         await this.syncToServer(item.key, item.data);
       } catch (err) {
         console.error('Sync failed:', err);
+        failedItems.push(item);
       }
     }
-    this.syncQueue = [];
-    await AsyncStorage.removeItem('syncQueue');
+    this.syncQueue = failedItems;
+    if (failedItems.length === 0) {
+      await AsyncStorage.removeItem('syncQueue');
+    } else {
+      await AsyncStorage.setItem('syncQueue', JSON.stringify(failedItems));
+    }
   }
 }
 ```
