@@ -69,14 +69,19 @@ from flask_talisman import Talisman
 
 app = Flask(__name__)
 
+# CSP with nonce-based style-src (Flask-Talisman auto-generates nonces)
+# IMPORTANT: Do NOT use 'unsafe-inline' - use nonce-based approach instead
 csp = {
     'default-src': "'self'",
     'script-src': "'self'",
-    'style-src': "'self'",  # Removed 'unsafe-inline' - use nonce-based approach
+    'style-src': ["'self'"],  # Flask-Talisman will automatically add 'nonce-{nonce}' when content_security_policy_nonce_in is set
     'img-src': ["'self'", "data:", "https:"],
     'font-src': ["'self'", "https://fonts.gstatic.com"],
 }
 
+# Flask-Talisman will inject nonces automatically for inline styles and scripts
+# Use {{ csp_nonce() }} in templates to access the nonce:
+# Example: <style nonce="{{ csp_nonce() }}">body { background: #fff; }</style>
 Talisman(
     app,
     force_https=True,
@@ -85,6 +90,7 @@ Talisman(
     strict_transport_security_include_subdomains=True,
     strict_transport_security_preload=True,
     content_security_policy=csp,
+    content_security_policy_nonce_in=['script-src', 'style-src'],  # Enable nonce injection
     content_security_policy_report_only=False,
     content_security_policy_report_uri='/csp-report',
     frame_options='DENY',
@@ -123,7 +129,12 @@ Talisman(
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
 
     # Content Security Policy
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-ancestors 'none'"
+    # IMPORTANT: Do NOT use 'unsafe-inline' - weakens XSS protection
+    # For inline styles, use external stylesheets OR implement nonce-based approach:
+    # 1. Generate nonce per-request (e.g., via PHP: $nonce = base64_encode(random_bytes(16)))
+    # 2. Include in CSP header: "style-src 'self' 'nonce-{$nonce}'"
+    # 3. Add nonce to inline styles: <style nonce="{$nonce}">...</style>
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https:; frame-ancestors 'none'"
 </IfModule>
 
 # Force HTTPS redirect
