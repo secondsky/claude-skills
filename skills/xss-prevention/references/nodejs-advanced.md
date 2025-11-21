@@ -146,13 +146,31 @@ function xssProtection(req, res, next) {
 }
 
 function sanitizeObject(obj) {
-  const sanitized = {};
+  // Handle null/undefined
+  if (obj === null || obj === undefined) {
+    return obj;
+  }
 
+  // Handle arrays - preserve array structure
+  if (Array.isArray(obj)) {
+    return obj.map(item => {
+      if (typeof item === 'string') {
+        return XSSPrevention.stripHTML(item);
+      } else if (typeof item === 'object' && item !== null) {
+        return sanitizeObject(item); // Recurse for nested objects/arrays
+      } else {
+        return item;
+      }
+    });
+  }
+
+  // Handle plain objects
+  const sanitized = {};
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'string') {
       sanitized[key] = XSSPrevention.stripHTML(value);
     } else if (typeof value === 'object' && value !== null) {
-      sanitized[key] = sanitizeObject(value);
+      sanitized[key] = sanitizeObject(value); // Recurse for nested objects/arrays
     } else {
       sanitized[key] = value;
     }
@@ -293,33 +311,47 @@ export { SafeText, SafeHTML, SafeLink, useSanitizedInput };
 const helmet = require('helmet');
 const crypto = require('crypto');
 
+// Generate nonce for inline scripts
+function generateNonce() {
+  return crypto.randomBytes(16).toString('base64');
+}
+
 function setupCSP(app) {
-  app.use(helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
+  // Generate nonce per-request BEFORE setting CSP header
+  app.use((req, res, next) => {
+    res.locals.nonce = generateNonce();
+    next();
+  });
 
-      // Only allow scripts from trusted sources
-      scriptSrc: [
-        "'self'",
-        "'nonce-RANDOM_NONCE'", // Use dynamic nonces
-        "https://cdn.example.com"
-      ],
+  // Use Helmet with dynamic nonce via function
+  app.use((req, res, next) => {
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
 
-      // Styles
-      styleSrc: [
-        "'self'",
-        "'nonce-RANDOM_NONCE'",
-        "https://fonts.googleapis.com"
-      ],
+        // Use dynamic nonce from res.locals
+        scriptSrc: [
+          "'self'",
+          `'nonce-${res.locals.nonce}'`, // Dynamic per-request nonce
+          "https://cdn.example.com"
+        ],
 
-      // No inline styles/scripts
-      objectSrc: ["'none'"],
-      baseUri: ["'self'"],
+        // Styles with dynamic nonce
+        styleSrc: [
+          "'self'",
+          `'nonce-${res.locals.nonce}'`, // Dynamic per-request nonce
+          "https://fonts.googleapis.com"
+        ],
 
-      // Report violations
-      reportUri: ['/api/csp-violations']
-    }
-  }));
+        // No inline styles/scripts without nonce
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+
+        // Report violations
+        reportUri: ['/api/csp-violations']
+      }
+    })(req, res, next);
+  });
 
   // CSP violation reporter
   app.post('/api/csp-violations', (req, res) => {
@@ -328,16 +360,34 @@ function setupCSP(app) {
   });
 }
 
-// Generate nonce for inline scripts
-function generateNonce() {
-  return crypto.randomBytes(16).toString('base64');
+// Alternative: Custom CSP middleware without Helmet (more control)
+function setupCSPCustom(app) {
+  app.use((req, res, next) => {
+    // Generate nonce
+    const nonce = generateNonce();
+    res.locals.nonce = nonce;
+
+    // Build CSP header with dynamic nonce
+    const cspHeader = [
+      "default-src 'self'",
+      `script-src 'self' 'nonce-${nonce}' https://cdn.example.com`,
+      `style-src 'self' 'nonce-${nonce}' https://fonts.googleapis.com`,
+      "object-src 'none'",
+      "base-uri 'self'",
+      "report-uri /api/csp-violations"
+    ].join('; ');
+
+    res.setHeader('Content-Security-Policy', cspHeader);
+    next();
+  });
+
+  // CSP violation reporter
+  app.post('/api/csp-violations', (req, res) => {
+    console.error('CSP Violation:', req.body);
+    res.status(204).end();
+  });
 }
 
-// Express middleware to add nonce
-app.use((req, res, next) => {
-  res.locals.nonce = generateNonce();
-  next();
-});
-
 // In templates: <script nonce="<%= nonce %>">
+// The nonce in the header will match res.locals.nonce
 ```

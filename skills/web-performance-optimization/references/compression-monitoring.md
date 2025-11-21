@@ -162,8 +162,8 @@ measurePerformance('https://example.com').then(console.log);
 ## Analytics Integration
 
 ```javascript
+// Simple version - acceptable for optional telemetry
 function sendToAnalytics({ metric, value }) {
-  // Send to your analytics endpoint
   fetch('/api/analytics', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -174,6 +174,107 @@ function sendToAnalytics({ metric, value }) {
       timestamp: Date.now(),
       userAgent: navigator.userAgent
     })
-  }).catch(console.error);
+  }).catch(console.error); // Silently fail - acceptable for non-critical telemetry
+}
+
+// Production version - with retries and fallback
+function sendToAnalyticsWithRetry({ metric, value }, retries = 2) {
+  const payload = {
+    metric,
+    value,
+    url: window.location.href,
+    timestamp: Date.now(),
+    userAgent: navigator.userAgent
+  };
+
+  const sendRequest = async (endpoint, attempt = 0) => {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        // Set reasonable timeout via signal
+        signal: AbortSignal.timeout(3000)
+      });
+
+      if (!response.ok && attempt < retries) {
+        // Retry on 5xx errors with exponential backoff
+        if (response.status >= 500) {
+          const delay = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return sendRequest(endpoint, attempt + 1);
+        }
+      }
+
+      return response;
+    } catch (error) {
+      console.error(`Analytics send failed (attempt ${attempt + 1}):`, error);
+
+      // Retry on network errors
+      if (attempt < retries) {
+        const delay = Math.pow(2, attempt) * 1000;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return sendRequest(endpoint, attempt + 1);
+      }
+
+      // Log to fallback endpoint after all retries exhausted
+      if (attempt >= retries) {
+        try {
+          await fetch('/api/analytics/fallback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...payload, error: error.message })
+          });
+        } catch (fallbackError) {
+          console.error('Fallback analytics also failed:', fallbackError);
+          // Optional: Store in localStorage for batch send later
+          storeForRetry(payload);
+        }
+      }
+
+      throw error;
+    }
+  };
+
+  // Fire and forget - don't block page
+  sendRequest('/api/analytics').catch(() => {
+    // Already logged and handled above
+  });
+}
+
+// Optional: Store failed metrics in localStorage for batch retry
+function storeForRetry(payload) {
+  try {
+    const stored = JSON.parse(localStorage.getItem('pendingAnalytics') || '[]');
+    stored.push(payload);
+    // Limit to prevent unbounded growth
+    if (stored.length > 100) stored.shift();
+    localStorage.setItem('pendingAnalytics', JSON.stringify(stored));
+  } catch (e) {
+    console.error('Failed to store analytics locally:', e);
+  }
+}
+
+// Optional: Retry stored metrics on next page load
+function retryStoredAnalytics() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('pendingAnalytics') || '[]');
+    if (stored.length === 0) return;
+
+    fetch('/api/analytics/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stored)
+    }).then(() => {
+      localStorage.removeItem('pendingAnalytics');
+    }).catch(console.error);
+  } catch (e) {
+    console.error('Failed to retry stored analytics:', e);
+  }
+}
+
+// Call on page load
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', retryStoredAnalytics);
 }
 ```
