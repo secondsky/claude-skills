@@ -82,6 +82,14 @@ html[dir="rtl"] .icon {
 }
 ```
 
+## Additional Frameworks
+
+See [references/frameworks.md](references/frameworks.md) for:
+- React-Intl (Format.js) complete implementation
+- Python gettext with Flask/Babel
+- RTL language support patterns
+- ICU Message Format examples
+
 ## Best Practices
 
 - Extract all user-facing strings

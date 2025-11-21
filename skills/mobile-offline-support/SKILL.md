@@ -106,6 +106,12 @@ function OfflineIndicator() {
 - Compress stored data
 - Test offline scenarios thoroughly
 
+## Native Implementations
+
+See [references/native-implementations.md](references/native-implementations.md) for:
+- iOS Core Data with sync manager
+- Android Room database with WorkManager sync
+
 ## Avoid
 
 - Assuming connectivity

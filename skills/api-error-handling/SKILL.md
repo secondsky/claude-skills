@@ -96,6 +96,14 @@ class CircuitBreaker {
 }
 ```
 
+## Additional Implementations
+
+See [references/python-flask.md](references/python-flask.md) for:
+- Python Flask error handling with custom exceptions
+- Circuit breaker with automatic recovery
+- Retry with exponential backoff
+- Sentry integration
+
 ## Best Practices
 
 - Use consistent error format across all endpoints

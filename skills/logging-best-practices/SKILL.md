@@ -86,6 +86,15 @@ function sanitize(obj) {
 - Implement log rotation
 - Never log at DEBUG in production
 
+## Additional Implementations
+
+See [references/advanced-logging.md](references/advanced-logging.md) for:
+- Python structlog setup
+- Go zap high-performance logging
+- ELK Stack integration
+- AWS CloudWatch configuration
+- OpenTelemetry tracing
+
 ## Never Do
 
 - Log passwords or tokens

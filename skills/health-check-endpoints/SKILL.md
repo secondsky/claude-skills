@@ -87,6 +87,13 @@ readinessProbe:
 - Set reasonable timeouts to prevent cascading failures
 - Include response time metrics
 
+## Additional Implementations
+
+See [references/implementations.md](references/implementations.md) for:
+- Python Flask complete health checker
+- Java Spring Boot Actuator
+- Full Kubernetes deployment config
+
 ## Never Do
 
 - Make liveness depend on external services
