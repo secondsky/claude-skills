@@ -31,6 +31,9 @@ Users typically request this skill with phrases like:
 - "Organize these keywords into topic clusters"
 - "Build a content hub architecture for [topic]"
 
+**Example Request:**
+> "Help me organize these 30 keywords about email marketing into topic clusters and create a content hub architecture"
+
 ### Response Approach
 
 When activated, follow this process:
