@@ -155,8 +155,10 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 ## Redis Pub/Sub for Scaling
 
 ```python
-import aioredis
+# Modern redis client with asyncio support (replaces deprecated aioredis)
+import redis.asyncio as redis
 import asyncio
+import json
 
 class RedisPubSubManager:
     def __init__(self, redis_url: str):
@@ -165,8 +167,20 @@ class RedisPubSubManager:
         self.redis = None
 
     async def connect(self):
-        self.redis = await aioredis.from_url(self.redis_url)
+        # redis.asyncio.from_url() returns an async Redis client
+        self.redis = await redis.from_url(
+            self.redis_url,
+            encoding="utf-8",
+            decode_responses=True
+        )
         self.pubsub = self.redis.pubsub()
+
+    async def disconnect(self):
+        """Cleanup Redis connections"""
+        if self.pubsub:
+            await self.pubsub.close()
+        if self.redis:
+            await self.redis.close()
 
     async def subscribe(self, channel: str, callback):
         await self.pubsub.subscribe(channel)
@@ -178,6 +192,7 @@ class RedisPubSubManager:
     async def _listener(self, callback):
         async for message in self.pubsub.listen():
             if message['type'] == 'message':
+                # With decode_responses=True, message['data'] is already a string
                 data = json.loads(message['data'])
                 await callback(data)
 
