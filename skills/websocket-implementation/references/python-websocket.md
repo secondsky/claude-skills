@@ -159,15 +159,20 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
 import redis.asyncio as redis
 import asyncio
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 class RedisPubSubManager:
+    """Redis Pub/Sub manager using modern redis.asyncio patterns."""
+
     def __init__(self, redis_url: str):
         self.redis_url = redis_url
-        self.pubsub = None
         self.redis = None
+        self._listener_tasks = []
 
     async def connect(self):
-        """Connect to Redis with error handling"""
+        """Connect to Redis with comprehensive error handling."""
         try:
             # redis.asyncio.from_url() returns an async Redis client
             self.redis = await redis.from_url(
@@ -175,43 +180,117 @@ class RedisPubSubManager:
                 encoding="utf-8",
                 decode_responses=True
             )
-            self.pubsub = self.redis.pubsub()
+            # Test connection with ping
+            await self.redis.ping()
+            logger.info(f"Connected to Redis at {self.redis_url}")
         except redis.ConnectionError as e:
+            logger.error(f"Failed to connect to Redis: {e}")
             raise RuntimeError(f"Failed to connect to Redis at {self.redis_url}: {e}") from e
+        except redis.TimeoutError as e:
+            logger.error(f"Redis connection timeout: {e}")
+            raise RuntimeError(f"Redis connection timeout at {self.redis_url}: {e}") from e
         except Exception as e:
+            logger.error(f"Unexpected error connecting to Redis: {e}")
             raise RuntimeError(f"Unexpected error connecting to Redis: {e}") from e
 
     async def disconnect(self):
-        """Cleanup Redis connections"""
-        if self.pubsub:
-            await self.pubsub.close()
+        """Cleanup Redis connections and listener tasks."""
+        # Cancel all listener tasks
+        for task in self._listener_tasks:
+            if not task.done():
+                task.cancel()
+                try:
+                    await task
+                except asyncio.CancelledError:
+                    pass
+
+        # Close Redis connection
         if self.redis:
             await self.redis.close()
+            logger.info("Disconnected from Redis")
 
     async def subscribe(self, channel: str, callback):
-        await self.pubsub.subscribe(channel)
-        asyncio.create_task(self._listener(callback))
+        """
+        Subscribe to a Redis channel using modern async context manager pattern.
+        Uses get_message() instead of legacy listen() generator.
+        """
+        if not self.redis:
+            raise RuntimeError("Not connected to Redis. Call connect() first.")
+
+        # Create listener task
+        task = asyncio.create_task(self._listener(channel, callback))
+        self._listener_tasks.append(task)
+        logger.info(f"Subscribed to Redis channel: {channel}")
 
     async def publish(self, channel: str, message: dict):
-        await self.redis.publish(channel, json.dumps(message))
+        """Publish message to Redis channel with error handling."""
+        if not self.redis:
+            raise RuntimeError("Not connected to Redis. Call connect() first.")
 
-    async def _listener(self, callback):
-        async for message in self.pubsub.listen():
-            if message['type'] == 'message':
-                # With decode_responses=True, message['data'] is already a string
-                data = json.loads(message['data'])
-                await callback(data)
+        try:
+            await self.redis.publish(channel, json.dumps(message))
+        except redis.RedisError as e:
+            logger.error(f"Failed to publish to {channel}: {e}")
+            raise
+
+    async def _listener(self, channel: str, callback):
+        """
+        Modern Redis listener using async context manager and get_message().
+        Follows redis.asyncio best practices for resource management.
+        """
+        try:
+            # Use async context manager for automatic cleanup
+            async with self.redis.pubsub() as pubsub:
+                await pubsub.subscribe(channel)
+
+                # Modern pattern: poll with get_message() instead of listen()
+                while True:
+                    try:
+                        # get_message() with timeout to allow graceful shutdown
+                        message = await pubsub.get_message(
+                            ignore_subscribe_messages=True,
+                            timeout=1.0  # 1 second timeout for responsiveness
+                        )
+
+                        if message and message['type'] == 'message':
+                            # With decode_responses=True, data is already a string
+                            data = json.loads(message['data'])
+                            await callback(data)
+
+                    except json.JSONDecodeError as e:
+                        logger.error(f"Invalid JSON in message: {e}")
+                    except Exception as e:
+                        logger.error(f"Error processing message: {e}")
+                        # Continue processing other messages
+
+        except asyncio.CancelledError:
+            logger.info(f"Listener for {channel} cancelled")
+            raise
+        except redis.RedisError as e:
+            logger.error(f"Redis error in listener for {channel}: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error in listener for {channel}: {e}")
+            raise
 
 # Usage with WebSocket manager
 redis_manager = RedisPubSubManager('redis://localhost:6379')
 
 async def on_redis_message(data):
+    """Callback for handling Redis messages."""
     room_id = data['room_id']
     await manager.broadcast_room(room_id, data)
 
 # In startup
-await redis_manager.connect()
-await redis_manager.subscribe('chat_messages', on_redis_message)
+try:
+    await redis_manager.connect()
+    await redis_manager.subscribe('chat_messages', on_redis_message)
+except RuntimeError as e:
+    logger.error(f"Failed to initialize Redis: {e}")
+    # Handle startup failure appropriately
+
+# In shutdown
+await redis_manager.disconnect()
 ```
 
 ## Heartbeat Implementation
