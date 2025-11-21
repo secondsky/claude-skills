@@ -4,8 +4,10 @@ Contract testing using JSON Schema validation with pytest.
 
 ```python
 import json
+import os
 from jsonschema import validate, ValidationError
 import pytest
+import requests
 
 # Schema definitions
 USER_SCHEMA = {
@@ -107,16 +109,38 @@ def validator():
 @pytest.fixture
 def api_client():
     """Configure your API client here."""
-    import requests
     class APIClient:
-        def __init__(self, base_url="http://localhost:3000"):
-            self.base_url = base_url
+        def __init__(self, base_url=None, timeout=10):
+            # Read base URL from environment or use default
+            self.base_url = base_url or os.getenv("API_BASE_URL", "http://localhost:3000")
+            self.timeout = timeout
+            # Reuse session for better performance
+            self.session = requests.Session()
 
         def get(self, path):
-            return requests.get(f"{self.base_url}{path}")
+            try:
+                return self.session.get(
+                    f"{self.base_url}{path}",
+                    timeout=self.timeout
+                )
+            except requests.exceptions.RequestException as e:
+                raise RuntimeError(
+                    f"Request failed: GET {self.base_url}{path}, "
+                    f"timeout={self.timeout}s, error={str(e)}"
+                ) from e
 
         def post(self, path, data):
-            return requests.post(f"{self.base_url}{path}", json=data)
+            try:
+                return self.session.post(
+                    f"{self.base_url}{path}",
+                    json=data,
+                    timeout=self.timeout
+                )
+            except requests.exceptions.RequestException as e:
+                raise RuntimeError(
+                    f"Request failed: POST {self.base_url}{path}, "
+                    f"timeout={self.timeout}s, error={str(e)}"
+                ) from e
 
     return APIClient()
 

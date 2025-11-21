@@ -35,8 +35,22 @@ const generateTokens = (user) => ({
 });
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'No token provided' });
+  const authHeader = req.headers.authorization;
+
+  // Validate authorization header format
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Malformed authorization header' });
+  }
+
+  const parts = authHeader.split(' ');
+  if (parts.length !== 2) {
+    return res.status(401).json({ error: 'Malformed authorization header' });
+  }
+
+  const token = parts[1];
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
 
   try {
     req.user = jwt.verify(token, process.env.JWT_SECRET);

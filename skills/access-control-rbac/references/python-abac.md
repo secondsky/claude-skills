@@ -7,6 +7,7 @@ from typing import List, Callable, Dict, Any
 from dataclasses import dataclass
 from enum import Enum
 from datetime import datetime
+import threading
 
 class Effect(Enum):
     ALLOW = "allow"
@@ -35,21 +36,51 @@ class Policy:
 
 
 class ABACEngine:
-    """Attribute-Based Access Control decision engine."""
+    """Attribute-Based Access Control decision engine with thread-safe policy management."""
 
     def __init__(self):
         self.policies: List[Policy] = []
+        self._lock = threading.Lock()
 
     def add_policy(self, policy: Policy):
-        """Register a policy with the engine."""
-        self.policies.append(policy)
+        """Register a policy with the engine (thread-safe)."""
+        with self._lock:
+            self.policies.append(policy)
+
+    def remove_policy(self, policy_id: str) -> bool:
+        """Remove a policy by ID. Returns True if removed, False if not found."""
+        with self._lock:
+            for i, policy in enumerate(self.policies):
+                if policy.policy_id == policy_id:
+                    del self.policies[i]
+                    return True
+            return False
+
+    def update_policy(self, policy_id: str, new_policy: Policy) -> bool:
+        """Update a policy by ID. Returns True if updated, False if not found."""
+        with self._lock:
+            for i, policy in enumerate(self.policies):
+                if policy.policy_id == policy_id:
+                    self.policies[i] = new_policy
+                    return True
+            return False
+
+    def clear_policies(self):
+        """Remove all policies from the engine."""
+        with self._lock:
+            self.policies.clear()
 
     def check_access(self, context: Dict[str, Any]) -> bool:
         """
         Evaluate access request against all policies.
         Deny-by-default: returns False if no matching ALLOW policy.
+        Thread-safe: uses shallow copy to avoid holding lock during evaluation.
         """
-        for policy in self.policies:
+        # Take shallow copy to avoid holding lock during evaluation
+        with self._lock:
+            policies_snapshot = self.policies.copy()
+
+        for policy in policies_snapshot:
             if policy.matches(context) and policy.evaluate(context):
                 if policy.effect == Effect.DENY:
                     return False
@@ -139,10 +170,19 @@ def require_access(resource: str, action: str):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
+            # Guard: check if user is authenticated
+            user = getattr(g, "user", None)
+            if user is None:
+                return jsonify({"error": "Authentication required"}), 401
+
+            # Guard: check required user attributes exist
+            if not all(hasattr(user, attr) for attr in ["id", "department", "clearance_level"]):
+                return jsonify({"error": "Incomplete user authentication"}), 401
+
             context = {
-                "user_id": g.user.id,
-                "user_department": g.user.department,
-                "user_clearance": g.user.clearance_level,
+                "user_id": user.id,
+                "user_department": user.department,
+                "user_clearance": user.clearance_level,
                 "resource": resource,
                 "action": action,
                 "resource_owner_id": kwargs.get("owner_id")

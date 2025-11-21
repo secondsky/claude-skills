@@ -21,11 +21,12 @@ Implement health checks for monitoring service availability and readiness.
 ```javascript
 class HealthChecker {
   async checkDatabase() {
+    const start = Date.now();
     try {
       await db.query('SELECT 1');
       return { status: 'healthy', latency: Date.now() - start };
     } catch (err) {
-      return { status: 'unhealthy', error: err.message };
+      return { status: 'unhealthy', error: String(err?.message || err) };
     }
   }
 
