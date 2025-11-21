@@ -27,6 +27,20 @@ This is a curated collection of **production-tested Claude Code skills** for bui
 
 ---
 
+## ⚠️ CRITICAL: Skill Review Process
+
+**ALWAYS use the `skill-review` skill when reviewing skills in this repository.**
+
+When asked to review skills:
+1. **DO NOT** manually check versions/dates
+2. **DO** use the installed `skill-review` skill which provides a 14-phase comprehensive audit
+3. The skill-review skill is located at `skills/skill-review/SKILL.md`
+4. It covers: version accuracy, date freshness, documentation quality, error catalog completeness, template validation, and more
+
+Example: "Review the cloudflare-worker-base skill" → Use skill-review skill, not manual inspection
+
+---
+
 ## Official Standards We Follow
 
 This repo aligns with **official Anthropic standards**:
