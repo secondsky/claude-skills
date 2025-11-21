@@ -17,11 +17,53 @@ class OfflineManager {
   constructor() {
     this.syncQueue = [];
     this.isOnline = true;
+    // Maximum items in sync queue before discarding oldest
+    this.MAX_SYNC_QUEUE_LENGTH = 1000;
 
     NetInfo.addEventListener(state => {
       this.isOnline = state.isConnected;
       if (this.isOnline) this.processQueue();
     });
+  }
+
+  /**
+   * Fetch data from server.
+   * TODO: Replace with actual API endpoint implementation.
+   */
+  async fetchFromServer(key) {
+    try {
+      // Example implementation - replace with your API
+      const response = await fetch(`${API_BASE_URL}/data/${key}`);
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('fetchFromServer failed:', error);
+      throw new Error(`Failed to fetch ${key}: ${error.message}`);
+    }
+  }
+
+  /**
+   * Sync data to server.
+   * TODO: Replace with actual API endpoint implementation.
+   */
+  async syncToServer(key, data) {
+    try {
+      // Example implementation - replace with your API
+      const response = await fetch(`${API_BASE_URL}/data/${key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) {
+        throw new Error(`Server returned ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('syncToServer failed:', error);
+      throw new Error(`Failed to sync ${key}: ${error.message}`);
+    }
   }
 
   async getData(key) {
@@ -43,7 +85,16 @@ class OfflineManager {
     if (this.isOnline) {
       await this.syncToServer(key, data);
     } else {
+      // Add to queue
       this.syncQueue.push({ key, data, timestamp: Date.now() });
+
+      // Enforce queue bounds - discard oldest if exceeded
+      while (this.syncQueue.length > this.MAX_SYNC_QUEUE_LENGTH) {
+        const discarded = this.syncQueue.shift();
+        console.warn(`Sync queue full - discarded oldest item: ${discarded.key}`);
+      }
+
+      // Persist trimmed queue
       await AsyncStorage.setItem('syncQueue', JSON.stringify(this.syncQueue));
     }
   }

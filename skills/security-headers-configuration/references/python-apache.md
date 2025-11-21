@@ -3,10 +3,17 @@
 ## Python Flask Implementation
 
 ```python
-from flask import Flask, make_response
+from flask import Flask, make_response, g
 from functools import wraps
+import secrets
 
 app = Flask(__name__)
+
+# Generate CSP nonce for each request
+@app.before_request
+def generate_csp_nonce():
+    """Generate a cryptographically random nonce for CSP"""
+    g.csp_nonce = secrets.token_urlsafe(16)
 
 # Security headers middleware
 @app.after_request
@@ -29,11 +36,13 @@ def add_security_headers(response):
     # Permissions Policy
     response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
 
-    # Content Security Policy
+    # Content Security Policy with nonce-based style-src (no 'unsafe-inline')
+    # Use {{ csp_nonce }} in templates: <style nonce="{{ csp_nonce }}">...</style>
+    nonce = getattr(g, 'csp_nonce', '')
     response.headers['Content-Security-Policy'] = (
         "default-src 'self'; "
         "script-src 'self'; "
-        "style-src 'self' 'unsafe-inline'; "
+        f"style-src 'self' 'nonce-{nonce}'; "
         "img-src 'self' data: https:; "
         "font-src 'self' https://fonts.gstatic.com; "
         "connect-src 'self' https://api.example.com; "
@@ -63,7 +72,7 @@ app = Flask(__name__)
 csp = {
     'default-src': "'self'",
     'script-src': "'self'",
-    'style-src': ["'self'", "'unsafe-inline'"],
+    'style-src': "'self'",  # Removed 'unsafe-inline' - use nonce-based approach
     'img-src': ["'self'", "data:", "https:"],
     'font-src': ["'self'", "https://fonts.gstatic.com"],
 }

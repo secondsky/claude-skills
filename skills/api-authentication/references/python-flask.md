@@ -11,11 +11,19 @@ from flask_jwt_extended import (
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
+import os
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'your-secret-key'
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
-app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=7)
+
+# IMPORTANT: In production, always set JWT_SECRET_KEY via environment variables.
+# Never commit secrets to version control.
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-secret-key-change-me')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(
+    minutes=int(os.getenv('JWT_ACCESS_TOKEN_EXPIRES_MINUTES', '15'))
+)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(
+    days=int(os.getenv('JWT_REFRESH_TOKEN_EXPIRES_DAYS', '7'))
+)
 
 jwt = JWTManager(app)
 
@@ -34,22 +42,49 @@ def role_required(roles):
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    user = User.query.filter_by(email=data['email']).first()
+    # Parse JSON safely
+    try:
+        data = request.get_json()
+    except Exception:
+        return jsonify({'error': 'Invalid JSON'}), 400
 
-    if not user or not check_password_hash(user.password_hash, data['password']):
-        return jsonify({'error': 'Invalid credentials'}), 401
+    if not data:
+        return jsonify({'error': 'Request body required'}), 400
 
-    access_token = create_access_token(
-        identity=user.id,
-        additional_claims={'role': user.role, 'email': user.email}
-    )
-    refresh_token = create_refresh_token(identity=user.id)
+    # Validate required fields
+    email = data.get('email')
+    password = data.get('password')
 
-    return jsonify({
-        'access_token': access_token,
-        'refresh_token': refresh_token
-    })
+    if not email or not isinstance(email, str) or not email.strip():
+        return jsonify({'error': 'Valid email required'}), 400
+
+    if not password or not isinstance(password, str) or not password:
+        return jsonify({'error': 'Valid password required'}), 400
+
+    try:
+        # Query database
+        user = User.query.filter_by(email=email).first()
+
+        # Check credentials - only call check_password_hash if user exists
+        if not user or not check_password_hash(user.password_hash, password):
+            return jsonify({'error': 'Invalid credentials'}), 401
+
+        # Create tokens
+        access_token = create_access_token(
+            identity=user.id,
+            additional_claims={'role': user.role, 'email': user.email}
+        )
+        refresh_token = create_refresh_token(identity=user.id)
+
+        return jsonify({
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        })
+
+    except Exception as e:
+        # Log the error for debugging
+        app.logger.error(f'Login error: {str(e)}')
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
@@ -79,18 +114,25 @@ def protected():
 ```python
 from flask import Flask, redirect, url_for, session
 from authlib.integrations.flask_client import OAuth
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = os.getenv('FLASK_SECRET_KEY', 'dev-secret-change-me')
 oauth = OAuth(app)
 
+# IMPORTANT: Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your environment.
+# Never commit credentials to version control.
+# Register redirect URI (e.g., http://localhost:5000/callback/google) in Google Console.
 google = oauth.register(
     name='google',
-    client_id='your-client-id',
-    client_secret='your-client-secret',
+    client_id=os.getenv('GOOGLE_CLIENT_ID'),
+    client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={'scope': 'openid email profile'}
 )
+
+if not os.getenv('GOOGLE_CLIENT_ID') or not os.getenv('GOOGLE_CLIENT_SECRET'):
+    raise ValueError('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be set in environment')
 
 @app.route('/login/google')
 def google_login():
@@ -123,7 +165,14 @@ def google_callback():
 ```python
 import hashlib
 import secrets
+import logging
 from functools import wraps
+from flask import request, jsonify
+from datetime import datetime
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def generate_api_key():
     """Generate a secure API key"""
@@ -140,15 +189,22 @@ def api_key_required(fn):
         if not api_key:
             return jsonify({'error': 'API key required'}), 401
 
-        key_hash = hash_api_key(api_key)
-        api_key_record = ApiKey.query.filter_by(key_hash=key_hash, active=True).first()
+        try:
+            key_hash = hash_api_key(api_key)
+            api_key_record = ApiKey.query.filter_by(key_hash=key_hash, active=True).first()
 
-        if not api_key_record:
-            return jsonify({'error': 'Invalid API key'}), 401
+            if not api_key_record:
+                return jsonify({'error': 'Invalid API key'}), 401
 
-        # Update last used timestamp
-        api_key_record.last_used = datetime.utcnow()
-        db.session.commit()
+            # Update last used timestamp
+            api_key_record.last_used = datetime.utcnow()
+            db.session.commit()
+
+        except Exception as e:
+            # Rollback on database error
+            db.session.rollback()
+            logger.error(f'API key validation error: {str(e)}')
+            return jsonify({'error': 'Internal server error'}), 500
 
         return fn(*args, **kwargs)
     return wrapper

@@ -58,35 +58,65 @@ async function processPayment(idempotencyKey, payload) {
   const requestHash = crypto.createHash('sha256')
     .update(JSON.stringify(payload)).digest('hex');
 
-  // Check existing
+  // Try to insert with 'processing' status - only one request will succeed
+  const insertResult = await db.query(
+    `INSERT INTO idempotency_keys (key, request_hash, status)
+     VALUES ($1, $2, 'processing')
+     ON CONFLICT (key) DO NOTHING
+     RETURNING *`,
+    [idempotencyKey, requestHash]
+  );
+
+  // If we inserted the row (rowCount === 1), we're responsible for processing
+  if (insertResult.rowCount === 1) {
+    try {
+      // Execute the payment
+      const result = await executePayment(payload);
+
+      // Update to completed with response
+      await db.query(
+        'UPDATE idempotency_keys SET status = $1, response = $2 WHERE key = $3',
+        ['completed', JSON.stringify(result), idempotencyKey]
+      );
+
+      return result;
+    } catch (error) {
+      // Mark as failed on error
+      await db.query(
+        'UPDATE idempotency_keys SET status = $1, response = $2 WHERE key = $3',
+        ['failed', JSON.stringify({ error: error.message }), idempotencyKey]
+      );
+      throw error;
+    }
+  }
+
+  // Another request is/was processing this key - check status
   const existing = await db.query(
     'SELECT * FROM idempotency_keys WHERE key = $1',
     [idempotencyKey]
   );
 
-  if (existing.rows[0]) {
-    if (existing.rows[0].request_hash !== requestHash) {
-      throw new Error('Idempotency key reused with different request');
-    }
-    if (existing.rows[0].status === 'completed') {
-      return existing.rows[0].response;
-    }
+  const row = existing.rows[0];
+  if (!row) {
+    throw new Error('Unexpected: idempotency key vanished');
   }
 
-  // Process and store
-  await db.query(
-    'INSERT INTO idempotency_keys (key, request_hash) VALUES ($1, $2) ON CONFLICT DO NOTHING',
-    [idempotencyKey, requestHash]
-  );
+  // Verify request hasn't changed
+  if (row.request_hash !== requestHash) {
+    throw new Error('Idempotency key reused with different request');
+  }
 
-  const result = await executePayment(payload);
+  // Check status
+  if (row.status === 'completed') {
+    return JSON.parse(row.response);
+  } else if (row.status === 'processing') {
+    throw new Error('Request already processing - retry later');
+  } else if (row.status === 'failed') {
+    const failedResponse = JSON.parse(row.response);
+    throw new Error(`Previous attempt failed: ${failedResponse.error}`);
+  }
 
-  await db.query(
-    'UPDATE idempotency_keys SET status = $1, response = $2 WHERE key = $3',
-    ['completed', result, idempotencyKey]
-  );
-
-  return result;
+  throw new Error(`Unknown status: ${row.status}`);
 }
 ```
 
