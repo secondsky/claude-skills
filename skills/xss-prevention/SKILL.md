@@ -125,6 +125,12 @@ See [references/python-sanitization.md](references/python-sanitization.md) for:
 - Flask/Django template escaping
 - Server-side validation patterns
 
+See [references/nodejs-advanced.md](references/nodejs-advanced.md) for:
+- Complete XSSPrevention class with all methods
+- Express middleware (xssProtection)
+- React components (SafeText, SafeHTML, SafeLink, useSanitizedInput)
+- Helmet CSP configuration
+
 ## Security Checklist
 
 - [ ] Encode all output by context (HTML, attribute, JS)

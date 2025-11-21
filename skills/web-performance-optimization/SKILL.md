@@ -151,6 +151,13 @@ See [references/compression-monitoring.md](references/compression-monitoring.md)
 - TTFB monitoring implementation
 - Puppeteer automation for measurement
 
+See [references/typescript-advanced.md](references/typescript-advanced.md) for:
+- TypeScript lazyLoad utility
+- TypeScript image component
+- Advanced service worker with offline fallback
+- TerserPlugin configuration
+- Complete PerformanceMetrics interface
+
 ## Tools
 
 - Lighthouse / PageSpeed Insights
