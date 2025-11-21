@@ -2,11 +2,50 @@
 
 **Purpose**: Learn from failures without experiencing them yourself
 
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-11-21
 
 ---
 
 ## CRITICAL MISTAKES (Break Functionality)
+
+### Mistake #0: Using Automated Scripts for Refactoring
+
+❌ **WRONG** (Automated refactoring):
+```python
+# Creating Python script to automatically refactor skills
+def refactor_skill(skill_file):
+    # Programmatically extract sections
+    # Auto-generate new SKILL.md
+    # Bypass human review
+```
+
+✅ **CORRECT** (Manual refactoring):
+```
+1. Read entire SKILL.md manually
+2. Identify sections to extract (human judgment)
+3. Copy content to references/<name>.md using Write tool
+4. Use Edit tool to replace section with pointer
+5. Review each change before proceeding
+```
+
+**Why It Matters**:
+- **Human Judgment Required**: Skills need context-aware decisions about what to extract vs keep
+- **Quality Control**: Each change must be reviewed for accuracy and clarity
+- **Error Prevention**: Automation can introduce subtle errors that break skills
+- **Traceability**: Manual changes are easier to review in pull requests
+
+**Real Impact**: Attempted to use Python script to refactor sveltia-cms (2025-11-21), had to revert entire commit
+
+**Correct Process**:
+- Use Read, Edit, Write tools manually
+- Review each change before applying
+- Use existing scripts in `scripts/` directory only (e.g., `review-skill.sh`, `check-versions.sh`)
+- Follow skill-review skill Phase 13 process step-by-step
+- Time: 30min-2hrs per skill (INTENTIONAL - quality over speed)
+
+**See CLAUDE.md** for complete manual refactoring process documentation.
+
+---
 
 ### Mistake #1: Missing YAML Frontmatter
 

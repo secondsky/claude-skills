@@ -41,6 +41,70 @@ Example: "Review the cloudflare-worker-base skill" → Use skill-review skill, n
 
 ---
 
+## ⚠️ CRITICAL: Manual Review & Refactoring Process
+
+**ALWAYS use MANUAL approaches when reviewing and refactoring skills.**
+
+### What This Means:
+
+**✅ ALLOWED:**
+- Using existing scripts in `scripts/` directory (e.g., `review-skill.sh`, `check-versions.sh`)
+- Using standard tools: Read, Edit, Write, Grep, Glob, Bash
+- Manual analysis and judgment
+- Reading files to understand structure
+- Using skill-review skill (which is a skill, not automation)
+
+**❌ FORBIDDEN:**
+- Creating NEW Python/shell scripts to automate refactoring
+- Using sed/awk to programmatically rewrite large sections
+- Batch processing multiple files without human review of each change
+- Auto-generating content via scripts
+- ANY automation that bypasses manual review of changes
+
+### Why Manual Process is Required:
+
+1. **Human Judgment**: Skills require context-aware decisions about what to extract vs keep
+2. **Quality Control**: Each change must be reviewed for accuracy and clarity
+3. **Consistency**: Manual review ensures adherence to skill standards
+4. **Traceability**: Manual changes are easier to review in PRs
+5. **Error Prevention**: Automation can introduce subtle errors that break skills
+
+### Correct Refactoring Process (Manual):
+
+**Phase 13: Fix Implementation** from skill-review skill:
+
+1. **Read & Analyze** (Manual):
+   - Read entire SKILL.md
+   - Identify sections >100 lines that can be extracted
+   - Determine what MUST stay in SKILL.md (Quick Start, Top 3-5 errors)
+
+2. **Extract Sections** (Manual):
+   - Read the section to extract
+   - Copy content to new `references/<name>.md` file using Write tool
+   - Review extracted content for completeness
+
+3. **Update SKILL.md** (Manual):
+   - Read current section in SKILL.md
+   - Use Edit tool to replace with:
+     - Brief summary (2-3 sentences)
+     - Pointer: "Load `references/<name>.md` when..."
+   - Review the edit to ensure clarity
+
+4. **Add "When to Load References"** (Manual):
+   - Use Edit tool to add new section explaining WHEN to load each reference
+   - This is the KEY section for Claude to know what to load when
+
+5. **Verify** (Manual):
+   - Read final SKILL.md
+   - Count lines: should be <500
+   - Check all pointers are correct
+   - Ensure "When to Load References" section is clear
+
+**Time Estimate**: 30 min - 2 hours per skill (depending on complexity)
+**This is INTENTIONAL** - quality over speed!
+
+---
+
 ## Official Standards We Follow
 
 This repo aligns with **official Anthropic standards**:
