@@ -140,6 +140,8 @@ Use Ultracite when:
 - Large codebases with custom ESLint rules (migration effort required)
 - Projects with extensive Prettier customization
 
+**For detailed limitations and workarounds, see**: `references/limitations-and-workarounds.md`
+
 ### Project Suitability Assessment
 
 When this skill is invoked, scan the project and assess:
@@ -231,14 +233,6 @@ bunx ultracite init \
   --integrations husky \
   --migrate eslint,prettier \
   --quiet
-# or: npx ultracite init \
-#   --pm bun \
-#   --frameworks react,next \
-#   --editors vscode \
-#   --agents cursor,claude \
-#   --integrations husky \
-#   --migrate eslint,prettier \
-#   --quiet
 ```
 
 **Available flags:**
@@ -301,251 +295,71 @@ bunx ultracite doctor
 
 ## Configuration
 
-### File Structure
+### Basic Configuration
 
+**File structure:**
 ```
 project-root/
 ├── biome.jsonc              # Main configuration
-├── .vscode/
-│   └── settings.json        # VS Code integration
+├── .vscode/settings.json    # VS Code integration
 ├── tsconfig.json            # TypeScript config (strictNullChecks required)
-├── package.json
-└── [optional] git hooks config
+└── package.json
 ```
 
-### Basic Configuration (biome.jsonc)
-
+**Minimal biome.jsonc:**
 ```jsonc
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "extends": ["ultracite/core"],
 
-  // Optional: Add framework-specific preset
+  // Optional: Add framework preset
   // "extends": ["ultracite/core", "ultracite/react"],
 
   // Optional: Customize rules
   "linter": {
     "rules": {
-      "a11y": {
-        "noAutofocus": "off"  // Disable specific rule
+      "suspicious": {
+        "noConsoleLog": "off"  // Disable specific rule
       }
     }
   },
 
-  // Optional: Exclude files/directories
+  // Optional: Exclude files
   "files": {
-    "ignore": [
-      "dist",
-      "build",
-      "coverage",
-      "**/*.generated.ts"
-    ]
-  },
-
-  // Optional: Customize formatting
-  "formatter": {
-    "indentWidth": 2,
-    "lineWidth": 80
+    "ignore": ["dist", "build", "coverage", "**/*.generated.ts"]
   }
 }
 ```
 
-### Framework-Specific Presets
+### Framework Presets
 
-#### React
+- **`ultracite/react`**: React Hooks, JSX a11y, component best practices
+- **`ultracite/nextjs`**: React + Next.js App Router, image optimization, document structure
+- **`ultracite/vue`**: Vue 3 Composition API, template syntax, reactivity
+- **`ultracite/svelte`**: Svelte 4/5 syntax, reactive declarations
 
+**Usage**:
 ```jsonc
 {
   "extends": ["ultracite/core", "ultracite/react"]
 }
 ```
 
-**Includes:**
-- JSX syntax and pattern rules
-- React Hooks rules (exhaustive deps, rules of hooks)
-- Component best practices
-- Prevents: children as props, nested components, array index keys
-- Enforces: function components over classes
+### Core Preset
 
-**Rules:** 20+ React-specific linting rules
+The `ultracite/core` preset includes **200+ rules** across 7 categories:
 
-#### Next.js
+- **Accessibility**: ARIA validation, semantic HTML, keyboard navigation
+- **Correctness**: Type safety, unused code removal, exhaustive dependencies
+- **Performance**: Code optimization, barrel file warnings
+- **Security**: Prevents `eval()`, XSS risks, unsafe patterns
+- **Style**: Consistent patterns, `const` preference, import organization
+- **Suspicious**: Catches loose equality, debugger statements, typos
+- **Complexity**: Cognitive complexity limits
 
-```jsonc
-{
-  "extends": ["ultracite/core", "ultracite/next"]
-}
-```
+**Formatting defaults**: 2 spaces, 80 chars/line, LF endings, single quotes
 
-**Note:** Next preset includes React rules automatically (no need for both)
-
-**Includes:**
-- Image optimization (requires `next/image`, not `<img>`)
-- Document structure (prevents `<head>` in pages)
-- App Router patterns (async server components)
-- Prevents: importing `next/document` in pages, `next/head` in `_document`
-
-**Special overrides:**
-- `next.config.*` files: allows specific patterns
-- App Router pages/layouts: allows async components
-
-#### Vue
-
-```jsonc
-{
-  "extends": ["ultracite/core", "ultracite/vue"]
-}
-```
-
-**Includes:**
-- Full HTML support with script/style indentation
-- Multi-word component naming enforcement
-- Data option declaration rules
-- Reserved props/keys prevention
-- Prevents React-specific props (`className`, `htmlFor`)
-
-**`.vue` file overrides:**
-- Allows unused variables/imports (may only appear in templates)
-- Relaxes `useConst` (for reactive declarations)
-
-#### Svelte
-
-```jsonc
-{
-  "extends": ["ultracite/core", "ultracite/svelte"]
-}
-```
-
-**Note:** Minimal preset as Biome doesn't have extensive Svelte rules yet
-
-**Includes:**
-- Full HTML support with script/style indentation
-- Prevents React-specific attributes
-- Component structure handling
-
-**`.svelte` file overrides:**
-- Allows unused variables/imports (template-only usage)
-- Relaxes `useConst` for reactive declarations
-
-### Core Preset Features (ultracite/core)
-
-**Formatting defaults:**
-- Indentation: 2 spaces
-- Line width: 80 characters
-- Line ending: LF (Unix-style)
-- Semicolons: Always required
-- Quotes: Single (JS/TS), double (JSON)
-- Trailing commas: ES5 style
-- Arrow parentheses: Always
-
-**200+ linting rules across categories:**
-
-1. **Accessibility (a11y):**
-   - ARIA validation
-   - Semantic HTML enforcement
-   - Keyboard navigation requirements
-   - Alt text for images
-   - Valid autocomplete values
-
-2. **Complexity:**
-   - Cognitive complexity limits
-   - Discourages `arguments`, comma operators
-
-3. **Correctness:**
-   - Type safety enforcement
-   - Prevents const reassignment
-   - Catches unreachable code
-   - Removes unused variables/imports
-   - Enforces exhaustive dependencies
-
-4. **Performance:**
-   - Optimizes code patterns
-   - Discourages barrel files
-   - Prevents inefficient namespace imports
-
-5. **Security:**
-   - Prevents `eval()` usage
-   - Blocks `dangerouslySetInnerHTML` (unless explicitly allowed)
-   - Requires `rel="noopener noreferrer"` for `target="_blank"`
-
-6. **Style:**
-   - Enforces consistent patterns
-   - Prefers `const` declarations
-   - TypeScript strictness
-   - Import organization
-
-7. **Suspicious:**
-   - Catches bitwise operators (often typos)
-   - Prevents loose equality (`==`)
-   - Flags `debugger` statements
-
-**TypeScript features:**
-- Strict type checking enabled
-- Discourages `any` types
-- Requires null/undefined handling
-- Enforces explicit typing
-
-### Customizing Rules
-
-#### Method 1: biome.jsonc Configuration
-
-```jsonc
-{
-  "linter": {
-    "rules": {
-      "a11y": {
-        "noAutofocus": "off"  // Disable rule
-      },
-      "complexity": {
-        "noExcessiveCognitiveComplexity": "warn"  // Change to warning
-      }
-    }
-  }
-}
-```
-
-#### Method 2: Inline Comments
-
-```tsx
-// Disable rule for single line
-// biome-ignore lint/security/noDangerouslySetInnerHtml: Sanitized HTML from trusted source
-<div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
-
-// Disable rule for entire file (use sparingly)
-/* biome-ignore-file lint/suspicious/noArrayIndexKey */
-```
-
-### Excluding Files/Directories
-
-```jsonc
-{
-  "files": {
-    "ignore": [
-      // Build outputs
-      "dist",
-      "build",
-      ".next",
-      "out",
-
-      // Dependencies
-      "node_modules",
-
-      // Generated files
-      "**/*.generated.ts",
-      "**/__generated__/**",
-
-      // Third-party components (if needed)
-      "components/ui/**",
-
-      // Coverage
-      "coverage",
-
-      // OS files
-      ".DS_Store"
-    ]
-  }
-}
-```
+**For detailed framework presets, rule descriptions, and advanced configuration, see**: `references/configuration-guide.md`
 
 ## Usage
 
@@ -559,1059 +373,163 @@ project-root/
    {
      "editor.defaultFormatter": "biomejs.biome",
      "editor.formatOnSave": true,
-     "editor.formatOnPaste": true,
      "editor.codeActionsOnSave": {
        "quickfix.biome": "explicit",
        "source.organizeImports.biome": "explicit"
      }
    }
    ```
-
 3. Disable conflicting extensions (ESLint, Prettier)
 
 **Features:**
-- **Auto-format on save**: Every save triggers formatting
-- **Auto-fix on save**: Removes unused imports, fixes import order, applies strict equality
-- **Format on paste**: Pasted code formatted immediately
-- **Problems panel**: Shows unfixable issues requiring manual attention
-- **Quick fixes**: Lightbulb indicators for suggested fixes
+- Auto-format on save
+- Auto-fix on save (removes unused imports, fixes order, applies strict equality)
+- Format on paste
+- Problems panel for unfixable issues
+- Quick fixes via lightbulb indicators
 
 ### CLI Usage
 
-#### Check Code (Lint Only)
-
+**Check code (lint only)**:
 ```bash
-# Check all files
 bunx ultracite check
-
-# Check specific directory
 bunx ultracite check src/
-
-# Filter by severity
 bunx ultracite check --diagnostic-level error  # Only errors
-# or: npx ultracite check --diagnostic-level error
-
-bunx ultracite check --diagnostic-level warn   # Warnings and errors
 ```
 
-#### Fix Code (Auto-fix)
-
+**Fix code (auto-fix)**:
 ```bash
-# Fix all files
-bunx ultracite fix
-
-# Fix specific directory
-bunx ultracite fix src/
-
-# Apply unsafe fixes (use with caution)
-bunx ultracite fix --unsafe
-# or: npx ultracite fix --unsafe
+bunx ultracite check --write
+bunx ultracite check --write src/
 ```
 
-**Safe vs Unsafe fixes:**
-- **Safe**: Formatting, import sorting, unused import removal, strict equality
-- **Unsafe**: Complex refactoring, logic changes (requires review)
-
-#### Validate Setup
-
+**Format code (format only)**:
 ```bash
-# Check configuration and installation
-bunx ultracite doctor
-
-# Output example:
-# ✔ Biome version: 1.9.4
-# ✔ Configuration: biome.jsonc
-# ✔ Extends: ultracite/core, ultracite/react
-# ✔ Editor: VS Code configured
-# ⚠ Warning: strictNullChecks not enabled in tsconfig.json
+bunx ultracite format --write
+bunx ultracite format --write src/
 ```
 
-### Package.json Scripts
-
+**Package.json scripts**:
 ```json
 {
   "scripts": {
     "lint": "ultracite check",
-    "lint:fix": "ultracite fix",
-    "format": "ultracite fix",
-    "format:check": "ultracite check",
-    "prepare": "husky install"  // If using Husky
+    "lint:fix": "ultracite check --write",
+    "format": "ultracite format --write"
   }
 }
 ```
 
 ## Git Hook Integrations
 
-**IMPORTANT:** Before installing a Git hook manager, always check if one is already configured.
+Ultracite auto-detects and integrates with:
+- **Husky**: Node.js-based hook manager
+- **Lefthook**: Fast Go-based hook manager
+- **lint-staged**: Runs linters on staged files only
 
-### Detecting Existing Git Hook Managers
-
+**Quick setup**:
 ```bash
-# Check package.json for existing tools
-grep -E "husky|lefthook|lint-staged|pre-commit" package.json
-
-# Check for configuration files
-ls -la .husky/ lefthook.yml .lintstagedrc* .git/hooks/
-
-# Check if hooks are already configured
-cat .git/hooks/pre-commit 2>/dev/null || echo "No pre-commit hook"
-```
-
-**If a Git hook manager is already installed:**
-1. **Ask the user** which one to use or keep existing
-2. **Do not install multiple** (causes conflicts)
-3. **Update existing config** to include Ultracite
-
-### Husky Integration
-
-**What it does:** Runs `bunx ultracite fix` before every commit
-
-**Setup (if Husky not installed):**
-
-```bash
-# Automatic during init
+# Husky
 bunx ultracite init --integrations husky
 
-# Manual setup
-bun add -D husky
-# or: npm install -D husky
+# Lefthook
+bunx ultracite init --integrations lefthook
 
-bunx husky install
-# or: npx husky install
-
-bunx husky add .husky/pre-commit "bunx ultracite fix"
-chmod +x .husky/pre-commit
+# lint-staged
+bunx ultracite init --integrations lint-staged
 ```
 
-**Update existing Husky:**
-
+**Example `.husky/pre-commit`**:
 ```bash
-# Edit .husky/pre-commit (preserve existing commands)
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Add before existing commands
-bunx ultracite fix
-
-# ... existing commands ...
+ultracite check --staged --write
 ```
 
-**File structure:**
-```
-.husky/
-├── _/husky.sh
-└── pre-commit    # Contains: bunx ultracite fix
-```
-
-**Bypass hook (emergency only):**
-```bash
-git commit --no-verify
-```
-
-### Lefthook Integration
-
-**What it does:** Fast native Git hooks manager (written in Go)
-
-**Setup (if Lefthook not installed):**
-
-```bash
-# Automatic during init
-bunx ultracite init --integrations lefthook
-
-# Manual setup
-bun add -D lefthook
-# or: npm install -D lefthook
-
-bunx lefthook install
-# or: npx lefthook install
-```
-
-**Configuration (lefthook.yml):**
-
-```yaml
-pre-commit:
-  jobs:
-    - run: bunx ultracite fix
-      glob:
-        - "*.js"
-        - "*.jsx"
-        - "*.ts"
-        - "*.tsx"
-        - "*.json"
-        - "*.jsonc"
-        - "*.css"
-      stage_fixed: true  # Auto-stage fixed files
-```
-
-**Update existing Lefthook:**
-
-```yaml
-# Add to existing lefthook.yml
-pre-commit:
-  jobs:
-    # Add this job
-    - run: bunx ultracite fix
-      glob:
-        - "*.{js,jsx,ts,tsx,json,jsonc,css}"
-      stage_fixed: true
-
-    # ... existing jobs ...
-```
-
-**Benefits over Husky:**
-- Faster execution (native Go binary)
-- More granular file pattern matching
-- Cross-platform consistency
-- Easier parallel job execution
-
-### Lint-staged Integration
-
-**What it does:** Runs commands only on staged Git files (faster than checking entire codebase)
-
-**Setup (if lint-staged not installed):**
-
-```bash
-# Automatic during init
-bunx ultracite init --integrations lint-staged
-
-# Manual setup
-bun add -D lint-staged
-# or: npm install -D lint-staged
-```
-
-**Configuration (.lintstagedrc.json):**
-
-```json
-{
-  "*.{js,jsx,ts,tsx,json,jsonc,css,md,mdx}": [
-    "bunx ultracite fix"
-  ]
-}
-```
-
-**Alternative formats:**
-
-```jsonc
-// package.json
-{
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,json,jsonc,css}": ["bunx ultracite fix"]
-  }
-}
-```
-
-```js
-// .lintstagedrc.js (CommonJS)
-module.exports = {
-  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['bunx ultracite fix'],
-};
-```
-
-```js
-// .lintstagedrc.mjs (ESM)
-export default {
-  '*.{js,jsx,ts,tsx,json,jsonc,css}': ['bunx ultracite fix'],
-};
-```
-
-**Combine with Husky or Lefthook:**
-
-```bash
-# .husky/pre-commit
-bunx lint-staged
-# or: npx lint-staged
-```
-
-```yaml
-# lefthook.yml
-pre-commit:
-  commands:
-    lint:
-      run: bunx lint-staged
-```
-
-**Benefits:**
-- Only processes staged files (faster)
-- Prevents accidentally committing unstaged changes
-- Smart configuration merging
-
-### Choosing a Git Hook Manager
-
-**Recommendations:**
-
-| Use Case | Tool | Reason |
-|----------|------|--------|
-| Simple projects | **Husky** | Most popular, easy setup |
-| Performance-critical | **Lefthook** | Native Go, faster |
-| Large monorepos | **Lefthook + lint-staged** | Fast, only checks changed files |
-| Existing setup | **Keep existing** | Avoid conflicts |
-
-**Ask user if multiple options:**
-```
-I detected you don't have a Git hook manager installed.
-Ultracite can integrate with:
-
-1. Husky (most popular, simple)
-2. Lefthook (fastest, native Go)
-3. lint-staged (only checks staged files)
-4. None (skip Git hooks)
-
-Which would you like to use? [1-4]
-```
+**For complete Git hook setup guides (Husky, Lefthook, lint-staged), see**: `references/git-hooks-setup.md`
 
 ## AI Editor Rules
 
-Ultracite provides editor-specific rule files to guide AI coding assistants.
-
-### What Are AI Editor Rules?
-
-These rules work **alongside Biome's linting** to guide AI tools (Cursor, Claude Code, GitHub Copilot) to generate code that follows best practices.
-
-**Key benefits:**
-- Consistency across AI-generated code
-- Quality: Best practices enforcement
-- Accessibility: Built-in inclusive coding
-- Performance: Efficient patterns
-- Security: Vulnerability prevention
-
-### Supported Editors & File Locations
-
-| Editor | File Location | Flag |
-|--------|---------------|------|
-| **Cursor** | `.cursor/rules/ultracite.mdc` | `--agents cursor` |
-| **Claude Code** | `.claude/CLAUDE.md` | `--agents claude` |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | `--agents copilot` |
-| **Cline** | `.clinerules` | `--agents cline` |
-| **Zed** | `.rules` | `--agents zed` |
-| **Windsurf** | Framework-specific | `--agents windsurf` |
-| **Aider** | `ultracite.md` | `--agents aider` |
-
-### Setup
-
-```bash
-# Automatic during init (select editors when prompted)
-bunx ultracite init
-
-# Specify editors explicitly
-bunx ultracite init --agents cursor,claude,copilot
-
-# Multiple agents
-bunx ultracite init --agents cursor,claude,cline,windsurf
-# or: npx ultracite init --agents cursor,claude,cline,windsurf
-```
-
-**What gets created:**
-- Editor-specific rule files in appropriate locations
-- Framework-aware rules (if React/Next/Vue preset selected)
-- Accessibility guidelines
-- TypeScript best practices
-- Security guidelines
-
-### Customization
-
-Rules can be customized after creation:
-
-```bash
-# Edit Cursor rules
-code .cursor/rules/ultracite.mdc
-
-# Edit Claude Code rules
-code .claude/CLAUDE.md
-
-# Add project-specific rules
-cat >> .cursor/rules/ultracite.mdc << 'EOF'
-
-## Project-Specific Rules
-
-- Always use our custom `useAuth()` hook instead of direct auth library calls
-- API calls must use our wrapper: `import { api } from '@/lib/api'`
-- Color palette: Use design tokens from `@/styles/tokens.ts`
-EOF
-```
-
-## Editor Hooks (Auto-format After AI Edits)
-
-**Note:** This is different from AI editor rules. Hooks automatically format files **after** AI assistants make edits.
-
-### What Are Editor Hooks?
-
-Hooks execute `bunx ultracite fix` automatically after an AI agent modifies a file.
+Ultracite generates AI editor rules that teach AI assistants about your linting/formatting standards.
 
 **Supported editors:**
-- Cursor (`.cursor/hooks.json`)
-- Claude Code (`.claude/settings.json`)
+- Cursor (`.cursorrules`)
+- Claude Code (`.windsurfrules`)
+- GitHub Copilot (`.github/copilot-instructions.md`)
+- Continue.dev (`.continuerules`)
+- Codeium (`.codeiumrules`)
+- Zed (`.zedrules`)
 
-### Setup
-
+**Generate rules**:
 ```bash
-# Automatic during init
-bunx ultracite init --hooks cursor,claude
-
-# Verify configuration
-cat .cursor/hooks.json  # Cursor
-cat .claude/settings.json  # Claude Code
+bunx ultracite generate-ai-rules
+bunx ultracite generate-ai-rules --all  # All editors
+bunx ultracite generate-ai-rules --editor=cursor  # Specific editor
 ```
 
-**Cursor configuration (.cursor/hooks.json):**
-```json
-{
-  "hooks": {
-    "postFileEdit": ["bunx ultracite fix ${file}"]
-  }
-}
-```
-
-**Claude Code configuration (.claude/settings.json):**
-```json
-{
-  "hooks": {
-    "postToolUse": {
-      "Edit": ["bunx ultracite fix ${file}"],
-      "Write": ["bunx ultracite fix ${file}"]
-    }
-  }
-}
-```
-
-**Benefits:**
-- AI-generated code automatically formatted
-- Consistent style without manual intervention
-- Catches issues immediately after AI edits
-
-**Important:** Hooks preserve existing configurations and avoid duplicates.
+**For complete AI editor integration guide and customization, see**: `references/ai-editor-integration.md`
 
 ## Monorepo Support
 
-Ultracite works seamlessly with monorepos out of the box.
+Ultracite optimizes for monorepos with:
+- Shared base configurations
+- Package-specific overrides
+- Turborepo/Nx caching integration
+- Performance optimization for large workspaces
 
-### Configuration Strategy
-
-**Single root configuration:**
-
+**Example monorepo structure**:
 ```
-my-turborepo/
+monorepo/
+├── biome.json              # Shared base config
 ├── apps/
-│   ├── web/
-│   └── api/
-├── packages/
-│   ├── ui/
-│   └── utils/
-├── biome.jsonc       # Single config for entire repo
-├── package.json      # Root scripts
-└── turbo.json        # Optional Turborepo tasks
+│   └── web/
+│       └── biome.json      # Next.js-specific overrides
+└── packages/
+    └── ui/
+        └── biome.json      # React-specific overrides
 ```
 
-### Root package.json Scripts
+**For complete monorepo setup, Turborepo/Nx integration, and performance tips, see**: `references/monorepo-configuration.md`
 
-```json
-{
-  "scripts": {
-    "check": "ultracite check",
-    "fix": "ultracite fix",
-    "format": "ultracite fix"
-  }
-}
-```
+## Migration from ESLint/Prettier/Biome
 
-### Turborepo Integration (Optional)
-
-**Add to turbo.json:**
-
-```json
-{
-  "tasks": {
-    "//#check": {
-      "cache": false
-    },
-    "//#fix": {
-      "cache": false
-    }
-  }
-}
-```
-
-**Run via Turborepo:**
-
+**Automatic migration**:
 ```bash
-turbo run check
-turbo run fix
-```
-
-### Performance Benefits
-
-**Why root-level config works:**
-- Biome is so fast (Rust) that checking entire repo is instant
-- No need for per-package configs
-- Simpler maintenance
-- Consistent rules across all packages
-
-### Package-Specific Overrides (Rare)
-
-If specific packages need different rules:
-
-```jsonc
-// biome.jsonc (root)
-{
-  "extends": ["ultracite/core", "ultracite/react"],
-
-  "overrides": [
-    {
-      "include": ["packages/legacy/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "useConst": "warn"  // Relax for legacy code
-          }
-        }
-      }
-    }
-  ]
-}
-```
-
-## Migration Guides
-
-### From ESLint
-
-**Benefits:**
-- 10-100x faster performance
-- Zero configuration (vs hundreds of plugin decisions)
-- Unified formatting + linting
-- Built-in TypeScript strict mode
-
-**Migration process:**
-
-```bash
-# Automatic migration
-bunx ultracite init --migrate eslint
-
-# What it does:
-# 1. Installs Ultracite
-# 2. Creates/merges biome.jsonc
-# 3. Updates .vscode/settings.json
-# 4. Enables strictNullChecks in tsconfig.json
-# 5. Removes ESLint packages
-# 6. Deletes ESLint config files
+bunx ultracite migrate eslint
+bunx ultracite migrate prettier
+bunx ultracite migrate biome
 ```
 
 **Manual migration:**
-
-```bash
-# 1. Install Ultracite
-bun add -D ultracite @biomejs/biome
-
-# 2. Create biome.jsonc
-cat > biome.jsonc << 'EOF'
-{
-  "extends": ["ultracite/core"]
-}
-EOF
-
-# 3. Remove ESLint
-bun remove eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
-bun remove eslint-config-next eslint-config-prettier  # etc.
-
-# 4. Delete config files
-rm -f .eslintrc* eslint.config.*
-
-# 5. Update .vscode/settings.json (see IDE Integration section)
-
-# 6. Enable TypeScript strict mode
-# Add to tsconfig.json: "strictNullChecks": true
-```
-
-**Post-migration:**
-- Review `biome.jsonc` for unnecessary overrides
-- Restart editor
-- Run `bunx ultracite check` to see initial issues
-- Run `bunx ultracite fix` to auto-fix
-
-**Known differences:**
-- Some ESLint plugin rules not available in Biome
-- Custom ESLint rules must be ported or removed
-- Different error messages (Biome's are often clearer)
-
-### From Prettier
-
-**Benefits:**
-- Faster formatting (Rust vs JavaScript)
-- Combined linting + formatting
-- Auto-fix on save by default
-
-**Migration process:**
-
-```bash
-# Automatic migration
-bunx ultracite init --migrate prettier
-
-# What it does:
-# 1. Installs Ultracite
-# 2. Creates/merges biome.jsonc
-# 3. Updates .vscode/settings.json
-# 4. Enables strictNullChecks in tsconfig.json
-# 5. Removes Prettier packages
-# 6. Deletes Prettier config files
-```
-
-**Manual migration:**
-
-```bash
-# 1. Install Ultracite
-bun add -D ultracite @biomejs/biome
-
-# 2. Create biome.jsonc
-cat > biome.jsonc << 'EOF'
-{
-  "extends": ["ultracite/core"]
-}
-EOF
-
-# 3. Remove Prettier
-bun remove prettier eslint-config-prettier eslint-plugin-prettier
-
-# 4. Delete config files
-rm -f .prettierrc* prettier.config.*
-
-# 5. Update .vscode/settings.json
-# Remove: "editor.defaultFormatter": "esbenp.prettier-vscode"
-# Add: "editor.defaultFormatter": "biomejs.biome"
-```
-
-**Formatting differences:**
-
-Ultracite's defaults:
-- Indentation: 2 spaces (Prettier default: 2)
-- Line width: 80 (Prettier default: 80)
-- Semicolons: Always (Prettier default: true)
-- Quotes: Single (Prettier default: false/double)
-- Trailing commas: ES5 (Prettier default: es5)
-
-**To match Prettier's double quotes:**
-
-```jsonc
-// biome.jsonc
-{
-  "formatter": {
-    "quoteStyle": "double"
-  }
-}
-```
-
-### From Biome
-
-**Benefits:**
-- 200+ preconfigured rules (vs manual setup)
-- Framework-specific presets
-- AI editor integration
-- Git hook integrations
-
-**Migration process:**
-
-```bash
-# Automatic migration
-bunx ultracite init --migrate biome
-
-# What it does:
-# 1. Installs Ultracite
-# 2. Merges existing biome.jsonc with Ultracite preset
-# 3. Preserves custom rules
-# 4. Updates .vscode/settings.json
-# 5. Enables strictNullChecks
-```
-
-**Manual migration:**
-
-```bash
-# 1. Install Ultracite
-bun add -D ultracite
-
-# 2. Update existing biome.jsonc
-{
-  "extends": ["ultracite/core"],  // Add this line
-
-  // Your existing config remains
-  "linter": {
-    "rules": {
-      // Custom rules preserved
-    }
-  }
-}
-```
-
-**What changes:**
-- Adds `extends: ["ultracite/core"]`
-- Enables 200+ additional rules
-- Enforces TypeScript strict mode
-- May surface new warnings/errors (all auto-fixable or valid issues)
-
-**Review after migration:**
-- Check for duplicate rule configurations
-- Remove rules now covered by preset
-- Simplify configuration
-
-## Troubleshooting
-
-### VS Code Formatting Not Working
-
-**Symptoms:**
-- Files don't format on save
-- Biome extension installed but inactive
-
-**Solutions:**
-
-1. **Check default formatter:**
-   ```json
-   // .vscode/settings.json
-   {
-     "editor.defaultFormatter": "biomejs.biome"
-   }
-   ```
-
-2. **Disable conflicting formatters:**
-   - Disable Prettier extension
-   - Disable ESLint formatter
-   - Check: Extensions → Biome → Enabled
-
-3. **Restart editor:**
-   - CMD+Shift+P → "Reload Window"
-
-4. **Check Biome extension logs:**
-   - Output panel → "Biome"
-
-### ESLint/Prettier Still Active
-
-**Symptoms:**
-- Duplicate error messages
-- Formatting conflicts
-- Multiple formatters competing
-
-**Solutions:**
-
-1. **Remove old config files:**
-   ```bash
-   rm -f .eslintrc* eslint.config.* .prettierrc* prettier.config.*
-   ```
-
-2. **Remove from package.json:**
-   ```bash
-   bun remove eslint prettier eslint-config-prettier
-   ```
-
-3. **Update .vscode/settings.json:**
-   ```json
-   {
-     // Remove these:
-     // "eslint.enable": true,
-     // "prettier.enable": true,
-
-     // Add this:
-     "editor.defaultFormatter": "biomejs.biome"
-   }
-   ```
-
-4. **Disable extensions:**
-   - Disable ESLint extension
-   - Disable Prettier extension
-
-### Parse Errors on Unwanted Files
-
-**Symptoms:**
-- Biome tries to parse `components/ui/*` (shadcn)
-- Errors in generated files
-- Linting third-party code
-
-**Solution: Add to `files.ignore`:**
-
-```jsonc
-// biome.jsonc
-{
-  "files": {
-    "ignore": [
-      // Build outputs
-      "dist",
-      "build",
-      ".next",
-
-      // Generated/third-party
-      "components/ui/**",
-      "**/__generated__/**",
-      "**/*.generated.ts",
-
-      // Vendored dependencies
-      "lib/vendor/**"
-    ]
-  }
-}
-```
-
-**Note:** `node_modules` is automatically ignored.
-
-### Duplicate Error Messages
-
-**Symptoms:**
-- Same error shown twice
-- TypeScript server + Biome both report issues
-
-**Explanation:**
-- This is **expected behavior**
-- TypeScript server checks types
-- Biome checks style/patterns
-- Both may report same issue from different angles
-
-**Solutions:**
-
-1. **Accept complementary feedback** (recommended)
-2. **Disable TypeScript diagnostics** (not recommended):
-   ```json
-   // .vscode/settings.json
-   {
-     "typescript.validate.enable": false
-   }
-   ```
-
-### Pre-commit/CI Failures
-
-**Symptoms:**
-- Commits fail with formatting errors
-- CI pipeline fails on `npm run lint`
-
-**Solutions:**
-
-1. **Run locally before committing:**
-   ```bash
-   bunx ultracite fix
-   git add .
-   git commit
-   ```
-
-2. **Check what fails:**
-   ```bash
-   bunx ultracite check
-   ```
-
-3. **Auto-fix everything:**
-   ```bash
-   bunx ultracite fix --unsafe
-   ```
-
-4. **Bypass hook (emergency only):**
-   ```bash
-   git commit --no-verify
-   ```
-
-### TypeScript Strictness Errors
-
-**Symptoms:**
-- Many errors about `possibly undefined`
-- Errors: "Object is possibly 'null'"
-
-**Cause:** Ultracite requires `strictNullChecks: true`
-
-**Solution:**
-
-```jsonc
-// tsconfig.json
-{
-  "compilerOptions": {
-    "strict": true,  // Enables all strict flags including:
-    "strictNullChecks": true  // Or just this one
-  }
-}
-```
-
-**Fix existing code:**
-
-```typescript
-// Before (error: possibly undefined)
-const user = users.find(u => u.id === id);
-console.log(user.name);  // Error!
-
-// After (safe)
-const user = users.find(u => u.id === id);
-if (user) {
-  console.log(user.name);  // OK
-}
-
-// Or with optional chaining
-console.log(user?.name);
-
-// Or with nullish coalescing
-const name = user?.name ?? 'Guest';
-```
-
-### Rules Too Strict
-
-**Symptoms:**
-- Too many warnings
-- Rules don't fit team preferences
-
-**Solution: Customize in biome.jsonc:**
-
-```jsonc
-{
-  "linter": {
-    "rules": {
-      // Disable specific rules
-      "complexity": {
-        "noExcessiveCognitiveComplexity": "off"
-      },
-
-      // Change to warnings
-      "style": {
-        "useConst": "warn"
-      },
-
-      // Disable category (not recommended)
-      "a11y": {
-        "*": "off"  // Disables all accessibility rules
-      }
-    }
-  }
-}
-```
-
-**Per-file overrides:**
-
-```jsonc
-{
-  "overrides": [
-    {
-      "include": ["test/**", "**/*.test.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noExplicitAny": "off"  // Allow `any` in tests
-          }
-        }
-      }
-    }
-  ]
-}
-```
-
-### Installation Issues (Corepack Errors)
-
-**Symptoms:**
-- Error during `pnpm dlx ultracite init`
-- Corepack version mismatch
-
-**Solutions:**
-
-1. **Upgrade Node.js:**
-   ```bash
-   # Requires Node.js v18+
-   nvm install 22
-   nvm use 22
-   ```
-
-2. **Use bunx instead:**
-   ```bash
-   bunx ultracite init  # Instead of pnpm dlx
-   ```
-
-3. **Update corepack:**
-   ```bash
-   bun add -g corepack@latest
-   corepack enable
-   ```
+1. Analyze current configuration
+2. Map rules to Biome equivalents
+3. Create `biome.json` with equivalent rules
+4. Update package.json scripts
+5. Remove old dependencies
+6. Test thoroughly
+
+**For complete migration guides with detailed rule mappings, see**: `references/migration-guides.md`
 
 ## Known Limitations
 
-### CSS Linting
+**CSS/SCSS**: Biome does not lint CSS. Workaround: Use Stylelint
+**Framework gaps**: Limited Angular/Astro support. Workaround: Use `ultracite/core` + manual rules
+**ESLint plugins**: Many ESLint plugins have no Biome equivalent. Workaround: Run ESLint alongside Ultracite for specific plugins
+**File types**: No Markdown, YAML, HTML linting. Workaround: Use dedicated tools (markdownlint, yamllint, htmlhint)
 
-**Limitation:** Biome's CSS linting is basic compared to Stylelint.
+**For complete list of limitations and detailed workarounds, see**: `references/limitations-and-workarounds.md`
 
-**Missing features:**
-- Property ordering enforcement
-- Specific CSS naming conventions
-- Advanced selector linting
-- SCSS/Less specific rules
+## Troubleshooting
 
-**Workaround:** Use Stylelint alongside Ultracite for CSS-heavy projects.
+**Common issues:**
+- VS Code not formatting on save → Install Biome extension, configure settings
+- ESLint conflicts → Disable ESLint or run selectively
+- Parse errors → Configure JSX support in `biome.json`
+- Pre-commit hooks failing → Use `bunx` instead of global install
+- CI failures → Pin Bun/Node versions, increase memory limit
 
-```bash
-# Install Stylelint
-bun add -D stylelint stylelint-config-standard
-
-# Configure both tools
-# - Ultracite for JS/TS
-# - Stylelint for CSS/SCSS
-```
-
-### Framework Support Gaps
-
-**Limited support for:**
-- Angular (basic only, no comprehensive rules)
-- Ember
-- Older frameworks (Backbone, Knockout)
-
-**Full support for:**
-- React ✅
-- Next.js ✅
-- Vue ✅
-- Svelte ✅
-- Solid ✅
-- Remix ✅
-- Astro ✅
-
-### ESLint Plugin Ecosystem
-
-**Limitation:** Some ESLint plugins have no Biome equivalent.
-
-**Examples:**
-- `eslint-plugin-security` (custom security rules)
-- `eslint-plugin-import` (advanced import rules)
-- Domain-specific plugins (GraphQL, testing library)
-
-**Workaround:**
-1. Use Ultracite for core linting + formatting
-2. Keep ESLint for specific plugin needs
-3. Configure to avoid conflicts:
-
-```json
-// .eslintrc.json (minimal ESLint for plugins only)
-{
-  "extends": [],  // No base configs
-  "plugins": ["security"],
-  "rules": {
-    "security/detect-object-injection": "warn"
-  }
-}
-```
-
-```json
-// .vscode/settings.json (Biome for formatting)
-{
-  "editor.defaultFormatter": "biomejs.biome",
-  "eslint.format.enable": false  // ESLint for linting only
-}
-```
-
-### File Type Support
-
-**Supported:**
-- JavaScript
-- TypeScript
-- JSX/TSX
-- JSON/JSONC
-- CSS
-- GraphQL (basic)
-
-**Not supported:**
-- SCSS/Sass (formatting only, limited linting)
-- Less
-- Stylus
-- HTML (except in framework files)
-- Markdown (no linting)
-
-### Performance Edge Cases
-
-**When Biome might be slower:**
-- Very large files (>10,000 lines)
-- Complex regex patterns
-- Deeply nested structures
-
-**Note:** Still faster than ESLint in these cases, but the performance advantage is less pronounced.
+**For complete troubleshooting guide, see**: `references/troubleshooting.md`
 
 ## Templates & Scripts
 
@@ -1626,15 +544,17 @@ See `scripts/migrate-to-ultracite.sh` for ESLint/Prettier migration.
 ### Example Configurations
 
 See `references/` directory for:
-- `biome.jsonc.react.example`
-- `biome.jsonc.nextjs.example`
-- `biome.jsonc.vue.example`
-- `biome.jsonc.svelte.example`
-- `biome.jsonc.monorepo.example`
+- `configuration-guide.md`: Framework presets and rule details
+- `git-hooks-setup.md`: Husky, Lefthook, lint-staged setup
+- `ai-editor-integration.md`: Cursor, Claude Code, Copilot rules
+- `monorepo-configuration.md`: Turborepo, Nx, pnpm workspaces
+- `migration-guides.md`: ESLint, Prettier, Biome migration
+- `troubleshooting.md`: Common issues and solutions
+- `limitations-and-workarounds.md`: Known gaps and fixes
 
 ## Package Versions
 
-**Current versions (verified 2025-11-11):**
+**Current versions (verified 2025-11-22):**
 - `ultracite`: latest
 - `@biomejs/biome`: >=1.9.0
 
@@ -1667,6 +587,67 @@ bun update ultracite @biomejs/biome
 **Community:**
 - GitHub Issues: https://github.com/ultracite/ultracite
 - Biome Discord: https://discord.gg/biome
+
+## When to Load References
+
+Load reference files on-demand based on user questions or task requirements:
+
+**`references/configuration-guide.md`**: When user asks about:
+- Framework presets (React, Next.js, Vue, Svelte)
+- Core preset rules (200+ rules breakdown)
+- Rule customization methods
+- File exclusion patterns
+- Advanced configuration
+
+**`references/git-hooks-setup.md`**: When user asks about:
+- Pre-commit hooks
+- Husky integration
+- Lefthook integration
+- lint-staged setup
+- CI/CD integration
+- Hook troubleshooting
+
+**`references/ai-editor-integration.md`**: When user asks about:
+- AI editor rules generation
+- Cursor integration
+- Claude Code integration
+- GitHub Copilot setup
+- Custom AI rules
+- Editor-specific setup
+
+**`references/monorepo-configuration.md`**: When user asks about:
+- Monorepo setup
+- Turborepo integration
+- Nx integration
+- Package-specific overrides
+- Workspace configuration
+- Performance optimization
+
+**`references/migration-guides.md`**: When user asks about:
+- ESLint migration
+- Prettier migration
+- Biome migration
+- Rule mapping
+- Migration checklist
+- Post-migration steps
+
+**`references/troubleshooting.md`**: When user asks about:
+- VS Code issues
+- ESLint/Prettier conflicts
+- Parse errors
+- Pre-commit hook failures
+- CI failures
+- TypeScript strictness errors
+- Installation issues
+- Performance problems
+
+**`references/limitations-and-workarounds.md`**: When user asks about:
+- CSS linting
+- Framework support gaps
+- ESLint plugin ecosystem
+- File type support
+- Editor integration
+- Migration limitations
 
 ## Summary
 
@@ -1714,3 +695,4 @@ bun x ultracite init  # Interactive setup
 - Recommend or warn based on project characteristics
 - Enable `strictNullChecks` in TypeScript projects
 - Use framework-specific presets for best results
+- Load reference files on-demand based on user questions
