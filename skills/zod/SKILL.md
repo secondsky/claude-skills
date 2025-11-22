@@ -115,169 +115,21 @@ For Zod 3.x compatibility or migration guidance, see https://zod.dev
 
 ## Migrating from Zod v3 to v4
 
-Zod v4 introduces several breaking changes that improve performance and API consistency. Here are the key changes to be aware of when upgrading:
+**Load `references/migration-guide.md` for complete v3 to v4 migration documentation.**
 
-### 1. Error Customization Unified
+### Quick Summary
 
-**Breaking Change**: The `error` parameter replaces fragmented error options.
+Zod v4 introduces breaking changes for better performance:
 
-```typescript
-// ❌ Zod v3 (No longer works)
-z.string({
-  message: "Custom message",
-  invalid_type_error: "Must be a string",
-  required_error: "Field is required"
-});
+- **Error customization**: Use unified `error` parameter (replaces `message`, `invalid_type_error`, `required_error`)
+- **Number validation**: Stricter - rejects `Infinity` and unsafe integers
+- **String formats**: Now top-level functions (`z.email()` vs `z.string().email()`)
+- **Object defaults**: Applied even in optional fields
+- **Deprecated APIs**: Use `.extend()` (not `.merge()`), `z.treeifyError()` (not `error.format()`)
+- **Function validation**: Use `.implement()` method
+- **UUID validation**: Stricter RFC 9562/4122 compliance
 
-z.string().email({ errorMap: (issue) => ({ message: "Invalid email" }) });
-
-// ✅ Zod v4 (Use unified 'error' parameter)
-z.string({
-  error: "Custom message"
-});
-
-z.string().email({
-  error: (issue) => ({ message: "Invalid email" })
-});
-```
-
-### 2. Number Validation Stricter
-
-**Breaking Change**: Infinite values and unsafe integers are now rejected.
-
-```typescript
-// ❌ Zod v3 (Accepted these values)
-z.number().parse(Infinity);           // OK in v3
-z.number().parse(-Infinity);          // OK in v3
-z.number().int().parse(9007199254740992); // OK in v3 (unsafe integer)
-
-// ✅ Zod v4 (Rejects invalid numbers)
-z.number().parse(Infinity);           // ✗ Error: infinite values rejected
-z.number().parse(-Infinity);          // ✗ Error: infinite values rejected
-z.number().int().parse(9007199254740992); // ✗ Error: outside safe integer range
-
-// If you need to allow infinite values, use a refinement:
-z.number().refine((n) => Number.isFinite(n) || !Number.isNaN(n));
-
-// .int() now enforces Number.MIN_SAFE_INTEGER to Number.MAX_SAFE_INTEGER
-// .safe() no longer permits floats (integers only)
-```
-
-### 3. String Format Methods Moved to Top-Level
-
-**Breaking Change**: Format validators are now top-level functions, not methods.
-
-```typescript
-// ❌ Zod v3 (Methods on z.string())
-z.string().email();
-z.string().uuid();
-z.string().url();
-z.string().ipv4();
-z.string().ipv6();
-
-// ✅ Zod v4 (Top-level functions)
-z.email();        // Shorthand for validated email
-z.uuid();         // Stricter UUID validation (RFC 9562/4122)
-z.url();
-z.ipv4();
-z.ipv6();
-
-// Both still work for now, but top-level is preferred
-z.string().email();  // Still works in v4
-z.email();          // Preferred in v4
-```
-
-### 4. Object Defaults Behavior Changed
-
-**Breaking Change**: Defaults inside properties are now applied even within optional fields.
-
-```typescript
-const schema = z.object({
-  name: z.string().default("Anonymous"),
-  age: z.number().optional().default(18),
-});
-
-// ❌ Zod v3 behavior
-schema.parse({ age: undefined });
-// Result: { name: "Anonymous", age: undefined }
-
-// ✅ Zod v4 behavior
-schema.parse({ age: undefined });
-// Result: { name: "Anonymous", age: 18 }
-// Default is applied even though field was optional
-```
-
-### 5. Deprecated APIs Removed or Changed
-
-**Breaking Changes**: Several APIs have been deprecated or consolidated.
-
-```typescript
-// ❌ Zod v3 APIs (Deprecated in v4)
-schema1.merge(schema2);           // Use .extend() instead
-error.format();                   // Use z.treeifyError(error)
-error.flatten();                  // Use z.flattenError(error)
-z.nativeEnum(MyEnum);             // Use z.enum() (now handles both)
-z.promise(schema);                // Deprecated
-
-// ✅ Zod v4 Replacements
-schema1.extend(schema2);          // Preferred way to merge
-z.treeifyError(error);           // New error formatting
-z.flattenError(error);           // New flat error format
-z.enum(MyEnum);                  // Unified enum handling
-// No direct replacement for z.promise() - use async refinements
-```
-
-### 6. Function Validation Redesigned
-
-**Breaking Change**: `z.function()` no longer returns a schema directly.
-
-```typescript
-// ❌ Zod v3
-const myFunc = z.function()
-  .args(z.string())
-  .returns(z.number())
-  .parse(someFunction);
-
-// ✅ Zod v4
-const myFunc = z.function()
-  .args(z.string())
-  .returns(z.number())
-  .implement((str) => {
-    return parseInt(str); // Type-checked!
-  });
-
-// Or with new syntax:
-const myFunc = z.function({
-  input: [z.string()],
-  output: z.number()
-}).implement((str) => parseInt(str));
-```
-
-### 7. UUID Validation Stricter
-
-**Breaking Change**: UUID validation now follows RFC 9562/4122 specification strictly.
-
-```typescript
-// Some previously valid UUIDs may now fail validation
-// Ensure UUIDs conform to RFC 9562/4122 format
-const uuid = z.uuid().parse("550e8400-e29b-41d4-a716-446655440000"); // ✓
-```
-
-### Migration Checklist
-
-- [ ] Replace `message`, `invalid_type_error`, `required_error`, `errorMap` with unified `error` parameter
-- [ ] Check for `Infinity` or `-Infinity` in number validations
-- [ ] Update `.int()` usage if relying on unsafe integers
-- [ ] Replace `.merge()` with `.extend()`
-- [ ] Replace `error.format()` with `z.treeifyError()`
-- [ ] Replace `error.flatten()` with `z.flattenError()`
-- [ ] Update `z.nativeEnum()` to `z.enum()` (or keep for clarity)
-- [ ] Replace `z.promise()` with async refinements
-- [ ] Update function validation to use `.implement()` or new syntax
-- [ ] Consider using top-level format functions (`z.email()` instead of `z.string().email()`)
-- [ ] Test UUID validation if using custom UUID formats
-
-**Performance Improvements**: Zod v4 eliminates the `ZodEffects` class, moving refinements directly into schemas and introducing `ZodTransform` for dedicated transformation handling. This results in faster validation and better tree-shaking.
+**→ Load `references/migration-guide.md` for:** Complete breaking changes, migration checklist, gradual migration strategy, rollback instructions
 
 ## Core Concepts
 
@@ -534,950 +386,136 @@ z.set(z.string())                // Set<string>
 
 ## Advanced Patterns
 
-### Refinements (Custom Validation)
+**Load `references/advanced-patterns.md` for complete advanced validation and transformation patterns.**
 
+### Quick Reference
+
+**Refinements** (custom validation):
 ```typescript
-// Basic refinement
-const PasswordSchema = z.string().refine(
-  (val) => val.length >= 8,
-  { message: "Password must be at least 8 characters" }
-);
-
-// Multiple refinements
-const SafePasswordSchema = z.string()
-  .refine((val) => val.length >= 8, "Too short")
-  .refine((val) => /[A-Z]/.test(val), "Must contain uppercase")
-  .refine((val) => /[0-9]/.test(val), "Must contain number");
-
-// SuperRefine (multiple issues at once)
-const UserSchema = z.object({
-  password: z.string(),
-  confirmPassword: z.string(),
-}).superRefine((data, ctx) => {
-  if (data.password !== data.confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      path: ["confirmPassword"],
-      message: "Passwords must match",
-    });
-  }
-});
-
-// Async refinement
-const UsernameSchema = z.string().refine(
-  async (username) => {
-    const exists = await checkUsernameExists(username);
-    return !exists;
-  },
-  { message: "Username already taken" }
-);
+z.string().refine((val) => val.length >= 8, "Too short");
+z.object({ password, confirmPassword }).superRefine((data, ctx) => { /* ... */ });
 ```
 
-### Transformations
-
+**Transformations** (modify data):
 ```typescript
-// Transform data during parsing
-const StringToNumberSchema = z.string().transform((val) => parseInt(val));
-const result = StringToNumberSchema.parse("123"); // 123 (number)
-
-// Chained transformations
-const TrimAndLowercaseSchema = z.string()
-  .transform((val) => val.trim())
-  .transform((val) => val.toLowerCase());
-
-// Pipe (combine schemas with transformation)
-const NumberStringSchema = z.string().pipe(z.coerce.number());
+z.string().transform((val) => val.trim());
+z.string().pipe(z.coerce.number());
 ```
 
-### Codecs (Bidirectional Transformations)
-
-**New in Zod v4.1**: Codecs enable bidirectional transformations between two schemas, perfect for handling data at network boundaries or converting between different representations.
-
-#### What Are Codecs?
-
-Unlike `.transform()` which is unidirectional (input → output), codecs define transformations in both directions:
-- **Forward (decode)**: Convert from input format to output format
-- **Backward (encode)**: Convert from output format back to input format
-
-All Zod schemas support both directions via `.decode()` and `.encode()` methods.
-
-#### Basic Example: Date Codec
-
+**Codecs** (bidirectional transforms - NEW in v4.1):
 ```typescript
-// String <-> Date codec
 const DateCodec = z.codec(
-  z.iso.datetime(),    // Input schema (ISO string)
-  z.date(),            // Output schema (Date object)
+  z.iso.datetime(),
+  z.date(),
   {
-    decode: (str) => new Date(str),      // String → Date
-    encode: (date) => date.toISOString(), // Date → String
-  }
-);
-
-// Decode: string → Date
-const date = DateCodec.decode("2024-01-01T00:00:00Z");
-console.log(date instanceof Date); // true
-
-// Encode: Date → string
-const isoString = DateCodec.encode(new Date());
-console.log(typeof isoString); // "string"
-```
-
-#### Type Safety
-
-Unlike `.parse()` which accepts `unknown`, codec methods require strongly-typed inputs:
-
-```typescript
-const DateCodec = z.codec(z.iso.datetime(), z.date(), {
-  decode: (str) => new Date(str),
-  encode: (date) => date.toISOString(),
-});
-
-// ✓ Type-safe decode (expects string)
-DateCodec.decode("2024-01-01T00:00:00Z");
-
-// ✗ Type error: number is not assignable to string
-DateCodec.decode(123456789);
-
-// ✓ Type-safe encode (expects Date)
-DateCodec.encode(new Date());
-
-// ✗ Type error: string is not assignable to Date
-DateCodec.encode("2024-01-01");
-```
-
-#### Safe Variants (No Exceptions)
-
-Codecs provide safe methods that return result objects instead of throwing:
-
-```typescript
-// Safe decode
-const decodeResult = DateCodec.decodeSafe("2024-01-01T00:00:00Z");
-if (decodeResult.success) {
-  console.log(decodeResult.data); // Date object
-} else {
-  console.error(decodeResult.error); // ZodError
-}
-
-// Safe encode
-const encodeResult = DateCodec.encodeSafe(new Date());
-if (encodeResult.success) {
-  console.log(encodeResult.data); // ISO string
-} else {
-  console.error(encodeResult.error); // ZodError
-}
-
-// Async safe variants
-await DateCodec.decodeAsync(data);
-await DateCodec.decodeSafeAsync(data);
-await DateCodec.encodeAsync(data);
-await DateCodec.encodeSafeAsync(data);
-```
-
-#### Composability
-
-Codecs work seamlessly within objects, arrays, and other schemas:
-
-```typescript
-const EventSchema = z.object({
-  id: z.string().uuid(),
-  title: z.string(),
-  createdAt: DateCodec,     // Automatically handles conversion
-  updatedAt: DateCodec,
-  metadata: z.record(z.string()),
-});
-
-// When parsing API response (JSON with ISO strings)
-const event = EventSchema.decode({
-  id: "550e8400-e29b-41d4-a716-446655440000",
-  title: "Launch Event",
-  createdAt: "2024-01-01T00:00:00Z",  // String → Date
-  updatedAt: "2024-01-02T00:00:00Z",  // String → Date
-  metadata: { location: "Online" },
-});
-
-console.log(event.createdAt instanceof Date); // true
-
-// When sending to API (Date objects → ISO strings)
-const payload = EventSchema.encode({
-  id: "550e8400-e29b-41d4-a716-446655440000",
-  title: "Launch Event",
-  createdAt: new Date("2024-01-01"),  // Date → String
-  updatedAt: new Date("2024-01-02"),  // Date → String
-  metadata: { location: "Online" },
-});
-
-console.log(typeof payload.createdAt); // "string"
-```
-
-#### Common Codec Patterns
-
-```typescript
-// 1. JSON String Codec
-const JSONCodec = <T extends z.ZodTypeAny>(schema: T) =>
-  z.codec(
-    z.string(),
-    schema,
-    {
-      decode: (str) => JSON.parse(str),
-      encode: (obj) => JSON.stringify(obj),
-    }
-  );
-
-const UserJSONCodec = JSONCodec(z.object({
-  name: z.string(),
-  age: z.number(),
-}));
-
-// 2. Base64 Codec
-const Base64Codec = z.codec(
-  z.string(),
-  z.instanceof(Uint8Array),
-  {
-    decode: (base64) => Uint8Array.from(atob(base64), c => c.charCodeAt(0)),
-    encode: (bytes) => btoa(String.fromCharCode(...bytes)),
-  }
-);
-
-// 3. URL Search Params Codec
-const QueryParamsCodec = <T extends z.ZodTypeAny>(schema: T) =>
-  z.codec(
-    z.string(),
-    schema,
-    {
-      decode: (queryString) => {
-        const params = new URLSearchParams(queryString);
-        return Object.fromEntries(params.entries());
-      },
-      encode: (obj) => new URLSearchParams(obj).toString(),
-    }
-  );
-
-// 4. Milliseconds <-> Seconds Codec
-const SecondsCodec = z.codec(
-  z.number().int().nonnegative(), // Input: seconds
-  z.number().int().nonnegative(), // Output: milliseconds
-  {
-    decode: (seconds) => seconds * 1000,
-    encode: (ms) => Math.floor(ms / 1000),
+    decode: (str) => new Date(str),
+    encode: (date) => date.toISOString(),
   }
 );
 ```
 
-#### When to Use Codecs
-
-**Use codecs when**:
-- Parsing data at network boundaries (API requests/responses)
-- Converting between storage and runtime formats
-- Handling serialization/deserialization (JSON, Base64, etc.)
-- Working with timestamps in different units
-- Need bidirectional type-safe conversions
-
-**Use `.transform()` when**:
-- One-way transformation is sufficient
-- Don't need to convert back to original format
-- Simpler use case without encode/decode symmetry
-
-#### Practical Example: API Client
-
+**Recursive Types**:
 ```typescript
-// Define API schema with codecs
-const UserAPISchema = z.object({
-  id: z.string().uuid(),
-  email: z.string().email(),
-  createdAt: z.codec(
-    z.iso.datetime(),
-    z.date(),
-    {
-      decode: (str) => new Date(str),
-      encode: (date) => date.toISOString(),
-    }
-  ),
-  lastLogin: z.codec(
-    z.iso.datetime(),
-    z.date(),
-    {
-      decode: (str) => new Date(str),
-      encode: (date) => date.toISOString(),
-    }
-  ).nullable(),
-});
-
-// Fetch from API (JSON → TypeScript objects)
-async function getUser(id: string) {
-  const response = await fetch(`/api/users/${id}`);
-  const json = await response.json();
-  return UserAPISchema.decode(json); // Dates are Date objects
-}
-
-// Send to API (TypeScript objects → JSON)
-async function updateUser(user: z.output<typeof UserAPISchema>) {
-  const payload = UserAPISchema.encode(user); // Dates are ISO strings
-  await fetch(`/api/users/${user.id}`, {
-    method: "PUT",
-    body: JSON.stringify(payload),
-  });
-}
-```
-
-### Recursive Types
-
-```typescript
-interface Category {
-  name: string;
-  subcategories: Category[];
-}
-
 const CategorySchema: z.ZodType<Category> = z.lazy(() =>
-  z.object({
-    name: z.string(),
-    subcategories: z.array(CategorySchema),
-  })
+  z.object({ name: z.string(), subcategories: z.array(CategorySchema) })
 );
 ```
 
-### Optional, Nullable, and Default Values
-
+**Optional/Nullable**:
 ```typescript
 z.string().optional()            // string | undefined
 z.string().nullable()            // string | null
-z.string().nullish()             // string | null | undefined
 z.string().default("default")    // Provides default if undefined
-z.string().catch("fallback")     // Provides fallback on error
-
-// Prefault (default before parsing)
-z.coerce.number().prefault(0)
-
-// Remove undefined/null (opposite of optional/nullable)
-z.string().optional().unwrap()   // Back to z.string()
 ```
 
-### Readonly
-
+**Readonly & Brand**:
 ```typescript
-const ReadonlyUserSchema = z.object({
-  name: z.string(),
-  age: z.number(),
-}).readonly();
-
-type ReadonlyUser = z.infer<typeof ReadonlyUserSchema>;
-// { readonly name: string; readonly age: number }
+z.object({ ... }).readonly()     // Readonly properties
+z.string().brand<"UserId">()     // Nominal typing
 ```
 
-### Brand (Nominal Typing)
-
-```typescript
-const UserId = z.string().brand<"UserId">();
-const ProductId = z.string().brand<"ProductId">();
-
-type UserId = z.infer<typeof UserId>;       // string & Brand<"UserId">
-type ProductId = z.infer<typeof ProductId>; // string & Brand<"ProductId">
-
-// TypeScript prevents mixing them
-function getUser(id: UserId) { /* ... */ }
-const userId = UserId.parse("user-123");
-const productId = ProductId.parse("prod-456");
-
-getUser(userId);     // ✓ OK
-getUser(productId);  // ✗ Type error!
-```
+**→ Load `references/advanced-patterns.md` for:** Complete refinement patterns, async validation, codec examples, composable schemas, conditional validation, performance optimization
 
 ## Error Handling
 
-### Error Structure
+**Load `references/error-handling.md` for complete error formatting and customization guide.**
 
+### Quick Reference
+
+**Error Formatting Methods**:
 ```typescript
-const result = schema.safeParse(data);
+// For forms
+const { fieldErrors } = z.flattenError(error);
 
-if (!result.success) {
-  // ZodError structure
-  result.error.issues.forEach((issue) => {
-    console.log(issue.code);      // Error type
-    console.log(issue.path);      // Field path
-    console.log(issue.message);   // Error message
-  });
-}
+// For nested data
+const tree = z.treeifyError(error);
+const nameError = tree.properties?.user?.properties?.name?.errors?.[0];
+
+// For debugging
+console.log(z.prettifyError(error));
 ```
 
-### Error Formatting
-
-Zod v4 provides three powerful utilities for formatting `ZodError` objects into more usable formats.
-
-#### z.flattenError() - Best for Flat Schemas and Forms
-
-Converts errors into a flat object structure with top-level and field-specific errors:
-
+**Custom Error Messages** (three levels):
 ```typescript
-const FormSchema = z.object({
-  username: z.string().min(3),
-  email: z.string().email(),
-  age: z.number().int().positive(),
-});
+// 1. Schema-level (highest priority)
+z.string({ error: "Custom message" });
+z.string().min(5, "Too short");
 
-const result = FormSchema.safeParse({
-  username: "ab",
-  email: "not-an-email",
-  age: -5,
-});
+// 2. Per-parse level
+schema.parse(data, { error: (issue) => ({ message: "..." }) });
 
-if (!result.success) {
-  const flattened = z.flattenError(result.error);
-
-  console.log(flattened.formErrors);
-  // [] - No top-level errors
-
-  console.log(flattened.fieldErrors);
-  /*
-  {
-    username: ["String must contain at least 3 character(s)"],
-    email: ["Invalid email"],
-    age: ["Number must be greater than 0"]
-  }
-  */
-
-  // Access specific field errors
-  console.log(flattened.fieldErrors.username);
-  // ["String must contain at least 3 character(s)"]
-}
+// 3. Global level
+z.config({ customError: (issue) => ({ message: "..." }) });
 ```
 
-**When to use**: Single-level schemas, form validation, displaying field-specific errors in UI.
-
-#### z.treeifyError() - Best for Nested Data Structures
-
-Converts errors into a nested tree mirroring your schema structure:
-
+**Localization** (40+ languages):
 ```typescript
-const NestedSchema = z.object({
-  user: z.object({
-    profile: z.object({
-      name: z.string().min(1),
-      email: z.string().email(),
-    }),
-    settings: z.object({
-      notifications: z.boolean(),
-    }),
-  }),
-  posts: z.array(z.object({
-    title: z.string(),
-    content: z.string(),
-  })),
-});
-
-const result = NestedSchema.safeParse({
-  user: {
-    profile: {
-      name: "",
-      email: "invalid",
-    },
-    settings: {
-      notifications: "yes", // Should be boolean
-    },
-  },
-  posts: [
-    { title: "Post 1", content: 123 }, // Content should be string
-  ],
-});
-
-if (!result.success) {
-  const tree = z.treeifyError(result.error);
-
-  // Tree structure mirrors schema
-  console.log(tree.errors);
-  // [] - No errors at root level
-
-  // Navigate nested errors with optional chaining (IMPORTANT!)
-  console.log(tree.properties?.user?.properties?.profile?.properties?.name?.errors);
-  // ["String must contain at least 1 character(s)"]
-
-  console.log(tree.properties?.user?.properties?.profile?.properties?.email?.errors);
-  // ["Invalid email"]
-
-  console.log(tree.properties?.user?.properties?.settings?.properties?.notifications?.errors);
-  // ["Expected boolean, received string"]
-
-  // Array errors use 'items' property
-  console.log(tree.properties?.posts?.items?.[0]?.properties?.content?.errors);
-  // ["Expected string, received number"]
-}
-```
-
-**Tree Structure**:
-```typescript
-interface ErrorTree {
-  errors: string[];              // Errors at current level
-  properties?: {                 // Object property errors
-    [key: string]: ErrorTree;
-  };
-  items?: ErrorTree[];           // Array item errors
-}
-```
-
-**Best Practice**: Always use optional chaining (`?.`) when accessing nested tree properties to prevent runtime errors.
-
-**When to use**: Nested schemas, complex data structures, displaying errors next to nested form fields.
-
-#### z.prettifyError() - Best for Debugging and Logging
-
-Generates a human-readable string representation of all validation errors:
-
-```typescript
-const UserSchema = z.object({
-  profile: z.object({
-    username: z.string().min(3),
-    email: z.string().email(),
-  }),
-  favoriteNumbers: z.array(z.number()),
-});
-
-const result = UserSchema.safeParse({
-  profile: {
-    username: "ab",
-    email: "not-email",
-  },
-  favoriteNumbers: ["one", "two"],
-});
-
-if (!result.success) {
-  const pretty = z.prettifyError(result.error);
-  console.log(pretty);
-}
-
-/*
-Output:
-✖ String must contain at least 3 character(s)
-  → at profile.username
-
-✖ Invalid email
-  → at profile.email
-
-✖ Expected number, received string
-  → at favoriteNumbers[0]
-
-✖ Expected number, received string
-  → at favoriteNumbers[1]
-*/
-```
-
-**When to use**: Development logging, error debugging, console output, error monitoring services.
-
-#### Comparison Table
-
-| Method | Best For | Output Type | Nested Support |
-|--------|----------|-------------|----------------|
-| `z.flattenError()` | Forms, single-level schemas | Object `{ formErrors, fieldErrors }` | No |
-| `z.treeifyError()` | Nested data, complex structures | Tree object | Yes |
-| `z.prettifyError()` | Debugging, logging | String | Yes |
-
-#### Legacy Methods (Deprecated)
-
-```typescript
-// ❌ Zod v3 (Deprecated in v4)
-error.format();   // Use z.treeifyError(error) instead
-error.flatten();  // Use z.flattenError(error) instead
-
-// ✅ Zod v4
-z.treeifyError(error);
-z.flattenError(error);
-```
-
-### Custom Error Messages
-
-Zod v4 unifies error customization with the `error` parameter, replacing the fragmented `message`, `invalid_type_error`, `required_error`, and `errorMap` options from v3.
-
-#### Three-Level Error Customization System
-
-Zod provides three levels of error customization with clear precedence:
-
-```typescript
-// 1. SCHEMA-LEVEL (Highest Priority)
-// Define custom messages when creating schemas
-const NameSchema = z.string({
-  error: "Name must be a string",
-});
-
-const EmailSchema = z.string().email({
-  error: (issue) => {
-    if (issue.code === "invalid_string") {
-      return { message: "Please provide a valid email address" };
-    }
-  },
-});
-
-const AgeSchema = z.number().min(18, {
-  error: "Must be at least 18 years old",
-});
-
-// 2. PER-PARSE LEVEL (Medium Priority)
-// Override errors for a specific parse call
-const result = UserSchema.parse(data, {
-  error: (issue) => {
-    // Custom error logic for this specific parse
-    return { message: `Validation failed at ${issue.path.join('.')}` };
-  },
-});
-
-// 3. GLOBAL LEVEL (Lowest Priority)
-// Set application-wide error defaults
-z.config({
-  customError: (issue) => {
-    // Global error handler - applies when schema/parse don't specify
-    return { message: `Global error: ${issue.code}` };
-  },
-});
-```
-
-#### Error Function Parameters
-
-Error customization functions receive an issue context object with detailed information:
-
-```typescript
-z.string().min(5, {
-  error: (issue) => {
-    // Available properties:
-    console.log(issue.code);      // Error type (e.g., "too_small")
-    console.log(issue.input);     // The data being validated
-    console.log(issue.inst);      // The schema instance
-    console.log(issue.path);      // Path in nested structures
-
-    // Type-specific properties
-    if (issue.code === "too_small") {
-      console.log(issue.minimum);   // The minimum value
-      console.log(issue.inclusive); // Whether minimum is inclusive
-    }
-
-    // Return undefined to defer to next handler in precedence chain
-    return undefined;
-  },
-});
-```
-
-#### Quick Examples
-
-```typescript
-// Simple string message
-z.string().min(5, "Must be at least 5 characters");
-z.string("Invalid string!");
-
-// Conditional error messages
-z.string({
-  error: (issue) => {
-    if (issue.code === "too_small") {
-      return { message: `Minimum length: ${issue.minimum}` };
-    }
-    if (issue.code === "invalid_type") {
-      return { message: `Expected string, got ${issue.received}` };
-    }
-    return undefined; // Use default message
-  },
-});
-
-// Include input data in errors (disabled by default for security)
-schema.parse(data, {
-  reportInput: true, // Now error.issues will include input data
-  error: (issue) => ({
-    message: `Invalid value: ${JSON.stringify(issue.input)}`,
-  }),
-});
-```
-
-#### Localization Support
-
-Zod v4 includes built-in support for 40+ locales:
-
-```typescript
-import { z } from "zod";
-
-// Set global locale
-z.config(z.locales.en());  // English (default)
 z.config(z.locales.es());  // Spanish
 z.config(z.locales.fr());  // French
-z.config(z.locales.de());  // German
-z.config(z.locales.ja());  // Japanese
-z.config(z.locales.zh());  // Chinese
-// ... and 34+ more locales
-
-// Per-parse locale override
-const result = schema.parse(data, {
-  locale: z.locales.es(),
-});
-
-// Custom i18n integration
-z.config({
-  customError: (issue) => ({
-    message: t(`validation.${issue.code}`, issue),
-  }),
-});
 ```
 
-**Available Locales**: `ar`, `bg`, `cs`, `da`, `de`, `el`, `en`, `es`, `et`, `fa`, `fi`, `fr`, `he`, `hi`, `hr`, `hu`, `id`, `it`, `ja`, `ko`, `lt`, `lv`, `nb`, `nl`, `pl`, `pt`, `ro`, `ru`, `sk`, `sl`, `sr`, `sv`, `th`, `tr`, `uk`, `vi`, `zh`, `zh-TW`
+**→ Load `references/error-handling.md` for:** Complete error formatting examples, custom error patterns, localization setup, error code reference
 
 ## Type Inference
 
+**Load `references/type-inference.md` for complete type inference and metadata documentation.**
+
+### Quick Reference
+
+**Basic Type Inference**:
 ```typescript
-// Basic inference
 const UserSchema = z.object({ name: z.string() });
 type User = z.infer<typeof UserSchema>; // { name: string }
+```
 
-// Input vs Output types (for transforms)
+**Input vs Output** (for transforms):
+```typescript
 const TransformSchema = z.string().transform((s) => s.length);
 type Input = z.input<typeof TransformSchema>;   // string
 type Output = z.output<typeof TransformSchema>; // number
 ```
 
-## JSON Schema Conversion
-
-Generate JSON Schema from Zod schemas for OpenAPI, AI structured outputs, or documentation:
-
+**JSON Schema Conversion**:
 ```typescript
-const UserSchema = z.object({
-  id: z.string().uuid(),
-  email: z.string().email(),
-  age: z.number().int().positive(),
-  role: z.enum(["admin", "user"]),
-});
-
-// Convert to JSON Schema
-const jsonSchema = z.toJSONSchema(UserSchema);
-/*
-{
-  type: "object",
-  properties: {
-    id: { type: "string", format: "uuid" },
-    email: { type: "string", format: "email" },
-    age: { type: "number", minimum: 0, exclusiveMinimum: true },
-    role: { type: "string", enum: ["admin", "user"] }
-  },
-  required: ["id", "email", "age", "role"],
-  additionalProperties: false
-}
-*/
-
-// Options
-z.toJSONSchema(schema, {
-  target: "openapi-3.0",           // Target version
-  metadata: true,                  // Include .meta() data
-  cycles: "ref",                   // Handle recursive schemas
-  reused: "defs",                  // Extract repeated schemas
-  io: "input",                     // Use input types instead of output
-  unrepresentable: "any",          // Handle unsupported types
-});
-```
-
-## Metadata
-
-Zod v4 provides a powerful metadata system for associating additional information with schemas, useful for documentation, code generation, AI structured outputs, and form validation.
-
-### Global Registry (Quick Start)
-
-The easiest way to add metadata is using the global registry:
-
-```typescript
-// Add metadata with .meta()
-const EmailSchema = z.string().email().meta({
-  id: "email_address",
-  title: "Email Address",
-  description: "User's email address",
-  deprecated: false,
-  // Add any custom fields
-  placeholder: "user@example.com",
-  helpText: "We'll never share your email",
-});
-
-// Retrieve metadata
-const meta = EmailSchema.meta();
-console.log(meta.title); // "Email Address"
-
-// .meta() without arguments retrieves existing metadata
-const existingMeta = EmailSchema.meta();
-
-// Legacy .describe() method (still supported for Zod 3 compatibility)
-const DescribedSchema = z.string().describe("A user's name");
-// Equivalent to: z.string().meta({ description: "A user's name" })
-```
-
-### Global Metadata Interface
-
-The global registry accepts this interface by default:
-
-```typescript
-interface GlobalMeta {
-  id?: string;
-  title?: string;
-  description?: string;
-  deprecated?: boolean;
-  [k: string]: unknown; // Any additional custom fields
-}
-
-// Extend with TypeScript declaration merging for type safety
-declare module "zod" {
-  interface GlobalMeta {
-    placeholder?: string;
-    helpText?: string;
-    uiComponent?: "input" | "textarea" | "select";
-  }
-}
-
-// Now TypeScript knows about custom fields
-const schema = z.string().meta({
-  placeholder: "Enter text...",
-  uiComponent: "textarea", // Autocomplete works!
-});
-```
-
-### Custom Registries
-
-For advanced use cases, create custom registries with strongly-typed metadata:
-
-```typescript
-// Define custom metadata type
-interface FormFieldMeta {
-  label: string;
-  placeholder?: string;
-  helpText?: string;
-  validation?: {
-    showOnChange?: boolean;
-    showOnBlur?: boolean;
-  };
-}
-
-// Create typed registry
-const formRegistry = z.registry<FormFieldMeta>();
-
-// Register schemas with metadata
-const UsernameSchema = z.string().min(3).max(20);
-formRegistry.add(UsernameSchema, {
-  label: "Username",
-  placeholder: "Choose a username",
-  helpText: "3-20 characters, alphanumeric only",
-  validation: {
-    showOnBlur: true,
-  },
-});
-
-// Check if schema exists
-if (formRegistry.has(UsernameSchema)) {
-  // Retrieve metadata
-  const meta = formRegistry.get(UsernameSchema);
-  console.log(meta.label); // "Username"
-}
-
-// Remove schema from registry
-formRegistry.remove(UsernameSchema);
-
-// Clear entire registry
-formRegistry.clear();
-```
-
-### .register() Method
-
-The `.register()` method adds metadata and returns the original schema (not a new instance):
-
-```typescript
-const EmailSchema = z.string().email().register({
-  title: "Email Address",
-  description: "User's email address",
-});
-
-// Returns the same schema instance, allowing inline registration
-const UserSchema = z.object({
-  email: z.string().email().register({
-    id: "user_email",
-    title: "Email",
-  }),
-  name: z.string().register({
-    id: "user_name",
-    title: "Full Name",
-  }),
-});
-```
-
-### Advanced: Inferred Types in Metadata
-
-Reference schema types within metadata using `z.$input` and `z.$output`:
-
-```typescript
-const TransformSchema = z.string().transform((s) => s.length);
-
-const registry = z.registry<{
-  description: string;
-  // Use schema's input/output types
-  exampleInput?: z.$input<typeof TransformSchema>;
-  exampleOutput?: z.$output<typeof TransformSchema>;
-}>();
-
-registry.add(TransformSchema, {
-  description: "Converts string to length",
-  exampleInput: "hello",    // Type: string
-  exampleOutput: 5,         // Type: number
-});
-```
-
-### Advanced: Schema Type Constraints
-
-Restrict which schema types can be registered in a custom registry:
-
-```typescript
-// Only allow string schemas
-const stringRegistry = z.registry<
-  { label: string },
-  z.ZodString
->();
-
-const nameSchema = z.string();
-stringRegistry.add(nameSchema, { label: "Name" }); // ✓ OK
-
-const ageSchema = z.number();
-stringRegistry.add(ageSchema, { label: "Age" }); // ✗ Type error!
-```
-
-### Metadata for JSON Schema Generation
-
-Metadata integrates seamlessly with `z.toJSONSchema()`:
-
-```typescript
-const UserSchema = z.object({
-  email: z.string().email().meta({
-    title: "Email Address",
-    description: "The user's email",
-    examples: ["user@example.com"],
-  }),
-  age: z.number().int().positive().meta({
-    title: "Age",
-    description: "User's age in years",
-    minimum: 1,
-    maximum: 120,
-  }),
-});
-
-// Include metadata in JSON Schema output
 const jsonSchema = z.toJSONSchema(UserSchema, {
-  metadata: true, // ← Includes .meta() data
+  target: "openapi-3.0",
+  metadata: true,
+});
+```
+
+**Metadata**:
+```typescript
+// Add metadata
+const EmailSchema = z.string().email().meta({
+  title: "Email Address",
+  description: "User's email address",
 });
 
-/*
-{
-  type: "object",
-  properties: {
-    email: {
-      type: "string",
-      format: "email",
-      title: "Email Address",
-      description: "The user's email",
-      examples: ["user@example.com"]
-    },
-    age: {
-      type: "number",
-      title: "Age",
-      description: "User's age in years",
-      minimum: 1,
-      maximum: 120
-    }
-  },
-  required: ["email", "age"]
-}
-*/
+// Create custom registry
+const formRegistry = z.registry<FormFieldMeta>();
 ```
+
+**→ Load `references/type-inference.md` for:** Complete type inference patterns, JSON Schema options, metadata system, custom registries, brand types
 
 ## Functions
 
@@ -1603,139 +641,56 @@ const PostSchema = z.object({
 
 ## Ecosystem Integration
 
-### ESLint Plugins
+**Load `references/ecosystem-integrations.md` for complete framework and tooling integration guide.**
 
-**eslint-plugin-zod-x** (40 stars) - Enforces Zod best practices:
-- `zod-x/no-missing-error-messages` - Ensure custom error messages
-- `zod-x/prefer-enum` - Prefer z.enum() over z.union() of literals
-- `zod-x/require-strict` - Enforce strict object schemas
+### Quick Reference
 
-**eslint-plugin-import-zod** (46 stars) - Enforces namespace imports:
-```typescript
-// Enforced style
-import { z } from "zod";
+**ESLint Plugins**:
+- `eslint-plugin-zod-x` - Enforces best practices
+- `eslint-plugin-import-zod` - Enforces import style
 
-// Disallowed
-import * as z from "zod";
-```
+**Framework Integrations**:
+- **tRPC** - End-to-end typesafe APIs
+- **React Hook Form** - Form validation (see `react-hook-form-zod` skill)
+- **Prisma** - Generate Zod from database models
+- **NestJS** - DTOs and validation pipes
 
-### Popular Integrations
+**Code Generation**:
+- **orval** - OpenAPI → Zod
+- **Hey API** - OpenAPI to TypeScript + Zod
+- **kubb** - API toolkit with codegen
 
-**tRPC** (38,863 stars) - End-to-end typesafe APIs:
-```typescript
-import { z } from "zod";
-import { initTRPC } from "@trpc/server";
+**→ Load `references/ecosystem-integrations.md` for:** Setup instructions, integration examples, Hono middleware, Drizzle ORM patterns
 
-const t = initTRPC.create();
+## Troubleshooting
 
-export const appRouter = t.router({
-  getUser: t.procedure
-    .input(z.object({ id: z.string() }))
-    .query(({ input }) => {
-      return db.user.findUnique({ where: { id: input.id } });
-    }),
-});
-```
+**Load `references/troubleshooting.md` for complete troubleshooting guide, performance tips, and best practices.**
 
-**React Hook Form** (with react-hook-form-zod skill):
-```typescript
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+### Quick Reference
 
-const { register, handleSubmit } = useForm({
-  resolver: zodResolver(FormSchema),
-});
-```
+**Common Issues**:
+1. TypeScript strict mode required → Enable in `tsconfig.json`
+2. Large bundle size → Use `z.lazy()` for code splitting
+3. Slow async refinements → Cache or debounce
+4. Circular dependencies → Use `z.lazy()`
+5. Slow unions → Use `z.discriminatedUnion()`
+6. Transform vs refine confusion → Use `.refine()` for validation, `.transform()` for modification
 
-**Prisma** (via prisma-zod-generator):
-```prisma
-generator zod {
-  provider = "zod-prisma-types"
-  output   = "./zod"
-}
-```
+**Performance Tips**:
+- Use `.discriminatedUnion()` (5-10x faster than `.union()`)
+- Cache schema instances
+- Use `.safeParse()` (avoids try-catch overhead)
+- Lazy load large schemas
 
-**NestJS** (via nestjs-zod):
-- Automatic DTO generation
-- OpenAPI documentation
-- Validation pipes
+**Best Practices**:
+- Define schemas at module level
+- Use type inference (`z.infer`)
+- Add custom error messages
+- Validate at system boundaries
+- Compose small schemas
+- Document with `.meta()`
 
-### Code Generation Tools
-
-- **orval** (4,848 stars) - Generate Zod from OpenAPI
-- **Hey API** (3,497 stars) - OpenAPI to TypeScript + Zod
-- **kubb** (1,416 stars) - API toolkit with Zod codegen
-
-## Known Issues & Solutions
-
-### 1. TypeScript Strict Mode Required
-**Issue**: Zod requires TypeScript strict mode (`"strict": true`).
-**Solution**: Enable strict mode in `tsconfig.json`. If impossible, manually enable `strictNullChecks`.
-
-### 2. Large Schema Bundle Size
-**Issue**: Complex schemas can increase bundle size.
-**Solution**: Use lazy loading for large schemas: `z.lazy(() => Schema)`. Consider code splitting.
-
-### 3. Async Refinements Performance
-**Issue**: Async refinements (e.g., database checks) can be slow.
-**Solution**: Use caching, debouncing, or move expensive checks to background jobs.
-
-### 4. Error Message Localization
-**Issue**: Default error messages are English-only.
-**Solution**: Use custom error maps with i18n libraries:
-```typescript
-z.config({
-  customError: (issue) => ({
-    message: t(`validation.${issue.code}`, issue),
-  }),
-});
-```
-
-### 5. Circular Dependencies
-**Issue**: Self-referential types can cause TypeScript errors.
-**Solution**: Use `z.lazy()`:
-```typescript
-const Node: z.ZodType<Node> = z.lazy(() =>
-  z.object({ children: z.array(Node) })
-);
-```
-
-### 6. Union Type Performance
-**Issue**: Large unions can slow down parsing.
-**Solution**: Use `z.discriminatedUnion()` instead of `z.union()` when possible—much faster type narrowing.
-
-### 7. Default Values Not Applied on Undefined
-**Issue**: `.default()` only applies when value is undefined, not for null or invalid types.
-**Solution**: Use `.catch()` for fallback on any error, or `.nullish().default()` for null handling.
-
-### 8. Transform vs Refine Confusion
-**Issue**: Using `.refine()` when `.transform()` is needed (or vice versa).
-**Solution**:
-- Use `.refine()` for validation only (returns boolean)
-- Use `.transform()` to modify the data
-- Transforms are unidirectional; use `.codec()` for bidirectional
-
-## Performance Tips
-
-1. **Use `.discriminatedUnion()` instead of `.union()`** - Faster parsing and better type inference
-2. **Lazy load large schemas** - Use `z.lazy()` for schemas that aren't always needed
-3. **Coerce sparingly** - Coercion adds overhead; prefer explicit parsing
-4. **Cache schema instances** - Don't recreate schemas on every request
-5. **Use `.safeParse()` over `.parse()`** - Avoids expensive try-catch
-6. **Avoid deep nesting** - Flatten schemas when possible for better performance
-
-## Best Practices
-
-1. **Define schemas at module level** - Reuse schema instances
-2. **Use `.safeParse()` for user input** - Better error handling
-3. **Leverage type inference** - Let Zod generate types: `type User = z.infer<typeof UserSchema>`
-4. **Add custom error messages** - Improve UX with clear, actionable errors
-5. **Use discriminated unions** - Better performance and type narrowing
-6. **Validate early** - Check data at system boundaries (API, forms, env vars)
-7. **Compose small schemas** - Build complex schemas from reusable pieces
-8. **Document with `.meta()`** - Add descriptions for better DX and JSON Schema generation
-9. **Test schemas thoroughly** - Validate edge cases and error messages
-10. **Use codecs for serialization** - Bidirectional transforms for dates, URLs, etc.
+**→ Load `references/troubleshooting.md` for:** Detailed solutions, performance optimization, best practices, testing patterns
 
 ## Quick Reference
 
@@ -1779,6 +734,53 @@ z.toJSONSchema(schema, options)
 // Object methods
 .extend(), .pick(), .omit(), .partial(), .required(), .merge()
 ```
+
+## When to Load References
+
+**Load `references/migration-guide.md` when:**
+- Upgrading from Zod v3 to v4
+- Questions about breaking changes
+- Need migration checklist or rollback strategy
+- Errors related to deprecated APIs (`.merge()`, `error.format()`, etc.)
+- Number validation issues with `Infinity` or unsafe integers
+
+**Load `references/error-handling.md` when:**
+- Need to format errors for forms or UI
+- Implementing custom error messages
+- Questions about `z.flattenError()`, `z.treeifyError()`, or `z.prettifyError()`
+- Setting up localization for error messages
+- Need error code reference or pattern examples
+
+**Load `references/advanced-patterns.md` when:**
+- Implementing custom refinements or async validation
+- Need bidirectional transformations (codecs)
+- Working with recursive types or self-referential data
+- Questions about `.refine()`, `.transform()`, or `.codec()`
+- Need performance optimization patterns
+- Implementing conditional validation
+
+**Load `references/type-inference.md` when:**
+- Questions about TypeScript type inference
+- Need to generate JSON Schema for OpenAPI or AI
+- Implementing metadata system for forms or documentation
+- Need custom registries for type-safe metadata
+- Questions about `z.infer`, `z.input`, `z.output`
+- Using brand types for ID safety
+
+**Load `references/ecosystem-integrations.md` when:**
+- Integrating with tRPC, React Hook Form, Prisma, or NestJS
+- Setting up ESLint plugins for best practices
+- Generating Zod schemas from OpenAPI (orval, Hey API, kubb)
+- Questions about Hono middleware or Drizzle ORM
+- Need framework-specific integration examples
+
+**Load `references/troubleshooting.md` when:**
+- Encountering TypeScript strict mode errors
+- Bundle size concerns or lazy loading needs
+- Performance issues with large unions or async refinements
+- Questions about circular dependencies
+- Need best practices or testing patterns
+- Confusion between `.refine()` and `.transform()`
 
 ## Additional Resources
 
