@@ -1,14 +1,14 @@
 # Nuxt UI v4 Skill
 
-Production-ready **Nuxt UI v4** component library skill for **Nuxt v4** projects with 100+ accessible components, Tailwind CSS v4 integration, and comprehensive templates.
+Production-ready **Nuxt UI v4** component library skill for **Nuxt v4** projects with 52 accessible components, Tailwind CSS v4 integration, and comprehensive templates.
 
 ## What This Skill Does
 
 This skill provides everything needed to build modern web applications with Nuxt v4 and Nuxt UI v4:
 
-- **100+ Components**: Complete UI component library with forms, data display, navigation, overlays, feedback, and layout components
-- **15 Templates**: Copy-paste component examples covering 30+ most common use cases
-- **13 Reference Docs**: Deep-dive guides for advanced patterns and best practices
+- **52 Components**: Complete UI component library with forms, data display, navigation, overlays, feedback, and layout components
+- **19 Templates**: Copy-paste component examples (16 components + 3 composables) covering 30+ most common use cases
+- **19 Reference Docs**: Deep-dive guides for advanced patterns and best practices
 - **Semantic Color System**: 7 color aliases with dark mode support
 - **Accessibility**: WAI-ARIA compliant components built on Reka UI
 - **AI Integration**: AI SDK v5 chat interface patterns
@@ -106,10 +106,12 @@ export default defineNuxtConfig({
 13. **ui-command-palette.vue** - Search with Fuse.js integration
 14. **ui-popover-tooltip.vue** - Popover and Tooltip components
 15. **ui-carousel-gallery.vue** - Carousel with Embla integration
+16. **ui-content-prose.vue** - @nuxt/content Prose component integration
 
 ### Composable Templates
 - `useNuxtUITheme.ts` - Theme customization helper
 - `useAIChat.ts` - AI SDK v5 integration wrapper
+- `useI18nForm.ts` - i18n form validation helper
 
 ## Reference Documentation
 
@@ -117,15 +119,21 @@ export default defineNuxtConfig({
 2. **semantic-color-system.md** - 7 semantic colors, CSS variables, theming
 3. **component-theming-guide.md** - Global, component, and slot customization
 4. **form-validation-patterns.md** - Forms, validation, nested forms, file uploads
-5. **ai-sdk-v5-integration.md** - Chat class, streaming, useChat migration
-6. **common-components.md** - Top 40 components with props and examples
-7. **accessibility-patterns.md** - Reka UI, ARIA, keyboard navigation
+5. **form-advanced-patterns.md** - Multi-step forms, file uploads, dynamic fields
+6. **ai-sdk-v5-integration.md** - Chat class, streaming, useChat migration
+7. **common-components.md** - Top 40 components with props and examples
 8. **composables-guide.md** - useToast, useNotification, useColorMode, defineShortcuts
-9. **overlay-decision-guide.md** - When to use Modal vs Drawer vs Dialog vs Popover
-10. **responsive-patterns.md** - Mobile/desktop switching, breakpoint patterns
-11. **command-palette-setup.md** - Search configuration with Fuse.js
-12. **form-advanced-patterns.md** - Multi-step forms, file uploads, dynamic fields
+9. **accessibility-patterns.md** - Reka UI, ARIA, keyboard navigation
+10. **overlay-decision-guide.md** - When to use Modal vs Drawer vs Dialog vs Popover
+11. **responsive-patterns.md** - Mobile/desktop switching, breakpoint patterns
+12. **command-palette-setup.md** - Search configuration with Fuse.js
 13. **loading-feedback-patterns.md** - Skeleton, Progress, Toast coordination
+14. **i18n-integration.md** - Internationalization with @nuxtjs/i18n
+15. **icon-system-guide.md** - Iconify icons, 200k+ icons, naming conventions
+16. **nuxt-content-integration.md** - @nuxt/content setup and Prose components
+17. **css-variables-reference.md** - Complete CSS custom properties reference
+18. **design-system-guide.md** - Building design systems with Nuxt UI
+19. **COMMON_ERRORS_DETAILED.md** - Detailed solutions for 20+ common errors
 
 ## Common Use Cases
 
@@ -208,7 +216,7 @@ This skill has been verified with:
 - ✅ Nuxt v4.0.0
 - ✅ @nuxt/ui v4.0.0
 - ✅ Tailwind CSS v4.0.0
-- ✅ All 15 templates tested and working
+- ✅ All 19 templates tested and working (16 components + 3 composables)
 - ✅ All component categories covered
 - ✅ TypeScript types generated successfully
 - ✅ Dark mode functioning correctly
