@@ -454,6 +454,71 @@ SettingsGroup("Advanced", systemImage: "gearshape.2") {
 
 **When to use**: Feature flags, user permission levels, progressive disclosure of complexity
 
+### Pattern 4: All Control Types
+
+SettingsItem supports all standard SwiftUI controls:
+
+```swift
+SettingsGroup("All Controls", systemImage: "slider.horizontal.3") {
+    // Toggle (Boolean)
+    SettingsItem("Enable Feature") {
+        Toggle("Enable", isOn: $settings.featureEnabled)
+    }
+
+    // Slider (Continuous value)
+    SettingsItem("Volume") {
+        VStack(alignment: .leading, spacing: 8) {
+            Slider(value: $settings.volume, in: 0...100)
+            Text("\(Int(settings.volume))%")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    // TextField (Text input)
+    SettingsItem("Username") {
+        TextField("Enter username", text: $settings.username)
+            .textFieldStyle(.roundedBorder)
+    }
+
+    // Picker (Selection)
+    SettingsItem("Theme") {
+        Picker("", selection: $settings.theme) {
+            Text("Light").tag(Theme.light)
+            Text("Dark").tag(Theme.dark)
+            Text("Auto").tag(Theme.auto)
+        }
+        .pickerStyle(.segmented)
+    }
+
+    // Stepper (Increment/Decrement)
+    SettingsItem("Font Size") {
+        Stepper("\(Int(settings.fontSize)) pt", value: $settings.fontSize, in: 10...24)
+    }
+
+    // Button (Action)
+    SettingsItem("Reset Settings") {
+        Button("Reset") {
+            resetSettings()
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(.red)
+    }
+
+    // ColorPicker (Color selection)
+    SettingsItem("Accent Color") {
+        ColorPicker("Choose color", selection: $settings.accentColor)
+    }
+
+    // DatePicker (Date/Time selection)
+    SettingsItem("Reminder Time") {
+        DatePicker("", selection: $settings.reminderTime, displayedComponents: .hourAndMinute)
+    }
+}
+```
+
+**When to use**: Reference for available controls when building settings
+
 ---
 
 ## When to Load References
@@ -467,6 +532,8 @@ Load additional reference files for detailed documentation on specific topics:
 - **Load `references/search-implementation.md`** when implementing custom search logic, debugging search behavior, or need to understand SettingsKit's search architecture
 
 - **Load `references/advanced-patterns.md`** when building complex nested hierarchies, implementing dynamic settings, working with persistence, or need production-ready architectural patterns
+
+- **Load `references/performance-edge-cases.md`** when building large settings hierarchies (100+ groups or 1000+ items), experiencing performance issues, or need stress testing guidance and optimization strategies
 
 ---
 
@@ -484,6 +551,7 @@ Detailed documentation files for advanced topics:
 - `references/styling-guide.md` - Comprehensive guide to customizing settings appearance and platform-specific behaviors
 - `references/search-implementation.md` - Deep dive into search architecture, custom search implementation, and search scoring
 - `references/advanced-patterns.md` - Production patterns for complex hierarchies, state management, persistence, and testing
+- `references/performance-edge-cases.md` - Performance optimization, stress testing, and handling large hierarchies
 
 **When to load**: See "When to Load References" section above for specific scenarios
 
@@ -492,8 +560,9 @@ Detailed documentation files for advanced topics:
 Swift template files for quick setup:
 
 - `assets/basic-settings-template.swift` - Complete minimal settings implementation
-- `assets/custom-style-template.swift` - Custom SettingsStyle implementation template
+- `assets/custom-style-template.swift` - Custom SettingsStyle implementation template (5 examples)
 - `assets/modular-settings-template.swift` - Multi-file settings organization pattern
+- `assets/demo-app-template.swift` - Full demo app matching official SettingsKit demo (25+ properties, all control types, stress tests)
 
 ---
 
