@@ -68,23 +68,17 @@ struct CompactCardStyle: SettingsStyle {
 struct MacOSPreferencesStyle: SettingsStyle {
     func makeContainer(configuration: ContainerConfiguration) -> some View {
         NavigationSplitView {
-            // Sidebar with navigation
-            // Note: In a full implementation, the sidebar would show a list of
-            // top-level sections derived from your settings structure. This
-            // simplified example shows the complete hierarchy in the detail pane.
-            List(selection: Binding(
-                get: { configuration.navigationPath.wrappedValue.last },
-                set: { newValue in
-                    if let id = newValue {
-                        configuration.navigationPath.wrappedValue = [id]
-                    }
-                }
-            )) {
+            // Sidebar with navigation placeholder
+            // Note: This is a simplified structural example. In a full implementation,
+            // populate the sidebar with your settings sections using .tag() values
+            // and bind to configuration.navigationPath to enable section navigation.
+            List {
                 Text("Settings Navigation")
                     .foregroundStyle(.secondary)
                     .italic()
-                // In a real app, you'd populate this with section identifiers
-                // matched to your settings groups for proper sidebar navigation
+                // Example of how you'd add selectable sections:
+                // Text("General").tag(generalSectionID)
+                // Text("Privacy").tag(privacySectionID)
             }
             .listStyle(.sidebar)
             .frame(minWidth: 200)
@@ -167,21 +161,25 @@ struct AdaptiveStyle: SettingsStyle {
                 }
             } else {
                 // iPad: Split view
+                // Note: This is a structural example showing adaptive layout.
+                // In a production app, you'd populate the detail pane based on
+                // the selected item from configuration.navigationPath instead
+                // of using a static placeholder.
                 NavigationSplitView {
-                    List(selection: Binding(
-                        get: { configuration.navigationPath.wrappedValue.last },
-                        set: { newValue in
-                            if let id = newValue {
-                                configuration.navigationPath.wrappedValue = [id]
-                            }
-                        }
-                    )) {
+                    List {
                         configuration.content
                     }
                     .navigationTitle(configuration.title)
                 } detail: {
-                    Text("Select a setting")
-                        .foregroundStyle(.secondary)
+                    // Placeholder detail view - in production, show selected content here
+                    VStack(spacing: 16) {
+                        Image(systemName: "gearshape.2")
+                            .font(.system(size: 64))
+                            .foregroundStyle(.secondary)
+                        Text("Select a setting")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
