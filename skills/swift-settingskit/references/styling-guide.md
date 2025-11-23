@@ -234,7 +234,7 @@ struct MacOSPreferencesStyle: SettingsStyle {
             .toolbar {
                 ToolbarItem {
                     Button("Reset to Defaults") {
-                        resetSettings()
+                        // Implement reset behavior here
                     }
                 }
             }

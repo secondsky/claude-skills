@@ -26,18 +26,23 @@ class AppSettings {
 
     // MARK: - Persistence (Optional)
 
-    // Uncomment to enable UserDefaults persistence:
+    // To enable UserDefaults persistence:
+    // 1. Replace the simple stored properties above with computed properties below
+    // 2. Add didSet observers to save changes
+    // 3. Implement init() to load values on startup
+    //
+    // Example for notificationsEnabled (apply same pattern to other properties):
     /*
     @ObservationIgnored
     private let defaults = UserDefaults.standard
 
-    var notificationsEnabled: Bool {
+    var notificationsEnabled: Bool = true {
         didSet { defaults.set(notificationsEnabled, forKey: "notificationsEnabled") }
     }
 
     init() {
         self.notificationsEnabled = defaults.bool(forKey: "notificationsEnabled")
-        // ... initialize other properties from UserDefaults
+        // Repeat for other properties: soundEnabled, darkMode, etc.
     }
     */
 }
@@ -104,6 +109,8 @@ struct MySettings: SettingsContainer {
         .settingsTags(["profile", "account", "user"])
 
         // Quick Settings (inline section header, not navigation)
+        // NOTE: These toggles use .constant(true) as placeholder values.
+        // For production, bind to real properties in AppSettings (e.g., $settings.wifiEnabled)
         SettingsGroup("Quick Access", .inline) {
             SettingsItem("Wi-Fi") {
                 Toggle("Enable", isOn: .constant(true))

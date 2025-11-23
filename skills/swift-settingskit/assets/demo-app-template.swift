@@ -1,8 +1,8 @@
-# SettingsKit Demo App Template
-# Complete working demo app matching the official SettingsKit demo
-# Platform: iOS 17+ / macOS 14+ / watchOS 10+ / tvOS 17+ / visionOS 1+
-# Swift: 6.0+
-# Source: Based on official SettingsKit Demo app
+// SettingsKit Demo App Template
+// Complete working demo app matching the official SettingsKit demo
+// Platform: iOS 17+ / macOS 14+ / watchOS 10+ / tvOS 17+ / visionOS 1+
+// Swift: 6.0+
+// Source: Based on official SettingsKit Demo app
 
 import SwiftUI
 import SettingsKit

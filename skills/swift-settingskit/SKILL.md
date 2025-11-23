@@ -15,7 +15,15 @@ license: MIT
 **Last Updated**: 2025-11-23
 **Dependencies**: None (standalone Swift package)
 **Latest Version**: SettingsKit 1.0.0+
-**Platform Requirements**: iOS 17+ / macOS 14+ / watchOS 10+ / tvOS 17+ / visionOS 1+ / Swift 6.0+
+
+## Supported Toolchains
+
+**Minimum Requirements**:
+- **Swift**: 6.0+ (required for @Observable macro and SettingsKit compilation)
+- **Xcode**: 16.0+ (provides Swift 6.0 toolchain)
+- **Platforms**: iOS 17.0+ / macOS 14.0+ / watchOS 10.0+ / tvOS 17.0+ / visionOS 1.0+
+
+**Note**: While @Observable was introduced in Swift 5.9, SettingsKit's Package.swift specifies Swift 6.0+ as the minimum toolchain version. All examples in this skill target Swift 6.0+.
 
 ---
 
@@ -113,7 +121,7 @@ struct MyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MySettings(settings: settings)
+            MySettings()
                 .environment(settings)
         }
     }
@@ -170,7 +178,7 @@ class AppSettings {
 ```
 
 **Key Points:**
-- Use `@Observable` macro (Swift 5.9+) for modern observation
+- Use `@Observable` macro (Swift 6.0+) for modern observation
 - Initialize all properties with default values
 - Keep settings model separate from view logic
 - Can include computed properties for derived state
@@ -394,9 +402,7 @@ var settingsBody: some SettingsContent {
 Use CustomSettingsGroup for advanced UIs while maintaining searchability:
 
 ```swift
-CustomSettingsGroup("Developer Tools", systemImage: "hammer")
-    .settingsTags(["debug", "testing", "logs", "advanced"])
-{
+CustomSettingsGroup("Developer Tools", systemImage: "hammer") {
     VStack(spacing: 20) {
         GroupBox("Debug Information") {
             VStack(alignment: .leading, spacing: 8) {
@@ -418,6 +424,7 @@ CustomSettingsGroup("Developer Tools", systemImage: "hammer")
     }
     .padding()
 }
+.settingsTags(["debug", "testing", "logs", "advanced"])
 ```
 
 **When to use**: Complex custom UI that doesn't fit standard SettingsItem pattern, but still needs search discoverability via tags

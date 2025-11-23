@@ -317,6 +317,11 @@ struct MinimalListStyle: SettingsStyle {
 
 // MARK: - Usage Example
 
+// NOTE: AppSettings, MySettings, and MyApp are example names used across
+// multiple templates in this skill. If combining multiple templates into the
+// same target, rename these types to avoid duplicate-type errors (e.g.,
+// StyleDemoSettings, StyleDemoApp, etc.)
+
 @Observable
 class AppSettings {
     var notifications = true

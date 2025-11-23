@@ -702,6 +702,6 @@ MySettings()
 
 ---
 
-For implementation examples, see `references/advanced-patterns.md`.
-For styling customization, see `references/styling-guide.md`.
-For search details, see `references/search-implementation.md`.
+See `references/advanced-patterns.md` for implementation examples.
+Styling customization details are in `references/styling-guide.md`.
+Search architecture and implementation: `references/search-implementation.md`.
