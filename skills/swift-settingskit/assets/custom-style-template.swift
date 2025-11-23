@@ -68,7 +68,10 @@ struct CompactCardStyle: SettingsStyle {
 struct MacOSPreferencesStyle: SettingsStyle {
     func makeContainer(configuration: ContainerConfiguration) -> some View {
         NavigationSplitView {
-            // Sidebar with icons
+            // Sidebar with navigation
+            // Note: In a full implementation, the sidebar would show a list of
+            // top-level sections derived from your settings structure. This
+            // simplified example shows the complete hierarchy in the detail pane.
             List(selection: Binding(
                 get: { configuration.navigationPath.wrappedValue.last },
                 set: { newValue in
@@ -77,12 +80,16 @@ struct MacOSPreferencesStyle: SettingsStyle {
                     }
                 }
             )) {
-                configuration.content
+                Text("Settings Navigation")
+                    .foregroundStyle(.secondary)
+                    .italic()
+                // In a real app, you'd populate this with section identifiers
+                // matched to your settings groups for proper sidebar navigation
             }
             .listStyle(.sidebar)
             .frame(minWidth: 200)
         } detail: {
-            // Detail pane with toolbar
+            // Detail pane with content and toolbar
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     configuration.content
@@ -93,7 +100,7 @@ struct MacOSPreferencesStyle: SettingsStyle {
             .toolbar {
                 ToolbarItem {
                     Button("Reset to Defaults") {
-                        // Add reset logic
+                        // Implement reset behavior here
                     }
                 }
             }
