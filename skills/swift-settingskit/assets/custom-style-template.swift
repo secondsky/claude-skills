@@ -319,8 +319,10 @@ struct MinimalListStyle: SettingsStyle {
 
 // NOTE: AppSettings, MySettings, and MyApp are example names used across
 // multiple templates in this skill. If combining multiple templates into the
-// same target, rename these types to avoid duplicate-type errors (e.g.,
-// StyleDemoSettings, StyleDemoApp, etc.)
+// same target:
+// 1. Rename these types to avoid duplicate-type errors (e.g., StyleDemoSettings, StyleDemoApp)
+// 2. Keep only ONE @main App active - comment out or remove extra @main attributes
+//    from other templates to avoid multiple entry point errors
 
 @Observable
 class AppSettings {

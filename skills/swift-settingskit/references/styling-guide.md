@@ -539,7 +539,8 @@ struct AnimatedStyle: SettingsStyle {
             configuration.content
                 .transition(.slide.combined(with: .opacity))
         }
-        .animation(.easeInOut, value: configuration.content)
+        // Note: For explicit animation control, add @State variables
+        // and use .animation(.easeInOut, value: yourStateVariable)
     }
 
     // ... other methods
