@@ -16,17 +16,20 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  last_verified: "2025-11-18"
+  last_verified: "2025-11-25"
   production_tested: true
   token_savings: "~58%"
   errors_prevented: 8
   templates_included: 3
   references_included: 4
+  wrangler_version: "4.50.0"
+  workers_types_version: "4.20251125.0"
+  drizzle_orm_version: "0.44.7"
 ---
 
 # Cloudflare D1 Database
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-21
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-25
 
 ## Table of Contents
 1. [What Is D1?](#what-is-d1)

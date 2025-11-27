@@ -21,7 +21,7 @@ license: MIT
 # Cloudflare Worker Base Stack
 
 **Production-tested**: cloudflare-worker-base-test (https://cloudflare-worker-base-test.webfonts.workers.dev)
-**Last Updated**: 2025-11-20
+**Last Updated**: 2025-11-25
 **Status**: Production Ready ✅
 
 ---
@@ -29,14 +29,10 @@ license: MIT
 ## Table of Contents
 
 1. [Quick Start (5 Minutes)](#quick-start-5-minutes)
-2. [Configuration Deep Dive](#configuration-deep-dive)
-3. [Common Issues & Solutions](#common-issues--solutions)
-4. [Development Workflow](#development-workflow)
-5. [Deployment](#deployment)
-6. [Advanced Patterns](#advanced-patterns)
-7. [Troubleshooting](#troubleshooting)
-8. [Templates](#templates)
-9. [Production Example](#production-example)
+2. [The Four-Step Setup Process](#the-four-step-setup-process)
+3. [Known Issues Prevention](#known-issues-prevention)
+4. [Configuration Files Reference](#configuration-files-reference)
+5. [When to Load References](#when-to-load-references)
 
 ---
 
@@ -53,12 +49,7 @@ npm create cloudflare@latest my-worker -- \
   --framework none
 ```
 
-**Why these flags:**
-- `--type hello-world`: Clean starting point
-- `--ts`: TypeScript support
-- `--git`: Initialize git repo
-- `--deploy false`: Don't deploy yet (configure first)
-- `--framework none`: We'll add Vite ourselves
+**Flags:** `--type hello-world` (clean start), `--ts` (TypeScript), `--git` (init repo), `--deploy false` (configure first), `--framework none` (add Vite manually)
 
 ### 2. Install Dependencies
 
@@ -66,13 +57,14 @@ npm create cloudflare@latest my-worker -- \
 cd my-worker
 bun add hono@4.10.6  # preferred
 # or: npm add hono@4.10.6
-bun add -d @cloudflare/vite-plugin@1.15.2 vite@latest
-# or: npm add -d @cloudflare/vite-plugin@1.15.2 vite@latest
+bun add -d @cloudflare/vite-plugin@1.15.2 vite@latest wrangler@4.50.0
+# or: npm add -d @cloudflare/vite-plugin@1.15.2 vite@latest wrangler@4.50.0
 ```
 
 **Version Notes:**
 - `hono@4.10.6`: Minimum recommended version (verified 2025-11-20)
 - `@cloudflare/vite-plugin@1.15.2`: Minimum recommended version, includes HMR fixes
+- `wrangler@4.50.0`: Latest stable version (verified 2025-11-23)
 - `vite`: Latest version compatible with Cloudflare plugin
 
 ### 3. Configure Wrangler
@@ -120,11 +112,7 @@ export default defineConfig({
 })
 ```
 
-**Why @cloudflare/vite-plugin:**
-- Official plugin from Cloudflare
-- Supports HMR with Workers
-- Enables local development with Miniflare
-- Version 1.15.2 fixes "A hanging Promise was canceled" error
+**Why:** Official Cloudflare plugin with HMR support, local Miniflare development, v1.15.2+ fixes HMR crashes
 
 ---
 
@@ -331,411 +319,139 @@ export default {
 
 ## Configuration Files Reference
 
-### wrangler.jsonc (Full Example)
-
+**wrangler.jsonc** - Worker configuration (account_id, assets, bindings for KV/D1/R2)
 ```jsonc
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "my-worker",
   "main": "src/index.ts",
   "account_id": "YOUR_ACCOUNT_ID",
   "compatibility_date": "2025-10-11",
-  "observability": {
-    "enabled": true
-  },
+  "observability": { "enabled": true },
   "assets": {
     "directory": "./public/",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   }
-  /* Optional: Environment Variables */
-  // "vars": { "MY_VARIABLE": "production_value" }
-
-  /* Optional: KV Namespace Bindings */
-  // "kv_namespaces": [
-  //   { "binding": "MY_KV", "id": "YOUR_KV_ID" }
-  // ]
-
-  /* Optional: D1 Database Bindings */
-  // "d1_databases": [
-  //   { "binding": "DB", "database_name": "my-db", "database_id": "YOUR_DB_ID" }
-  // ]
-
-  /* Optional: R2 Bucket Bindings */
-  // "r2_buckets": [
-  //   { "binding": "MY_BUCKET", "bucket_name": "my-bucket" }
-  // ]
 }
 ```
 
-**Why wrangler.jsonc over wrangler.toml:**
-- JSON format preferred since Wrangler v3.91.0
-- Better IDE support with JSON schema
-- Comments allowed with JSONC
-
-### vite.config.ts (Full Example)
-
+**vite.config.ts** - Vite + Cloudflare plugin
 ```typescript
 import { defineConfig } from 'vite'
 import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig({
-  plugins: [
-    cloudflare({
-      // Persist state between HMR updates
-      persist: true,
-    }),
-  ],
-
-  // Optional: Configure server
-  server: {
-    port: 8787,
-  },
-
-  // Optional: Build optimizations
-  build: {
-    target: 'esnext',
-    minify: true,
-  },
+  plugins: [cloudflare({ persist: true })],
+  server: { port: 8787 },
 })
 ```
 
-### tsconfig.json
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["ES2022"],
-    "moduleResolution": "bundler",
-    "types": ["@cloudflare/workers-types/2023-07-01"],
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": false,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "noEmit": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
-}
-```
+**tsconfig.json** - TypeScript configuration (ES2022, bundler resolution, Workers types)
 
 ---
 
 ## API Route Patterns
 
-### Basic JSON Response
+Hono provides powerful routing and request handling. See `references/api-patterns.md` for comprehensive examples including:
+- Basic JSON responses and POST handlers
+- Route parameters (`/api/users/:id`) and query strings (`?q=search`)
+- Error handling and input validation
+- Using bindings (KV, D1, R2) in API routes
+- Request/response headers and streaming
 
-```typescript
-app.get('/api/users', (c) => {
-  return c.json({
-    users: [
-      { id: 1, name: 'Alice' },
-      { id: 2, name: 'Bob' }
-    ]
-  })
-})
-```
-
-### POST with Request Body
-
-```typescript
-app.post('/api/users', async (c) => {
-  const body = await c.req.json()
-
-  // Validate and process body
-  return c.json({ success: true, data: body }, 201)
-})
-```
-
-### Route Parameters
-
-```typescript
-app.get('/api/users/:id', (c) => {
-  const id = c.req.param('id')
-  return c.json({ id, name: 'User' })
-})
-```
-
-### Query Parameters
-
-```typescript
-app.get('/api/search', (c) => {
-  const query = c.req.query('q')
-  return c.json({ query, results: [] })
-})
-```
-
-### Error Handling
-
-```typescript
-app.get('/api/data', async (c) => {
-  try {
-    // Your logic here
-    return c.json({ success: true })
-  } catch (error) {
-    return c.json({ error: error.message }, 500)
-  }
-})
-```
-
-### Using Bindings (KV, D1, R2)
-
-```typescript
-type Bindings = {
-  ASSETS: Fetcher
-  MY_KV: KVNamespace
-  DB: D1Database
-  MY_BUCKET: R2Bucket
-}
-
-const app = new Hono<{ Bindings: Bindings }>()
-
-app.get('/api/data', async (c) => {
-  // KV
-  const value = await c.env.MY_KV.get('key')
-
-  // D1
-  const result = await c.env.DB.prepare('SELECT * FROM users').all()
-
-  // R2
-  const object = await c.env.MY_BUCKET.get('file.txt')
-
-  return c.json({ value, result, object })
-})
-```
+**Load `references/api-patterns.md` when:** Implementing specific API patterns beyond basic GET/POST.
 
 ---
 
 ## Static Assets Best Practices
 
-### Directory Structure
+**Directory:** `public/` contains all static files (HTML, CSS, JS, images)
 
-```
-public/
-├── index.html          # Main entry point
-├── styles.css          # Global styles
-├── script.js           # Client-side JavaScript
-├── favicon.ico         # Favicon
-└── assets/             # Images, fonts, etc.
-    ├── logo.png
-    └── fonts/
-```
+**SPA Fallback:** `"not_found_handling": "single-page-application"` returns `index.html` for unknown routes (useful for React Router, Vue Router).
 
-### SPA Fallback
-
-The `"not_found_handling": "single-page-application"` configuration means:
-- Unknown routes return `index.html`
-- Useful for React Router, Vue Router, etc.
-- BUT requires `run_worker_first` for API routes!
-
-### Route Priority
-
-With `"run_worker_first": ["/api/*"]`:
-
-1. `/api/hello` → Worker handles it (returns JSON)
+**Route Priority with `run_worker_first: ["/api/*"]`:**
+1. `/api/*` → Worker handles (returns JSON)
 2. `/` → Static Assets serve `index.html`
-3. `/styles.css` → Static Assets serve `styles.css`
-4. `/unknown` → Static Assets serve `index.html` (SPA fallback)
+3. `/unknown` → SPA fallback returns `index.html`
 
-### Caching Static Assets
-
-Static Assets are automatically cached at the edge. To bust cache:
-```html
-<link rel="stylesheet" href="/styles.css?v=1.0.0">
-<script src="/script.js?v=1.0.0"></script>
-```
+**Cache Busting:** Use query strings: `<link href="/styles.css?v=1.0.0">`
 
 ---
 
-## Development Workflow
+## Development & Deployment
 
-### Local Development
+For complete workflow details, see `references/deployment.md` which covers:
+- Local development with `npm run dev` (HMR, testing, type generation)
+- Deployment commands (`wrangler deploy`, environment-specific deploys)
+- CI/CD integration (GitHub Actions, GitLab CI/CD examples)
+- Production monitoring (logs, analytics, error tracking)
+- Rollback procedures and troubleshooting
 
-```bash
-npm run dev
-```
-
-- Server runs on http://localhost:8787
-- HMR enabled (file changes reload automatically)
-- Uses Miniflare for local simulation
-- All bindings work locally (KV, D1, R2)
-
-### Testing API Routes
-
-```bash
-# Test GET endpoint
-curl http://localhost:8787/api/hello
-
-# Test POST endpoint
-curl -X POST http://localhost:8787/api/echo \
-  -H "Content-Type: application/json" \
-  -d '{"test": "data"}'
-```
-
-### Type Generation
-
-```bash
-npm run cf-typegen
-```
-
-Generates `worker-configuration.d.ts` with:
-- Binding types (KV, D1, R2, etc.)
-- Environment variable types
-- Auto-completes in your editor
-
-### Deployment
-
-```bash
-# Deploy to production
-npm run deploy
-
-# Deploy to specific environment
-wrangler deploy --env staging
-
-# Tail logs in production
-wrangler tail
-
-# Check deployment status
-wrangler deployments list
-```
+**Load `references/deployment.md` when:** Setting up CI/CD, deploying to production, or monitoring deployed workers.
 
 ---
 
 ## Complete Setup Checklist
 
-- [ ] Project scaffolded with `npm create cloudflare@latest`
-- [ ] Dependencies installed: `hono@4.10.6`, `@cloudflare/vite-plugin@1.15.2`
-- [ ] `wrangler.jsonc` created with:
-  - [ ] `account_id` set to your Cloudflare account
-  - [ ] `assets.directory` pointing to `./public/`
-  - [ ] `assets.run_worker_first` includes `/api/*`
-  - [ ] `compatibility_date` set to recent date
-- [ ] `vite.config.ts` created with `@cloudflare/vite-plugin`
-- [ ] `src/index.ts` created with Hono app
-  - [ ] Uses `export default app` (NOT `{ fetch: app.fetch }`)
-  - [ ] Includes ASSETS binding type
-  - [ ] Has fallback route: `app.all('*', (c) => c.env.ASSETS.fetch(c.req.raw))`
-- [ ] `public/` directory created with static files
-- [ ] `npm run cf-typegen` executed successfully
-- [ ] `npm run dev` starts without errors
-- [ ] API routes tested in browser/curl
-- [ ] Static assets serve correctly
-- [ ] HMR works without crashes
-- [ ] Ready to deploy with `npm run deploy`
+- [ ] Project scaffolded, dependencies installed (`hono@4.10.6`, `@cloudflare/vite-plugin@1.15.2`, `wrangler@4.50.0`)
+- [ ] `wrangler.jsonc` configured (account_id, assets, run_worker_first, compatibility_date)
+- [ ] `vite.config.ts` created with cloudflare plugin
+- [ ] `src/index.ts` uses `export default app` (NOT `{ fetch: app.fetch }`)
+- [ ] `public/` directory with static files
+- [ ] `npm run cf-typegen` → types generated
+- [ ] `npm run dev` → server starts without errors
+- [ ] API routes and static assets tested
+- [ ] Ready to deploy: `npm run deploy`
 
 ---
 
-## Advanced Topics
+## Advanced Patterns
 
-### Adding Middleware
+For advanced usage, see `references/advanced-patterns.md` which covers:
+- Adding middleware (logger, CORS, auth, compression)
+- Environment-specific configuration (staging, production environments)
+- Custom error pages (global error handlers, 404 pages, validation errors)
+- Testing with Vitest (@cloudflare/vitest-pool-workers integration)
 
-```typescript
-import { Hono } from 'hono'
-import { logger } from 'hono/logger'
-import { cors } from 'hono/cors'
-
-const app = new Hono<{ Bindings: Bindings }>()
-
-// Global middleware
-app.use('*', logger())
-app.use('/api/*', cors())
-
-// Route-specific middleware
-app.use('/admin/*', async (c, next) => {
-  // Auth check
-  await next()
-})
-```
-
-### Environment-Specific Configuration
-
-```jsonc
-// wrangler.jsonc
-{
-  "name": "my-worker",
-  "env": {
-    "staging": {
-      "vars": { "ENV": "staging" }
-    },
-    "production": {
-      "vars": { "ENV": "production" }
-    }
-  }
-}
-```
-
-Deploy: `wrangler deploy --env staging`
-
-### Custom Error Pages
-
-```typescript
-app.onError((err, c) => {
-  console.error(err)
-  return c.json({ error: 'Internal Server Error' }, 500)
-})
-
-app.notFound((c) => {
-  return c.json({ error: 'Not Found' }, 404)
-})
-```
-
-### Testing with Vitest
-
-```bash
-bun add -d vitest @cloudflare/vitest-pool-workers
-```
-
-Create `vitest.config.ts`:
-
-```typescript
-import { defineConfig } from 'vitest/config'
-
-export default defineConfig({
-  test: {
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: './wrangler.jsonc' },
-      },
-    },
-  },
-})
-```
-
-See `reference/testing.md` for complete testing guide.
+**Load `references/advanced-patterns.md` when:** Implementing middleware, multi-environment setups, custom error handling, or test suites.
 
 ---
 
 ## File Templates
 
-All templates are available in the `templates/` directory:
+Templates in `templates/` directory: wrangler.jsonc, vite.config.ts, package.json, tsconfig.json, src/index.ts, public/index.html, public/styles.css, public/script.js
 
-- **wrangler.jsonc** - Complete Worker configuration
-- **vite.config.ts** - Vite + Cloudflare plugin setup
-- **package.json** - Dependencies and scripts
-- **tsconfig.json** - TypeScript configuration
-- **src/index.ts** - Hono app with API routes
-- **public/index.html** - Static frontend example
-- **public/styles.css** - Example styling
-- **public/script.js** - API test functions
-
-Copy these files to your project and customize as needed.
+Copy to your project and customize as needed.
 
 ---
 
-## Reference Documentation
+## When to Load References
 
-For deeper understanding, see:
+This skill uses progressive disclosure. Load these references when needed:
 
-- **architecture.md** - Deep dive into export patterns, routing, and Static Assets
-- **common-issues.md** - All 6 issues with detailed troubleshooting
-- **deployment.md** - Wrangler commands, CI/CD patterns, and production tips
+### `references/api-patterns.md`
+Load when implementing specific API patterns:
+- POST handlers with body parsing
+- Route parameters (`:id`) or query strings (`?q=`)
+- Complex error handling or input validation
+- Using KV, D1, R2 bindings in routes
+- Request/response headers or streaming
+
+### `references/advanced-patterns.md`
+Load when implementing advanced features:
+- Middleware (logging, CORS, authentication)
+- Multi-environment configuration (staging/production)
+- Custom error pages or validation
+- Testing with Vitest
+
+### `references/deployment.md`
+Load when deploying or setting up automation:
+- CI/CD pipelines (GitHub Actions, GitLab)
+- Wrangler deployment commands
+- Production monitoring and logs
+- Rollback procedures
+- Troubleshooting deployment issues
 
 ---
 
@@ -750,7 +466,7 @@ For deeper understanding, see:
 
 ---
 
-## Dependencies (Verified 2025-11-20)
+## Dependencies (Verified 2025-11-23)
 
 ```json
 {
@@ -761,7 +477,7 @@ For deeper understanding, see:
     "@cloudflare/vite-plugin": "^1.15.2",
     "@cloudflare/workers-types": "^4.20251011.0",
     "vite": "^7.0.0",
-    "wrangler": "^4.43.0",
+    "wrangler": "^4.50.0",
     "typescript": "^5.9.0"
   }
 }
@@ -769,22 +485,15 @@ For deeper understanding, see:
 
 ---
 
-## Production Example
+## Production Validation
 
-This skill is based on the cloudflare-worker-base-test project:
-- **Live**: https://cloudflare-worker-base-test.webfonts.workers.dev
-- **Build Time**: ~45 minutes (actual)
-- **Errors**: 0 (all 6 known issues prevented)
-- **Validation**: ✅ Local dev, HMR, production deployment all successful
+**Live Example**: https://cloudflare-worker-base-test.webfonts.workers.dev
+**Build Time**: ~45 minutes | **Errors Prevented**: 6/6 | **Status**: ✅ Production Ready
 
-All patterns in this skill have been validated in production.
+All patterns validated in production deployment.
 
----
-
-**Questions? Issues?**
-
-1. Check `reference/common-issues.md` first
-2. Verify all steps in the 4-step setup process
-3. Ensure `export default app` (not `{ fetch: app.fetch }`)
-4. Ensure `run_worker_first` is configured
-5. Check official docs: https://developers.cloudflare.com/workers/
+**Troubleshooting Quick Checks:**
+1. Use `export default app` (not `{ fetch: app.fetch }`)
+2. Verify `run_worker_first: ["/api/*"]` in wrangler.jsonc
+3. Check all 6 known issues prevention steps above
+4. See official docs: https://developers.cloudflare.com/workers/
