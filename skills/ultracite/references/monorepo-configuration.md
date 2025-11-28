@@ -43,7 +43,7 @@ monorepo/
 **Root `biome.json`**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"],
 
   "files": {
@@ -91,7 +91,7 @@ monorepo/
 **Root `biome.json`** (shared):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   "linter": {
@@ -108,7 +108,7 @@ monorepo/
 **`apps/web/biome.json`** (Next.js):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["../../biome.json", "ultracite/nextjs"],
 
   "linter": {
@@ -124,7 +124,7 @@ monorepo/
 **`packages/ui/biome.json`** (React library):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["../../biome.json", "ultracite/react"],
 
   "linter": {
@@ -161,7 +161,7 @@ monorepo/
 **`.ultracite/base.json`**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   "formatter": {
@@ -174,7 +174,7 @@ monorepo/
 **`.ultracite/react.json`**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["./base.json", "ultracite/react"]
 }
 ```
@@ -182,7 +182,7 @@ monorepo/
 **`apps/web/biome.json`**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["../../.ultracite/react.json", "ultracite/nextjs"]
 }
 ```
@@ -431,7 +431,7 @@ pnpm --filter "...[HEAD^1]" lint
 **`packages/ui/biome.json`** (strict):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["../../biome.json", "ultracite/react"],
 
   "linter": {
@@ -457,7 +457,7 @@ pnpm --filter "...[HEAD^1]" lint
 **`apps/web/biome.json`** (relaxed):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["../../biome.json", "ultracite/nextjs"],
 
   "linter": {

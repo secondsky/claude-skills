@@ -4,7 +4,7 @@ description: >
   Use when setting up, configuring, or migrating to Ultracite, a fast Rust-based linting and formatting tool built on Biome. This skill provides comprehensive guidance for project setup, framework-specific configurations (React, Next.js, Vue, Svelte), Git hook integrations (Husky, Lefthook, lint-staged), AI editor rules, monorepo support, and migrations from ESLint, Prettier, or Biome. Includes project suitability assessment, troubleshooting, known limitations, and best practices for JavaScript/TypeScript projects.
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.0.1
   dependencies:
     ultracite: latest
     "@biomejs/biome": ">=1.0.0"
@@ -253,7 +253,7 @@ bun add -D ultracite @biomejs/biome
 # 2. Create biome.jsonc
 cat > biome.jsonc << 'EOF'
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"]
 }
 EOF
@@ -309,7 +309,7 @@ project-root/
 **Minimal biome.jsonc:**
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   // Optional: Add framework preset
@@ -554,7 +554,7 @@ See `references/` directory for:
 
 ## Package Versions
 
-**Current versions (verified 2025-11-22):**
+**Current versions (verified 2025-11-27):**
 - `ultracite`: latest
 - `@biomejs/biome`: >=1.9.0
 

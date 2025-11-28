@@ -12,7 +12,7 @@ Ultracite uses Biome's configuration format (`biome.json` or `biome.jsonc`):
 
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   // Optional: Add framework-specific preset
@@ -56,7 +56,7 @@ Ultracite uses Biome's configuration format (`biome.json` or `biome.jsonc`):
 **Configuration**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"]
 }
 ```
@@ -89,7 +89,7 @@ Ultracite uses Biome's configuration format (`biome.json` or `biome.jsonc`):
 **Configuration**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/nextjs"]
 }
 ```
@@ -120,7 +120,7 @@ Ultracite uses Biome's configuration format (`biome.json` or `biome.jsonc`):
 **Configuration**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/vue"]
 }
 ```
@@ -151,7 +151,7 @@ Ultracite uses Biome's configuration format (`biome.json` or `biome.jsonc`):
 **Configuration**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/svelte"]
 }
 ```
@@ -460,7 +460,7 @@ By default, Ultracite lints all supported files. Use `include` to limit scope:
 
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"],
   "linter": {
     "rules": {
@@ -479,7 +479,7 @@ By default, Ultracite lints all supported files. Use `include` to limit scope:
 
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"],
   "linter": {
     "rules": {

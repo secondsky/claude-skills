@@ -69,7 +69,7 @@ stylelint '**/*.css' --fix
 `biome.json`:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   "linter": {
@@ -120,7 +120,7 @@ stylelint '**/*.css' --fix
 `biome.json`:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   "files": {
@@ -155,7 +155,7 @@ bun add -D eslint eslint-plugin-astro
 `biome.json`:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"]
 }
 ```
@@ -173,7 +173,7 @@ bun add -D eslint eslint-plugin-astro
 `biome.json`:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"]
 }
 ```
@@ -415,7 +415,7 @@ ultracite check --config-path=biome.ci.json
 import fs from 'fs';
 
 const config = {
-  $schema: "https://biomejs.dev/schemas/1.9.4/schema.json",
+  $schema: "https://biomejs.dev/schemas/2.3.8/schema.json",
   extends: ["ultracite/core"],
   linter: {
     rules: {
@@ -539,7 +539,7 @@ null_ls.setup({
 **`.ultracite/shared.json`**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
   "linter": {
     "rules": {

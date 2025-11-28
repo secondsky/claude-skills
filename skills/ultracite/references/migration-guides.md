@@ -71,7 +71,7 @@ cat .eslintrc.json
 **To this Biome config**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"],
 
   "linter": {
@@ -217,7 +217,7 @@ git diff
 **To this Biome config**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core"],
 
   "formatter": {
@@ -352,7 +352,7 @@ bun add -D ultracite
 **Before** (vanilla Biome):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
 
   "linter": {
     "enabled": true,
@@ -367,7 +367,7 @@ bun add -D ultracite
 **After** (Ultracite preset):
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["ultracite/core", "ultracite/react"],
 
   // Only customize what differs from preset
