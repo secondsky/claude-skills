@@ -388,5 +388,192 @@ npx wrangler queues info my-queue
 
 ---
 
-**Last Updated**: 2025-10-21
-**Wrangler Version**: 4.43.0+
+## Monitoring & Debugging Commands
+
+### Real-Time Monitoring
+
+#### Check Queue Status
+
+```bash
+# Get comprehensive queue information
+bunx wrangler queues info my-queue
+
+# Output includes:
+# - Message count (current backlog)
+# - Consumers attached
+# - Delivery status (active/paused)
+# - DLQ configuration
+```
+
+#### Monitor Consumer Logs (Real-Time)
+
+```bash
+# Tail logs from consumer Worker
+bunx wrangler tail my-consumer
+
+# Filter by status
+bunx wrangler tail my-consumer --status error    # Only errors
+bunx wrangler tail my-consumer --status ok        # Only successful
+
+# Filter by search term
+bunx wrangler tail my-consumer --search "payment"
+```
+
+#### Check Dead Letter Queue
+
+```bash
+# Monitor DLQ for failed messages
+bunx wrangler queues info my-queue-dlq
+
+# Tail DLQ consumer logs
+bunx wrangler tail my-dlq-consumer
+```
+
+### Delivery Control
+
+#### Pause Message Delivery
+
+```bash
+# Pause delivery to investigate issues
+bunx wrangler queues pause-delivery my-queue
+
+# Verify paused
+bunx wrangler queues info my-queue | grep "Delivery"
+# Output: "Delivery: paused"
+```
+
+**Use when**:
+- Investigating consumer errors
+- Deploying new consumer version
+- Performing database maintenance
+- Testing recovery procedures
+
+#### Resume Message Delivery
+
+```bash
+# Resume delivery after fixes
+bunx wrangler queues resume-delivery my-queue
+
+# Verify active
+bunx wrangler queues info my-queue | grep "Delivery"
+# Output: "Delivery: active"
+```
+
+### Performance Analysis
+
+#### Message Throughput
+
+```bash
+# Check message count before and after 1 minute
+bunx wrangler queues info my-queue
+
+# Wait 60 seconds
+
+bunx wrangler queues info my-queue
+
+# Calculate: (count_before - count_after) = messages processed per minute
+```
+
+#### Consumer Processing Time
+
+```bash
+# Use tail to measure time between logs
+bunx wrangler tail my-consumer --format pretty
+
+# Look for:
+# - Time between "Processing batch" and "Batch complete" logs
+# - Time per message (batch time / batch size)
+```
+
+### Debugging Workflow
+
+#### Step 1: Check Queue Health
+
+```bash
+# Get queue overview
+bunx wrangler queues info my-queue
+
+# Questions to answer:
+# - Is delivery active or paused?
+# - Are consumers attached?
+# - Is message count growing (backlog)?
+# - Is DLQ configured?
+```
+
+#### Step 2: Review Consumer Logs
+
+```bash
+# Check recent errors
+bunx wrangler tail my-consumer --status error --format pretty
+
+# Look for:
+# - Error messages and stack traces
+# - Failed message IDs
+# - Retry patterns
+```
+
+#### Step 3: Inspect DLQ
+
+```bash
+# Check if messages are reaching DLQ
+bunx wrangler queues info my-queue-dlq
+
+# If DLQ has messages:
+# 1. Review DLQ consumer logs for patterns
+# 2. Fix root cause in main consumer
+# 3. Reprocess DLQ messages manually or via DLQ consumer
+```
+
+#### Step 4: Test with Low Volume
+
+```bash
+# Pause delivery
+bunx wrangler queues pause-delivery my-queue
+
+# Deploy fix
+
+# Resume with monitoring
+bunx wrangler queues resume-delivery my-queue
+bunx wrangler tail my-consumer --format pretty
+```
+
+### Advanced Monitoring
+
+#### Concurrent Consumer Instances
+
+```bash
+# Check how many instances are running
+# (Not directly available via CLI, but visible in logs)
+bunx wrangler tail my-consumer
+
+# Look for different instance IDs in logs
+# Multiple IDs = concurrent processing active
+```
+
+#### Message Latency Tracking
+
+```bash
+# Add timestamps to your consumer logs
+# Then monitor with tail
+
+bunx wrangler tail my-consumer | grep "latency"
+
+# Example log output:
+# "Message processed: id=abc123, latency=234ms"
+```
+
+#### Cost Monitoring
+
+```bash
+# Check CPU usage (from dashboard or metrics)
+# Not directly via wrangler, but can tail for duration logs
+
+bunx wrangler tail my-consumer | grep "duration"
+
+# High durations indicate need for CPU limit increase
+```
+
+---
+
+**Last Updated**: 2025-11-26
+**Wrangler Version**: 4.50.0+

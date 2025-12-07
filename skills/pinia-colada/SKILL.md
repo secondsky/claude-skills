@@ -9,10 +9,10 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  pinia_colada_version: "0.17.8"
+  pinia_colada_version: "0.17.9"
   pinia_version: "3.0.4"
-  vue_version: "3.5.22"
-  last_verified: "2025-11-11"
+  vue_version: "3.5.25"
+  last_verified: "2025-11-28"
   production_tested: true
   token_savings: "~65%"
   errors_prevented: 12
@@ -21,8 +21,8 @@ metadata:
 
 # Pinia Colada - Smart Data Fetching for Vue
 
-**Status**: Production Ready ✅ | **Last Updated**: 2025-11-11
-**Latest Version**: @pinia/colada@0.17.8 | **Dependencies**: Vue 3.5.17+, Pinia 2.2.6+ or 3.0+
+**Status**: Production Ready ✅ | **Last Updated**: 2025-11-28
+**Latest Version**: @pinia/colada@0.17.9 | **Dependencies**: Vue 3.5.17+, Pinia 2.2.6+ or 3.0+
 
 ---
 
@@ -368,113 +368,13 @@ Detailed guides loaded when needed:
 
 ## Common Use Cases
 
-### Use Case 1: Basic Todo List with CRUD
-**Pattern**: Query + Mutation with invalidation
-**Time**: 10 minutes
+1. **Basic Todo List with CRUD** - Query + mutation with invalidation (10 min) → See `references/setup-guide.md` Steps 2-4
+2. **Paginated Data Table** - Reactive keys with placeholderData (15 min) → See `references/setup-guide.md` Step 7
+3. **Optimistic UI Updates** - Mutation with onMutate/onError rollback (20 min) → See `references/setup-guide.md` Step 5
+4. **Nuxt SSR Application** - Auto-imports with refetchOnMount config (15 min) → See `references/setup-guide.md` Step 8
+5. **Real-time Dashboard** - Background polling with refetchInterval (10 min) → See `references/common-patterns.md` Pattern 4
 
-```typescript
-// composables/useTodos.ts
-export function useTodos() {
-  return useQuery({
-    key: ['todos'],
-    query: fetchTodos,
-  })
-}
-
-export function useAddTodo() {
-  const cache = useQueryCache()
-  return useMutation({
-    mutation: createTodo,
-    async onSettled() {
-      await cache.invalidateQueries({ key: ['todos'] })
-    },
-  })
-}
-```
-
-See `references/setup-guide.md` → Steps 2-4
-
-### Use Case 2: Paginated Data Table
-**Pattern**: Paginated queries with placeholderData
-**Time**: 15 minutes
-
-```typescript
-const page = ref(1)
-const { data } = useQuery({
-  key: () => ['todos', 'paginated', { page: page.value }],
-  query: () => fetchPaginatedTodos(page.value),
-  placeholderData: (previousData) => previousData,
-})
-```
-
-See `references/setup-guide.md` → Step 7
-
-### Use Case 3: Optimistic UI Updates
-**Pattern**: Optimistic update with rollback
-**Time**: 20 minutes
-
-```typescript
-export function useToggleTodo() {
-  const cache = useQueryCache()
-  return useMutation({
-    mutation: toggleTodo,
-    onMutate(id) {
-      cache.cancelQueries({ key: ['todos'] })
-      const prev = cache.getQueryData(['todos'])
-      // ... optimistic update
-      return { prev }
-    },
-    onError(_err, _vars, ctx) {
-      if (ctx?.prev) cache.setQueryData(['todos'], ctx.prev)
-    },
-    async onSettled() {
-      await cache.invalidateQueries({ key: ['todos'] })
-    },
-  })
-}
-```
-
-See `references/setup-guide.md` → Step 5
-
-### Use Case 4: Nuxt SSR Application
-**Pattern**: SSR with auto-imports and hydration
-**Time**: 15 minutes
-
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({
-  modules: ['@pinia/nuxt', '@pinia/colada-nuxt'],
-  piniaColada: {
-    query: {
-      refetchOnMount: false, // Prevent hydration mismatch
-    },
-  },
-})
-
-// pages/index.vue - auto-imported composables
-const { data: todos } = useQuery({
-  key: ['todos'],
-  query: fetchTodos,
-})
-```
-
-See `references/setup-guide.md` → Step 8
-
-### Use Case 5: Real-time Dashboard
-**Pattern**: Background sync with polling
-**Time**: 10 minutes
-
-```typescript
-const { data: stats } = useQuery({
-  key: ['stats'],
-  query: fetchStats,
-  staleTime: 30000,           // Fresh for 30s
-  refetchInterval: 60000,     // Refetch every 60s
-  refetchIntervalInBackground: true,
-})
-```
-
-See `references/common-patterns.md` → Pattern 4
+**For complete code examples** of all 5 use cases, see `references/setup-guide.md` and `references/common-patterns.md`.
 
 ---
 
@@ -519,12 +419,12 @@ See `references/common-patterns.md` → Pattern 4
 ## Dependencies
 
 **Required**:
-- **@pinia/colada@0.17.8** - Core data fetching layer
+- **@pinia/colada@0.17.9** - Core data fetching layer
 - **pinia@2.2.6+** or **pinia@3.0+** - State management (peer dependency)
 - **vue@3.5.17+** - Framework (peer dependency)
 
 **Optional**:
-- **@pinia/colada-nuxt@0.17.8** - Nuxt module (requires @pinia/nuxt separately)
+- **@pinia/colada-nuxt@0.17.9** - Nuxt module (requires @pinia/nuxt separately)
 
 ---
 
@@ -538,23 +438,23 @@ See `references/common-patterns.md` → Pattern 4
 
 ---
 
-## Package Versions (Verified 2025-11-11)
+## Package Versions (Verified 2025-11-28)
 
 ```json
 {
   "dependencies": {
-    "@pinia/colada": "^0.17.8",
+    "@pinia/colada": "^0.17.9",
     "pinia": "^3.0.4",
-    "vue": "^3.5.22"
+    "vue": "^3.5.25"
   },
   "devDependencies": {
-    "@pinia/colada-nuxt": "^0.17.8"
+    "@pinia/colada-nuxt": "^0.17.9"
   }
 }
 ```
 
 **Version Notes:**
-- Pinia Colada 0.17.8 is latest stable (released 2025-11-07)
+- Pinia Colada 0.17.9 is latest stable (released 2025-11-21)
 - Compatible with both Pinia 2.2.6+ and 3.0+
 - Requires Vue 3.5.17+ for optimal reactivity
 - Nuxt module version matches core package
@@ -591,13 +491,7 @@ Use this checklist to verify your setup:
 
 ---
 
-**Questions? Issues?**
-
-1. Check official docs: https://pinia-colada.esm.dev/
-2. Review `references/setup-guide.md` for complete 8-step process
-3. Check `references/error-catalog.md` for all 12 documented errors
-4. Review migration guide if coming from TanStack Vue Query: `references/migration-from-tanstack-vue-query.md`
-5. Check GitHub issues: https://github.com/posva/pinia-colada/issues
+**Questions? Issues?** Check: [Official docs](https://pinia-colada.esm.dev/) | `references/setup-guide.md` (8-step process) | `references/error-catalog.md` (all 12 errors) | `references/migration-from-tanstack-vue-query.md` (migration) | [GitHub](https://github.com/posva/pinia-colada/issues)
 
 ---
 

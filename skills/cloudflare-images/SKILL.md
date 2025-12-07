@@ -9,7 +9,10 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  last_verified: "2025-11-18"
+  last_verified: "2025-11-26"
+  workers_types_version: "4.20250906.0"
+  typescript_version: "5.7.2"
+  wrangler_version: "3.109.0"
   production_tested: true
   token_savings: "~60%"
   errors_prevented: 10
@@ -19,7 +22,7 @@ metadata:
 
 # Cloudflare Images
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-18
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
 
 ---
 
@@ -471,16 +474,9 @@ await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/
 
 ## Pricing
 
-**Images API:**
-- $5/month per 100,000 images stored
-- $1 per 100,000 images delivered
-
-**Image Transformations:**
-- $0.50 per 1,000 transformations
-- Free tier: 100,000 transformations/month per zone
-
-**Direct Creator Upload:**
-- Included in Images API pricing
+**Images API**: $5/100k stored, $1/100k delivered
+**Transformations**: $0.50/1k (100k/month free per zone)
+**Direct Upload**: Included in API pricing
 
 ---
 
@@ -492,11 +488,3 @@ await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/
 - **Direct Creator Upload**: https://developers.cloudflare.com/images/upload-images/direct-creator-upload/
 - **Variants**: https://developers.cloudflare.com/images/manage-images/create-variants/
 
----
-
-**Questions? Issues?**
-
-1. Check `references/setup-guide.md` for setup
-2. Review `references/top-errors.md` for common errors
-3. Load `references/transformation-options.md` for options
-4. See `templates/` for working examples

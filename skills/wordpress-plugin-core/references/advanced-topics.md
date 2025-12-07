@@ -31,9 +31,16 @@ Internationalization (i18n) makes your plugin translation-ready. This allows use
 
 ### Basic Setup
 
+**Note**: Since WordPress 4.6 (with enhanced JIT loading in 6.8+), plugins with proper header fields (Text Domain and Domain Path) generally do not need to call `load_plugin_textdomain()` manually. Automatic JIT loading handles standard translation files in the `wp-content/languages/plugins/` directory. Only use manual loading for:
+- Custom translation directories
+- Non-standard initialization timing  
+- WordPress versions < 4.6 compatibility
+
 ```php
 /**
  * Load plugin text domain
+ * 
+ * Only needed for custom paths or old WP versions
  */
 function mypl_load_textdomain() {
     load_plugin_textdomain(

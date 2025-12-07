@@ -6,19 +6,19 @@ description: |
   Keywords: better-auth, authentication, cloudflare d1 auth, drizzle orm auth, kysely auth, self-hosted auth, typescript auth, clerk alternative, auth.js alternative, social login, oauth providers, session management, jwt tokens, 2fa, two-factor, passkeys, webauthn, multi-tenant auth, organizations, teams, rbac, role-based access, google auth, github auth, microsoft auth, apple auth, magic links, email password, better-auth setup, drizzle d1, kysely d1, session serialization error, cors auth, d1 adapter
 license: MIT
 metadata:
-  version: "2.0.0"
-  package_version: "1.3.34"
-  last_verified: "2025-11-08"
-  errors_prevented: 12
+  version: "2.1.0"
+  package_version: "1.4.3"
+  last_verified: "2025-11-27"
+  errors_prevented: 15
   templates_included: 4
-  references_included: 7
+  references_included: 10
 ---
 
 # better-auth
 
 **Status**: Production Ready
-**Last Updated**: 2025-11-08
-**Package**: `better-auth@1.3.34`
+**Last Updated**: 2025-11-27
+**Package**: `better-auth@1.4.3` (ESM-only)
 **Dependencies**: Drizzle ORM or Kysely (required for D1)
 
 ---
@@ -36,6 +36,19 @@ bun add better-auth drizzle-orm drizzle-kit
 ```bash
 bun add better-auth kysely @noxharmonium/kysely-d1
 ```
+
+### ⚠️ v1.4.0+ Requirements
+
+better-auth v1.4.0+ is **ESM-only**. Ensure:
+
+**package.json**:
+```json
+{
+  "type": "module"
+}
+```
+
+**Upgrading from v1.3.x?** Load `references/migration-guide-1.4.0.md`
 
 ### ⚠️ CRITICAL: D1 Adapter Requirements
 
@@ -126,53 +139,50 @@ wrangler deploy
 
 ## Critical Rules
 
-### Always Do
+### MUST DO
 
-✅ **Use Drizzle or Kysely adapter** (not non-existent d1Adapter)
+✅ Use Drizzle/Kysely adapter (d1Adapter doesn't exist)
+✅ Use Drizzle Kit for migrations (not `better-auth migrate`)
+✅ Set BETTER_AUTH_SECRET via `wrangler secret put`
+✅ Configure CORS with `credentials: true`
+✅ Match OAuth callback URLs exactly (no trailing slash)
+✅ Apply migrations to local D1 before `wrangler dev`
+✅ Use camelCase column names in schema
 
-✅ **Use Drizzle Kit for migrations** (not `better-auth migrate`)
+### NEVER DO
 
-✅ **Configure CORS with credentials: true** for cross-origin requests
+❌ Use `d1Adapter` or `better-auth migrate` with D1
+❌ Forget CORS credentials or mismatch OAuth URLs
+❌ Use snake_case columns without CamelCasePlugin
+❌ Skip local migrations or hardcode secrets
+❌ Leave sendVerificationEmail unimplemented
 
-✅ **Set BETTER_AUTH_SECRET** environment variable (generate with `openssl rand -base64 32`)
+### ⚠️ v1.4.0+ Breaking Changes
 
-✅ **Match OAuth callback URLs exactly** in provider settings (https, no trailing slash)
+**ESM-only** (no CommonJS):
+```json
+// package.json required
+{ "type": "module" }
+```
 
-✅ **Apply migrations to local D1** before running wrangler dev
+**API Renames**:
+- `forgetPassword` → `requestPasswordReset`
+- POST `/account-info` → GET `/account-info`
 
-✅ **Use KV for session storage** if experiencing D1 consistency issues
+**Callback Signatures**:
+```typescript
+// v1.3.x: request parameter
+sendVerificationEmail: async ({ user, url, request }) => {}
 
-✅ **Request sufficient OAuth scopes** for user profile data (email, profile, etc.)
+// v1.4.0+: ctx parameter
+sendVerificationEmail: async ({ user, url, ctx }) => {}
+```
 
-✅ **Implement sendVerificationEmail handler** for email verification to work
-
-✅ **Use camelCase column names** in schema (or CamelCasePlugin with Kysely)
-
-### Never Do
-
-❌ **Never use `d1Adapter`** - it doesn't exist (use drizzleAdapter or Kysely)
-
-❌ **Never use `better-auth migrate`** with D1 - use Drizzle Kit instead
-
-❌ **Never forget CORS credentials** - sessions won't persist without it
-
-❌ **Never mismatch OAuth callback URLs** - auth will fail with redirect_uri_mismatch
-
-❌ **Never omit required packages** - install drizzle-orm, drizzle-kit, etc.
-
-❌ **Never use snake_case columns** without CamelCasePlugin (causes field mismatch)
-
-❌ **Never skip local migrations** - wrangler dev will fail with "table not found"
-
-❌ **Never hardcode secrets** - use wrangler secret put
-
-❌ **Never request insufficient scopes** - user data will be missing
-
-❌ **Never leave sendVerificationEmail unimplemented** - emails won't send
+**Load `references/migration-guide-1.4.0.md` when upgrading from <1.4.0**
 
 ---
 
-## Top 5 Errors (See references/error-catalog.md for all 12)
+## Top 5 Errors (See references/error-catalog.md for all 15)
 
 ### Error #1: "d1Adapter is not exported"
 **Problem**: Trying to use non-existent `d1Adapter`
@@ -308,12 +318,30 @@ app.get("/api/protected", async (c) => {
 - User needs login forms, session hooks, or protected routes
 - User asks about client-side implementation
 
+**Load `references/configuration-guide.md` when**:
+- User asks about production configuration
+- User needs environment variable setup or wrangler.toml
+- User asks about session configuration or ESM setup
+- User needs CORS configuration, rate limiting, or API keys
+- User asks about troubleshooting configuration issues
+
+**Load `references/framework-comparison.md` when**:
+- User asks "better-auth vs Clerk" or "vs Auth.js"
+- User needs help choosing auth framework
+- User wants feature comparison, migration advice, or cost analysis
+- User asks about v1.4.0+ new features (database joins, stateless sessions)
+
+**Load `references/migration-guide-1.4.0.md` when**:
+- User upgrading from better-auth <1.4.0 to 1.4.0+
+- User encounters `forgetPassword` errors or ESM issues
+- User asks about breaking changes or migration steps
+- User needs to migrate callback functions or API endpoints
+
 ---
 
 ## Configuration Reference
 
-### Minimal Configuration
-
+**Quick Config** (ESM-only in v1.4.0+):
 ```typescript
 export const auth = betterAuth({
   baseURL: env.BETTER_AUTH_URL,
@@ -322,69 +350,11 @@ export const auth = betterAuth({
 });
 ```
 
-### Production Configuration
-
-```typescript
-export const auth = betterAuth({
-  baseURL: env.BETTER_AUTH_URL,
-  secret: env.BETTER_AUTH_SECRET,
-
-  database: drizzleAdapter(db, { provider: "sqlite" }),
-
-  emailAndPassword: {
-    enabled: true,
-    requireEmailVerification: true,
-    sendVerificationEmail: async ({ user, url, token }) => {
-      await sendEmail({
-        to: user.email,
-        subject: "Verify your email",
-        html: `<a href="${url}">Verify Email</a>`,
-      });
-    },
-  },
-
-  socialProviders: {
-    google: {
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-      scope: ["openid", "email", "profile"],
-    },
-    github: {
-      clientId: env.GITHUB_CLIENT_ID,
-      clientSecret: env.GITHUB_CLIENT_SECRET,
-      scope: ["user:email", "read:user"],
-    },
-  },
-
-  session: {
-    expiresIn: 60 * 60 * 24 * 7, // 7 days
-    updateAge: 60 * 60 * 24, // Update every 24 hours
-  },
-});
-```
-
-### wrangler.toml
-
-```toml
-name = "my-app"
-compatibility_date = "2024-11-01"
-compatibility_flags = ["nodejs_compat"]
-
-[[d1_databases]]
-binding = "DB"
-database_name = "my-app-db"
-database_id = "your-database-id"
-
-[vars]
-BETTER_AUTH_URL = "https://yourdomain.com"
-
-# Set via: wrangler secret put SECRET_NAME
-# - BETTER_AUTH_SECRET
-# - GOOGLE_CLIENT_ID
-# - GOOGLE_CLIENT_SECRET
-# - GITHUB_CLIENT_ID
-# - GITHUB_CLIENT_SECRET
-```
+**Load `references/configuration-guide.md` for**:
+- Production configuration with email/password and social providers
+- wrangler.toml setup and environment variables
+- Session configuration, CORS setup, and ESM requirements
+- Rate limiting, API keys (v1.4.0+), and troubleshooting
 
 ---
 
@@ -435,17 +405,17 @@ export function UserProfile() {
 ## Dependencies
 
 **Required**:
-- `better-auth@^1.3.34` - Core authentication framework
+- `better-auth@^1.4.3` - Core authentication framework (ESM-only)
 
 **Choose ONE adapter**:
-- `drizzle-orm@^0.36.0` + `drizzle-kit@^0.28.0` (recommended)
-- `kysely@^0.27.0` + `@noxharmonium/kysely-d1@^2.3.0` (alternative)
+- `drizzle-orm@^0.44.7` + `drizzle-kit@^0.31.7` (recommended)
+- `kysely@^0.28.8` + `@noxharmonium/kysely-d1@^0.4.0` (alternative)
 
 **Optional**:
 - `@cloudflare/workers-types` - TypeScript types for Workers
 - `hono@^4.0.0` - Web framework for routing
-- `@better-auth/google` - Google OAuth provider
-- `@better-auth/github` - GitHub OAuth provider
+- `@better-auth/passkey` - Passkey plugin (v1.4.0+, separate package)
+- `@better-auth/api-key` - API key auth (v1.4.0+)
 
 ---
 
@@ -460,22 +430,13 @@ export function UserProfile() {
 
 ---
 
-## Comparison: better-auth vs Alternatives
+## Framework Comparison
 
-| Feature              | better-auth      | Clerk           | Auth.js         |
-| -------------------- | ---------------- | --------------- | --------------- |
-| **Hosting**          | Self-hosted      | Third-party     | Self-hosted     |
-| **Cost**             | Free (OSS)       | $25/mo+         | Free (OSS)      |
-| **Cloudflare D1**    | ✅ Drizzle/Kysely | ❌ No           | ✅ Adapter      |
-| **Social Auth**      | ✅ 10+ providers  | ✅ Many         | ✅ Many         |
-| **2FA/Passkeys**     | ✅ Plugin         | ✅ Built-in     | ⚠️ Limited      |
-| **Organizations**    | ✅ Plugin         | ✅ Built-in     | ❌ No           |
-| **Vendor Lock-in**   | ✅ None           | ❌ High         | ✅ None         |
-
-**Recommendation**:
-- **Use better-auth if**: Self-hosted, Cloudflare D1, want full control, avoid vendor lock-in
-- **Use Clerk if**: Want managed service, don't mind cost, need fastest setup
-- **Use Auth.js if**: Already using Next.js, basic needs, familiar with it
+**Load `references/framework-comparison.md` for**:
+- Complete feature comparison: better-auth vs Clerk vs Auth.js
+- v1.4.0+ new features (database joins, stateless sessions, API keys)
+- Migration paths, cost analysis, and performance benchmarks
+- Recommendations by use case and 5-year TCO
 
 ---
 
@@ -488,13 +449,14 @@ export function UserProfile() {
 3. **foxlau/react-router-v7-better-auth** - Drizzle
 4. **zpg6/better-auth-cloudflare** - Drizzle (includes CLI)
 
-**None** use a direct `d1Adapter` - all require Drizzle/Kysely.
+**Note**: Check each repo's better-auth version. Repos on v1.3.x need v1.4.0+ migration (see `references/migration-guide-1.4.0.md`). None use a direct `d1Adapter` - all require Drizzle/Kysely.
 
 ---
 
 ## Complete Setup Checklist
 
-- [ ] Installed better-auth + Drizzle OR Kysely
+- [ ] Verified ESM support (`"type": "module"` in package.json) - v1.4.0+ required
+- [ ] Installed better-auth@1.4.3+ + Drizzle OR Kysely
 - [ ] Created D1 database with wrangler
 - [ ] Defined database schema with required tables (user, session, account, verification)
 - [ ] Generated and applied migrations to D1
@@ -505,6 +467,7 @@ export function UserProfile() {
 - [ ] Set OAuth callback URLs in provider settings
 - [ ] Tested auth routes (/api/auth/*)
 - [ ] Tested sign-in, sign-up, session verification
+- [ ] Using requestPasswordReset (not forgetPassword) - v1.4.0+ API
 - [ ] Deployed to Cloudflare Workers
 
 ---

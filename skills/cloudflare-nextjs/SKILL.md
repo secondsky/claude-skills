@@ -25,6 +25,26 @@ metadata:
 
 Deploy Next.js applications to Cloudflare Workers using the OpenNext Cloudflare adapter for production-ready serverless Next.js hosting.
 
+## When to Load References
+
+Load additional reference files based on your specific task:
+
+- **`references/error-catalog-extended.md`** - Load when encountering ANY error during setup, build, or deployment. Contains complete catalog of 11+ documented issues with root causes, solutions, and official sources.
+
+- **`references/service-integration-patterns.md`** - Load when integrating Cloudflare services (D1, R2, KV, Workers AI) with Next.js. Contains complete patterns for database queries, file uploads, caching, and AI inference.
+
+- **`references/troubleshooting.md`** - Load for general troubleshooting and debugging guidance beyond the error catalog.
+
+- **`references/feature-support.md`** - Load when checking if a specific Next.js feature is supported on Cloudflare Workers (e.g., "Can I use Server Actions?", "Does ISR work?").
+
+- **`references/database-client-example.ts`** - Load when integrating external database clients (Drizzle, Prisma, PostgreSQL, MySQL) with proper request-scoping patterns required by Workers.
+
+- **`references/open-next.config.ts`** - Load when configuring caching behavior, image optimization, or custom OpenNext settings.
+
+- **`references/package.json`** - Load when setting up a new project or migrating an existing Next.js application to Cloudflare Workers.
+
+- **`references/wrangler.jsonc`** - Load when configuring Worker settings, compatibility flags, environment bindings (D1, R2, KV, AI), or deployment options.
+
 ## Use This Skill When
 
 - Deploying Next.js applications (App Router or Pages Router) to Cloudflare Workers
@@ -34,28 +54,13 @@ Deploy Next.js applications to Cloudflare Workers using the OpenNext Cloudflare 
 - Need React Server Components, Server Actions, or Next.js middleware on Workers
 - Want global edge deployment with Cloudflare's network
 
-## Key Concepts
+## Key Differences from Standard Next.js
 
-### OpenNext Adapter Architecture
-
-The **OpenNext Cloudflare adapter** (`@opennextjs/cloudflare`) transforms Next.js build output into Cloudflare Worker-compatible format. This is fundamentally different from standard Next.js deployments:
-
-- **Node.js Runtime Required**: Uses Node.js runtime in Workers (NOT Edge runtime)
-- **Dual Development Workflow**: Test in both Next.js dev server AND workerd runtime
-- **Custom Build Pipeline**: `next build` → OpenNext transformation → Worker deployment
-- **Cloudflare-Specific Configuration**: Requires wrangler.jsonc and open-next.config.ts
-
-### Critical Differences from Standard Next.js
-
-| Aspect | Standard Next.js | Cloudflare Workers |
-|--------|------------------|-------------------|
-| Runtime | Node.js or Edge | Node.js (via nodejs_compat) |
-| Dev Server | `next dev` | `next dev` + `opennextjs-cloudflare preview` |
-| Deployment | Platform-specific | `opennextjs-cloudflare deploy` |
-| Worker Size | No limit | 3 MiB (free) / 10 MiB (paid) |
-| Database Connections | Global clients OK | Must be request-scoped |
-| Image Optimization | Built-in | Via Cloudflare Images |
-| Caching | Next.js cache | OpenNext config + Workers cache |
+**OpenNext Adapter** transforms Next.js builds for Workers. **Critical requirements**:
+- Node.js runtime (NOT Edge) via `nodejs_compat` flag
+- Request-scoped database clients (global clients fail)
+- Worker size limits: 3 MiB (free) / 10 MiB (paid)
+- Dual testing: `next dev` for speed, `preview` for production-like validation
 
 ## Setup Patterns
 
@@ -151,233 +156,58 @@ export const runtime = "edge";
 
 ## Development Workflow
 
-### Dual Testing Strategy
+**Dual Testing Required**:
+- `npm run dev` - Fast iteration (Next.js dev server)
+- `npm run preview` - Production-like testing (workerd runtime, **REQUIRED before deploy**)
+- `npm run deploy` - Build and deploy
 
-**Always test in BOTH environments**:
+**Critical**: Always test `preview` before deploying to catch Workers-specific runtime issues
 
-1. **Next.js Dev Server** (`npm run dev`)
-   - Fast hot reloading
-   - Best developer experience
-   - Runs in Node.js (not production runtime)
-   - Use for rapid iteration
+## Critical Configuration
 
-2. **Workerd Runtime** (`npm run preview`)
-   - Runs in production-like environment
-   - Catches runtime-specific issues
-   - Slower rebuild times
-   - **Required before deployment**
-
-### When to Use Each
-
-```bash
-# Iterating on UI/logic → Use Next.js dev server
-npm run dev
-
-# Testing integrations (D1, R2, KV) → Use preview
-npm run preview
-
-# Before deploying → ALWAYS test preview
-npm run preview
-
-# Deploy to production
-npm run deploy
-```
-
-## Configuration Requirements
-
-### Wrangler Configuration
-
-**Minimum requirements** in `wrangler.jsonc`:
-
+**wrangler.jsonc** minimum requirements:
 ```jsonc
 {
-  "name": "your-app-name",
   "compatibility_date": "2025-05-05",  // Minimum for FinalizationRegistry
   "compatibility_flags": ["nodejs_compat"]  // Required for Node.js runtime
 }
 ```
 
-### Environment Variables for Package Exports
+**Cloudflare Bindings**: Add D1, R2, KV, or AI bindings in `wrangler.jsonc`, access via `process.env` (see "Cloudflare Services Integration" section for complete patterns)
 
-If using npm packages with multiple export conditions, create `.env`:
+**Package Exports** (if needed): Create `.env` with `WRANGLER_BUILD_PLATFORM="node"` to prioritize Node.js exports
 
-```env
-WRANGLER_BUILD_CONDITIONS=""
-WRANGLER_BUILD_PLATFORM="node"
-```
+## Top 5 Critical Errors
 
-This ensures Wrangler prioritizes the `node` export when available.
+These are the most common deployment-blocking errors. **For the complete catalog of 11+ errors, load `references/error-catalog-extended.md`**.
 
-### Cloudflare Bindings Integration
+### 1. Worker Size Limit Exceeded
 
-Add bindings in `wrangler.jsonc`:
+**Error**: `"Your Worker exceeded the size limit of 3 MiB"` (Free) or `"10 MiB"` (Paid)
 
-```jsonc
-{
-  "name": "your-app-name",
-  "compatibility_date": "2025-05-05",
-  "compatibility_flags": ["nodejs_compat"],
-
-  // D1 Database
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "production-db",
-      "database_id": "your-database-id"
-    }
-  ],
-
-  // R2 Storage
-  "r2_buckets": [
-    {
-      "binding": "BUCKET",
-      "bucket_name": "your-bucket"
-    }
-  ],
-
-  // KV Storage
-  "kv_namespaces": [
-    {
-      "binding": "KV",
-      "id": "your-kv-id"
-    }
-  ],
-
-  // Workers AI
-  "ai": {
-    "binding": "AI"
-  }
-}
-```
-
-Access bindings in Next.js via `process.env`:
-
-```typescript
-// app/api/route.ts
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-  // Access Cloudflare bindings
-  const env = process.env as any;
-
-  // D1 Database query
-  const result = await env.DB.prepare('SELECT * FROM users').all();
-
-  // R2 Storage access
-  const file = await env.BUCKET.get('file.txt');
-
-  // KV Storage access
-  const value = await env.KV.get('key');
-
-  // Workers AI inference
-  const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-    prompt: 'Hello AI'
-  });
-
-  return Response.json({ result });
-}
-```
-
-## Error Prevention (10+ Documented Errors)
-
-### 1. Worker Size Limit Exceeded (3 MiB - Free Plan)
-
-**Error**: `"Your Worker exceeded the size limit of 3 MiB"`
-
-**Cause**: Workers Free plan limits Worker size to 3 MiB (gzip-compressed)
-
-**Solutions**:
-- Upgrade to Workers Paid plan (10 MiB limit)
-- Analyze bundle size and remove unused dependencies
-- Use dynamic imports to code-split large dependencies
-
-**Bundle analysis**:
-```bash
-bunx opennextjs-cloudflare build
-cd .open-next/server-functions/default
-# Analyze handler.mjs.meta.json with ESBuild Bundle Analyzer
-```
+**Quick Fix**: Upgrade plan, analyze bundle with `bunx opennextjs-cloudflare build` → check `.open-next/server-functions/default/handler.mjs.meta.json`, remove unused dependencies, or use dynamic imports.
 
 **Source**: https://opennext.js.org/cloudflare/troubleshooting#worker-size-limits
 
 ---
 
-### 2. Worker Size Limit Exceeded (10 MiB - Paid Plan)
-
-**Error**: `"Your Worker exceeded the size limit of 10 MiB"`
-
-**Cause**: Unnecessary code bundled into Worker
-
-**Debug workflow**:
-1. Run `bunx opennextjs-cloudflare build`
-2. Navigate to `.open-next/server-functions/default`
-3. Analyze `handler.mjs.meta.json` using ESBuild Bundle Analyzer
-4. Identify and remove/externalize large dependencies
-
-**Source**: https://opennext.js.org/cloudflare/troubleshooting#worker-size-limits
-
----
-
-### 3. FinalizationRegistry Not Defined
-
-**Error**: `"ReferenceError: FinalizationRegistry is not defined"`
-
-**Cause**: `compatibility_date` in wrangler.jsonc is too old
-
-**Solution**: Update `compatibility_date` to `2025-05-05` or later:
-
-```jsonc
-{
-  "compatibility_date": "2025-05-05"  // Minimum for FinalizationRegistry
-}
-```
-
-**Source**: https://opennext.js.org/cloudflare/troubleshooting#finalizationregistry-is-not-defined
-
----
-
-### 4. Cannot Perform I/O on Behalf of Different Request
+### 2. Cannot Perform I/O on Behalf of Different Request
 
 **Error**: `"Cannot perform I/O on behalf of a different request"`
 
-**Cause**: Database client created globally and reused across requests
+**Cause**: Global database client reused across requests (Workers limitation)
 
-**Problem code**:
+**Quick Fix**: Create database clients INSIDE request handlers, never globally. Or use Cloudflare D1 which is designed for Workers.
+
 ```typescript
-// ❌ WRONG: Global DB client
-import { Pool } from 'pg';
+// ❌ WRONG: Global client
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
+// ✅ CORRECT: Request-scoped
 export async function GET() {
-  // This will fail - pool created in different request context
-  const result = await pool.query('SELECT * FROM users');
-  return Response.json(result);
-}
-```
-
-**Solution**: Create database clients inside request handlers:
-
-```typescript
-// ✅ CORRECT: Request-scoped DB client
-import { Pool } from 'pg';
-
-export async function GET() {
-  // Create client within request context
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const result = await pool.query('SELECT * FROM users');
+  // ... use pool
   await pool.end();
-  return Response.json(result);
-}
-```
-
-**Alternative**: Use Cloudflare D1 (designed for Workers) instead of external databases:
-
-```typescript
-// ✅ BEST: Use D1 (no connection pooling needed)
-export async function GET(request: NextRequest) {
-  const env = process.env as any;
-  const result = await env.DB.prepare('SELECT * FROM users').all();
-  return Response.json(result);
 }
 ```
 
@@ -385,128 +215,37 @@ export async function GET(request: NextRequest) {
 
 ---
 
-### 5. NPM Package Import Failures
+### 3. NPM Package Import Failures
 
 **Error**: `"Could not resolve '<package>'"`
 
-**Cause**: Missing `nodejs_compat` flag or package export conditions
-
-**Solution 1**: Enable `nodejs_compat` flag:
-
-```jsonc
-{
-  "compatibility_flags": ["nodejs_compat"]
-}
-```
-
-**Solution 2**: For packages with multiple exports, create `.env`:
-
-```env
-WRANGLER_BUILD_CONDITIONS=""
-WRANGLER_BUILD_PLATFORM="node"
-```
+**Quick Fix**: Enable `nodejs_compat` flag in wrangler.jsonc, and/or create `.env` with `WRANGLER_BUILD_PLATFORM="node"`.
 
 **Source**: https://opennext.js.org/cloudflare/troubleshooting#npm-packages-fail-to-import
 
 ---
 
-### 6. Failed to Load Chunk (Turbopack)
+### 4. SSRF Vulnerability (CVE-2025-6087)
 
-**Error**: `"Failed to load chunk server/chunks/ssr/"`
+**Vulnerability**: Server-Side Request Forgery via `/_next/image` endpoint in versions < 1.3.0
 
-**Cause**: Next.js built with Turbopack (`next build --turbo`)
-
-**Solution**: Use standard build (Turbopack not supported by adapter):
-
-```json
-{
-  "scripts": {
-    "build": "next build"  // ✅ Correct
-    // "build": "next build --turbo"  // ❌ Don't use Turbopack
-  }
-}
-```
-
-**Source**: https://opennext.js.org/cloudflare/troubleshooting#failed-to-load-chunk
-
----
-
-### 7. SSRF Vulnerability (CVE-2025-6087)
-
-**Vulnerability**: Server-Side Request Forgery via `/_next/image` endpoint
-
-**Affected versions**: `@opennextjs/cloudflare` < 1.3.0
-
-**Solution**: Upgrade to version 1.3.0 or later:
-
-```bash
-bun add -d @opennextjs/cloudflare@^1.3.0
-```
-
-**Impact**: Allows unauthenticated users to proxy arbitrary remote content
+**Quick Fix**: Upgrade immediately: `bun add -d @opennextjs/cloudflare@^1.3.0`
 
 **Source**: https://github.com/advisories/GHSA-rvpw-p7vw-wj3m
 
 ---
 
-### 8. Durable Objects Binding Warnings
+### 5. Failed to Load Chunk (Turbopack)
 
-**Warning**: `"You have defined bindings to the following internal Durable Objects... will not work in local development, but they should work in production"`
+**Error**: `"Failed to load chunk server/chunks/ssr/"`
 
-**Cause**: OpenNext uses Durable Objects for caching (`DOQueueHandler`, `DOShardedTagCache`)
+**Quick Fix**: Remove `--turbo` flag from build command. Use `next build` (standard), NOT `next build --turbo`.
 
-**Solution**: **Safe to ignore** - warning is expected behavior
-
-**Alternative** (to suppress warning): Define Durable Objects in separate Worker with own config
-
-**Source**: https://opennext.js.org/cloudflare/known-issues#caching-durable-objects
+**Source**: https://opennext.js.org/cloudflare/troubleshooting#failed-to-load-chunk
 
 ---
 
-### 9. Prisma + D1 Middleware Conflicts
-
-**Error**: Build errors when using `@prisma/client` + `@prisma/adapter-d1` in Next.js middleware
-
-**Cause**: Database initialization in middleware context
-
-**Workaround**: Initialize Prisma client in route handlers, not middleware
-
-**Source**: https://github.com/opennextjs/opennextjs-cloudflare/issues/471
-
----
-
-### 10. cross-fetch Library Errors
-
-**Error**: Errors when using libraries that depend on `cross-fetch`
-
-**Cause**: OpenNext patches deployment package causing `cross-fetch` to try using Node.js libraries when native fetch is available
-
-**Solution**: Use native `fetch` API directly instead of `cross-fetch`:
-
-```typescript
-// ✅ Use native fetch
-const response = await fetch('https://api.example.com/data');
-
-// ❌ Avoid cross-fetch
-// import fetch from 'cross-fetch';
-```
-
-**Source**: https://opennext.js.org/cloudflare/troubleshooting
-
----
-
-### 11. Windows Development Issues
-
-**Issue**: Full Windows support not guaranteed
-
-**Cause**: Underlying Next.js tooling issues on Windows
-
-**Solutions**:
-- Use WSL (Windows Subsystem for Linux)
-- Use virtual machine with Linux
-- Use Linux-based CI/CD for deployments
-
-**Source**: https://opennext.js.org/cloudflare#windows-support
+**More Errors**: Load `references/error-catalog-extended.md` for 6 additional documented errors including FinalizationRegistry issues, Durable Objects warnings, Prisma conflicts, cross-fetch errors, and Windows development issues
 
 ## Feature Support Matrix
 
@@ -531,208 +270,57 @@ const response = await fetch('https://api.example.com/data');
 
 **Source**: https://developers.cloudflare.com/workers/framework-guides/web-apps/nextjs/#next-js-supported-features
 
-## Integration with Cloudflare Services
+## Cloudflare Services Integration
 
-### D1 Database (SQL)
+Access Cloudflare bindings via `process.env` in Next.js route handlers:
 
 ```typescript
-// app/api/users/route.ts
 import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const env = process.env as any;
 
-  const result = await env.DB.prepare(
-    'SELECT * FROM users WHERE active = ?'
-  ).bind(true).all();
+  // D1 Database
+  const users = await env.DB.prepare('SELECT * FROM users').all();
 
-  return Response.json(result.results);
-}
+  // R2 Storage
+  const file = await env.BUCKET.get('file.txt');
 
-export async function POST(request: NextRequest) {
-  const env = process.env as any;
-  const { name, email } = await request.json();
+  // KV Storage
+  const value = await env.KV.get('key');
 
-  const result = await env.DB.prepare(
-    'INSERT INTO users (name, email) VALUES (?, ?)'
-  ).bind(name, email).run();
+  // Workers AI
+  const ai = await env.AI.run('@cf/meta/llama-3-8b-instruct', { prompt: 'Hello' });
 
-  return Response.json({ id: result.meta.last_row_id });
+  return Response.json({ users, file, value, ai });
 }
 ```
 
-**Wrangler config**:
+**Wrangler Bindings Configuration**:
 ```jsonc
 {
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "production-db",
-      "database_id": "your-database-id"
-    }
-  ]
+  "d1_databases": [{ "binding": "DB", "database_id": "..." }],
+  "r2_buckets": [{ "binding": "BUCKET", "bucket_name": "..." }],
+  "kv_namespaces": [{ "binding": "KV", "id": "..." }],
+  "ai": { "binding": "AI" }
 }
 ```
 
-**See also**: `cloudflare-d1` skill for complete D1 patterns
+**Detailed Integration Patterns**: Load `references/service-integration-patterns.md` for complete patterns including:
+- D1: Queries, inserts, transactions, batch operations
+- R2: Upload, download, list, delete with streaming
+- KV: Get, set with TTL, delete, list keys
+- Workers AI: Text generation, embeddings, image classification
+- Multi-service integration examples
+- TypeScript types for bindings (`npm run cf-typegen`)
 
----
+**Related Skills**: `cloudflare-d1`, `cloudflare-r2`, `cloudflare-kv`, `cloudflare-workers-ai` for service-specific deep dives
 
-### R2 Storage (Object Storage)
+## Image Optimization & Caching
 
-```typescript
-// app/api/upload/route.ts
-import type { NextRequest } from 'next/server';
+**Images**: Automatic optimization via Cloudflare Images (billed separately). Configure in `open-next.config.ts` with `imageOptimization: { loader: 'cloudflare' }`. Use standard Next.js `<Image />` component.
 
-export async function POST(request: NextRequest) {
-  const env = process.env as any;
-  const formData = await request.formData();
-  const file = formData.get('file') as File;
-
-  // Upload to R2
-  await env.BUCKET.put(file.name, file.stream(), {
-    httpMetadata: {
-      contentType: file.type
-    }
-  });
-
-  return Response.json({ success: true, filename: file.name });
-}
-
-export async function GET(request: NextRequest) {
-  const env = process.env as any;
-  const { searchParams } = new URL(request.url);
-  const filename = searchParams.get('file');
-
-  const object = await env.BUCKET.get(filename);
-  if (!object) {
-    return new Response('Not found', { status: 404 });
-  }
-
-  return new Response(object.body, {
-    headers: {
-      'Content-Type': object.httpMetadata?.contentType || 'application/octet-stream'
-    }
-  });
-}
-```
-
-**See also**: `cloudflare-r2` skill for complete R2 patterns
-
----
-
-### Workers AI (Model Inference)
-
-```typescript
-// app/api/ai/route.ts
-import type { NextRequest } from 'next/server';
-
-export async function POST(request: NextRequest) {
-  const env = process.env as any;
-  const { prompt } = await request.json();
-
-  const response = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-    prompt
-  });
-
-  return Response.json(response);
-}
-```
-
-**Wrangler config**:
-```jsonc
-{
-  "ai": {
-    "binding": "AI"
-  }
-}
-```
-
-**See also**: `cloudflare-workers-ai` skill for complete AI patterns
-
----
-
-### KV Storage (Key-Value)
-
-```typescript
-// app/api/cache/route.ts
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-  const env = process.env as any;
-  const { searchParams } = new URL(request.url);
-  const key = searchParams.get('key');
-
-  const value = await env.KV.get(key);
-  return Response.json({ key, value });
-}
-
-export async function PUT(request: NextRequest) {
-  const env = process.env as any;
-  const { key, value, ttl } = await request.json();
-
-  await env.KV.put(key, value, { expirationTtl: ttl });
-  return Response.json({ success: true });
-}
-```
-
-**See also**: `cloudflare-kv` skill for complete KV patterns
-
-## Image Optimization
-
-Next.js image optimization works via Cloudflare Images. Configure in `open-next.config.ts`:
-
-```typescript
-import { defineCloudflareConfig } from "@opennextjs/cloudflare";
-
-export default defineCloudflareConfig({
-  imageOptimization: {
-    loader: 'cloudflare'
-  }
-});
-```
-
-Usage in components:
-
-```tsx
-import Image from 'next/image';
-
-export default function Avatar() {
-  return (
-    <Image
-      src="/avatar.jpg"
-      alt="User avatar"
-      width={200}
-      height={200}
-      // Automatically optimized via Cloudflare Images
-    />
-  );
-}
-```
-
-**Billing**: Cloudflare Images usage is billed separately
-
-**Docs**: https://developers.cloudflare.com/images/
-
-## Caching Configuration
-
-Configure caching behavior in `open-next.config.ts`:
-
-```typescript
-import { defineCloudflareConfig } from "@opennextjs/cloudflare";
-
-export default defineCloudflareConfig({
-  // Custom cache configuration
-  cache: {
-    // Override default cache behavior
-    // See: https://opennext.js.org/cloudflare/caching
-  }
-});
-```
-
-**Default behavior**: OpenNext provides sensible caching defaults
-
-**Advanced usage**: See official OpenNext caching documentation
+**Caching**: OpenNext provides sensible defaults. Override in `open-next.config.ts` if needed. See https://opennext.js.org/cloudflare/caching for advanced configuration
 
 ## Known Limitations
 
@@ -766,103 +354,17 @@ export default defineCloudflareConfig({
 
 ## Deployment
 
-### Deploy from Local Machine
+**Local**: `npm run deploy` (builds and deploys)
 
-```bash
-# Build and deploy in one command
-npm run deploy
+**CI/CD**: Use `npm run deploy` command in GitHub Actions, GitLab CI, or Cloudflare Workers Builds (auto-detected)
 
-# Or step by step:
-bunx opennextjs-cloudflare build
-bunx opennextjs-cloudflare deploy
-```
+**Custom Domains**: Workers & Pages → Settings → Domains & Routes (domain must be on Cloudflare)
 
-### Deploy from CI/CD
+## TypeScript & Testing
 
-Configure deployment command in your CI/CD system:
+**TypeScript Types**: Run `npm run cf-typegen` to generate `cloudflare-env.d.ts` with typed bindings (D1Database, R2Bucket, KVNamespace, Ai)
 
-```bash
-npm run deploy
-```
-
-**Examples**:
-- GitHub Actions: `.github/workflows/deploy.yml`
-- GitLab CI: `.gitlab-ci.yml`
-- Cloudflare Workers Builds: Auto-detects `npm run deploy`
-
-**Environment variables**: Set secrets in Cloudflare dashboard or CI/CD system
-
-### Custom Domains
-
-Add custom domain in Cloudflare dashboard:
-
-1. Navigate to Workers & Pages
-2. Select your Worker
-3. Settings → Domains & Routes
-4. Add custom domain
-
-**DNS**: Domain must be on Cloudflare (zone required)
-
-## TypeScript Support
-
-Generate types for Cloudflare bindings:
-
-```bash
-npm run cf-typegen
-```
-
-Creates `cloudflare-env.d.ts` with types for your bindings:
-
-```typescript
-// cloudflare-env.d.ts (auto-generated)
-interface CloudflareEnv {
-  DB: D1Database;
-  BUCKET: R2Bucket;
-  KV: KVNamespace;
-  AI: Ai;
-}
-```
-
-Use in route handlers:
-
-```typescript
-import type { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest) {
-  const env = process.env as CloudflareEnv;
-  // Now env.DB, env.BUCKET, etc. are typed
-}
-```
-
-## Testing
-
-### Local Testing (Development)
-
-```bash
-# Next.js dev server (fast iteration)
-npm run dev
-```
-
-### Local Testing (Production-like)
-
-```bash
-# Workerd runtime (catches Workers-specific issues)
-npm run preview
-```
-
-### Integration Testing
-
-Always test in `preview` mode before deploying:
-
-```bash
-# Build and run in workerd
-npm run preview
-
-# Test bindings (D1, R2, KV, AI)
-# Test middleware
-# Test API routes
-# Test SSR/ISR behavior
-```
+**Testing**: Always test in `preview` mode before deployment to catch Workers-specific runtime issues and verify bindings work correctly
 
 ## Migration from Other Platforms
 
@@ -945,5 +447,5 @@ npm run cf-typegen  # Generate binding types
 
 **Production Tested**: Official Cloudflare support and active community
 **Token Savings**: ~59% vs manual setup
-**Errors Prevented**: 10+ documented issues
-**Last Verified**: 2025-10-21
+**Errors Prevented**: 11+ documented issues
+**Last Verified**: 2025-12-04

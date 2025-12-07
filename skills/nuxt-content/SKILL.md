@@ -378,39 +378,24 @@ export default defineEventHandler(async (event) => {
 
 ## Navigation
 
-### Generate Navigation Tree
+Auto-generate navigation tree from content structure:
 
 ```ts
-// Auto-generate navigation from content structure
 const navigation = await queryCollectionNavigation('blog').all()
 ```
 
-**Returns**:
+**Returns hierarchical structure**:
 ```ts
 [
   {
     title: 'Getting Started',
     path: '/docs/getting-started',
-    children: [
-      {
-        title: 'Installation',
-        path: '/docs/getting-started/installation'
-      }
-    ]
+    children: [{ title: 'Installation', path: '/docs/getting-started/installation' }]
   }
 ]
 ```
 
----
-
-### With Filters and Ordering
-
-```ts
-const navigation = await queryCollectionNavigation('blog')
-  .where('published', '=', true)
-  .sort('order', 'ASC')
-  .all()
-```
+**Advanced patterns** (filters, ordering, custom structures): See `references/collection-examples.md`
 
 ---
 
@@ -494,18 +479,9 @@ const results = await queryCollectionSearchSections('blog', 'nuxt content')
 ### Cloudflare Pages + D1
 
 ```bash
-# Install Cloudflare adapter
 bun add -D @nuxthub/core
-
-# Create D1 database
 bunx wrangler d1 create nuxt-content
-
-# Build for Cloudflare
-bun run build
-
-# Deploy
-bunx wrangler pages deploy dist
-# or: npx wrangler pages deploy dist
+bun run build && bunx wrangler pages deploy dist
 ```
 
 **wrangler.toml**:
@@ -518,6 +494,8 @@ database_id = "your-database-id"
 
 **CRITICAL**: D1 binding MUST be named `DB` (case-sensitive).
 
+**See**: `references/deployment-checklists.md` for complete Cloudflare deployment guide with troubleshooting.
+
 ---
 
 ### Vercel
@@ -526,25 +504,17 @@ database_id = "your-database-id"
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: ['@nuxt/content'],
-  
   routeRules: {
-    '/blog/**': { prerender: true },
-    '/api/**': { cors: true }
-  },
-  
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ['/']
-    }
+    '/blog/**': { prerender: true }
   }
 })
 ```
 
 ```bash
-# Deploy
 vercel deploy
 ```
+
+**See**: `references/deployment-checklists.md` for complete Vercel configuration and prerender strategy.
 
 ---
 
@@ -649,18 +619,45 @@ rm -rf .nuxt && bun dev
 
 ---
 
-## Bundled Resources
+## When to Load References
+
+**Load `references/error-catalog.md` when:**
+- User encounters error beyond Top 5 shown above
+- Debugging collection validation, schema errors, or deployment issues
+- Need complete error catalog with all 18 documented solutions and sources
+
+**Load `references/collection-examples.md` when:**
+- Setting up advanced collection types (data vs page)
+- Implementing complex schema validation patterns
+- Need examples for Zod v4 or Valibot schemas
+- Working with multiple collection configurations
+
+**Load `references/query-operators.md` when:**
+- Building complex queries beyond basic examples
+- Need full reference of all operators (=, !=, <, >, <=, >=, in, not-in, like)
+- Implementing pagination, sorting, or field selection
+- Troubleshooting query syntax errors
+
+**Load `references/deployment-checklists.md` when:**
+- Deploying to specific platform (Cloudflare Pages, Cloudflare Workers D1, Vercel)
+- Setting up production environment configurations
+- Troubleshooting deployment-specific errors (D1 binding, prerender routes)
+- Need platform-specific wrangler.toml or vercel.json examples
+
+**Load `references/mdc-syntax-reference.md` when:**
+- Implementing custom MDC (Markdown Components)
+- Debugging component rendering issues
+- Need complete syntax reference for props, slots, nesting
+- Creating advanced content components
+
+**Load `references/studio-setup-guide.md` when:**
+- Setting up Nuxt Studio for production content editing
+- Configuring GitHub OAuth authentication
+- Enabling self-hosted content editing with GitHub sync
+- Troubleshooting Studio authentication or Git sync issues
 
 **Templates** (`templates/`):
 - `blog-collection-setup.ts` - Complete blog setup with collections, queries, navigation, search, and deployment (334 lines)
-
-**References** (`references/`):
-- `collection-examples.md` - Collection setup patterns and examples
-- `deployment-checklists.md` - Vercel, Cloudflare Pages, and Cloudflare Workers deployment guides
-- `error-catalog.md` - All 18 documented issues with solutions (491 lines)
-- `mdc-syntax-reference.md` - Complete MDC (Markdown Components) syntax
-- `query-operators.md` - All query methods and operators reference
-- `studio-setup-guide.md` - Nuxt Studio configuration and usage
 
 ---
 
@@ -716,5 +713,5 @@ This skill composes well with:
 ---
 
 **Production Tested**: Documentation sites, blogs, content platforms
-**Last Updated**: 2025-01-10
+**Last Updated**: 2025-01-27
 **Token Savings**: ~60% (reduces content + error documentation)

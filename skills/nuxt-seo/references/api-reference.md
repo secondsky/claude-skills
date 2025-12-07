@@ -4,6 +4,18 @@ All composables, functions, and APIs across the 8 modules.
 
 ---
 
+## Table of Contents
+
+1. [nuxt-robots APIs](#nuxt-robots-apis)
+2. [nuxt-sitemap APIs](#nuxt-sitemap-apis)
+3. [nuxt-og-image APIs](#nuxt-og-image-apis)
+4. [nuxt-schema-org APIs](#nuxt-schema-org-apis)
+5. [nuxt-seo-utils APIs](#nuxt-seo-utils-apis)
+6. [nuxt-site-config APIs](#nuxt-site-config-apis)
+
+---
+
+
 ## nuxt-robots APIs
 
 ### `useRobotsRule(rule: string)`

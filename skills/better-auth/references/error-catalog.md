@@ -1,6 +1,8 @@
 # better-auth Error Catalog
 
-Complete catalog of 12 documented errors with solutions and troubleshooting.
+Complete catalog of 15 documented errors with solutions and troubleshooting.
+
+**Last Updated**: 2025-11-27 (Added v1.4.0+ errors #13-#15)
 
 ---
 
@@ -336,6 +338,100 @@ wrangler dev
 
 ---
 
+## Error #13: "forgetPassword is not a function" (v1.4.0+)
+
+**Error**: `TypeError: authClient.forgetPassword is not a function`
+
+**Source**: https://github.com/better-auth/better-auth/issues/2946
+
+**Why It Happens**: v1.4.0 renamed `forgetPassword` to `requestPasswordReset`
+
+**Solution**: Update all password reset calls:
+
+```typescript
+// ❌ WRONG (v1.3.x API)
+await authClient.forgetPassword({
+  email: "user@example.com",
+  redirectTo: "/reset-password",
+});
+
+// ✅ CORRECT (v1.4.0+ API)
+await authClient.requestPasswordReset({
+  email: "user@example.com",
+  redirectTo: "/reset-password",
+});
+```
+
+**Prevention**: When upgrading to v1.4.0+, search codebase for `forgetPassword` and replace all occurrences.
+
+---
+
+## Error #14: "Cannot use import statement outside a module"
+
+**Error**: `SyntaxError: Cannot use import statement outside a module`
+
+**Source**: better-auth v1.4.0 ESM-only requirement
+
+**Why It Happens**: Missing `"type": "module"` in package.json or trying to use CommonJS
+
+**Solution**: Enable ESM in your project:
+
+```json
+// package.json
+{
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev"
+  }
+}
+```
+
+Also update tsconfig.json:
+```json
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  }
+}
+```
+
+**Prevention**: better-auth v1.4.0+ is ESM-only. Do NOT use `require()`. Only use `import`.
+
+---
+
+## Error #15: "request is undefined" in callbacks (v1.4.0+)
+
+**Error**: `TypeError: Cannot read property 'headers' of undefined` or `request is not defined`
+
+**Source**: v1.4.0 callback signature change
+
+**Why It Happens**: Callback functions changed from `request` parameter to `ctx` parameter
+
+**Solution**: Update callback signatures:
+
+```typescript
+// ❌ WRONG (v1.3.x signature)
+emailAndPassword: {
+  sendVerificationEmail: async ({ user, url, request }) => {
+    const origin = request.headers.get('origin');
+    // ...
+  },
+}
+
+// ✅ CORRECT (v1.4.0+ signature)
+emailAndPassword: {
+  sendVerificationEmail: async ({ user, url, ctx }) => {
+    const origin = ctx.request.headers.get('origin');
+    // ...
+  },
+}
+```
+
+**Prevention**: When upgrading to v1.4.0+, search for all callback functions with `request` parameter and change to `ctx`, then access via `ctx.request`.
+
+---
+
 ## Troubleshooting Guide
 
 ### Problem: better-auth routes return 404
@@ -373,7 +469,7 @@ wrangler dev
 
 ## Prevention Checklist
 
-Use this to avoid all 12 errors:
+Use this to avoid all 15 errors:
 
 - [ ] Using **Drizzle or Kysely adapter** (not non-existent d1Adapter)
 - [ ] Using **Drizzle Kit** for schema migrations (not better-auth migrate)

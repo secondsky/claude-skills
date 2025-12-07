@@ -342,12 +342,30 @@ import { defineConfig } from 'vite'
 import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig({
-  plugins: [cloudflare({ persist: true })],
+  plugins: [cloudflare({ persistState: true })],
   server: { port: 8787 },
 })
 ```
 
 **tsconfig.json** - TypeScript configuration (ES2022, bundler resolution, Workers types)
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "moduleResolution": "bundler",
+    "lib": ["es2022", "webworker"],
+    "types": ["@cloudflare/workers-types"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
+```
 
 ---
 

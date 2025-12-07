@@ -8,5 +8,18 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "tanstack-table",
+    "react-table",
+    "data-table",
+    "datagrid",
+    "server-side-pagination",
+    "server-side-filtering",
+    "server-side-sorting",
+    "tanstack-query",
+    "cloudflare-d1",
+    "virtualization",
+    "large-datasets",
+    "table-state-management"
+  ]
 }

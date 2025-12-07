@@ -7,7 +7,7 @@ allowed-tools: [Bash, Read, Write, Edit]
 metadata:
   version: 1.0.0
   author: Claude Skills Maintainers
-  last-verified: 2025-11-07
+  last-verified: 2025-12-04
   production-tested: true
   keywords:
     - tanstack table
@@ -111,11 +111,11 @@ Documents and prevents 6+ common issues:
 ### Installation
 
 ```bash
-bun add @tanstack/react-table@latest  # preferred
-# or: bun add @tanstack/react-table@latest
-# For virtualization (optional):
+# Core table library
+bun add @tanstack/react-table@latest
+
+# Optional: For virtualization (1000+ rows)
 bun add @tanstack/react-virtual@latest
-# or: bun add @tanstack/react-virtual@latest
 ```
 
 **Latest verified versions:**
@@ -671,6 +671,51 @@ Deep-dive guides in `~/.claude/skills/tanstack-table/references/`:
 3. **cloudflare-d1-examples.md** - Workers + D1 complete examples
 4. **performance-virtualization.md** - TanStack Virtual guide
 5. **common-errors.md** - All 6+ documented issues with solutions
+
+---
+
+## When to Load References
+
+Claude should suggest loading these reference files based on user needs:
+
+### Load `references/common-errors.md` when:
+- User encounters infinite re-renders or table freezing
+- Query data not syncing with pagination state changes
+- Server-side features (pagination/filtering/sorting) not triggering API calls
+- TypeScript errors with column helper imports
+- Sorting state changes not updating API calls
+- Performance problems with 1000+ rows client-side
+- Any error message mentioned in the 6 documented issues
+
+### Load `references/server-side-patterns.md` when:
+- User asks about implementing pagination with API backends
+- Need to build filtering with backend query parameters
+- Implementing sorting tied to database queries
+- Building Cloudflare Workers or any API endpoints for table data
+- Coordinating table state (page, filters, sort) with server calls
+- Questions about manualPagination, manualFiltering, or manualSorting flags
+
+### Load `references/query-integration.md` when:
+- Coordinating TanStack Table + TanStack Query together
+- Query keys and table state synchronization issues
+- Refetch patterns when pagination/filter/sort changes
+- Query key composition with table state
+- Stale data issues with server-side tables
+
+### Load `references/cloudflare-d1-examples.md` when:
+- Building Cloudflare Workers API endpoints for table data
+- Writing D1 database queries with pagination/filtering
+- Need complete end-to-end Cloudflare integration examples
+- SQL query patterns for table features (LIMIT/OFFSET, WHERE, ORDER BY)
+- wrangler.jsonc bindings setup for D1 + table
+
+### Load `references/performance-virtualization.md` when:
+- Working with 1000+ row datasets client-side
+- TanStack Virtual integration questions
+- Memory-efficient rendering patterns
+- useVirtualizer() hook usage
+- Large table performance optimization
+- Questions about row virtualization or scroll performance
 
 ---
 

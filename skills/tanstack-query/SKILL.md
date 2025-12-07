@@ -295,293 +295,19 @@ createRoot(document.getElementById('root')!).render(
 - `buttonPosition="bottom-right"` - Where to show toggle button
 - Automatically removed in production builds (tree-shaken)
 
-### Step 4: Create Custom Query Hooks
+### Advanced Setup (Steps 4-7)
 
-**Pattern: Reusable Query Hooks**
+**For detailed patterns**: Load `references/advanced-setup.md` when implementing custom query hooks, mutations with optimistic updates, DevTools configuration, or error boundaries.
 
-```tsx
-// src/api/todos.ts - API functions
-export type Todo = {
-  id: number
-  title: string
-  completed: boolean
-}
+**Quick summaries:**
 
-export async function fetchTodos(): Promise<Todo[]> {
-  const response = await fetch('/api/todos')
-  if (!response.ok) {
-    throw new Error(`Failed to fetch todos: ${response.statusText}`)
-  }
-  return response.json()
-}
+**Step 4: Custom Query Hooks** - Use `queryOptions` factory for reusable patterns. Create custom hooks that encapsulate API calls.
 
-export async function fetchTodoById(id: number): Promise<Todo> {
-  const response = await fetch(`/api/todos/${id}`)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch todo ${id}: ${response.statusText}`)
-  }
-  return response.json()
-}
+**Step 5: Mutations** - Use `useMutation` with `onSuccess` to invalidate queries. For instant UI feedback, implement optimistic updates with `onMutate`/`onError`/`onSettled` pattern.
 
-// src/hooks/useTodos.ts - Query hooks
-import { useQuery, queryOptions } from '@tanstack/react-query'
-import { fetchTodos, fetchTodoById } from '../api/todos'
+**Step 6: DevTools** - Already included in Step 3. Advanced options for customization available in reference.
 
-// Query options factory (v5 pattern for reusability)
-export const todosQueryOptions = queryOptions({
-  queryKey: ['todos'],
-  queryFn: fetchTodos,
-  staleTime: 1000 * 60, // 1 minute
-})
-
-export function useTodos() {
-  return useQuery(todosQueryOptions)
-}
-
-export function useTodo(id: number) {
-  return useQuery({
-    queryKey: ['todos', id],
-    queryFn: () => fetchTodoById(id),
-    enabled: !!id, // Only fetch if id is truthy
-  })
-}
-```
-
-**Why use queryOptions factory:**
-- Type inference works perfectly
-- Reusable across `useQuery`, `useSuspenseQuery`, `prefetchQuery`
-- Consistent queryKey and queryFn everywhere
-- Easier to test and maintain
-
-**Query key structure:**
-- `['todos']` - List of all todos
-- `['todos', id]` - Single todo detail
-- `['todos', 'filters', { status: 'completed' }]` - Filtered list
-- More specific keys are subsets (invalidating `['todos']` invalidates all)
-
-### Step 5: Implement Mutations with Optimistic Updates
-
-```tsx
-// src/hooks/useTodoMutations.ts
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Todo } from '../api/todos'
-
-type AddTodoInput = {
-  title: string
-}
-
-type UpdateTodoInput = {
-  id: number
-  completed: boolean
-}
-
-export function useAddTodo() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (newTodo: AddTodoInput) => {
-      const response = await fetch('/api/todos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTodo),
-      })
-      if (!response.ok) throw new Error('Failed to add todo')
-      return response.json()
-    },
-
-    // Optimistic update
-    onMutate: async (newTodo) => {
-      // Cancel outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ['todos'] })
-
-      // Snapshot previous value
-      const previousTodos = queryClient.getQueryData<Todo[]>(['todos'])
-
-      // Optimistically update
-      queryClient.setQueryData<Todo[]>(['todos'], (old = []) => [
-        ...old,
-        { id: Date.now(), ...newTodo, completed: false },
-      ])
-
-      // Return context with snapshot
-      return { previousTodos }
-    },
-
-    // Rollback on error
-    onError: (err, newTodo, context) => {
-      queryClient.setQueryData(['todos'], context?.previousTodos)
-    },
-
-    // Always refetch after error or success
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['todos'] })
-    },
-  })
-}
-
-export function useUpdateTodo() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async ({ id, completed }: UpdateTodoInput) => {
-      const response = await fetch(`/api/todos/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completed }),
-      })
-      if (!response.ok) throw new Error('Failed to update todo')
-      return response.json()
-    },
-
-    onSuccess: (updatedTodo) => {
-      // Update the specific todo in cache
-      queryClient.setQueryData<Todo>(['todos', updatedTodo.id], updatedTodo)
-
-      // Invalidate list to refetch
-      queryClient.invalidateQueries({ queryKey: ['todos'] })
-    },
-  })
-}
-
-export function useDeleteTodo() {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: async (id: number) => {
-      const response = await fetch(`/api/todos/${id}`, { method: 'DELETE' })
-      if (!response.ok) throw new Error('Failed to delete todo')
-    },
-
-    onSuccess: (_, deletedId) => {
-      queryClient.setQueryData<Todo[]>(['todos'], (old = []) =>
-        old.filter(todo => todo.id !== deletedId)
-      )
-    },
-  })
-}
-```
-
-**Optimistic update pattern:**
-1. `onMutate`: Cancel queries, snapshot old data, update cache optimistically
-2. `onError`: Rollback to snapshot if mutation fails
-3. `onSettled`: Refetch to ensure cache matches server
-
-**When to use:**
-- Immediate UI feedback for better UX
-- Low-risk mutations (todo toggle, like button)
-- Avoid for critical data (payments, account settings)
-
-### Step 6: Set Up DevTools
-
-```tsx
-// Already set up in main.tsx, but here are advanced options:
-
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
-<ReactQueryDevtools
-  initialIsOpen={false}
-  buttonPosition="bottom-right"
-  position="bottom"
-
-  // Custom toggle button
-  toggleButtonProps={{
-    style: { marginBottom: '4rem' },
-  }}
-
-  // Custom panel styles
-  panelProps={{
-    style: { height: '400px' },
-  }}
-
-  // Only show in dev (already tree-shaken in production)
-  // But can add explicit check:
-  // {import.meta.env.DEV && <ReactQueryDevtools />}
-/>
-```
-
-**DevTools features:**
-- View all queries and their states
-- See query cache contents
-- Manually refetch queries
-- View mutations in flight
-- Inspect query dependencies
-- Export state for debugging
-
-### Step 7: Configure Error Boundaries
-
-```tsx
-// src/components/ErrorBoundary.tsx
-import { Component, type ReactNode } from 'react'
-import { QueryErrorResetBoundary, useQueryErrorResetBoundary } from '@tanstack/react-query'
-
-type Props = { children: ReactNode }
-type State = { hasError: boolean }
-
-class ErrorBoundaryClass extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-    this.state = { hasError: false }
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true }
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div>
-          <h2>Something went wrong</h2>
-          <button onClick={() => this.setState({ hasError: false })}>
-            Try again
-          </button>
-        </div>
-      )
-    }
-    return this.props.children
-  }
-}
-
-// Wrapper with TanStack Query error reset
-export function ErrorBoundary({ children }: Props) {
-  return (
-    <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundaryClass onReset={reset}>
-          {children}
-        </ErrorBoundaryClass>
-      )}
-    </QueryErrorResetBoundary>
-  )
-}
-
-// Usage with throwOnError option:
-function useTodosWithErrorBoundary() {
-  return useQuery({
-    queryKey: ['todos'],
-    queryFn: fetchTodos,
-    throwOnError: true, // Throw errors to error boundary
-  })
-}
-
-// Or conditional:
-function useTodosConditionalError() {
-  return useQuery({
-    queryKey: ['todos'],
-    queryFn: fetchTodos,
-    throwOnError: (error, query) => {
-      // Only throw server errors, handle network errors locally
-      return error instanceof Response && error.status >= 500
-    },
-  })
-}
-```
-
-**Error handling strategies:**
-- Local handling: Use `isError` and `error` from query
-- Global handling: Use error boundaries with `throwOnError`
-- Mixed: Conditional `throwOnError` function
-- Centralized: Use `QueryCache` global error handlers
+**Step 7: Error Boundaries** - Use `QueryErrorResetBoundary` with React Error Boundary. Configure `throwOnError` option for global vs local error handling.
 
 ---
 
@@ -717,327 +443,30 @@ useSuspenseQuery({
 
 ---
 
-## Known Issues Prevention
+## Error Prevention
 
-This skill prevents **8 documented issues** from v5 migration and common mistakes:
+This skill prevents **8+ documented v5 migration issues**. The most critical errors include:
+- Object syntax required (v4 function overloads removed)
+- Query callbacks removed (onSuccess/onError/onSettled)
+- `isPending` vs `isLoading` status changes
+- `cacheTime` renamed to `gcTime`
+- `initialPageParam` required for infinite queries
+- `keepPreviousData` replaced with `placeholderData`
 
-### Issue #1: Object Syntax Required
-**Error**: `useQuery is not a function` or type errors
-**Source**: [v5 Migration Guide](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#removed-overloads-in-favor-of-object-syntax)
-**Why It Happens**: v5 removed all function overloads, only object syntax works
-**Prevention**: Always use `useQuery({ queryKey, queryFn, ...options })`
-
-**Before (v4):**
-```tsx
-useQuery(['todos'], fetchTodos, { staleTime: 5000 })
-```
-
-**After (v5):**
-```tsx
-useQuery({
-  queryKey: ['todos'],
-  queryFn: fetchTodos,
-  staleTime: 5000
-})
-```
-
-### Issue #2: Query Callbacks Removed
-**Error**: Callbacks don't run, TypeScript errors
-**Source**: [v5 Breaking Changes](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#callbacks-on-usequery-and-queryobserver-have-been-removed)
-**Why It Happens**: onSuccess, onError, onSettled removed from queries (still work in mutations)
-**Prevention**: Use `useEffect` for side effects, or move logic to mutation callbacks
-
-**Before (v4):**
-```tsx
-useQuery({
-  queryKey: ['todos'],
-  queryFn: fetchTodos,
-  onSuccess: (data) => {
-    console.log('Todos loaded:', data)
-  },
-})
-```
-
-**After (v5):**
-```tsx
-const { data } = useQuery({ queryKey: ['todos'], queryFn: fetchTodos })
-useEffect(() => {
-  if (data) {
-    console.log('Todos loaded:', data)
-  }
-}, [data])
-```
-
-### Issue #3: Status Loading → Pending
-**Error**: UI shows wrong loading state
-**Source**: [v5 Migration: isLoading renamed](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#isloading-and-isfetching-flags)
-**Why It Happens**: `status: 'loading'` renamed to `status: 'pending'`, `isLoading` meaning changed
-**Prevention**: Use `isPending` for initial load, `isLoading` for "pending AND fetching"
-
-**Before (v4):**
-```tsx
-const { data, isLoading } = useQuery(...)
-if (isLoading) return <div>Loading...</div>
-```
-
-**After (v5):**
-```tsx
-const { data, isPending, isLoading } = useQuery(...)
-if (isPending) return <div>Loading...</div>
-// isLoading = isPending && isFetching (fetching for first time)
-```
-
-### Issue #4: cacheTime → gcTime
-**Error**: `cacheTime is not a valid option`
-**Source**: [v5 Migration: gcTime](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#cachetime-has-been-replaced-by-gctime)
-**Why It Happens**: Renamed to better reflect "garbage collection time"
-**Prevention**: Use `gcTime` instead of `cacheTime`
-
-**Before (v4):**
-```tsx
-useQuery({
-  queryKey: ['todos'],
-  queryFn: fetchTodos,
-  cacheTime: 1000 * 60 * 60,
-})
-```
-
-**After (v5):**
-```tsx
-useQuery({
-  queryKey: ['todos'],
-  queryFn: fetchTodos,
-  gcTime: 1000 * 60 * 60,
-})
-```
-
-### Issue #5: useSuspenseQuery + enabled
-**Error**: Type error, enabled option not available
-**Source**: [GitHub Discussion #6206](https://github.com/TanStack/query/discussions/6206)
-**Why It Happens**: Suspense guarantees data is available, can't conditionally disable
-**Prevention**: Use conditional rendering instead of `enabled` option
-
-**Before (v4/incorrect):**
-```tsx
-useSuspenseQuery({
-  queryKey: ['todo', id],
-  queryFn: () => fetchTodo(id),
-  enabled: !!id, // ❌ Not allowed
-})
-```
-
-**After (v5/correct):**
-```tsx
-// Conditional rendering:
-{id ? (
-  <TodoComponent id={id} />
-) : (
-  <div>No ID selected</div>
-)}
-
-// Inside TodoComponent:
-function TodoComponent({ id }: { id: number }) {
-  const { data } = useSuspenseQuery({
-    queryKey: ['todo', id],
-    queryFn: () => fetchTodo(id),
-    // No enabled option needed
-  })
-  return <div>{data.title}</div>
-}
-```
-
-### Issue #6: initialPageParam Required
-**Error**: `initialPageParam is required` type error
-**Source**: [v5 Migration: Infinite Queries](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#new-required-initialPageParam-option)
-**Why It Happens**: v4 passed `undefined` as first pageParam, v5 requires explicit value
-**Prevention**: Always specify `initialPageParam` for infinite queries
-
-**Before (v4):**
-```tsx
-useInfiniteQuery({
-  queryKey: ['projects'],
-  queryFn: ({ pageParam = 0 }) => fetchProjects(pageParam),
-  getNextPageParam: (lastPage) => lastPage.nextCursor,
-})
-```
-
-**After (v5):**
-```tsx
-useInfiniteQuery({
-  queryKey: ['projects'],
-  queryFn: ({ pageParam }) => fetchProjects(pageParam),
-  initialPageParam: 0, // ✅ Required
-  getNextPageParam: (lastPage) => lastPage.nextCursor,
-})
-```
-
-### Issue #7: keepPreviousData Removed
-**Error**: `keepPreviousData is not a valid option`
-**Source**: [v5 Migration: placeholderData](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#removed-keeppreviousdata-in-favor-of-placeholderdata-identity-function)
-**Why It Happens**: Replaced with more flexible `placeholderData` function
-**Prevention**: Use `placeholderData: keepPreviousData` helper
-
-**Before (v4):**
-```tsx
-useQuery({
-  queryKey: ['todos', page],
-  queryFn: () => fetchTodos(page),
-  keepPreviousData: true,
-})
-```
-
-**After (v5):**
-```tsx
-import { keepPreviousData } from '@tanstack/react-query'
-
-useQuery({
-  queryKey: ['todos', page],
-  queryFn: () => fetchTodos(page),
-  placeholderData: keepPreviousData,
-})
-```
-
-### Issue #8: TypeScript Error Type Default
-**Error**: Type errors with error handling
-**Source**: [v5 Migration: Error Types](https://tanstack.com/query/latest/docs/framework/react/guides/migrating-to-v5#typeerror-is-now-the-default-error)
-**Why It Happens**: v4 used `unknown`, v5 defaults to `Error` type
-**Prevention**: If throwing non-Error types, specify error type explicitly
-
-**Before (v4 - error was unknown):**
-```tsx
-const { error } = useQuery({
-  queryKey: ['data'],
-  queryFn: async () => {
-    if (Math.random() > 0.5) throw 'custom error string'
-    return data
-  },
-})
-// error: unknown
-```
-
-**After (v5 - specify custom error type):**
-```tsx
-const { error } = useQuery<DataType, string>({
-  queryKey: ['data'],
-  queryFn: async () => {
-    if (Math.random() > 0.5) throw 'custom error string'
-    return data
-  },
-})
-// error: string | null
-
-// Or better: always throw Error objects
-const { error } = useQuery({
-  queryKey: ['data'],
-  queryFn: async () => {
-    if (Math.random() > 0.5) throw new Error('custom error')
-    return data
-  },
-})
-// error: Error | null (default)
-```
+**For complete error catalog with before/after examples**: Load `references/top-errors.md` when encountering errors or debugging v5 migration issues.
 
 ---
 
-## Configuration Files Reference
+## Project Configuration
 
-### package.json (Full Example)
+**Essential configuration files**: package.json, tsconfig.json, .eslintrc.cjs
 
-```json
-{
-  "name": "my-app",
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@tanstack/react-query": "^5.90.5"
-  },
-  "devDependencies": {
-    "@tanstack/react-query-devtools": "^5.90.2",
-    "@tanstack/eslint-plugin-query": "^5.90.2",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.6.3",
-    "vite": "^6.0.1"
-  }
-}
-```
+**Key requirements**:
+- React 18.3.1+ (uses useSyncExternalStore)
+- TypeScript strict mode recommended
+- ESLint plugin catches v4→v5 migration errors
 
-**Why these versions:**
-- React 18.3.1 - Required for useSyncExternalStore
-- TanStack Query 5.90.5 - Latest stable with all v5 fixes
-- DevTools 5.90.2 - Matched to query version
-- TypeScript 5.6.3 - Best type inference for query types
-
-### tsconfig.json (TypeScript Configuration)
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* TanStack Query specific */
-    "esModuleInterop": true,
-    "resolveJsonModule": true
-  },
-  "include": ["src"]
-}
-```
-
-### .eslintrc.cjs (ESLint Configuration with TanStack Query Plugin)
-
-```javascript
-module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:@tanstack/eslint-plugin-query/recommended',
-  ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', '@tanstack/query'],
-  rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
-  },
-}
-```
-
-**ESLint plugin catches:**
-- Query keys as references instead of inline
-- Missing queryFn
-- Using v4 patterns in v5
-- Incorrect dependencies in useEffect
+**For complete configuration templates**: Load `references/configuration-files.md` when setting up new projects or troubleshooting build/type errors.
 
 ---
 
@@ -1281,6 +710,8 @@ cp ~/.claude/skills/tanstack-query/templates/provider-setup.tsx src/main.tsx
 
 Deep-dive documentation loaded when needed:
 
+- `advanced-setup.md` - Custom hooks, mutations, optimistic updates, DevTools, error boundaries
+- `configuration-files.md` - Complete package.json, tsconfig.json, .eslintrc.cjs templates
 - `v4-to-v5-migration.md` - Complete v4 → v5 migration guide
 - `best-practices.md` - Request waterfalls, caching strategies, performance
 - `common-patterns.md` - Reusable queries, optimistic updates, infinite scroll
@@ -1289,6 +720,8 @@ Deep-dive documentation loaded when needed:
 - `top-errors.md` - All 8+ errors with solutions
 
 **When Claude should load these:**
+- `advanced-setup.md` - When implementing custom query hooks, mutations, or error boundaries
+- `configuration-files.md` - When setting up new projects or troubleshooting build/type errors
 - `v4-to-v5-migration.md` - When migrating existing React Query v4 project
 - `best-practices.md` - When optimizing performance or avoiding waterfalls
 - `common-patterns.md` - When implementing specific features (infinite scroll, etc.)
@@ -1440,12 +873,12 @@ const { data: todos } = useQuery({
 
 ---
 
-## Package Versions (Verified 2025-10-22)
+## Package Versions (Verified 2025-11-21)
 
 ```json
 {
   "dependencies": {
-    "@tanstack/react-query": "^5.90.5"
+    "@tanstack/react-query": "^5.90.10"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.90.2",
@@ -1455,9 +888,9 @@ const { data: todos } = useQuery({
 ```
 
 **Verification:**
-- `npm view @tanstack/react-query version` → 5.90.5
+- `npm view @tanstack/react-query version` → 5.90.10
 - `npm view @tanstack/react-query-devtools version` → 5.90.2
-- Last checked: 2025-10-22
+- Last checked: 2025-11-21
 
 ---
 

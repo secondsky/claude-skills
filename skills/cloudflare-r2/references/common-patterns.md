@@ -467,3 +467,83 @@ async function getUserQuota(userId: string) {
 8. **Use UUIDs** for unique filenames
 9. **Set expiry times** on presigned URLs
 10. **Monitor quota** to prevent overages
+
+---
+
+## Retry Logic with Exponential Backoff
+
+```typescript
+async function r2WithRetry<T>(
+  operation: () => Promise<T>,
+  maxRetries = 3
+): Promise<T> {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error: any) {
+      const isRetryable =
+        error.message.includes('network') ||
+        error.message.includes('timeout') ||
+        error.message.includes('temporary');
+
+      if (!isRetryable || attempt === maxRetries - 1) {
+        throw error;
+      }
+
+      // Exponential backoff: 1s, 2s, 4s
+      const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error('Retry failed');
+}
+
+// Usage
+const object = await r2WithRetry(() =>
+  env.MY_BUCKET.put('file.txt', data)
+);
+```
+
+---
+
+## Circuit Breaker Pattern
+
+```typescript
+class R2CircuitBreaker {
+  private failures = 0;
+  private lastFailure = 0;
+  private readonly threshold = 5;
+  private readonly timeout = 60000; // 1 minute
+
+  async execute<T>(operation: () => Promise<T>): Promise<T> {
+    if (this.isOpen()) {
+      throw new Error('Circuit breaker open');
+    }
+
+    try {
+      const result = await operation();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  private isOpen(): boolean {
+    return (
+      this.failures >= this.threshold &&
+      Date.now() - this.lastFailure < this.timeout
+    );
+  }
+
+  private onSuccess() {
+    this.failures = 0;
+  }
+
+  private onFailure() {
+    this.failures++;
+    this.lastFailure = Date.now();
+  }
+}
+```

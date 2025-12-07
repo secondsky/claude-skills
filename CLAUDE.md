@@ -556,3 +556,4 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 **Last Updated**: 2025-11-12
 **Next Review**: 2026-02-12 (Quarterly)
 **Maintainer**: Claude Skills Maintainers | maintainers@example.com | https://github.com/secondsky/claude-skills
+- if you condense skills, never remove info first (unless incorrect), always first extract the info into reference files or samples, then condense the old info in the skill.md and link to ref files. basically use best practices for skill creation.

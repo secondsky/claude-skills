@@ -7,11 +7,11 @@ description: |
 
 license: MIT
 metadata:
-  version: 1.2.0
-  last_verified: 2025-11-16
+  version: 1.3.0
+  last_verified: 2025-11-25
   production_tested: better-auth v2.0.0 audit (2025-11-08)
   token_savings: ~80%
-  errors_prevented: 31+
+  errors_prevented: 36+
   official_docs: https://github.com/secondsky/claude-skills
   triggers:
     - "review this skill"
@@ -172,6 +172,22 @@ with D1 changes."
     - Ask user only for architectural decisions
     - Update all affected files consistently
     - Bump version if breaking changes
+
+    **Anti-Patterns to Avoid (Lessons Learned)**
+
+    ❌ **DO NOT**:
+    - Delete content before creating reference files
+    - Add pointers to non-existent files
+    - Condense Top 3-5 errors to one-liners
+    - Focus on speed over correctness
+    - Skip verification steps
+
+    ✅ **DO**:
+    - EXTRACT FIRST (Write reference file)
+    - CONDENSE SECOND (Edit main file)
+    - VERIFY ALWAYS (Check files exist, content complete)
+    - Keep Top errors DETAILED in main file
+    - Document immediately after completion
 
 14. **Post-Fix Verification** (10-15 min)
     - Test skill discovery
@@ -367,6 +383,8 @@ This skill references:
 1. **`planning/SKILL_REVIEW_PROCESS.md`** - Complete 14-phase manual guide
 2. **`scripts/review-skill.sh`** - Automated validation script
 3. **`.claude/commands/review-skill.md`** - Slash command definition
+4. **`references/multi-skill-tracking.md`** - Template for tracking multiple concurrent skill reviews
+   Load when: User asks to review 2+ skills simultaneously or wants progress tracking
 
 ---
 
@@ -474,6 +492,12 @@ This skill references:
 
 ## Version History
 
+**v1.3.0** (2025-11-25)
+- Added anti-patterns section to Phase 13 (Fix Implementation) with explicit DO/DON'T guidance
+- Created multi-skill tracking template (`references/multi-skill-tracking.md`) for batch reviews
+- Added 5 critical anti-patterns to prevent destructive refactoring workflows
+- Errors prevented: 36+ (was 31+)
+
 **v1.2.0** (2025-11-16)
 - Added marketplace schema compliance check (no custom fields like lastVerified)
 - Errors prevented: 31+ (was 30+)
@@ -506,4 +530,4 @@ This skill references:
 
 ---
 
-**Last verified**: 2025-11-16 | **Version**: 1.2.0
+**Last verified**: 2025-11-25 | **Version**: 1.3.0

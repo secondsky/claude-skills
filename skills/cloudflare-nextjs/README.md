@@ -250,6 +250,6 @@ npm run deploy   # Deploy
 
 ---
 
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-12-04
 **Skill Version**: 1.0.0
 **License**: MIT

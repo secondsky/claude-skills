@@ -1,8 +1,23 @@
 # Nuxt SEO - Installation Guide
 
-Detailed installation instructions for all scenarios and package managers.
+Step-by-step installation patterns for all package managers.
 
 ---
+
+## Table of Contents
+
+1. [Quick Install (Recommended)](#quick-install-recommended)
+2. [Individual Modules](#individual-modules)
+3. [Scenario-Based Installation](#scenario-based-installation)
+4. [Multi-Language Installation](#multi-language-installation)
+5. [Environment-Based Installation](#environment-based-installation)
+6. [Manual Package Installation](#manual-package-installation)
+7. [Verification Steps](#verification-steps)
+8. [Troubleshooting](#troubleshooting)
+9. [Migration from Individual Modules](#migration-from-individual-modules)
+
+---
+
 
 ## Quick Install (Recommended)
 

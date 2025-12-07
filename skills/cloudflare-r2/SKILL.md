@@ -15,27 +15,22 @@ description: |
 license: MIT
 metadata:
   version: "2.0.0"
-  last_verified: "2025-11-18"
+  last_verified: "2025-11-26"
   production_tested: true
   token_savings: "~60%"
   errors_prevented: 6
   templates_included: 5
-  references_included: 4
+  references_included: 5
+  wrangler_version: "4.50.0"
+  workers_types_version: "4.20251126.0"
+  aws4fetch_version: "1.0.20"
 ---
 
 # Cloudflare R2 Object Storage
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-21
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
 
-## Table of Contents
-1. [Quick Start](#quick-start-5-minutes)
-2. [Core R2 Workers API](#core-r2-workers-api)
-3. [Critical Rules](#critical-rules)
-4. [Top 5 Use Cases](#top-5-use-cases)
-5. [CORS Configuration](#cors-configuration)
-6. [Error Handling](#error-handling)
-7. [Known Issues Prevented](#known-issues-prevented)
-8. [Wrangler Commands](#wrangler-commands)
+**Contents**: [Quick Start](#quick-start-5-minutes) • [Core R2 API](#core-r2-workers-api-quick-reference) • [Critical Rules](#critical-rules) • [Top Use Cases](#top-use-cases) • [Error Handling](#error-handling) • [Known Issues](#known-issues-prevented) • [References](#when-to-load-references)
 
 ---
 
@@ -122,201 +117,45 @@ export default app;
 
 ---
 
-## Core R2 Workers API
+## Core R2 Workers API - Quick Reference
 
 ### put() - Upload Objects
-
-**Basic upload:**
-
 ```typescript
-await env.MY_BUCKET.put('file.txt', data);
+await env.MY_BUCKET.put(key, data, options?)
 ```
-
-**With metadata:**
-
-```typescript
-await env.MY_BUCKET.put('document.pdf', fileData, {
-  httpMetadata: {
-    contentType: 'application/pdf',
-    cacheControl: 'public, max-age=86400',
-    contentDisposition: 'attachment; filename="report.pdf"',
-  },
-  customMetadata: {
-    userId: '12345',
-    uploadDate: new Date().toISOString(),
-  },
-});
-```
-
-**Prevent overwrites:**
-
-```typescript
-const object = await env.MY_BUCKET.put('file.txt', data, {
-  onlyIf: {
-    uploadedBefore: new Date('2020-01-01'),  // Upload only if doesn't exist
-  },
-});
-
-if (!object) {
-  return c.json({ error: 'File already exists' }, 409);
-}
-```
-
----
+Upload with metadata, prevent overwrites with `onlyIf`. **Load `references/workers-api.md`** for complete R2PutOptions.
 
 ### get() - Download Objects
-
-**Basic download:**
-
 ```typescript
-const object = await env.MY_BUCKET.get('file.txt');
-
-if (!object) {
-  return c.json({ error: 'Not found' }, 404);
-}
-
-return new Response(object.body);
+const object = await env.MY_BUCKET.get(key, options?)
 ```
-
-**Read as different formats:**
-
-```typescript
-const object = await env.MY_BUCKET.get('data.json');
-
-if (object) {
-  const text = await object.text();           // String
-  const json = await object.json();           // JSON
-  const buffer = await object.arrayBuffer();  // ArrayBuffer
-  const blob = await object.blob();           // Blob
-}
-```
-
-**Range requests (partial downloads):**
-
-```typescript
-// Get first 1MB
-const object = await env.MY_BUCKET.get('large-file.mp4', {
-  range: { offset: 0, length: 1024 * 1024 },
-});
-
-// Get bytes 100-200
-const object = await env.MY_BUCKET.get('file.bin', {
-  range: { offset: 100, length: 100 },
-});
-```
-
----
+Returns `R2ObjectBody | null`. Supports range requests, conditional operations. **Load `references/workers-api.md`** for read methods (text(), json(), arrayBuffer(), blob()).
 
 ### head() - Get Metadata Only
-
 ```typescript
-const object = await env.MY_BUCKET.head('file.txt');
-
-if (object) {
-  console.log({
-    key: object.key,
-    size: object.size,
-    etag: object.etag,
-    uploaded: object.uploaded,
-    contentType: object.httpMetadata?.contentType,
-    customMetadata: object.customMetadata,
-  });
-}
+const object = await env.MY_BUCKET.head(key)
 ```
-
-**Use cases:**
-- Check if file exists
-- Get file size before downloading
-- Validate etag for caching
-
----
+Check existence, get size, etag, metadata without downloading body. Useful for validation and caching.
 
 ### delete() - Delete Objects
-
-**Single delete:**
-
 ```typescript
-await env.MY_BUCKET.delete('file.txt');  // Idempotent
+await env.MY_BUCKET.delete(key | keys[])  // Single or bulk (max 1000)
 ```
-
-**Bulk delete (up to 1000 keys):**
-
-```typescript
-const keysToDelete = [
-  'old-file-1.txt',
-  'old-file-2.txt',
-  'temp/cache-data.json',
-];
-
-await env.MY_BUCKET.delete(keysToDelete);  // Much faster than loop
-```
-
----
+Bulk delete up to 1000 keys in single call. Always succeeds (idempotent).
 
 ### list() - List Objects
-
-**Basic listing:**
-
 ```typescript
-const listed = await env.MY_BUCKET.list();
-
-console.log({
-  objects: listed.objects,      // Array of R2Object
-  truncated: listed.truncated,  // true if more results
-  cursor: listed.cursor,        // For pagination
-});
+const listed = await env.MY_BUCKET.list(options?)
 ```
+Pagination with cursor, prefix filtering, delimiter for folders. **Load `references/workers-api.md`** for R2ListOptions.
 
-**Pagination:**
-
+### createMultipartUpload() - Large Files (>100MB)
 ```typescript
-app.get('/api/files', async (c) => {
-  const cursor = c.req.query('cursor');
-
-  const listed = await c.env.MY_BUCKET.list({
-    limit: 100,
-    cursor: cursor || undefined,
-  });
-
-  return c.json({
-    files: listed.objects.map(obj => ({
-      name: obj.key,
-      size: obj.size,
-      uploaded: obj.uploaded,
-    })),
-    hasMore: listed.truncated,
-    nextCursor: listed.cursor,
-  });
-});
+const multipart = await env.MY_BUCKET.createMultipartUpload(key, options?)
 ```
+For files >100MB. **Load `references/common-patterns.md`** for complete multipart workflow with part upload and completion.
 
-**Prefix filtering (folder-like):**
-
-```typescript
-// List all files in 'images/' folder
-const images = await env.MY_BUCKET.list({
-  prefix: 'images/',
-});
-
-// List by user
-const userFiles = await env.MY_BUCKET.list({
-  prefix: `users/${userId}/`,
-});
-```
-
-**Delimiter (folder structure):**
-
-```typescript
-const listed = await env.MY_BUCKET.list({
-  prefix: 'uploads/',
-  delimiter: '/',
-});
-
-console.log('Files:', listed.objects);          // Files in uploads/
-console.log('Folders:', listed.delimitedPrefixes); // Sub-folders
-```
-
-**Load `references/workers-api.md` for complete API reference.**
+**Load `references/workers-api.md` when**: Need complete API reference, interface definitions (R2Object, R2ObjectBody, R2PutOptions, R2GetOptions), conditional operations, checksums, or advanced options.
 
 ---
 
@@ -350,7 +189,7 @@ console.log('Folders:', listed.delimitedPrefixes); // Sub-folders
 
 ---
 
-## Top 5 Use Cases
+## Top Use Cases
 
 ### Use Case 1: Image/Asset Storage
 
@@ -370,90 +209,23 @@ app.put('/api/upload/image', async (c) => {
 });
 ```
 
-### Use Case 2: Multipart Upload (Large Files >100MB)
+### Use Case 2: Direct Client Upload (Presigned URLs)
 
-```typescript
-// Create multipart upload
-const multipart = await env.MY_BUCKET.createMultipartUpload('large-file.zip', {
-  httpMetadata: { contentType: 'application/zip' },
-});
+Generate secure upload URLs for client-side uploads. See `templates/r2-presigned-urls.ts` for complete implementation using aws4fetch.
 
-// Upload parts (client can upload in parallel)
-const part1 = await multipart.uploadPart(1, chunk1);
-const part2 = await multipart.uploadPart(2, chunk2);
+### Additional Patterns in References
 
-// Complete upload
-await multipart.complete([part1, part2]);
-```
+**Load `references/common-patterns.md` for**:
+- Multipart upload (files >100MB) - Complete workflow with part management
+- Bulk operations - Batch delete, cleanup patterns with pagination
+- Custom metadata tracking - User files, versions, approval workflows
+- Versioned file storage - Version history with latest pointer pattern
+- Backup & archive patterns - Automated backups with retention policies
+- Thumbnail generation & caching - On-demand image processing
+- Static site hosting - SPA fallback and cache strategies
+- CDN with origin fallback - R2 as cache layer
 
-**Load `references/common-patterns.md` for complete multipart workflow.**
-
-### Use Case 3: Presigned URLs (Direct Client Upload)
-
-```typescript
-import { AwsClient } from 'aws4fetch';
-
-app.post('/api/presigned-upload', async (c) => {
-  const { filename } = await c.req.json();
-
-  const r2Client = new AwsClient({
-    accessKeyId: c.env.R2_ACCESS_KEY_ID,
-    secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
-  });
-
-  const url = new URL(
-    `https://my-bucket.${c.env.ACCOUNT_ID}.r2.cloudflarestorage.com/${filename}`
-  );
-
-  url.searchParams.set('X-Amz-Expires', '3600');  // 1 hour expiry
-
-  const signed = await r2Client.sign(
-    new Request(url, { method: 'PUT' }),
-    { aws: { signQuery: true } }
-  );
-
-  return c.json({ uploadUrl: signed.url });
-});
-```
-
-**Load `templates/r2-presigned-urls.ts` for complete example.**
-
-### Use Case 4: Bulk Operations
-
-```typescript
-// Bulk delete old files
-const oldFiles = await env.MY_BUCKET.list({
-  prefix: 'temp/',
-});
-
-const keysToDelete = oldFiles.objects.map(obj => obj.key);
-
-// Delete up to 1000 at once
-await env.MY_BUCKET.delete(keysToDelete);
-```
-
-### Use Case 5: Custom Metadata Tracking
-
-```typescript
-await env.MY_BUCKET.put('document.pdf', pdfData, {
-  httpMetadata: {
-    contentType: 'application/pdf',
-  },
-  customMetadata: {
-    userId: '12345',
-    department: 'engineering',
-    uploadDate: new Date().toISOString(),
-    version: '1.0',
-    approved: 'true',
-  },
-});
-
-// Later: retrieve metadata
-const object = await env.MY_BUCKET.head('document.pdf');
-console.log(object.customMetadata);  // All custom metadata
-```
-
-**Limit:** 2KB total for all custom metadata
+**Load `templates/r2-multipart-upload.ts`** for complete multipart example.
 
 ---
 
@@ -486,6 +258,13 @@ console.log(object.customMetadata);  // All custom metadata
 - Need S3 API compatibility info
 - Using aws4fetch for signing
 
+### Load `references/cors-configuration.md` when:
+- Setting up browser access to R2
+- CORS errors or CORS policy debugging
+- Presigned URL CORS configuration
+- Security policy setup and best practices
+- Testing CORS with curl or browser tools
+
 ---
 
 ## Using Bundled Resources
@@ -496,6 +275,7 @@ console.log(object.customMetadata);  // All custom metadata
 - **workers-api.md** - Complete Workers API reference (all methods + options)
 - **common-patterns.md** - Advanced patterns (multipart, retry, batch, performance)
 - **s3-compatibility.md** - S3 compatibility guide (migration, aws4fetch, S3 clients)
+- **cors-configuration.md** - CORS setup guide (Dashboard, scenarios, troubleshooting, security)
 
 ### Templates (templates/)
 
@@ -509,44 +289,7 @@ console.log(object.customMetadata);  // All custom metadata
 
 ## CORS Configuration
 
-Configure CORS for browser access:
-
-**Dashboard:**
-1. Cloudflare Dashboard → R2 → Your bucket
-2. Settings tab → CORS Policy → Add CORS policy
-
-**Public assets:**
-
-```json
-{
-  "CORSRules": [
-    {
-      "AllowedOrigins": ["*"],
-      "AllowedMethods": ["GET", "HEAD"],
-      "AllowedHeaders": ["Range"],
-      "MaxAgeSeconds": 3600
-    }
-  ]
-}
-```
-
-**Upload/download:**
-
-```json
-{
-  "CORSRules": [
-    {
-      "AllowedOrigins": ["https://app.example.com"],
-      "AllowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
-      "AllowedHeaders": ["Content-Type", "Content-MD5"],
-      "ExposeHeaders": ["ETag"],
-      "MaxAgeSeconds": 3600
-    }
-  ]
-}
-```
-
-**Load `templates/r2-cors-config.json` for complete examples.**
+Configure CORS for browser uploads/downloads. **Load `references/cors-configuration.md`** for complete guide including Dashboard setup, common scenarios, troubleshooting, and security best practices.
 
 ---
 
@@ -563,7 +306,7 @@ try {
   } else if (message.includes('exceeded')) {
     // Quota exceeded
   } else if (message.includes('precondition')) {
-    // Conditional operation failed
+    // Conditional operation failed (onlyIf)
   }
 
   console.error('R2 Error:', message);
@@ -571,34 +314,7 @@ try {
 }
 ```
 
-**Retry logic:**
-
-```typescript
-async function r2WithRetry<T>(
-  operation: () => Promise<T>,
-  maxRetries = 3
-): Promise<T> {
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      return await operation();
-    } catch (error: any) {
-      const isRetryable =
-        error.message.includes('network') ||
-        error.message.includes('timeout');
-
-      if (!isRetryable || attempt === maxRetries - 1) {
-        throw error;
-      }
-
-      // Exponential backoff
-      await new Promise(resolve =>
-        setTimeout(resolve, Math.min(1000 * Math.pow(2, attempt), 5000))
-      );
-    }
-  }
-  throw new Error('Retry failed');
-}
-```
+**Load `references/common-patterns.md`** for retry logic with exponential backoff, circuit breaker patterns, and advanced error recovery.
 
 ---
 

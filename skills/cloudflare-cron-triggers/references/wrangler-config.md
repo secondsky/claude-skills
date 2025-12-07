@@ -23,7 +23,7 @@ Add cron triggers to `wrangler.jsonc` in the `triggers.crons` array:
 {
   "name": "my-scheduled-worker",
   "main": "src/index.ts",
-  "compatibility_date": "2025-10-23",
+  "compatibility_date": "2025-12-06",
   "triggers": {
     "crons": ["0 * * * *"]
   }
@@ -64,7 +64,7 @@ Add multiple cron expressions to run different schedules:
 ```
 
 **Plan Limits:**
-- **Free**: 3 cron schedules maximum per Worker
+- **Free**: 5 cron triggers per account
 - **Paid**: Higher limits (check current limits at https://developers.cloudflare.com/workers/platform/limits/)
 
 **Handling Multiple Triggers:**

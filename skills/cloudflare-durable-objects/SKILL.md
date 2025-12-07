@@ -495,4 +495,10 @@ export class MyDurableObject extends DurableObject<Env> {
 
 ---
 
-**Official Docs**: https://developers.cloudflare.com/durable-objects/ | **Questions?** Load `references/top-errors.md` for common problems or check `templates/` for working examples
+**Official Docs**: https://developers.cloudflare.com/durable-objects/
+- **State API (SQL)**: https://developers.cloudflare.com/durable-objects/api/sqlite-storage-api/
+- **WebSocket Hibernation**: https://developers.cloudflare.com/durable-objects/best-practices/websockets/
+- **Alarms API**: https://developers.cloudflare.com/durable-objects/api/alarms/
+- **Migrations**: https://developers.cloudflare.com/durable-objects/reference/durable-objects-migrations/
+- **Best Practices**: https://developers.cloudflare.com/durable-objects/best-practices/ 
+**Questions?** Load `references/top-errors.md` for common problems or check `templates/` for working examples

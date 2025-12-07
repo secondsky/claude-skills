@@ -905,6 +905,31 @@ Users copying this code will get "Module not found" error. Code will not run.
 - Minor: v1.0.0 → v1.1.0 (new features, backward compatible)
 - Patch: v1.0.0 → v1.0.1 (bug fixes only)
 
+### Anti-Patterns to Avoid (Lessons Learned)
+
+**Critical mistakes to prevent during fix implementation:**
+
+❌ **DO NOT**:
+- **Delete content before creating reference files** - Always create the new reference file FIRST, then condense the original
+- **Add pointers to non-existent files** - Create and verify the referenced file exists before adding the pointer
+- **Condense Top 3-5 errors to one-liners** - Keep error documentation detailed and actionable in main SKILL.md
+- **Focus on speed over correctness** - Take time to verify each change, read affected files, test templates
+- **Skip verification steps** - Always check files exist, content is complete, links work, before marking complete
+
+✅ **DO**:
+- **EXTRACT FIRST** - Write the reference file with full content
+- **CONDENSE SECOND** - Edit the main file to add summary + pointer
+- **VERIFY ALWAYS** - Check files exist, content complete, no broken links
+- **Keep Top errors DETAILED in main file** - Don't extract critical error documentation
+- **Document immediately after completion** - Update tracking doc, commit messages, research logs in real-time
+
+**Why This Matters**:
+- Prevents data loss (content deleted before backup created)
+- Maintains skill usability (no broken references)
+- Preserves critical information (Top errors help Claude avoid mistakes)
+- Enables proper review (verification catches mistakes before commit)
+- Ensures traceability (documentation provides audit trail)
+
 ### Fix Implementation Process
 
 For each issue:

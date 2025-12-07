@@ -15,14 +15,23 @@ description: |
   workflow state, wrangler workflows, workflow events, long-running tasks, step.sleepUntil,
   step.waitForEvent, workflow bindings
 license: MIT
+metadata:
+  version: "1.1.0"
+  wrangler_version: "4.50.0"
+  workers_types_version: "4.20251126.0"
+  last_verified: "2025-11-26"
+  errors_prevented: 5
+  templates_included: 6
+  references_included: 4
 ---
 
 # Cloudflare Workflows
 
-**Status**: Production Ready ✅
-**Last Updated**: 2025-11-21
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+
 **Dependencies**: cloudflare-worker-base (for Worker setup)
-**Latest Versions**: wrangler@4.50.0, @cloudflare/workers-types@4.20251014.0
+
+**Contents**: [Quick Start](#quick-start-10-minutes) • [Core Concepts](#core-concepts) • [Critical Rules](#critical-rules) • [Top Errors](#top-5-errors-critical) • [Common Patterns](#common-patterns) • [When to Load References](#when-to-load-references) • [Limits](#limits--pricing)
 
 ---
 
@@ -225,8 +234,6 @@ const data = await step.do('fetch data', async () => {
 });
 ```
 
----
-
 ### Error #2: Serialization Error
 
 **Error:**
@@ -249,8 +256,6 @@ await step.do('process', async () => {
 });
 ```
 
----
-
 ### Error #3: NonRetryableError Not Thrown
 
 **Error:** Workflow retries forever on permanent failures
@@ -266,8 +271,6 @@ await step.do('validate', async () => {
   return { valid: true };
 });
 ```
-
----
 
 ### Error #4: WorkflowEvent Not Found
 
@@ -288,8 +291,6 @@ const event = await step.waitForEvent('wait payment', 'payment.completed', {
 // Trigger event with EXACT same name
 await instance.trigger('payment.completed', { amount: 100 });
 ```
-
----
 
 ### Error #5: Workflow Execution Failed
 
@@ -327,215 +328,82 @@ for (let i = 0; i < 100; i++) {
 
 ### Sequential Workflow
 
-```typescript
-export class OrderWorkflow extends WorkflowEntrypoint<Env, { orderId: string }> {
-  async run(event, step) {
-    const { orderId } = event.payload;
+Basic workflow with steps executing in order. Each step completes before the next begins.
 
-    // Step 1: Charge payment
-    const payment = await step.do('charge payment', async () => {
-      return { charged: true, amount: 100 };
-    });
+**Use cases**: Order processing, user onboarding, data pipelines
 
-    // Step 2: Fulfill order
-    await step.do('fulfill order', async () => {
-      return { fulfilled: true };
-    });
-
-    // Step 3: Send confirmation
-    await step.do('send email', async () => {
-      return { sent: true };
-    });
-
-    return { orderId, completed: true };
-  }
-}
-```
-
-**Template**: See `templates/basic-workflow.ts`
-
----
+**Load `templates/basic-workflow.ts` for complete example**
 
 ### Scheduled Workflow
 
-```typescript
-export class ReminderWorkflow extends WorkflowEntrypoint<Env, { email: string }> {
-  async run(event, step) {
-    const { email } = event.payload;
+Workflow with time delays between steps using `step.sleep()` or `step.sleepUntil()`.
 
-    // Wait 1 day
-    await step.sleep('wait 1 day', '1 day');
+**Use cases**: Reminder sequences, scheduled tasks, delayed notifications
 
-    // Send first reminder
-    await step.do('send reminder 1', async () => {
-      return { sent: true };
-    });
-
-    // Wait 3 days
-    await step.sleep('wait 3 days', '3 days');
-
-    // Send second reminder
-    await step.do('send reminder 2', async () => {
-      return { sent: true };
-    });
-
-    return { completed: true };
-  }
-}
-```
-
-**Template**: See `templates/scheduled-workflow.ts`
-
----
+**Load `templates/scheduled-workflow.ts` for complete example**
 
 ### Event-Driven Workflow
 
+Wait for external events with `step.waitForEvent()`. Always set timeout and handle with `NonRetryableError`:
+
 ```typescript
-export class PaymentWorkflow extends WorkflowEntrypoint<Env, { orderId: string }> {
-  async run(event, step) {
-    const { orderId } = event.payload;
-
-    // Wait for payment confirmation (max 30 minutes)
-    const payment = await step.waitForEvent('wait payment', 'payment.completed', {
-      timeout: '30 minutes'
-    });
-
-    if (!payment) {
-      throw new NonRetryableError('Payment timeout');
-    }
-
-    // Continue with order fulfillment
-    await step.do('fulfill order', async () => {
-      return { fulfilled: true };
-    });
-
-    return { orderId, completed: true };
-  }
-}
+const payment = await step.waitForEvent('wait payment', 'payment.completed', {
+  timeout: '30 minutes'
+});
+if (!payment) throw new NonRetryableError('Payment timeout');
 ```
 
-**Template**: See `templates/workflow-with-events.ts`
-
----
+**Load `templates/workflow-with-events.ts` for complete example**
 
 ### Workflow with Retries
 
+Use `NonRetryableError` for permanent failures (404), regular `Error` for transient failures (5xx):
+
 ```typescript
-export class APIWorkflow extends WorkflowEntrypoint<Env, { url: string }> {
-  async run(event, step) {
-    const { url } = event.payload;
-
-    const data = await step.do('fetch with retry', async () => {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new NonRetryableError('Not found'); // Don't retry
-        }
-        throw new Error('Temporary failure'); // Will auto-retry
-      }
-
-      return await response.json();
-    }, {
-      retries: {
-        limit: 5,
-        delay: '1 second',
-        backoff: 'exponential'
-      }
-    });
-
-    return { data };
+const data = await step.do('fetch', async () => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    if (response.status === 404) throw new NonRetryableError('Not found');
+    throw new Error('Temporary failure'); // Will retry
   }
-}
+  return await response.json();
+});
 ```
 
-**Template**: See `templates/workflow-with-retries.ts`
+**Load `templates/workflow-with-retries.ts` for complete example with retry configuration**
 
 ---
 
 ## Triggering Workflows
 
-### From Worker
+**From Worker**: Create instances via `env.MY_WORKFLOW.create()`, get status with `instance.status()`, trigger events with `instance.trigger()`.
 
-```typescript
-export default {
-  async fetch(req: Request, env: Env) {
-    // Create new workflow instance
-    const instance = await env.MY_WORKFLOW.create({
-      params: { userId: '123' }
-    });
+**From Cron**: Use `scheduled()` handler to create workflow instances on schedule.
 
-    // Get instance status
-    const status = await instance.status();
-
-    // Trigger event (for waitForEvent)
-    await instance.trigger('payment.completed', { amount: 100 });
-
-    return Response.json({ id: instance.id, status });
-  }
-};
-```
-
-**Template**: See `templates/worker-trigger.ts`
+**Load `templates/worker-trigger.ts` for complete Worker trigger example**
+**Load `templates/scheduled-workflow.ts` for complete Cron trigger example**
 
 ---
 
-### From Scheduled Event (Cron)
+## When to Load References
 
-```typescript
-export default {
-  async scheduled(event: ScheduledEvent, env: Env) {
-    await env.MY_WORKFLOW.create({
-      params: { scheduledAt: Date.now() }
-    });
-  }
-};
-```
+**`references/common-issues.md`**: Encountering I/O context, serialization, NonRetryableError, event naming, or timeout errors; troubleshooting workflow failures.
 
-**Template**: See `templates/scheduled-workflow.ts`
+**`references/workflow-patterns.md`**: Building complex orchestration, approval workflows, idempotency patterns, or circuit breaker patterns.
 
----
+**`references/wrangler-commands.md`**: Need CLI commands for managing workflow instances, debugging stuck workflows, or monitoring production.
 
-## Using Bundled Resources
+**`references/production-checklist.md`**: Preparing for deployment, need pre-deployment verification, setting up monitoring/error handling.
 
-### Templates (templates/)
-
-Copy-paste ready examples:
-
-- **basic-workflow.ts** - Simple sequential workflow
-- **scheduled-workflow.ts** - Workflow with sleep() for delays
-- **workflow-with-events.ts** - Event-driven workflow with waitForEvent()
-- **workflow-with-retries.ts** - Custom retry configuration
-- **worker-trigger.ts** - Worker that triggers workflows
-- **wrangler-workflows-config.jsonc** - Complete Wrangler configuration
-
-### References (references/)
-
-Detailed documentation:
-
-- **common-issues.md** - All known issues with solutions and sources
-- **workflow-patterns.md** - Complete workflow patterns library (sequential, parallel, event-driven, human-in-the-loop, error handling)
+**`templates/`**: **basic-workflow.ts** (sequential), **scheduled-workflow.ts** (delays/sleep), **workflow-with-events.ts** (waitForEvent), **workflow-with-retries.ts** (custom retry), **worker-trigger.ts** (Worker triggers), **wrangler-workflows-config.jsonc** (Wrangler config)
 
 ---
 
 ## Wrangler Commands
 
-```bash
-# Create new workflow
-wrangler workflows create <name>
+**Key Commands**: `wrangler workflows create`, `wrangler workflows instances list/describe/terminate`, `wrangler deploy`
 
-# List all workflow instances
-wrangler workflows instances list --workflow-name my-workflow
-
-# Get workflow instance details
-wrangler workflows instances describe <instance-id> --workflow-name my-workflow
-
-# Terminate workflow instance
-wrangler workflows instances terminate <instance-id> --workflow-name my-workflow
-
-# Deploy workflow
-wrangler deploy
-```
+**Load `references/wrangler-commands.md` for complete CLI reference with all workflow management commands, monitoring workflows, and debugging stuck instances.**
 
 ---
 
@@ -586,8 +454,6 @@ export class StatefulWorkflow extends WorkflowEntrypoint {
 - Long CPU: Break into smaller steps
 - Many steps: Consider sub-workflows
 
----
-
 ## Pricing
 
 - **Duration**: $0.02 per million GB-s (same as Workers)
@@ -623,31 +489,12 @@ export class StatefulWorkflow extends WorkflowEntrypoint {
 
 ## Production Checklist
 
-Before deploying workflows to production:
+**10-Point Pre-Deployment Checklist**: I/O context isolation, JSON serialization, NonRetryableError usage, event name consistency, step duration limits, error handling, retry configuration, timeouts, workflow naming, and monitoring.
 
-- [ ] All I/O happens inside `step.do()` callbacks
-- [ ] Steps return JSON-serializable data only
-- [ ] NonRetryableError thrown for permanent failures
-- [ ] Event names match exactly between `waitForEvent` and `trigger`
-- [ ] Long tasks broken into <30s steps
-- [ ] Error handling implemented in all steps
-- [ ] Retry configuration appropriate for use case
-- [ ] Timeouts configured for external dependencies
-- [ ] Workflow names unique and descriptive
-- [ ] Monitoring/logging configured
+**Load `references/production-checklist.md` for complete checklist with detailed explanations, code examples, verification steps, and deployment workflow.**
 
 ---
 
 ## Official Documentation
 
-- **Cloudflare Workflows**: https://developers.cloudflare.com/workflows/
-- **API Reference**: https://developers.cloudflare.com/workflows/reference/
-- **Examples**: https://developers.cloudflare.com/workflows/examples/
-- **Wrangler Commands**: https://developers.cloudflare.com/workers/wrangler/commands/#workflows
-- **Blog Post**: https://blog.cloudflare.com/cloudflare-workflows/
-
----
-
-**Token Savings**: ~60% (comprehensive workflow patterns with templates)
-**Error Prevention**: 100% (all documented issues with solutions)
-**Ready for production!** ✅
+**Workflows**: https://developers.cloudflare.com/workflows/ • **API Reference**: https://developers.cloudflare.com/workflows/reference/ • **Examples**: https://developers.cloudflare.com/workflows/examples/ • **Blog**: https://blog.cloudflare.com/cloudflare-workflows/

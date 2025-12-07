@@ -66,24 +66,10 @@ Motion (package: `motion`, formerly `framer-motion`) is the industry-standard Re
 
 ### ❌ Don't Use Motion When:
 
-**Simple List Animations** → Use `auto-animate` skill instead:
-- Todo list add/remove (auto-animate: 3.28 KB vs motion: 34 KB)
-- Search results filtering
-- Shopping cart items
-- Notification toasts
-- Basic accordions without gestures
-
-**Static Content**:
-- No user interaction or animations needed
-- Server-rendered content without client interactivity
-
-**Cloudflare Workers Deployment** → **Known Issue**:
-- Motion has build compatibility issues with Wrangler (GitHub issue #2918)
-- **Workaround**: Use `framer-motion` v12.23.24 instead (same API, works with Workers)
-
-**3D Animations** → Use dedicated 3D library:
-- Three.js for WebGL
-- React Three Fiber for React + Three.js
+- **Simple list animations** (use `auto-animate` instead: 3.28 KB vs 34 KB)
+- **Static content** without interactions
+- **Cloudflare Workers** (use `framer-motion` v12.23.24 workaround - see Known Issues)
+- **3D animations** (use Three.js or React Three Fiber instead)
 
 ---
 
@@ -160,36 +146,17 @@ import { motion } from "motion/react"
 Named animation states that propagate through component tree:
 
 ```tsx
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1, // Delay between each child
-      delayChildren: 0.2,   // Initial delay before children
-    }
-  }
-}
-
-const item = {
+const variants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0 }
 }
 
-<motion.ul variants={container} initial="hidden" animate="show">
-  {items.map(item => (
-    <motion.li key={item.id} variants={item}>
-      {item.text}
-    </motion.li>
-  ))}
-</motion.ul>
+<motion.div variants={variants} initial="hidden" animate="visible">
+  Content
+</motion.div>
 ```
 
-**Benefits:**
-- Clean, declarative API
-- Automatic choreography (stagger, delay, sequence)
-- Reusable animation states
-- Reduced prop drilling
+**For advanced orchestration** (staggerChildren, delayChildren, dynamic variants), load `references/core-concepts-deep-dive.md`.
 
 ### 3. AnimatePresence (Exit Animations)
 
@@ -242,559 +209,145 @@ Automatically animate layout changes:
 </motion.div>
 ```
 
-**How it works:**
-- Calculates **F**irst position before change
-- Applies change immediately (**L**ast position)
-- **I**nverts transform to match first position
-- **P**lays animation to last position
+**Special props**: `layoutId` (shared element transitions), `layoutScroll` (scrollable containers), `layoutRoot` (fixed positioning).
 
-**Special Props:**
-- `layoutId`: Connect separate elements for shared transitions
-- `layoutScroll`: Fix animations in scrollable containers
-- `layoutRoot`: Fix animations in fixed-position elements
+**For advanced patterns** (LayoutGroup, layoutId orchestration), load `references/core-concepts-deep-dive.md`.
 
 ### 5. Scroll Animations
 
-#### Viewport-Triggered (whileInView)
 ```tsx
+// Viewport-triggered
 <motion.div
   initial={{ opacity: 0, y: 50 }}
   whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-100px" }}
+  viewport={{ once: true }}
 >
-  Fades in when 100px from entering viewport
+  Fades in when entering viewport
 </motion.div>
-```
 
-#### Scroll-Linked (useScroll)
-```tsx
+// Scroll-linked (parallax)
 import { useScroll, useTransform } from "motion/react"
-
 const { scrollYProgress } = useScroll()
 const y = useTransform(scrollYProgress, [0, 1], [0, -300])
-
-<motion.div style={{ y }}>
-  Moves up 300px as user scrolls page
-</motion.div>
+<motion.div style={{ y }}>Parallax effect</motion.div>
 ```
 
-**Performance**: Uses native ScrollTimeline API when available for hardware acceleration.
+**For advanced scroll patterns** (useScroll offsets, useTransform easing, parallax layers), load `references/core-concepts-deep-dive.md`.
 
 ### 6. Gestures
 
 ```tsx
-<motion.div
-  drag="x"
-  dragConstraints={{ left: -200, right: 200 }}
-  dragElastic={0.2}
-  dragMomentum={false}
-  onDragEnd={(event, info) => console.log(info.offset.x)}
->
-  Drag me horizontally
+<motion.div drag="x" dragConstraints={{ left: -200, right: 200 }}>
+  Drag me
 </motion.div>
 ```
 
-**Available Gestures:**
-- `whileHover`: Mouse enter/leave (fixes sticky :hover on touch)
-- `whileTap`: Pointer down (works on touch and mouse)
-- `whileFocus`: Keyboard focus
-- `whileDrag`: While dragging
-- `whileInView`: While in viewport
-- `drag`: Enable dragging with constraints and momentum
+**Available**: `whileHover`, `whileTap`, `whileFocus`, `whileDrag`, `whileInView`, `drag`.
+
+**For advanced drag controls** (momentum, elastic, event handlers), load `references/core-concepts-deep-dive.md`.
 
 ### 7. Spring Physics
-
-Natural, physics-based easing:
 
 ```tsx
 <motion.div
   animate={{ x: 100 }}
-  transition={{
-    type: "spring",
-    stiffness: 100,  // Higher = more sudden
-    damping: 10,     // Higher = less oscillation (0 = infinite)
-    mass: 1,         // Higher = more lethargic
-  }}
+  transition={{ type: "spring", stiffness: 100, damping: 10 }}
 />
 ```
 
-**Presets:**
-- Default: `{ stiffness: 100, damping: 10 }`
-- Bouncy: `{ stiffness: 300, damping: 10 }`
-- Smooth: `{ stiffness: 100, damping: 20 }`
+**Common presets**: Bouncy `{ stiffness: 300, damping: 10 }`, Smooth `{ stiffness: 100, damping: 20 }`.
+
+**For spring tuning** (mass, visualizer, presets), load `references/core-concepts-deep-dive.md`.
 
 ---
 
 ## Integration Guides
 
-### Vite + React + TypeScript
+**Vite**: `bun add motion` → `import { motion } from "motion/react"` (works out of the box)
 
-**Installation:**
-```bash
-pnpm create vite my-app --template react-ts
-cd my-app
-bun add motion
-# or: npm install motion
-```
-
-**Import:**
-```tsx
-import { motion } from "motion/react"
-```
-
-**Example Component:**
-```tsx
-import { motion } from "motion/react"
-
-export function AnimatedButton() {
-  return (
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      className="px-4 py-2 bg-blue-600 text-white rounded"
-    >
-      Hover and click me
-    </motion.button>
-  )
-}
-```
-
-**No Vite configuration needed** - works out of the box.
-
-### Next.js App Router (Recommended Pattern)
-
-**Key Requirement**: Motion only works in **Client Components** (not Server Components).
-
-**Step 1: Create Client Component Wrapper**
-
-`src/components/motion-client.tsx`:
+**Next.js App Router**: Requires `"use client"` directive or client component wrapper
 ```tsx
 "use client"
-
-// Optimized import for Next.js (reduces client JS)
-import * as motion from "motion/react-client"
-
-export { motion }
-```
-
-**Step 2: Use in Server Components**
-
-`src/app/page.tsx`:
-```tsx
-import { motion } from "@/components/motion-client"
-
-export default function Page() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      This works in Server Component (wrapper is client)
-    </motion.div>
-  )
-}
-```
-
-**Alternative: Direct Client Component**
-```tsx
-"use client"
-
 import { motion } from "motion/react"
-
-export function AnimatedCard() {
-  return <motion.div>...</motion.div>
-}
 ```
 
-**Known Issues (Next.js 15 + React 19)**:
-- Most compatibility issues marked COMPLETED (update to latest)
-- AnimatePresence may fail with soft navigation
-- Reorder component incompatible with Next.js routing
+**Tailwind**: ⚠️ Remove `transition-*` classes (causes conflicts with Motion animations)
 
-### Next.js Pages Router
+**Cloudflare Workers**: Use `framer-motion` v12.23.24 instead (Motion has Wrangler build issues)
 
-Works without modifications:
-
-```tsx
-import { motion } from "motion/react"
-
-export default function Page() {
-  return <motion.div>No "use client" needed</motion.div>
-}
-```
-
-### Tailwind CSS Integration
-
-**Best Practice**: Let each library do what it does best.
-
-- **Tailwind**: Static and responsive styling via `className`
-- **Motion**: Animations via motion props
-
-```tsx
-<motion.button
-  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-  whileHover={{ scale: 1.1 }}
-  whileTap={{ scale: 0.95 }}
->
-  Tailwind styles + Motion animations
-</motion.button>
-```
-
-**⚠️ Remove Tailwind Transitions**: Causes stuttering/conflicts.
-```tsx
-// ❌ Wrong - Tailwind transition conflicts with Motion
-<motion.div className="transition-all duration-300" animate={{ x: 100 }} />
-
-// ✅ Correct - Remove Tailwind transition
-<motion.div animate={{ x: 100 }} />
-```
-
-**Why**: Motion uses inline styles or native browser animations, both override Tailwind's CSS transitions.
-
-### Cloudflare Workers (⚠️ Compatibility Issue)
-
-**Problem**: Motion has build errors with Wrangler (GitHub issue #2918).
-
-**Workaround**: Use `framer-motion` v12.23.24 instead:
-```bash
-bun add framer-motion
-# or: npm install framer-motion
-```
-
-**Import stays the same:**
-```tsx
-import { motion } from "framer-motion"
-```
-
-**Status**: Monitor GitHub issue for resolution. The API is identical between `motion` and `framer-motion` v12.x.
+**For complete integration guides** (Next.js patterns, SSR, framework-specific issues), load `references/nextjs-integration.md`.
 
 ---
 
 ## Performance Optimization
 
-### 1. Reduce Bundle Size with LazyMotion
-
-**Problem**: Full `motion` component is ~34 KB minified+gzipped.
-
-**Solution**: Use `LazyMotion` + `m` component for 4.6 KB:
-
+**Bundle Size**: Use LazyMotion (34 KB → 4.6 KB):
 ```tsx
 import { LazyMotion, domAnimation, m } from "motion/react"
-
-function App() {
-  return (
-    <LazyMotion features={domAnimation}>
-      {/* Use 'm' instead of 'motion' */}
-      <m.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        Only 4.6 KB!
-      </m.div>
-    </LazyMotion>
-  )
-}
+<LazyMotion features={domAnimation}>
+  <m.div>Only 4.6 KB!</m.div>
+</LazyMotion>
 ```
 
-**How it works**: Loads animation features on-demand instead of bundling everything.
+**Large Lists**: Use virtualization (`react-window`, `react-virtuoso`) for 50+ animated items.
 
-**Alternative (Smallest)**: `useAnimate` mini (2.3 KB):
-```tsx
-import { useAnimate } from "motion/react"
-
-function Component() {
-  const [scope, animate] = useAnimate()
-
-  return <div ref={scope}>Smallest possible React animation</div>
-}
-```
-
-### 2. Hardware Acceleration
-
-**Add `willChange` for transforms:**
-```tsx
-<motion.div
-  style={{ willChange: "transform" }}
-  animate={{ x: 100, rotate: 45 }}
-/>
-```
-
-**Also add for**: `opacity`, `backgroundColor`, `clipPath`, `filter`
-
-**How it works**: Tells browser to optimize for animation, uses GPU compositing.
-
-### 3. Large Lists → Use Virtualization
-
-**Problem**: Animating 50-100+ items causes severe slowdown.
-
-**Solutions:**
-```bash
-bun add react-window
-# or: npm install react-window
-
-# Alternative libraries:
-bun add react-virtuoso
-# or: npm install react-virtuoso
-
-bun add @tanstack/react-virtual
-# or: npm install @tanstack/react-virtual
-```
-
-**Pattern:**
-```tsx
-import { FixedSizeList } from 'react-window'
-import { motion } from 'motion/react'
-
-<FixedSizeList
-  height={600}
-  itemCount={1000}
-  itemSize={50}
->
-  {({ index, style }) => (
-    <motion.div style={style} layout>
-      Item {index}
-    </motion.div>
-  )}
-</FixedSizeList>
-```
-
-**Why**: Only renders visible items, reduces DOM updates and memory usage.
-
-### 4. Use `layout` Prop for FLIP Animations
-
-Automatically animates layout changes without JavaScript calculation:
-
-```tsx
-<motion.div layout>
-  {isExpanded ? <LargeContent /> : <SmallContent />}
-</motion.div>
-```
-
-**Performance**: Hardware-accelerated via transforms, no reflow/repaint.
+**For complete optimization guide** (hardware acceleration, memory profiling, production benchmarks), load `references/performance-optimization.md`.
 
 ---
 
 ## Accessibility
 
-### Respect `prefers-reduced-motion`
-
-**User Settings Locations:**
-- macOS: System Settings → Accessibility → Display → Reduce motion
-- Windows: Settings → Ease of Access → Display → Show animations
-- iOS: Settings → Accessibility → Motion
-- Android 9+: Settings → Accessibility → Remove animations
-
-**Implementation:**
+**Respect `prefers-reduced-motion`**:
 ```tsx
 import { MotionConfig } from "motion/react"
-
 <MotionConfig reducedMotion="user">
   <App />
 </MotionConfig>
 ```
 
-**What it does:**
-- When user enables reduced motion, Motion uses instant transitions
-- `reducedMotion` value is `"user"` (respects OS setting)
-- Can override with `"always"` (force instant) or `"never"` (ignore setting)
-
-**⚠️ Known Issue**: `reducedMotion` doesn't affect AnimatePresence components (GitHub issue #1567).
-
-**Workaround:**
+**Keyboard Support**: Use `whileFocus` for keyboard-triggered animations.
 ```tsx
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-
-<AnimatePresence>
-  {isVisible && (
-    <motion.div
-      initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: prefersReducedMotion ? 1 : 0 }}
-      transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-    >
-      Content
-    </motion.div>
-  )}
-</AnimatePresence>
-```
-
-### Keyboard Support
-
-Motion gestures work with keyboard:
-```tsx
-<motion.button
-  whileFocus={{ scale: 1.1 }}
-  whileTap={{ scale: 0.95 }}
-  tabIndex={0}
->
+<motion.button whileFocus={{ scale: 1.1 }} tabIndex={0}>
   Keyboard accessible
 </motion.button>
 ```
 
-**Focus states:**
-- `whileFocus`: Triggered by Tab key or programmatic focus
-- Works with screen readers
-- Respects browser focus ring
+**For complete accessibility guide** (ARIA patterns, screen readers, AnimatePresence workaround, testing), load `references/accessibility-guide.md`.
 
 ---
 
 ## Common Patterns
 
-### Pattern 1: Modal Dialog
-
+**Modal Dialog** (AnimatePresence + backdrop):
 ```tsx
-import { motion, AnimatePresence } from "motion/react"
-
-function Modal({ isOpen, onClose, children }) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40"
-          />
-
-          {/* Dialog */}
-          <motion.dialog
-            key="dialog"
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed inset-0 m-auto w-96 h-64 bg-white rounded-lg shadow-xl z-50"
-          >
-            {children}
-          </motion.dialog>
-        </>
-      )}
-    </AnimatePresence>
-  )
-}
+<AnimatePresence>
+  {isOpen && (
+    <motion.dialog exit={{ opacity: 0 }}>Content</motion.dialog>
+  )}
+</AnimatePresence>
 ```
 
-### Pattern 2: Accordion
-
+**Accordion** (height animation):
 ```tsx
-import { motion } from "motion/react"
-import { useState } from "react"
-
-function Accordion({ title, children }) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <div>
-      <button onClick={() => setIsOpen(!isOpen)}>{title}</button>
-      <motion.div
-        initial={false}
-        animate={{ height: isOpen ? "auto" : 0 }}
-        style={{ overflow: "hidden" }}
-      >
-        <div className="p-4">{children}</div>
-      </motion.div>
-    </div>
-  )
-}
+<motion.div animate={{ height: isOpen ? "auto" : 0 }}>
+  Content
+</motion.div>
 ```
 
-### Pattern 3: Drag-and-Drop Carousel
-
-```tsx
-import { motion } from "motion/react"
-import { useRef } from "react"
-
-function Carousel({ images }) {
-  const constraintsRef = useRef(null)
-
-  return (
-    <div ref={constraintsRef} className="overflow-hidden">
-      <motion.div
-        drag="x"
-        dragConstraints={constraintsRef}
-        dragElastic={0.1}
-        className="flex gap-4"
-      >
-        {images.map(img => (
-          <motion.img
-            key={img.id}
-            src={img.url}
-            className="w-64 h-64 object-cover rounded-lg"
-            whileHover={{ scale: 1.05 }}
-          />
-        ))}
-      </motion.div>
-    </div>
-  )
-}
-```
-
-### Pattern 4: Scroll-Triggered Reveal
-
-```tsx
-import { motion } from "motion/react"
-
-function FadeInSection({ children }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5 }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-```
-
-### Pattern 5: Parallax Hero
-
-```tsx
-import { useScroll, useTransform, motion } from "motion/react"
-
-function ParallaxHero() {
-  const { scrollYProgress } = useScroll()
-
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -300])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150])
-
-  return (
-    <div className="relative h-screen overflow-hidden">
-      <motion.div style={{ y: y1 }} className="absolute inset-0">
-        <img src="/background.jpg" className="w-full h-full object-cover" />
-      </motion.div>
-      <motion.div style={{ y: y2 }} className="relative z-10">
-        <h1>Hero Title</h1>
-      </motion.div>
-    </div>
-  )
-}
-```
-
-See `references/common-patterns.md` for 10+ more patterns with full code.
+**For 15+ production patterns** (carousel, tabs, scroll reveal, parallax, notifications), load `references/common-patterns.md`.
 
 ---
 
 ## Known Issues & Solutions
 
-### Issue 1: AnimatePresence Exit Not Working
+### Issue 1: AnimatePresence Exit Not Working (MOST COMMON)
 
 **Symptom**: Components disappear instantly without exit animation.
 
-**Cause**: AnimatePresence wrapped in conditional or missing `key` props.
-
-**Solution**:
+**Solution**: AnimatePresence must stay mounted, wrap the conditional (not be wrapped by it):
 ```tsx
 // ❌ Wrong
-{isVisible && (
-  <AnimatePresence>
-    <motion.div>Content</motion.div>
-  </AnimatePresence>
-)}
+{isVisible && <AnimatePresence><motion.div>Content</motion.div></AnimatePresence>}
 
 // ✅ Correct
 <AnimatePresence>
@@ -802,127 +355,85 @@ See `references/common-patterns.md` for 10+ more patterns with full code.
 </AnimatePresence>
 ```
 
-### Issue 2: Large List Performance
-
-**Symptom**: 50-100+ animated items cause severe slowdown, browser freezes.
-
-**Solution**: Use virtualization:
-```bash
-bun add react-window
-# or: npm install react-window
-```
-
-See `references/performance-optimization.md` for full guide.
-
-### Issue 3: Tailwind Transitions Conflict
-
-**Symptom**: Animations stutter or don't work.
-
-**Solution**: Remove `transition-*` classes:
-```tsx
-// ❌ Wrong
-<motion.div className="transition-all" animate={{ x: 100 }} />
-
-// ✅ Correct
-<motion.div animate={{ x: 100 }} />
-```
-
-### Issue 4: Next.js "use client" Missing
+### Issue 2: Next.js "use client" Missing
 
 **Symptom**: Build fails with "motion is not defined" or SSR errors.
 
 **Solution**: Add `"use client"` directive:
 ```tsx
 "use client"
-
 import { motion } from "motion/react"
 ```
 
-See `references/nextjs-integration.md` for App Router patterns.
+### Issue 3: Tailwind Transitions Conflict
 
-### Issue 5: Scrollable Container Layout Animations
+**Symptom**: Animations stutter or don't work.
 
-**Symptom**: Incomplete transitions when removing items from scrolled containers.
-
-**Solution**: Add `layoutScroll` prop:
+**Solution**: Remove `transition-*` classes (Motion overrides CSS transitions):
 ```tsx
-<motion.div layoutScroll className="overflow-auto">
-  {items.map(item => (
-    <motion.div key={item.id} layout>
-      {item.content}
-    </motion.div>
-  ))}
-</motion.div>
+// ❌ Wrong: <motion.div className="transition-all" animate={{ x: 100 }} />
+// ✅ Correct: <motion.div animate={{ x: 100 }} />
 ```
 
-### Issue 6: Cloudflare Workers Build Errors
+### Issue 4: Cloudflare Workers Build Errors
 
 **Symptom**: Wrangler build fails when using `motion` package.
 
-**Solution**: Use `framer-motion` v12.23.24 instead:
+**Solution**: Use `framer-motion` v12.23.24 instead (GitHub issue #2918):
 ```bash
-bun add framer-motion
-# or: npm install framer-motion
+bun add framer-motion  # Same API, works with Workers
 ```
 
-GitHub issue: #2918 (monitor for resolution)
+### Issue 5: Large List Performance
 
-### Issue 7: Fixed Position Layout Animations
+**Symptom**: 50-100+ animated items cause severe slowdown.
 
-**Symptom**: Layout animations in fixed elements have incorrect positioning.
+**Solution**: Use virtualization (`react-window`, `react-virtuoso`).
 
-**Solution**: Add `layoutRoot` prop:
-```tsx
-<motion.div layoutRoot className="fixed top-0 left-0">
-  <motion.div layout>Content</motion.div>
-</motion.div>
-```
+**For 5+ additional issues** (layoutScroll, layoutRoot, AnimatePresence + layoutId), load `references/nextjs-integration.md` or `references/core-concepts-deep-dive.md`.
 
-### Issue 8: layoutId + AnimatePresence Unmounting
+---
 
-**Symptom**: Elements with `layoutId` inside AnimatePresence fail to unmount.
+## When to Load References
 
-**Solution**: Wrap in `LayoutGroup` or avoid mixing exit + layout animations:
-```tsx
-import { LayoutGroup } from "motion/react"
+Claude should load these references based on user needs:
 
-<LayoutGroup>
-  <AnimatePresence>
-    {items.map(item => (
-      <motion.div key={item.id} layoutId={item.id}>
-        {item.content}
-      </motion.div>
-    ))}
-  </AnimatePresence>
-</LayoutGroup>
-```
+### Load `references/core-concepts-deep-dive.md` when:
+- User asks about variants orchestration (staggerChildren, delayChildren, dynamic variants)
+- User needs advanced layout animations (layoutId shared transitions, LayoutGroup)
+- User wants scroll-linked animations (useScroll offsets, useTransform easing, parallax layers)
+- User needs complex drag patterns (momentum, elastic, event handlers, constraints)
+- User asks about spring physics tuning (mass parameter, visualizer, custom presets)
 
-### Issue 9: Reduced Motion Not Working with AnimatePresence
+### Load `references/performance-optimization.md` when:
+- User wants to reduce bundle size below 4.6 KB (useAnimate mini, LazyMotion comparison)
+- User mentions "app is slow", "janky animations", "laggy", or "performance issues"
+- User has 50+ animated items in a list (virtualization needed)
+- User needs memory profiling or production benchmarks
 
-**Symptom**: MotionConfig reducedMotion doesn't disable AnimatePresence animations.
+### Load `references/nextjs-integration.md` when:
+- User is building with Next.js (App Router or Pages Router)
+- User encounters SSR errors, "use client" errors, or hydration issues
+- User asks about route transitions or page navigation animations
+- User needs Next.js-specific workarounds (Reorder component, AnimatePresence soft navigation)
 
-**Solution**: Manual check:
-```tsx
-const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+### Load `references/accessibility-guide.md` when:
+- User asks about "prefers-reduced-motion" or accessibility compliance
+- User needs ARIA integration patterns (roles, labels, announcements)
+- User wants screen reader compatibility
+- User mentions accessibility audits or WCAG compliance
+- User asks about AnimatePresence reducedMotion workaround (known issue #1567)
 
-<motion.div
-  initial={{ opacity: prefersReducedMotion ? 1 : 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
-/>
-```
+### Load `references/common-patterns.md` when:
+- User asks for specific UI patterns (modal, accordion, carousel, tabs, dropdown, toast, etc.)
+- User needs copy-paste code examples for production use
+- User wants to see 15+ real-world animation patterns
 
-GitHub issue: #1567
-
-### Issue 10: Reorder Component in Next.js
-
-**Symptom**: Reorder component doesn't work with Next.js routing, random stuck states.
-
-**Solution**: Use alternative drag-to-reorder implementations or avoid Reorder in Next.js.
-
-GitHub issues: #2183, #2101
-
-See `references/nextjs-integration.md` for full Next.js troubleshooting guide.
+### Load `references/motion-vs-auto-animate.md` when:
+- User is deciding between Motion and AutoAnimate libraries
+- User mentions "simple list animations" or "bundle size concerns"
+- User asks "which animation library should I use?" or "is Motion overkill?"
+- User needs feature comparison or decision matrix
 
 ---
 
@@ -967,52 +478,18 @@ See `scripts/` directory for automation tools.
 ## Official Documentation
 
 - **Official Site**: https://motion.dev
-- **React Docs**: https://motion.dev/docs/react
 - **GitHub**: https://github.com/motiondivision/motion (30,200+ stars)
-- **Examples**: https://motion.dev/examples (300+ examples with source code)
-- **npm Package**: https://www.npmjs.com/package/motion
+- **Examples**: https://motion.dev/examples (300+ examples)
 
----
+**Related Skills**: `auto-animate` (simple lists), `tailwind-v4-shadcn` (styling), `nextjs` (App Router), `cloudflare-worker-base`
 
-## Related Skills
-
-- **auto-animate** - For simple list add/remove/sort animations (3.28 KB vs 34 KB)
-- **tailwind-v4-shadcn** - Styling integration
-- **nextjs** - Next.js App Router patterns
-- **cloudflare-worker-base** - Deployment (note: use framer-motion for Cloudflare)
-
----
-
-## Comparison: Motion vs AutoAnimate
-
-| Aspect | AutoAnimate | Motion |
-|--------|-------------|--------|
-| **Bundle Size** | 3.28 KB | 2.3 KB (mini) - 34 KB (full) |
-| **Use Case** | Simple list animations | Complex gestures, scroll, layout |
-| **API** | Zero-config, 1 line | Declarative props, verbose |
-| **Setup** | Single ref | Motion components + props |
-| **Gestures** | ❌ Not supported | ✅ Drag, hover, tap, pan |
-| **Scroll Animations** | ❌ Not supported | ✅ Parallax, scroll-linked |
-| **Layout Animations** | ❌ Not supported | ✅ FLIP, shared elements |
-| **SVG** | ❌ Not supported | ✅ Path morphing, line drawing |
-| **Cloudflare Workers** | ✅ Full support | ⚠️ Use framer-motion instead |
-| **Accessibility** | ✅ Auto prefers-reduced-motion | ✅ Manual MotionConfig |
-
-**Rule of Thumb**: Use AutoAnimate for 90% of cases (list animations), Motion for 10% (complex interactions).
-
-See `references/motion-vs-auto-animate.md` for detailed comparison.
+**Motion vs AutoAnimate**: Load `references/motion-vs-auto-animate.md` for detailed comparison.
 
 ---
 
 ## Token Efficiency Metrics
 
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~30,000 | 3-5 (AnimatePresence, Next.js, performance) | ~2-3 hours |
-| **With This Skill** | ~5,000 | 0 ✅ | ~20-30 min |
-| **Savings** | **~83%** | **100%** | **~85%** |
-
-**Errors Prevented**: 29+ documented errors = 100% prevention rate
+**Token Savings**: ~83% (30k → 5k tokens) | **Error Prevention**: 100% (29+ errors) | **Time Savings**: ~85% (2-3 hrs → 20-30 min)
 
 ---
 

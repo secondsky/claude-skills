@@ -314,10 +314,25 @@ describe('Scheduled Handler Integration', () => {
   });
 
   it('should execute scheduled handler', async () => {
-    const response = await mf.dispatchScheduled({
+    // Option 1: Call scheduled method directly on worker
+    const scheduledTime = Date.now();
+    const response = await mf.getWorker().scheduled({
+      scheduledTime,
       cron: '0 * * * *',
     });
 
+    expect(response).toBeDefined();
+  });
+
+  it('should execute scheduled handler via HTTP endpoint', async () => {
+    // Option 2: Use HTTP endpoint (similar to wrangler dev --test-scheduled)
+    const scheduledTime = Date.now();
+    const url = new URL('http://localhost:8787/__scheduled');
+    url.searchParams.set('time', scheduledTime.toString());
+    url.searchParams.set('cron', '0 * * * *');
+    
+    const response = await mf.fetch(url);
+    
     expect(response.ok).toBe(true);
   });
 });

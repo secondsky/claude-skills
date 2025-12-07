@@ -13,21 +13,22 @@ description: |
   message retry, queue ack, consumer concurrency, queue backlog, wrangler queues
 license: MIT
 metadata:
-  version: "2.0.0"
-  wrangler_version: "4.43.0"
-  workers_types_version: "4.20251014.0"
-  last_verified: "2025-10-21"
+  version: "2.1.0"
+  wrangler_version: "4.50.0"
+  workers_types_version: "4.20251126.0"
+  last_verified: "2025-11-26"
   errors_prevented: 10
   templates_included: 6
-  references_included: 6
+  references_included: 8
 ---
 
 # Cloudflare Queues
 
-**Status**: Production Ready ✅
-**Last Updated**: 2025-11-21
+**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+
 **Dependencies**: cloudflare-worker-base (for Worker setup)
-**Latest Versions**: wrangler@4.43.0, @cloudflare/workers-types@4.20251014.0
+
+**Contents**: [Quick Start](#quick-start-10-minutes) • [Critical Rules](#critical-rules) • [Top Errors](#top-3-critical-errors) • [Use Cases](#common-use-cases) • [When to Load References](#when-to-load-references) • [Limits](#limits--quotas)
 
 ---
 
@@ -160,7 +161,7 @@ bunx wrangler deploy
 
 ---
 
-## Top 5 Errors (See references/error-catalog.md for all 10)
+## Top 3 Critical Errors
 
 ### Error #1: Message Too Large
 
@@ -248,59 +249,7 @@ export default {
 };
 ```
 
-### Error #4: Messages Deleted Without Processing
-
-**Problem**: Messages disappear after max retries
-
-**Solution**: Configure Dead Letter Queue
-
-```bash
-# Create DLQ
-bunx wrangler queues create my-dlq
-```
-
-```jsonc
-{
-  "queues": {
-    "consumers": [{
-      "queue": "my-queue",
-      "max_retries": 3,
-      "dead_letter_queue": "my-dlq"  // Add this!
-    }]
-  }
-}
-```
-
-### Error #5: Consumer Not Auto-Scaling
-
-**Problem**: Consumer stays at low concurrency despite backlog
-
-**Solution**: Remove max_concurrency limit
-
-```jsonc
-// ❌ Wrong
-{
-  "queues": {
-    "consumers": [{
-      "queue": "my-queue",
-      "max_concurrency": 1  // Won't scale!
-    }]
-  }
-}
-
-// ✅ Correct
-{
-  "queues": {
-    "consumers": [{
-      "queue": "my-queue",
-      // Don't set max_concurrency - auto-scale
-      "max_batch_size": 50  // Increase batch size instead
-    }]
-  }
-}
-```
-
-**Load `references/error-catalog.md` for all 10 errors with detailed solutions.**
+**Load `references/error-catalog.md` for all 10 errors including DLQ configuration, auto-scaling issues, message deletion prevention, and detailed solutions.**
 
 ---
 
@@ -406,6 +355,21 @@ export default {
 - Managing queues (create, delete, list)
 - Controlling delivery (pause, resume)
 - Debugging queue issues
+- Real-time monitoring and performance analysis
+
+**Load `references/typescript-types.md` when**:
+- Need complete TypeScript type definitions
+- Working with Queue, MessageBatch, or Message interfaces
+- Implementing type-safe producers or consumers
+- Using generic types for message bodies
+- Need type guards for message validation
+
+**Load `references/production-checklist.md` when**:
+- Preparing for production deployment
+- Need pre-deployment verification checklist
+- Want detailed explanations of production best practices
+- Setting up monitoring, DLQ, or error handling
+- Planning load testing or security review
 
 ---
 
@@ -426,40 +390,13 @@ export default {
 
 ## Configuration Reference
 
-### Minimal Producer
+**Producer**: Add queue binding to `wrangler.jsonc` queues.producers array with `binding` and `queue` fields.
 
-```jsonc
-{
-  "queues": {
-    "producers": [{
-      "binding": "MY_QUEUE",
-      "queue": "my-queue"
-    }]
-  }
-}
-```
+**Consumer**: Configure in `wrangler.jsonc` queues.consumers array with `queue`, `max_batch_size` (1-100), `max_batch_timeout` (0-60s), `max_retries`, `dead_letter_queue`, and optionally `max_concurrency` (default: auto-scale).
 
-### Production Consumer
+**CPU Limits**: Increase `limits.cpu_ms` from default 30,000ms if processing takes longer.
 
-```jsonc
-{
-  "queues": {
-    "consumers": [{
-      "queue": "my-queue",
-      "max_batch_size": 100,          // Process more per invocation
-      "max_batch_timeout": 5,         // Wait max 5 seconds to fill batch
-      "max_retries": 3,               // Retry failed messages 3 times
-      "dead_letter_queue": "my-dlq",  // Capture permanently failed messages
-      "max_concurrency": null         // Auto-scale (recommended)
-    }]
-  },
-  "limits": {
-    "cpu_ms": 30000                   // 30 seconds (increase if needed)
-  }
-}
-```
-
-**Load `references/setup-guide.md` → Step 6 for complete production configuration.**
+**Load `references/setup-guide.md` for complete configuration examples and `templates/wrangler-queues-config.jsonc` for production-ready config.**
 
 ---
 
@@ -487,81 +424,25 @@ export default {
 
 ## TypeScript Types
 
-```typescript
-import type { MessageBatch, Message } from '@cloudflare/workers-types';
+Use `@cloudflare/workers-types` package for complete type definitions: `Queue`, `MessageBatch<Body>`, `Message<Body>`, `QueueSendOptions`.
 
-// Producer binding
-type Bindings = {
-  MY_QUEUE: Queue;
-};
-
-// Consumer handler
-export default {
-  async queue(batch: MessageBatch, env: Env): Promise<void> {
-    // Process messages
-  },
-};
-
-// Message structure
-interface Message {
-  id: string;
-  timestamp: Date;
-  body: any;
-  attempts: number;
-  ack(): void;
-  retry(options?: { delaySeconds?: number }): void;
-}
-
-// Batch structure
-interface MessageBatch {
-  queue: string;
-  messages: Message[];
-  ackAll(): void;
-  retryAll(options?: { delaySeconds?: number }): void;
-}
-```
+**Load `references/typescript-types.md` for complete type reference with interfaces, generics, type guards, and usage examples.**
 
 ---
 
 ## Monitoring & Debugging
 
-```bash
-# Check queue status
-bunx wrangler queues info my-queue
+**Key Commands**: `wrangler queues info` (status), `wrangler tail` (logs), `wrangler queues pause-delivery/resume-delivery` (control).
 
-# Monitor consumer logs
-bunx wrangler tail my-consumer
-
-# Check DLQ
-bunx wrangler queues info my-dlq
-
-# Pause/resume delivery
-bunx wrangler queues pause-delivery my-queue
-bunx wrangler queues resume-delivery my-queue
-```
-
-**Load `references/wrangler-commands.md` for complete CLI reference.**
+**Load `references/wrangler-commands.md` for complete CLI reference with real-time monitoring, debugging workflows, and performance analysis commands.**
 
 ---
 
 ## Production Checklist
 
-Before deploying to production:
+**12-Point Pre-Deployment Checklist**: DLQ configuration, message acknowledgment strategy, size validation, batch optimization, concurrency settings, CPU limits, error handling, monitoring, rate limiting, idempotency, load testing, and security review.
 
-- [ ] Dead Letter Queue created and configured
-- [ ] DLQ consumer deployed and monitoring set up
-- [ ] Explicit ack() for non-idempotent operations
-- [ ] Message size validation (<128 KB)
-- [ ] Batch size optimized for workload
-- [ ] max_concurrency NOT set (let it auto-scale) unless specific reason
-- [ ] CPU limit increased if processing >30 seconds
-- [ ] Error handling with retry logic implemented
-- [ ] Monitoring and alerting configured
-- [ ] Rate limiting for external APIs
-- [ ] Idempotent operations where possible
-- [ ] Load testing completed
-
-**Load `references/best-practices.md` → Production Deployment section.**
+**Load `references/production-checklist.md` for complete checklist with detailed explanations, code examples, and deployment workflow.**
 
 ---
 

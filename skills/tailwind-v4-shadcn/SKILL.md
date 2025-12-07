@@ -22,7 +22,7 @@ license: MIT
 # Tailwind v4 + shadcn/ui Production Stack
 
 **Production-tested**: WordPress Auditor (https://wordpress-auditor.webfonts.workers.dev)
-**Last Updated**: 2025-11-21
+**Last Updated**: 2025-12-04
 **Status**: Production Ready ✅
 
 ## Table of Contents
@@ -39,6 +39,7 @@ license: MIT
 11. [Dependencies](#dependencies)
 12. [Tailwind v4 Plugins](#tailwind-v4-plugins)
 13. [Reference Documentation](#reference-documentation)
+14. [When to Load References](#when-to-load-references)
 
 ---
 
@@ -399,65 +400,20 @@ Copy these files to your project and customize as needed.
 
 ## Advanced Topics
 
-### Custom Colors
+Load `references/advanced-usage.md` for advanced patterns including:
 
-Add new semantic colors:
+- **Custom Colors**: Add semantic colors beyond default palette
+- **v3 Migration**: See `references/migration-guide.md` for complete guide
+- **Component Best Practices**: Semantic tokens, cn() utility, composition patterns
 
+**Quick Example:**
 ```css
-:root {
-  --brand: hsl(280 65% 60%);
-  --brand-foreground: hsl(0 0% 100%);
-}
-
-.dark {
-  --brand: hsl(280 75% 70%);
-  --brand-foreground: hsl(280 20% 10%);
-}
-
-@theme inline {
-  --color-brand: var(--brand);
-  --color-brand-foreground: var(--brand-foreground);
-}
+:root { --brand: hsl(280 65% 60%); }
+@theme inline { --color-brand: var(--brand); }
 ```
+Usage: `<div className="bg-brand">Branded</div>`
 
-Usage: `<div className="bg-brand text-brand-foreground">Branded</div>`
-
-### Migration from v3
-
-See `reference/migration-guide.md` for complete v3 → v4 migration steps.
-
-### Component Best Practices
-
-1. **Always use semantic tokens**
-   ```tsx
-   <Button variant="destructive">Delete</Button>  /* ✅ */
-   <Button className="bg-red-600">Delete</Button>  /* ❌ */
-   ```
-
-2. **Use `cn()` for conditional styling**
-   ```tsx
-   import { cn } from "@/lib/utils"
-
-   <div className={cn(
-     "base-class",
-     isActive && "active-class",
-     hasError && "error-class"
-   )} />
-   ```
-
-3. **Compose shadcn/ui components**
-   ```tsx
-   <Dialog>
-     <DialogTrigger asChild>
-       <Button>Open</Button>
-     </DialogTrigger>
-     <DialogContent>
-       <DialogHeader>
-         <DialogTitle>Title</DialogTitle>
-       </DialogHeader>
-     </DialogContent>
-   </Dialog>
-   ```
+For detailed patterns and component composition examples, load `references/advanced-usage.md`.
 
 ---
 
@@ -504,105 +460,20 @@ bun add tw-animate-css      # ❌ Doesn't exist
 
 Tailwind v4 supports official plugins using the `@plugin` directive in CSS.
 
-### Official Plugins (Tailwind Labs)
-
-#### Typography Plugin - Style Markdown/CMS Content
-
-**When to use:** Displaying blog posts, documentation, or any HTML from Markdown/CMS.
-
-**Installation:**
-```bash
-bun add -d @tailwindcss/typography
-# or: npm install -D @tailwindcss/typography
-```
-
-**Configuration (v4 syntax):**
+**Quick Example:**
 ```css
-/* src/index.css */
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-```
-
-**Usage:**
-```html
-<article class="prose lg:prose-xl dark:prose-invert">
-  {{ markdown_content }}
-</article>
-```
-
-**Available classes:**
-- `prose` - Base typography styles
-- `prose-sm`, `prose-base`, `prose-lg`, `prose-xl`, `prose-2xl` - Size variants
-- `dark:prose-invert` - Dark mode styles
-
----
-
-#### Forms Plugin - Reset Form Element Styles
-
-**When to use:** Building custom forms without shadcn/ui components, or need consistent cross-browser form styling.
-
-**Installation:**
-```bash
-bun add -d @tailwindcss/forms
-# or: npm install -D @tailwindcss/forms
-```
-
-**Configuration (v4 syntax):**
-```css
-/* src/index.css */
-@import "tailwindcss";
-@plugin "@tailwindcss/forms";
-```
-
-**What it does:**
-- Resets browser default form styles
-- Makes form elements styleable with Tailwind utilities
-- Fixes cross-browser inconsistencies for inputs, selects, checkboxes, radios
-
-**Note:** Less critical for shadcn/ui users (they have pre-styled form components), but still useful for basic forms.
-
----
-
-### Common Plugin Errors
-
-These errors happen when using v3 syntax in v4 projects:
-
-**❌ WRONG (v3 config file syntax):**
-```js
-// tailwind.config.js
-module.exports = {
-  plugins: [require('@tailwindcss/typography')]
-}
-```
-
-**❌ WRONG (@import instead of @plugin):**
-```css
-@import "@tailwindcss/typography";  /* Doesn't work */
-```
-
-**✅ CORRECT (v4 @plugin directive):**
-```css
-/* src/index.css */
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
 ```
 
----
+**Common Error:**
+❌ WRONG: `@import "@tailwindcss/typography"` (doesn't work)
+✅ CORRECT: `@plugin "@tailwindcss/typography"` (use @plugin directive)
 
-### Built-in Features (No Plugin Needed)
+**Built-in Features:** Container queries are now core (no `@tailwindcss/container-queries` plugin needed).
 
-**Container queries** are built into Tailwind v4 core - no plugin needed:
-
-```tsx
-<div className="@container">
-  <div className="@md:text-lg">
-    Responds to container width, not viewport
-  </div>
-</div>
-```
-
-**❌ Don't install:** `@tailwindcss/container-queries` (deprecated, now core feature)
+Load `references/plugins-reference.md` for complete documentation including Typography plugin (prose classes), Forms plugin, installation steps, and common plugin errors.
 
 ---
 
@@ -610,10 +481,48 @@ module.exports = {
 
 For deeper understanding, see:
 
-- **architecture.md** - Deep dive into the 4-step pattern
-- **dark-mode.md** - Complete dark mode implementation
 - **common-gotchas.md** - All the ways it can break (and fixes)
+- **dark-mode.md** - Complete dark mode implementation
 - **migration-guide.md** - Migrating hardcoded colors to CSS variables
+- **plugins-reference.md** - Official Tailwind v4 plugins (Typography, Forms)
+- **advanced-usage.md** - Custom colors and advanced patterns
+
+---
+
+## When to Load References
+
+Load reference files based on user's specific needs:
+
+### Load `references/common-gotchas.md` when:
+- User reports "colors not working" or "bg-primary doesn't exist"
+- Dark mode not switching properly
+- Build fails with Tailwind errors
+- User encounters any CSS/configuration issue
+- Debugging theme problems
+
+### Load `references/dark-mode.md` when:
+- User asks to implement dark mode
+- Theme switching not working
+- Need ThemeProvider component code
+- Questions about system theme detection
+
+### Load `references/migration-guide.md` when:
+- Migrating from Tailwind v3 to v4
+- User has hardcoded colors to migrate
+- Questions about v3 → v4 changes
+- Need migration checklist
+
+### Load `references/plugins-reference.md` when:
+- User needs Typography plugin (prose class)
+- User needs Forms plugin
+- Questions about @plugin directive
+- Plugin installation errors
+
+### Load `references/advanced-usage.md` when:
+- User asks about custom colors beyond defaults
+- Need advanced component patterns
+- Questions about component best practices
+- Component composition questions
 
 ---
 

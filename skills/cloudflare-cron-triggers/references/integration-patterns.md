@@ -222,7 +222,7 @@ export default {
     await env.MY_QUEUE.send({ type: 'process', data: users.results });
 
     // Trigger Workflow
-    await env.MY_WORKFLOW.create({ input: { timestamp: Date.now() } });
+    await env.MY_WORKFLOW.create({ params: { timestamp: Date.now() } });
 
     // Use secrets
     await fetch('https://api.example.com/webhook', {
@@ -433,7 +433,7 @@ await env.DB.batch(batch);
 
 Cron handlers have resource limits:
 
-- **CPU Time**: 30 seconds (Free), 15 minutes (Paid)
+- **CPU Time**: 10 ms per invocation (Free), 30 seconds for schedules with intervals < 1 hour, and up to 15 minutes for schedules with intervals ≥ 1 hour (Paid)
 - **Memory**: 128 MB (Free), 1 GB (Paid)
 - **Subrequests**: 50 (Free), 1000 (Paid)
 

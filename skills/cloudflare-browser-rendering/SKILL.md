@@ -19,6 +19,16 @@ description: |
   concurrency limit, keep_alive, page.screenshot, page.pdf, page.goto, page.evaluate,
   incognito context, session reuse, batch scraping, crawling websites
 license: MIT
+metadata:
+  version: "1.0.0"
+  last_verified: "2025-11-27"
+  puppeteer_version: "1.0.4"
+  playwright_version: "1.0.0"
+  workers_types_version: "4.20251125.0"
+  wrangler_version: "4.50.0"
+  production_tested: true
+  errors_prevented: 6
+  references_included: 6
 ---
 
 # Cloudflare Browser Rendering - Complete Reference
@@ -406,7 +416,7 @@ Plus solutions for page crashes, authentication issues, resource loading errors,
 
 ---
 
-## Package Versions (Verified 2025-10-22)
+## Package Versions (Verified 2025-11-27)
 
 ```json
 {
@@ -414,8 +424,8 @@ Plus solutions for page crashes, authentication issues, resource loading errors,
     "@cloudflare/puppeteer": "^1.0.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251014.0",
-    "wrangler": "^4.43.0"
+    "@cloudflare/workers-types": "^4.20251125.0",
+    "wrangler": "^4.50.0"
   }
 }
 ```

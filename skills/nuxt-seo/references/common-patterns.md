@@ -1,8 +1,22 @@
 # Nuxt SEO - Common Patterns
 
-Real-world implementation patterns for typical use cases.
+Real-world usage patterns and examples for Nuxt SEO modules.
 
 ---
+
+## Table of Contents
+
+1. [Blog Site Pattern](#blog-site-pattern)
+2. [E-commerce Pattern](#e-commerce-pattern)
+3. [Multi-Language Pattern](#multi-language-pattern)
+4. [Corporate Website Pattern](#corporate-website-pattern)
+5. [Environment-Based Configuration](#environment-based-configuration)
+6. [Custom OG Image Component Pattern](#custom-og-image-component-pattern)
+7. [Breadcrumbs with Schema.org Pattern](#breadcrumbs-with-schemaorg-pattern)
+8. [FAQ Page Pattern](#faq-page-pattern)
+
+---
+
 
 ## Blog Site Pattern
 
