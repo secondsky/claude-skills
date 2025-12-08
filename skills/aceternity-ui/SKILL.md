@@ -4,9 +4,14 @@ description: >
   Build modern, animated React UI components with Aceternity UI - a premium component library featuring 100+ production-ready components including backgrounds, 3D effects, cards, animations, and interactive elements. Use when building Next.js applications with Tailwind CSS that need visually stunning hero sections, animated backgrounds, interactive cards, parallax effects, animated text, smooth transitions, or modern UI elements. Ideal for landing pages, portfolios, SaaS applications, and marketing websites requiring professional animations and visual effects. Includes shadcn CLI integration for easy component installation.
 license: MIT
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   author: Claude Skills Maintainers
-  last_updated: 2025-11-11
+  last_updated: 2025-12-08
+  last_verified: 2025-12-08
+  motion_version: "12.23.25"
+  clsx_version: "2.1.1"
+  tailwind_merge_version: "3.4.0"
+  references_included: 2
   keywords:
     - aceternity
     - aceternity-ui
@@ -672,6 +677,20 @@ This skill provides significant token savings by:
 5. Incorrect registry configuration
 6. Wrong Next.js configuration (Pages Router vs App Router)
 
+## When to Load References
+
+Load reference files based on task context:
+
+| If User Asks About... | Load This Reference |
+|-----------------------|---------------------|
+| New project setup, installation, getting started | `references/quick-start.md` (465 lines) |
+| Finding specific components, component categories, CLI commands | `references/component-catalog.md` (635 lines) |
+| Usage examples, patterns, troubleshooting | Main SKILL.md (this file) |
+
+**Reference Summary:**
+- `quick-start.md` - 5-minute setup guide, first component examples, troubleshooting, project structure
+- `component-catalog.md` - Complete list of 100+ components with install commands and use cases
+
 ## Additional Resources
 
 - **Official Documentation**: https://ui.aceternity.com/docs
@@ -696,6 +715,6 @@ This skill documentation is provided under MIT License. Aceternity UI components
 
 ---
 
-**Last Updated**: 2025-11-11
-**Version**: 1.0.0
+**Last Updated**: 2025-12-08
+**Version**: 1.1.0
 **Maintainer**: Claude Skills Maintainers

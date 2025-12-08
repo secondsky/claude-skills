@@ -500,7 +500,7 @@ Aceternity UI components have their own licensing. Check https://ui.aceternity.c
 
 ---
 
-**Skill Version**: 1.0.0
-**Last Updated**: 2025-11-11
+**Skill Version**: 1.1.0
+**Last Updated**: 2025-12-08
 **Maintained By**: Claude Skills Maintainers
 **Repository**: https://github.com/secondsky/claude-skills
