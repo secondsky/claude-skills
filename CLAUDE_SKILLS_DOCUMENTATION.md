@@ -231,6 +231,8 @@ Implement try-catch blocks to gracefully handle skill-specific errors like inval
 
 ## Creating Custom Skills
 
+For detailed project-specific guidelines on creating skills, refer to [claude-code-skill-standards.md](planning/claude-code-skill-standards.md).
+
 ### Key Requirement
 
 All Skills require a SKILL.md file with YAML frontmatter including:
@@ -278,6 +280,10 @@ Use this Skill when the user asks to:
 ---
 
 ## Best Practices
+
+For project-specific best practices and standards, see:
+- [claude-code-skill-standards.md](planning/claude-code-skill-standards.md) - Official compliance standards
+- [COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) - Common pitfalls to avoid
 
 ### Core Principles
 
@@ -484,6 +490,8 @@ This catches errors early for batch operations and destructive changes.
 ---
 
 ## Anti-Patterns to Avoid
+
+For a comprehensive list of common mistakes specific to this project, see [COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md).
 
 ### Common Mistakes
 
@@ -769,6 +777,12 @@ Instructions that work for Opus may need more detail for Haiku.
 
 ## Additional Resources
 
+### Project-Specific Resources
+- [claude-code-skill-standards.md](planning/claude-code-skill-standards.md) - Project standards and compliance requirements
+- [COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) - Common mistakes and how to avoid them
+- [STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md) - Comparison with official Anthropic standards
+
+### External Resources
 - [Anthropic Console](https://console.anthropic.com/) - Get your API key
 - [Claude API Documentation](https://docs.anthropic.com/) - Full API reference
 - [Agent Skills Cookbook](https://github.com/anthropics/anthropic-cookbook) - Example implementations
