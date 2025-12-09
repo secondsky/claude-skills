@@ -2,6 +2,17 @@
 
 Complete guide to SSR hydration in Nuxt 4, common issues, and solutions.
 
+## Table of Contents
+
+- [What is Hydration?](#what-is-hydration)
+- [Common Causes of Hydration Mismatches](#common-causes-of-hydration-mismatches)
+- [Solutions](#solutions)
+- [Debugging Hydration Mismatches](#debugging-hydration-mismatches)
+- [Third-Party Libraries](#third-party-libraries)
+- [Best Practices](#best-practices)
+- [Common Pitfalls](#common-pitfalls)
+- [Checklist](#checklist)
+
 ## What is Hydration?
 
 **Hydration** is the process of making server-rendered HTML interactive on the client by attaching Vue's reactivity system and event listeners.
