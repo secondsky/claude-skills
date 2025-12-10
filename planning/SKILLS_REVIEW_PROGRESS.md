@@ -119,7 +119,7 @@
 | 20 | cloudflare-full-stack-scaffold | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-09 |
 | 21 | cloudflare-full-stack-integration | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 22 | cloudflare-manager | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
-| 23 | cloudflare-sandbox | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1C | 2025-11-21 |
+| 23 | cloudflare-sandbox | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-10 |
 
 ---
 
