@@ -257,6 +257,30 @@
 
 ---
 
+### Tier 8: API & Security (17 skills) - HIGH
+
+| # | Skill | P1-2 | P3 | P4 | P5 | P6 | P7 | P8 | P9 | P10 | P11 | P12 | P13 | P14 | Issues | Date |
+|---|-------|------|----|----|----|----|----|----|----|----|-----|-----|-----|-----|--------|------|
+| 116 | access-control-rbac | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 117 | api-authentication | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 118 | api-changelog-versioning | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 119 | api-contract-testing | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 120 | api-error-handling | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 121 | api-filtering-sorting | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 122 | api-gateway-configuration | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 123 | api-pagination | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 124 | api-rate-limiting | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 125 | api-reference-documentation | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 126 | api-response-optimization | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 127 | api-security-hardening | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 128 | api-versioning-strategy | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 129 | csrf-protection | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 130 | security-headers-configuration | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 131 | vulnerability-scanning | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+| 132 | xss-prevention | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
+
+---
+
 ## Detailed Review Notes
 
 ### Template for Each Skill Review
