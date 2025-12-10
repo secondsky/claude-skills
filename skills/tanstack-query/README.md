@@ -1,7 +1,7 @@
 # TanStack Query (React Query) v5
 
 **Status**: ✅ Production Ready
-**Last Updated**: 2025-11-21
+**Last Updated**: 2025-12-09
 **Production Tested**: Patterns verified with TypeScript strict mode
 
 ---
@@ -114,11 +114,12 @@ Provides comprehensive knowledge for TanStack Query v5 (React Query) server stat
 ## Quick Usage Example
 
 ```bash
-# Install dependencies
-bun add @tanstack/react-query@latest  # preferred
-# or: npm install @tanstack/react-query@latest
-bun add -d @tanstack/react-query-devtools@latest
-# or: npm install -D @tanstack/react-query-devtools@latest
+# Install dependencies (choose one)
+pnpm add @tanstack/react-query@latest @tanstack/react-query-devtools@latest
+# or
+npm install @tanstack/react-query@latest @tanstack/react-query-devtools@latest
+# or
+bun add @tanstack/react-query@latest @tanstack/react-query-devtools@latest
 
 # Set up QueryClient Provider (see SKILL.md for complete setup)
 ```
@@ -139,15 +140,15 @@ bun add -d @tanstack/react-query-devtools@latest
 
 ---
 
-## Package Versions (Verified 2025-10-22)
+## Package Versions (Verified 2025-12-09)
 
 | Package | Version | Status |
 |---------|---------|--------|
-| @tanstack/react-query | 5.90.5 | ✅ Latest stable |
-| @tanstack/react-query-devtools | 5.90.2 | ✅ Latest stable |
-| @tanstack/eslint-plugin-query | 5.90.2 | ✅ Latest stable |
+| @tanstack/react-query | 5.90.12 | ✅ Latest stable |
+| @tanstack/react-query-devtools | 5.91.1 | ✅ Latest stable |
+| @tanstack/eslint-plugin-query | 5.91.2 | ✅ Latest stable |
 | react | 18.0.0+ | ✅ Required |
-| typescript | 4.7.0+ | ✅ Recommended |
+| typescript | 5.2.0+ | ✅ Recommended |
 
 ---
 
@@ -168,6 +169,10 @@ bun add -d @tanstack/react-query-devtools@latest
 tanstack-query/
 ├── SKILL.md                          # Complete documentation
 ├── README.md                         # This file
+├── scripts/
+│   └── example-script.sh             # Bootstrap: installs deps + copies templates
+├── examples/                         # Focused, ready-to-copy snippets (top 10)
+│   └── README.md                     # Index of scenarios + official links
 ├── templates/                        # Copy-ready code
 │   ├── package.json                  # Dependencies
 │   ├── query-client-config.ts        # QueryClient setup
@@ -183,6 +188,7 @@ tanstack-query/
     ├── v4-to-v5-migration.md         # Complete migration guide
     ├── best-practices.md             # Performance & caching
     ├── common-patterns.md            # Reusable patterns
+    ├── official-guides-map.md        # When to load each official doc
     ├── typescript-patterns.md        # Type safety
     ├── testing.md                    # Testing with MSW
     └── top-errors.md                 # All errors + solutions

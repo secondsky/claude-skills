@@ -5,9 +5,9 @@ description: |
 license: MIT
 allowed-tools: [Bash, Read, Write, Edit]
 metadata:
-  version: 1.0.0
+  version: 1.1.0
   author: Claude Skills Maintainers
-  last-verified: 2025-12-04
+  last-verified: 2025-12-09
   production-tested: true
   keywords:
     - tanstack table
@@ -66,11 +66,12 @@ Build production-ready, headless data tables with TanStack Table v8, optimized f
 
 ## What This Skill Provides
 
-### 1. Production Templates (6)
+### 1. Production Templates (7)
 - **Basic client-side table** - Simple table with local data
 - **Server-paginated table** - API-driven pagination with TanStack Query
 - **D1 database integration** - Cloudflare D1 + Workers API + Table
 - **Column configuration patterns** - Type-safe column definitions
+- **Controlled table state** - Column visibility, pinning, ordering, fuzzy/global filtering, row selection
 - **Virtualized large dataset** - Performance optimization with TanStack Virtual
 - **shadcn/ui styled table** - Integration with Tailwind v4 + shadcn
 
@@ -95,7 +96,14 @@ Build production-ready, headless data tables with TanStack Table v8, optimized f
 - Memory-efficient patterns
 - useVirtualizer() integration
 
-### 5. Error Prevention
+### 5. Feature Controls & UX
+- Column visibility toggles and pinning (frozen columns)
+- Column ordering and sizing defaults
+- Global + fuzzy search and faceted filters
+- Row selection and row pinning patterns
+- Controlled state checklist to avoid perf regressions
+
+### 6. Error Prevention
 Documents and prevents 6+ common issues:
 1. Server-side state management confusion
 2. TanStack Query integration errors (query key coordination)
@@ -103,6 +111,7 @@ Documents and prevents 6+ common issues:
 4. Manual sorting setup mistakes
 5. URL state synchronization issues
 6. Large dataset performance problems
+7. Over-controlling table state (columnSizingInfo) causing extra renders
 
 ---
 
@@ -116,11 +125,17 @@ bun add @tanstack/react-table@latest
 
 # Optional: For virtualization (1000+ rows)
 bun add @tanstack/react-virtual@latest
+
+# Optional: For fuzzy/global search
+bun add @tanstack/match-sorter-utils@latest
 ```
 
-**Latest verified versions:**
-- `@tanstack/react-table`: v8.21.3
+**Latest verified versions (as of 2025-12-09):**
+- `@tanstack/react-table`: v8.21.3 (stable)
 - `@tanstack/react-virtual`: v3.13.12
+- `@tanstack/match-sorter-utils`: v8.21.3 (for fuzzy filtering)
+
+**React support:** Works on React 16.8+ through React 19; React Compiler is not supported.
 
 ### Basic Client-Side Table
 
@@ -646,6 +661,10 @@ if (data.length > 1000) {
 }
 ```
 
+### 7. Control Only the State You Need
+- Keep `sorting`, `pagination`, `filters`, `visibility`, `pinning`, `order`, `selection` in controlled state when you must persist or sync.
+- Avoid controlling `columnSizingInfo` unless persisting drag state; it triggers frequent updates and can hurt performance.
+
 ---
 
 ## Templates Reference
@@ -657,8 +676,9 @@ All templates available in `~/.claude/skills/tanstack-table/templates/`:
 3. **server-paginated-table.tsx** - Server-side pagination with Query
 4. **d1-database-example.tsx** - Cloudflare D1 integration
 5. **column-configuration.tsx** - Type-safe column patterns
-6. **virtualized-large-dataset.tsx** - Performance with Virtual
-7. **shadcn-styled-table.tsx** - Tailwind v4 + shadcn UI styling
+6. **controlled-table-state.tsx** - Visibility, pinning, ordering, fuzzy/global filtering, selection
+7. **virtualized-large-dataset.tsx** - Performance with Virtual
+8. **shadcn-styled-table.tsx** - Tailwind v4 + shadcn UI styling
 
 ---
 
@@ -671,6 +691,7 @@ Deep-dive guides in `~/.claude/skills/tanstack-table/references/`:
 3. **cloudflare-d1-examples.md** - Workers + D1 complete examples
 4. **performance-virtualization.md** - TanStack Virtual guide
 5. **common-errors.md** - All 6+ documented issues with solutions
+6. **feature-controls.md** - Controlled state, visibility, pinning, ordering, fuzzy/global filtering, selection
 
 ---
 
@@ -716,6 +737,12 @@ Claude should suggest loading these reference files based on user needs:
 - useVirtualizer() hook usage
 - Large table performance optimization
 - Questions about row virtualization or scroll performance
+
+### Load `references/feature-controls.md` when:
+- Need column visibility, pinning, or ordering controls
+- Building toolbars (global search, toggles) or syncing state to URL/localStorage
+- Implementing fuzzy/global search or faceted filters
+- Setting up row selection/pinning or controlled pagination/sorting
 
 ---
 
@@ -765,6 +792,6 @@ Claude should suggest loading these reference files based on user needs:
 
 ---
 
-**Last Updated:** 2025-11-07
-**Skill Version:** 1.0.0
+**Last Updated:** 2025-12-09
+**Skill Version:** 1.1.0
 **Library Version:** @tanstack/react-table v8.21.3
