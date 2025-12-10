@@ -415,69 +415,30 @@ This skill prevents **10** documented issues:
 
 ---
 
-## Configuration Files Reference
-
-### wrangler.jsonc (Full Example)
+## wrangler.jsonc Example
 
 ```jsonc
 {
   "name": "my-sandbox-app",
   "main": "src/index.ts",
   "compatibility_date": "2025-10-29",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat"], // ← REQUIRED
 
   "containers": [{
     "class_name": "Sandbox",
-    "image": "cloudflare/sandbox:0.6.3-python",
+    "image": "cloudflare/sandbox:0.6.3-python", // ← Use -python for Python support
     "instance_type": "lite"
   }],
 
   "durable_objects": {
-    "bindings": [{
-      "class_name": "Sandbox",
-      "name": "Sandbox"
-    }]
+    "bindings": [{"class_name": "Sandbox", "name": "Sandbox"}]
   },
 
   "migrations": [{
     "tag": "v1",
     "new_sqlite_classes": ["Sandbox"]
-  }],
-
-  "env": {
-    "ANTHROPIC_API_KEY": {
-      "description": "Optional: For AI features"
-    }
-  },
-
-  "observability": {
-    "enabled": true
-  }
+  }]
 }
-```
-
-**Why these settings:**
-- `nodejs_compat`: Required for SDK to work
-- `containers.image`: Specific version ensures consistency
-- `instance_type: "lite"`: Smallest instance, upgrade to "large" for more resources
-- `migrations`: Registers Sandbox Durable Object class
-- `observability`: Enable logging for debugging
-
-### Dockerfile (Optional - For Local Dev)
-
-Only needed if extending base image:
-
-```dockerfile
-FROM cloudflare/sandbox:0.4.12
-
-# Install additional tools
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    imagemagick \
-    && rm -rf /var/lib/apt/lists/*
-
-# Expose port for preview URLs (local dev only)
-EXPOSE 8080
 ```
 
 ---
@@ -527,177 +488,16 @@ bunx tsx scripts/test-sandbox.ts
 
 ## Advanced Topics
 
-### Geographic Distribution
-
-First request to a sandbox ID determines its geographic location (via Durable Objects).
-
-**For Global Apps**:
-```typescript
-// Option 1: Multiple sandboxes per user (better latency)
-const region = request.cf?.colo || 'default';
-const sandbox = getSandbox(env.Sandbox, `user-${userId}-${region}`);
-
-// Option 2: Single sandbox (simpler, higher latency for distant users)
-const sandbox = getSandbox(env.Sandbox, `user-${userId}`);
-```
-
-### Error Handling Strategy
-
-```typescript
-async function safeSandboxExec(
-  sandbox: Sandbox,
-  cmd: string,
-  options?: any
-) {
-  try {
-    const result = await sandbox.exec(cmd, {
-      ...options,
-      timeout: options?.timeout || 30000
-    });
-
-    if (!result.success) {
-      console.error(`Command failed: ${cmd}`, {
-        exitCode: result.exitCode,
-        stderr: result.stderr
-      });
-
-      return {
-        success: false,
-        error: result.stderr,
-        exitCode: result.exitCode
-      };
-    }
-
-    return {
-      success: true,
-      output: result.stdout,
-      exitCode: 0
-    };
-  } catch (error) {
-    console.error(`Sandbox error:`, error);
-    return {
-      success: false,
-      error: error.message,
-      exitCode: -1
-    };
-  }
-}
-```
-
-### Security Hardening
-
-```typescript
-// Input validation
-function sanitizeCommand(input: string): string {
-  const dangerous = ['rm -rf', '$(', '`', '&&', '||', ';', '|'];
-  for (const pattern of dangerous) {
-    if (input.includes(pattern)) {
-      throw new Error(`Dangerous pattern detected: ${pattern}`);
-    }
-  }
-  return input;
-}
-
-// Use code interpreter instead of direct exec for untrusted code
-async function executeUntrustedCode(code: string, sandbox: Sandbox) {
-  const ctx = await sandbox.createCodeContext({ language: 'python' });
-  return await sandbox.runCode(code, { context: ctx, timeout: 10000 });
-}
-```
+**📖 Load `references/advanced.md`** for production patterns:
+- Geographic distribution strategies for global apps
+- Error handling wrapper functions
+- Security hardening and input validation
 
 ---
 
-## Dependencies
+## Official Resources
 
-**Required**:
-- `@cloudflare/sandbox@0.4.12` - Sandbox SDK
-- `wrangler@latest` - Deployment CLI
-- Docker Desktop - Local development only
+**Package**: `@cloudflare/sandbox@0.6.3` | **Docker**: `cloudflare/sandbox:0.6.3-python`
 
-**Optional**:
-- `@anthropic-ai/sdk` - For AI features
-- `@cloudflare/workers-types` - TypeScript types
+**Docs**: [Cloudflare Sandboxes](https://developers.cloudflare.com/sandbox/) | [API Reference](https://developers.cloudflare.com/sandbox/api-reference/) | [GitHub SDK](https://github.com/cloudflare/sandbox-sdk)
 
----
-
-## Official Documentation
-
-- **Cloudflare Sandboxes**: https://developers.cloudflare.com/sandbox/
-- **Architecture Guide**: https://developers.cloudflare.com/sandbox/concepts/architecture/
-- **API Reference**: https://developers.cloudflare.com/sandbox/api-reference/
-- **Durable Objects**: https://developers.cloudflare.com/durable-objects/
-- **GitHub SDK**: https://github.com/cloudflare/sandbox-sdk
-
----
-
-## Package Versions (Verified 2025-10-29)
-
-```json
-{
-  "dependencies": {
-    "@cloudflare/sandbox": "^0.4.12"
-  },
-  "devDependencies": {
-    "wrangler": "^3.80.0",
-    "@cloudflare/workers-types": "^4.20241106.0"
-  }
-}
-```
-
-**Docker Image**: `cloudflare/sandbox:0.4.12`
-
----
-
-## Production Example
-
-This skill is based on official Cloudflare tutorials:
-- **Claude Code Integration**: https://developers.cloudflare.com/sandbox/tutorials/claude-code/
-- **AI Code Executor**: https://developers.cloudflare.com/sandbox/tutorials/ai-code-executor/
-- **Build Time**: ~15 min (setup) + ~5 min (first deploy)
-- **Errors**: 0 (all 10 known issues prevented)
-- **Validation**: ✅ Tested with Python, Node.js, Git, background processes, sessions
-
----
-
-## Troubleshooting
-
-### Problem: "Class 'Sandbox' not found"
-**Solution**: Add migrations to wrangler.jsonc and ensure `export { Sandbox }` in Worker
-
-### Problem: Files disappear after some time
-**Solution**: Container goes idle after ~10 min. Use R2/KV for persistence or rebuild environment
-
-### Problem: Commands execute in wrong directory
-**Solution**: Create session with `createSession()`, pass sessionId to all related commands
-
-### Problem: Docker error during local dev
-**Solution**: Ensure Docker Desktop is running before `npm run dev`
-
-### Problem: "fetch is not defined"
-**Solution**: Add `"compatibility_flags": ["nodejs_compat"]` to wrangler.jsonc
-
----
-
-## Complete Setup Checklist
-
-- [ ] `bun add @cloudflare/sandbox@latest`
-- [ ] Add `nodejs_compat` to compatibility_flags
-- [ ] Add containers configuration with correct image version
-- [ ] Add Durable Objects binding
-- [ ] Add migrations for Sandbox class
-- [ ] Export Sandbox class in Worker: `export { Sandbox } from '@cloudflare/sandbox'`
-- [ ] Docker Desktop running (local dev only)
-- [ ] Test with simple exec command
-- [ ] Verify exit codes are being checked
-- [ ] Implement cleanup for ephemeral sandboxes
-- [ ] Test cold start behavior
-
----
-
-**Questions? Issues?**
-
-1. Check `references/common-errors.md` for specific error solutions
-2. Verify all steps in wrangler.jsonc configuration
-3. Check official docs: https://developers.cloudflare.com/sandbox/
-4. Ensure Docker is running for local development
-5. Confirm package version matches Docker image version
