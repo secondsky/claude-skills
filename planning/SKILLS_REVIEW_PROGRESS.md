@@ -82,6 +82,91 @@
 
 ---
 
+## Read-Only Bloat Audit (2025-12-11)
+
+**Audit Scope:** All 91 incomplete skills (⏳ or ❌ status in Phase columns)
+**Findings:** 35 skills exceed 500-line limit (38% of incomplete skills)
+**Method:** Line count analysis only, no file modifications made
+**Purpose:** Document current state and prioritize future Phase 7 (Progressive Disclosure) reviews
+
+### Critical Bloat Issues (>1000 lines) - 5 skills
+
+These require immediate refactoring with reference file extraction:
+
+| Skill | Lines | Over Limit | % Over | Tier |
+|-------|-------|------------|--------|------|
+| better-chatbot | 1665 | +1165 | +233% | Tooling |
+| claude-agent-sdk | 1557 | +1057 | +211% | AI/ML |
+| nextjs | 1265 | +765 | +153% | Frontend |
+| project-planning | 1022 | +522 | +104% | Tooling |
+| google-gemini-embeddings | 1002 | +502 | +100% | AI/ML |
+
+### High Priority Bloat (700-999 lines) - 7 skills
+
+Significant bloat requiring extraction of advanced sections:
+
+| Skill | Lines | Over Limit | % Over | Tier |
+|-------|-------|------------|--------|------|
+| claude-hook-writer | 972 | +472 | +94% | Tooling |
+| github-project-automation | 970 | +470 | +94% | Tooling |
+| turborepo | 938 | +438 | +87% | Tooling |
+| typescript-mcp | 850 | +350 | +70% | Tooling |
+| zustand-state-management | 810 | +310 | +62% | Frontend |
+| clerk-auth | 764 | +264 | +52% | Auth |
+| multi-ai-consultant | 758 | +258 | +51% | AI/ML |
+
+### Medium Priority Bloat (500-699 lines) - 23 skills
+
+Moderate bloat, can likely be condensed with targeted edits:
+
+| Skill | Lines | Over Limit | % Over | Tier |
+|-------|-------|------------|--------|------|
+| design-review | 724 | +224 | +44% | Tooling |
+| content-collections | 722 | +222 | +44% | Content |
+| project-workflow | 713 | +213 | +42% | Tooling |
+| elevenlabs-agents | 709 | +209 | +41% | AI/ML |
+| react-hook-form-zod | 694 | +194 | +38% | Frontend |
+| firecrawl-scraper | 689 | +189 | +37% | Frontend |
+| cloudflare-zero-trust-access | 684 | +184 | +36% | Cloudflare |
+| swift-settingskit | 670 | +170 | +34% | Mobile |
+| openai-agents | 660 | +160 | +32% | AI/ML |
+| vercel-kv | 656 | +156 | +31% | Database |
+| gemini-cli | 656 | +156 | +31% | AI/ML |
+| open-source-contributions | 636 | +136 | +27% | Tooling |
+| drizzle-orm-d1 | 632 | +132 | +26% | Database |
+| cloudflare-workers-ai | 629 | +129 | +25% | Cloudflare |
+| better-chatbot-patterns | 622 | +122 | +24% | Tooling |
+| openai-assistants | 617 | +117 | +23% | AI/ML |
+| cloudflare-vectorize | 614 | +114 | +22% | Cloudflare |
+| vercel-blob | 606 | +106 | +21% | Database |
+| google-gemini-api | 579 | +79 | +15% | AI/ML |
+| openai-responses | 556 | +56 | +11% | AI/ML |
+| skill-review | 533 | +33 | +6% | Tooling |
+| claude-api | 532 | +32 | +6% | AI/ML |
+| google-gemini-file-search | 522 | +22 | +4% | AI/ML |
+
+### Recommended Review Order
+
+Based on severity and impact, process bloated skills in this order:
+
+**Priority 1 - Critical (5 skills):**
+1. better-chatbot (1665L) - Extract patterns, examples, advanced features
+2. claude-agent-sdk (1557L) - Extract API reference, examples, migration guides
+3. nextjs (1265L) - Extract routing patterns, deployment guides, examples
+4. project-planning (1022L) - Extract templates, workflows, examples
+5. google-gemini-embeddings (1002L) - Extract code examples, migration guides
+
+**Priority 2 - High (7 skills):**
+6-12. claude-hook-writer, github-project-automation, turborepo, typescript-mcp, zustand-state-management, clerk-auth, multi-ai-consultant
+
+**Priority 3 - Medium (23 skills):**
+13-35. All remaining bloated skills
+
+**Total estimated extraction time:** ~40-60 hours for all 35 skills
+**Average reduction target:** 50% (based on cloudflare-sandbox: 47.6%, ai-sdk-ui: 51.3%)
+
+---
+
 ## Phase Tracking by Skill
 
 ### Legend
