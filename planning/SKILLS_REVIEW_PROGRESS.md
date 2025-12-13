@@ -48,13 +48,14 @@
 | 🟡 High (500-999) | 33 | SKILL.md 500-999 lines (needs trimming) |
 | 🟢 Clean (<500) | 67 | Acceptable size |
 
-### Completed Refactoring (15 skills)
+### Completed Refactoring (17 skills)
 
-✅ **15 skills refactored** with average 50% reduction:
+✅ **17 skills refactored** with average 45% reduction:
 - cloudflare-durable-objects, cloudflare-browser-rendering, cloudflare-cron-triggers
 - ai-sdk-core, ai-sdk-ui, pinia-v3, zod, ultracite, nuxt-ui-v4, nuxt-v4, motion, nuxt-seo
 - cloudflare-workers-ai (629→290, -54%), cloudflare-vectorize (615→378, -38%)
 - cloudflare-zero-trust-access (685→320, -53%)
+- content-collections (722→444, -38%), clerk-auth (764→774, multi-framework exception)
 
 📄 See `planning/COMPLETED_REVIEWS.md` for detailed review notes.
 
@@ -76,7 +77,7 @@
 ## Read-Only Bloat Audit (2025-12-11)
 
 **Audit Scope:** All 91 incomplete skills (⏳ or ❌ status in Phase columns)
-**Findings:** 32 skills exceed 500-line limit (35% of incomplete skills) - 3 optimized 2025-12-13
+**Findings:** 30 skills exceed 500-line limit (33% of incomplete skills) - 5 optimized 2025-12-13
 **Method:** Line count analysis only, no file modifications made
 **Purpose:** Document current state and prioritize future Phase 7 (Progressive Disclosure) reviews
 
@@ -92,7 +93,7 @@ These require immediate refactoring with reference file extraction:
 | project-planning | 1022 | +522 | +104% | Tooling |
 | google-gemini-embeddings | 1002 | +502 | +100% | AI/ML |
 
-### High Priority Bloat (700-999 lines) - 7 skills
+### High Priority Bloat (700-999 lines) - 6 skills
 
 Significant bloat requiring extraction of advanced sections:
 
@@ -103,17 +104,15 @@ Significant bloat requiring extraction of advanced sections:
 | turborepo | 938 | +438 | +87% | Tooling |
 | typescript-mcp | 850 | +350 | +70% | Tooling |
 | zustand-state-management | 810 | +310 | +62% | Frontend |
-| clerk-auth | 764 | +264 | +52% | Auth |
 | multi-ai-consultant | 758 | +258 | +51% | AI/ML |
 
-### Medium Priority Bloat (500-699 lines) - 20 skills
+### Medium Priority Bloat (500-699 lines) - 19 skills
 
 Moderate bloat, can likely be condensed with targeted edits:
 
 | Skill | Lines | Over Limit | % Over | Tier |
 |-------|-------|------------|--------|------|
 | design-review | 724 | +224 | +44% | Tooling |
-| content-collections | 722 | +222 | +44% | Content |
 | project-workflow | 713 | +213 | +42% | Tooling |
 | elevenlabs-agents | 709 | +209 | +41% | AI/ML |
 | react-hook-form-zod | 694 | +194 | +38% | Frontend |
@@ -137,6 +136,8 @@ Moderate bloat, can likely be condensed with targeted edits:
 - ~~cloudflare-workers-ai~~ → 290 lines (2025-12-13)
 - ~~cloudflare-vectorize~~ → 378 lines (2025-12-13)
 - ~~cloudflare-zero-trust-access~~ → 320 lines (2025-12-13)
+- ~~content-collections~~ → 444 lines (2025-12-13)
+- ~~clerk-auth~~ → 774 lines (2025-12-13, multi-framework exception)
 
 ### Recommended Review Order
 
@@ -271,7 +272,7 @@ Based on severity and impact, process bloated skills in this order:
 
 | # | Skill | P1-2 | P3 | P4 | P5 | P6 | P7 | P8 | P9 | P10 | P11 | P12 | P13 | P14 | Issues | Date |
 |---|-------|------|----|----|----|----|----|----|----|----|-----|-----|-----|-----|--------|------|
-| 76 | clerk-auth | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 76 | clerk-auth | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-13 |
 | 77 | better-auth | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-27 |
 
 ---
@@ -283,7 +284,7 @@ Based on severity and impact, process bloated skills in this order:
 | 78 | sveltia-cms | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 79 | nuxt-content | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-01-27 |
 | 80 | nuxt-seo | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-27 |
-| 81 | content-collections | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 81 | content-collections | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-13 |
 
 ---
 
