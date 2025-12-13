@@ -78,279 +78,67 @@ Do NOT use this skill for:
 
 ## Next.js 16 Breaking Changes
 
-**IMPORTANT**: Next.js 16 introduces multiple breaking changes. Read this section carefully if migrating from Next.js 15 or earlier.
+**CRITICAL**: Next.js 16 has multiple breaking changes. For detailed migration steps, see `references/next-16-migration-guide.md`.
 
-### 1. Async Route Parameters (BREAKING)
+| Breaking Change | Before | After |
+|-----------------|--------|-------|
+| **Async params** | `params.slug` | `const { slug } = await params` |
+| **Async headers** | `cookies()` sync | `await cookies()` |
+| **Middleware** | `middleware.ts` | `proxy.ts` (renamed) |
+| **Parallel routes** | `default.js` optional | `default.js` **required** |
+| **Caching** | Auto-cached fetch | Opt-in with `"use cache"` |
+| **revalidateTag()** | 1 argument | 2 arguments (tag + cacheLife) |
+| **Node.js** | 18.x+ | **20.9+** required |
+| **React** | 18.x | **19.2+** required |
 
-**Breaking Change**: `params`, `searchParams`, `cookies()`, `headers()`, `draftMode()` are now **async** and must be awaited.
-
-**Before (Next.js 15)**:
+**Quick Fix for Async Params**:
 ```typescript
-// ❌ This no longer works in Next.js 16
-export default function Page({ params, searchParams }: {
-  params: { slug: string }
-  searchParams: { query: string }
-}) {
-  const slug = params.slug // ❌ Error: params is a Promise
-  const query = searchParams.query // ❌ Error: searchParams is a Promise
-  return <div>{slug}</div>
+// ✅ Next.js 16 pattern
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  return <div>{id}</div>
 }
 ```
 
-**After (Next.js 16)**:
-```typescript
-// ✅ Correct: await params and searchParams
-export default async function Page({ params, searchParams }: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ query: string }>
-}) {
-  const { slug } = await params // ✅ Await the promise
-  const { query } = await searchParams // ✅ Await the promise
-  return <div>{slug}</div>
-}
-```
+**Codemod**: `bunx @next/codemod@canary upgrade latest`
 
-**Applies to**:
-- `params` in pages, layouts, route handlers
-- `searchParams` in pages
-- `cookies()` from `next/headers`
-- `headers()` from `next/headers`
-- `draftMode()` from `next/headers`
-
-**Migration**:
-```typescript
-// ❌ Before
-import { cookies, headers } from 'next/headers'
-
-export function MyComponent() {
-  const cookieStore = cookies() // ❌ Sync access
-  const headersList = headers() // ❌ Sync access
-}
-
-// ✅ After
-import { cookies, headers } from 'next/headers'
-
-export async function MyComponent() {
-  const cookieStore = await cookies() // ✅ Async access
-  const headersList = await headers() // ✅ Async access
-}
-```
-
-**Codemod**: Run `bunx @next/codemod@canary upgrade latest` to automatically migrate.
-
-**See Template**: `templates/async-params-page.tsx`
-
----
-
-### 2. Middleware → Proxy Migration (BREAKING)
-
-**Breaking Change**: `middleware.ts` is **deprecated** in Next.js 16. Use `proxy.ts` instead.
-
-**Why the Change**: `proxy.ts` makes the network boundary explicit by running on Node.js runtime (not Edge runtime). This provides better clarity between edge middleware and server-side proxies.
-
-**Migration Steps**:
-
-1. **Rename file**: `middleware.ts` → `proxy.ts`
-2. **Rename function**: `middleware` → `proxy`
-3. **Update config**: `matcher` → `config.matcher` (same syntax)
-
-**Before (Next.js 15)**:
-```typescript
-// middleware.ts ❌ Deprecated in Next.js 16
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-
-export function middleware(request: NextRequest) {
-  const response = NextResponse.next()
-  response.headers.set('x-custom-header', 'value')
-  return response
-}
-
-export const config = {
-  matcher: '/api/:path*',
-}
-```
-
-**After (Next.js 16)**:
-```typescript
-// proxy.ts ✅ New in Next.js 16
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-
-export function proxy(request: NextRequest) {
-  const response = NextResponse.next()
-  response.headers.set('x-custom-header', 'value')
-  return response
-}
-
-export const config = {
-  matcher: '/api/:path*',
-}
-```
-
----
-
-### 3. Parallel Routes Require `default.js` (BREAKING)
-
-**Breaking Change**: Parallel routes now **require** `default.js` files for each slot.
-
-**Before (Next.js 15)**: Optional
-**After (Next.js 16)**: **Required**
-
-**Example**:
-```
-app/
-├── @modal/
-│   ├── login/
-│   │   └── page.tsx
-│   └── default.tsx ✅ Required in Next.js 16
-├── @sidebar/
-│   ├── settings/
-│   │   └── page.tsx
-│   └── default.tsx ✅ Required in Next.js 16
-├── layout.tsx
-└── page.tsx
-```
-
-**default.tsx Template**:
-```typescript
-// app/@modal/default.tsx
-export default function ModalDefault() {
-  return null // Render nothing when slot not active
-}
-```
-
----
-
-### 4. Cache Components & "use cache" Directive (NEW)
-
-**Breaking Change**: Next.js 16 introduces opt-in caching with `"use cache"` directive instead of automatic fetch caching.
-
-**Before (Next.js 15)**:
-```typescript
-// fetch() cached by default
-async function getPosts() {
-  const res = await fetch('/api/posts') // ✅ Cached automatically
-  return res.json()
-}
-```
-
-**After (Next.js 16)**:
-```typescript
-// Must use "use cache" directive
-'use cache'
-
-async function getPosts() {
-  const res = await fetch('/api/posts') // ✅ Cached with "use cache"
-  return res.json()
-}
-```
-
-**Component-level Caching**:
-```typescript
-'use cache'
-
-export async function PostList() {
-  const posts = await fetch('/api/posts').then(r => r.json())
-  
-  return (
-    <ul>
-      {posts.map(post => (
-        <li key={post.id}>{post.title}</li>
-      ))}
-    </ul>
-  )
-}
-```
-
----
-
-### 5. Updated Caching APIs (BREAKING)
-
-**`revalidateTag()` - Now Requires 2 Arguments**:
-
-```typescript
-// ❌ Before (Next.js 15)
-revalidateTag('posts')
-
-// ✅ After (Next.js 16) - requires cacheLife
-revalidateTag('posts', 'max') // 'max' | 'default' | 'seconds:3600'
-```
-
-**New APIs**:
-- `updateTag()` - Update cached data (Server Actions only)
-- `refresh()` - Refresh current page data (Server Actions only)
-
----
-
-### 6. Version Requirements (BREAKING)
-
-**Minimum Versions**:
-- **Node.js**: 20.9+ (18.x no longer supported)
-- **React**: 19.2+ (18.x not compatible)
-- **TypeScript**: 5.0+ (recommended 5.3+)
-
-**Upgrade**:
-```bash
-# Check versions
-node --version  # Must be 20.9+
-npm list react  # Must be 19.2+
-
-# Upgrade
-nvm install 20
-bun add react@19.2 react-dom@19.2 next@16
-```
+**See**: `references/next-16-migration-guide.md` for complete migration guide with examples.
 
 ---
 
 ## Cache Components & Caching APIs
 
-### "use cache" Directive
-
-Mark components or functions as cacheable:
+### "use cache" Directive (NEW in Next.js 16)
 
 ```typescript
 'use cache'
 
 export async function BlogPosts() {
   const posts = await db.posts.findMany()
-  
-  return posts.map(post => (
-    <article key={post.id}>
-      <h2>{post.title}</h2>
-    </article>
-  ))
+  return posts.map(post => <article key={post.id}>{post.title}</article>)
 }
 ```
 
-**Cache Scopes**:
+### Caching APIs Summary
+
+| API | Purpose | Example |
+|-----|---------|---------|
+| `"use cache"` | Opt-in component/function caching | `'use cache'` at top |
+| `revalidateTag()` | Invalidate by tag | `revalidateTag('posts', 'max')` |
+| `updateTag()` | Update cache without revalidation | `updateTag('posts', newData)` |
+| `refresh()` | Refresh current page | `refresh()` |
+| `revalidatePath()` | Invalidate by path | `revalidatePath('/posts')` |
+
+### PPR (Partial Prerendering)
+
 ```typescript
-'use cache' // Cache for entire component
+// next.config.ts
+const config = { experimental: { ppr: true } }
 
-export async function getData() {
-  'use cache' // Cache only this function
-  return await fetch('/api/data').then(r => r.json())
-}
-```
-
----
-
-### Partial Prerendering (PPR)
-
-**Enable in `next.config.ts`**:
-```typescript
-const config = {
-  experimental: {
-    ppr: true, // Enable PPR
-  },
-}
-```
-
-**Usage**:
-```typescript
+// page.tsx
 export const experimental_ppr = true
 
-export default async function Page() {
+export default function Page() {
   return (
     <>
       <StaticHeader />
@@ -362,133 +150,23 @@ export default async function Page() {
 }
 ```
 
----
-
-### revalidateTag() - Updated API
-
-```typescript
-'use server'
-
-import { revalidateTag } from 'next/cache'
-
-export async function updatePost() {
-  await db.posts.update({ ... })
-  
-  // Revalidate with cacheLife (NEW in Next.js 16)
-  revalidateTag('posts', 'max') // max, default, or seconds:N
-}
-```
-
----
-
-### updateTag() - NEW API (Server Actions Only)
-
-Update cached data without revalidation:
-
-```typescript
-'use server'
-
-import { updateTag } from 'next/cache'
-
-export async function incrementViews(postId: string) {
-  const post = await db.posts.update({
-    where: { id: postId },
-    data: { views: { increment: 1 } }
-  })
-  
-  // Update cache without full revalidation
-  updateTag('posts', post)
-}
-```
-
----
-
-### refresh() - NEW API (Server Actions Only)
-
-Refresh current page data:
-
-```typescript
-'use server'
-
-import { refresh } from 'next/cache'
-
-export async function refreshData() {
-  // Fetch fresh data
-  const data = await fetch('/api/data').then(r => r.json())
-  
-  // Refresh current page
-  refresh()
-}
-```
+**See**: `references/caching-apis.md` for complete caching API reference with ISR, tag-based revalidation, and advanced patterns.
 
 ---
 
 ## Server Components
 
-### Server Component Basics
-
-Server Components are the default in App Router. They run on the server and can:
-- Fetch data directly
-- Access databases and APIs
-- Keep sensitive logic server-side
-- Reduce client bundle size
+Server Components are the **default** in App Router. They run on the server and can fetch data, access databases, and keep logic server-side.
 
 ```typescript
 // app/posts/page.tsx (Server Component by default)
 export default async function PostsPage() {
-  // Fetch data on server
   const posts = await db.posts.findMany()
-  
-  return (
-    <div>
-      {posts.map(post => (
-        <article key={post.id}>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-        </article>
-      ))}
-    </div>
-  )
+  return <div>{posts.map(p => <article key={p.id}>{p.title}</article>)}</div>
 }
 ```
-
----
-
-### Data Fetching in Server Components
-
-**Parallel Fetching**:
-```typescript
-export default async function Page() {
-  // Fetch in parallel
-  const [posts, users] = await Promise.all([
-    db.posts.findMany(),
-    db.users.findMany()
-  ])
-  
-  return (
-    <div>
-      <PostList posts={posts} />
-      <UserList users={users} />
-    </div>
-  )
-}
-```
-
-**Sequential Fetching**:
-```typescript
-export default async function Page() {
-  const user = await db.users.findUnique({ where: { id: 1 } })
-  const posts = await db.posts.findMany({ where: { userId: user.id } })
-  
-  return <PostList posts={posts} />
-}
-```
-
----
 
 ### Streaming with Suspense
-
-Stream components as they load:
 
 ```typescript
 import { Suspense } from 'react'
@@ -496,57 +174,31 @@ import { Suspense } from 'react'
 export default function Page() {
   return (
     <div>
-      <Header /> {/* Loads immediately */}
-      
-      <Suspense fallback={<PostsSkeleton />}>
-        <Posts /> {/* Streams in when ready */}
-      </Suspense>
-      
-      <Suspense fallback={<CommentsSkeleton />}>
-        <Comments /> {/* Streams independently */}
+      <Header />
+      <Suspense fallback={<Skeleton />}>
+        <Posts />
       </Suspense>
     </div>
   )
 }
-
-async function Posts() {
-  const posts = await db.posts.findMany() // Slow query
-  return <PostList posts={posts} />
-}
 ```
-
----
 
 ### Server vs Client Components
 
-**Use Server Components for**:
-- Data fetching
-- Database access
-- Sensitive operations
-- Large dependencies
-- Static content
+| Server Components | Client Components |
+|-------------------|-------------------|
+| Data fetching, DB access | Interactivity (onClick) |
+| Sensitive logic | React hooks (useState) |
+| Large dependencies | Browser APIs |
+| Static content | Real-time updates |
 
-**Use Client Components for**:
-- Interactivity (onClick, onChange)
-- React hooks (useState, useEffect)
-- Browser APIs (localStorage, window)
-- Event listeners
-- Real-time updates
-
-**Client Component Example**:
+**Client Component** (requires `'use client'`):
 ```typescript
-'use client' // Required for client-side interactivity
-
+'use client'
 import { useState } from 'react'
-
 export function Counter() {
   const [count, setCount] = useState(0)
-  
-  return (
-    <button onClick={() => setCount(count + 1)}>
-      Count: {count}
-    </button>
-  )
+  return <button onClick={() => setCount(count + 1)}>{count}</button>
 }
 ```
 
@@ -554,7 +206,7 @@ export function Counter() {
 
 ## Server Actions
 
-Server Actions are async functions that run on the server and can be called from Client or Server Components.
+Server Actions are async functions that run on the server, callable from Client or Server Components.
 
 ### Basic Server Action
 
@@ -566,136 +218,38 @@ import { revalidatePath } from 'next/cache'
 
 export async function createPost(formData: FormData) {
   const title = formData.get('title') as string
-  const content = formData.get('content') as string
-  
-  await db.posts.create({
-    data: { title, content }
-  })
-  
+  await db.posts.create({ data: { title } })
   revalidatePath('/posts')
 }
 ```
 
 ### Form Handling
 
-**Server Component Form** (simplest):
 ```typescript
+// Server Component Form (simplest)
 import { createPost } from './actions'
 
 export default function NewPostPage() {
   return (
     <form action={createPost}>
-      <input type="text" name="title" required />
-      <textarea name="content" required />
-      <button type="submit">Create Post</button>
+      <input name="title" required />
+      <button type="submit">Create</button>
     </form>
   )
 }
 ```
 
-**Client Component Form** (with loading state):
-```typescript
-'use client'
+### Available Patterns
 
-import { useFormState, useFormStatus } from 'react-dom'
-import { createPost } from './actions'
+| Pattern | Use Case | Reference |
+|---------|----------|-----------|
+| Client Form with Loading | useFormState + useFormStatus | `templates/server-action-form.tsx` |
+| Error Handling | Return { error } or { success } | `references/server-actions-patterns.md` |
+| Optimistic Updates | useOptimistic hook | `references/server-actions-patterns.md` |
+| File Upload | FormData + blob storage | `references/server-actions-patterns.md` |
+| Redirect After Action | redirect() function | `references/server-actions-patterns.md` |
 
-function SubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <button type="submit" disabled={pending}>
-      {pending ? 'Creating...' : 'Create Post'}
-    </button>
-  )
-}
-
-export default function NewPostPage() {
-  const [state, formAction] = useFormState(createPost, null)
-  
-  return (
-    <form action={formAction}>
-      {state?.error && <div className="error">{state.error}</div>}
-      <input type="text" name="title" required />
-      <textarea name="content" required />
-      <SubmitButton />
-    </form>
-  )
-}
-```
-
-**See Full Template**: `templates/server-action-form.tsx`
-
----
-
-### Error Handling
-
-```typescript
-'use server'
-
-export async function createPost(formData: FormData) {
-  try {
-    const title = formData.get('title') as string
-    
-    // Validate
-    if (!title) {
-      return { error: 'Title is required' }
-    }
-    
-    // Create
-    await db.posts.create({ data: { title } })
-    
-    // Success
-    revalidatePath('/posts')
-    return { success: true }
-    
-  } catch (error) {
-    console.error('Failed to create post:', error)
-    return { error: 'Failed to create post' }
-  }
-}
-```
-
----
-
-### Optimistic Updates
-
-```typescript
-'use client'
-
-import { useOptimistic } from 'react'
-import { addComment } from './actions'
-
-export function Comments({ initialComments }) {
-  const [optimisticComments, addOptimisticComment] = useOptimistic(
-    initialComments,
-    (state, newComment) => [...state, newComment]
-  )
-  
-  async function handleSubmit(formData: FormData) {
-    const comment = formData.get('comment')
-    
-    // Optimistically add comment
-    addOptimisticComment({ id: Date.now(), text: comment, pending: true })
-    
-    // Actually add comment
-    await addComment(formData)
-  }
-  
-  return (
-    <div>
-      {optimisticComments.map(comment => (
-        <div key={comment.id} className={comment.pending ? 'opacity-50' : ''}>
-          {comment.text}
-        </div>
-      ))}
-      <form action={handleSubmit}>
-        <input name="comment" />
-        <button>Add Comment</button>
-      </form>
-    </div>
-  )
-}
-```
+**See**: `references/server-actions-patterns.md` for error handling, optimistic updates, file uploads, and advanced patterns.
 
 ---
 
@@ -703,234 +257,62 @@ export function Comments({ initialComments }) {
 
 Route Handlers are the App Router equivalent of API Routes.
 
-### Basic Route Handler
-
 ```typescript
 // app/api/posts/route.ts
 export async function GET(request: Request) {
   const posts = await db.posts.findMany()
-  
   return Response.json({ posts })
 }
 
 export async function POST(request: Request) {
   const body = await request.json()
-  
-  const post = await db.posts.create({
-    data: body
-  })
-  
+  const post = await db.posts.create({ data: body })
   return Response.json({ post }, { status: 201 })
 }
 ```
 
----
-
-### Dynamic Routes
-
+**Dynamic Routes** (with async params):
 ```typescript
 // app/api/posts/[id]/route.ts
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params // Await params in Next.js 16
-  
-  const post = await db.posts.findUnique({
-    where: { id }
-  })
-  
-  if (!post) {
-    return Response.json({ error: 'Not found' }, { status: 404 })
-  }
-  
-  return Response.json({ post })
+  const { id } = await params // Await in Next.js 16
+  const post = await db.posts.findUnique({ where: { id } })
+  return post ? Response.json({ post }) : Response.json({ error: 'Not found' }, { status: 404 })
 }
 ```
 
----
-
-### Search Params
-
-```typescript
-// app/api/posts/route.ts
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const query = searchParams.get('query')
-  const page = Number(searchParams.get('page') || '1')
-  
-  const posts = await db.posts.findMany({
-    where: query ? { title: { contains: query } } : {},
-    skip: (page - 1) * 10,
-    take: 10
-  })
-  
-  return Response.json({ posts, page })
-}
-```
-
----
-
-### Webhooks
-
-```typescript
-// app/api/webhooks/stripe/route.ts
-import { headers } from 'next/headers'
-import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
-export async function POST(request: Request) {
-  const body = await request.text()
-  const headersList = await headers() // Await in Next.js 16
-  const signature = headersList.get('stripe-signature')!
-  
-  try {
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    )
-    
-    // Handle event
-    switch (event.type) {
-      case 'payment_intent.succeeded':
-        // Handle payment
-        break
-    }
-    
-    return Response.json({ received: true })
-  } catch (error) {
-    return Response.json({ error: 'Invalid signature' }, { status: 400 })
-  }
-}
-```
+**See**: `templates/route-handler-api.ts` for search params, webhooks, and streaming patterns.
 
 ---
 
 ## React 19.2 Features
 
-### View Transitions
-
-```typescript
-'use client'
-
-import { useTransition } from 'react'
-import { useRouter } from 'next/navigation'
-
-export function NavigateButton() {
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-  
-  function navigate() {
-    startTransition(() => {
-      router.push('/dashboard')
-    })
-  }
-  
-  return (
-    <button onClick={navigate} disabled={isPending}>
-      {isPending ? 'Loading...' : 'Go to Dashboard'}
-    </button>
-  )
-}
-```
-
----
-
-### React Compiler (Stable)
-
-**Enable in `next.config.ts`**:
-```typescript
-const config = {
-  experimental: {
-    reactCompiler: true, // Auto-memoization
-  },
-}
-```
-
-**Benefits**:
-- Automatic memoization (no need for useMemo/useCallback)
-- Better performance
-- Smaller bundle size
+| Feature | Usage |
+|---------|-------|
+| **React Compiler** | `experimental: { reactCompiler: true }` - Auto-memoization |
+| **View Transitions** | `useTransition()` + `router.push()` |
+| **useEffectEvent** | Stable event handlers without deps |
 
 ---
 
 ## Metadata API
 
-### Static Metadata
-
 ```typescript
-import { Metadata } from 'next'
-
+// Static metadata
 export const metadata: Metadata = {
   title: 'My Blog',
   description: 'A blog about Next.js',
-  openGraph: {
-    title: 'My Blog',
-    description: 'A blog about Next.js',
-    images: ['/og-image.jpg'],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'My Blog',
-    description: 'A blog about Next.js',
-    images: ['/twitter-image.jpg'],
-  },
+  openGraph: { title: 'My Blog', images: ['/og-image.jpg'] },
 }
-```
 
----
-
-### Dynamic Metadata
-
-```typescript
-export async function generateMetadata({
-  params
-}: {
-  params: Promise<{ id: string }>
-}): Promise<Metadata> {
-  const { id } = await params // Await params in Next.js 16
-  
+// Dynamic metadata (await params in Next.js 16)
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const post = await db.posts.findUnique({ where: { id } })
-  
-  return {
-    title: post.title,
-    description: post.excerpt,
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      images: [post.coverImage],
-    },
-  }
-}
-```
-
----
-
-### Sitemap
-
-```typescript
-// app/sitemap.ts
-import { MetadataRoute } from 'next'
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await db.posts.findMany()
-  
-  return [
-    {
-      url: 'https://example.com',
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    ...posts.map(post => ({
-      url: `https://example.com/posts/${post.slug}`,
-      lastModified: post.updatedAt,
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    })),
-  ]
+  return { title: post.title, description: post.excerpt }
 }
 ```
 
@@ -938,89 +320,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 ## Image & Font Optimization
 
-### next/image
-
 ```typescript
+// next/image
 import Image from 'next/image'
+<Image src="/profile.jpg" alt="Profile" width={500} height={500} priority />
 
-export function ProfilePic() {
-  return (
-    <Image
-      src="/profile.jpg"
-      alt="Profile picture"
-      width={500}
-      height={500}
-      priority // Load immediately (above fold)
-    />
-  )
-}
-
-// Remote images (configure in next.config.ts)
-export function RemoteImage() {
-  return (
-    <Image
-      src="https://example.com/image.jpg"
-      alt="Remote image"
-      width={800}
-      height={600}
-      loading="lazy" // Lazy load (below fold)
-    />
-  )
-}
+// next/font
+import { Inter } from 'next/font/google'
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+<html className={inter.variable}>
 ```
 
-**Configure Remote Patterns**:
-```typescript
-// next.config.ts
-const config = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'example.com',
-      },
-    ],
-  },
-}
-```
-
----
-
-### next/font
-
-```typescript
-// app/layout.tsx
-import { Inter, Roboto_Mono } from 'next/font/google'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
-
-const robotoMono = Roboto_Mono({
-  subsets: ['latin'],
-  variable: '--font-roboto-mono',
-})
-
-export default function RootLayout({ children }) {
-  return (
-    <html className={`${inter.variable} ${robotoMono.variable}`}>
-      <body>{children}</body>
-    </html>
-  )
-}
-```
-
-**Use in CSS**:
-```css
-body {
-  font-family: var(--font-inter);
-}
-
-code {
-  font-family: var(--font-roboto-mono);
-}
-```
+**Remote images**: Configure `images.remotePatterns` in `next.config.ts`.
 
 ---
 
@@ -1108,158 +419,64 @@ export async function getPosts() {
 
 ## Performance Patterns
 
-### Lazy Loading
-
-```typescript
-import dynamic from 'next/dynamic'
-
-const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
-  loading: () => <p>Loading...</p>,
-  ssr: false, // Disable SSR for client-only components
-})
-
-export function Page() {
-  return <HeavyComponent />
-}
-```
-
----
-
-### Code Splitting
-
-```typescript
-// Automatic code splitting by route
-app/
-├── dashboard/page.tsx    → /dashboard bundle
-├── blog/page.tsx         → /blog bundle
-└── about/page.tsx        → /about bundle
-
-// Each route gets its own bundle
-```
-
----
-
-### Turbopack (Stable in Next.js 16)
-
-Turbopack is now the default bundler in Next.js 16.
-
-**Opt out if needed**:
-```bash
-# Use Webpack instead
-npm run dev -- --webpack
-npm run build -- --webpack
-```
-
-**Configure Turbopack**:
-```typescript
-// next.config.ts
-const config = {
-  experimental: {
-    turbo: {
-      // Turbopack configuration
-    },
-  },
-}
-```
+| Pattern | Usage |
+|---------|-------|
+| **Lazy Loading** | `const HeavyComp = dynamic(() => import('./Heavy'), { ssr: false })` |
+| **Code Splitting** | Automatic per route - each `page.tsx` gets own bundle |
+| **Turbopack** | Default in Next.js 16, opt out with `--webpack` flag |
+| **PPR** | `experimental: { ppr: true }` + `<Suspense>` boundaries |
 
 ---
 
 ## TypeScript Configuration
 
-### Strict Mode
-
 ```json
 {
   "compilerOptions": {
     "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "baseUrl": ".",
+    "paths": { "@/*": ["./*"] }
   }
 }
 ```
 
 ---
 
-### Path Aliases
+## When to Load References
 
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"],
-      "@/components/*": ["./app/components/*"],
-      "@/lib/*": ["./lib/*"]
-    }
-  }
-}
-```
-
-**Usage**:
-```typescript
-import { Button } from '@/components/Button'
-import { db } from '@/lib/db'
-```
+| Reference | Load When... |
+|-----------|--------------|
+| `next-16-migration-guide.md` | Migrating from Next.js 15, async params errors, proxy.ts setup |
+| `server-actions-patterns.md` | Error handling, optimistic updates, file uploads, advanced forms |
+| `caching-apis.md` | ISR, tag-based revalidation, updateTag(), refresh(), PPR details |
+| `error-catalog.md` | Debugging any Next.js error, comprehensive error solutions |
+| `top-errors.md` | Quick fixes for the 5 most common Next.js errors |
 
 ---
 
 ## Bundled Resources
 
-**References** (`references/`):
-- `error-catalog.md` - All 18 documented errors with solutions and prevention strategies
-- `top-errors.md` - Top 5 critical errors with detailed fixes and workarounds
-- `next-16-migration-guide.md` - Complete Next.js 16 migration guide with async params, middleware changes, codemod usage
-
-**Templates** (`templates/`):
-- `async-params-page.tsx` - Next.js 16 async params pattern (pages, layouts, metadata)
-- `app-router-async-params.tsx` - App Router with async params implementation
-- `server-action-form.tsx` - Server Actions with forms (create, update, delete, error handling)
-- `server-actions-form.tsx` - Additional Server Actions patterns
-- `route-handler-api.ts` - API route handlers with Request/Response
-- `cache-component-use-cache.tsx` - Component caching with "use cache" directive
-- `parallel-routes-with-default.tsx` - Parallel routes with default.js fallback
-- `proxy-migration.ts` - Middleware to Proxy migration example
-- `package.json` - Dependencies and scripts configuration
+| Type | Files |
+|------|-------|
+| **References** | `error-catalog.md`, `top-errors.md`, `next-16-migration-guide.md`, `server-actions-patterns.md`, `caching-apis.md` |
+| **Templates** | `async-params-page.tsx`, `server-action-form.tsx`, `route-handler-api.ts`, `cache-component-use-cache.tsx`, `parallel-routes-with-default.tsx`, `proxy-migration.ts` |
 
 ---
 
-## Integration with Existing Skills
+## Related Skills
 
-This skill composes well with:
+| Skill | Purpose |
+|-------|---------|
+| `cloudflare-nextjs` | Deploy to Cloudflare Workers |
+| `tailwind-v4-shadcn` | Styling |
+| `clerk-auth` | Authentication |
+| `drizzle-orm-d1` | Database |
+| `react-hook-form-zod` | Forms |
+| `zustand-state-management` | Client state |
 
-- **cloudflare-nextjs** → Deploy Next.js to Cloudflare Workers
-- **tailwind-v4-shadcn** → Tailwind v4 + shadcn/ui styling
-- **clerk-auth** → Authentication (Clerk)
-- **drizzle-orm-d1** → Database (Drizzle ORM with D1)
-- **react-hook-form-zod** → Form handling and validation
-- **zustand-state-management** → Client-side state
-- **tanstack-query** → Data fetching and caching
-
----
-
-## Additional Resources
-
-**Official Documentation**:
-- Next.js Docs: https://nextjs.org/docs
-- App Router: https://nextjs.org/docs/app
-- Migration Guide: https://nextjs.org/docs/app/building-your-application/upgrading
-
-**Examples**:
-- Official Examples: https://github.com/vercel/next.js/tree/canary/examples
-- Next.js Learn: https://nextjs.org/learn
+**Official Docs**: https://nextjs.org/docs | **App Router**: https://nextjs.org/docs/app
 
 ---
 
-## Version Compatibility
-
-- **Next.js 16.0.0** (stable)
-- **React 19.2.0** (required)
-- **Node.js 20.9+** (required)
-- **TypeScript 5.0+** (recommended 5.3+)
-
----
-
-**Production Tested**: E-commerce platforms, SaaS applications, content sites
-**Last Updated**: 2025-10-24
-**Token Savings**: 65-70% (reduces ~18k tokens to ~6k)
+**Version**: Next.js 16.0.0 | React 19.2.0 | Node.js 20.9+ | TypeScript 5.3+
+**Production Tested**: E-commerce, SaaS, content sites | **Token Savings**: 65-70%
