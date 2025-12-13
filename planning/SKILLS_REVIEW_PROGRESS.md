@@ -48,11 +48,13 @@
 | 🟡 High (500-999) | 33 | SKILL.md 500-999 lines (needs trimming) |
 | 🟢 Clean (<500) | 67 | Acceptable size |
 
-### Completed Refactoring (12 skills)
+### Completed Refactoring (15 skills)
 
-✅ **12 critical skills refactored** with average 55% reduction:
+✅ **15 skills refactored** with average 50% reduction:
 - cloudflare-durable-objects, cloudflare-browser-rendering, cloudflare-cron-triggers
 - ai-sdk-core, ai-sdk-ui, pinia-v3, zod, ultracite, nuxt-ui-v4, nuxt-v4, motion, nuxt-seo
+- cloudflare-workers-ai (629→290, -54%), cloudflare-vectorize (615→378, -38%)
+- cloudflare-zero-trust-access (685→320, -53%)
 
 📄 See `planning/COMPLETED_REVIEWS.md` for detailed review notes.
 
@@ -74,7 +76,7 @@
 ## Read-Only Bloat Audit (2025-12-11)
 
 **Audit Scope:** All 91 incomplete skills (⏳ or ❌ status in Phase columns)
-**Findings:** 35 skills exceed 500-line limit (38% of incomplete skills)
+**Findings:** 32 skills exceed 500-line limit (35% of incomplete skills) - 3 optimized 2025-12-13
 **Method:** Line count analysis only, no file modifications made
 **Purpose:** Document current state and prioritize future Phase 7 (Progressive Disclosure) reviews
 
@@ -104,7 +106,7 @@ Significant bloat requiring extraction of advanced sections:
 | clerk-auth | 764 | +264 | +52% | Auth |
 | multi-ai-consultant | 758 | +258 | +51% | AI/ML |
 
-### Medium Priority Bloat (500-699 lines) - 23 skills
+### Medium Priority Bloat (500-699 lines) - 20 skills
 
 Moderate bloat, can likely be condensed with targeted edits:
 
@@ -116,23 +118,25 @@ Moderate bloat, can likely be condensed with targeted edits:
 | elevenlabs-agents | 709 | +209 | +41% | AI/ML |
 | react-hook-form-zod | 694 | +194 | +38% | Frontend |
 | firecrawl-scraper | 689 | +189 | +37% | Frontend |
-| cloudflare-zero-trust-access | 684 | +184 | +36% | Cloudflare |
 | swift-settingskit | 670 | +170 | +34% | Mobile |
 | openai-agents | 660 | +160 | +32% | AI/ML |
 | vercel-kv | 656 | +156 | +31% | Database |
 | gemini-cli | 656 | +156 | +31% | AI/ML |
 | open-source-contributions | 636 | +136 | +27% | Tooling |
 | drizzle-orm-d1 | 632 | +132 | +26% | Database |
-| cloudflare-workers-ai | 629 | +129 | +25% | Cloudflare |
 | better-chatbot-patterns | 622 | +122 | +24% | Tooling |
 | openai-assistants | 617 | +117 | +23% | AI/ML |
-| cloudflare-vectorize | 614 | +114 | +22% | Cloudflare |
 | vercel-blob | 606 | +106 | +21% | Database |
 | google-gemini-api | 579 | +79 | +15% | AI/ML |
 | openai-responses | 556 | +56 | +11% | AI/ML |
 | skill-review | 533 | +33 | +6% | Tooling |
 | claude-api | 532 | +32 | +6% | AI/ML |
 | google-gemini-file-search | 522 | +22 | +4% | AI/ML |
+
+**Recently Optimized (removed from list):**
+- ~~cloudflare-workers-ai~~ → 290 lines (2025-12-13)
+- ~~cloudflare-vectorize~~ → 378 lines (2025-12-13)
+- ~~cloudflare-zero-trust-access~~ → 320 lines (2025-12-13)
 
 ### Recommended Review Order
 
@@ -175,8 +179,8 @@ Based on severity and impact, process bloated skills in this order:
 | 2 | cloudflare-d1 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-25 |
 | 3 | cloudflare-r2 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-26 |
 | 4 | cloudflare-kv | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
-| 5 | cloudflare-workers-ai | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
-| 6 | cloudflare-vectorize | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 5 | cloudflare-workers-ai | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-13 |
+| 6 | cloudflare-vectorize | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-13 |
 | 7 | cloudflare-queues | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-26 |
 | 8 | cloudflare-workflows | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-26 |
 | 9 | cloudflare-durable-objects | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-25 |
@@ -189,7 +193,7 @@ Based on severity and impact, process bloated skills in this order:
 | 16 | cloudflare-hyperdrive | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 17 | cloudflare-images | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-26 |
 | 18 | cloudflare-browser-rendering | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-27 |
-| 19 | cloudflare-zero-trust-access | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 19 | cloudflare-zero-trust-access | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-13 |
 | 20 | cloudflare-full-stack-scaffold | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-09 |
 | 21 | cloudflare-full-stack-integration | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 22 | cloudflare-manager | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
