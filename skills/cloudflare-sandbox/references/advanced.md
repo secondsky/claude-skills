@@ -21,26 +21,43 @@ const sandbox = getSandbox(env.Sandbox, `user-${userId}`);
 ## Error Handling Strategy
 
 ```typescript
+interface SafeExecOptions {
+  timeout?: number;
+  debug?: boolean;
+  allowSensitiveLogs?: boolean;
+}
+
+interface SafeExecResult {
+  success: boolean;
+  output?: string;
+  error?: string;
+  exitCode: number;
+}
+
 async function safeSandboxExec(
   sandbox: Sandbox,
   cmd: string,
-  options?: any
-) {
+  options?: SafeExecOptions
+): Promise<SafeExecResult> {
   try {
     const result = await sandbox.exec(cmd, {
-      ...options,
       timeout: options?.timeout || 30000
     });
 
     if (!result.success) {
-      console.error(`Command failed: ${cmd}`, {
-        exitCode: result.exitCode,
-        stderr: result.stderr
-      });
+      // Only log details if explicitly allowed
+      if (options?.debug || options?.allowSensitiveLogs) {
+        console.error(`Command failed: ${cmd}`, {
+          exitCode: result.exitCode,
+          stderr: result.stderr?.substring(0, 200) // Truncate
+        });
+      } else {
+        console.error(`Sandbox command failed with exit code ${result.exitCode}`);
+      }
 
       return {
         success: false,
-        error: result.stderr,
+        error: "Command execution failed",
         exitCode: result.exitCode
       };
     }
@@ -51,10 +68,20 @@ async function safeSandboxExec(
       exitCode: 0
     };
   } catch (error) {
-    console.error(`Sandbox error:`, error);
+    // Safe error message extraction
+    const safeMessage = error instanceof Error
+      ? error.message
+      : String(error);
+
+    if (options?.debug) {
+      console.error(`Sandbox error: ${safeMessage}`);
+    } else {
+      console.error(`Sandbox execution error occurred`);
+    }
+
     return {
       success: false,
-      error: error.message,
+      error: "Sandbox execution error",
       exitCode: -1
     };
   }

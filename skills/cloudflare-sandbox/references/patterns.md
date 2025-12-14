@@ -120,8 +120,13 @@ async function runBuild(repoUrl: string, commit: string, env: Env) {
 
     return { success: true, artifactKey: `builds/${commit}.tar.gz` };
   } finally {
-    // Optional: Keep sandbox for debugging or destroy
-    // await sandbox.destroy();
+    // Destroy sandbox to prevent resource leaks
+    await sandbox.destroy();
+    console.log(`Destroyed sandbox ${sandboxId}`);
+
+    // Debugging tip: To retain sandboxes for debugging, conditionally
+    // skip destroy() based on an environment variable:
+    // if (!env.DEBUG_KEEP_SANDBOXES) { await sandbox.destroy(); }
   }
 }
 ```
@@ -143,15 +148,19 @@ async function runClaudeCodeOnRepo(
     // Clone repository
     await sandbox.gitCheckout(repoUrl, '/workspace/repo');
 
-    // Set API key
-    await sandbox.exec(`export ANTHROPIC_API_KEY="${env.ANTHROPIC_API_KEY}"`);
-
-    // Run Claude Code CLI
+    // Run Claude Code CLI with API key in environment
+    // ⚠️ WARNING: Never log 'result', 'cmd', or the 'env' object
+    // to prevent API key exposure in logs
     const result = await sandbox.exec(
       `claude -p "${task}" --permission-mode acceptEdits`,
       {
         cwd: '/workspace/repo',
-        timeout: 300000 // 5 minutes
+        timeout: 300000, // 5 minutes
+        // Merge API key into environment - NEVER log this object
+        env: {
+          ...process.env,
+          ANTHROPIC_API_KEY: env.ANTHROPIC_API_KEY
+        }
       }
     );
 
