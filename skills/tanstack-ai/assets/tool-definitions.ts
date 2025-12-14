@@ -1,4 +1,5 @@
-import { z, toolDefinition } from '@tanstack/ai'
+import { z } from 'zod'
+import { toolDefinition } from '@tanstack/ai'
 
 // Shared definition sent to the model (never include sensitive logic here)
 export const createTodoDef = toolDefinition({

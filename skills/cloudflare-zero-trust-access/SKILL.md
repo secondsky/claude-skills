@@ -216,7 +216,7 @@ cloudflareAccess({ domain: 'my-team.cloudflareaccess.com' })
 |---|-------|----------|
 | 4 | Key cache race | Use `@hono/cloudflare-access` (auto-caches) |
 | 5 | Wrong service token headers | Use `CF-Access-Client-Id/Secret` (not `Authorization`) |
-| 6 | Token expiration (401 after 1hr) | Handle gracefully, redirect to login |
+| 6 | Token expiration (401 after 1 hr) | Handle gracefully, redirect to login |
 | 7 | Overlapping policies | Use most specific paths |
 | 8 | Dev/prod mismatch | Use environment-specific configs |
 

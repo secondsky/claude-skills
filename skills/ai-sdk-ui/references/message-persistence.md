@@ -41,12 +41,28 @@ export default function PersistentChat() {
 
 // Helper functions
 function loadMessages(chatId: string) {
-  const stored = localStorage.getItem(`chat-${chatId}`);
-  return stored ? JSON.parse(stored) : [];
+  // SSR safety check
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const stored = localStorage.getItem(`chat-${chatId}`);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.warn('Failed to load messages from localStorage:', error);
+    return [];
+  }
 }
 
 function saveMessages(chatId: string, messages: any[]) {
-  localStorage.setItem(`chat-${chatId}`, JSON.stringify(messages));
+  // SSR safety check
+  if (typeof window === 'undefined') return;
+
+  try {
+    localStorage.setItem(`chat-${chatId}`, JSON.stringify(messages));
+  } catch (error) {
+    console.error('Failed to save messages to localStorage:', error);
+    // Silently fail - persistence is best-effort
+  }
 }
 ```
 

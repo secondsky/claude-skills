@@ -42,7 +42,7 @@ export default function ChatPage() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    sendMessage({ content: input });
+    sendMessage({ text: input });
     setInput('');
   };
 
