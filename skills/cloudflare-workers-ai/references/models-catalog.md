@@ -2,7 +2,7 @@
 
 Complete catalog of Workers AI models organized by task type.
 
-**Last Updated**: 2025-10-21
+**Last Updated**: 2025-01-14
 **Official Catalog**: https://developers.cloudflare.com/workers-ai/models/
 
 ---

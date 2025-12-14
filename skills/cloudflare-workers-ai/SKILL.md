@@ -211,16 +211,17 @@ const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { prompt: 'H
 
 ## Rate Limits & Pricing
 
-| Task Type | Rate Limit | Pricing |
-|-----------|------------|---------|
-| Text Generation | 300-1500/min | $0.027-0.606/1M tokens |
-| Embeddings | 1500-3000/min | $0.005/1M tokens |
-| Image Generation | 720/min | ~$0.011/image |
-| Vision | 720/min | Similar to text gen |
+**Information last verified**: 2025-01-14
 
-**Free Tier**: 10,000 neurons/day | **Paid**: $0.011 per 1,000 neurons
+Rate limits and pricing vary significantly by model. Always check the official documentation for the most current information:
 
-📄 **Detailed pricing**: See `references/models-catalog.md` for per-model costs.
+- **Rate Limits**: https://developers.cloudflare.com/workers-ai/platform/limits/
+- **Pricing**: https://developers.cloudflare.com/workers-ai/platform/pricing/
+
+**Free Tier**: 10,000 neurons/day
+**Paid Tier**: $0.011 per 1,000 neurons
+
+📄 **Per-model details**: See `references/models-catalog.md` for specific rate limits and pricing for each model.
 
 ---
 
