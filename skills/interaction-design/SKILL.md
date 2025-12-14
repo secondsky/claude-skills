@@ -1,6 +1,7 @@
 ---
 name: interaction-design
 description: Creates intuitive user experiences through feedback patterns, microinteractions, and accessible interaction design. Use when designing loading states, error handling UX, animation guidelines, or touch interactions.
+license: MIT
 ---
 
 # Interaction Design

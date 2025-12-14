@@ -1,6 +1,7 @@
 ---
 name: kpi-dashboard-design
 description: Designs effective KPI dashboards with proper metric selection, visual hierarchy, and data visualization best practices. Use when building executive dashboards, creating analytics views, or presenting business metrics.
+license: MIT
 ---
 
 # KPI Dashboard Design

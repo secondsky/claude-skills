@@ -1,6 +1,7 @@
 ---
 name: progressive-web-app
 description: Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps.
+license: MIT
 ---
 
 # Progressive Web App (PWA)

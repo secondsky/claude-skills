@@ -1,6 +1,7 @@
 ---
 name: image-optimization
 description: Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment.
+license: MIT
 ---
 
 # Image Optimization
