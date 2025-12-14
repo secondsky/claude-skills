@@ -6,7 +6,7 @@
 
 ---
 
-### Message Persistence
+## Message Persistence
 
 Save and load chat history to localStorage:
 

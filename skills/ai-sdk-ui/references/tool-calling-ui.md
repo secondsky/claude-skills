@@ -6,7 +6,7 @@
 
 ---
 
-### Tool Calling in UI
+## Tool Calling in UI
 
 When your API uses tools, useChat automatically handles tool invocations in the message stream:
 

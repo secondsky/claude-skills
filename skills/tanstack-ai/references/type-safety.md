@@ -50,7 +50,7 @@ Gate provider-specific options inside these branches.
 ## Agent loop guards
 Type the strategy:
 ```ts
-agentLoopStrategy: { type: 'maxIterations', limit: 8 }
+agentLoopStrategy: maxIterations(8)
 ```
 Prevents accidental infinite loops at runtime.
 

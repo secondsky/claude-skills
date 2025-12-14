@@ -78,6 +78,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Guard: Only allow POST requests
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Validate input
+  if (!req.body.messages || !Array.isArray(req.body.messages)) {
+    return res.status(400).json({
+      error: 'Invalid request body. Expected { messages: Message[] }'
+    });
+  }
+
   const { messages } = req.body;
 
   const result = streamText({

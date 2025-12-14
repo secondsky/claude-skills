@@ -60,7 +60,7 @@ export default function Completion() {
 ```typescript
 const {
   completion,         // string - Current completion text
-  complete,           // (prompt: string) => void - Trigger completion
+  complete,           // (prompt: string) => Promise<string | null | undefined> - Trigger completion
   setCompletion,      // (completion: string) => void - Update completion
   isLoading,          // boolean - Is generating?
   error,              // Error | undefined - Error if any

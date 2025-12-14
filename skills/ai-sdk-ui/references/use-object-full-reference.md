@@ -33,7 +33,7 @@ export default function RecipeGenerator() {
 
   return (
     <div>
-      <button onClick={() => submit('pasta carbonara')} disabled={isLoading}>
+      <button onClick={() => submit({ prompt: 'pasta carbonara' })} disabled={isLoading}>
         Generate Recipe
       </button>
 
@@ -70,7 +70,7 @@ export default function RecipeGenerator() {
 ```typescript
 const {
   object,             // Partial<T> - Partial object (updates as stream progresses)
-  submit,             // (input: string) => void - Trigger generation
+  submit,             // (input: object) => void - Trigger generation
   isLoading,          // boolean - Is generating?
   error,              // Error | undefined - Error if any
   stop,               // () => void - Stop generation

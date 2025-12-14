@@ -15,7 +15,7 @@ export const POST = async (req: Request) => {
       model: 'gpt-4o',
       messages,
       tools,
-      agentLoopStrategy: { type: 'maxIterations', limit: 8 },
+      agentLoopStrategy: maxIterations(8),
     })
   )
 }

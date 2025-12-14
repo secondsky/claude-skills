@@ -1,5 +1,5 @@
 // Copy into Next.js `app/api/chat/route.ts` or TanStack Start `src/routes/api/chat.ts`
-import { chat, toStreamResponse } from '@tanstack/ai'
+import { chat, toStreamResponse, maxIterations } from '@tanstack/ai'
 import { openai } from '@tanstack/ai-openai'
 import { tools } from '@/tools/definitions'
 
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     messages,
     conversationId,
     tools,
-    agentLoopStrategy: { type: 'maxIterations', limit: 8 },
+    agentLoopStrategy: maxIterations(8),
   })
 
   return toStreamResponse(stream)
