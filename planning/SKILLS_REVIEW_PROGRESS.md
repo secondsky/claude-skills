@@ -48,14 +48,15 @@
 | 🟡 High (500-999) | 33 | SKILL.md 500-999 lines (needs trimming) |
 | 🟢 Clean (<500) | 67 | Acceptable size |
 
-### Completed Refactoring (17 skills)
+### Completed Refactoring (20 skills)
 
-✅ **17 skills refactored** with average 45% reduction:
+✅ **20 skills refactored** with average 50% reduction:
 - cloudflare-durable-objects, cloudflare-browser-rendering, cloudflare-cron-triggers
 - ai-sdk-core, ai-sdk-ui, pinia-v3, zod, ultracite, nuxt-ui-v4, nuxt-v4, motion, nuxt-seo
 - cloudflare-workers-ai (629→290, -54%), cloudflare-vectorize (615→378, -38%)
 - cloudflare-zero-trust-access (685→320, -53%)
 - content-collections (722→444, -38%), clerk-auth (764→774, multi-framework exception)
+- vercel-kv (656→233, -64%), drizzle-orm-d1 (632→264, -58%), vercel-blob (607→245, -60%)
 
 📄 See `planning/COMPLETED_REVIEWS.md` for detailed review notes.
 
@@ -77,7 +78,7 @@
 ## Read-Only Bloat Audit (2025-12-11)
 
 **Audit Scope:** All 91 incomplete skills (⏳ or ❌ status in Phase columns)
-**Findings:** 30 skills exceed 500-line limit (33% of incomplete skills) - 5 optimized 2025-12-13
+**Findings:** 30 skills exceed 500-line limit (33% of incomplete skills) - 8 optimized (5 on 2025-12-13, 3 on 2025-12-14)
 **Method:** Line count analysis only, no file modifications made
 **Purpose:** Document current state and prioritize future Phase 7 (Progressive Disclosure) reviews
 
@@ -119,13 +120,10 @@ Moderate bloat, can likely be condensed with targeted edits:
 | firecrawl-scraper | 689 | +189 | +37% | Frontend |
 | swift-settingskit | 670 | +170 | +34% | Mobile |
 | openai-agents | 660 | +160 | +32% | AI/ML |
-| vercel-kv | 656 | +156 | +31% | Database |
 | gemini-cli | 656 | +156 | +31% | AI/ML |
 | open-source-contributions | 636 | +136 | +27% | Tooling |
-| drizzle-orm-d1 | 632 | +132 | +26% | Database |
 | better-chatbot-patterns | 622 | +122 | +24% | Tooling |
 | openai-assistants | 617 | +117 | +23% | AI/ML |
-| vercel-blob | 606 | +106 | +21% | Database |
 | google-gemini-api | 579 | +79 | +15% | AI/ML |
 | openai-responses | 556 | +56 | +11% | AI/ML |
 | skill-review | 533 | +33 | +6% | Tooling |
@@ -138,6 +136,9 @@ Moderate bloat, can likely be condensed with targeted edits:
 - ~~cloudflare-zero-trust-access~~ → 320 lines (2025-12-13)
 - ~~content-collections~~ → 444 lines (2025-12-13)
 - ~~clerk-auth~~ → 774 lines (2025-12-13, multi-framework exception)
+- ~~vercel-kv~~ → 233 lines (2025-12-14)
+- ~~drizzle-orm-d1~~ → 264 lines (2025-12-14)
+- ~~vercel-blob~~ → 245 lines (2025-12-14)
 
 ### Recommended Review Order
 
@@ -292,10 +293,10 @@ Based on severity and impact, process bloated skills in this order:
 
 | # | Skill | P1-2 | P3 | P4 | P5 | P6 | P7 | P8 | P9 | P10 | P11 | P12 | P13 | P14 | Issues | Date |
 |---|-------|------|----|----|----|----|----|----|----|----|-----|-----|-----|-----|--------|------|
-| 82 | drizzle-orm-d1 | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 82 | drizzle-orm-d1 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-14 |
 | 83 | neon-vercel-postgres | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
-| 84 | vercel-kv | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
-| 85 | vercel-blob | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 84 | vercel-kv | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-14 |
+| 85 | vercel-blob | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-14 |
 | 86 | database-schema-design | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
 | 87 | database-sharding | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
 | 88 | sql-query-optimization | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | ⏳ | TBD | 2025-12-10 |
@@ -414,6 +415,7 @@ Based on severity and impact, process bloated skills in this order:
 | 2025-12-10 | ai-sdk-ui | 1 critical | fixed | Version updated, reduced 1061→517 lines |
 | 2025-12-11 | 91 skills (audit) | 35 bloat | documented | Read-only audit, no fixes |
 | 2025-12-13 | File cleanup | N/A | N/A | Archived 1470 lines to COMPLETED_REVIEWS.md |
+| 2025-12-14 | Tier 6 Database & ORM | 3 high | fixed | vercel-kv, drizzle-orm-d1, vercel-blob optimized |
 
 ---
 
