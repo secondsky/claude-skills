@@ -861,6 +861,98 @@ Users copying this code will get "Module not found" error. Code will not run.
 
 ---
 
+## Phase 7.5: Resource Inventory & Coverage Audit
+
+**Time**: 10-15 minutes
+**Purpose**: Before ANY condensation, map existing resources and determine extraction needs
+
+⚠️ **CRITICAL**: This phase is MANDATORY - never skip it before Phase 8 (Fix Implementation)
+
+### Step 7.5.1: Inventory All Resources
+
+```bash
+# List all bundled resources
+ls -la skills/<skill>/references/
+ls -la skills/<skill>/scripts/
+ls -la skills/<skill>/templates/
+ls -la skills/<skill>/assets/
+```
+
+**Document**:
+- Number of files in each directory
+- File names and approximate sizes
+- What each file covers (from filename/header)
+
+### Step 7.5.2: Read Every Reference File
+
+For each file in references/:
+- Read ENTIRE content (not just headers)
+- Document what topics/sections it covers
+- Note line count and completeness level
+
+**Do NOT skip this step** - you must READ the files, not just list them.
+
+### Step 7.5.3: Create Coverage Matrix
+
+Create a table mapping SKILL.md sections to existing references:
+
+| SKILL.md Section | Lines | Existing Reference | Coverage | Action |
+|------------------|-------|-------------------|----------|--------|
+| RAG Patterns | 148 | refs/rag-patterns.md | Complete | Pointer only |
+| Semantic Search | 94 | NONE | N/A | Extract first |
+| Error Handling | 85 | refs/errors.md | Partial | Supplement + pointer |
+
+**Coverage levels**:
+- **Complete**: Reference covers all content in SKILL.md section
+- **Partial**: Reference covers some but not all content
+- **N/A**: No reference exists for this content
+
+### Step 7.5.4: Document Extraction Plan
+
+For each verbose section in SKILL.md, explicitly document:
+
+1. **Content EXISTS in reference** → Condense with pointer (no extraction needed)
+   ```
+   Section: RAG Patterns (148 lines)
+   Reference: references/rag-patterns.md EXISTS (484 lines, complete coverage)
+   Action: Add pointer to existing reference, condense SKILL.md section
+   ```
+
+2. **Content MISSING from references** → Extract first, then condense
+   ```
+   Section: Semantic Search (94 lines)
+   Reference: DOES NOT EXIST
+   Action: Extract to references/semantic-search.md FIRST, then condense
+   ```
+
+3. **Content PARTIAL in reference** → Supplement existing file, then condense
+   ```
+   Section: Error Handling (85 lines)
+   Reference: references/errors.md EXISTS but missing 3 errors
+   Action: Supplement existing reference with missing errors, then condense
+   ```
+
+### Verification Checklist
+
+**MUST complete before Phase 8**:
+- [ ] Listed all files in references/ directory
+- [ ] READ each reference file (not just listed)
+- [ ] Listed all files in scripts/ directory
+- [ ] Listed all files in templates/ directory
+- [ ] Listed all files in assets/ directory
+- [ ] Created coverage matrix
+- [ ] Documented extraction plan for each verbose section
+
+### Why This Phase Matters
+
+This phase prevents:
+- **Duplicate extraction**: Creating new reference files for content that already exists
+- **Data loss**: Deleting content before verifying it exists elsewhere
+- **Wasted effort**: Spending time extracting when only pointer is needed
+- **Broken references**: Adding pointers to files that don't exist
+
+---
+
 ## Phase 8: Fix Implementation
 
 **Time**: Varies (30 minutes to 4 hours)
@@ -915,10 +1007,20 @@ Users copying this code will get "Module not found" error. Code will not run.
 - **Condense Top 3-5 errors to one-liners** - Keep error documentation detailed and actionable in main SKILL.md
 - **Focus on speed over correctness** - Take time to verify each change, read affected files, test templates
 - **Skip verification steps** - Always check files exist, content is complete, links work, before marking complete
+- **Extract content that already exists in reference files** - Creates duplication, check Phase 7.5 coverage matrix first
+- **Start condensation without completing Phase 7.5** - Resource Inventory is MANDATORY
+- **Assume reference files need to be created** - Check first - they may already exist!
+- **Condense SKILL.md before reading ALL reference files** - You must understand what already exists
+- **Skip the coverage matrix** - It's required, not optional
 
 ✅ **DO**:
-- **EXTRACT FIRST** - Write the reference file with full content
-- **CONDENSE SECOND** - Edit the main file to add summary + pointer
+- **INVENTORY FIRST** - Complete Phase 7.5 before ANY condensation
+- **CHECK COVERAGE** - Map each verbose SKILL.md section to existing references
+- **EXTRACT ONLY MISSING** - Only create new reference files for content NOT already covered
+- **REUSE EXISTING** - If content exists in reference, just add pointer (no extraction)
+- **CREATE COVERAGE MATRIX** - Document what exists vs what's missing before changes
+- **READ, DON'T JUST LIST** - Actually read reference file contents, not just filenames
+- **CONDENSE SECOND** - Edit the main file to add summary + pointer after verifying extraction needs
 - **VERIFY ALWAYS** - Check files exist, content complete, no broken links
 - **Keep Top errors DETAILED in main file** - Don't extract critical error documentation
 - **Document immediately after completion** - Update tracking doc, commit messages, research logs in real-time
