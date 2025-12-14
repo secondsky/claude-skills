@@ -91,7 +91,30 @@ async function safeSandboxExec(
 ## Security Hardening
 
 ```typescript
-// Input validation
+// ⚠️ SECURITY WARNING: Blocklist Approach Has Limited Effectiveness
+//
+// This blocklist-based filtering is best-effort and can be easily bypassed:
+// - Incomplete: Many dangerous patterns missing (e.g., newlines, $((, ${)
+// - Bypassable: Encoding, obfuscation, shell aliases can evade detection
+// - Brittle: Legitimate commands may be blocked unnecessarily
+//
+// RECOMMENDED SAFER APPROACHES (in order of preference):
+//
+// 1. Use Code Interpreter API (safest for untrusted input):
+//    const ctx = await sandbox.createCodeContext({ language: 'python' });
+//    const result = await sandbox.runCode(userCode, { context: ctx });
+//
+// 2. Use Allowlist (permit only known-safe commands):
+//    const ALLOWED = ['ls', 'pwd', 'cat', 'echo'];
+//    const cmd = input.split(' ')[0];
+//    if (!ALLOWED.includes(cmd)) throw new Error('Command not allowed');
+//
+// 3. Use Structured Arguments (avoid shell entirely):
+//    sandbox.execFile('/usr/bin/ls', ['-la', userDir], options)
+//
+// Only use blocklists for simple, low-risk scenarios with additional controls.
+
+// Input validation (BLOCKLIST - Use with caution, prefer allowlist)
 function sanitizeCommand(input: string): string {
   const dangerous = ['rm -rf', '$(', '`', '&&', '||', ';', '|'];
   for (const pattern of dangerous) {
@@ -101,6 +124,20 @@ function sanitizeCommand(input: string): string {
   }
   return input;
 }
+
+// RECOMMENDED: Allowlist-based validation
+const ALLOWED_COMMANDS = ['ls', 'pwd', 'cat', 'echo', 'find', 'grep'];
+
+function validateCommand(cmd: string): void {
+  const baseCommand = cmd.trim().split(' ')[0];
+  if (!ALLOWED_COMMANDS.includes(baseCommand)) {
+    throw new Error(`Command not allowed: ${baseCommand}. Permitted: ${ALLOWED_COMMANDS.join(', ')}`);
+  }
+}
+
+// Usage:
+// validateCommand(userInput);
+// await sandbox.exec(userInput);
 
 // Use code interpreter instead of direct exec for untrusted code
 async function executeUntrustedCode(code: string, sandbox: Sandbox) {

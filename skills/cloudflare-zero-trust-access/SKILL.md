@@ -16,9 +16,9 @@ metadata:
   framework: hono
   platform: cloudflare-workers
   package_versions:
-    hono_cloudflare_access: "0.3.1"
-    hono: "4.10.3"
-    cloudflare_workers_types: "4.20251014.0"
+    "@hono/cloudflare-access": "0.3.1"
+    "hono": "4.10.3"
+    "@cloudflare/workers-types": "4.20251014.0"
   errors_prevented: 8
   token_savings: "58%"
   time_savings: "2.5 hours"

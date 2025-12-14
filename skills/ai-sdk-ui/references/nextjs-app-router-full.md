@@ -64,7 +64,7 @@ export default function ChatPage() {
                   : 'bg-gray-200 text-gray-900'
               }`}
             >
-              {message.content}
+              {message.text}
             </div>
           </div>
         ))}
