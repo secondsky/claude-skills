@@ -25,14 +25,15 @@ Frontend React hooks for AI-powered user interfaces with Vercel AI SDK v5.
 
 ## Table of Contents
 1. [Quick Start](#quick-start-5-minutes)
-2. [useChat Hook](#usechat-hook---complete-reference)
-3. [useCompletion Hook](#usecompletion-hook---complete-reference)
-4. [useObject Hook](#useobject-hook---complete-reference)
-5. [Next.js Integration](#nextjs-integration)
-6. [Top UI Errors & Solutions](#top-ui-errors--solutions)
-7. [Streaming Best Practices](#streaming-best-practices)
-8. [When to Use This Skill](#when-to-use-this-skill)
-9. [Package Versions](#package-versions)
+2. [When to Load References](#when-to-load-references)
+3. [useChat Hook](#usechat-hook---complete-reference)
+4. [useCompletion Hook](#usecompletion-hook---complete-reference)
+5. [useObject Hook](#useobject-hook---complete-reference)
+6. [Next.js Integration](#nextjs-integration)
+7. [Top UI Errors & Solutions](#top-ui-errors--solutions)
+8. [Streaming Best Practices](#streaming-best-practices)
+9. [When to Use This Skill](#when-to-use-this-skill)
+10. [Package Versions](#package-versions)
 
 ---
 
@@ -107,6 +108,27 @@ export async function POST(req: Request) {
 ```
 
 **Result**: A functional chat interface with streaming AI responses in ~10 lines of frontend code.
+
+---
+
+## When to Load References
+
+For detailed implementation guides, API references, and advanced patterns, load the following reference files:
+
+| Reference File | Load When... |
+|----------------|--------------|
+| `references/use-chat-migration.md` | Migrating from v4 to v5, understanding breaking changes |
+| `references/streaming-patterns.md` | UI streaming best practices, performance optimization |
+| `references/top-ui-errors.md` | Debugging common UI errors, error prevention |
+| `references/nextjs-integration.md` | Next.js setup patterns, App vs Pages Router differences |
+| `references/links-to-official-docs.md` | Finding official Vercel AI SDK documentation |
+| `references/tool-calling-ui.md` | Implementing tool/function calling in chat UI |
+| `references/file-attachments-guide.md` | Adding file upload/attachment support to chat |
+| `references/message-persistence.md` | Persisting chat history with localStorage |
+| `references/use-completion-full-reference.md` | Complete useCompletion API and examples |
+| `references/use-object-full-reference.md` | Complete useObject API with Zod schemas |
+| `references/nextjs-app-router-full.md` | Full Next.js App Router implementation |
+| `references/nextjs-pages-router-full.md` | Full Next.js Pages Router implementation |
 
 ---
 

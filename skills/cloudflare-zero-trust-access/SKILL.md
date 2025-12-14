@@ -65,6 +65,8 @@ cloudflare access, zero trust, access authentication, JWT validation, service to
 
 ## Integration Patterns
 
+📖 **New to Cloudflare Access?** Load `references/quick-start.md` for step-by-step setup instructions (15-20 minutes).
+
 ### Pattern 1: Hono Middleware (Recommended)
 
 Use `@hono/cloudflare-access` for one-line Access integration.
@@ -262,11 +264,13 @@ cloudflareAccess({ domain: 'my-team.cloudflareaccess.com' })
 
 | Reference File | Load When... |
 |----------------|--------------|
-| `references/common-errors.md` | Debugging auth issues, prevention patterns |
+| `references/quick-start.md` | Step-by-step setup for new users, first-time integration |
+| `references/common-errors.md` | Debugging auth issues, prevention patterns (includes all 8 errors) |
 | `references/jwt-payload-structure.md` | Accessing JWT claims, user vs service token |
 | `references/service-tokens-guide.md` | Setting up machine-to-machine auth |
 | `references/access-policy-setup.md` | Dashboard configuration, policy creation |
 | `references/use-cases.md` | Detailed implementation for specific scenarios |
+| `references/value-proposition.md` | Token efficiency metrics, workflow guidance, production validation |
 
 ---
 
