@@ -22,22 +22,25 @@ This skill automatically activates when you mention:
 - **TanStack Query coordination** - Proper query key patterns, state sync
 - **Virtualization** - TanStack Virtual for large datasets (10k+ rows)
 - **Type safety** - TypeScript patterns, column helper usage
+- **Feature controls** - Column visibility, pinning, ordering, fuzzy/global filtering, selection
 - **Error prevention** - 6+ documented issues with solutions
 
-### 📦 Templates (6 Production-Ready)
+### 📦 Templates (7 Production-Ready)
 1. **Basic client-side table** - Simple table with local data
 2. **Server-paginated table** - API-driven pagination with TanStack Query
 3. **D1 database integration** - Cloudflare D1 + Workers API + Table
 4. **Column configuration** - Type-safe column definitions
-5. **Virtualized large dataset** - Performance optimization with TanStack Virtual
-6. **shadcn/ui styled table** - Tailwind v4 + shadcn integration
+5. **Controlled table state** - Column visibility, pinning, ordering, fuzzy search, selection
+6. **Virtualized large dataset** - Performance optimization with TanStack Virtual
+7. **shadcn/ui styled table** - Tailwind v4 + shadcn integration
 
-### 📚 Reference Docs (5)
+### 📚 Reference Docs (6)
 1. **Server-side patterns** - Complete guide to API-driven tables
 2. **Query integration** - TanStack Query + Table coordination
 3. **Cloudflare D1 examples** - Workers + D1 complete patterns
 4. **Performance & virtualization** - TanStack Virtual guide
 5. **Common errors** - 6+ issues with solutions
+6. **Table state & feature controls** - Visibility, pinning, ordering, fuzzy/global filtering, selection
 
 ## Quick Example
 
@@ -170,9 +173,12 @@ bun add @tanstack/react-virtual@latest
 # or: npm install @tanstack/react-virtual@latest
 ```
 
-**Latest Versions:**
+**Latest Versions (stable as of 2025-12-09):**
 - `@tanstack/react-table`: v8.21.3
 - `@tanstack/react-virtual`: v3.13.12
+- `@tanstack/match-sorter-utils`: v8.21.3 (for fuzzy filtering)
+
+**React support:** Works with React 16.8+ through React 19; React Compiler not supported.
 
 ## File Structure
 
@@ -186,6 +192,7 @@ bun add @tanstack/react-virtual@latest
 │   ├── server-paginated-table.tsx     # Server-side pagination
 │   ├── d1-database-example.tsx        # Cloudflare D1 integration
 │   ├── column-configuration.tsx       # Type-safe columns
+│   ├── controlled-table-state.tsx     # Controlled state + fuzzy search + pinning
 │   ├── virtualized-large-dataset.tsx  # Performance optimization
 │   └── shadcn-styled-table.tsx        # Tailwind + shadcn
 └── references/
@@ -193,7 +200,8 @@ bun add @tanstack/react-virtual@latest
     ├── query-integration.md           # TanStack Query patterns
     ├── cloudflare-d1-examples.md      # Workers + D1 examples
     ├── performance-virtualization.md  # TanStack Virtual guide
-    └── common-errors.md               # 6+ issues + solutions
+    ├── common-errors.md               # 6+ issues + solutions
+    └── feature-controls.md            # State, visibility, pinning, ordering, fuzzy/global filtering
 ```
 
 ## Stack Compatibility
@@ -221,7 +229,7 @@ bun add @tanstack/react-virtual@latest
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-07
+**Version:** 1.1.0
+**Last Updated:** 2025-12-09
 **Author:** Claude Skills Maintainers
 **License:** MIT

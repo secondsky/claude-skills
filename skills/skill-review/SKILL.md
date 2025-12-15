@@ -1,17 +1,15 @@
 ---
 name: skill-review
 description: |
-  Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 14-phase audit: pre-review setup, standards compliance (exact YAML validation rules), official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency version checks, progressive disclosure architecture review, conciseness & degrees of freedom audit, anti-pattern detection, testing & evaluation review, security & MCP considerations, issue categorization by severity, fix implementation with minimal user questions, and post-fix verification. Enforces official Claude best practices including name validation (64 chars, lowercase/hyphens), description limits (1024 chars), SKILL.md line count (<500 lines), third-person writing style, progressive disclosure depth (one level), and multi-model testing verification. Prevents outdated documentation, incorrect API patterns, contradictory examples, version drift, broken links, YAML errors, schema inconsistencies, missing dependencies, Windows paths, inconsistent terminology, and over-explained content. Combines automated technical checks (YAML syntax, package versions via npm, link validation, TODO markers) with AI-powered verification. Auto-fixes unambiguous issues, asks user only for architectural decisions or breaking change confirmations. Outputs severity-classified issue list (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations (GitHub URLs, official docs, npm changelogs) and detailed remediation plan. Production-tested on better-auth v2.0.0 audit (found 6 critical/high issues, removed 665 lines of incorrect code, added 1,931 lines of correct patterns).
-
-  Keywords: skill review, skill audit, documentation review, version check, api verification, package updates, skill maintenance, quality assurance, standards compliance, breaking changes, github verification, official docs check, context7 verification, skill-review, audit-skill, review-documentation, check-skill-currency, verify-skill-accuracy, outdated skill, skill needs update, review better-auth, check cloudflare skill, verify api methods, package version drift, stale documentation, contradictory examples, broken links check, yaml frontmatter validation, skill discovery test, production testing
+  Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology.
 
 license: MIT
 metadata:
-  version: 1.3.0
-  last_verified: 2025-11-25
+  version: 1.4.0
+  last_verified: 2025-12-14
   production_tested: better-auth v2.0.0 audit (2025-11-08)
   token_savings: ~80%
-  errors_prevented: 36+
+  errors_prevented: 40+
   official_docs: https://github.com/secondsky/claude-skills
   triggers:
     - "review this skill"
@@ -78,7 +76,7 @@ with D1 changes."
 
 ## What This Skill Does
 
-### 14-Phase Systematic Audit
+### 15-Phase Systematic Audit
 
 1. **Pre-Review Setup** (5-10 min)
    - Install skill locally: `./scripts/install-skill.sh <skill-name>`
@@ -167,6 +165,42 @@ with D1 changes."
     - Classify by severity: 🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low
     - Document with evidence (GitHub URL, docs link, npm changelog)
 
+12.5. **Resource Inventory & Coverage Audit** (10-15 min) ⚠️ MANDATORY
+    - **Purpose**: Before ANY condensation, map existing resources and determine extraction needs
+    - **CRITICAL**: This phase is MANDATORY - never skip it before Phase 13
+
+    **Step 12.5.1: Inventory All Resources**
+    ```bash
+    ls -la skills/<skill>/references/
+    ls -la skills/<skill>/scripts/
+    ls -la skills/<skill>/templates/
+    ls -la skills/<skill>/assets/
+    ```
+
+    **Step 12.5.2: Read Every Reference File**
+    - Read ENTIRE content of each file in references/
+    - Document topics covered, line count, completeness
+    - Do NOT skip this - you must READ the files, not just list them
+
+    **Step 12.5.3: Create Coverage Matrix**
+    | SKILL.md Section | Lines | Existing Reference | Coverage | Action |
+    |------------------|-------|-------------------|----------|--------|
+    | Section A | 148 | refs/x.md | Complete | Pointer only |
+    | Section B | 94 | NONE | N/A | Extract first |
+    | Section C | 85 | refs/y.md | Partial | Supplement + pointer |
+
+    **Step 12.5.4: Document Extraction Plan**
+    - Content EXISTS in reference → Condense with pointer (no extraction needed)
+    - Content MISSING from references → Extract first, then condense
+    - Content PARTIAL in reference → Supplement existing file, then condense
+
+    **Verification Checklist (MUST complete before Phase 13)**
+    - [ ] Listed all files in references/ directory
+    - [ ] READ each reference file (not just listed)
+    - [ ] Listed all files in scripts/, templates/, assets/ directories
+    - [ ] Created coverage matrix
+    - [ ] Documented extraction plan for each section
+
 13. **Fix Implementation** (30 min - 4 hours)
     - Auto-fix unambiguous issues
     - Ask user only for architectural decisions
@@ -181,10 +215,20 @@ with D1 changes."
     - Condense Top 3-5 errors to one-liners
     - Focus on speed over correctness
     - Skip verification steps
+    - **Extract content that already exists in reference files** (creates duplication)
+    - **Start condensation without completing Phase 12.5** (Resource Inventory)
+    - **Assume reference files need to be created** (check first - they may already exist!)
+    - **Condense SKILL.md before reading ALL reference files**
+    - **Skip the coverage matrix** - it's required, not optional
 
     ✅ **DO**:
-    - EXTRACT FIRST (Write reference file)
-    - CONDENSE SECOND (Edit main file)
+    - **INVENTORY FIRST** - Complete Phase 12.5 before ANY condensation
+    - **CHECK COVERAGE** - Map each verbose SKILL.md section to existing references
+    - **EXTRACT ONLY MISSING** - Only create new reference files for content NOT already covered
+    - **REUSE EXISTING** - If content exists in reference, just add pointer (no extraction)
+    - **CREATE COVERAGE MATRIX** - Document what exists vs what's missing before changes
+    - **READ, DON'T JUST LIST** - Actually read reference file contents, not just filenames
+    - CONDENSE SECOND (Edit main file after verifying extraction needs)
     - VERIFY ALWAYS (Check files exist, content complete)
     - Keep Top errors DETAILED in main file
     - Document immediately after completion
@@ -467,16 +511,24 @@ This skill references:
 30. **Missing permissions warnings** - Scripts without clear scope
 31. **Non-standard marketplace fields** - Custom fields rejected by schema (e.g., lastVerified)
 
+### Resource Inventory Issues (NEW in v1.4.0)
+32. **Duplicate extraction** - Creating reference files for content that already exists
+33. **Skipping resource inventory** - Starting condensation without Phase 12.5
+34. **Coverage matrix omitted** - No documentation of what exists vs needs extraction
+35. **Listing without reading** - Knowing reference files exist but not reading their content
+36. **Unnecessary file creation** - Creating new references when existing ones suffice
+
 ---
 
 ## Best Practices
 
 1. **Always cite sources** - GitHub URL, docs link, npm changelog
 2. **No assumptions** - Verify against current official docs
-3. **Be systematic** - Follow all 14 phases
-4. **Fix consistency** - Update all files, not just one
-5. **Document thoroughly** - Detailed commit messages
-6. **Test after fixes** - Verify skill still works
+3. **Be systematic** - Follow all 15 phases (including Phase 12.5)
+4. **Inventory before condensation** - Always complete Phase 12.5 before fixing
+5. **Fix consistency** - Update all files, not just one
+6. **Document thoroughly** - Detailed commit messages
+7. **Test after fixes** - Verify skill still works
 
 ---
 
@@ -491,6 +543,21 @@ This skill references:
 ---
 
 ## Version History
+
+**v1.4.0** (2025-12-14)
+- CRITICAL: Added Phase 12.5 "Resource Inventory & Coverage Audit" (MANDATORY before condensation)
+- Added mandatory verification checklist before any condensation work
+- Expanded anti-patterns with 5 new duplication prevention rules
+- Added 6 new best practices for resource inventory workflow
+- Added coverage matrix template for tracking existing vs needed references
+- Errors prevented: 40+ (was 36+)
+
+New errors prevented:
+- Duplicate extraction (content already in references)
+- Skipping resource inventory phase
+- Coverage matrix omitted
+- Listing without reading reference files
+- Unnecessary file creation
 
 **v1.3.0** (2025-11-25)
 - Added anti-patterns section to Phase 13 (Fix Implementation) with explicit DO/DON'T guidance
@@ -530,4 +597,4 @@ This skill references:
 
 ---
 
-**Last verified**: 2025-11-25 | **Version**: 1.3.0
+**Last verified**: 2025-12-14 | **Version**: 1.4.0

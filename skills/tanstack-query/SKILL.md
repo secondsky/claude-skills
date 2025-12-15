@@ -12,9 +12,9 @@ license: MIT
 # TanStack Query (React Query) v5
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-11-21
-**Dependencies**: React 18.0+, TypeScript 4.7+ (recommended)
-**Latest Versions**: @tanstack/react-query@5.90.10, @tanstack/react-query-devtools@5.90.2
+**Last Updated**: 2025-12-09
+**Dependencies**: React 18.0+ (18.3+ recommended), TypeScript 4.9+ (5.x preferred)
+**Latest Versions**: @tanstack/react-query@5.90.12, @tanstack/react-query-devtools@5.91.1, @tanstack/eslint-plugin-query@5.91.2
 
 ---
 
@@ -23,10 +23,12 @@ license: MIT
 ### 1. Install Dependencies
 
 ```bash
-bun add @tanstack/react-query@latest  # preferred
-# or: bun add @tanstack/react-query@latest
-bun add -d @tanstack/react-query-devtools@latest
-# or: bun add -d @tanstack/react-query-devtools@latest
+# choose your package manager
+pnpm add @tanstack/react-query@latest @tanstack/react-query-devtools@latest
+# or
+npm install @tanstack/react-query@latest @tanstack/react-query-devtools@latest
+# or
+bun add @tanstack/react-query@latest @tanstack/react-query-devtools@latest
 ```
 
 **Why this matters:**
@@ -71,6 +73,13 @@ createRoot(document.getElementById('root')!).render(
 - Configure `staleTime` to avoid excessive refetches (default is 0)
 - Use `gcTime` (not `cacheTime` - renamed in v5)
 - DevTools should be inside provider
+
+**Know the defaults (v5):**
+- `staleTime: 0` → data is immediately stale, so refetches on mount/focus unless you raise it
+- `gcTime: 5 * 60 * 1000` → inactive data is garbage-collected after 5 minutes
+- `retry: 3` in browsers, `retry: 0` on the server
+- `refetchOnWindowFocus: true` and `refetchOnReconnect: true`
+- `networkMode: 'online'` (requests pause while offline). Switch to `'always'` for SSR/prefetch where you don't want cancellation. citeturn1search0turn1search1
 
 ### 3. Create First Query
 
@@ -188,13 +197,13 @@ function AddTodoForm() {
 
 ```bash
 # Core library (required)
-bun add @tanstack/react-query
+pnpm add @tanstack/react-query
 
 # DevTools (highly recommended for development)
-bun add -d @tanstack/react-query-devtools
+pnpm add -D @tanstack/react-query-devtools
 
 # Optional: ESLint plugin for best practices
-bun add -d @tanstack/eslint-plugin-query
+pnpm add -D @tanstack/eslint-plugin-query
 ```
 
 **Package roles:**
@@ -204,7 +213,7 @@ bun add -d @tanstack/eslint-plugin-query
 
 **Version requirements:**
 - React 18.0 or higher (uses `useSyncExternalStore`)
-- TypeScript 4.7+ for best type inference (optional but recommended)
+- TypeScript 5.2+ for best type inference (optional but recommended)
 
 ### Step 2: Configure QueryClient
 
@@ -363,6 +372,16 @@ prefetchQuery(opts)
 ✅ **Use gcTime (not cacheTime)**
 ```tsx
 gcTime: 1000 * 60 * 60 // 1 hour
+```
+
+✅ **Know your status flags**
+```tsx
+isPending      // no data yet, fetch in flight
+isFetching     // any fetch in flight (including refetch)
+isRefetching   // refetch specifically (data already cached)
+isLoadingError // initial load failed
+isPaused       // networkMode paused (e.g., offline)
+isFetchingNextPage // useInfiniteQuery loading more
 ```
 
 ### Never Do
@@ -678,6 +697,25 @@ function SearchTodos() {
 - Pass `signal` to fetch for proper cleanup
 - Browser aborts pending fetch requests
 
+### Pattern 6: Background Fetch Indicators
+
+```tsx
+const { data, isFetching, isRefetching } = useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  staleTime: 1000 * 60 * 5,
+})
+
+return (
+  <div>
+    {isFetching && <Spinner label={isRefetching ? 'Refreshing…' : 'Loading…'} />}
+    <TodoList data={data} />
+  </div>
+)
+```
+
+**Why:** `isFetching` stays true during background refetches so you can show a subtle "Refreshing" badge without losing cached data.
+
 ---
 
 ## Using Bundled Resources
@@ -704,6 +742,9 @@ cp ~/.claude/skills/tanstack-query/templates/query-client-config.ts src/lib/
 
 # Copy provider setup
 cp ~/.claude/skills/tanstack-query/templates/provider-setup.tsx src/main.tsx
+
+# Or run the bootstrap helper (installs deps + copies core files):
+./scripts/example-script.sh . pnpm
 ```
 
 ### References (references/)
@@ -715,9 +756,24 @@ Deep-dive documentation loaded when needed:
 - `v4-to-v5-migration.md` - Complete v4 → v5 migration guide
 - `best-practices.md` - Request waterfalls, caching strategies, performance
 - `common-patterns.md` - Reusable queries, optimistic updates, infinite scroll
+- `official-guides-map.md` - When to open each official doc and what it covers
 - `typescript-patterns.md` - Type safety, generics, type inference
 - `testing.md` - Testing with MSW, React Testing Library
 - `top-errors.md` - All 8+ errors with solutions
+
+### Examples (examples/)
+
+- `examples/README.md` - Index of top 10 scenarios with official links
+- `basic.tsx` - Minimal list query
+- `basic-graphql-request.tsx` - GraphQL client + select
+- `optimistic-update.tsx` - onMutate snapshot/rollback
+- `pagination.tsx` - paginated list with placeholderData
+- `infinite-scroll.tsx` - useInfiniteQuery + IntersectionObserver
+- `prefetching.tsx` - prefetch on hover before navigation
+- `suspense.tsx` - useSuspenseQuery + boundary
+- `default-query-function.ts` - global fetcher using queryKey
+- `nextjs-app-router.tsx` - App Router prefetch + hydrate (`networkMode: 'always'`)
+- `react-native.tsx` - offline-first with AsyncStorage persister
 
 **When Claude should load these:**
 - `advanced-setup.md` - When implementing custom query hooks, mutations, or error boundaries
@@ -843,17 +899,27 @@ const { data: todos } = useQuery({
 
 ---
 
+## Platform & Integration Notes
+
+- **React Native**: Works the same as web. Use `@tanstack/query-async-storage-persister` to persist cache to AsyncStorage; avoid window-focus refetch logic. DevTools panel not available natively—use Flipper or expose logs.
+- **GraphQL**: Pair with `graphql-request` or urql's bare client. Treat operations as plain async functions; co-locate fragments and use `select` to map edges/nodes to flat shapes.
+- **SSR / Next.js / TanStack Start**: Use `dehydrate`/`HydrationBoundary` on the server and `QueryClientProvider` on the client. Set `networkMode: 'always'` for server prefetches so requests are never paused.
+- **Suspense**: Prefer `useSuspenseQuery` for routes already using Suspense. Do not combine with `enabled`; gate rendering instead.
+- **Testing**: Use `@testing-library/react` + `@tanstack/react-query/testing` helpers and mock network with MSW. Reset QueryClient between tests to avoid cache bleed.
+
+---
+
 ## Dependencies
 
 **Required**:
-- `@tanstack/react-query@5.90.5` - Core library
+- `@tanstack/react-query@5.90.12` - Core library
 - `react@18.0.0+` - Uses useSyncExternalStore hook
 - `react-dom@18.0.0+` - React DOM renderer
 
 **Recommended**:
-- `@tanstack/react-query-devtools@5.90.2` - Visual debugger (dev only)
-- `@tanstack/eslint-plugin-query@5.90.2` - ESLint rules for best practices
-- `typescript@4.7.0+` - For type safety and inference
+- `@tanstack/react-query-devtools@5.91.1` - Visual debugger (dev only)
+- `@tanstack/eslint-plugin-query@5.91.2` - ESLint rules for best practices
+- `typescript@5.2.0+` - For type safety and inference
 
 **Optional**:
 - `@tanstack/query-sync-storage-persister` - Persist cache to localStorage
@@ -873,24 +939,25 @@ const { data: todos } = useQuery({
 
 ---
 
-## Package Versions (Verified 2025-11-21)
+## Package Versions (Verified 2025-12-09)
 
 ```json
 {
   "dependencies": {
-    "@tanstack/react-query": "^5.90.10"
+    "@tanstack/react-query": "^5.90.12"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^5.90.2",
-    "@tanstack/eslint-plugin-query": "^5.90.2"
+    "@tanstack/react-query-devtools": "^5.91.1",
+    "@tanstack/eslint-plugin-query": "^5.91.2"
   }
 }
 ```
 
 **Verification:**
-- `npm view @tanstack/react-query version` → 5.90.10
-- `npm view @tanstack/react-query-devtools version` → 5.90.2
-- Last checked: 2025-11-21
+- `npm view @tanstack/react-query version` → 5.90.12
+- `npm view @tanstack/react-query-devtools version` → 5.91.1
+- `npm view @tanstack/eslint-plugin-query version` → 5.91.2
+- Last checked: 2025-12-09
 
 ---
 
@@ -992,7 +1059,7 @@ useQuery({
 
 Use this checklist to verify your setup:
 
-- [ ] Installed @tanstack/react-query@5.90.5+
+- [ ] Installed @tanstack/react-query@5.90.12+
 - [ ] Installed @tanstack/react-query-devtools (dev dependency)
 - [ ] Created QueryClient with configured defaults
 - [ ] Wrapped app with QueryClientProvider

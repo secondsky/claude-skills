@@ -27,6 +27,32 @@ This is a curated collection of **production-tested Claude Code skills** for bui
 
 ---
 
+## Codebase Exploration
+
+Use the `codemap` CLI tool ([github.com/JordanCoin/codemap](https://github.com/JordanCoin/codemap)) to quickly understand the project structure:
+
+```bash
+# Generate project tree with file stats
+codemap .
+
+# Show dependency flow (imports/exports)
+codemap --deps .
+
+# Files changed vs main branch
+codemap --diff
+
+# Check impact of a file (who imports it)
+codemap --importers lib/accounting/ledger.ts
+
+# Limit tree depth
+codemap --depth 2 .
+
+# Filter by extension
+codemap --only ts,tsx .
+```
+
+Install: `brew tap JordanCoin/tap && brew install codemap`
+
 ## ⚠️ CRITICAL: Skill Review Process
 
 **ALWAYS use the `skill-review` skill when reviewing skills in this repository.**

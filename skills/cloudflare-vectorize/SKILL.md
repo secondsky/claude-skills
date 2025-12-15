@@ -133,221 +133,56 @@ interface VectorizeMatches {
 
 ## Common Operations
 
-### 1. Insert vs Upsert
+### Quick Reference
 
-```typescript
-// INSERT: Keeps first insertion if ID exists
-await env.VECTORIZE_INDEX.insert([
-  {
-    id: "doc-1",
-    values: [0.1, 0.2, 0.3, ...],
-    metadata: { title: "First version" }
-  }
-]);
+| Operation | Method | Key Point |
+|-----------|--------|-----------|
+| **Insert** | `insert([...])` | Keeps first if ID exists |
+| **Upsert** | `upsert([...])` | Overwrites if ID exists (use for updates) |
+| **Query** | `query(vector, { topK, filter })` | Returns similar vectors |
+| **Delete** | `deleteByIds([...])` | Remove by ID array |
+| **Get** | `getByIds([...])` | Retrieve specific vectors |
 
-// UPSERT: Overwrites with latest if ID exists (use this for updates)
-await env.VECTORIZE_INDEX.upsert([
-  {
-    id: "doc-1",
-    values: [0.1, 0.2, 0.3, ...],
-    metadata: { title: "Updated version" }
-  }
-]);
-```
+### Filter Operators
 
-### 2. Query with Filters
+| Operator | Example | Description |
+|----------|---------|-------------|
+| `$eq` | `{ category: "docs" }` | Equality (implicit) |
+| `$ne` | `{ status: { $ne: "archived" } }` | Not equal |
+| `$in` | `{ category: { $in: ["a", "b"] } }` | In array |
+| `$nin` | `{ category: { $nin: ["x"] } }` | Not in array |
+| `$gte/$lt` | `{ timestamp: { $gte: 123 } }` | Range queries |
 
-```typescript
-// Generate embedding for query
-const queryEmbedding = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
-  text: "What is Cloudflare Workers?"
-});
-
-// Search with metadata filtering
-const results = await env.VECTORIZE_INDEX.query(
-  queryEmbedding.data[0],
-  {
-    topK: 5,
-    filter: {
-      category: "documentation",
-      timestamp: { $gte: 1704067200 }  // After Jan 1, 2024
-    },
-    returnMetadata: 'all',
-    returnValues: false,
-    namespace: 'prod'
-  }
-);
-```
-
-### 3. Metadata Filter Operators
-
-```typescript
-// Equality (implicit $eq)
-{ category: "docs" }
-
-// Explicit operators
-{ status: { $ne: "archived" } }
-
-// In array
-{ category: { $in: ["docs", "tutorials", "guides"] } }
-
-// Not in array
-{ category: { $nin: ["deprecated", "draft"] } }
-
-// Range queries (numbers)
-{
-  timestamp: {
-    $gte: 1704067200,  // >= Jan 1, 2024
-    $lt: 1735689600    // < Jan 1, 2025
-  }
-}
-
-// Range queries (strings) - prefix searching
-{
-  url: {
-    $gte: "/docs/workers",
-    $lt: "/docs/workersz"  // Matches all /docs/workers/*
-  }
-}
-
-// Nested metadata with dot notation
-{ "author.id": "user123" }
-
-// Multiple conditions (implicit AND)
-{
-  category: "docs",
-  language: "en",
-  "metadata.published": true
-}
-```
-
-### 4. Namespace Filtering
-
-```typescript
-// Insert with namespace (partition key)
-await env.VECTORIZE_INDEX.upsert([
-  {
-    id: "1",
-    values: embedding,
-    namespace: "customer-123",
-    metadata: { type: "support_ticket" }
-  }
-]);
-
-// Query only within namespace
-const results = await env.VECTORIZE_INDEX.query(queryVector, {
-  topK: 5,
-  namespace: "customer-123"  // Only search this customer's data
-});
-```
-
-### 5. List and Delete Vectors
-
-```typescript
-// List vector IDs (paginated)
-const vectors = await env.VECTORIZE_INDEX.listVectors({
-  cursor: null,
-  limit: 100
-});
-
-// Get specific vectors by ID
-const retrieved = await env.VECTORIZE_INDEX.getByIds([
-  "doc-1", "doc-2", "doc-3"
-]);
-
-// Delete vectors
-await env.VECTORIZE_INDEX.deleteByIds([
-  "doc-1", "doc-2"
-]);
-```
+📄 **Full operations guide**: Load `references/vector-operations.md` for complete insert/upsert/query/delete examples with code.
 
 ## Embedding Generation
 
-### Workers AI (Recommended - Free)
+| Model | Provider | Dimensions | Best For |
+|-------|----------|------------|----------|
+| `@cf/baai/bge-base-en-v1.5` | Workers AI | 768 | Free, general purpose |
+| `text-embedding-3-small` | OpenAI | 1536 | Balance quality/cost |
+| `text-embedding-3-large` | OpenAI | 3072 | Highest quality |
 
-```typescript
-const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
-  text: ["Document 1 content", "Document 2 content"]
-});
-
-// embeddings.data is number[][] (array of 768-dim vectors)
-const vectors = embeddings.data.map((values, i) => ({
-  id: `doc-${i}`,
-  values,
-  metadata: { source: 'batch-import' }
-}));
-
-await env.VECTORIZE_INDEX.upsert(vectors);
-```
-
-### OpenAI Embeddings
-
-```typescript
-import OpenAI from 'openai';
-
-const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
-
-const response = await openai.embeddings.create({
-  model: "text-embedding-3-small",  // 1536 dimensions
-  input: "Text to embed"
-});
-
-await env.VECTORIZE_INDEX.upsert([{
-  id: "doc-1",
-  values: response.data[0].embedding,
-  metadata: { model: "openai-3-small" }
-}]);
-```
+📄 **Integration guides**:
+- Load `references/integration-workers-ai-bge-base.md` for Workers AI setup
+- Load `references/integration-openai-embeddings.md` for OpenAI integration
 
 ## Metadata Best Practices
 
-### 1. Cardinality Considerations
+### Key Limits
 
-**Low Cardinality (Good for $eq filters)**:
-```typescript
-// Few unique values - efficient filtering
-metadata: {
-  category: "docs",        // ~10 categories
-  language: "en",          // ~5 languages
-  published: true          // 2 values (boolean)
-}
-```
+| Limit | Value |
+|-------|-------|
+| Max metadata indexes | 10 per index |
+| Max metadata size | 10 KiB per vector |
+| String index | First 64 bytes (UTF-8) |
+| Filter size | Max 2048 bytes |
 
-**High Cardinality (Avoid in range queries)**:
-```typescript
-// Many unique values - avoid large range scans
-metadata: {
-  user_id: "uuid-v4...",         // Millions of unique values
-  timestamp_ms: 1704067200123    // Use seconds instead
-}
-```
+### Invalid Key Characters
 
-### 2. Metadata Limits
+Keys cannot: be empty, contain `.` (reserved for nesting), contain `"`, or start with `$`.
 
-- **Max 10 metadata indexes** per Vectorize index
-- **Max 10 KiB metadata** per vector
-- **String indexes**: First 64 bytes (UTF-8)
-- **Number indexes**: Float64 precision
-- **Filter size**: Max 2048 bytes (compact JSON)
-
-### 3. Key Restrictions
-
-```typescript
-// ❌ INVALID metadata keys
-metadata: {
-  "": "value",              // Empty key
-  "user.name": "John",      // Contains dot (reserved for nesting)
-  "$admin": true,           // Starts with $
-  "key\"with\"quotes": 1    // Contains quotes
-}
-
-// ✅ VALID metadata keys
-metadata: {
-  "user_name": "John",
-  "isAdmin": true,
-  "nested": { "allowed": true }  // Access as "nested.allowed" in filters
-}
-```
+📄 **Complete metadata guide**: Load `references/metadata-guide.md` for cardinality best practices, nested metadata, and advanced filtering patterns.
 
 ## RAG Pattern (Full Example)
 
@@ -400,44 +235,14 @@ export default {
 
 ## Document Chunking Strategy
 
-```typescript
-function chunkText(text: string, maxChunkSize = 500): string[] {
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  const chunks: string[] = [];
-  let currentChunk = '';
+**Recommended chunk sizes**: 300-500 characters for semantic coherence.
 
-  for (const sentence of sentences) {
-    if ((currentChunk + sentence).length > maxChunkSize && currentChunk) {
-      chunks.push(currentChunk.trim());
-      currentChunk = sentence;
-    } else {
-      currentChunk += sentence;
-    }
-  }
+**Key metadata for chunks**:
+- `doc_id`: Parent document ID
+- `chunk_index`: Position in document
+- `content`: Text for retrieval display
 
-  if (currentChunk) chunks.push(currentChunk.trim());
-  return chunks;
-}
-
-// Usage
-const chunks = chunkText(longDocument, 500);
-const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
-  text: chunks
-});
-
-const vectors = embeddings.data.map((values, i) => ({
-  id: `doc-${docId}-chunk-${i}`,
-  values,
-  metadata: {
-    doc_id: docId,
-    chunk_index: i,
-    total_chunks: chunks.length,
-    content: chunks[i]
-  }
-}));
-
-await env.VECTORIZE_INDEX.upsert(vectors);
-```
+📄 **Full chunking implementation**: See `templates/document-ingestion.ts` for complete chunking pipeline.
 
 ## Common Errors & Solutions
 
@@ -500,58 +305,19 @@ Solution:
 
 ## Wrangler CLI Reference
 
+**Essential commands:**
 ```bash
-# Create index (dimensions and metric cannot be changed later!)
-bunx wrangler vectorize create <name> \
-  --dimensions=768 \
-  --metric=cosine
+# Create index (dimensions/metric are PERMANENT)
+bunx wrangler vectorize create <name> --dimensions=768 --metric=cosine
 
-# List indexes
-bunx wrangler vectorize list
+# Create metadata index (MUST be before inserting vectors!)
+bunx wrangler vectorize create-metadata-index <name> --property-name=category --type=string
 
-# Get index details
-bunx wrangler vectorize get <name>
-
-# Get index info (vector count, mutations)
+# Get index info
 bunx wrangler vectorize info <name>
-
-# Delete index
-bunx wrangler vectorize delete <name>
-
-# Create metadata index (BEFORE inserting vectors!)
-bunx wrangler vectorize create-metadata-index <name> \
-  --property-name=category \
-  --type=string
-
-# List metadata indexes
-bunx wrangler vectorize list-metadata-index <name>
-
-# Delete metadata index
-bunx wrangler vectorize delete-metadata-index <name> \
-  --property-name=category
-
-# Insert vectors from file
-bunx wrangler vectorize insert <name> \
-  --file=vectors.ndjson
-
-# Query vectors
-bunx wrangler vectorize query <name> \
-  --vector="[0.1, 0.2, ...]" \
-  --top-k=5 \
-  --return-metadata=all
-
-# List vector IDs
-bunx wrangler vectorize list-vectors <name> \
-  --count=100
-
-# Get vectors by IDs
-bunx wrangler vectorize get-vectors <name> \
-  --ids="id1,id2,id3"
-
-# Delete vectors by IDs
-bunx wrangler vectorize delete-vectors <name> \
-  --ids="id1,id2,id3"
 ```
+
+📄 **Full CLI reference**: Load `references/wrangler-commands.md` for all vectorize commands.
 
 ## Performance Tips
 
@@ -576,28 +342,26 @@ bunx wrangler vectorize delete-vectors <name> \
 - Large file storage (use R2)
 - Real-time collaborative state (use Durable Objects)
 
-## Templates Location
+## When to Load References
 
-All working code examples are in `./templates/`:
-- `basic-search.ts` - Simple vector search implementation
-- `rag-chat.ts` - Complete RAG chatbot
-- `document-ingestion.ts` - Document processing pipeline
-- `metadata-filtering.ts` - Advanced filtering patterns
+| Reference File | Load When... |
+|----------------|--------------|
+| `references/vector-operations.md` | Need full insert/upsert/query/delete code examples |
+| `references/metadata-guide.md` | Setting up metadata indexes, filtering best practices |
+| `references/wrangler-commands.md` | Using Vectorize CLI commands |
+| `references/integration-workers-ai-bge-base.md` | Integrating Workers AI embeddings |
+| `references/integration-openai-embeddings.md` | Integrating OpenAI embeddings |
+| `references/embedding-models.md` | Comparing embedding model options |
+| `references/index-operations.md` | Index lifecycle management |
 
-## Reference Documentation
+## Templates
 
-Detailed guides in `./references/`:
-- `wrangler-commands.md` - Complete CLI reference
-- `index-operations.md` - Index creation and management
-- `vector-operations.md` - Insert, query, delete operations
-- `metadata-guide.md` - Metadata indexes and filtering
-- `embedding-models.md` - Model configurations
-
-## Integration Examples
-
-Complete integration guides in `./references/`:
-- `integration-workers-ai-bge-base.md` - Workers AI integration (@cf/baai/bge-base-en-v1.5)
-- `integration-openai-embeddings.md` - OpenAI embeddings integration
+| Template | Purpose |
+|----------|---------|
+| `templates/basic-search.ts` | Simple vector search |
+| `templates/rag-chat.ts` | Complete RAG chatbot |
+| `templates/document-ingestion.ts` | Document chunking pipeline |
+| `templates/metadata-filtering.ts` | Advanced filtering |
 
 ## Official Documentation
 

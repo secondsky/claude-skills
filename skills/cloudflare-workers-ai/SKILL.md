@@ -94,156 +94,31 @@ return new Response(stream, {
 
 ## Workers AI API Reference
 
-### `env.AI.run()`
+### Core API: `env.AI.run()`
 
-Run an AI model inference.
-
-**Signature:**
 ```typescript
-async env.AI.run(
-  model: string,
-  inputs: ModelInputs,
-  options?: { gateway?: { id: string; skipCache?: boolean } }
-): Promise<ModelOutput | ReadableStream>
+const response = await env.AI.run(model, inputs, options?);
 ```
 
-**Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `model` | string | Model ID (e.g., `@cf/meta/llama-3.1-8b-instruct`) |
+| `inputs` | object | Model-specific inputs (see model type below) |
+| `options.gateway.id` | string | AI Gateway ID for caching/logging |
+| `options.gateway.skipCache` | boolean | Skip AI Gateway cache |
 
-- `model` (string, required) - Model ID (e.g., `@cf/meta/llama-3.1-8b-instruct`)
-- `inputs` (object, required) - Model-specific inputs
-- `options` (object, optional) - Additional options
-  - `gateway` (object) - AI Gateway configuration
-    - `id` (string) - Gateway ID
-    - `skipCache` (boolean) - Skip AI Gateway cache
+**Returns**: `Promise<ModelOutput>` (non-streaming) or `ReadableStream` (streaming)
 
-**Returns:**
+### Input Types by Model Category
 
-- Non-streaming: `Promise<ModelOutput>` - JSON response
-- Streaming: `ReadableStream` - Server-sent events stream
+| Category | Key Inputs | Output |
+|----------|------------|--------|
+| **Text Generation** | `messages[]`, `stream`, `max_tokens`, `temperature` | `{ response: string }` |
+| **Embeddings** | `text: string \| string[]` | `{ data: number[][], shape: number[] }` |
+| **Image Generation** | `prompt`, `num_steps`, `guidance` | Binary PNG |
+| **Vision** | `messages[].content[].image_url` | `{ response: string }` |
 
----
-
-### Text Generation Models
-
-**Input Format:**
-```typescript
-{
-  messages?: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>;
-  prompt?: string; // Deprecated, use messages
-  stream?: boolean; // Default: false
-  max_tokens?: number; // Max tokens to generate
-  temperature?: number; // 0.0-1.0, default varies by model
-  top_p?: number; // 0.0-1.0
-  top_k?: number;
-}
-```
-
-**Output Format (Non-Streaming):**
-```typescript
-{
-  response: string; // Generated text
-}
-```
-
-**Example:**
-```typescript
-const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-  messages: [
-    { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'What is TypeScript?' },
-  ],
-  stream: false,
-});
-
-console.log(response.response);
-```
-
----
-
-### Text Embeddings Models
-
-**Input Format:**
-```typescript
-{
-  text: string | string[]; // Single text or array of texts
-}
-```
-
-**Output Format:**
-```typescript
-{
-  shape: number[]; // [batch_size, embedding_dimensions]
-  data: number[][]; // Array of embedding vectors
-}
-```
-
-**Example:**
-```typescript
-const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
-  text: ['Hello world', 'Cloudflare Workers'],
-});
-
-console.log(embeddings.shape); // [2, 768]
-console.log(embeddings.data[0]); // [0.123, -0.456, ...]
-```
-
----
-
-### Image Generation Models
-
-**Input Format:**
-```typescript
-{
-  prompt: string; // Text description
-  num_steps?: number; // Default: 20
-  guidance?: number; // CFG scale, default: 7.5
-  strength?: number; // For img2img, default: 1.0
-  image?: number[][]; // For img2img (base64 or array)
-}
-```
-
-**Output Format:**
-- Binary image data (PNG/JPEG)
-
-**Example:**
-```typescript
-const imageStream = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
-  prompt: 'A beautiful sunset over mountains',
-});
-
-return new Response(imageStream, {
-  headers: { 'content-type': 'image/png' },
-});
-```
-
----
-
-### Vision Models
-
-**Input Format:**
-```typescript
-{
-  messages: Array<{
-    role: 'user' | 'assistant';
-    content: Array<{ type: 'text' | 'image_url'; text?: string; image_url?: { url: string } }>;
-  }>;
-}
-```
-
-**Example:**
-```typescript
-const response = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
-  messages: [
-    {
-      role: 'user',
-      content: [
-        { type: 'text', text: 'What is in this image?' },
-        { type: 'image_url', image_url: { url: 'data:image/png;base64,iVBOR...' } },
-      ],
-    },
-  ],
-});
-```
+📄 **Full model details**: Load `references/models-catalog.md` for complete model list, parameters, and rate limits.
 
 ---
 
@@ -286,321 +161,100 @@ const response = await env.AI.run('@cf/meta/llama-3.2-11b-vision-instruct', {
 
 ## Common Patterns
 
-### Pattern 1: Chat Completion with History
+### Pattern 1: Chat with Streaming
 
 ```typescript
 app.post('/chat', async (c) => {
-  const { messages } = await c.req.json<{
-    messages: Array<{ role: string; content: string }>;
-  }>();
-
-  const response = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-    messages,
-    stream: true,
-  });
-
-  return new Response(response, {
-    headers: { 'content-type': 'text/event-stream' },
-  });
+  const { messages } = await c.req.json<{ messages: Array<{ role: string; content: string }> }>();
+  const stream = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages, stream: true });
+  return new Response(stream, { headers: { 'content-type': 'text/event-stream' } });
 });
 ```
-
----
 
 ### Pattern 2: RAG (Retrieval Augmented Generation)
 
 ```typescript
-// Step 1: Generate embeddings
-const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', {
-  text: [userQuery],
-});
-
-const vector = embeddings.data[0];
-
-// Step 2: Search Vectorize
-const matches = await env.VECTORIZE.query(vector, { topK: 3 });
-
-// Step 3: Build context from matches
+// 1. Generate embedding for query
+const embeddings = await env.AI.run('@cf/baai/bge-base-en-v1.5', { text: [userQuery] });
+// 2. Search Vectorize
+const matches = await env.VECTORIZE.query(embeddings.data[0], { topK: 3 });
+// 3. Build context
 const context = matches.matches.map((m) => m.metadata.text).join('\n\n');
-
-// Step 4: Generate response with context
-const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+// 4. Generate with context
+const stream = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
   messages: [
-    {
-      role: 'system',
-      content: `Answer using this context:\n${context}`,
-    },
+    { role: 'system', content: `Answer using this context:\n${context}` },
     { role: 'user', content: userQuery },
   ],
   stream: true,
 });
-
-return new Response(response, {
-  headers: { 'content-type': 'text/event-stream' },
-});
+return new Response(stream, { headers: { 'content-type': 'text/event-stream' } });
 ```
 
----
-
-### Pattern 3: Structured Output with Zod
-
-```typescript
-import { z } from 'zod';
-
-const RecipeSchema = z.object({
-  name: z.string(),
-  ingredients: z.array(z.string()),
-  instructions: z.array(z.string()),
-  prepTime: z.number(),
-});
-
-app.post('/recipe', async (c) => {
-  const { dish } = await c.req.json<{ dish: string }>();
-
-  const response = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-    messages: [
-      {
-        role: 'user',
-        content: `Generate a recipe for ${dish}. Return ONLY valid JSON matching this schema: ${JSON.stringify(RecipeSchema.shape)}`,
-      },
-    ],
-  });
-
-  // Parse and validate
-  const recipe = RecipeSchema.parse(JSON.parse(response.response));
-
-  return c.json(recipe);
-});
-```
-
----
-
-### Pattern 4: Image Generation + R2 Storage
-
-```typescript
-app.post('/generate-image', async (c) => {
-  const { prompt } = await c.req.json<{ prompt: string }>();
-
-  // Generate image
-  const imageStream = await c.env.AI.run('@cf/black-forest-labs/flux-1-schnell', {
-    prompt,
-  });
-
-  const imageBytes = await new Response(imageStream).bytes();
-
-  // Store in R2
-  const key = `images/${Date.now()}.png`;
-  await c.env.BUCKET.put(key, imageBytes, {
-    httpMetadata: { contentType: 'image/png' },
-  });
-
-  return c.json({
-    success: true,
-    url: `https://your-domain.com/${key}`,
-  });
-});
-```
+📄 **More patterns**: Load `references/best-practices.md` for structured output, image generation, multi-model consensus, and production patterns.
 
 ---
 
 ## AI Gateway Integration
 
-AI Gateway provides caching, logging, and analytics for AI requests.
+Enable caching, logging, and cost tracking with AI Gateway:
 
-**Setup:**
 ```typescript
-const response = await env.AI.run(
-  '@cf/meta/llama-3.1-8b-instruct',
-  { prompt: 'Hello' },
-  {
-    gateway: {
-      id: 'my-gateway', // Your gateway ID
-      skipCache: false, // Use cache
-    },
-  }
-);
-```
-
-**Benefits:**
-- ✅ **Cost Tracking** - Monitor neurons usage per request
-- ✅ **Caching** - Reduce duplicate inference costs
-- ✅ **Logging** - Debug and analyze AI requests
-- ✅ **Rate Limiting** - Additional layer of protection
-- ✅ **Analytics** - Request patterns and performance
-
-**Access Gateway Logs:**
-```typescript
-const gateway = env.AI.gateway('my-gateway');
-const logId = env.AI.aiGatewayLogId;
-
-// Send feedback
-await gateway.patchLog(logId, {
-  feedback: { rating: 1, comment: 'Great response' },
+const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { prompt: 'Hello' }, {
+  gateway: { id: 'my-gateway', skipCache: false },
 });
 ```
+
+**Benefits**: Cost tracking, response caching (50-90% savings on repeated queries), request logging, rate limiting, analytics.
 
 ---
 
 ## Rate Limits & Pricing
 
-### Rate Limits (per minute)
+**Information last verified**: 2025-01-14
 
-| Task Type | Default Limit | Notes |
-|-----------|---------------|-------|
-| **Text Generation** | 300/min | Some fast models: 400-1500/min |
-| **Text Embeddings** | 3000/min | BGE-large: 1500/min |
-| **Image Generation** | 720/min | All image models |
-| **Vision Models** | 720/min | Image understanding |
-| **Translation** | 720/min | M2M100, Opus MT |
-| **Classification** | 2000/min | Text classification |
-| **Speech Recognition** | 720/min | Whisper models |
+Rate limits and pricing vary significantly by model. Always check the official documentation for the most current information:
 
-### Pricing (Neurons-Based)
+- **Rate Limits**: https://developers.cloudflare.com/workers-ai/platform/limits/
+- **Pricing**: https://developers.cloudflare.com/workers-ai/platform/pricing/
 
-**Free Tier:**
-- 10,000 neurons per day
-- Resets daily at 00:00 UTC
+**Free Tier**: 10,000 neurons/day
+**Paid Tier**: $0.011 per 1,000 neurons
 
-**Paid Tier:**
-- $0.011 per 1,000 neurons
-- 10,000 neurons/day included
-- Unlimited usage above free allocation
-
-**Example Costs:**
-
-| Model | Input (1M tokens) | Output (1M tokens) |
-|-------|-------------------|-------------------|
-| Llama 3.2 1B | $0.027 | $0.201 |
-| Llama 3.1 8B | $0.088 | $0.606 |
-| BGE-base embeddings | $0.005 | N/A |
-| Flux image generation | ~$0.011/image | N/A |
+📄 **Per-model details**: See `references/models-catalog.md` for specific rate limits and pricing for each model.
 
 ---
 
 ## Production Checklist
 
-### Before Deploying
+**Essential before deploying:**
+- [ ] Enable AI Gateway for cost tracking
+- [ ] Implement streaming for text generation
+- [ ] Add rate limit retry with exponential backoff
+- [ ] Validate input length (prevent token limit errors)
+- [ ] Add input sanitization (prevent prompt injection)
 
-- [ ] **Enable AI Gateway** for cost tracking and logging
-- [ ] **Implement streaming** for all text generation endpoints
-- [ ] **Add rate limit retry** with exponential backoff
-- [ ] **Validate input length** to prevent token limit errors
-- [ ] **Set appropriate timeouts** (Workers: 30s CPU default, 5m max)
-- [ ] **Monitor neurons usage** in Cloudflare dashboard
-- [ ] **Test error handling** for model unavailable, rate limits
-- [ ] **Add input sanitization** to prevent prompt injection
-- [ ] **Configure CORS** if using from browser
-- [ ] **Plan for scale** - upgrade to Paid plan if needed
-
-### Error Handling
-
-```typescript
-async function runAIWithRetry(
-  env: Env,
-  model: string,
-  inputs: any,
-  maxRetries = 3
-): Promise<any> {
-  let lastError: Error;
-
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      return await env.AI.run(model, inputs);
-    } catch (error) {
-      lastError = error as Error;
-      const message = lastError.message.toLowerCase();
-
-      // Rate limit - retry with backoff
-      if (message.includes('429') || message.includes('rate limit')) {
-        const delay = Math.pow(2, i) * 1000; // Exponential backoff
-        await new Promise((resolve) => setTimeout(resolve, delay));
-        continue;
-      }
-
-      // Other errors - throw immediately
-      throw error;
-    }
-  }
-
-  throw lastError!;
-}
-```
-
-### Monitoring
-
-```typescript
-app.use('*', async (c, next) => {
-  const start = Date.now();
-
-  await next();
-
-  // Log AI usage
-  console.log({
-    path: c.req.path,
-    duration: Date.now() - start,
-    logId: c.env.AI.aiGatewayLogId,
-  });
-});
-```
+📄 **Full checklist**: Load `references/best-practices.md` for complete production checklist, error handling patterns, monitoring, and cost optimization.
 
 ---
 
-## OpenAI Compatibility
+## External SDK Integrations
 
-Workers AI supports OpenAI-compatible endpoints.
+Workers AI supports OpenAI SDK compatibility and Vercel AI SDK:
 
-**Using OpenAI SDK:**
 ```typescript
-import OpenAI from 'openai';
-
+// OpenAI SDK - use same patterns with Workers AI models
 const openai = new OpenAI({
   apiKey: env.CLOUDFLARE_API_KEY,
   baseURL: `https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`,
 });
 
-// Chat completions
-const completion = await openai.chat.completions.create({
-  model: '@cf/meta/llama-3.1-8b-instruct',
-  messages: [{ role: 'user', content: 'Hello!' }],
-});
-
-// Embeddings
-const embeddings = await openai.embeddings.create({
-  model: '@cf/baai/bge-base-en-v1.5',
-  input: 'Hello world',
-});
-```
-
-**Endpoints:**
-- `/v1/chat/completions` - Text generation
-- `/v1/embeddings` - Text embeddings
-
----
-
-## Vercel AI SDK Integration
-
-```bash
-bun add workers-ai-provider ai
-```
-
-```typescript
+// Vercel AI SDK - native integration
 import { createWorkersAI } from 'workers-ai-provider';
-import { generateText, streamText } from 'ai';
-
 const workersai = createWorkersAI({ binding: env.AI });
-
-// Generate text
-const result = await generateText({
-  model: workersai('@cf/meta/llama-3.1-8b-instruct'),
-  prompt: 'Write a poem',
-});
-
-// Stream text
-const stream = streamText({
-  model: workersai('@cf/meta/llama-3.1-8b-instruct'),
-  prompt: 'Tell me a story',
-});
 ```
+
+📄 **Full integration guide**: Load `references/integrations.md` for OpenAI SDK, Vercel AI SDK, and REST API examples.
 
 ---
 
@@ -619,11 +273,19 @@ const stream = streamText({
 
 ---
 
+## When to Load References
+
+| Reference File | Load When... |
+|----------------|--------------|
+| `references/models-catalog.md` | Choosing a model, checking rate limits, comparing model capabilities |
+| `references/best-practices.md` | Production deployment, error handling, cost optimization, security |
+| `references/integrations.md` | Using OpenAI SDK, Vercel AI SDK, or REST API instead of native binding |
+
+---
+
 ## References
 
 - [Workers AI Docs](https://developers.cloudflare.com/workers-ai/)
 - [Models Catalog](https://developers.cloudflare.com/workers-ai/models/)
 - [AI Gateway](https://developers.cloudflare.com/ai-gateway/)
 - [Pricing](https://developers.cloudflare.com/workers-ai/platform/pricing/)
-- [Limits](https://developers.cloudflare.com/workers-ai/platform/limits/)
-- [REST API](https://developers.cloudflare.com/workers-ai/get-started/rest-api/)

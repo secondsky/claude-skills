@@ -1,6 +1,7 @@
 ---
 name: design-system-creation
 description: Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.
+license: MIT
 ---
 
 # Design System Creation

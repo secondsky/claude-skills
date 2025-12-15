@@ -291,7 +291,7 @@ Next: Phase 14 (Post-Fix Verification)"
 
 ## Appendix: Phase Definitions
 
-For reference, here are the 14 phases:
+For reference, here are the 15 phases:
 
 1. **Pre-Review Setup** - Install skill, test discovery
 2. **Standards Compliance** - YAML, line count, formatting
@@ -305,10 +305,11 @@ For reference, here are the 14 phases:
 10. **Testing & Evaluation** - Test scenarios, multi-model
 11. **Security & MCP** - MCP refs, error handling, permissions
 12. **Issue Categorization** - Severity classification with evidence
-13. **Fix Implementation** - Auto-fix or ask user
+12.5. **Resource Inventory & Coverage Audit** ⚠️ MANDATORY - Check existing refs before condensation
+13. **Fix Implementation** - Auto-fix or ask user (after completing 12.5)
 14. **Post-Fix Verification** - Discovery, templates, commit
 
 ---
 
 **Tracking Document Last Updated**: YYYY-MM-DD HH:MM
-**Tracking Template Version**: 1.0.0
+**Tracking Template Version**: 1.1.0

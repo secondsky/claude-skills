@@ -19,8 +19,8 @@ description: |
   tailwind v4 shadcn, typescript starter, vite cloudflare plugin, all services configured
 license: MIT
 metadata:
-  version: 1.0.0
-  last_updated: 2025-11-21
+  version: 1.1.0
+  last_updated: 2025-12-09
   packages:
     - "react: ^19.2.0"
     - "react-router-dom: ^7.1.3"
@@ -36,6 +36,13 @@ metadata:
   production_tested: true
   token_savings: "75-80%"
   errors_prevented: "12+ setup and configuration errors"
+  progressive_disclosure: true
+  refactoring_date: 2025-12-09
+  skill_structure:
+    main_file_lines: 345
+    reference_files: 9
+    total_reference_lines: 3043
+    reduction_achieved: "55% (773 → 345 lines)"
 ---
 
 # Cloudflare Full-Stack Scaffold
@@ -56,356 +63,103 @@ Use this skill when you need to:
 - **Enable features only when needed** with simple npm scripts
 - **Avoid configuration errors** and integration issues
 
+## When to Load References
+
+This skill includes 9 comprehensive reference files. Load them progressively based on your task:
+
+### Setting Up New Project
+- **`references/quick-start-guide.md`** - Load when: user wants to create new project, needs setup walkthrough, first-time setup
+- **`references/project-overview.md`** - Load when: user asks about scaffold structure, what's included, helper scripts, directory organization
+
+### Working with Cloudflare Services
+- **`references/service-configuration.md`** - Load when: configuring D1/KV/R2/Workers AI, setting up bindings, service integration, wrangler.jsonc questions
+
+### AI Integration
+- **`references/ai-sdk-guide.md`** - Load when: implementing AI chat, using AI SDK, text generation, streaming responses, tool calling, AI provider setup
+
+### Forms and Data Management
+- **`references/full-stack-patterns.md`** - Load when: building forms, implementing validation, data fetching, React Hook Form questions, TanStack Query usage, full-stack validation patterns
+- **`references/supporting-libraries-guide.md`** - Load when: deep dive into specific libraries (React Hook Form, Zod, TanStack Query, Hono routing), API reference needed
+
+### Authentication
+- **`references/enabling-auth.md`** - Load when: setting up Clerk auth, implementing authentication, user management, JWT verification, protected routes
+
+### Architecture and Configuration
+- **`references/architecture-patterns.md`** - Load when: frontend-backend connection issues, CORS errors, environment variables confusion, API not responding, auth race conditions
+
+### Customization
+- **`references/customization-guide.md`** - Load when: removing services, adding features, customizing theme, creating routes, switching AI providers, modifying scaffold
+
+**Strategy**: Start with SKILL.md quick start. Load references only when user needs detailed implementation guidance for specific areas.
+
 ## What This Skill Provides
 
-### Complete Scaffold Project
+**Complete production-ready scaffold** you can copy and customize immediately.
 
-A fully working application you can **copy, customize, and deploy** immediately:
+### Quick Start
 
 ```bash
-# Copy the scaffold
-cp -r scaffold/ my-new-app/
-cd my-new-app/
-
-# Install dependencies
+cp -r scaffold/ my-new-app/ && cd my-new-app/
 bun install
-
-# Initialize core services (D1, KV, R2)
-./scripts/init-services.sh
-
-# Create database tables
-npm run d1:local
-
-# Start developing
-npm run dev
+./scripts/init-services.sh  # Creates D1, KV, R2
+npm run d1:local && npm run dev
 ```
 
-**Result**: Full-stack app running in ~5 minutes with:
-- ✅ Frontend and backend connected
-- ✅ Core Cloudflare services configured (D1, KV, R2, Workers AI)
-- ✅ AI SDK ready with multiple providers
-- ✅ Planning docs and session handoff protocol
-- ✅ Dark mode, theming, UI components
-- ✅ Optional features (1 script each to enable):
-  - Clerk Auth (`npm run enable-auth`)
-  - AI Chat UI (`npm run enable-ai-chat`)
-  - Queues (`npm run enable-queues`)
-  - Vectorize (`npm run enable-vectorize`)
+**Result in ~5 minutes**:
+- ✅ Full-stack app running (React + Hono + Cloudflare Workers)
+- ✅ Core services configured (D1, KV, R2, Workers AI)
+- ✅ AI SDK ready (OpenAI, Anthropic, Gemini, Workers AI)
+- ✅ Planning docs and session handoff protocol included
+- ✅ Optional features enabled with one command each:
+  - `npm run enable-auth` (Clerk)
+  - `npm run enable-ai-chat` (AI SDK UI)
+  - `npm run enable-queues` (async processing)
+  - `npm run enable-vectorize` (vector search & RAG)
 
-### Scaffold Structure
+### What's Included
 
-```
-scaffold/
-├── package.json              # All dependencies (React, Hono, AI SDK, Clerk)
-├── tsconfig.json            # TypeScript config
-├── vite.config.ts           # Cloudflare Vite plugin
-├── wrangler.jsonc           # All Cloudflare services configured
-├── .dev.vars.example        # Environment variables template
-├── .gitignore               # Standard ignores
-├── README.md                # Project-specific readme
-├── CLAUDE.md                # Project instructions for Claude
-├── SCRATCHPAD.md            # Session handoff protocol
-├── CHANGELOG.md             # Version history
-├── schema.sql               # D1 database schema
-│
-├── docs/                    # Complete planning docs
-│   ├── ARCHITECTURE.md
-│   ├── DATABASE_SCHEMA.md
-│   ├── API_ENDPOINTS.md
-│   ├── IMPLEMENTATION_PHASES.md
-│   ├── UI_COMPONENTS.md
-│   └── TESTING.md
-│
-├── migrations/              # D1 migrations
-│   └── 0001_initial.sql
-│
-├── src/                     # Frontend (React + Vite + Tailwind v4)
-│   ├── main.tsx
-│   ├── App.tsx
-│   ├── index.css           # Tailwind v4 theming
-│   ├── components/
-│   │   ├── ui/             # shadcn/ui components
-│   │   ├── ThemeProvider.tsx
-│   │   ├── ProtectedRoute.tsx     # Auth (COMMENTED)
-│   │   └── ChatInterface.tsx      # AI chat (COMMENTED)
-│   ├── lib/
-│   │   ├── utils.ts        # cn() utility
-│   │   └── api-client.ts   # Fetch wrapper
-│   └── pages/
-│       ├── Home.tsx
-│       ├── Dashboard.tsx
-│       └── Chat.tsx        # AI chat page (COMMENTED)
-│
-└── backend/                 # Backend (Hono + Cloudflare)
-    ├── src/
-    │   └── index.ts        # Main Worker entry
-    ├── middleware/
-    │   ├── cors.ts
-    │   └── auth.ts         # JWT (COMMENTED)
-    ├── routes/
-    │   ├── api.ts          # Basic API routes
-    │   ├── d1.ts           # D1 examples
-    │   ├── kv.ts           # KV examples
-    │   ├── r2.ts           # R2 examples
-    │   ├── ai.ts           # Workers AI (direct binding)
-    │   ├── ai-sdk.ts       # AI SDK examples (multiple providers)
-    │   ├── vectorize.ts    # Vectorize examples
-    │   └── queues.ts       # Queues examples
-    └── db/
-        └── queries.ts      # D1 typed query helpers
-```
+**Frontend**: React 19, Vite, Tailwind v4, shadcn/ui, React Router, dark mode
+**Backend**: Hono, Cloudflare Workers, CORS middleware, typed routes
+**Services**: D1 (SQL), KV (cache), R2 (storage), Workers AI, Queues, Vectorize
+**AI**: AI SDK v5 with multi-provider support (OpenAI, Anthropic, Gemini, Workers AI)
+**Auth**: Clerk integration (optional, enable script provided)
+**Planning**: Complete docs (Architecture, Database, API, Phases, UI, Testing), SCRATCHPAD.md for session handoff
+**Scripts**: 6 helper scripts for setup, service initialization, and feature enabling
 
-### Helper Scripts
-
-**`scripts/setup-project.sh`**:
-- Copies scaffold to new directory
-- Renames project in package.json
-- Initializes git repository
-- Runs bun install
-- Prompts to initialize services
-
-**`scripts/init-services.sh`**:
-- Creates D1 database via wrangler
-- Creates KV namespace
-- Creates R2 bucket
-- Updates wrangler.jsonc with IDs
-- (Queues and Vectorize created when enabled)
-
-**`scripts/enable-auth.sh`**:
-- Uncomments all Clerk auth patterns
-- Enables ProtectedRoute component
-- Enables auth middleware
-- Prompts for Clerk API keys
-- Updates .dev.vars
-
-**`scripts/enable-ai-chat.sh`**:
-- Uncomments ChatInterface component
-- Uncomments Chat page
-- Enables AI SDK UI patterns
-- Adds chat route to App.tsx
-- Prompts for AI provider API keys
-
-**`scripts/enable-queues.sh`**:
-- Uncomments Queues routes and bindings
-- Enables async message processing
-- Provides queue creation instructions
-- Updates backend and config files
-
-**`scripts/enable-vectorize.sh`**:
-- Uncomments Vectorize routes and bindings
-- Enables vector search and RAG
-- Provides index creation instructions
-- Configures embedding dimensions
-
-### Reference Documentation
-
-**`references/quick-start-guide.md`**:
-- 5-minute setup walkthrough
-- First deployment guide
-- Common customizations
-
-**`references/service-configuration.md`**:
-- Details on each Cloudflare service
-- When to use each one
-- Configuration options
-
-**`references/ai-sdk-guide.md`**:
-- AI SDK Core vs UI
-- Provider switching patterns
-- Streaming and tool calling
-- RAG implementation
-
-**`references/customization-guide.md`**:
-- Removing unused services
-- Adding new routes/pages
-- Customizing theme
-- Project structure best practices
-
-**`references/enabling-auth.md`**:
-- Clerk setup walkthrough
-- JWT template configuration
-- Testing auth flow
+**Full structure, helper scripts, and reference docs**: Load `references/project-overview.md` for complete details.
 
 ## Key Integrations
 
-### 1. AI SDK Integration (Three Approaches)
+### 1. AI SDK v5 - Multi-Provider AI
 
-**Direct Workers AI Binding** (fastest):
-```typescript
-// Already works, no API key needed
-const result = await c.env.AI.run('@cf/meta/llama-3-8b-instruct', {
-  messages: [{ role: 'user', content: 'Hello' }]
-})
-```
+Three flexible approaches:
+- **Direct Workers AI Binding**: No API key, fastest (`c.env.AI.run()`)
+- **AI SDK + Workers AI**: Portable code, same infrastructure (`workers-ai-provider`)
+- **AI SDK + External**: OpenAI, Anthropic, Gemini - switch in one line
 
-**AI SDK with Workers AI** (portable code, same infrastructure):
-```typescript
-import { streamText } from 'ai'
-import { createWorkersAI } from 'workers-ai-provider'
+**Chat UI** (optional): Enable with `npm run enable-ai-chat` for complete `useChat` hook interface
 
-const workersai = createWorkersAI({ binding: c.env.AI })
-const result = await streamText({
-  model: workersai('@cf/meta/llama-3-8b-instruct'),
-  messages: [{ role: 'user', content: 'Hello' }]
-})
-```
+**Details**: Load `references/ai-sdk-guide.md` for streaming, tool calling, RAG patterns, provider switching
 
-**AI SDK with External Providers** (OpenAI, Anthropic, Gemini):
-```typescript
-import { openai } from '@ai-sdk/openai'
-import { anthropic } from '@ai-sdk/anthropic'
+### 2. Forms & Data (React Hook Form + Zod + TanStack Query)
 
-// Switch providers in 1 line
-const result = await streamText({
-  model: openai('gpt-4o'),  // or anthropic('claude-sonnet-4-5')
-  messages: [{ role: 'user', content: 'Hello' }]
-})
-```
+Industry-standard pattern for production apps:
+- **React Hook Form**: Performance-focused form state
+- **Zod v4**: Type-safe validation, shared frontend/backend
+- **TanStack Query v5**: Smart caching, optimistic updates
 
-**AI SDK v5 UI - Chat Interface** (COMMENTED, enable with script):
-```tsx
-import { useChat } from '@ai-sdk/react'
-import { DefaultChatTransport } from 'ai'
-import { useState } from 'react'
+**Full-stack validation**: Define schema once in `shared/schemas/`, use everywhere with type inference
 
-function ChatInterface() {
-  const [input, setInput] = useState('')
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({
-      api: '/api/ai-sdk/chat',
-    }),
-  })
+**Details**: Load `references/full-stack-patterns.md` for complete working examples and patterns
 
-  // Send message on Enter key
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && status === 'ready' && input.trim()) {
-      sendMessage({ text: input })
-      setInput('')
-    }
-  }
+### 3. Cloudflare Services Ready
 
-  // Render messages (v5 uses message.parts[])
-  return (
-    <div>
-      {messages.map(m => (
-        <div key={m.id}>
-          {m.parts.map(part => {
-            if (part.type === 'text') return <div>{part.text}</div>
-          })}
-        </div>
-      ))}
-      <input
-        value={input}
-        onChange={e => setInput(e.target.value)}
-        onKeyDown={handleKeyDown}
-        disabled={status !== 'ready'}
-      />
-    </div>
-  )
-}
-```
+**Core** (init script provided): D1 (SQL), KV (cache), R2 (storage), Workers AI (inference)
+**Optional** (enable scripts): Queues (async), Vectorize (RAG)
 
-### 2. Forms & Data Fetching (React Hook Form + Zod + TanStack Query)
+All services have example routes with CRUD operations, typed helpers, and best practices
 
-**Industry-Standard Libraries for Production Apps**:
-
-**React Hook Form** - Performant form state management:
-```tsx
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-const form = useForm({
-  resolver: zodResolver(userSchema), // Zod validation
-})
-
-<input {...register('name')} />
-{errors.name && <span>{errors.name.message}</span>}
-```
-
-**Zod v4** - TypeScript-first schema validation:
-```typescript
-// Define schema once
-const userSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email(),
-  age: z.number().int().positive().optional(),
-})
-
-// Infer TypeScript type
-type User = z.infer<typeof userSchema>
-
-// Use in frontend (React Hook Form)
-resolver: zodResolver(userSchema)
-
-// Use in backend (same schema!)
-const validated = userSchema.parse(requestBody)
-```
-
-**TanStack Query v5** - Smart data fetching & caching:
-```typescript
-// Fetch data with automatic caching
-const { data, isLoading } = useQuery({
-  queryKey: ['users'],
-  queryFn: () => apiClient.get('/api/users'),
-})
-
-// Update data with mutations
-const mutation = useMutation({
-  mutationFn: (newUser) => apiClient.post('/api/users', newUser),
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['users'] })
-  },
-})
-```
-
-**Full-Stack Validation Pattern**:
-- ✅ Define schema in `shared/schemas/` (single source of truth)
-- ✅ Frontend validates instantly (React Hook Form + Zod)
-- ✅ Backend validates securely (same Zod schema)
-- ✅ TypeScript types inferred automatically
-- ✅ Update validation once, applies everywhere
-
-**Complete Working Examples**:
-- Profile page with form: `/profile` route
-- Dashboard with queries: `/dashboard` route
-- Form component: `src/components/UserProfileForm.tsx`
-- Backend validation: `backend/routes/forms.ts`
-- Shared schemas: `shared/schemas/userSchema.ts`
-
-See `references/supporting-libraries-guide.md` for comprehensive guide.
-
-### 3. All Cloudflare Services Pre-Configured
-
-**Database (D1)**:
-- Schema file with example tables
-- Migrations directory
-- Typed query helpers
-- Example CRUD routes
-
-**Key-Value Storage (KV)**:
-- Get/put/delete examples
-- TTL patterns
-- Bulk operations
-
-**Object Storage (R2)**:
-- Upload/download examples
-- Presigned URLs
-- Streaming large files
-
-**AI Inference (Workers AI)**:
-- Text generation
-- Embeddings
-- Image generation (Stable Diffusion)
-
-**Vector Database (Vectorize)**:
-- Insert/query embeddings
-- RAG patterns
-- Similarity search
-
-**Message Queues**:
-- Producer examples
-- Consumer patterns
-- Batch processing
+**Details**: Load `references/service-configuration.md` for binding config and usage patterns
 
 ### 3. Optional Clerk Authentication
 
@@ -441,239 +195,57 @@ All auth patterns included but **COMMENTED** - uncomment to enable:
 
 ## Usage Guide
 
-### Quick Start (5 Minutes)
+### Setup (5 Minutes)
 
 ```bash
-# 1. Copy scaffold (choose your preferred location)
-cd /path/to/skills/cloudflare-full-stack-scaffold
-cp -r scaffold/ ~/my-new-app/
-cd ~/my-new-app/
-
-# 2. Run setup
+cp -r scaffold/ my-new-app/ && cd my-new-app/
 bun install
-
-# 3. Initialize Cloudflare services
-bunx wrangler d1 create my-app-db
-bunx wrangler kv:namespace create my-app-kv
-bunx wrangler r2 bucket create my-app-bucket
-bunx wrangler vectorize create my-app-index --dimensions=1536
-bunx wrangler queues create my-app-queue
-
-# 4. Update wrangler.jsonc with IDs from step 3
-
-# 5. Create D1 tables
-bunx wrangler d1 execute my-app-db --local --file=schema.sql
-
-# 6. Start dev server
-npm run dev
+./scripts/init-services.sh  # Creates D1, KV, R2, updates wrangler.jsonc
+npm run d1:local && npm run dev  # http://localhost:5173
 ```
 
-**Visit**: http://localhost:5173
-
-### Enable Authentication (Optional)
+### Enable Optional Features
 
 ```bash
-./scripts/enable-auth.sh
-# Prompts for Clerk publishable and secret keys
-# Uncomments all auth patterns
-# Updates .dev.vars
-
-npm run dev
+npm run enable-auth        # Clerk authentication
+npm run enable-ai-chat     # AI SDK UI chat interface
+npm run enable-queues      # Async message processing
+npm run enable-vectorize   # Vector search & RAG
 ```
 
-### Enable AI Chat Interface (Optional)
+### Deploy
 
 ```bash
-./scripts/enable-ai-chat.sh
-# Uncomments ChatInterface component
-# Uncomments Chat page
-# Prompts for OpenAI/Anthropic API keys (optional)
-
-npm run dev
-```
-
-**Visit**: http://localhost:5173/chat
-
-### Deploy to Production
-
-```bash
-# Build
-npm run build
-
-# Deploy
-bunx wrangler deploy
-
-# Migrate production database
+npm run build && bunx wrangler deploy
 bunx wrangler d1 execute my-app-db --remote --file=schema.sql
-
-# Set production secrets
-bunx wrangler secret put CLERK_SECRET_KEY
-bunx wrangler secret put OPENAI_API_KEY
+bunx wrangler secret put CLERK_SECRET_KEY  # Repeat for other secrets
 ```
 
-## Customization Patterns
+**Detailed setup walkthrough**: Load `references/quick-start-guide.md`
 
-### Remove Unused Services
+## Customization
 
-**Don't need Vectorize?**
-1. Delete `backend/routes/vectorize.ts`
-2. Remove vectorize binding from `wrangler.jsonc`
-3. Remove from `vite.config.ts` cloudflare plugin
-4. Remove route registration in `backend/src/index.ts`
+Common patterns: remove unused services, add API routes, switch AI providers, customize theme, add pages
 
-### Add New API Routes
+**Complete step-by-step guides**: Load `references/customization-guide.md`
 
-```typescript
-// backend/routes/my-feature.ts
-import { Hono } from 'hono'
+## Critical Architecture Patterns
 
-export const myFeatureRoutes = new Hono()
+**Frontend-Backend Connection**: Vite plugin runs Worker on SAME port → use relative URLs (`fetch('/api/data')`)
+**Environment Variables**: `.env` (VITE_ prefix, frontend) vs `.dev.vars` (no prefix, backend secrets)
+**CORS**: Apply middleware BEFORE routes (`app.use('/api/*', corsMiddleware)` must come first)
+**Auth**: Check `isLoaded` before API calls to prevent race conditions
 
-myFeatureRoutes.get('/hello', (c) => {
-  return c.json({ message: 'Hello from my feature!' })
-})
-
-// backend/src/index.ts
-import { myFeatureRoutes } from './routes/my-feature'
-app.route('/api/my-feature', myFeatureRoutes)
-```
-
-### Switch AI Providers
-
-```typescript
-// Change this line:
-model: openai('gpt-4o'),
-
-// To this:
-model: anthropic('claude-sonnet-4-5'),
-
-// Or this:
-model: google('gemini-2.5-flash'),
-
-// Or use Workers AI:
-const workersai = createWorkersAI({ binding: c.env.AI })
-model: workersai('@cf/meta/llama-3-8b-instruct'),
-```
-
-### Customize Theme
-
-All theming in `src/index.css`:
-
-```css
-:root {
-  --background: hsl(0 0% 100%);  /* Change colors here */
-  --foreground: hsl(0 0% 3.9%);
-  --primary: hsl(220 90% 56%);
-  /* etc */
-}
-```
-
-## Architecture Highlights
-
-### Frontend-Backend Connection
-
-**Key Insight**: The Vite plugin runs your Worker on the **SAME port** as Vite.
-
-```typescript
-// ✅ CORRECT: Use relative URLs
-fetch('/api/data')
-
-// ❌ WRONG: Don't use absolute URLs
-fetch('http://localhost:8787/api/data')
-```
-
-**No proxy configuration needed!**
-
-### Environment Variables
-
-**Frontend** (.env):
-```bash
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxx
-```
-
-**Backend** (.dev.vars):
-```bash
-CLERK_SECRET_KEY=sk_test_xxx
-OPENAI_API_KEY=sk-xxx
-```
-
-### CORS Configuration
-
-**Critical**: CORS middleware must be applied **BEFORE** routes:
-
-```typescript
-// ✅ CORRECT ORDER
-app.use('/api/*', corsMiddleware)
-app.post('/api/data', handler)
-
-// ❌ WRONG - Will cause CORS errors
-app.post('/api/data', handler)
-app.use('/api/*', corsMiddleware)
-```
-
-### Auth Pattern (When Enabled)
-
-**Frontend**: Check `isLoaded` before making API calls:
-```typescript
-const { isLoaded, isSignedIn } = useSession()
-
-useEffect(() => {
-  if (!isLoaded) return  // Wait for auth
-  fetch('/api/protected').then(/* ... */)
-}, [isLoaded])
-```
-
-**Backend**: JWT verification middleware:
-```typescript
-import { jwtAuthMiddleware } from './middleware/auth'
-
-app.use('/api/protected/*', jwtAuthMiddleware)
-```
+**Detailed troubleshooting & examples**: Load `references/architecture-patterns.md` when debugging connection/CORS/auth issues
 
 ## Dependencies Included
 
-```json
-{
-  "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "hono": "^4.10.2",
-    "@cloudflare/vite-plugin": "^1.13.14",
+**Frontend**: React 19, Vite, Tailwind v4, shadcn/ui (Radix UI), React Router, React Hook Form, Zod, TanStack Query
+**Backend**: Hono, Cloudflare Workers, Wrangler
+**AI**: AI SDK v5 (OpenAI, Anthropic, Google providers), Workers AI Provider
+**Auth**: Clerk (optional, commented)
 
-    "ai": "^5.0.76",
-    "@ai-sdk/openai": "^1.0.0",
-    "@ai-sdk/anthropic": "^1.0.0",
-    "@ai-sdk/google": "^1.0.0",
-    "workers-ai-provider": "^2.0.0",
-    "@ai-sdk/react": "^1.0.0",
-
-    "@clerk/clerk-react": "^5.53.3",
-    "@clerk/backend": "^2.19.0",
-
-    "tailwindcss": "^4.1.14",
-    "@tailwindcss/vite": "^4.1.14",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.4",
-
-    "zod": "^3.24.1",
-    "react-hook-form": "^7.54.2",
-    "@hookform/resolvers": "^3.9.1",
-
-    "@tanstack/react-query": "^5.62.11",
-
-    "@radix-ui/react-slot": "^1.1.1",
-    "@radix-ui/react-dropdown-menu": "^2.1.4"
-  },
-  "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "typescript": "^5.7.2",
-    "vite": "^7.1.11",
-    "wrangler": "^4.0.0"
-  }
-}
-```
+All packages current as of 2025-11. **Full list with versions**: See `references/supporting-libraries-guide.md`
 
 ## Token Efficiency
 

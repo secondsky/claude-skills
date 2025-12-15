@@ -1,82 +1,134 @@
 ---
 name: tanstack-start
 description: |
-  [⚠️ RC STATUS - MONITORING FOR v1.0 STABLE] Full-stack React framework built on TanStack Router with official Cloudflare Workers support. This skill will be published when v1.0 stable is released and critical issues are resolved. Use when: building full-stack React applications, need SSR with Cloudflare Workers, want type-safe server functions, or migrating from Next.js. Currently monitoring: GitHub #5734 (memory leak), "needed-for-start-stable" issues.
+  Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns.
 license: MIT
 allowed-tools: [Bash, Read, Write, Edit]
 metadata:
-  version: 0.9.0
+  version: 1.0.0-rc.1
   author: Claude Skills Maintainers
-  last-verified: 2025-11-07
+  last-verified: 2025-12-09
   production-tested: false
-  status: draft
+  status: rc
   keywords:
     - tanstack start
+    - tanstack react start
     - full-stack react
-    - ssr
-    - server-side rendering
-    - cloudflare workers
+    - selective ssr
+    - spa mode
+    - static prerender
     - server functions
-    - api routes
-    - type-safe server
-    - react framework
-    - next.js alternative
+    - server routes
+  - cloudflare workers
+  - edge rendering
+  - hydration errors
+  - next.js migration
 ---
 
-# TanStack Start Skill [DRAFT - NOT READY]
+# TanStack Start (React) — RC-Ready Playbook
 
-⚠️ **Status: Release Candidate - Monitoring for Stability**
+Full-stack React on TanStack Router with per-route SSR/CSR, file-based routing, server functions, and first-class Cloudflare Workers support.
 
-This skill is prepared but NOT published. Waiting for:
-- ✅ v1.0 stable release (currently RC v1.120.20)
-- ❌ GitHub #5734 resolved (memory leak causing crashes)
-- ❌ All "needed-for-start-stable" issues closed
-- ❌ 2+ weeks without critical bugs
+## Use this skill when
+- Building a greenfield React app that needs route-level SSR/CSR/SSG switches.
+- Migrating from Next.js/React Router while keeping file-based routing + API routes.
+- Shipping to edge runtimes (Workers) with typed server functions and bindings.
+- You want predictable routing with type-safe params/search + built-in preloading.
 
-**DO NOT USE IN PRODUCTION YET**
-
----
-
-## Skill Overview
-
-TanStack Start is a full-stack React framework with:
-- Client-first architecture with opt-in SSR
-- Built on TanStack Router (type-safe routing)
-- Server functions for API logic
-- Official Cloudflare Workers support
-- Integrates with TanStack Query
+## What’s inside
+- **References**: quickstart/layout, rendering modes, server functions, Cloudflare hosting, execution/auth, plus new routing/data/navigation/devtools guides.
+- **Script**: `scripts/bootstrap-cloudflare-start.sh <app>` scaffolds Start + Workers + binding types.
+- **Troubleshooting**: hydration, API routing, bindings, navigation/preloading failures.
 
 ---
 
-## When v1.0 Stable
-
-This skill will provide:
-- Cloudflare Workers + D1/KV/R2 setup
-- Server function patterns
-- SSR vs CSR strategies
-- Migration guide from Next.js
-- Known issues and solutions
-
----
-
-## Monitoring
-
-Track stability at: `planning/stability-tracker.md`
-
-**Check weekly:**
-- [TanStack Start Releases](https://github.com/TanStack/router/releases)
-- [Issue #5734](https://github.com/TanStack/router/issues/5734)
-- ["needed-for-start-stable" label](https://github.com/TanStack/router/labels/needed-for-start-stable)
-
----
-
-## Installation (When Ready)
-
+## Quick Start (React)
 ```bash
-npm create cloudflare@latest -- --framework=tanstack-start
+npm create @tanstack/start@latest my-app
+cd my-app
+npm run dev
+```
+Manual installs (all bundle targets are supported): add `@tanstack/react-router` + `@tanstack/react-start` with your bundler plugin (`vite`, `webpack`, or `esbuild`) per the official install guides.
+
+### Core layout reminder
+- `app/routes/**` file-based routes → router tree, automatic code-splitting + data preloading.
+- `app/entry.client.tsx` hydrates `<StartClient />`; `app/entry.server.tsx` wraps `createServerEntry`.
+- `app/config.ts` or `app/start.ts` sets `defaultSsr`, `spaMode`, middleware, and context.
+
+---
+
+## Routing + Data Best Practices
+
+- **Type-safe params & search**: `createFileRoute()` infers path params; add `validateSearch` (zod) to parse and coerce search params.
+- **Route matching order is deterministic** (index → static → dynamic → splat); rely on this when adding catch-alls.
+- **Loaders run once per location change**; return plain data, throw `redirect()`/`notFound()` for control flow.
+- **Data mutations**: colocate `action`/server functions; keep loaders read-only and invalidate via `router.invalidate()` after mutation.
+- **TanStack Query bridge**: create a `QueryClient` in router context and `ensureQueryData` inside loaders to dedupe fetches.
+- **Deferred/external data**: stream partial data or read from external loaders; prefer suspense-friendly responses.
+- **Head management**: set `head` per route for `<title>`/meta; derive from loader data to keep SEO consistent.
+- **Not-found/auth**: throw `notFound()` or `redirect()` in loaders/middleware; use error boundaries for UX.
+
+Example route (typed search + data-only SSR):
+```ts
+// app/routes/posts.$postId.tsx
+import { createFileRoute, redirect } from '@tanstack/react-router'
+import { z } from 'zod'
+
+export const Route = createFileRoute('/posts/$postId')({
+  validateSearch: z.object({ preview: z.boolean().optional() }),
+  ssr: 'data-only',
+  loader: async ({ params, search, context }) => {
+    const post = await context.queryClient.ensureQueryData(['post', params.postId], () =>
+      fetch(`/api/posts/${params.postId}?preview=${!!search.preview}`).then(r => r.json())
+    )
+    if (!post.published && !search.preview) throw redirect({ to: '/drafts' })
+    return { post }
+  },
+})
 ```
 
 ---
 
-**Last Updated:** 2025-11-07
-**Expected Stable:** 1-3 months (Dec 2025 - Jan 2026)
+## Navigation, Preloading, and UX
+
+- **Link prefetch defaults**: `<Link preload="intent">` (hover/focus) preloads route data/code; use `preload="render"` for above-the-fold routes.
+- **Programmatic preloading**: `router.preloadRoute({ to, search })` to warm caches before navigation (e.g., on visibility).
+- **Route masking**: keep canonical URLs while showing user-friendly masks (e.g., `/products?slug=abc` masked as `/p/abc`).
+- **Navigation blocking**: protect unsaved forms with `router.navigate({ to, replace, from })` blockers or `useBlocker`.
+- **Scroll restoration**: enable `scrollRestoration` to restore positions on back/forward; customize per route when using long lists.
+- **Search param serialization**: customize parse/stringify to keep numbers/dates stable and avoid stringified booleans.
+
+---
+
+## Rendering & Performance
+
+- **Per-route SSR**: set `ssr: true | false | 'data-only'` on routes; `defaultSsr` config sets the baseline.
+- **Code-splitting**: file-based routes auto-split; add `lazy`/`load` for manual chunks on code-based routes.
+- **Preloading strategy**: pair `preload="intent"` links with `defaultPreloadStaleTime` to avoid over-fetching.
+- **Render optimizations**: keep loaders pure, memoize heavy components, and use `pendingComponent` for CSR routes to avoid layout shift.
+
+---
+
+## Devtools, Linting, and LLM Support
+
+- Add `<RouterDevtools />` during development to inspect matches, loader states, and preloading.
+- Enable the ESLint plugin `@tanstack/eslint-plugin-router` with the recommended config to enforce inference-sensitive property order (e.g., `beforeLoad` before `loader`).
+- LLM-aware routing: the Router exposes structured route metadata to LLM agents; keep descriptions concise in `Route` meta for better AI navigation.
+
+---
+
+## Deployment Notes (Cloudflare-friendly)
+
+- Keep `cloudflare({ viteEnvironment: { name: 'ssr' } })` first in Vite plugins so bindings reach server entry.
+- Regenerate bindings after changes: `npm run cf-typegen`.
+- For static-heavy sites, enable prerender to ship HTML to Workers Assets/Pages; exclude param routes or add explicit `pages`.
+
+---
+
+## Ship Checklist
+- [ ] Routes load without hydration warnings (prefer `ssr: 'data-only'` for non-deterministic UI).
+- [ ] Search params validated with `validateSearch` and custom serializer where needed.
+- [ ] Link preloading configured for high-traffic routes; blockers added for unsaved forms.
+- [ ] ESLint plugin enabled (`create-route-property-order` rule) and `npm run check` passes.
+- [ ] Devtools verified locally; `router.matches` state looks correct.
+- [ ] Cloudflare bindings typed (`cf-typegen`) and streaming tested via `curl -N`.

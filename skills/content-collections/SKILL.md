@@ -266,237 +266,30 @@ type PostWithSlug = {
 
 ---
 
-### Issue #4: Collection Not Updating on File Change
+### Issues #4-8: Advanced Troubleshooting
 
-**Error**: New content files not appearing in collection.
+Additional issues covered in `references/advanced-troubleshooting.md`:
 
-**Why it happens**: Glob pattern doesn't match, or dev server needs restart.
-
-**Prevention**:
-
-1. Verify glob pattern matches your files:
-```typescript
-include: "*.md"        // Only root files
-include: "**/*.md"     // All nested files
-include: "posts/*.md"  // Only posts/ folder
-```
-
-2. Restart dev server after adding new files outside watched patterns
-3. Check file actually saved (watch for editor issues)
-
-**Source**: Common user error
-
----
-
-### Issue #5: MDX Type Errors with Shiki
-
-**Error**: `esbuild errors with shiki langAlias` or compilation failures.
-
-**Why it happens**: Version incompatibility between Shiki and Content Collections.
-
-**Prevention**:
-
-Use compatible versions:
-
-```json
-{
-  "devDependencies": {
-    "@content-collections/mdx": "^0.2.2",
-    "shiki": "^1.0.0"
-  }
-}
-```
-
-Check official compatibility matrix in docs before upgrading Shiki.
-
-**Source**: GitHub Issue #598 (Next.js 15)
-
----
-
-### Issue #6: Custom Path Aliases in MDX Imports Fail
-
-**Error**: MDX imports with `@` alias don't resolve.
-
-**Why it happens**: MDX compiler doesn't respect tsconfig path aliases.
-
-**Prevention**:
-
-Use relative paths in MDX imports:
-
-```mdx
-<!-- ❌ Won't work -->
-import Component from "@/components/Component"
-
-<!-- ✅ Works -->
-import Component from "../../components/Component"
-```
-
-Or configure files appender (advanced, see references/transform-cookbook.md).
-
-**Source**: GitHub Issue #547
-
----
-
-### Issue #7: Unclear Validation Error Messages
-
-**Error**: Cryptic Zod validation errors like "Expected string, received undefined".
-
-**Why it happens**: Zod errors aren't formatted for content context.
-
-**Prevention**:
-
-Add custom error messages to schema:
-
-```typescript
-schema: z.object({
-  title: z.string({
-    required_error: "Title is required in frontmatter",
-    invalid_type_error: "Title must be a string",
-  }),
-  date: z.string().refine(
-    (val) => !isNaN(Date.parse(val)),
-    "Date must be valid ISO date (YYYY-MM-DD)"
-  ),
-})
-```
-
-**Source**: GitHub Issue #403
-
----
-
-### Issue #8: Ctrl+C Doesn't Stop Process
-
-**Error**: Dev process hangs on exit, requires `kill -9`.
-
-**Why it happens**: File watcher not cleaning up properly.
-
-**Prevention**:
-
-This is a known issue with the watcher. Workarounds:
-
-1. Use `kill -9 <pid>` when it hangs
-2. Use `content-collections watch` separately (not plugin) for more control
-3. Add cleanup handler in `vite.config.ts` (advanced)
-
-**Source**: GitHub Issue #546
+| Issue | Error | Quick Fix |
+|-------|-------|-----------|
+| #4 | Collection not updating | Verify glob pattern, restart dev server |
+| #5 | MDX/Shiki errors | Use compatible versions (shiki ^1.0.0) |
+| #6 | MDX path aliases fail | Use relative paths in MDX imports |
+| #7 | Unclear validation errors | Add custom Zod error messages |
+| #8 | Ctrl+C doesn't stop | Use `kill -9` or separate watch command |
 
 ---
 
 ## Configuration Patterns
 
-### Basic Blog Collection
+| Pattern | Use Case | Template |
+|---------|----------|----------|
+| **Basic Blog** | Single collection, Markdown only | `templates/content-collections.ts` |
+| **Multi-Collection** | Posts + Docs, nested folders | `templates/content-collections-multi.ts` |
+| **Transform Functions** | Computed fields (slug, readingTime) | See `references/transform-cookbook.md` |
+| **MDX + React** | Syntax highlighting, React components | `templates/content-collections-mdx.ts` |
 
-```typescript
-import { defineCollection, defineConfig } from "@content-collections/core";
-import { z } from "zod";
-
-const posts = defineCollection({
-  name: "posts",
-  directory: "content/posts",
-  include: "*.md",
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    description: z.string(),
-    tags: z.array(z.string()).optional(),
-    content: z.string(),
-  }),
-});
-
-export default defineConfig({
-  collections: [posts],
-});
-```
-
----
-
-### Multi-Collection Setup
-
-```typescript
-const posts = defineCollection({
-  name: "posts",
-  directory: "content/posts",
-  include: "*.md",
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    description: z.string(),
-    content: z.string(),
-  }),
-});
-
-const docs = defineCollection({
-  name: "docs",
-  directory: "content/docs",
-  include: "**/*.md", // Nested folders
-  schema: z.object({
-    title: z.string(),
-    category: z.string(),
-    order: z.number().optional(),
-    content: z.string(),
-  }),
-});
-
-export default defineConfig({
-  collections: [posts, docs],
-});
-```
-
----
-
-### Transform Functions (Computed Fields)
-
-```typescript
-const posts = defineCollection({
-  name: "posts",
-  directory: "content/posts",
-  include: "*.md",
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    content: z.string(),
-  }),
-  transform: (post) => ({
-    ...post,
-    slug: post._meta.path.replace(/\.md$/, ""),
-    readingTime: Math.ceil(post.content.split(/\s+/).length / 200),
-    year: new Date(post.date).getFullYear(),
-  }),
-});
-```
-
----
-
-### MDX with React Components
-
-```typescript
-import { compileMDX } from "@content-collections/mdx";
-
-const posts = defineCollection({
-  name: "posts",
-  directory: "content/posts",
-  include: "*.mdx",
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    content: z.string(),
-  }),
-  transform: async (post) => {
-    const mdx = await compileMDX(post.content, {
-      syntaxHighlighter: "shiki",
-      shikiOptions: {
-        theme: "github-dark",
-      },
-    });
-
-    return {
-      ...post,
-      mdx,
-      slug: post._meta.path.replace(/\.mdx$/, ""),
-    };
-  },
-});
-```
+For detailed schema patterns (dates, tags, validation), load `references/schema-patterns.md`.
 
 ---
 
@@ -542,75 +335,21 @@ export function BlogPost({ post }: { post: { mdx: string } }) {
 
 ## Cloudflare Workers Deployment
 
-Content Collections is **perfect for Cloudflare Workers** because:
-- Build-time only (no runtime filesystem access)
-- Outputs static JavaScript modules
-- No Node.js dependencies in generated code
+Content Collections is **perfect for Cloudflare Workers** (build-time only, no runtime filesystem). Use template `templates/wrangler.toml` for config.
 
-### Deployment Pattern
+**Pattern**: `vite build` → `wrangler deploy` (Vite plugin handles content-collections automatically)
 
-```
-Local Dev → content-collections build → vite build → wrangler deploy
-```
-
-### wrangler.toml
-
-```toml
-name = "my-content-site"
-compatibility_date = "2025-11-07"
-
-[assets]
-directory = "./dist"
-binding = "ASSETS"
-```
-
-### Build Script
-
-`package.json`:
-```json
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "deploy": "bun run build && wrangler deploy"  # or: npm run build && wrangler deploy
-  }
-}
-```
-
-**Note**: Vite plugin handles `content-collections build` automatically!
+For detailed deployment guide, load `references/deployment-guide.md`.
 
 ---
 
-## Using Bundled Resources
+## Bundled Resources
 
-### Templates (templates/)
+### Templates (9 copy-paste files)
+`content-collections.ts`, `content-collections-multi.ts`, `content-collections-mdx.ts`, `tsconfig.json`, `vite.config.ts`, `BlogList.tsx`, `BlogPost.tsx`, `blog-post.md`, `wrangler.toml`
 
-Copy-paste ready configuration files:
-
-- `content-collections.ts` - Basic blog setup
-- `content-collections-multi.ts` - Multiple collections
-- `content-collections-mdx.ts` - MDX with syntax highlighting
-- `tsconfig.json` - Complete TypeScript config
-- `vite.config.ts` - Vite plugin setup
-- `blog-post.md` - Example content file
-- `BlogList.tsx` - React list component
-- `BlogPost.tsx` - React MDX render component
-- `wrangler.toml` - Cloudflare Workers config
-
-### References (references/)
-
-Deep-dive documentation for advanced topics:
-
-- `schema-patterns.md` - Common Zod schema patterns
-- `transform-cookbook.md` - Transform function recipes
-- `mdx-components.md` - MDX + React integration
-- `deployment-guide.md` - Cloudflare Workers setup
-
-**When to load**: Claude should load these when you need advanced patterns beyond basic setup.
-
-### Scripts (scripts/)
-
-- `init-content-collections.sh` - One-command automated setup
+### Scripts
+`init-content-collections.sh` - One-command automated setup
 
 ---
 
@@ -664,35 +403,27 @@ Deep-dive documentation for advanced topics:
 
 ---
 
-## Troubleshooting
+## Quick Troubleshooting
 
-### Problem: TypeScript can't find 'content-collections'
-
-**Solution**: Add path alias to `tsconfig.json`, restart TS server.
-
----
-
-### Problem: Vite keeps restarting
-
-**Solution**: Add `.content-collections/` to `.gitignore` and Vite watch ignore.
+| Problem | Solution |
+|---------|----------|
+| TypeScript can't find module | Add path alias to `tsconfig.json`, restart TS server |
+| Vite keeps restarting | Add `.content-collections/` to `.gitignore` |
+| Changes not reflecting | Restart dev server, verify glob pattern |
+| MDX compilation errors | Check Shiki version compatibility |
+| Validation errors unclear | Add custom Zod error messages |
 
 ---
 
-### Problem: Changes not reflecting
+## When to Load References
 
-**Solution**: Restart dev server, verify glob pattern, check file saved.
-
----
-
-### Problem: MDX compilation errors
-
-**Solution**: Check Shiki version compatibility, verify MDX syntax.
-
----
-
-### Problem: Validation errors unclear
-
-**Solution**: Add custom error messages to Zod schema.
+| Reference | Load When... |
+|-----------|--------------|
+| `schema-patterns.md` | Setting up complex schemas, date validation, optional fields |
+| `transform-cookbook.md` | Adding computed fields, async transforms, slugs |
+| `mdx-components.md` | Integrating React components in MDX, syntax highlighting |
+| `deployment-guide.md` | Deploying to Cloudflare Workers or other platforms |
+| `advanced-troubleshooting.md` | Issues #4-8 (file watching, path aliases, process hanging) |
 
 ---
 
@@ -711,12 +442,3 @@ Deep-dive documentation for advanced topics:
 - [ ] Verified types work (autocomplete)
 - [ ] Tested hot reloading (change content file)
 
----
-
-**Questions? Issues?**
-
-1. Check `references/` directory for deep dives
-2. Verify path alias in tsconfig.json
-3. Check Vite plugin order (after react())
-4. Review known issues above
-5. Check official docs: https://www.content-collections.dev/docs

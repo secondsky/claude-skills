@@ -12,9 +12,11 @@ license: MIT
 # Cloudflare Sandboxes SDK
 
 **Status**: Production Ready (Open Beta)
-**Last Updated**: 2025-11-21
+**Last Updated**: 2025-12-10
 **Dependencies**: `cloudflare-worker-base`, `cloudflare-durable-objects` (recommended for understanding)
-**Latest Versions**: `@cloudflare/sandbox@0.5.1`, Docker image: `cloudflare/sandbox:0.5.1`
+**Latest Versions**: `@cloudflare/sandbox@0.6.3`, Docker image: `cloudflare/sandbox:0.6.3-python`
+
+**⚠️ BREAKING CHANGE (v0.6.0):** Python is no longer included in the default image. Use `cloudflare/sandbox:<version>-python` for Python support (~1.3GB with data science packages). The lean variant (~600-800MB) excludes Python.
 
 ---
 
@@ -35,7 +37,7 @@ bun add @cloudflare/sandbox@latest  # preferred
   "compatibility_flags": ["nodejs_compat"],
   "containers": [{
     "class_name": "Sandbox",
-    "image": "cloudflare/sandbox:0.5.1",
+    "image": "cloudflare/sandbox:0.6.3-python",
     "instance_type": "lite"
   }],
   "durable_objects": {
@@ -309,113 +311,15 @@ const sandbox = getSandbox(env.Sandbox, `build-${repoName}-${commitSha}`);
 
 ## Core API Reference
 
-### Getting a Sandbox
+The Sandbox SDK provides methods for command execution, file operations, Git operations, code interpretation (Jupyter-like), background processes, and cleanup.
 
-```typescript
-import { getSandbox } from '@cloudflare/sandbox';
-
-const sandbox = getSandbox(env.Sandbox, 'unique-sandbox-id');
-// Creates new sandbox if doesn't exist, or gets existing one
-```
-
-### Executing Commands
-
-```typescript
-// Basic execution
-const result = await sandbox.exec('python3 script.py');
-console.log(result.stdout);   // Standard output
-console.log(result.stderr);   // Standard error
-console.log(result.exitCode); // Exit code (0 = success)
-console.log(result.success);  // Boolean (exitCode === 0)
-
-// With options
-const result = await sandbox.exec('npm install', {
-  cwd: '/workspace/project',        // Working directory
-  timeout: 120000,                   // Timeout in ms (default: 30s)
-  session: sessionId,                // Session ID
-  env: { NODE_ENV: 'production' }   // Environment variables
-});
-
-// Always check exit codes!
-if (!result.success) {
-  throw new Error(`Command failed: ${result.stderr}`);
-}
-```
-
-### File Operations
-
-```typescript
-// Write file
-await sandbox.writeFile('/workspace/data.txt', 'content');
-
-// Read file
-const content = await sandbox.readFile('/workspace/data.txt');
-
-// Create directory
-await sandbox.mkdir('/workspace/project', { recursive: true });
-
-// List directory
-const files = await sandbox.readdir('/workspace');
-console.log(files); // ['data.txt', 'project']
-
-// Delete file/directory
-await sandbox.rm('/workspace/data.txt');
-await sandbox.rm('/workspace/project', { recursive: true });
-```
-
-### Git Operations
-
-```typescript
-// Clone repository (optimized, faster than exec('git clone'))
-await sandbox.gitCheckout(
-  'https://github.com/user/repo',
-  '/workspace/repo'
-);
-
-// Now use standard git commands
-await sandbox.exec('git status', { cwd: '/workspace/repo' });
-await sandbox.exec('git diff', { cwd: '/workspace/repo' });
-```
-
-### Code Interpreter (Jupyter-like)
-
-```typescript
-// Create Python context
-const ctx = await sandbox.createCodeContext({ language: 'python' });
-
-// Execute code - last expression auto-returned
-const result = await sandbox.runCode(`
-import pandas as pd
-df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
-df['a'].sum()  # This value is automatically returned
-`, { context: ctx });
-
-console.log(result.results[0].text); // "6"
-console.log(result.logs); // Output from print() statements
-console.log(result.error); // Any errors
-```
-
-### Background Processes
-
-```typescript
-// Start long-running process
-const proc = await sandbox.spawn('python server.py');
-console.log(proc.pid);
-
-// Check if still running
-const running = await sandbox.isProcessRunning(proc.pid);
-
-// Kill process
-await sandbox.killProcess(proc.pid);
-```
-
-### Cleanup
-
-```typescript
-// Destroy sandbox permanently
-await sandbox.destroy();
-// All files deleted, container removed, cannot be recovered
-```
+**📖 Load `references/api-reference.md`** when you need detailed API method signatures, parameter options, or implementation examples for:
+- Executing commands with options (cwd, timeout, env vars, sessions)
+- File operations (read/write/mkdir/rm/readdir)
+- Git operations (gitCheckout, git commands)
+- Code interpreter (createCodeContext, runCode)
+- Background processes (spawn, isProcessRunning, killProcess)
+- Sandbox cleanup (destroy)
 
 ---
 
@@ -511,242 +415,43 @@ This skill prevents **10** documented issues:
 
 ---
 
-## Configuration Files Reference
-
-### wrangler.jsonc (Full Example)
+## wrangler.jsonc Example
 
 ```jsonc
 {
   "name": "my-sandbox-app",
   "main": "src/index.ts",
   "compatibility_date": "2025-10-29",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat"], // ← REQUIRED
 
   "containers": [{
     "class_name": "Sandbox",
-    "image": "cloudflare/sandbox:0.5.1",
+    "image": "cloudflare/sandbox:0.6.3-python", // ← Use -python for Python support
     "instance_type": "lite"
   }],
 
   "durable_objects": {
-    "bindings": [{
-      "class_name": "Sandbox",
-      "name": "Sandbox"
-    }]
+    "bindings": [{"class_name": "Sandbox", "name": "Sandbox"}]
   },
 
   "migrations": [{
     "tag": "v1",
     "new_sqlite_classes": ["Sandbox"]
-  }],
-
-  "env": {
-    "ANTHROPIC_API_KEY": {
-      "description": "Optional: For AI features"
-    }
-  },
-
-  "observability": {
-    "enabled": true
-  }
+  }]
 }
-```
-
-**Why these settings:**
-- `nodejs_compat`: Required for SDK to work
-- `containers.image`: Specific version ensures consistency
-- `instance_type: "lite"`: Smallest instance, upgrade to "large" for more resources
-- `migrations`: Registers Sandbox Durable Object class
-- `observability`: Enable logging for debugging
-
-### Dockerfile (Optional - For Local Dev)
-
-Only needed if extending base image:
-
-```dockerfile
-FROM cloudflare/sandbox:0.4.12
-
-# Install additional tools
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    imagemagick \
-    && rm -rf /var/lib/apt/lists/*
-
-# Expose port for preview URLs (local dev only)
-EXPOSE 8080
 ```
 
 ---
 
 ## Common Patterns
 
-### Pattern 1: One-Shot Code Execution
+Four production-ready patterns for building with Cloudflare Sandboxes: one-shot code execution, persistent user workspaces, CI/CD pipelines, and AI agent integration.
 
-```typescript
-export default {
-  async fetch(request: Request, env: Env) {
-    const { code, language } = await request.json();
-
-    // Create ephemeral sandbox
-    const sandboxId = `exec-${Date.now()}-${crypto.randomUUID()}`;
-    const sandbox = getSandbox(env.Sandbox, sandboxId);
-
-    try {
-      // Create code context
-      const ctx = await sandbox.createCodeContext({ language });
-
-      // Execute code safely
-      const result = await sandbox.runCode(code, {
-        context: ctx,
-        timeout: 10000
-      });
-
-      return Response.json({
-        result: result.results?.[0]?.text,
-        logs: result.logs,
-        error: result.error
-      });
-    } finally {
-      // Always cleanup
-      await sandbox.destroy();
-    }
-  }
-};
-```
-
-**When to use**: API endpoints for code execution, code playgrounds, learning platforms
-
-### Pattern 2: Persistent User Workspace
-
-```typescript
-export default {
-  async fetch(request: Request, env: Env) {
-    const userId = request.headers.get('X-User-ID');
-    const { command, sessionId: existingSession } = await request.json();
-
-    // User-specific sandbox (persists while active)
-    const sandbox = getSandbox(env.Sandbox, `user-${userId}`);
-
-    // Get or create session
-    let sessionId = existingSession;
-    if (!sessionId) {
-      sessionId = await sandbox.createSession();
-    }
-
-    // Execute command in persistent context
-    const result = await sandbox.exec(command, {
-      session: sessionId,
-      timeout: 30000
-    });
-
-    return Response.json({
-      sessionId, // Return for next request
-      output: result.stdout,
-      error: result.stderr,
-      success: result.success
-    });
-  }
-};
-```
-
-**When to use**: Interactive coding environments, notebooks, IDEs, development workspaces
-
-### Pattern 3: CI/CD Build Pipeline
-
-```typescript
-async function runBuild(repoUrl: string, commit: string, env: Env) {
-  const sandboxId = `build-${repoUrl.split('/').pop()}-${commit}`;
-  const sandbox = getSandbox(env.Sandbox, sandboxId);
-
-  try {
-    // Clone repository
-    await sandbox.gitCheckout(repoUrl, '/workspace/repo');
-
-    // Checkout specific commit
-    await sandbox.exec(`git checkout ${commit}`, {
-      cwd: '/workspace/repo'
-    });
-
-    // Install dependencies
-    const install = await sandbox.exec('npm install', {
-      cwd: '/workspace/repo',
-      timeout: 180000 // 3 minutes
-    });
-
-    if (!install.success) {
-      throw new Error(`Install failed: ${install.stderr}`);
-    }
-
-    // Run build
-    const build = await sandbox.exec('npm run build', {
-      cwd: '/workspace/repo',
-      timeout: 300000 // 5 minutes
-    });
-
-    if (!build.success) {
-      throw new Error(`Build failed: ${build.stderr}`);
-    }
-
-    // Save artifacts to R2
-    const dist = await sandbox.exec('tar -czf dist.tar.gz dist', {
-      cwd: '/workspace/repo'
-    });
-    const artifact = await sandbox.readFile('/workspace/repo/dist.tar.gz');
-    await env.R2.put(`builds/${commit}.tar.gz`, artifact);
-
-    return { success: true, artifactKey: `builds/${commit}.tar.gz` };
-  } finally {
-    // Optional: Keep sandbox for debugging or destroy
-    // await sandbox.destroy();
-  }
-}
-```
-
-**When to use**: Build systems, testing pipelines, deployment automation
-
-### Pattern 4: AI Agent with Claude Code
-
-```typescript
-async function runClaudeCodeOnRepo(
-  repoUrl: string,
-  task: string,
-  env: Env
-): Promise<{ diff: string; logs: string }> {
-  const sandboxId = `claude-${Date.now()}`;
-  const sandbox = getSandbox(env.Sandbox, sandboxId);
-
-  try {
-    // Clone repository
-    await sandbox.gitCheckout(repoUrl, '/workspace/repo');
-
-    // Set API key
-    await sandbox.exec(`export ANTHROPIC_API_KEY="${env.ANTHROPIC_API_KEY}"`);
-
-    // Run Claude Code CLI
-    const result = await sandbox.exec(
-      `claude -p "${task}" --permission-mode acceptEdits`,
-      {
-        cwd: '/workspace/repo',
-        timeout: 300000 // 5 minutes
-      }
-    );
-
-    // Get diff of changes
-    const diff = await sandbox.exec('git diff', {
-      cwd: '/workspace/repo'
-    });
-
-    return {
-      diff: diff.stdout,
-      logs: result.stdout
-    };
-  } finally {
-    await sandbox.destroy();
-  }
-}
-```
-
-**When to use**: Automated code refactoring, code generation, AI-powered development
+**📖 Load `references/patterns.md`** when you need complete implementation examples for:
+1. **One-Shot Code Execution** - API endpoints, code playgrounds, learning platforms
+2. **Persistent User Workspace** - Interactive environments, notebooks, IDEs
+3. **CI/CD Build Pipeline** - Build systems, testing pipelines, deployment automation
+4. **AI Agent with Claude Code** - Automated refactoring, code generation, AI development
 
 ---
 
@@ -783,177 +488,16 @@ bunx tsx scripts/test-sandbox.ts
 
 ## Advanced Topics
 
-### Geographic Distribution
-
-First request to a sandbox ID determines its geographic location (via Durable Objects).
-
-**For Global Apps**:
-```typescript
-// Option 1: Multiple sandboxes per user (better latency)
-const region = request.cf?.colo || 'default';
-const sandbox = getSandbox(env.Sandbox, `user-${userId}-${region}`);
-
-// Option 2: Single sandbox (simpler, higher latency for distant users)
-const sandbox = getSandbox(env.Sandbox, `user-${userId}`);
-```
-
-### Error Handling Strategy
-
-```typescript
-async function safeSandboxExec(
-  sandbox: Sandbox,
-  cmd: string,
-  options?: any
-) {
-  try {
-    const result = await sandbox.exec(cmd, {
-      ...options,
-      timeout: options?.timeout || 30000
-    });
-
-    if (!result.success) {
-      console.error(`Command failed: ${cmd}`, {
-        exitCode: result.exitCode,
-        stderr: result.stderr
-      });
-
-      return {
-        success: false,
-        error: result.stderr,
-        exitCode: result.exitCode
-      };
-    }
-
-    return {
-      success: true,
-      output: result.stdout,
-      exitCode: 0
-    };
-  } catch (error) {
-    console.error(`Sandbox error:`, error);
-    return {
-      success: false,
-      error: error.message,
-      exitCode: -1
-    };
-  }
-}
-```
-
-### Security Hardening
-
-```typescript
-// Input validation
-function sanitizeCommand(input: string): string {
-  const dangerous = ['rm -rf', '$(', '`', '&&', '||', ';', '|'];
-  for (const pattern of dangerous) {
-    if (input.includes(pattern)) {
-      throw new Error(`Dangerous pattern detected: ${pattern}`);
-    }
-  }
-  return input;
-}
-
-// Use code interpreter instead of direct exec for untrusted code
-async function executeUntrustedCode(code: string, sandbox: Sandbox) {
-  const ctx = await sandbox.createCodeContext({ language: 'python' });
-  return await sandbox.runCode(code, { context: ctx, timeout: 10000 });
-}
-```
+**📖 Load `references/advanced.md`** for production patterns:
+- Geographic distribution strategies for global apps
+- Error handling wrapper functions
+- Security hardening and input validation
 
 ---
 
-## Dependencies
+## Official Resources
 
-**Required**:
-- `@cloudflare/sandbox@0.4.12` - Sandbox SDK
-- `wrangler@latest` - Deployment CLI
-- Docker Desktop - Local development only
+**Package**: `@cloudflare/sandbox@0.6.3` | **Docker**: `cloudflare/sandbox:0.6.3-python`
 
-**Optional**:
-- `@anthropic-ai/sdk` - For AI features
-- `@cloudflare/workers-types` - TypeScript types
+**Docs**: [Cloudflare Sandboxes](https://developers.cloudflare.com/sandbox/) | [API Reference](https://developers.cloudflare.com/sandbox/api-reference/) | [GitHub SDK](https://github.com/cloudflare/sandbox-sdk)
 
----
-
-## Official Documentation
-
-- **Cloudflare Sandboxes**: https://developers.cloudflare.com/sandbox/
-- **Architecture Guide**: https://developers.cloudflare.com/sandbox/concepts/architecture/
-- **API Reference**: https://developers.cloudflare.com/sandbox/api-reference/
-- **Durable Objects**: https://developers.cloudflare.com/durable-objects/
-- **GitHub SDK**: https://github.com/cloudflare/sandbox-sdk
-
----
-
-## Package Versions (Verified 2025-10-29)
-
-```json
-{
-  "dependencies": {
-    "@cloudflare/sandbox": "^0.4.12"
-  },
-  "devDependencies": {
-    "wrangler": "^3.80.0",
-    "@cloudflare/workers-types": "^4.20241106.0"
-  }
-}
-```
-
-**Docker Image**: `cloudflare/sandbox:0.4.12`
-
----
-
-## Production Example
-
-This skill is based on official Cloudflare tutorials:
-- **Claude Code Integration**: https://developers.cloudflare.com/sandbox/tutorials/claude-code/
-- **AI Code Executor**: https://developers.cloudflare.com/sandbox/tutorials/ai-code-executor/
-- **Build Time**: ~15 min (setup) + ~5 min (first deploy)
-- **Errors**: 0 (all 10 known issues prevented)
-- **Validation**: ✅ Tested with Python, Node.js, Git, background processes, sessions
-
----
-
-## Troubleshooting
-
-### Problem: "Class 'Sandbox' not found"
-**Solution**: Add migrations to wrangler.jsonc and ensure `export { Sandbox }` in Worker
-
-### Problem: Files disappear after some time
-**Solution**: Container goes idle after ~10 min. Use R2/KV for persistence or rebuild environment
-
-### Problem: Commands execute in wrong directory
-**Solution**: Create session with `createSession()`, pass sessionId to all related commands
-
-### Problem: Docker error during local dev
-**Solution**: Ensure Docker Desktop is running before `npm run dev`
-
-### Problem: "fetch is not defined"
-**Solution**: Add `"compatibility_flags": ["nodejs_compat"]` to wrangler.jsonc
-
----
-
-## Complete Setup Checklist
-
-- [ ] `bun add @cloudflare/sandbox@latest`
-- [ ] Add `nodejs_compat` to compatibility_flags
-- [ ] Add containers configuration with correct image version
-- [ ] Add Durable Objects binding
-- [ ] Add migrations for Sandbox class
-- [ ] Export Sandbox class in Worker: `export { Sandbox } from '@cloudflare/sandbox'`
-- [ ] Docker Desktop running (local dev only)
-- [ ] Test with simple exec command
-- [ ] Verify exit codes are being checked
-- [ ] Implement cleanup for ephemeral sandboxes
-- [ ] Test cold start behavior
-
----
-
-**Questions? Issues?**
-
-1. Check `references/common-errors.md` for specific error solutions
-2. Verify all steps in wrangler.jsonc configuration
-3. Check official docs: https://developers.cloudflare.com/sandbox/
-4. Ensure Docker is running for local development
-5. Confirm package version matches Docker image version

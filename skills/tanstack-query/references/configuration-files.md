@@ -21,11 +21,11 @@ Load this reference when: Setting up project structure, configuring TypeScript, 
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "@tanstack/react-query": "^5.90.10"
+    "@tanstack/react-query": "^5.90.12"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^5.90.2",
-    "@tanstack/eslint-plugin-query": "^5.90.2",
+    "@tanstack/react-query-devtools": "^5.91.1",
+    "@tanstack/eslint-plugin-query": "^5.91.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
@@ -41,12 +41,12 @@ Load this reference when: Setting up project structure, configuring TypeScript, 
 - Required for `useSyncExternalStore` hook used internally by TanStack Query
 - Provides concurrent features that Query v5 leverages
 
-**TanStack Query 5.90.10**
+**TanStack Query 5.90.12**
 - Latest stable version with all v5 fixes
 - Includes all breaking change migrations from v4
 - Best compatibility with React 18
 
-**DevTools 5.90.2**
+**DevTools 5.91.1**
 - Version-matched to query package
 - Tree-shakeable (automatically removed in production builds)
 - No manual configuration needed
@@ -252,5 +252,5 @@ After setting up configuration files, verify:
 
 ---
 
-**Last Updated**: 2025-11-21
-**Verified With**: @tanstack/react-query@5.90.10
+**Last Updated**: 2025-12-09
+**Verified With**: @tanstack/react-query@5.90.12

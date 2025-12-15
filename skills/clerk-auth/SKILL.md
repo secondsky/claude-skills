@@ -739,6 +739,16 @@ Add to `package.json`:
 
 ---
 
+## When to Load References
+
+| Reference | Load When... |
+|-----------|--------------|
+| `common-errors.md` | Debugging authentication failures, token issues, or 401/403 errors |
+| `jwt-claims-guide.md` | Setting up custom JWT claims, RBAC, multi-tenant auth, or Supabase integration |
+| `testing-guide.md` | Writing E2E tests with Playwright, generating test session tokens |
+
+---
+
 ## Official Documentation
 
 - **Clerk Docs**: https://clerk.com/docs

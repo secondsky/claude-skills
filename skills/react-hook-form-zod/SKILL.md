@@ -561,6 +561,21 @@ Detailed documentation:
 
 ---
 
+## When to Load References
+
+| Reference | Load When... |
+|-----------|--------------|
+| `top-errors.md` | Debugging validation issues, type errors, or "uncontrolled to controlled" warnings |
+| `rhf-api-reference.md` | Need complete API for useForm, register, Controller, formState |
+| `zod-schemas-guide.md` | Building complex schemas (nested, arrays, conditional, async validation) |
+| `shadcn-integration.md` | Using shadcn/ui Form, FormField, FormItem components |
+| `error-handling.md` | Custom error display, validation timing, error message patterns |
+| `performance-optimization.md` | Form re-renders too much, optimizing watch/useWatch |
+| `accessibility.md` | WCAG compliance, screen readers, keyboard navigation |
+| `links-to-official-docs.md` | Need official documentation links |
+
+---
+
 ## Performance Tips
 
 **Quick Tips**:

@@ -2,6 +2,22 @@
 
 Comprehensive guide to testing Nuxt 4 applications with Vitest and @nuxt/test-utils.
 
+## Table of Contents
+
+- [Setup](#setup)
+- [Component Testing](#component-testing)
+- [Composable Testing](#composable-testing)
+- [Server Route Testing](#server-route-testing)
+- [Mocking](#mocking)
+- [Coverage](#coverage)
+- [E2E Testing](#e2e-testing)
+- [Best Practices](#best-practices)
+- [Test Organization](#test-organization)
+- [Common Patterns](#common-patterns)
+- [Debugging Tests](#debugging-tests)
+- [Common Pitfalls](#common-pitfalls)
+- [Checklist](#checklist)
+
 ## Setup
 
 ### Installation

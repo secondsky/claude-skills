@@ -14,7 +14,7 @@ license: MIT
 # shadcn-vue Production Stack
 
 **Production-tested**: Vue/Nuxt applications with accessible, customizable components
-**Last Updated**: 2025-11-10
+**Last Updated**: 2025-12-09
 **Status**: Production Ready ✅
 **Latest Version**: shadcn-vue@latest (Reka UI v2)
 **Dependencies**: Tailwind CSS, Reka UI, Vue 3+ or Nuxt 3+
@@ -309,7 +309,7 @@ function toggleTheme() {
 
 ---
 
-## Top 5 Critical Issues
+## Top 7 Critical Issues
 
 ### Issue #1: Missing TypeScript Path Aliases
 
@@ -371,10 +371,30 @@ export default defineConfig({
 
 **Error**: Type conflicts, duplicate components
 
-**Solution**: 
+**Solution**:
 - Use `bunx shadcn-vue@latest` for Reka UI v2
 - Use `bunx shadcn-vue@radix` for legacy Radix Vue
 - Don't mix both
+
+---
+
+### Issue #6: Monorepo Path Issues
+
+**Error**: Components installed in wrong directory
+
+**Solution**: Use `-c` flag to specify workspace:
+```bash
+bunx shadcn-vue@latest init -c ./apps/web
+bunx shadcn-vue@latest add button -c ./apps/web
+```
+
+---
+
+### Issue #7: Component Import Fails After Manual Edit
+
+**Error**: Import paths broken after editing `components.json`
+
+**Solution**: Keep `components.json` and `tsconfig.json` aliases in sync. Test imports after any config changes.
 
 ---
 
@@ -423,84 +443,31 @@ bunx shadcn-vue@latest diff button
 
 ## Reka UI v2 Migration
 
-### What Changed (February 2025)
+shadcn-vue now uses **Reka UI v2** (formerly Radix Vue) as its foundation. All new components use Reka UI primitives.
 
-shadcn-vue now uses **Reka UI v2** instead of Radix Vue:
-
-1. **Better Tree-Shaking**: Granular component imports
-2. **Improved TypeScript**: Better type inference
-3. **Smaller Bundle**: Individual component dependencies
-4. **Better Error Messages**: More helpful debugging
-
-### Legacy Support
-
-For projects using Radix Vue:
-
-```bash
-# Use legacy version
-bunx shadcn-vue@radix init
-# or: npx shadcn-vue@radix init
-
-bunx shadcn-vue@radix add button
-```
+**Migration:** Existing projects should update to Reka UI v2. See official migration guide: [shadcn-vue.com/docs/changelog#reka-ui](https://shadcn-vue.com/docs/changelog#reka-ui)
 
 ---
 
 ## Configuration
 
-### components.json Structure
+shadcn-vue uses `components.json` to configure:
+- Component paths (`@/components/ui`)
+- Utils location (`@/lib/utils`)
+- Tailwind config paths
+- TypeScript paths
 
-```json
-{
-  "$schema": "https://shadcn-vue.com/schema.json",
-  "style": "new-york",
-  "tailwind": {
-    "config": "tailwind.config.js",
-    "css": "src/assets/index.css",
-    "baseColor": "slate",
-    "cssVariables": true
-  },
-  "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "ui": "@/components/ui"
-  }
-}
-```
-
-**CRITICAL SETTINGS:**
-- ✅ `cssVariables: true` for dark mode support
-- ✅ Correct paths for your project structure
-- ✅ Style cannot be changed after initialization
+**Full example:** See `templates/components.json` or generate via `bunx shadcn-vue@latest init`
 
 ---
 
-## Utils Library (cn Function)
+## Utils Library
 
-Utility for merging Tailwind classes:
+The `@/lib/utils.ts` file provides the `cn()` helper for merging Tailwind classes:
+- Combines multiple className strings
+- Uses `clsx` + `tailwind-merge` for conflict resolution
 
-```typescript
-// src/lib/utils.ts
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-```
-
-**Usage**:
-```vue
-<script setup>
-import { cn } from '@/lib/utils'
-
-const buttonClass = cn(
-  'px-4 py-2',
-  props.variant === 'primary' && 'bg-blue-500',
-  props.disabled && 'opacity-50'
-)
-</script>
-```
+**Auto-generated** by `shadcn-vue init` - no manual setup needed.
 
 ---
 
@@ -511,6 +478,30 @@ const buttonClass = cn(
 
 **References** (`references/`):
 - `error-catalog.md` - All 7 documented issues with solutions (267 lines)
+
+---
+
+## When to Load References
+
+Load these references based on the task:
+
+1. **Load `references/error-catalog.md` when:**
+   - User encounters "component not found" or import errors
+   - Setup commands fail or configuration issues arise
+   - Tailwind CSS variables or TypeScript paths broken
+   - **Trigger phrases:** "not working", "error", "fails to", "broken"
+
+2. **Load `references/component-examples.md` when:**
+   - User asks "how do I implement [component]?"
+   - Need copy-paste examples for specific components
+   - Building forms, tables, navigation, or data display
+   - **Trigger phrases:** "example", "how to use", "implement", "code sample"
+
+3. **Load `references/dark-mode-setup.md` when:**
+   - Implementing dark mode / theme switching
+   - User mentions Vue 3 + Vite, Nuxt, or Astro setup
+   - Need composable patterns for theme management
+   - **Trigger phrases:** "dark mode", "theme", "light/dark", "color scheme"
 
 ---
 
@@ -552,5 +543,5 @@ This skill composes well with:
 ---
 
 **Production Tested**: Vue/Nuxt applications, admin dashboards, content management systems
-**Last Updated**: 2025-11-10
+**Last Updated**: 2025-12-09
 **Token Savings**: ~65% (reduces setup + component documentation)

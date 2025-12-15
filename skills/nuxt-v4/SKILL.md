@@ -28,7 +28,7 @@ metadata:
   category: Framework
   framework: Nuxt
   framework-version: 4.x
-  last-verified: 2025-11-09
+  last-verified: 2025-12-09
   source: https://github.com/secondsky/claude-skills
 ---
 

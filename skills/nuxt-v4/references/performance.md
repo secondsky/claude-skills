@@ -2,6 +2,23 @@
 
 Comprehensive guide to optimizing Nuxt 4 applications for maximum performance.
 
+## Table of Contents
+
+- [Built-in Optimizations](#built-in-optimizations)
+- [Component Optimization](#component-optimization)
+- [Image Optimization](#image-optimization)
+- [Font Optimization](#font-optimization)
+- [Code Splitting](#code-splitting)
+- [Caching Strategies](#caching-strategies)
+- [Bundle Analysis](#bundle-analysis)
+- [Prefetching & Preloading](#prefetching--preloading)
+- [Database Optimization](#database-optimization)
+- [Vite Optimizations](#vite-optimizations)
+- [Nitro Optimizations](#nitro-optimizations)
+- [Performance Monitoring](#performance-monitoring)
+- [Best Practices Checklist](#best-practices-checklist)
+- [Common Pitfalls](#common-pitfalls)
+
 ## Built-in Optimizations
 
 Nuxt 4 includes many performance optimizations out of the box:

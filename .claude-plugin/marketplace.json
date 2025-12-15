@@ -13,10 +13,25 @@
   },
   "plugins": [
     {
+      "name": "access-control-rbac",
+      "source": "./skills/access-control-rbac",
+      "description": "Implements role-based access control (RBAC), permissions management, and authorization policies for secure multi-tenant applications. Use when building admin dashboards, enterprise access management, API authorization, or fine-grained data access controls.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": ["rbac", "access-control", "permissions", "authorization", "roles", "multi-tenant", "security", "abac", "policies", "admin-dashboard", "api-authorization", "role-based"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "aceternity-ui",
       "source": "./skills/aceternity-ui",
       "description": "Build modern, animated React UI components with Aceternity UI - a premium component library featuring 100+ production-ready components including backgrounds, 3D effects, cards, animations, and interactive elements. Use when building Next.js applications with Tailwind CSS that need visually stunning hero sections, animated backgrounds, interactive cards, parallax effects, animated text, smooth transitions, or modern UI elements. Ideal for landing pages, portfolios, SaaS applications, and marketing websites requiring professional animations and visual effects. Includes shadcn CLI integration for easy component installation.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "frontend",
       "keywords": ["aceternity","aceternity-ui","react","nextjs","next.js","tailwind","tailwindcss","tailwind-css","framer-motion","motion","animations","animated-components","ui-components","component-library","shadcn","shadcn-ui","3d-effects","background-effects","hero-sections","landing-pages"],
       "author": {
@@ -73,9 +88,174 @@
     }
 ,
     {
+      "name": "api-authentication",
+      "source": "./skills/api-authentication",
+      "description": "Implements secure API authentication using JWT, OAuth 2.0, and API keys with proper token management and security headers. Use when building authentication systems, integrating third-party providers, or securing service-to-service communication.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-changelog-versioning",
+      "source": "./skills/api-changelog-versioning",
+      "description": "Creates comprehensive API changelogs documenting breaking changes, deprecations, and migration strategies for API consumers. Use when managing API versions, communicating breaking changes, or creating upgrade guides.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-contract-testing",
+      "source": "./skills/api-contract-testing",
+      "description": "Verifies API contracts between services using consumer-driven contracts, schema validation, and tools like Pact. Use when testing microservices communication, preventing breaking changes, or validating OpenAPI specifications.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "api-design-principles",
       "source": "./skills/api-design-principles",
       "description": "Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-error-handling",
+      "source": "./skills/api-error-handling",
+      "description": "Implements standardized API error responses with proper status codes, logging, and user-friendly messages. Use when building production APIs, implementing error recovery patterns, or integrating error monitoring services.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-filtering-sorting",
+      "source": "./skills/api-filtering-sorting",
+      "description": "Builds flexible API filtering and sorting systems with query parameter parsing, validation, and security. Use when implementing search endpoints, building data grids, or creating dynamic query APIs.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-gateway-configuration",
+      "source": "./skills/api-gateway-configuration",
+      "description": "Configures API gateways for routing, authentication, rate limiting, and request transformation in microservice architectures. Use when setting up Kong, Nginx, AWS API Gateway, or Traefik for centralized API management.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-pagination",
+      "source": "./skills/api-pagination",
+      "description": "Implements efficient API pagination using offset, cursor, and keyset strategies for large datasets. Use when building paginated endpoints, implementing infinite scroll, or optimizing database queries for collections.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-rate-limiting",
+      "source": "./skills/api-rate-limiting",
+      "description": "Implements API rate limiting using token bucket, sliding window, and Redis-based algorithms to protect against abuse. Use when securing public APIs, implementing tiered access, or preventing denial-of-service attacks.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-reference-documentation",
+      "source": "./skills/api-reference-documentation",
+      "description": "Creates professional API documentation using OpenAPI specifications with endpoints, authentication, and interactive examples. Use when documenting REST APIs, creating SDK references, or building developer portals.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-response-optimization",
+      "source": "./skills/api-response-optimization",
+      "description": "Optimizes API performance through payload reduction, caching strategies, and compression techniques. Use when improving API response times, reducing bandwidth usage, or implementing efficient caching.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-security-hardening",
+      "source": "./skills/api-security-hardening",
+      "description": "Hardens REST APIs against common vulnerabilities through authentication, rate limiting, input validation, and security headers. Use when securing production APIs, conducting security audits, or implementing defense-in-depth strategies.",
       "version": "1.0.0",
       "category": "other",
       "keywords": [],
@@ -93,6 +273,36 @@
       "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.",
       "version": "1.0.0",
       "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "api-versioning-strategy",
+      "source": "./skills/api-versioning-strategy",
+      "description": "Implements API versioning using URL paths, headers, or query parameters with backward compatibility and deprecation strategies. Use when managing multiple API versions, planning breaking changes, or designing migration paths.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "app-store-deployment",
+      "source": "./skills/app-store-deployment",
+      "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -151,7 +361,7 @@
       "name": "better-auth",
       "source": "./skills/better-auth",
       "description": "Production-ready authentication framework for TypeScript with Cloudflare D1 support via Drizzle ORM or Kysely. Use this skill when building auth systems as a self-hosted alternative to Clerk or Auth.js, particularly for Cloudflare Workers projects. CRITICAL: better-auth requires Drizzle ORM or Kysely as database adapters - there is NO direct D1 adapter. Supports social providers (Google, GitHub, Microsoft, Apple), email/password, magic links, 2FA, passkeys, organizations, and RBAC. Prevents 12+ common authentication errors including D1 adapter misconfiguration, schema generation issues, session serialization, CORS, OAuth flows, and JWT token handling.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "auth",
       "keywords": ["better-auth","authentication","cloudflare d1 auth","drizzle orm auth","kysely auth","self-hosted auth","typescript auth","clerk alternative","auth.js alternative","social login","oauth providers","session management","jwt tokens","2fa","two-factor","passkeys","webauthn","multi-tenant auth","organizations","teams"],
       "author": {
@@ -391,7 +601,7 @@
       "name": "cloudflare-full-stack-scaffold",
       "source": "./skills/cloudflare-full-stack-scaffold",
       "description": "Production-ready starter project for React + Cloudflare Workers + Hono with core services (D1, KV, R2, Workers AI) and optional advanced features (Clerk Auth, AI Chat, Queues, Vectorize). Complete with planning docs, session handoff protocol, and enable scripts for opt-in features. Use when: starting new full-stack project, creating Cloudflare app, scaffolding web app, AI-powered application, chat interface, RAG application, need complete starter, avoid setup time, production-ready template, full-stack boilerplate, React Cloudflare starter. Prevents: service configuration errors, binding setup mistakes, frontend-backend connection issues, CORS errors, auth integration problems, AI SDK setup confusion, missing planning docs, incomplete project structure, hours of initial setup.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "cloudflare",
       "keywords": ["cloudflare scaffold","full-stack starter","react cloudflare","hono template","production boilerplate","AI SDK integration","workers AI","complete starter project","D1 KV R2 setup","web app template","chat application scaffold","RAG starter","planning docs included","session handoff","tailwind v4 shadcn","typescript starter","vite cloudflare plugin","all services configured"],
       "author": {
@@ -496,7 +706,7 @@
       "name": "cloudflare-queues",
       "source": "./skills/cloudflare-queues",
       "description": "Complete knowledge domain for Cloudflare Queues - flexible message queue for asynchronous processing and background tasks on Cloudflare Workers. Use when: creating message queues, async processing, background jobs, batch processing, handling retries, configuring dead letter queues, implementing consumer concurrency, or encountering queue timeout, batch retry, message lost, throughput exceeded, consumer not scaling errors.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "category": "cloudflare",
       "keywords": ["cloudflare queues","queues workers","message queue","queue bindings","async processing","background jobs","queue consumer","queue producer","batch processing","dead letter queue","dlq","message retry","queue ack","consumer concurrency","queue backlog","wrangler queues"],
       "author": {
@@ -541,7 +751,7 @@
       "name": "cloudflare-turnstile",
       "source": "./skills/cloudflare-turnstile",
       "description": "This skill provides comprehensive knowledge for implementing Cloudflare Turnstile, the CAPTCHA-alternative bot protection system. It should be used when integrating bot protection into forms, login pages, signup flows, or any user-facing feature requiring spam/bot prevention. Turnstile runs invisible challenges in the background, maintaining excellent user experience while blocking automated traffic. Use when: Adding bot protection to forms, implementing login security, protecting API endpoints from abuse, migrating from reCAPTCHA/hCaptcha, encountering CSP errors with Turnstile, handling token validation failures, implementing E2E tests with Turnstile, integrating with React/Next.js/Hono applications, or debugging error codes 100*, 300*, 600*.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "cloudflare",
       "keywords": ["turnstile","captcha","bot protection","cloudflare challenge","siteverify","recaptcha alternative","spam prevention","form protection","cf-turnstile","turnstile widget","token validation","managed challenge","invisible challenge","@marsidev/react-turnstile","hono turnstile","workers turnstile"],
       "author": {
@@ -601,7 +811,7 @@
       "name": "cloudflare-workflows",
       "source": "./skills/cloudflare-workflows",
       "description": "Complete knowledge domain for Cloudflare Workflows - durable execution framework for building multi-step applications on Workers that automatically retry, persist state, and run for hours or days. Use when: creating long-running workflows, implementing retry logic, building event-driven processes, scheduling multi-step tasks, coordinating between APIs, or encountering NonRetryableError, I/O context, workflow execution failed, serialization error, or WorkflowEvent not found errors.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "cloudflare",
       "keywords": ["cloudflare workflows","workflows workers","durable execution","workflow step","WorkflowEntrypoint","step.do","step.sleep","workflow retries","NonRetryableError","workflow state","wrangler workflows","workflow events","long-running tasks","step.sleepUntil","step.waitForEvent","workflow bindings"],
       "author": {
@@ -658,6 +868,51 @@
     }
 ,
     {
+      "name": "csrf-protection",
+      "source": "./skills/csrf-protection",
+      "description": "Implements CSRF protection using synchronizer tokens, double-submit cookies, and SameSite attributes. Use when securing web forms, protecting state-changing endpoints, or implementing defense-in-depth authentication.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "database-schema-design",
+      "source": "./skills/database-schema-design",
+      "description": "Designs scalable, normalized database schemas for PostgreSQL and MySQL with proper relationships and constraints. Use when creating new databases, modeling complex domains, or optimizing existing schemas.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "database-sharding",
+      "source": "./skills/database-sharding",
+      "description": "Implements horizontal data partitioning across multiple database servers using range, hash, or directory-based sharding. Use when scaling beyond single-server capacity, optimizing geographic distribution, or implementing multi-tenant isolation.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "defense-in-depth-validation",
       "source": "./skills/defense-in-depth-validation",
       "description": "Validate at every layer data passes through to make bugs impossible. Use when invalid data causes failures deep in execution, requiring validation at multiple system layers.",
@@ -694,6 +949,21 @@
       "version": "1.0.0",
       "category": "frontend",
       "keywords": ["design review","UI audit","frontend review","accessibility audit","WCAG compliance","responsive design","visual QA","UX review","component review","PR design check","layout issues","accessibility violations","contrast problems","broken responsive","interaction bugs","keyboard navigation","focus states","design system compliance","visual consistency","user experience"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "design-system-creation",
+      "source": "./skills/design-system-creation",
+      "description": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -868,6 +1138,36 @@
     }
 ,
     {
+      "name": "graphql-implementation",
+      "source": "./skills/graphql-implementation",
+      "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "health-check-endpoints",
+      "source": "./skills/health-check-endpoints",
+      "description": "Implements health check endpoints for liveness, readiness, and dependency monitoring in Kubernetes and load balancer environments. Use when deploying to container orchestrators, configuring auto-scaling, or monitoring service availability.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "hono-routing",
       "source": "./skills/hono-routing",
       "description": "This skill provides comprehensive knowledge for building type-safe APIs with Hono, focusing on routing patterns, middleware composition, request validation, RPC client/server patterns, error handling, and context management. Use when: building APIs with Hono (any runtime), setting up request validation with Zod/Valibot/Typia/ArkType validators, creating type-safe RPC client/server communication, implementing custom middleware, handling errors with HTTPException, extending Hono context with custom variables, or encountering middleware type inference issues, validation hook confusion, or RPC performance problems.",
@@ -898,6 +1198,36 @@
     }
 ,
     {
+      "name": "idempotency-handling",
+      "source": "./skills/idempotency-handling",
+      "description": "Implements idempotent API operations using idempotency keys, Redis caching, and database constraints to prevent duplicate processing. Use when building payment systems, handling webhook retries, or ensuring safe operation retries.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "image-optimization",
+      "source": "./skills/image-optimization",
+      "description": "Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "inspira-ui",
       "source": "./skills/inspira-ui",
       "description": "This skill should be used when building Vue or Nuxt applications with animated UI components and effects. Inspira UI provides 120+ production-ready components including backgrounds (aurora, cosmic portal, particles), buttons (shimmer, ripple, rainbow), cards (3D, flip, spotlight), text animations (morphing, glitch, hyper text), special effects (confetti, meteors, neon borders), cursors (fluid, tailed), visualizations (3D globe, carousels, icon cloud), input forms (color picker, file upload), device mocks (iPhone, Safari), and miscellaneous components (dock, timeline, bento grid). Built with TailwindCSS v4, motion-v, GSAP, and Three.js for Vue 3 and Nuxt 4 projects. This skill should be used when implementing animated hero sections, interactive backgrounds, modern UI effects, 3D visualizations, form inputs with effects, testimonial blocks, or any animated web interface components for Vue/Nuxt applications. Prevents common pitfalls with TailwindCSS v4 setup, CSS variables configuration, motion-v integration, co",
@@ -913,11 +1243,71 @@
     }
 ,
     {
+      "name": "interaction-design",
+      "source": "./skills/interaction-design",
+      "description": "Creates intuitive user experiences through feedback patterns, microinteractions, and accessible interaction design. Use when designing loading states, error handling UX, animation guidelines, or touch interactions.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "internationalization-i18n",
+      "source": "./skills/internationalization-i18n",
+      "description": "Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "jest-generator",
       "source": "./skills/jest-generator",
       "description": "Generate Jest-based unit tests for JavaScript/TypeScript code. Creates test files following Jest conventions with proper mocking, describe blocks, and coverage. Use when generating tests for JS/TS modules, React components, or adding missing test coverage.",
       "version": "1.0.0",
       "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "kpi-dashboard-design",
+      "source": "./skills/kpi-dashboard-design",
+      "description": "Designs effective KPI dashboards with proper metric selection, visual hierarchy, and data visualization best practices. Use when building executive dashboards, creating analytics views, or presenting business metrics.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "logging-best-practices",
+      "source": "./skills/logging-best-practices",
+      "description": "Implements structured logging with proper levels, contextual information, PII handling, and centralized aggregation. Use when setting up application logging, integrating with log management systems, or implementing distributed tracing.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -961,6 +1351,111 @@
       "name": "microservices-patterns",
       "source": "./skills/microservices-patterns",
       "description": "Design microservices architectures with service boundaries, event-driven communication, and resilience patterns. Use when building distributed systems, decomposing monoliths, or implementing microservices.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "ml-model-training",
+      "source": "./skills/ml-model-training",
+      "description": "Trains machine learning models with data preparation, algorithm selection, and evaluation using scikit-learn, PyTorch, and TensorFlow. Use when building predictive models, implementing classification/regression, or training neural networks.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "ml-pipeline-automation",
+      "source": "./skills/ml-pipeline-automation",
+      "description": "Automates ML workflows from data ingestion to deployment using Airflow, Kubeflow, or similar orchestration tools. Use when building reproducible ML pipelines, scheduling retraining jobs, or implementing MLOps practices.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mobile-app-debugging",
+      "source": "./skills/mobile-app-debugging",
+      "description": "Debugs mobile applications across iOS, Android, and cross-platform frameworks using platform-specific tools and techniques. Use when diagnosing crashes, memory leaks, performance issues, or network problems in mobile apps.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mobile-app-testing",
+      "source": "./skills/mobile-app-testing",
+      "description": "Implements comprehensive mobile testing strategies including unit tests, UI automation, and performance testing across platforms. Use when setting up test infrastructure, writing E2E tests, or establishing testing standards for mobile apps.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mobile-first-design",
+      "source": "./skills/mobile-first-design",
+      "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "mobile-offline-support",
+      "source": "./skills/mobile-offline-support",
+      "description": "Implements offline-first mobile applications with local storage, sync queues, and conflict resolution strategies. Use when building apps that must work without connectivity, implementing data sync, or handling offline scenarios.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "model-deployment",
+      "source": "./skills/model-deployment",
+      "description": "Deploys ML models to production using REST APIs, containers, and model serving platforms with proper monitoring. Use when serving predictions via API, containerizing models, or implementing model versioning in production.",
       "version": "1.0.0",
       "category": "other",
       "keywords": [],
@@ -1081,7 +1576,7 @@
       "name": "nuxt-seo",
       "source": "./skills/nuxt-seo",
       "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO configuration errors, sitemap generation issues, OG image rendering problems, and robots.txt misconfigurations.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "frontend",
       "keywords": ["nuxt","nuxt 3","nuxt 4","nuxt seo","vue","vue 3","seo","search engine optimization","@nuxtjs/seo","nuxt-robots","nuxt-sitemap","nuxt-og-image","nuxt-schema-org","nuxt-link-checker","nuxt-seo-utils","nuxt-site-config","robots.txt","sitemap","sitemap.xml","og image"],
       "author": {
@@ -1114,6 +1609,21 @@
       "version": "1.0.0",
       "category": "frontend",
       "keywords": ["Nuxt 4","Nuxt v4","SSR","universal rendering","Nitro","Vue 3","useState","useFetch","useAsyncData","$fetch","composables","auto-imports","middleware","server routes","API routes","hydration","file-based routing","app directory","SEO","meta tags"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "oauth-implementation",
+      "source": "./skills/oauth-implementation",
+      "description": "Implements OAuth 2.0 and OpenID Connect flows for authentication and authorization with proper security measures. Use when integrating third-party providers, building SSO systems, or securing API access with token-based authentication.",
+      "version": "1.0.0",
+      "category": "auth",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1198,6 +1708,21 @@
     }
 ,
     {
+      "name": "payment-gateway-integration",
+      "source": "./skills/payment-gateway-integration",
+      "description": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "pinia-colada",
       "source": "./skills/pinia-colada",
       "description": "This skill provides comprehensive knowledge for Pinia Colada, the smart data fetching layer for Vue.js built on top of Pinia. It should be used when setting up async data fetching with useQuery, implementing mutations with useMutation, configuring query cache, managing server state, implementing optimistic updates, using paginated queries, configuring SSR/Nuxt integration, or encountering query/mutation errors. Use when: initializing Pinia Colada in Vue 3 or Nuxt projects, configuring PiniaColada plugin settings, creating reusable query composables, implementing mutations with automatic invalidation, setting up optimistic updates, using paginated queries, prefetching data, migrating from TanStack Vue Query, debugging cache issues, fixing SSR hydration errors, implementing query invalidation strategies, or setting up custom plugins for auto-refetch behavior.",
@@ -1233,6 +1758,21 @@
       "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.",
       "version": "1.0.0",
       "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "progressive-web-app",
+      "source": "./skills/progressive-web-app",
+      "description": "Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -1288,6 +1828,21 @@
     }
 ,
     {
+      "name": "push-notification-setup",
+      "source": "./skills/push-notification-setup",
+      "description": "Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "react-hook-form-zod",
       "source": "./skills/react-hook-form-zod",
       "description": "This skill provides comprehensive knowledge for building type-safe, validated forms in React using React Hook Form and Zod schema validation. Use when: building forms with validation in React, integrating Zod schema validation with React Hook Form, using shadcn/ui Form or Field components, implementing client and server-side validation with a single schema, handling complex validation scenarios (nested objects, arrays, conditional fields, async validation), building multi-step forms or wizards, implementing dynamic form fields with useFieldArray, optimizing form performance and re-renders, ensuring accessible form error handling, or debugging form validation issues.",
@@ -1303,9 +1858,129 @@
     }
 ,
     {
+      "name": "react-native-app",
+      "source": "./skills/react-native-app",
+      "description": "Builds cross-platform mobile applications using React Native with navigation, state management, and native features. Use when developing iOS/Android apps from a single codebase, prototyping mobile solutions, or sharing code with React web apps.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "recommendation-engine",
+      "source": "./skills/recommendation-engine",
+      "description": "Builds recommendation systems using collaborative filtering, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, or personalization features.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "recommendation-system",
+      "source": "./skills/recommendation-system",
+      "description": "Designs and evaluates recommendation systems with metrics, A/B testing, and production deployment strategies. Use when building personalization features, analyzing recommendation quality, or implementing real-time suggestions.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "responsive-web-design",
+      "source": "./skills/responsive-web-design",
+      "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility.",
+      "version": "1.0.0",
+      "category": "frontend",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "rest-api-design",
+      "source": "./skills/rest-api-design",
+      "description": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes, and response formats. Use when building new APIs, establishing API conventions, or designing developer-friendly interfaces.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "root-cause-tracing",
       "source": "./skills/root-cause-tracing",
       "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "security-headers-configuration",
+      "source": "./skills/security-headers-configuration",
+      "description": "Configures HTTP security headers to protect against XSS, clickjacking, and MIME sniffing attacks. Use when hardening web applications, passing security audits, or implementing Content Security Policy.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "seo-keyword-cluster-builder",
+      "source": "./skills/seo-keyword-cluster-builder",
+      "description": "Groups related keywords into topic clusters and creates content hub architecture recommendations with internal linking strategies. Use when planning content strategy, organizing keyword research, or building pillar page structures.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "seo-optimizer",
+      "source": "./skills/seo-optimizer",
+      "description": "Analyzes and optimizes content for search engines through keyword analysis, readability assessment, technical SEO validation, and content quality evaluation. Use when improving search rankings, optimizing blog posts, or conducting content audits.",
       "version": "1.0.0",
       "category": "other",
       "keywords": [],
@@ -1333,6 +2008,21 @@
     }
 ,
     {
+      "name": "session-management",
+      "source": "./skills/session-management",
+      "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
       "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue.",
@@ -1350,10 +2040,25 @@
     {
       "name": "skill-review",
       "source": "./skills/skill-review",
-      "description": "Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 14-phase audit: pre-review setup, standards compliance (exact YAML validation rules), official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency version checks, progressive disclosure architecture review, conciseness & degrees of freedom audit, anti-pattern detection, testing & evaluation review, security & MCP considerations, issue categorization by severity, fix implementation with minimal user questions, and post-fix verification. Enforces official Claude best practices including name validation (64 chars, lowercase/hyphens), description limits (1024 chars), SKILL.md line count (<500 lines), third-person writing style, progressive d",
-      "version": "1.2.0",
+      "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology.",
+      "version": "1.4.0",
       "category": "tooling",
-      "keywords": ["skill review","skill audit","documentation review","version check","api verification","package updates","skill maintenance","quality assurance","standards compliance","breaking changes","github verification","official docs check","context7 verification","skill-review","audit-skill","review-documentation","check-skill-currency","verify-skill-accuracy","outdated skill","skill needs update"],
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "sql-query-optimization",
+      "source": "./skills/sql-query-optimization",
+      "description": "Optimizes database query performance through indexing, query rewriting, and execution plan analysis for PostgreSQL and MySQL. Use when debugging slow queries, improving database performance, or analyzing query execution plans.",
+      "version": "1.0.0",
+      "category": "database",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1393,6 +2098,21 @@
     }
 ,
     {
+      "name": "swift-settingskit",
+      "source": "./skills/swift-settingskit",
+      "description": "This skill provides comprehensive knowledge for building settings interfaces in SwiftUI using SettingsKit, a declarative framework for iOS, macOS, watchOS, tvOS, and visionOS apps. It should be used when creating settings screens, implementing searchable preferences, building nested navigation hierarchies, or encountering issues with settings UI state management. Use when: Building settings/preferences screens, implementing search in settings, creating nested settings navigation, customizing settings appearance, working with @Observable/@Bindable state in settings, encountering settings not updating errors, dealing with navigation state issues in settings, or migrating from traditional settings implementations.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": ["SettingsKit","SwiftUI settings","settings interface","preferences UI","searchable settings","settings navigation","SettingsContainer","SettingsGroup","SettingsItem","CustomSettingsGroup","settings tags","settings search","Observable settings","Bindable settings","iOS 17","macOS 14","Swift 6","settings style","sidebar settings","declarative settings"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
       "name": "systematic-debugging",
       "source": "./skills/systematic-debugging",
       "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.",
@@ -1414,6 +2134,21 @@
       "version": "1.0.0",
       "category": "frontend",
       "keywords": ["Tailwind v4","shadcn/ui","@tailwindcss/vite","@theme inline","dark mode","CSS variables","hsl() wrapper","components.json","React theming","theme switching","colors not working","variables broken","theme not applying","@plugin directive","typography plugin","forms plugin","prose class","@tailwindcss/typography","@tailwindcss/forms"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "tanstack-ai",
+      "source": "./skills/tanstack-ai",
+      "description": "This skill provides production-ready guidance for TanStack AI (alpha) to build provider-agnostic, type-safe AI chat with streaming, server/client tools, approval flows, and adapters for OpenAI, Anthropic, Gemini, and Ollama. Use it to scaffold new chat APIs, wire React or Solid frontends with `useChat`/`ChatClient`, define isomorphic tools with `toolDefinition().server()` / `.client()`, or debug streaming and agent loop behavior. Use when: connecting TanStack AI to OpenAI/Anthropic/Gemini/Ollama adapters, enabling SSE streaming with `toStreamResponse` + `fetchServerSentEvents`, adding tool approval (`needsApproval`) for destructive actions, implementing agent loop strategies, supporting multimodal inputs, or troubleshooting missing tool definitions and model-specific option typing.",
+      "version": "1.0.0",
+      "category": "ai",
+      "keywords": ["TanStack AI","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","toolDefinition","client tools","server tools","tool approval","agent loop","streaming","SSE","connection adapters","multimodal","type-safe models","TanStack Start"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1455,10 +2190,10 @@
     {
       "name": "tanstack-start",
       "source": "./skills/tanstack-start",
-      "description": "[⚠️ RC STATUS - MONITORING FOR v1.0 STABLE] Full-stack React framework built on TanStack Router with official Cloudflare Workers support. This skill will be published when v1.0 stable is released and critical issues are resolved. Use when: building full-stack React applications, need SSR with Cloudflare Workers, want type-safe server functions, or migrating from Next.js. Currently monitoring: GitHub #5734 (memory leak), needed-for-start-stable issues.",
-      "version": "0.9.0",
+      "description": "Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns.",
+      "version": "1.0.0-rc.1",
       "category": "frontend",
-      "keywords": ["tanstack start","full-stack react","ssr","server-side rendering","cloudflare workers","server functions","api routes","type-safe server","react framework","next.js alternative"],
+      "keywords": ["tanstack start","tanstack react start","full-stack react","selective ssr","spa mode","static prerender","server functions","server routes"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1471,9 +2206,24 @@
       "name": "tanstack-table",
       "source": "./skills/tanstack-table",
       "description": "Build production-ready data tables with headless TanStack Table v8. This skill provides server-side pagination, filtering, and sorting patterns optimized for Cloudflare Workers + D1 databases. Use when: building data tables with large datasets, implementing server-side table features, integrating with TanStack Query for data fetching, or need virtualization for performance. Includes 6+ documented error solutions and Cloudflare D1 integration examples. Prevents common issues: server-side state management confusion, TanStack Query coordination errors, manual sorting setup mistakes, URL state sync problems, and performance issues with large datasets.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "frontend",
       "keywords": ["tanstack table","react table","data table","datagrid","headless table","server-side pagination","server-side filtering","server-side sorting","tanstack query integration","cloudflare d1","cloudflare workers","virtualization","tanstack virtual","large datasets","table state management","url state sync","column configuration","typescript table","react table v8","headless ui"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "technical-specification",
+      "source": "./skills/technical-specification",
+      "description": "Creates detailed technical specifications for software projects covering requirements, architecture, APIs, and testing strategies. Use when planning features, documenting system design, or creating architecture decision records.",
+      "version": "1.0.0",
+      "category": "tooling",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -1546,7 +2296,7 @@
       "name": "ultracite",
       "source": "./skills/ultracite",
       "description": "Use when setting up, configuring, or migrating to Ultracite, a fast Rust-based linting and formatting tool built on Biome. This skill provides comprehensive guidance for project setup, framework-specific configurations (React, Next.js, Vue, Svelte), Git hook integrations (Husky, Lefthook, lint-staged), AI editor rules, monorepo support, and migrations from ESLint, Prettier, or Biome. Includes project suitability assessment, troubleshooting, known limitations, and best practices for JavaScript/TypeScript projects.",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "category": "frontend",
       "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting"],
       "author": {
@@ -1608,6 +2358,66 @@
       "description": "Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects.",
       "version": "1.0.0",
       "category": "tooling",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "vulnerability-scanning",
+      "source": "./skills/vulnerability-scanning",
+      "description": "Implements automated security scanning for dependencies, code, and containers using tools like Trivy, Snyk, and npm audit. Use when setting up CI/CD security gates, conducting pre-deployment audits, or meeting compliance requirements.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "web-performance-audit",
+      "source": "./skills/web-performance-audit",
+      "description": "Conducts comprehensive web performance audits measuring Core Web Vitals, identifying bottlenecks, and implementing optimizations. Use when improving page load times, preparing for performance reviews, or optimizing user experience.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "web-performance-optimization",
+      "source": "./skills/web-performance-optimization",
+      "description": "Optimizes web application performance through code splitting, lazy loading, caching strategies, and Core Web Vitals monitoring. Use when improving page load times, implementing service workers, or reducing bundle sizes.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "websocket-implementation",
+      "source": "./skills/websocket-implementation",
+      "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.",
+      "version": "1.0.0",
+      "category": "other",
       "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
@@ -1684,6 +2494,21 @@
       "version": "1.0.0",
       "category": "cms",
       "keywords": ["wordpress plugin development","wordpress security","wordpress hooks","wordpress filters","wordpress database","wpdb prepare","sanitize_text_field","esc_html","wp_nonce","custom post type","register_post_type","settings api","rest api","admin-ajax","wordpress sql injection","wordpress xss","wordpress csrf","plugin header","activation hook","deactivation hook"],
+      "author": {
+        "name": "Claude Skills Maintainers",
+        "email": "maintainers@example.com"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/secondsky/claude-skills"
+    }
+,
+    {
+      "name": "xss-prevention",
+      "source": "./skills/xss-prevention",
+      "description": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.",
+      "version": "1.0.0",
+      "category": "other",
+      "keywords": [],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"

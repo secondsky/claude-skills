@@ -19,20 +19,21 @@ license: MIT
 
 Frontend React hooks for AI-powered user interfaces with Vercel AI SDK v5.
 
-**Version**: AI SDK v5.0.98+ (Stable)
+**Version**: AI SDK v5.0.108 (Stable)
 **Framework**: React 18+, Next.js 14+
-**Last Updated**: 2025-11-21
+**Last Updated**: 2025-12-10
 
 ## Table of Contents
 1. [Quick Start](#quick-start-5-minutes)
-2. [useChat Hook](#usechat-hook---complete-reference)
-3. [useCompletion Hook](#usecompletion-hook---complete-reference)
-4. [useObject Hook](#useobject-hook---complete-reference)
-5. [Next.js Integration](#nextjs-integration)
-6. [Top UI Errors & Solutions](#top-ui-errors--solutions)
-7. [Streaming Best Practices](#streaming-best-practices)
-8. [When to Use This Skill](#when-to-use-this-skill)
-9. [Package Versions](#package-versions)
+2. [When to Load References](#when-to-load-references)
+3. [useChat Hook](#usechat-hook---complete-reference)
+4. [useCompletion Hook](#usecompletion-hook---complete-reference)
+5. [useObject Hook](#useobject-hook---complete-reference)
+6. [Next.js Integration](#nextjs-integration)
+7. [Top UI Errors & Solutions](#top-ui-errors--solutions)
+8. [Streaming Best Practices](#streaming-best-practices)
+9. [When to Use This Skill](#when-to-use-this-skill)
+10. [Package Versions](#package-versions)
 
 ---
 
@@ -107,6 +108,27 @@ export async function POST(req: Request) {
 ```
 
 **Result**: A functional chat interface with streaming AI responses in ~10 lines of frontend code.
+
+---
+
+## When to Load References
+
+For detailed implementation guides, API references, and advanced patterns, load the following reference files:
+
+| Reference File | Load When... |
+|----------------|--------------|
+| `references/use-chat-migration.md` | Migrating from v4 to v5, understanding breaking changes |
+| `references/streaming-patterns.md` | UI streaming best practices, performance optimization |
+| `references/top-ui-errors.md` | Debugging common UI errors, error prevention |
+| `references/nextjs-integration.md` | Next.js setup patterns, App vs Pages Router differences |
+| `references/links-to-official-docs.md` | Finding official Vercel AI SDK documentation |
+| `references/tool-calling-ui.md` | Implementing tool/function calling in chat UI |
+| `references/file-attachments-guide.md` | Adding file upload/attachment support to chat |
+| `references/message-persistence.md` | Persisting chat history with localStorage |
+| `references/use-completion-full-reference.md` | Complete useCompletion API and examples |
+| `references/use-object-full-reference.md` | Complete useObject API with Zod schemas |
+| `references/nextjs-app-router-full.md` | Full Next.js App Router implementation |
+| `references/nextjs-pages-router-full.md` | Full Next.js Pages Router implementation |
 
 ---
 
@@ -246,572 +268,28 @@ const [input, setInput] = useState('');
 
 See `references/use-chat-migration.md` for complete migration guide.
 
-### Tool Calling in UI
-
-When your API uses tools, useChat automatically handles tool invocations in the message stream:
-
-```tsx
-'use client';
-import { useChat } from 'ai/react';
-
-export default function ChatWithTools() {
-  const { messages } = useChat({ api: '/api/chat' });
-
-  return (
-    <div>
-      {messages.map(message => (
-        <div key={message.id}>
-          {/* Text content */}
-          {message.content && <p>{message.content}</p>}
-
-          {/* Tool invocations */}
-          {message.toolInvocations?.map((tool, idx) => (
-            <div key={idx} className="bg-blue-50 p-2 rounded my-2">
-              <div className="font-bold">Tool: {tool.toolName}</div>
-              <div className="text-sm">
-                <strong>Args:</strong> {JSON.stringify(tool.args, null, 2)}
-              </div>
-              {tool.result && (
-                <div className="text-sm">
-                  <strong>Result:</strong> {JSON.stringify(tool.result, null, 2)}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-}
-```
-
-### File Attachments
-
-Upload files (images, PDFs, etc.) alongside messages:
-
-```tsx
-'use client';
-import { useChat } from 'ai/react';
-import { useState, FormEvent } from 'react';
-
-export default function ChatWithAttachments() {
-  const { messages, sendMessage, isLoading } = useChat({ api: '/api/chat' });
-  const [input, setInput] = useState('');
-  const [files, setFiles] = useState<FileList | null>(null);
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-
-    sendMessage({
-      content: input,
-      experimental_attachments: files
-        ? Array.from(files).map(file => ({
-            name: file.name,
-            contentType: file.type,
-            url: URL.createObjectURL(file),
-          }))
-        : undefined,
-    });
-
-    setInput('');
-    setFiles(null);
-  };
-
-  return (
-    <div>
-      {/* Messages */}
-      {messages.map(m => (
-        <div key={m.id}>
-          {m.content}
-          {m.experimental_attachments?.map((att, idx) => (
-            <div key={idx}>
-              <img src={att.url} alt={att.name} />
-            </div>
-          ))}
-        </div>
-      ))}
-
-      {/* Input */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="file"
-          multiple
-          onChange={(e) => setFiles(e.target.files)}
-          accept="image/*"
-        />
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button type="submit" disabled={isLoading}>Send</button>
-      </form>
-    </div>
-  );
-}
-```
-
-### Message Persistence
-
-Save and load chat history to localStorage:
-
-```tsx
-'use client';
-import { useChat } from 'ai/react';
-import { useEffect } from 'react';
-
-export default function PersistentChat() {
-  const chatId = 'my-chat-1';
-
-  const { messages, setMessages, sendMessage } = useChat({
-    api: '/api/chat',
-    id: chatId,
-    initialMessages: loadMessages(chatId),
-  });
-
-  // Save messages whenever they change
-  useEffect(() => {
-    saveMessages(chatId, messages);
-  }, [messages, chatId]);
-
-  return (
-    <div>
-      {messages.map(m => (
-        <div key={m.id}>{m.role}: {m.content}</div>
-      ))}
-      {/* Input form... */}
-    </div>
-  );
-}
-
-// Helper functions
-function loadMessages(chatId: string) {
-  const stored = localStorage.getItem(`chat-${chatId}`);
-  return stored ? JSON.parse(stored) : [];
-}
-
-function saveMessages(chatId: string, messages: any[]) {
-  localStorage.setItem(`chat-${chatId}`, JSON.stringify(messages));
-}
-```
+**Advanced Features:** useChat supports tool calling (display `message.toolInvocations`), file attachments (`experimental_attachments`), and message persistence (localStorage with `id` + `initialMessages`). See [official docs](https://sdk.vercel.ai/docs/ai-sdk-ui/chatbot) for implementation examples.
 
 ---
 
-## useCompletion Hook - Complete Reference
+## useCompletion & useObject Hooks
 
-### Basic Usage
+**useCompletion**: For single-prompt completions (not multi-turn chat). Returns `{ completion, complete, isLoading }`. Call `complete(prompt)` to generate. API route uses `streamText()`.
 
-```tsx
-'use client';
-import { useCompletion } from 'ai/react';
-import { useState, FormEvent } from 'react';
+**useObject**: Stream structured JSON with live updates using Zod schemas. Returns `{ object, submit, isLoading }` where `object` is `Partial<T>` that updates progressively. API route uses `streamObject()`.
 
-export default function Completion() {
-  const { completion, complete, isLoading, error } = useCompletion({
-    api: '/api/completion',
-  });
-  const [input, setInput] = useState('');
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    complete(input);
-    setInput('');
-  };
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter a prompt..."
-          rows={4}
-          className="w-full p-2 border rounded"
-        />
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Generating...' : 'Generate'}
-        </button>
-      </form>
-
-      {completion && (
-        <div className="mt-4 p-4 bg-gray-50 rounded">
-          <h3>Result:</h3>
-          <p>{completion}</p>
-        </div>
-      )}
-
-      {error && <div className="text-red-500">{error.message}</div>}
-    </div>
-  );
-}
-```
-
-### Full API Reference
-
-```typescript
-const {
-  completion,         // string - Current completion text
-  complete,           // (prompt: string) => void - Trigger completion
-  setCompletion,      // (completion: string) => void - Update completion
-  isLoading,          // boolean - Is generating?
-  error,              // Error | undefined - Error if any
-  stop,               // () => void - Stop generation
-} = useCompletion({
-  api: '/api/completion',
-  id: 'completion-1',
-
-  // Callbacks
-  onFinish: (prompt, completion) => {},
-  onError: (error) => {},
-
-  // Configuration
-  headers: {},
-  body: {},
-});
-```
-
-### API Route for useCompletion
-
-```typescript
-// app/api/completion/route.ts
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-export async function POST(req: Request) {
-  const { prompt } = await req.json();
-
-  const result = streamText({
-    model: openai('gpt-3.5-turbo'),
-    prompt,
-    maxOutputTokens: 500,
-  });
-
-  return result.toDataStreamResponse();
-}
-```
-
----
-
-## useObject Hook - Complete Reference
-
-### Basic Usage
-
-Stream structured data (e.g., forms, JSON objects) with live updates:
-
-```tsx
-'use client';
-import { useObject } from 'ai/react';
-import { z } from 'zod';
-
-const recipeSchema = z.object({
-  recipe: z.object({
-    name: z.string(),
-    ingredients: z.array(z.string()),
-    instructions: z.array(z.string()),
-  }),
-});
-
-export default function RecipeGenerator() {
-  const { object, submit, isLoading, error } = useObject({
-    api: '/api/recipe',
-    schema: recipeSchema,
-  });
-
-  return (
-    <div>
-      <button onClick={() => submit('pasta carbonara')} disabled={isLoading}>
-        Generate Recipe
-      </button>
-
-      {isLoading && <div>Generating recipe...</div>}
-
-      {object?.recipe && (
-        <div className="mt-4">
-          <h2 className="text-2xl font-bold">{object.recipe.name}</h2>
-
-          <h3 className="text-xl mt-4">Ingredients:</h3>
-          <ul>
-            {object.recipe.ingredients?.map((ingredient, idx) => (
-              <li key={idx}>{ingredient}</li>
-            ))}
-          </ul>
-
-          <h3 className="text-xl mt-4">Instructions:</h3>
-          <ol>
-            {object.recipe.instructions?.map((step, idx) => (
-              <li key={idx}>{step}</li>
-            ))}
-          </ol>
-        </div>
-      )}
-
-      {error && <div className="text-red-500">{error.message}</div>}
-    </div>
-  );
-}
-```
-
-### Full API Reference
-
-```typescript
-const {
-  object,             // Partial<T> - Partial object (updates as stream progresses)
-  submit,             // (input: string) => void - Trigger generation
-  isLoading,          // boolean - Is generating?
-  error,              // Error | undefined - Error if any
-  stop,               // () => void - Stop generation
-} = useObject({
-  api: '/api/object',
-  schema: zodSchema,  // Zod schema
-
-  // Callbacks
-  onFinish: (object) => {},
-  onError: (error) => {},
-});
-```
-
-### API Route for useObject
-
-```typescript
-// app/api/recipe/route.ts
-import { streamObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { z } from 'zod';
-
-export async function POST(req: Request) {
-  const { prompt } = await req.json();
-
-  const result = streamObject({
-    model: openai('gpt-4'),
-    schema: z.object({
-      recipe: z.object({
-        name: z.string(),
-        ingredients: z.array(z.string()),
-        instructions: z.array(z.string()),
-      }),
-    }),
-    prompt: `Generate a recipe for ${prompt}`,
-  });
-
-  return result.toTextStreamResponse();
-}
-```
+See [official docs](https://sdk.vercel.ai/docs/ai-sdk-ui/overview) for complete API references and examples.
 
 ---
 
 ## Next.js Integration
 
-### App Router Complete Example
+Complete working examples for both App Router and Pages Router with full chat UI components, API routes, and proper streaming setup.
 
-**Directory Structure:**
-```
-app/
-├── api/
-│   └── chat/
-│       └── route.ts      # Chat API endpoint
-├── chat/
-│   └── page.tsx          # Chat page
-└── layout.tsx
-```
-
-**Chat Page:**
-```tsx
-// app/chat/page.tsx
-'use client';
-import { useChat } from 'ai/react';
-import { useState, FormEvent, useRef, useEffect } from 'react';
-
-export default function ChatPage() {
-  const { messages, sendMessage, isLoading, error } = useChat({
-    api: '/api/chat',
-  });
-  const [input, setInput] = useState('');
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Auto-scroll to bottom
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    sendMessage({ content: input });
-    setInput('');
-  };
-
-  return (
-    <div className="flex flex-col h-screen max-w-2xl mx-auto">
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map(message => (
-          <div
-            key={message.id}
-            className={`flex ${
-              message.role === 'user' ? 'justify-end' : 'justify-start'
-            }`}
-          >
-            <div
-              className={`max-w-[70%] p-3 rounded-lg ${
-                message.role === 'user'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-900'
-              }`}
-            >
-              {message.content}
-            </div>
-          </div>
-        ))}
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-gray-200 p-3 rounded-lg">
-              <div className="flex space-x-2">
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100"></div>
-                <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-200"></div>
-              </div>
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Error */}
-      {error && (
-        <div className="p-4 bg-red-50 border-t border-red-200 text-red-700">
-          Error: {error.message}
-        </div>
-      )}
-
-      {/* Input */}
-      <form onSubmit={handleSubmit} className="p-4 border-t">
-        <div className="flex space-x-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type a message..."
-            disabled={isLoading}
-            className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            disabled={isLoading || !input.trim()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            Send
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
-```
-
-**API Route:**
-```typescript
-// app/api/chat/route.ts
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-export async function POST(req: Request) {
-  const { messages } = await req.json();
-
-  const result = streamText({
-    model: openai('gpt-4-turbo'),
-    messages,
-    system: 'You are a helpful AI assistant.',
-    maxOutputTokens: 1000,
-  });
-
-  return result.toDataStreamResponse();
-}
-```
-
-### Pages Router Complete Example
-
-**Directory Structure:**
-```
-pages/
-├── api/
-│   └── chat.ts           # Chat API endpoint
-└── chat.tsx              # Chat page
-```
-
-**Chat Page:**
-```tsx
-// pages/chat.tsx
-import { useChat } from 'ai/react';
-import { useState, FormEvent } from 'react';
-
-export default function ChatPage() {
-  const { messages, sendMessage, isLoading } = useChat({
-    api: '/api/chat',
-  });
-  const [input, setInput] = useState('');
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    sendMessage({ content: input });
-    setInput('');
-  };
-
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">AI Chat</h1>
-
-      <div className="border rounded p-4 h-96 overflow-y-auto mb-4">
-        {messages.map(m => (
-          <div key={m.id} className="mb-4">
-            <strong>{m.role === 'user' ? 'You' : 'AI'}:</strong> {m.content}
-          </div>
-        ))}
-      </div>
-
-      <form onSubmit={handleSubmit} className="flex space-x-2">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type a message..."
-          disabled={isLoading}
-          className="flex-1 p-2 border rounded"
-        />
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Send
-        </button>
-      </form>
-    </div>
-  );
-}
-```
-
-**API Route:**
-```typescript
-// pages/api/chat.ts
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { streamText } from 'ai';
-import { openai } from '@ai-sdk/openai';
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { messages } = req.body;
-
-  const result = streamText({
-    model: openai('gpt-4-turbo'),
-    messages,
-  });
-
-  // Pages Router uses pipeDataStreamToResponse
-  return result.pipeDataStreamToResponse(res);
-}
-```
-
-**Key Difference**: App Router uses `toDataStreamResponse()`, Pages Router uses `pipeDataStreamToResponse()`.
+**📖 Load `references/nextjs-integration.md`** for complete implementation code including:
+- **App Router**: Full chat page with auto-scroll, loading states, error handling, and API route
+- **Pages Router**: Complete chat implementation with proper streaming setup
+- **Key Differences**: `toDataStreamResponse()` vs `pipeDataStreamToResponse()`
 
 ---
 

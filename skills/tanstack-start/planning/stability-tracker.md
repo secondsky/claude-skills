@@ -4,7 +4,7 @@ Track progress toward v1.0 stable release and skill publication.
 
 ## Completion Criteria
 
-- [ ] v1.0 stable released (currently RC v1.120.20)
+- [ ] v1.0 stable released (currently RC v1.139.12)
 - [ ] GitHub #5734 resolved (memory leak)
 - [ ] All "needed-for-start-stable" issues closed
 - [ ] 2+ weeks without critical bugs
@@ -12,12 +12,12 @@ Track progress toward v1.0 stable release and skill publication.
 
 ## Weekly Checks
 
-### 2025-11-07
-- **Status:** RC v1.120.20
-- **Blockers:** #5734 (memory leak open, no response)
-- **Action:** Continue monitoring
+### 2025-12-09
+- **Status:** RC v1.139.12 (released 2025-11-29)
+- **Blockers:** #5734 still open; GA date not announced
+- **Action:** Refresh dependencies weekly; watch `@tanstack/react-start` + `@tanstack/router` releases
 
-### Next Check: 2025-11-14
+### Next Check: 2025-12-16
 
 ---
 
