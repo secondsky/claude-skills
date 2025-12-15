@@ -9,6 +9,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2025-12-15
+
+### 🚀 Major Expansion & Optimization - 169 Skills Total
+
+**Repository Status**: Expanded from 114 to 169 production skills (+48%). Completed comprehensive optimization pass reducing skill sizes by 38-64% through progressive disclosure patterns.
+
+### Added
+
+#### Marketplace Expansion (55 New Skills)
+- **55 additional skills** added to marketplace, bringing total from 114 → 169
+- All new skills include proper YAML frontmatter, categories, and keywords
+- Full marketplace regenerated with complete metadata
+
+#### skill-review v1.4.0
+- **Mandatory Resource Inventory phase** - New Phase 0 for systematic resource cataloging
+- Improved description condensing to meet 1,024-character limit
+
+#### Documentation Enhancements
+- **"When to Load References" sections** added to react-hook-form-zod, clerk-auth
+- Completed Tier 3-6 skill reviews with detailed tracking
+- Archived 1,470+ lines of completed review notes
+
+### Changed
+
+#### Skill Optimizations (12 Skills)
+| Skill | Before | After | Reduction |
+|-------|--------|-------|-----------|
+| nextjs | 1,265 lines | 482 lines | -62% |
+| zustand-state-management | 810 lines | 325 lines | -60% |
+| firecrawl-scraper | 689 lines | 274 lines | -60% |
+| cloudflare-zero-trust-access | 685 lines | 320 lines | -53% |
+| vercel-kv | 656 lines | 233 lines | -64% |
+| drizzle-orm-d1 | 632 lines | 264 lines | -58% |
+| cloudflare-workers-ai | 629 lines | 290 lines | -54% |
+| cloudflare-vectorize | 615 lines | 378 lines | -39% |
+| vercel-blob | 607 lines | 245 lines | -60% |
+| content-collections | 722 lines | 444 lines | -38% |
+
+#### Marketplace Metadata
+- Updated `access-control-rbac`: category "other" → "auth", added 12 keywords
+- Fixed `skill-review` description: 1,025 → 825 chars (was truncated)
+- Version updates for cloudflare-zero-trust-access (hono 4.10.7, workers-types 4.20251126.0)
+
+### Fixed
+
+#### Security & Type Safety
+- **cloudflare-sandbox**: Critical security issues and type safety improvements
+- **Import errors**: Fixed non-existent API imports across multiple skills
+- **API syntax**: Corrected deprecated or incorrect API usage patterns
+- **Error handling**: Improved error handling in ai-sdk-ui, tanstack-ai
+
+#### Documentation Quality
+- Restored lost information in ai-sdk-ui and cloudflare-zero-trust-access
+- Fixed markdown heading levels and code block syntax
+- Added missing license fields to skills 68-75
+
+### Quality Metrics
+
+**Optimization Results:**
+- ✅ Average line reduction: ~55%
+- ✅ Skills optimized: 12 major skills
+- ✅ Total skill count: 169 (up from 114)
+- ✅ Marketplace entries: 169 with full metadata
+
+---
+
 ## [2.5.0] - 2025-11-20
 
 ### 🎉 Comprehensive Audit & Documentation Update - 114 Skills Total
