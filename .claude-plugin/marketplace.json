@@ -17,8 +17,8 @@
       "source": "./skills/access-control-rbac",
       "description": "Implements role-based access control (RBAC), permissions management, and authorization policies for secure multi-tenant applications. Use when building admin dashboards, enterprise access management, API authorization, or fine-grained data access controls.",
       "version": "1.0.0",
-      "category": "other",
-      "keywords": [],
+      "category": "auth",
+      "keywords": ["rbac", "access-control", "permissions", "authorization", "roles", "multi-tenant", "security", "abac", "policies", "admin-dashboard", "api-authorization", "role-based"],
       "author": {
         "name": "Claude Skills Maintainers",
         "email": "maintainers@example.com"
@@ -2040,7 +2040,7 @@
     {
       "name": "skill-review",
       "source": "./skills/skill-review",
-      "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, progressive disclosure review, and issue categorization. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), third-person style, and multi-model testing. Auto-fixes straightforward issues; asks user only for architectural decisions or breaking changes. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and detailed remediation plans. Production-tested on better-auth v2.0.0 audit (6 critical issues found, 665 incorrect lines removed, 1,931 correct lines added). See references/audit-methodology.md for complete methodolog",
+      "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology.",
       "version": "1.4.0",
       "category": "tooling",
       "keywords": [],

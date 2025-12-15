@@ -6,10 +6,10 @@
 
 ---
 
-### App Router Complete Example
+## App Router Complete Example
 
 **Directory Structure:**
-```
+```text
 app/
 ├── api/
 │   └── chat/

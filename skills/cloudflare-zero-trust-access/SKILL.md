@@ -279,10 +279,10 @@ cloudflareAccess({ domain: 'my-team.cloudflareaccess.com' })
 | Package | Version |
 |---------|---------|
 | @hono/cloudflare-access | 0.3.1 |
-| hono | 4.10.3 |
-| @cloudflare/workers-types | 4.20251014.0 |
+| hono | 4.10.7 |
+| @cloudflare/workers-types | 4.20251126.0 |
 
-**Verified**: 2025-10-28 | **Token Savings**: ~58% | **Production Tested**: ✅
+**Verified**: 2025-12-14 | **Token Savings**: ~58% | **Production Tested**: ✅
 
 ---
 
