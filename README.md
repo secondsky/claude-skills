@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
 **Production-ready skills for Claude Code CLI**
-**Last Updated**: 2025-11-20
-**Total Skills**: 114 (100% Baseline Audit Pass)
+**Last Updated**: 2025-12-15
+**Total Skills**: 169 (100% Baseline Audit Pass)
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, React, Tailwind, and AI integrations.
 
@@ -12,26 +12,53 @@ A curated collection of battle-tested skills for building modern web application
 
 ---
 
-## 🎉 v2.5.0 Release - Comprehensive Audit & Expansion (2025-11-20)
+## 🎉 v2.6.0 Release - Major Expansion & Optimization (2025-12-15)
 
-**114 Production Skills** | **100% Audit Pass Rate** | **37 Tooling & Development Skills**
+**169 Production Skills** | **55 New Skills Added** | **12 Skills Optimized (38-64% smaller)**
 
 ### 🆕 What's New
 
-**Comprehensive Baseline Audit Completed (2025-11-20):**
-- ✅ **114/114 skills passed** automated validation
-- ✅ **0 Critical/High/Medium issues** detected
-- ✅ **100% YAML compliance** across all skills
-- ✅ **24 additional skills** discovered and documented
-- 📊 **Full audit report**: `planning/COMPREHENSIVE_REVIEW_SUMMARY.md`
+**Marketplace Expansion (2025-12-15):**
+- ✅ **169 total skills** (up from 114, +48%)
+- ✅ **55 new skills** added with full metadata
+- ✅ **12 skills optimized** with 38-64% size reductions
+- ✅ **Security fixes** for cloudflare-sandbox and import errors
+- 📊 **Full changelog**: See [CHANGELOG.md](CHANGELOG.md)
 
-**Major Skill Categories Expanded:**
-- **37 Tooling & Development Skills** (testing, debugging, code quality, architecture)
-- **19 AI & Machine Learning Skills** (OpenAI, Gemini, Claude, chatbots)
-- **23 Cloudflare Platform Skills** (Workers, D1, R2, KV, AI)
-- **25 Frontend & UI Skills** (Tailwind v4, Nuxt 4, React, Vue)
+**Skill Optimizations (Progressive Disclosure):**
+| Skill | Reduction |
+|-------|-----------|
+| nextjs | -62% (1,265 → 482 lines) |
+| vercel-kv | -64% (656 → 233 lines) |
+| zustand-state-management | -60% (810 → 325 lines) |
+| firecrawl-scraper | -60% (689 → 274 lines) |
+| drizzle-orm-d1 | -58% (632 → 264 lines) |
+| cloudflare-workers-ai | -54% (629 → 290 lines) |
 
-**New Skills Added Since v2.0.0 (24 total):**
+**New in skill-review v1.4.0:**
+- Mandatory Resource Inventory phase (Phase 0)
+- Improved description length validation (1,024-char limit)
+
+**Infrastructure:**
+- 🚀 **Bun is now the standard** - Preferred runtime and package manager
+- 📦 **Full marketplace** - All 169 skills with proper manifests
+- 🔧 **MCP orchestration** - Dynamic discovery prevents context bloat
+- ✨ **Enhanced metadata** - Categories and keywords for discoverability
+
+---
+
+<details>
+<summary>📦 v2.5.0 Release Notes (2025-11-20)</summary>
+
+**114 Production Skills** | **100% Audit Pass Rate** | **37 Tooling & Development Skills**
+
+**Comprehensive Baseline Audit Completed:**
+- ✅ 114/114 skills passed automated validation
+- ✅ 0 Critical/High/Medium issues detected
+- ✅ 100% YAML compliance across all skills
+- ✅ 24 additional skills discovered and documented
+
+**Skills Added in v2.5.0 (24 total):**
 - **Testing**: jest-generator, playwright-testing, vitest-testing, mutation-testing, test-quality-analysis, api-testing
 - **Architecture**: api-design-principles, architecture-patterns, microservices-patterns
 - **Debugging**: systematic-debugging, root-cause-tracing, sequential-thinking, defense-in-depth-validation
@@ -39,12 +66,7 @@ A curated collection of battle-tested skills for building modern web application
 - **WooCommerce**: woocommerce-backend-dev, woocommerce-code-review, woocommerce-copy-guidelines, woocommerce-dev-cycle
 - **Tools**: chrome-devtools, claude-hook-writer, mcp-management, turborepo
 
-**Infrastructure:**
-- 🚀 **Bun is now the standard** - Preferred runtime and package manager across all skills
-- 📦 **Marketplace ready** - All 114 skills have proper manifests
-- 🔧 **MCP orchestration** - Dynamic discovery system prevents context bloat
-- ✨ **Enhanced metadata** - Comprehensive keywords for better discoverability
-- 🔍 **Automated auditing** - New baseline-audit-all.sh script for continuous quality
+</details>
 
 ---
 
@@ -63,7 +85,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install tailwind-v4-shadcn@claude-pro-skills openai-agents@claude-pro-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 114 available skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 169 available skills.
 
 ### Option B: Direct Installation (For Contributors & Development)
 
@@ -87,11 +109,11 @@ Skills will be available in Claude Code and automatically suggested when relevan
 
 ---
 
-## 📦 Available Skills (114 Production-Ready)
+## 📦 Available Skills (169 Production-Ready)
 
-**📋 Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for the complete organized list of all 114 skills by category.
+**📋 Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for the complete organized list of all 169 skills by category.
 
-**🔍 Audit Status**: All 114 skills passed baseline automated validation (2025-11-20) with 100% compliance.
+**🔍 Audit Status**: All 169 skills validated (2025-12-15) with proper YAML frontmatter and metadata.
 
 **Below**: Featured skills with detailed descriptions and trigger keywords.
 
