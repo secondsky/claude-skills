@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-turnstile",
   "description": "This skill provides comprehensive knowledge for implementing Cloudflare Turnstile, the CAPTCHA-alternative bot protection system. It should be used when integrating bot protection into forms, login pages, signup flows, or any user-facing feature requiring spam/bot prevention. Turnstile runs invisible challenges in the background, maintaining excellent user experience while blocking automated traffic. Use when: Adding bot protection to forms, implementing login security, protecting API endpoints ",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

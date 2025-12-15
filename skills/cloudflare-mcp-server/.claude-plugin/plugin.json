@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-mcp-server",
-  "description": "Use this skill when building Model Context Protocol (MCP) servers on Cloudflare Workers. This skill should be used when deploying remote MCP servers with TypeScript, implementing OAuth authentication (GitHub, Google, Azure, etc.), using Durable Objects for stateful MCP servers, implementing WebSocket hibernation for cost optimization, or configuring dual transport methods (SSE + Streamable HTTP). The skill prevents 22+ common errors including URL path mismatches, transport configuration mistakes",
+  "description": "Build MCP (Model Context Protocol) servers on Cloudflare Workers with tools, resources, and prompts.",
   "version": "1.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -8,5 +8,5 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["MCP server","Model Context Protocol","cloudflare mcp","mcp workers","remote mcp server","mcp typescript","@modelcontextprotocol/sdk","mcp oauth","mcp authentication","github oauth mcp","durable objects mcp","websocket hibernation","mcp sse","streamable http","McpAgent class"]
+  "keywords": []
 }

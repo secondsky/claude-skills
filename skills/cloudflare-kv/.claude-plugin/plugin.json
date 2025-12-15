@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-kv",
   "description": "Complete knowledge domain for Cloudflare Workers KV - global, low-latency key-value storage on Cloudflares edge network. Use when: creating KV namespaces, storing configuration data, caching API responses, managing user preferences, implementing TTL expiration, handling KV metadata, or encountering KV_ERROR, 429 too many requests, kv rate limit, cacheTtl errors, or eventual consistency issues.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

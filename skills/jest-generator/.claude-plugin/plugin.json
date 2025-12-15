@@ -1,0 +1,12 @@
+{
+  "name": "jest-generator",
+  "description": "Generate Jest-based unit tests for JavaScript/TypeScript code. Creates test files following Jest conventions with proper mocking, describe blocks, and coverage. Use when generating tests for JS/TS modules, React components, or adding missing test coverage.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}

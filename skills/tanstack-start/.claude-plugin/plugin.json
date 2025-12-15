@@ -1,7 +1,7 @@
 {
   "name": "tanstack-start",
-  "description": "[⚠️ RC STATUS - MONITORING FOR v1.0 STABLE] Full-stack React framework built on TanStack Router with official Cloudflare Workers support. This skill will be published when v1.0 stable is released and critical issues are resolved. Use when: building full-stack React applications, need SSR with Cloudflare Workers, want type-safe server functions, or migrating from Next.js. Currently monitoring: GitHub #5734 (memory leak), needed-for-start-stable issues.",
-  "version": "1.0.0",
+  "description": "Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns.",
+  "version": "1.0.0-rc.1",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

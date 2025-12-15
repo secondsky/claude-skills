@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-d1",
   "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflares edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering D1_ERROR, statement too long, too many requests queued, migration failures, or query performance issues.",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

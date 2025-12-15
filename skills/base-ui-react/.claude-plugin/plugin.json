@@ -1,7 +1,7 @@
 {
   "name": "base-ui-react",
   "description": "Production-tested setup for Base UI (@base-ui-components/react) - MUIs unstyled component library that provides accessible, customizable React components using render props pattern. This skill should be used when building accessible UIs with full styling control, migrating from Radix UI, or needing components with Floating UI integration for smart positioning. Use when: Setting up Base UI in Vite + React projects, migrating from Radix UI to Base UI, implementing accessible components (Dialog, Se",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

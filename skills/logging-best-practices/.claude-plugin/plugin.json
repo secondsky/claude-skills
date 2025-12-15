@@ -1,0 +1,12 @@
+{
+  "name": "logging-best-practices",
+  "description": "Implements structured logging with proper levels, contextual information, PII handling, and centralized aggregation. Use when setting up application logging, integrating with log management systems, or implementing distributed tracing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}

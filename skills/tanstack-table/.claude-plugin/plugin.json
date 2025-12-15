@@ -1,25 +1,12 @@
 {
   "name": "tanstack-table",
   "description": "Build production-ready data tables with headless TanStack Table v8. This skill provides server-side pagination, filtering, and sorting patterns optimized for Cloudflare Workers + D1 databases. Use when: building data tables with large datasets, implementing server-side table features, integrating with TanStack Query for data fetching, or need virtualization for performance. Includes 6+ documented error solutions and Cloudflare D1 integration examples. Prevents common issues: server-side state ma",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": [
-    "tanstack-table",
-    "react-table",
-    "data-table",
-    "datagrid",
-    "server-side-pagination",
-    "server-side-filtering",
-    "server-side-sorting",
-    "tanstack-query",
-    "cloudflare-d1",
-    "virtualization",
-    "large-datasets",
-    "table-state-management"
-  ]
+  "keywords": []
 }

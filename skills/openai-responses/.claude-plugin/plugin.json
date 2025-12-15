@@ -1,7 +1,7 @@
 {
   "name": "openai-responses",
   "description": "This skill provides comprehensive knowledge for working with OpenAIs Responses API, the unified stateful API for building agentic applications. It should be used when building AI agents that preserve reasoning across turns, integrating MCP servers for external tools, using built-in tools (Code Interpreter, File Search, Web Search, Image Generation), managing stateful conversations, implementing background processing, or migrating from Chat Completions API. Use when building agentic workflows, co",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

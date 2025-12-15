@@ -1,12 +1,12 @@
 {
   "name": "hugo",
-  "description": "A brief description for SEO",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for building static websites with Hugo static site generator. It should be used when setting up Hugo projects (blogs, documentation sites, landing pages, portfolios), integrating Tailwind CSS v4 for custom styling, integrating headless CMS systems (Sveltia CMS or TinaCMS), deploying to Cloudflare Workers with Static Assets, configuring themes and templates, and preventing common Hugo setup errors. Use this skill when encountering these scenarios: scaff",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": ["hugo","hugo-extended","static-site-generator","ssg","go-templates","papermod","goldmark","markdown","blog","documentation","docs-site","landing-page","sveltia-cms","tina-cms","headless-cms"]
 }

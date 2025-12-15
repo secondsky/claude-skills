@@ -53,6 +53,26 @@ for skill_dir in "$SKILLS_DIR"/*; do
   # Look for YAML frontmatter between --- markers
   description=""
   keywords=""
+  version=""
+
+  # Extract version from metadata.version field (e.g., metadata:\n  version: "2.0.0")
+  version=$(awk '
+    /^metadata:/{in_meta=1; next}
+    /^[a-z-]+:/ && !/^  /{in_meta=0}
+    in_meta && /^  version:/ {
+      gsub(/^  version: */, "")
+      gsub(/^ *"/, "")
+      gsub(/" *$/, "")
+      gsub(/'"'"'/, "")
+      print
+      exit
+    }
+  ' "$skill_md")
+
+  # Default to 1.0.0 if no version found
+  if [ -z "$version" ]; then
+    version="1.0.0"
+  fi
 
   # Extract description (handle single-line, multi-line with |, and multi-line with >)
   # First try single-line format
@@ -108,7 +128,7 @@ for skill_dir in "$SKILLS_DIR"/*; do
 {
   "name": "$skill_name",
   "description": "$description",
-  "version": "1.0.0",
+  "version": "$version",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

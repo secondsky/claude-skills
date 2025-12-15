@@ -1,7 +1,7 @@
 {
   "name": "ai-elements-chatbot",
   "description": "This skill provides production-ready AI chat UI components built on shadcn/ui for conversational AI interfaces. Use when building ChatGPT-style chat interfaces with streaming responses, tool/function call displays, reasoning visualization, or source citations. Provides 30+ components including Message, Conversation, Response, CodeBlock, Reasoning, Tool, Actions, Sources optimized for Vercel AI SDK v5. Prevents common setup errors with Next.js App Router, Tailwind v4, shadcn/ui integration, AI SD",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

@@ -1,0 +1,12 @@
+{
+  "name": "api-authentication",
+  "description": "Implements secure API authentication using JWT, OAuth 2.0, and API keys with proper token management and security headers. Use when building authentication systems, integrating third-party providers, or securing service-to-service communication.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}

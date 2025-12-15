@@ -1,12 +1,12 @@
 {
   "name": "skill-review",
-  "description": "Comprehensive deep-dive documentation review process for claude-skills repository. Use this skill when investigating suspected issues in a skill, major package version updates detected (e.g., better-auth 1.x → 2.x), skill last verified >3 months ago, before marketplace submission, or when examples seem outdated. Performs systematic 9-phase audit: pre-review setup, standards compliance, official docs verification (Context7/WebFetch), code examples audit, cross-file consistency, dependency versi",
-  "version": "1.0.0",
+  "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKIL",
+  "version": "1.4.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["skill review","skill audit","documentation review","version check","api verification","package updates","skill maintenance","quality assurance","standards compliance","breaking changes","github verification","official docs check","context7 verification","skill-review","audit-skill"]
+  "keywords": []
 }

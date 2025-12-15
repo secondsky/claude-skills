@@ -1,7 +1,7 @@
 {
   "name": "elevenlabs-agents",
   "description": "Use this skill when building AI voice agents with the ElevenLabs Agents Platform. This skill covers the complete platform including agent configuration (system prompts, turn-taking, workflows), voice & language features (multi-voice, pronunciation, speed control), knowledge base (RAG), tools (client/server/MCP/system), SDKs (React, JavaScript, React Native, Swift, Widget), Scribe (real-time STT), WebRTC/WebSocket connections, testing & evaluation, analytics, privacy/compliance (GDPR/HIPAA/SOC 2)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

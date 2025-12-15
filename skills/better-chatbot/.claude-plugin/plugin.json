@@ -1,7 +1,7 @@
 {
   "name": "better-chatbot",
   "description": "This skill provides project-specific coding conventions, architectural principles, repository structure standards, testing patterns, and contribution guidelines for the better-chatbot project (https://github.com/cgoinglove/better-chatbot). Use this skill when contributing to or working with better-chatbot to understand the design philosophy and ensure code follows established patterns. Includes: API architecture deep-dive, three-tier tool system (MCP/Workflow/Default), component design patterns,",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

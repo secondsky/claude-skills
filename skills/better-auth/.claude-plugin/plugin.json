@@ -1,7 +1,7 @@
 {
   "name": "better-auth",
   "description": "Production-ready authentication framework for TypeScript with Cloudflare D1 support via Drizzle ORM or Kysely. Use this skill when building auth systems as a self-hosted alternative to Clerk or Auth.js, particularly for Cloudflare Workers projects. CRITICAL: better-auth requires Drizzle ORM or Kysely as database adapters - there is NO direct D1 adapter. Supports social providers (Google, GitHub, Microsoft, Apple), email/password, magic links, 2FA, passkeys, organizations, and RBAC. Prevents 12+ ",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

@@ -1,0 +1,12 @@
+{
+  "name": "database-sharding",
+  "description": "Implements horizontal data partitioning across multiple database servers using range, hash, or directory-based sharding. Use when scaling beyond single-server capacity, optimizing geographic distribution, or implementing multi-tenant isolation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}

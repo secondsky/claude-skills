@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-full-stack-scaffold",
   "description": "Production-ready starter project for React + Cloudflare Workers + Hono with core services (D1, KV, R2, Workers AI) and optional advanced features (Clerk Auth, AI Chat, Queues, Vectorize). Complete with planning docs, session handoff protocol, and enable scripts for opt-in features. Use when: starting new full-stack project, creating Cloudflare app, scaffolding web app, AI-powered application, chat interface, RAG application, need complete starter, avoid setup time, production-ready template, ful",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

@@ -1,0 +1,12 @@
+{
+  "name": "model-deployment",
+  "description": "Deploys ML models to production using REST APIs, containers, and model serving platforms with proper monitoring. Use when serving predictions via API, containerizing models, or implementing model versioning in production.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": []
+}
