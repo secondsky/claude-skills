@@ -258,6 +258,26 @@ chat({ tools: [fetchUser, highlightUser] })
 
 ---
 
+## When to Load References
+
+Load reference files for specific implementation scenarios:
+
+- **Adapter Comparison**: Load `references/adapter-matrix.md` when choosing between OpenAI, Anthropic, Gemini, or Ollama adapters, or when debugging provider-specific quirks.
+
+- **React Integration Details**: Load `references/react-integration.md` when implementing useChat hooks, handling SSE streams in React components, or managing client-side tool state.
+
+- **Routing Setup**: Load `references/start-vs-next-routing.md` when setting up API routes in Next.js vs TanStack Start, or troubleshooting streaming response setup.
+
+- **Streaming Issues**: Load `references/streaming-troubleshooting.md` when debugging SSE connection problems, chunk delivery issues, or HTTP streaming configuration.
+
+- **Quick Reference**: Load `references/tanstack-ai-cheatsheet.md` for condensed API patterns, tool definition syntax, or rapid troubleshooting cues.
+
+- **Tool Architecture**: Load `references/tool-patterns.md` when implementing complex client/server tool workflows, approval flows, or hybrid tool patterns.
+
+- **Type Safety Details**: Load `references/type-safety.md` when working with per-model option typing, multimodal inputs, or debugging type errors across adapters.
+
+---
+
 ## Advanced Topics
 
 ### Per-model type safety

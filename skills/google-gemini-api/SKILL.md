@@ -33,6 +33,8 @@ license: MIT
 
 **If you see code using `@google/generative-ai`, it's outdated!**
 
+**Load `references/sdk-migration-guide.md` for complete migration steps.**
+
 ---
 
 ## Quick Start
@@ -76,28 +78,35 @@ console.log(response.text);
 
 ## Current Models (2025)
 
-### gemini-2.5-pro
-- **Best for**: Complex reasoning, code generation, long-form content
+### gemini-2.5-flash ⭐ RECOMMENDED
+
+- **Best for**: General-purpose AI, high-volume production, agentic workflows
 - **Input tokens**: 1,048,576 (1M, NOT 2M!)
+- **Output tokens**: 65,536
+- **Rate limit (free)**: 10 RPM, 250k TPM
+- **Cost**: Input $0.075/1M tokens, Output $0.30/1M tokens
+- **Features**: Thinking mode, function calling, multimodal, streaming
+
+### gemini-2.5-pro
+
+- **Best for**: Complex reasoning, code generation, math/STEM
+- **Input tokens**: 1,048,576
 - **Output tokens**: 65,536
 - **Rate limit (free)**: 5 RPM, 125k TPM
 - **Cost**: Input $1.25/1M tokens, Output $5/1M tokens
 
-### gemini-2.5-flash  
-- **Best for**: Fast responses, general tasks
-- **Input tokens**: 1,048,576
-- **Output tokens**: 65,536
-- **Rate limit (free)**: 10 RPM, 250k TPM
-- **Cost**: Input $0.075/1M tokens, Output $0.30/1M tokens
-
 ### gemini-2.5-flash-lite
-- **Best for**: High-volume, low-latency tasks
+
+- **Best for**: High-volume, low-latency, cost-critical tasks
 - **Input tokens**: 1,048,576
 - **Output tokens**: 65,536
 - **Rate limit (free)**: 15 RPM, 250k TPM
 - **Cost**: Input $0.01/1M tokens, Output $0.04/1M tokens
+- **⚠️ Limitation**: NO function calling or code execution support
 
 **⚠️ Common mistake**: Claiming Gemini 2.5 has 2M tokens. **It doesn't. It's 1,048,576 (1M).**
+
+**Load `references/models-guide.md` for detailed model comparison and selection criteria.**
 
 ---
 
@@ -130,6 +139,8 @@ const response = await ai.models.generateContent({
 });
 ```
 
+**Load `references/generation-config.md` for complete parameter reference and tuning guidance.**
+
 ---
 
 ## Streaming
@@ -144,6 +155,8 @@ for await (const chunk of stream) {
   process.stdout.write(chunk.text);
 }
 ```
+
+**Load `references/streaming-patterns.md` for Fetch/SSE implementation patterns (Cloudflare Workers).**
 
 ---
 
@@ -168,62 +181,20 @@ const response = await ai.models.generateContent({
 });
 ```
 
-### Video
+### Video, Audio, PDFs
 
-```typescript
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  contents: [
-    { text: 'Describe this video' },
-    {
-      inlineData: {
-        mimeType: 'video/mp4',
-        data: base64VideoData
-      }
-    }
-  ]
-});
-```
+Same pattern - use appropriate `mimeType`:
+- **Video**: `video/mp4`, `video/mpeg`, `video/mov`
+- **Audio**: `audio/wav`, `audio/mp3`, `audio/flac`
+- **PDFs**: `application/pdf`
 
-### Audio
-
-```typescript
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  contents: [
-    { text: 'Transcribe this audio' },
-    {
-      inlineData: {
-        mimeType: 'audio/wav',  // or audio/mp3
-        data: base64AudioData
-      }
-    }
-  ]
-});
-```
-
-### PDFs
-
-```typescript
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  contents: [
-    { text: 'Summarize this PDF' },
-    {
-      inlineData: {
-        mimeType: 'application/pdf',
-        data: base64PdfData
-      }
-    }
-  ]
-});
-```
+**Load `references/multimodal-guide.md` for format specifications, size limits, and best practices.**
 
 ---
 
 ## Function Calling
 
-### Basic Function Calling
+### Basic Pattern
 
 ```typescript
 const response = await ai.models.generateContent({
@@ -249,7 +220,7 @@ const response = await ai.models.generateContent({
 const call = response.functionCalls?.[0];
 if (call) {
   const result = await getWeather(call.args);
-  
+
   // Send result back to model
   const final = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
@@ -263,14 +234,14 @@ if (call) {
       }
     ]
   });
-  
+
   console.log(final.text);
 }
 ```
 
 ### Parallel Function Calling
 
-Gemini can call multiple functions in a single response:
+Gemini can call multiple functions simultaneously:
 
 ```typescript
 const response = await ai.models.generateContent({
@@ -281,7 +252,7 @@ const response = await ai.models.generateContent({
 
 // Process all function calls in parallel
 const results = await Promise.all(
-  response.functionCalls.map(call => 
+  response.functionCalls.map(call =>
     getWeather(call.args).then(result => ({
       name: call.name,
       response: result
@@ -299,6 +270,8 @@ const final = await ai.models.generateContent({
 });
 ```
 
+**Load `references/function-calling-patterns.md` for calling modes (AUTO/ANY/NONE) and compositional patterns.**
+
 ---
 
 ## Multi-turn Chat
@@ -306,7 +279,7 @@ const final = await ai.models.generateContent({
 ```typescript
 const chat = ai.models.startChat({
   model: 'gemini-2.5-flash',
-  systemInstruction: 'You are a helpful assistant specializing in programming',
+  systemInstruction: 'You are a helpful programming assistant',
   history: []
 });
 
@@ -319,24 +292,6 @@ console.log(response.text);
 // Get full history
 console.log(chat.getHistory());
 ```
-
----
-
-## Thinking Mode
-
-For complex reasoning tasks:
-
-```typescript
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash-thinking',  // Note: -thinking suffix
-  contents: 'Solve this math problem: If x + 2y = 10 and 3x - y = 4, what is x?'
-});
-
-console.log('Thinking process:', response.thinkingContent);
-console.log('Final answer:', response.text);
-```
-
-**Use for**: Complex math, logic puzzles, multi-step reasoning, code debugging
 
 ---
 
@@ -354,71 +309,25 @@ const response = await ai.models.generateContent({
 
 ---
 
-## Context Caching (Cost Optimization)
+## Thinking Mode
 
-Cache large inputs to reduce costs on repeated use:
-
-```typescript
-// Create cache (lasts for TTL period)
-const cache = await ai.caches.create({
-  model: 'gemini-2.5-flash',
-  contents: largeDocument,  // Your large static content
-  ttl: '300s'  // Cache for 5 minutes
-});
-
-// Use cached content (cheaper!)
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  cachedContent: cache.name,
-  contents: 'What does the document say about X?'
-});
-
-// Later, with same cache
-const response2 = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  cachedContent: cache.name,  // Reuse cache!
-  contents: 'What about Y?'
-});
-```
-
-**Cost Savings**: Cached tokens cost 1/4 of regular input tokens
-
----
-
-## Code Execution
-
-Built-in Python interpreter for running code:
+Gemini 2.5 models include built-in thinking mode (always enabled). Configure thinking budget for complex tasks:
 
 ```typescript
 const response = await ai.models.generateContent({
   model: 'gemini-2.5-flash',
-  contents: 'Calculate the first 10 Fibonacci numbers',
-  tools: [{ codeExecution: {} }]
+  contents: 'Solve this math problem: If x + 2y = 10 and 3x - y = 4, what is x?',
+  generationConfig: {
+    thinkingConfig: {
+      thinkingBudget: 8192  // Max tokens for internal reasoning
+    }
+  }
 });
-
-// Model generates and executes Python code
-console.log(response.text);
 ```
 
-**Use for**: Data analysis, calculations, chart generation, file processing
+**Use for**: Complex math, logic puzzles, multi-step reasoning, code debugging
 
----
-
-## Grounding with Google Search
-
-Get real-time information from Google Search:
-
-```typescript
-const response = await ai.models.generateContent({
-  model: 'gemini-2.5-flash',
-  contents: 'What are the latest AI developments in 2025?',
-  tools: [{ googleSearchRetrieval: {} }]
-});
-
-// Response includes search results and citations
-console.log(response.text);
-console.log('Sources:', response.groundingMetadata);
-```
+**Load `references/thinking-mode-guide.md` for thinking budget optimization.**
 
 ---
 
@@ -469,6 +378,8 @@ export GEMINI_API_KEY="your-key"
 
 **Solution**: Input limit is **1,048,576 tokens (1M, NOT 2M)**. Use context caching for large inputs.
 
+**Load `references/context-caching-guide.md` for caching implementation.**
+
 ---
 
 ### Error 5: Rate Limit Exceeded (429)
@@ -496,51 +407,32 @@ async function generateWithRetry(request, maxRetries = 3) {
 
 ---
 
-**See All 7 Errors**: `references/error-catalog.md`
+**See All 22 Errors**: Load `references/error-catalog.md` for complete error catalog with solutions.
+
+**Quick Debugging**: Load `references/top-errors.md` for debugging checklist.
 
 ---
 
-## SDK Migration Guide
+## When to Load References
 
-### From @google/generative-ai to @google/genai
+Load reference files when you need detailed guidance on specific features:
 
-```bash
-# Remove deprecated SDK
-npm uninstall @google/generative-ai
+### Core Features (Load When Needed)
+- **SDK Migration**: Load `references/sdk-migration-guide.md` when migrating from `@google/generative-ai`
+- **Model Selection**: Load `references/models-guide.md` when choosing between Pro/Flash/Flash-Lite
+- **Error Debugging**: Load `references/error-catalog.md` or `references/top-errors.md` when encountering errors
 
-# Install current SDK
-bun add @google/genai@1.27.0
-```
+### Advanced Features (Load When Implementing)
+- **Context Caching**: Load `references/context-caching-guide.md` when implementing cost optimization for large/repeated inputs
+- **Code Execution**: Load `references/code-execution-patterns.md` when enabling Python code execution for calculations/analysis
+- **Grounding (Google Search)**: Load `references/grounding-guide.md` when connecting model to real-time web information
+- **Streaming Implementation**: Load `references/streaming-patterns.md` when implementing SSE parsing for Cloudflare Workers
+- **Function Calling Modes**: Load `references/function-calling-patterns.md` when using AUTO/ANY/NONE modes or compositional patterns
+- **Multimodal Formats**: Load `references/multimodal-guide.md` when working with images/video/audio/PDFs (format specs, size limits)
+- **Generation Tuning**: Load `references/generation-config.md` when fine-tuning temperature/topP/topK parameters
+- **Thinking Mode Config**: Load `references/thinking-mode-guide.md` when optimizing thinking budget for complex reasoning
 
-```typescript
-// ❌ Old SDK (DEPRECATED)
-import { GoogleGenerativeAI } from '@google/generative-ai';
-const genAI = new GoogleGenerativeAI(apiKey);
-
-// ✅ New SDK (CURRENT)
-import { GoogleGenAI } from '@google/genai';
-const ai = new GoogleGenAI({ apiKey });
-```
-
----
-
-## Rate Limits
-
-### Free Tier
-
-**Gemini 2.5 Flash** (recommended for development):
-- Requests per minute: 10 RPM
-- Tokens per minute: 250,000 TPM
-- Requests per day: 250 RPD
-
-### Paid Tier 1
-
-**Gemini 2.5 Flash**:
-- Requests per minute: 1,000 RPM
-- Tokens per minute: 1,000,000 TPM
-- Requests per day: 10,000 RPD
-
-**Tip**: Implement rate limiting and exponential backoff for production apps
+**General Rule**: SKILL.md provides Quick Start and Top Errors. Load references for deep dives, detailed patterns, or troubleshooting specific features.
 
 ---
 
@@ -551,6 +443,17 @@ const ai = new GoogleGenAI({ apiKey });
 
 **References** (`references/`):
 - `error-catalog.md` - All 7 documented errors with solutions (231 lines)
+- `top-errors.md` - Quick debugging checklist for 22 common errors (305 lines)
+- `sdk-migration-guide.md` - Complete migration from deprecated SDK (236 lines)
+- `models-guide.md` - Detailed model comparison and selection guide (247 lines)
+- `context-caching-guide.md` - Cost optimization with caching (374 lines)
+- `code-execution-patterns.md` - Python code execution guide (482 lines)
+- `grounding-guide.md` - Google Search integration (603 lines)
+- `streaming-patterns.md` - SSE implementation for Cloudflare Workers (82 lines)
+- `function-calling-patterns.md` - Advanced function calling patterns (60 lines)
+- `multimodal-guide.md` - Format specifications and limits (59 lines)
+- `generation-config.md` - Parameter tuning reference (58 lines)
+- `thinking-mode-guide.md` - Thinking budget optimization (60 lines)
 
 ---
 

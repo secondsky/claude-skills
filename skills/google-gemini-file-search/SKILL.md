@@ -24,7 +24,7 @@ metadata:
 
 # Google Gemini File Search
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-18
+**Status**: Production Ready | **Last Verified**: 2025-11-18
 
 ---
 
@@ -44,15 +44,11 @@ Google Gemini File Search is **fully managed RAG** (Retrieval-Augmented Generati
 
 ---
 
-## Quick Start (10 Minutes)
+## Quick Start (5 Minutes)
 
-### 1. Get API Key
+### 1. Get API Key & Install
 
-https://aistudio.google.com/apikey
-
-**Free tier:** 1 GB storage, 1,500 requests/day
-
-### 2. Install SDK
+Get API key: https://aistudio.google.com/apikey (Free tier: 1 GB storage, 1,500 requests/day)
 
 ```bash
 bun add @google/genai
@@ -60,18 +56,14 @@ bun add @google/genai
 
 **Version:** 0.21.0+ | **Node.js:** 18+
 
-### 3. Initialize Client
+### 2. Basic Example
 
 ```typescript
 import { GoogleGenerativeAI } from '@google/genai';
 import fs from 'fs';
 
 const ai = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-```
 
-### 4. Create Store + Upload Document
-
-```typescript
 // Create store
 const fileStore = await ai.fileSearchStores.create({
   config: { displayName: 'my-knowledge-base' }
@@ -98,12 +90,7 @@ while (!operation.done) {
   operation = await ai.operations.get({ name: operation.name });
 }
 
-console.log('✅ Indexed:', operation.response.displayName);
-```
-
-### 5. Query Documents
-
-```typescript
+// Query documents
 const model = ai.getGenerativeModel({
   model: 'gemini-2.5-pro',  // Only 2.5 Pro/Flash supported
   tools: [{
@@ -114,7 +101,6 @@ const model = ai.getGenerativeModel({
 });
 
 const result = await model.generateContent('How do I install the product?');
-
 console.log(result.response.text());
 
 // Get citations
@@ -124,13 +110,13 @@ if (grounding) {
 }
 ```
 
-**Load `references/setup-guide.md` for complete walkthrough.**
+**Load `references/setup-guide.md` for complete walkthrough with batch uploads, error handling, and production checklist.**
 
 ---
 
 ## Critical Rules
 
-### Always Do ✅
+### Always Do
 
 1. **Use delete + re-upload** for updates (documents are immutable)
 2. **Calculate 3x storage** (embeddings + metadata = ~3x file size)
@@ -141,7 +127,7 @@ if (grounding) {
 7. **Keep metadata under 20 fields** per document
 8. **Estimate indexing costs** ($0.15/1M tokens one-time)
 
-### Never Do ❌
+### Never Do
 
 1. **Never try to update** documents (no PATCH API exists)
 2. **Never assume storage = file size** (it's 3x)
@@ -154,7 +140,7 @@ if (grounding) {
 
 ---
 
-## Top 5 Errors Prevented
+## Top 3 Errors Prevented
 
 ### Error 1: Document Immutability
 
@@ -198,50 +184,7 @@ if (estimatedStorage > 1e9) {
 }
 ```
 
-### Error 3: Incorrect Chunking
-
-**Problem:** Poor retrieval quality
-
-**Solution:** Configure chunking for content type
-
-```typescript
-chunkingConfig: {
-  whiteSpaceConfig: {
-    maxTokensPerChunk: 500,  // Technical docs
-    maxOverlapTokens: 50     // 10% overlap
-  }
-}
-
-// Guidelines:
-// - Technical docs: 500 tokens, 50 overlap
-// - Prose: 800 tokens, 80 overlap
-// - Legal: 300 tokens, 30 overlap
-```
-
-### Error 4: Operation Polling Timeout
-
-**Problem:** Upload hangs indefinitely
-
-**Solution:** Poll with timeout
-
-```typescript
-async function pollOperation(ai, operationName, timeoutMs = 300000) {
-  const startTime = Date.now();
-  let operation = await ai.operations.get({ name: operationName });
-
-  while (!operation.done) {
-    if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Timeout after ${timeoutMs}ms`);
-    }
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    operation = await ai.operations.get({ name: operationName });
-  }
-
-  return operation;
-}
-```
-
-### Error 5: Model Compatibility
+### Error 3: Model Compatibility
 
 **Problem:** Using wrong model version
 
@@ -261,7 +204,7 @@ const model = ai.getGenerativeModel({
 });
 ```
 
-**Load `references/error-catalog.md` for all 8 errors with detailed solutions.**
+**Load `references/error-catalog.md` for all 8 errors with detailed solutions including chunking, operation polling, metadata limits, and force delete requirements.**
 
 ---
 
@@ -269,34 +212,26 @@ const model = ai.getGenerativeModel({
 
 ### Use File Search When:
 
-- ✅ Want fully managed RAG (no vector DB)
-- ✅ Cost predictability matters (one-time indexing)
-- ✅ Need 100+ file format support
-- ✅ Citations are important (built-in grounding)
-- ✅ Simple deployment is priority
-- ✅ Documents are relatively static
+- Want fully managed RAG (no vector DB)
+- Cost predictability matters (one-time indexing)
+- Need 100+ file format support
+- Citations are important (built-in grounding)
+- Simple deployment is priority
+- Documents are relatively static
 
-### Use Cloudflare Vectorize Instead When:
+### Use Alternatives When:
 
-- ✅ Global edge performance critical
-- ✅ Building on Cloudflare (Workers, R2, D1)
-- ✅ Need custom embedding models
-- ✅ Real-time updates from R2
-
-### Use OpenAI Files API Instead When:
-
-- ✅ Using OpenAI Assistants API
-- ✅ Need conversational threads
-- ✅ Very large file collections (10,000+)
+**Cloudflare Vectorize** - Global edge performance, custom embeddings, real-time R2 updates
+**OpenAI Files API** - Assistants API, conversational threads, very large collections (10,000+)
 
 ---
 
-## Common Use Cases
+## Common Patterns
 
-### Use Case 1: Customer Support Knowledge Base
+### Pattern 1: Customer Support Knowledge Base
 
 ```typescript
-// Upload support docs
+// Upload support docs with metadata
 await ai.fileSearchStores.uploadToFileSearchStore({
   name: fileStore.name,
   file: fs.createReadStream('troubleshooting.pdf'),
@@ -309,65 +244,12 @@ await ai.fileSearchStores.uploadToFileSearchStore({
     }
   }
 });
-
-// Query with filtering
-const result = await model.generateContent(
-  'How do I fix error code 404?'
-);
 ```
 
-### Use Case 2: Internal Documentation Search
-
-```typescript
-// Upload company docs
-const docFiles = [
-  'employee-handbook.pdf',
-  'policies.docx',
-  'procedures.md'
-];
-
-for (const file of docFiles) {
-  await ai.fileSearchStores.uploadToFileSearchStore({
-    name: fileStore.name,
-    file: fs.createReadStream(`./docs/${file}`),
-    config: {
-      displayName: file,
-      customMetadata: {
-        department: 'hr',
-        visibility: 'internal'
-      }
-    }
-  });
-}
-```
-
-### Use Case 3: Code Documentation Search
-
-```typescript
-await ai.fileSearchStores.uploadToFileSearchStore({
-  name: fileStore.name,
-  file: fs.createReadStream('api-reference.md'),
-  config: {
-    displayName: 'API Reference',
-    customMetadata: {
-      doc_type: 'technical',
-      api_version: 'v2.0'
-    },
-    chunkingConfig: {
-      whiteSpaceConfig: {
-        maxTokensPerChunk: 500,  // Smaller for code
-        maxOverlapTokens: 50
-      }
-    }
-  }
-});
-```
-
-### Use Case 4: Batch Document Upload
+### Pattern 2: Batch Document Upload
 
 ```typescript
 const files = ['doc1.pdf', 'doc2.md', 'doc3.docx'];
-
 const uploadPromises = files.map(file =>
   ai.fileSearchStores.uploadToFileSearchStore({
     name: fileStore.name,
@@ -375,7 +257,6 @@ const uploadPromises = files.map(file =>
     config: { displayName: file }
   })
 );
-
 const operations = await Promise.all(uploadPromises);
 
 // Poll all operations
@@ -389,7 +270,7 @@ for (const op of operations) {
 }
 ```
 
-### Use Case 5: Document Update Flow
+### Pattern 3: Document Update Flow
 
 ```typescript
 // 1. List existing documents
@@ -426,31 +307,25 @@ while (!operation.done) {
 }
 ```
 
+**Load `references/setup-guide.md` for additional patterns including code documentation search and internal knowledge bases.**
+
 ---
 
 ## When to Load References
 
 ### Load `references/setup-guide.md` when:
 - First-time File Search setup
-- Need step-by-step walkthrough
-- Configuring chunking strategies
-- Batch upload patterns
+- Need step-by-step walkthrough with all configuration options
+- Configuring batch upload strategies
 - Production deployment checklist
+- Complete API initialization patterns
 
 ### Load `references/error-catalog.md` when:
 - Encountering any of 8 common errors
-- Need detailed error solutions
+- Need detailed error solutions with code examples
 - Prevention checklist required
 - Troubleshooting upload/query issues
-
----
-
-## Using Bundled Resources
-
-### References (references/)
-
-- **setup-guide.md** - Complete setup walkthrough (API key → deployment)
-- **error-catalog.md** - All 8 errors with detailed solutions + prevention checklist
+- Understanding chunking, metadata, or cost calculation problems
 
 ---
 
@@ -461,53 +336,44 @@ while (!operation.done) {
 - **Text**: Markdown (.md), Plain text (.txt), JSON, CSV
 - **Code**: Python, JavaScript, TypeScript, Java, C++, Go, Rust, etc.
 
-**Not supported:**
-- Images in PDFs (text extraction only)
-- Audio files
-- Video files
+**Not supported:** Images in PDFs (text extraction only), Audio files, Video files
 
 ---
 
 ## Pricing
 
-**Indexing (one-time):**
-- $0.15 per 1M tokens
+**Indexing (one-time):** $0.15 per 1M tokens
+**Storage:** Free (10 GB - 1 TB depending on tier)
+**Query embeddings:** Free (retrieved context counts as input tokens)
 
-**Storage:**
-- Free (10 GB - 1 TB depending on tier)
+**Example:** 1,000-page document ≈ 500k tokens → Indexing cost: $0.075 → Storage: ~1.5 GB (3x multiplier)
 
-**Query embeddings:**
-- Free (retrieved context counts as input tokens)
+---
 
-**Example:**
-- 1,000-page document ≈ 500k tokens
-- Indexing cost: $0.075
-- Storage: ~1.5 GB (3x multiplier)
+## Chunking Guidelines
+
+**Technical docs:** 500 tokens/chunk, 50 overlap
+**Prose:** 800 tokens/chunk, 80 overlap
+**Legal:** 300 tokens/chunk, 30 overlap
+
+```typescript
+chunkingConfig: {
+  whiteSpaceConfig: {
+    maxTokensPerChunk: 500,  // Smaller = more precise
+    maxOverlapTokens: 50     // 10% overlap recommended
+  }
+}
+```
 
 ---
 
 ## Resources
 
 **References** (`references/`):
-- `error-catalog.md` - All 8 documented errors with solutions (includes chunking, metadata, cost issues)
-- `setup-guide.md` - Complete setup walkthrough with authentication, store creation, file upload, querying
+- `setup-guide.md` - Complete setup walkthrough (authentication, store creation, file upload, batch patterns, production checklist)
+- `error-catalog.md` - All 8 documented errors with solutions (immutability, storage, chunking, metadata, costs, polling, force delete, model compatibility)
 
-**Planned References** (documented in `references/README.md`):
-- `api-reference.md` - Complete API documentation (planned)
-- `chunking-best-practices.md` - Chunking strategies for different content types (planned)
-- `pricing-calculator.md` - Cost estimation and ROI comparison vs alternatives (planned)
-- `migration-from-openai.md` - Migration guide from OpenAI Files API (planned)
-
-**Templates** (`templates/`):
-- `basic-file-search.ts` - Complete example with store creation, file upload, and querying
-- `package.json` - Required dependencies
-
-**Note**: Current references cover essential topics (errors, setup, chunking basics, metadata limits, cost calculation). Planned references will provide deeper technical details for advanced use cases.
-
----
-
-## Official Documentation
-
+**Official Documentation**:
 - **File Search Overview**: https://ai.google.dev/api/file-search
 - **API Reference**: https://ai.google.dev/api/file-search/documents
 - **Blog Post**: https://blog.google/technology/developers/file-search-gemini-api/

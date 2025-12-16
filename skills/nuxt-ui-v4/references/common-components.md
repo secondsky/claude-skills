@@ -1,9 +1,11 @@
 # Common Components Reference
 
-## Top 40 Most Used Components
+## Top 43 Most Used Components
 
 ### Forms
 - **Input** - Text input fields
+- **InputDate** (v4.2+) - Date picker with calendar UI and range selection
+- **InputTime** (v4.2+) - Time picker with 12/24-hour format
 - **Select** - Dropdown selections
 - **Checkbox** - Boolean selections
 - **Radio** - Single choice from options
@@ -29,6 +31,7 @@
 - **Toast** - Notifications
 - **Skeleton** - Loading states
 - **Progress** - Progress indicators
+- **Empty** (v4.2+) - Empty state display with icon and actions
 
 ### Layout
 - **Card** - Content containers

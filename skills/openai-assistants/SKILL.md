@@ -63,7 +63,7 @@ metadata:
 
 ```bash
 bun add openai@6.7.0  # preferred
-# or: bun add openai@6.7.0
+# or: npm install openai@6.7.0
 ```
 
 ### 2. Environment Setup
@@ -129,6 +129,8 @@ if (run.status === 'completed') {
 ```
 Assistant (create once) + Thread (per conversation) + Message (add user input) → Run (execute) → Messages (get response)
 ```
+
+**Load `references/assistants-api-v2.md`** for complete architecture, objects, workflows, and pricing details.
 
 ---
 
@@ -282,207 +284,32 @@ const file = await openai.files.create({
 
 ---
 
-## Using Bundled Resources
-
-### References (references/)
-
-Detailed guides loaded when needed:
-
-- **`references/assistants-api-v2.md`** - Complete API reference
-  - All endpoints and parameters
-  - Request/response formats
-  - Rate limits and quotas
-  - **Load when**: User needs complete API details
-
-- **`references/code-interpreter-guide.md`** - Code Interpreter tool
-  - Supported file formats
-  - Execution environment
-  - File handling patterns
-  - Limitations and alternatives
-  - **Load when**: User implementing code execution
-
-- **`references/file-search-rag-guide.md`** - File Search and RAG
-  - Vector store setup
-  - File indexing process
-  - Search strategies
-  - Performance optimization
-  - **Load when**: User implementing document search
-
-- **`references/migration-from-v1.md`** - v1 to v2 migration
-  - Breaking changes
-  - API differences
-  - Migration steps
-  - **Load when**: User upgrading from v1
-
-- **`references/migration-to-responses.md`** - Future migration
-  - Responses API comparison
-  - Migration timeline
-  - Code examples
-  - Replacement strategies
-  - **Load when**: User planning deprecation migration
-
-- **`references/thread-lifecycle.md`** - Thread management
-  - Thread persistence
-  - Message management
-  - State handling
-  - Cleanup strategies
-  - **Load when**: User building multi-turn conversations
-
-- **`references/top-errors.md`** - All 15 documented errors
-  - Complete error messages
-  - Root causes
-  - Solutions with code
-  - Prevention strategies
-  - **Load when**: User debugging issues
-
-- **`references/vector-stores.md`** - Vector store deep dive
-  - Architecture
-  - File limits (10,000 files)
-  - Indexing process
-  - Search optimization
-  - Cost management
-  - **Load when**: User scaling file search
-
-### Templates (templates/)
-
-Production-ready code examples:
-
-- **`templates/basic-assistant.ts`** - Minimal assistant setup
-  - **Use when**: Getting started
-
-- **`templates/code-interpreter-assistant.ts`** - Code execution
-  - **Use when**: Need to run Python code
-
-- **`templates/file-search-assistant.ts`** - Document Q&A
-  - **Use when**: Building RAG application
-
-- **`templates/function-calling-assistant.ts`** - External tools
-  - **Use when**: Integrating APIs
-
-- **`templates/streaming-assistant.ts`** - Real-time responses
-  - **Use when**: Need streaming output
-
-- **`templates/thread-management.ts`** - Multi-turn conversations
-  - **Use when**: Building chatbot
-
-- **`templates/vector-store-setup.ts`** - Vector store configuration
-  - **Use when**: Setting up file search
-
-- **`templates/package.json`** - Dependencies
-  - **Use when**: Setting up project
-
----
-
 ## Common Use Cases
 
 ### Use Case 1: Simple Q&A Chatbot
-**Template**: `templates/basic-assistant.ts`
-**Time**: 10 minutes
-
+**Template**: `templates/basic-assistant.ts` | **Time**: 10 minutes
 ```typescript
-// Create assistant
 const assistant = await openai.beta.assistants.create({
   name: "Support Bot",
   instructions: "Answer customer questions professionally.",
   model: "gpt-4-1106-preview",
 })
-
 // Per conversation: create thread → add message → run → get response
 ```
 
-See `templates/basic-assistant.ts` for complete code.
-
 ### Use Case 2: Document Q&A with RAG
-**Template**: `templates/file-search-assistant.ts`
-**References**: `references/file-search-rag-guide.md`, `references/vector-stores.md`
-**Time**: 30 minutes
-
-```typescript
-// 1. Create vector store and upload files
-const vectorStore = await openai.beta.vectorStores.create({
-  name: "Company Docs",
-})
-
-await openai.beta.vectorStores.files.create(vectorStore.id, {
-  file_id: file.id,
-})
-
-// 2. Create assistant with file search
-const assistant = await openai.beta.assistants.create({
-  tools: [{ type: "file_search" }],
-  tool_resources: {
-    file_search: { vector_store_ids: [vectorStore.id] },
-  },
-})
-```
-
-See `templates/file-search-assistant.ts` and `references/file-search-rag-guide.md` for complete implementation.
+**Template**: `templates/file-search-assistant.ts` | **Time**: 30 minutes
+**References**: Load `references/file-search-rag-guide.md` and `references/vector-stores.md` for complete implementation.
 
 ### Use Case 3: Code Execution Assistant
-**Template**: `templates/code-interpreter-assistant.ts`
-**References**: `references/code-interpreter-guide.md`
-**Time**: 20 minutes
-
-```typescript
-const assistant = await openai.beta.assistants.create({
-  tools: [{ type: "code_interpreter" }],
-})
-
-// User can ask to analyze CSV, create charts, run calculations
-```
-
-⚠️ **Note**: Code Interpreter is sandboxed but not suitable for production. Use external execution (E2B, Modal) for production workloads.
-
-See `references/code-interpreter-guide.md` for alternatives.
+**Template**: `templates/code-interpreter-assistant.ts` | **Time**: 20 minutes
+**References**: Load `references/code-interpreter-guide.md` for setup, alternatives, and troubleshooting.
 
 ### Use Case 4: Function Calling Assistant
-**Template**: `templates/function-calling-assistant.ts`
-**Time**: 25 minutes
-
-```typescript
-const tools = [
-  {
-    type: "function",
-    function: {
-      name: "get_weather",
-      description: "Get current weather",
-      parameters: {
-        type: "object",
-        properties: {
-          location: { type: "string" },
-        },
-        required: ["location"],
-      },
-    },
-  },
-]
-
-const assistant = await openai.beta.assistants.create({
-  tools,
-})
-
-// Handle function calls in run lifecycle
-```
-
-See `templates/function-calling-assistant.ts` for complete pattern.
+**Template**: `templates/function-calling-assistant.ts` | **Time**: 25 minutes
 
 ### Use Case 5: Streaming Chatbot
-**Template**: `templates/streaming-assistant.ts`
-**Time**: 15 minutes
-
-```typescript
-const stream = openai.beta.threads.runs.stream(thread.id, {
-  assistant_id: assistant.id,
-})
-
-for await (const event of stream) {
-  if (event.event === 'thread.message.delta') {
-    process.stdout.write(event.data.delta.content[0].text.value)
-  }
-}
-```
-
-See `templates/streaming-assistant.ts` for complete streaming implementation.
+**Template**: `templates/streaming-assistant.ts` | **Time**: 15 minutes
 
 ---
 
@@ -490,51 +317,66 @@ See `templates/streaming-assistant.ts` for complete streaming implementation.
 
 **Load `references/assistants-api-v2.md` when:**
 - User needs complete API reference
-- User asks about specific endpoints
-- User needs rate limit information
-- User wants all parameters documented
+- User asks about specific endpoints or parameters
+- User needs rate limit information or quotas
+- User wants architecture details
 
 **Load `references/code-interpreter-guide.md` when:**
 - User implementing code execution
-- User asks about supported file formats
-- User needs Code Interpreter alternatives
+- User asks about supported file formats for Code Interpreter
+- User needs Code Interpreter alternatives (E2B, Modal)
 - User encounters Code Interpreter errors
 
 **Load `references/file-search-rag-guide.md` when:**
 - User building RAG application
-- User asks about vector stores
-- User needs file search optimization
-- User scaling document search
+- User asks about vector stores setup
+- User needs file search optimization strategies
+- User scaling document search beyond basic setup
 
 **Load `references/migration-from-v1.md` when:**
 - User mentions Assistants API v1
 - User upgrading from v1 to v2
-- User asks about breaking changes
+- User asks about breaking changes (retrieval → file_search)
 - User encounters v1 deprecation errors
 
 **Load `references/migration-to-responses.md` when:**
-- User planning future migration
-- User asks about Responses API
+- User planning future migration to Responses API
+- User asks about Responses API comparison
 - User mentions deprecation timeline
-- User building new projects
+- User building new projects (recommend Responses API)
 
 **Load `references/thread-lifecycle.md` when:**
 - User building multi-turn conversations
-- User asks about thread persistence
-- User needs conversation management
-- User optimizing thread usage
+- User asks about thread persistence patterns
+- User needs conversation management strategies
+- User optimizing thread usage or cleanup
 
 **Load `references/top-errors.md` when:**
-- User encounters any error
+- User encounters any error (all 15 documented)
 - User asks about troubleshooting
 - User wants to prevent known issues
 - User debugging production issues
 
 **Load `references/vector-stores.md` when:**
-- User scaling file search
-- User asks about file limits
+- User scaling file search beyond basic setup
+- User asks about file limits (10,000 files)
 - User needs indexing optimization
-- User managing vector store costs
+- User managing vector store costs ($0.10/GB/day)
+
+---
+
+## Templates Available
+
+**Production-ready code examples in `templates/`:**
+
+- **`basic-assistant.ts`** - Minimal assistant setup (getting started)
+- **`code-interpreter-assistant.ts`** - Code execution (Python code runner)
+- **`file-search-assistant.ts`** - Document Q&A (RAG application)
+- **`function-calling-assistant.ts`** - External tools (API integration)
+- **`streaming-assistant.ts`** - Real-time responses (streaming output)
+- **`thread-management.ts`** - Multi-turn conversations (chatbot)
+- **`vector-store-setup.ts`** - Vector store configuration (file search setup)
+- **`package.json`** - Dependencies (project setup)
 
 ---
 

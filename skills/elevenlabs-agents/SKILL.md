@@ -39,72 +39,47 @@ ElevenLabs Agents Platform is a comprehensive solution for building production-r
 3. **TTS (Text-to-Speech)** - Converts text to speech (5000+ voices, 31 languages, low latency)
 4. **Turn-Taking Model** - Proprietary model that handles conversation timing and interruptions
 
-### 🚨 Package Updates (November 2025)
+### 🚨 Package Migration (August 2025)
 
-ElevenLabs migrated to new scoped packages in August 2025:
-
-**DEPRECATED (Do not use):**
-- `@11labs/react` → **DEPRECATED**
-- `@11labs/client` → **DEPRECATED**
+**DEPRECATED (Do not use):** `@11labs/react` and `@11labs/client`
 
 **Current packages:**
 ```bash
-bun add @elevenlabs/react@0.9.1        # React SDK
-bun add @elevenlabs/client@0.9.1       # JavaScript SDK
-bun add @elevenlabs/react-native@0.5.2 # React Native SDK
-bun add @elevenlabs/elevenlabs-js@2.21.0 # Base SDK
+bun add @elevenlabs/react@0.11.0        # React SDK
+bun add @elevenlabs/client@0.11.0       # JavaScript SDK
+bun add @elevenlabs/react-native@0.5.2  # React Native SDK
+bun add @elevenlabs/elevenlabs-js@2.25.0 # Base SDK
 bun add -g @elevenlabs/agents-cli@0.2.0  # CLI
 ```
 
-If you have old packages installed, uninstall them first:
-```bash
-npm uninstall @11labs/react @11labs/client
-```
-
-### When to Use This Skill
-
-Use this skill when:
-- Building voice-enabled customer support agents
-- Creating interactive voice response (IVR) systems
-- Developing conversational AI applications
-- Integrating telephony (Twilio, SIP trunking)
-- Implementing voice chat in web/mobile apps
-- Configuring agents via CLI ("agents as code")
-- Setting up RAG/knowledge bases for agents
-- Integrating MCP (Model Context Protocol) servers
-- Building HIPAA/GDPR-compliant voice systems
-- Optimizing LLM costs with caching strategies
+If migrating, uninstall old packages first: `npm uninstall @11labs/react @11labs/client`
 
 ---
 
-## Quick Start (3 Integration Paths)
+## Quick Start
 
 ### Path A: React SDK (Embedded Voice Chat)
 
 For building voice chat interfaces in React applications.
 
-**Installation**:
+**Installation:**
 ```bash
 bun add @elevenlabs/react zod
 ```
 
-**Basic Example**:
+**Basic Example:**
 ```typescript
 import { useConversation } from '@elevenlabs/react';
 import { z } from 'zod';
 
 export default function VoiceChat() {
   const { startConversation, stopConversation, status } = useConversation({
-    // Public agent (no API key needed)
-    agentId: 'your-agent-id',
+    // Authentication (choose one)
+    agentId: 'your-agent-id',  // Public agent (no key needed)
+    // apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY,  // Private (dev only)
+    // signedUrl: '/api/elevenlabs/auth',  // Signed URL (production)
 
-    // OR private agent (requires API key)
-    apiKey: process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY,
-
-    // OR signed URL (server-generated, most secure)
-    signedUrl: '/api/elevenlabs/auth',
-
-    // Client-side tools (browser functions)
+    // Client-side tools
     clientTools: {
       updateCart: {
         description: "Update the shopping cart",
@@ -120,20 +95,12 @@ export default function VoiceChat() {
     },
 
     // Event handlers
-    onConnect: () => console.log('Connected'),
-    onDisconnect: () => console.log('Disconnected'),
     onEvent: (event) => {
-      switch (event.type) {
-        case 'transcript':
-          console.log('User said:', event.data.text);
-          break;
-        case 'agent_response':
-          console.log('Agent replied:', event.data.text);
-          break;
-      }
+      if (event.type === 'transcript') console.log('User:', event.data.text);
+      if (event.type === 'agent_response') console.log('Agent:', event.data.text);
     },
 
-    // Regional compliance (GDPR, data residency)
+    // Regional compliance
     serverLocation: 'us' // 'us' | 'global' | 'eu-residency' | 'in-residency'
   });
 
@@ -147,54 +114,30 @@ export default function VoiceChat() {
 }
 ```
 
-**Full Template**: See `templates/basic-react-agent.tsx`
+**Complete template:** See `templates/basic-react-agent.tsx`
 
 ### Path B: CLI ("Agents as Code")
 
-For managing agents via code with version control and CI/CD.
+For managing agents via code with version control and CI/CD. Load `references/cli-commands.md` when using CLI workflows.
 
-**Installation**:
+**Quick workflow:**
 ```bash
 bun add -g @elevenlabs/agents-cli
-# or
-bun add -g @elevenlabs/agents-cli
-```
-
-**Workflow**:
-```bash
-# 1. Authenticate
 elevenlabs auth login
-
-# 2. Initialize project (creates agents.json, tools.json, tests.json)
 elevenlabs agents init
-
-# 3. Create agent from template
 elevenlabs agents add "Support Agent" --template customer-service
-
-# 4. Configure in agent_configs/support-agent.json
-
-# 5. Push to platform
+# Edit agent_configs/support-agent.json
 elevenlabs agents push --env dev
-
-# 6. Test
 elevenlabs agents test "Support Agent"
-
-# 7. Deploy to production
-elevenlabs agents push --env prod
 ```
 
-**Configuration Template**: See `templates/basic-cli-agent.json`
+**See:** `references/cli-commands.md` for complete CLI reference and workflows.
 
 ### Path C: API (Programmatic Agent Management)
 
-For creating agents dynamically (multi-tenant, SaaS platforms).
+For creating agents dynamically (multi-tenant, SaaS platforms). Load `references/api-reference.md` when using the API directly.
 
-**Installation**:
-```bash
-bun add elevenlabs
-```
-
-**Example**:
+**Quick example:**
 ```typescript
 import { ElevenLabsClient } from 'elevenlabs';
 
@@ -202,333 +145,118 @@ const client = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY
 });
 
-// Create agent
 const agent = await client.agents.create({
   name: 'Support Bot',
   conversation_config: {
     agent: {
-      prompt: {
-        prompt: "You are a helpful customer support agent.",
-        llm: "gpt-4o",
-        temperature: 0.7
-      },
-      first_message: "Hello! How can I help you today?",
-      language: "en"
+      prompt: { prompt: "You are a helpful support agent.", llm: "gpt-4o" },
+      first_message: "Hello! How can I help you today?"
     },
-    tts: {
-      model_id: "eleven_turbo_v2_5",
-      voice_id: "your-voice-id"
-    }
+    tts: { model_id: "eleven_turbo_v2_5", voice_id: "your-voice-id" }
   }
 });
-
-console.log('Agent created:', agent.agent_id);
 ```
+
+**See:** `references/api-reference.md` for complete API reference.
 
 ---
 
 ## Agent Configuration
 
-### System Prompt Architecture (6 Components)
+### System Prompt Framework
 
-ElevenLabs recommends structuring agent prompts using 6 components:
+ElevenLabs recommends a 6-component prompt structure: **Personality** (identity/role), **Environment** (communication context), **Tone** (formality/speech patterns), **Goal** (objectives/success criteria), **Guardrails** (boundaries/ethics), and **Tools** (available functions).
 
-#### 1. Personality
-Define the agent's identity, role, and character traits.
-
+**Example structure:**
 ```
-You are Alex, a friendly and knowledgeable customer support specialist at TechCorp.
-You have 5 years of experience helping customers solve technical issues.
-You're patient, empathetic, and always maintain a positive attitude.
-```
-
-#### 2. Environment
-Describe the communication context (phone, web chat, video call).
-
-```
-You're speaking with customers over the phone. Communication is voice-only.
-Customers may have background noise or poor connection quality.
-Speak clearly and occasionally use thoughtful pauses for emphasis.
+Personality: You are Alex, a friendly customer support specialist at TechCorp.
+Environment: Phone communication, voice-only, potential background noise.
+Tone: Professional yet warm. Use contractions. Keep responses to 2-3 sentences.
+Goal: Resolve issues on first call. Success = customer confirms resolution.
+Guardrails: Never give medical/legal advice. Escalate if customer becomes abusive.
+Tools: lookup_order(id), transfer_to_supervisor(), send_password_reset(email)
 ```
 
-#### 3. Tone
-Specify formality, speech patterns, humor, and verbosity.
-
-```
-Tone: Professional yet warm. Use contractions ("I'm" instead of "I am") to sound natural.
-Avoid jargon unless the customer uses it first. Keep responses concise (2-3 sentences max).
-Use encouraging phrases like "I'll be happy to help with that" and "Let's get this sorted for you."
-```
-
-#### 4. Goal
-Define objectives and success criteria.
-
-```
-Primary Goal: Resolve customer technical issues on the first call.
-Secondary Goals:
-- Verify customer identity securely
-- Document issue details accurately
-- Offer proactive solutions
-- End calls with confirmation that the issue is resolved
-
-Success Criteria: Customer verbally confirms their issue is resolved.
-```
-
-#### 5. Guardrails
-Set boundaries, prohibited topics, and ethical constraints.
-
-```
-Guardrails:
-- Never provide medical, legal, or financial advice
-- Do not share confidential company information
-- If asked about competitors, politely redirect to TechCorp's offerings
-- Escalate to a human supervisor if customer becomes abusive
-- Never make promises about refunds or credits without verification
-```
-
-#### 6. Tools
-Describe available external capabilities and when to use them.
-
-```
-Available Tools:
-1. lookup_order(order_id) - Fetch order details from database. Use when customer mentions an order number.
-2. transfer_to_supervisor() - Escalate to human agent. Use when issue requires manager approval.
-3. send_password_reset(email) - Trigger password reset email. Use when customer can't access account.
-
-Always explain to the customer what you're doing before calling a tool.
-```
-
-**Complete Example**: See `templates/basic-cli-agent.json`
+**Complete guide:** Load `references/system-prompt-guide.md` when configuring agent prompts or improving conversation quality.
 
 ### Turn-Taking Modes
 
-Controls when the agent interrupts or waits for the user to finish speaking.
-
 | Mode | Behavior | Best For |
 |------|----------|----------|
-| **Eager** | Responds quickly, jumps in at earliest opportunity | Fast-paced support, quick orders |
-| **Normal** | Balanced, waits for natural conversation breaks | General customer service (default) |
-| **Patient** | Waits longer, allows detailed user responses | Information collection, therapy, tutoring |
+| **Eager** | Responds quickly, jumps in early | Fast-paced support, quick orders |
+| **Normal** | Balanced, waits for natural breaks | General customer service (default) |
+| **Patient** | Waits longer for detailed responses | Information collection, tutoring |
 
-**Configuration**:
-```json
-{
-  "conversation_config": {
-    "turn": {
-      "mode": "patient" // "eager" | "normal" | "patient"
-    }
-  }
-}
-```
+Configuration: `"turn": { "mode": "patient" }` in `conversation_config`
 
 ---
 
-## Voice & Language Features
+## Core Features Summary
 
-### Multi-Voice Support
+### Voice & Language
+- **Multi-Voice:** Dynamic voice switching (adds ~200ms latency per switch)
+- **Pronunciation Dictionary:** IPA, CMU, or word substitutions for custom pronunciation
+- **Speed Control:** 0.7x - 1.2x (1.0x = normal)
+- **Languages:** 32+ languages with auto-detection and multi-language presets
 
-Dynamically switch between different voices during a single conversation.
+### Knowledge Base (RAG)
+Upload documents (PDF/TXT/DOCX) for semantic search during conversations. Agent retrieves relevant chunks automatically. Adds ~500ms latency per query. Documents must be indexed before use.
 
-**Use Cases**: Multi-character storytelling, language tutoring, role-playing scenarios, emotional agents
+**See:** `references/api-reference.md` for knowledge base API and configuration.
 
-**Gotchas**: Voice switching adds ~200ms latency per switch
+### Tools (4 Types)
+1. **Client Tools** - Execute in browser (UI updates, navigation, local storage)
+2. **Server Tools (Webhooks)** - Execute on your backend (database, payments, CRM)
+3. **MCP Tools** - Connect to Model Context Protocol servers (enterprise APIs)
+4. **System Tools** - Built-in platform tools (end_conversation, transfer_call, mute_microphone, press_digit)
 
-### Pronunciation Dictionary
-
-Customize how the agent pronounces specific words or phrases.
-
-**Supported Formats**: IPA (International Phonetic Alphabet), CMU, Word Substitutions
-
-**Example**:
-```json
-{
-  "pronunciation_dictionary": [
-    {
-      "word": "ElevenLabs",
-      "pronunciation": "ɪˈlɛvənlæbz",
-      "format": "ipa"
-    },
-    {
-      "word": "AI",
-      "substitution": "artificial intelligence"
-    }
-  ]
-}
-```
-
-### Speed Control
-
-Adjust speaking speed dynamically (0.7x - 1.2x).
-
-```json
-{
-  "voice_settings": {
-    "speed": 1.0 // 0.7 = slow, 1.0 = normal, 1.2 = fast
-  }
-}
-```
-
-### Language Configuration
-
-Support for 32+ languages with automatic detection and in-conversation switching.
-
-**Multi-Language Presets** (Different Voice Per Language):
-```json
-{
-  "conversation_config": {
-    "language_presets": [
-      {
-        "language": "en",
-        "voice_id": "en_voice_id",
-        "first_message": "Hello! How can I help you today?"
-      },
-      {
-        "language": "es",
-        "voice_id": "es_voice_id",
-        "first_message": "¡Hola! ¿Cómo puedo ayudarte hoy?"
-      }
-    ]
-  }
-}
-```
+**See:** `references/tool-examples.md` when implementing tools. Load `references/api-reference.md` for webhook tool creation API.
 
 ---
 
-## Knowledge Base & RAG
-
-Enable agents to access large knowledge bases without loading entire documents into context.
-
-**How It Works**:
-1. Upload documents (PDF, TXT, DOCX) to knowledge base
-2. ElevenLabs automatically computes vector embeddings
-3. During conversation, relevant chunks retrieved based on semantic similarity
-4. LLM uses retrieved context to generate responses
-
-**Configuration**:
-```json
-{
-  "agent": {
-    "prompt": {
-      "knowledge_base": ["doc_id_1", "doc_id_2"]
-    }
-  }
-}
-```
-
-**Upload Documents via API**:
-```typescript
-const doc = await client.knowledgeBase.upload({
-  file: fs.createReadStream('support_docs.pdf'),
-  name: 'Support Documentation'
-});
-
-await client.knowledgeBase.computeRagIndex({
-  document_id: doc.id,
-  embedding_model: 'e5_mistral_7b'
-});
-```
-
-**Use Cases**: Product documentation agents, customer support (FAQ), educational tutors, healthcare assistants
-
-**Gotchas**: RAG adds ~500ms latency per query, documents must be indexed before use
-
----
-
-## Tools (4 Types)
-
-ElevenLabs supports 4 distinct tool types:
-
-### A. Client Tools
-Execute operations on the client side (browser or mobile app).
-
-**Use Cases**: Update UI elements, trigger navigation, access local storage, control media playback
-
-### B. Server Tools (Webhooks)
-Execute operations on your backend server via HTTP webhooks.
-
-**Use Cases**: Database queries, payment processing, CRM updates, sending emails
-
-### C. MCP Tools (Model Context Protocol)
-Connect to standardized tool servers.
-
-**Use Cases**: Access enterprise APIs, connect to existing MCP servers, reusable tool sets
-
-### D. System Tools
-Built-in platform tools.
-
-**Available**: `end_conversation`, `transfer_call`, `mute_microphone`, `press_digit`
-
-**See Full Details**: Documentation for each tool type in original SKILL.md sections 5A-5D
-
----
-
-## Top 5 Critical Errors
+## Top 3 Critical Errors
 
 ### Error 1: Package Deprecation (@11labs/*)
 
-**Symptom**: Import errors, "module not found"
+**Symptom:** Import errors, "module not found"
 
-**Cause**: Using deprecated `@11labs/*` packages instead of new `@elevenlabs/*` packages
-
-**Solution**:
+**Solution:**
 ```bash
-# Uninstall old packages
 npm uninstall @11labs/react @11labs/client
+bun add @elevenlabs/react@0.11.0 @elevenlabs/client@0.11.0
 
-# Install new packages
-bun add @elevenlabs/react@0.9.1 @elevenlabs/client@0.9.1
+# Update imports:
+import { useConversation } from '@elevenlabs/react';  // Not @11labs/react
 ```
 
-**Update imports**:
-```typescript
-// ❌ OLD
-import { useConversation } from '@11labs/react';
+### Error 2: Android Audio Cutoff (First Message)
 
-// ✅ NEW
-import { useConversation } from '@elevenlabs/react';
-```
+**Symptom:** First agent message cuts off on Android only (iOS/web work fine)
 
----
-
-### Error 2: First Message Cutoff on Android
-
-**Symptom**: First message from agent gets cut off on Android devices (works fine on iOS/web)
-
-**Cause**: Android devices need time to switch to correct audio mode after connection
-
-**Solution**:
+**Solution:**
 ```typescript
 const { startConversation } = useConversation({
   agentId: 'your-agent-id',
-  
-  // Add connection delay for Android
   connectionDelay: {
-    android: 3_000,  // 3 seconds (default)
+    android: 3_000,  // 3 seconds for Android audio mode switch
     ios: 0,
     default: 0
   }
 });
 ```
 
----
-
 ### Error 3: CSP (Content Security Policy) Violations
 
-**Symptom**: "Refused to load the script because it violates the following Content Security Policy directive" errors
+**Symptom:** "Refused to load the script..." errors, CSP blocks blob URLs
 
-**Cause**: ElevenLabs SDK uses Audio Worklets loaded as blobs by default
-
-**Solution - Self-Host Worklet Files**:
-
+**Solution - Self-host worklet files:**
 ```bash
-# Copy worklet files to your public directory
 cp node_modules/@elevenlabs/client/dist/worklets/*.js public/elevenlabs/
 ```
 
 ```typescript
 const { startConversation } = useConversation({
   agentId: 'your-agent-id',
-  
   workletPaths: {
     'rawAudioProcessor': '/elevenlabs/rawAudioProcessor.worklet.js',
     'audioConcatProcessor': '/elevenlabs/audioConcatProcessor.worklet.js',
@@ -536,174 +264,110 @@ const { startConversation } = useConversation({
 });
 ```
 
----
-
-### Error 4: Missing Required Dynamic Variables
-
-**Symptom**: "Missing required dynamic variables" error, no transcript generated
-
-**Cause**: Dynamic variables referenced in prompts/messages but not provided at conversation start
-
-**Solution**:
-```typescript
-const conversation = await client.conversations.create({
-  agent_id: "agent_123",
-  dynamic_variables: {
-    user_name: "John",
-    account_tier: "premium",
-    // Provide ALL variables referenced in prompts
-  }
-});
-```
+**See all 17 errors:** Load `references/error-catalog.md` when troubleshooting errors, debugging webhook failures, RAG issues, or platform-specific problems.
 
 ---
 
-### Error 5: Case-Sensitive Tool Names
+## When to Load References
 
-**Symptom**: Tool not executing, agent says "tool not found"
+Load specific reference files based on your current task:
 
-**Cause**: Tool name in config doesn't match registered name (case-sensitive)
+### `references/api-reference.md`
+Load when: Creating agents via API, managing agents programmatically, building multi-tenant systems, implementing knowledge base, creating webhook tools, handling API errors, or understanding API rate limits.
 
-**Solution**:
-```json
-// agent_configs/bot.json
-{
-  "agent": {
-    "prompt": {
-      "tool_ids": ["orderLookup"]  // Must match exactly
-    }
-  }
-}
+### `references/cli-commands.md`
+Load when: Using CLI for agent management, setting up CI/CD pipelines, managing multi-environment deployments (dev/staging/prod), version controlling agent configs, or troubleshooting CLI issues.
 
-// tool_configs/order-lookup.json
-{
-  "name": "orderLookup"  // Match case exactly
-}
-```
+### `references/compliance-guide.md`
+Load when: Implementing GDPR compliance, handling HIPAA requirements (healthcare), configuring SOC 2 controls, setting data retention policies, implementing regional data residency (EU/IN), or handling PCI DSS (payments).
+
+### `references/cost-optimization.md`
+Load when: Optimizing LLM costs, implementing caching strategies, choosing between models (GPT/Claude/Gemini), handling traffic spikes (burst pricing), reducing token usage, or setting budget limits.
+
+### `references/error-catalog.md`
+Load when: Troubleshooting errors, debugging webhook failures, fixing voice consistency issues, resolving authentication problems, handling RAG index issues, or diagnosing platform-specific bugs.
+
+### `references/system-prompt-guide.md`
+Load when: Writing agent system prompts, improving conversation quality, implementing 6-component framework, iterating on prompts, testing prompt effectiveness, or defining agent personality/goals/guardrails.
+
+### `references/testing-guide.md`
+Load when: Setting up automated tests, implementing scenario testing, load testing agents, converting real conversations to tests, integrating with CI/CD, or debugging failed tests.
+
+### `references/tool-examples.md`
+Load when: Implementing client tools (browser functions), creating server tools (webhooks), connecting MCP servers, using system tools, or debugging tool execution issues.
+
+### `references/workflow-examples.md`
+Load when: Building multi-agent workflows, implementing call routing, creating escalation flows, designing multi-language support, or debugging workflow transitions.
 
 ---
 
-**See All 17 Errors**: `references/error-catalog.md`
-
----
-
-## SDK Integration
+## SDK Integrations
 
 ### React SDK (`@elevenlabs/react`)
-
-**Primary Hook**: `useConversation()`
-
-**Authentication Options**:
-1. Public agents (no key needed)
-2. Private agents with API key (development only)
-3. Signed URLs (production recommended)
-
-**Key Features**:
-- Client tools integration
-- Event streaming (transcript, agent_response, tool_call, error)
-- Connection management (WebRTC/WebSocket)
-- Regional compliance (US, EU, IN data residency)
-
-**Full Example**: See `templates/basic-react-agent.tsx`
+Primary hook: `useConversation()`. Features: client tools, event streaming, connection management, regional compliance. See Quick Start Path A above.
 
 ### Other SDKs
-
 - **JavaScript SDK** (`@elevenlabs/client`) - Vanilla JS/Node.js
 - **React Native SDK** (`@elevenlabs/react-native`) - Mobile apps (Expo)
 - **Swift SDK** - iOS/macOS native apps
 - **Widget** - Embeddable web component (no code)
 
-**Details**: See original SKILL.md sections 6B-6E
+**Template:** See `templates/basic-react-agent.tsx` for complete React implementation.
 
 ---
 
-## Additional Features
+## Additional Platform Features
 
-### Testing & Evaluation
-- Scenario testing (LLM-based evaluation)
-- Tool call testing
-- Load testing
-- Simulation API (programmatic testing)
+**Testing & Evaluation:** Scenario testing (LLM-based), tool call testing, load testing, simulation API. See `references/testing-guide.md`.
 
-### Analytics & Monitoring
-- Conversation analysis
-- Success evaluation (LLM-based)
-- Data collection (transcripts, metadata)
-- Analytics dashboard
+**Analytics:** Conversation analysis, success evaluation, data collection, analytics dashboard.
 
-### Privacy & Compliance
-- Data retention controls
-- Encryption (in-transit and at-rest)
-- Zero retention mode
-- GDPR/HIPAA/SOC 2 compliance
+**Privacy & Compliance:** Data retention, encryption, zero retention mode, GDPR/HIPAA/SOC 2. See `references/compliance-guide.md`.
 
-### Cost Optimization
-- LLM caching (prompt caching, KV cache)
-- Model swapping (different models for different tasks)
-- Burst pricing (handle traffic spikes)
+**Cost Optimization:** LLM caching (90% savings), model swapping, burst pricing. See `references/cost-optimization.md`.
 
-### Advanced Features
-- Events (WebSocket/SSE)
-- Custom models (bring your own LLM)
-- Post-call webhooks
-- Chat mode (text-only)
-- Telephony integration (Twilio, SIP)
-
-**Details**: See original SKILL.md sections 7-12
+**Advanced:** Custom models (bring your own LLM), post-call webhooks, chat mode (text-only), telephony (Twilio/SIP), workflows (multi-agent routing).
 
 ---
 
-## Bundled Resources
+## Integration with Other Skills
+
+Composes with:
+- **cloudflare-worker-base** → Deploy agents on edge network
+- **cloudflare-workers-ai** → Use Cloudflare LLMs as custom models
+- **cloudflare-durable-objects** → Persistent conversation state
+- **nextjs** → React SDK integration in Next.js
+- **ai-sdk-core** → Vercel AI SDK provider
+- **clerk-auth** → Authenticated voice sessions
+- **hono-routing** → API routes for webhooks
+
+---
+
+## Resources
 
 **Templates** (`templates/`):
-- `basic-react-agent.tsx` - React SDK integration with client tools and events
-- `basic-cli-agent.json` - CLI agent configuration with 6-component prompt
+- `basic-react-agent.tsx` - React SDK with client tools and events
+- `basic-cli-agent.json` - CLI agent with 6-component prompt
 
 **References** (`references/`):
-- `api-reference.md` - Complete API reference (endpoints, parameters, responses)
-- `cli-commands.md` - CLI commands and usage patterns
-- `compliance-guide.md` - GDPR, HIPAA, SOC 2 compliance details
-- `cost-optimization.md` - LLM caching, model swapping, burst pricing strategies
-- `error-catalog.md` - All 17 documented errors with solutions
-- `system-prompt-guide.md` - Agent configuration and prompt engineering
-- `testing-guide.md` - Scenario testing, tool testing, load testing, evaluation
-- `tool-examples.md` - Client tools integration examples
-- `workflow-examples.md` - End-to-end workflow patterns
+- `api-reference.md` - Complete API reference
+- `cli-commands.md` - CLI commands and workflows
+- `compliance-guide.md` - GDPR/HIPAA/SOC 2 compliance
+- `cost-optimization.md` - LLM caching and cost reduction
+- `error-catalog.md` - All 17 errors with solutions
+- `system-prompt-guide.md` - 6-component framework guide
+- `testing-guide.md` - Testing and evaluation
+- `tool-examples.md` - Client/server/MCP tool examples
+- `workflow-examples.md` - Multi-agent workflow patterns
 
----
-
-## Integration with Existing Skills
-
-This skill composes well with:
-
-- **cloudflare-worker-base** → Deploy agents on Cloudflare Workers edge network
-- **cloudflare-workers-ai** → Use Cloudflare LLMs as custom models in agents
-- **cloudflare-durable-objects** → Persistent conversation state and session management
-- **cloudflare-kv** → Cache agent configurations and user preferences
-- **nextjs** → React SDK integration in Next.js applications
-- **ai-sdk-core** → Vercel AI SDK provider for unified AI interface
-- **clerk-auth** → Authenticated voice sessions with user identity
-- **hono-routing** → API routes for webhooks and server tools
-
----
-
-## Additional Resources
-
-**Official Documentation**:
-- Platform Overview: https://elevenlabs.io/docs/agents-platform/overview
-- API Reference: https://elevenlabs.io/docs/api-reference
-- CLI GitHub: https://github.com/elevenlabs/cli
-
-**Examples**:
-- Official Examples: https://github.com/elevenlabs/elevenlabs-examples
-- MCP Server: https://github.com/elevenlabs/elevenlabs-mcp
-
-**Community**:
+**Official Documentation:**
+- Platform: https://elevenlabs.io/docs/agents-platform/overview
+- API: https://elevenlabs.io/docs/api-reference
+- Examples: https://github.com/elevenlabs/elevenlabs-examples
 - Discord: https://discord.com/invite/elevenlabs
-- Twitter: @elevenlabsio
 
 ---
 
-**Production Tested**: WordPress Auditor, Customer Support Agents
-**Last Updated**: 2025-11-03
-**Package Versions**: elevenlabs@1.59.0, @elevenlabs/cli@0.2.0
+**Production Tested:** WordPress Auditor, Customer Support Agents
+**Last Updated:** 2025-11-21
+**Package Versions:** Verified current (see metadata)

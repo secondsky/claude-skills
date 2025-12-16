@@ -11,7 +11,7 @@ metadata:
   tested_package_version: "@google/genai@1.27.0"
   target_audience: "Developers building RAG, semantic search, or vector-based applications"
   complexity: intermediate
-  estimated_reading_time: "15 minutes"
+  estimated_reading_time: "8 minutes"
   tokens_saved: "~60%"
   errors_prevented: 8
   production_tested: true
@@ -32,11 +32,9 @@ This skill provides comprehensive coverage of the `gemini-embedding-001` model f
 3. [Basic Embeddings](#3-basic-embeddings)
 4. [Batch Embeddings](#4-batch-embeddings)
 5. [Task Types](#5-task-types)
-6. [RAG Patterns](#6-rag-patterns)
-7. [Semantic Search](#7-semantic-search)
-8. [Document Clustering](#8-document-clustering)
-9. [Error Handling](#9-error-handling)
-10. [Best Practices](#10-best-practices)
+6. [Top 5 Errors](#6-top-5-errors)
+7. [Best Practices](#7-best-practices)
+8. [When to Load References](#8-when-to-load-references)
 
 ---
 
@@ -107,38 +105,27 @@ The model supports flexible output dimensionality using **Matryoshka Representat
 | **768** | Recommended for most use cases | Low | Fast |
 | **1536** | Balance between accuracy and efficiency | Medium | Medium |
 | **3072** | Maximum accuracy (default) | High | Slower |
-| 128-3071 | Custom (any value in range) | Variable | Variable |
 
 **Default**: 3072 dimensions
-**Recommended**: 768, 1536, or 3072 for optimal performance
+**Recommended**: 768 dimensions for most RAG applications
+
+Load `references/dimension-guide.md` when you need detailed comparisons of storage costs, accuracy trade-offs, or migration strategies between dimensions.
+
+Load `references/model-comparison.md` when comparing Gemini embeddings with OpenAI (text-embedding-3-small/large) or Cloudflare Workers AI (BGE).
+
+### Rate Limits
+
+| Tier | RPM | TPM | RPD |
+|------|-----|-----|-----|
+| **Free** | 100 | 30,000 | 1,000 |
+| **Tier 1** | 3,000 | 1,000,000 | - |
+
+**RPM** = Requests Per Minute, **TPM** = Tokens Per Minute, **RPD** = Requests Per Day
 
 ### Context Window
 
 - **Input Limit**: 2,048 tokens per text
 - **Input Type**: Text only (no images, audio, or video)
-
-### Rate Limits
-
-| Tier | RPM | TPM | RPD | Requirements |
-|------|-----|-----|-----|--------------|
-| **Free** | 100 | 30,000 | 1,000 | No billing account |
-| **Tier 1** | 3,000 | 1,000,000 | - | Billing account linked |
-| **Tier 2** | 5,000 | 5,000,000 | - | $250+ spending, 30-day wait |
-| **Tier 3** | 10,000 | 10,000,000 | - | $1,000+ spending, 30-day wait |
-
-**RPM** = Requests Per Minute
-**TPM** = Tokens Per Minute
-**RPD** = Requests Per Day
-
-### Output Format
-
-```typescript
-{
-  embedding: {
-    values: number[] // Array of floating-point numbers
-  }
-}
-```
 
 ---
 
@@ -222,11 +209,11 @@ interface EmbeddingResponse {
 const response: EmbeddingResponse = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   content: 'Sample text',
-  config: { taskType: 'SEMANTIC_SIMILARITY' }
+  config: { taskType: 'SEMANTIC_SIMILARITY', outputDimensionality: 768 }
 });
 
 const embedding: number[] = response.embedding.values;
-const dimensions: number = embedding.length; // 3072 by default
+const dimensions: number = embedding.length; // 768
 ```
 
 ---
@@ -263,35 +250,6 @@ response.embeddings.forEach((embedding, index) => {
   console.log(`Embedding: ${embedding.values.slice(0, 5)}...`);
   console.log(`Dimensions: ${embedding.values.length}`);
 });
-```
-
-### Batch REST API (fetch)
-
-Use the `batchEmbedContents` endpoint:
-
-```typescript
-const response = await fetch(
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:batchEmbedContents',
-  {
-    method: 'POST',
-    headers: {
-      'x-goog-api-key': apiKey,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      requests: texts.map(text => ({
-        model: 'models/gemini-embedding-001',
-        content: {
-          parts: [{ text }]
-        },
-        taskType: 'RETRIEVAL_DOCUMENT'
-      }))
-    })
-  }
-);
-
-const data = await response.json();
-// data.embeddings: Array of {values: number[]}
 ```
 
 ### Chunking for Rate Limits
@@ -335,14 +293,6 @@ async function batchEmbedWithRateLimit(
 const embeddings = await batchEmbedWithRateLimit(documents, 100);
 ```
 
-### Performance Optimization
-
-**Tips**:
-1. Use batch API when embedding multiple texts (single request vs multiple requests)
-2. Choose lower dimensions (768) for faster processing and less storage
-3. Implement exponential backoff for rate limit errors
-4. Cache embeddings to avoid redundant API calls
-
 ---
 
 ## 5. Task Types
@@ -362,228 +312,153 @@ The `taskType` parameter optimizes embeddings for specific use cases. **Always s
 | **QUESTION_ANSWERING** | Questions seeking answers | FAQ matching |
 | **FACT_VERIFICATION** | Verifying claims with evidence | Fact-checking systems |
 
-### When to Use Which
+### RAG Systems (Most Common)
 
-**RAG Systems** (Retrieval Augmented Generation):
 ```typescript
 // When embedding user queries
 const queryEmbedding = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   content: userQuery,
-  config: { taskType: 'RETRIEVAL_QUERY' } // ← Use RETRIEVAL_QUERY
+  config: {
+    taskType: 'RETRIEVAL_QUERY', // ← Use RETRIEVAL_QUERY
+    outputDimensionality: 768
+  }
 });
 
 // When embedding documents for indexing
 const docEmbedding = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   content: documentText,
-  config: { taskType: 'RETRIEVAL_DOCUMENT' } // ← Use RETRIEVAL_DOCUMENT
+  config: {
+    taskType: 'RETRIEVAL_DOCUMENT', // ← Use RETRIEVAL_DOCUMENT
+    outputDimensionality: 768
+  }
 });
 ```
 
-**Semantic Search**:
-```typescript
-const embedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text,
-  config: { taskType: 'SEMANTIC_SIMILARITY' }
-});
-```
-
-**Document Clustering**:
-```typescript
-const embedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text,
-  config: { taskType: 'CLUSTERING' }
-});
-```
-
-### Impact on Quality
-
-Using the correct task type **significantly improves** retrieval quality:
-
-```typescript
-// ❌ BAD: No task type specified
-const embedding1 = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: userQuery
-});
-
-// ✅ GOOD: Task type specified
-const embedding2 = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: userQuery,
-  config: { taskType: 'RETRIEVAL_QUERY' }
-});
-```
-
-**Result**: Using the right task type can improve search relevance by 10-30%.
+**Impact**: Using correct task type improves search relevance by 10-30%.
 
 ---
 
-## 6. RAG Patterns
+## 6. Top 5 Errors
 
-**RAG** (Retrieval Augmented Generation) combines vector search with LLM generation to create AI systems that answer questions using custom knowledge bases.
+### Error 1: Dimension Mismatch
 
-### Complete RAG Workflow
+**Error**: `Vector dimensions do not match. Expected 768, got 3072`
 
-```
-1. Document Ingestion
-   ├── Chunk documents into smaller pieces
-   ├── Generate embeddings (RETRIEVAL_DOCUMENT)
-   └── Store in Vectorize
+**Cause**: Not specifying `outputDimensionality` parameter (defaults to 3072).
 
-2. Query Processing
-   ├── User submits query
-   ├── Generate query embedding (RETRIEVAL_QUERY)
-   └── Search Vectorize for similar documents
-
-3. Response Generation
-   ├── Retrieve top-k similar documents
-   ├── Pass documents as context to LLM
-   └── Stream response to user
-```
-
-### Document Ingestion Pipeline
-
+**Fix**:
 ```typescript
-import { GoogleGenAI } from "@google/genai";
+// ❌ BAD: No outputDimensionality (defaults to 3072)
+const embedding = await ai.models.embedContent({
+  model: 'gemini-embedding-001',
+  content: text
+});
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// ✅ GOOD: Match Vectorize index dimensions
+const embedding = await ai.models.embedContent({
+  model: 'gemini-embedding-001',
+  content: text,
+  config: { outputDimensionality: 768 } // ← Match your index
+});
+```
 
-// 1. Chunk document into smaller pieces
-function chunkDocument(text: string, chunkSize: number = 500): string[] {
-  const words = text.split(' ');
+### Error 2: Rate Limiting (429 Too Many Requests)
+
+**Error**: `429 Too Many Requests - Rate limit exceeded`
+
+**Cause**: Exceeded 100 requests per minute (free tier).
+
+**Fix**:
+```typescript
+// ✅ GOOD: Exponential backoff
+async function embedWithRetry(text: string, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await ai.models.embedContent({
+        model: 'gemini-embedding-001',
+        content: text,
+        config: { taskType: 'SEMANTIC_SIMILARITY', outputDimensionality: 768 }
+      });
+    } catch (error: any) {
+      if (error.status === 429 && attempt < maxRetries - 1) {
+        const delay = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+```
+
+### Error 3: Text Truncation (Silent)
+
+**Error**: No error! Text is **silently truncated** at 2,048 tokens.
+
+**Cause**: Input text exceeds 2,048 token limit.
+
+**Fix**: Chunk long texts before embedding:
+```typescript
+function chunkText(text: string, maxTokens = 2000): string[] {
+  const words = text.split(/\s+/);
   const chunks: string[] = [];
+  let currentChunk: string[] = [];
 
-  for (let i = 0; i < words.length; i += chunkSize) {
-    chunks.push(words.slice(i, i + chunkSize).join(' '));
+  for (const word of words) {
+    currentChunk.push(word);
+
+    // Rough estimate: 1 token ≈ 0.75 words
+    if (currentChunk.length * 0.75 >= maxTokens) {
+      chunks.push(currentChunk.join(' '));
+      currentChunk = [];
+    }
+  }
+
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk.join(' '));
   }
 
   return chunks;
 }
-
-// 2. Generate embeddings for chunks
-async function embedChunks(chunks: string[]): Promise<number[][]> {
-  const response = await ai.models.embedContent({
-    model: 'gemini-embedding-001',
-    contents: chunks,
-    config: {
-      taskType: 'RETRIEVAL_DOCUMENT', // ← Documents for indexing
-      outputDimensionality: 768 // ← Match Vectorize index dimensions
-    }
-  });
-
-  return response.embeddings.map(e => e.values);
-}
-
-// 3. Store in Cloudflare Vectorize
-async function storeInVectorize(
-  env: Env,
-  chunks: string[],
-  embeddings: number[][]
-) {
-  const vectors = chunks.map((chunk, i) => ({
-    id: `doc-${Date.now()}-${i}`,
-    values: embeddings[i],
-    metadata: { text: chunk }
-  }));
-
-  await env.VECTORIZE.insert(vectors);
-}
-
-// Complete pipeline
-async function ingestDocument(env: Env, documentText: string) {
-  const chunks = chunkDocument(documentText, 500);
-  const embeddings = await embedChunks(chunks);
-  await storeInVectorize(env, chunks, embeddings);
-
-  console.log(`Ingested ${chunks.length} chunks`);
-}
 ```
 
-### Query Flow (Retrieve + Generate)
+### Error 4: Incorrect Task Type
 
+**Error**: No error, but search quality is poor (10-30% worse).
+
+**Cause**: Using wrong task type (e.g., `RETRIEVAL_DOCUMENT` for queries).
+
+**Fix**:
 ```typescript
-async function ragQuery(env: Env, userQuery: string): Promise<string> {
-  // 1. Embed user query
-  const queryResponse = await ai.models.embedContent({
-    model: 'gemini-embedding-001',
-    content: userQuery,
-    config: {
-      taskType: 'RETRIEVAL_QUERY', // ← Query, not document
-      outputDimensionality: 768
-    }
-  });
+// ❌ BAD: Wrong task type for RAG query
+const queryEmbedding = await ai.models.embedContent({
+  model: 'gemini-embedding-001',
+  content: userQuery,
+  config: { taskType: 'RETRIEVAL_DOCUMENT' } // ← Wrong!
+});
 
-  const queryEmbedding = queryResponse.embedding.values;
-
-  // 2. Search Vectorize for similar documents
-  const results = await env.VECTORIZE.query(queryEmbedding, {
-    topK: 5,
-    returnMetadata: true
-  });
-
-  // 3. Extract context from top results
-  const context = results.matches
-    .map(match => match.metadata.text)
-    .join('\n\n');
-
-  // 4. Generate response with context
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
-    contents: `Context:\n${context}\n\nQuestion: ${userQuery}\n\nAnswer based on the context above:`
-  });
-
-  return response.text;
-}
+// ✅ GOOD: Correct task types
+const queryEmbedding = await ai.models.embedContent({
+  model: 'gemini-embedding-001',
+  content: userQuery,
+  config: { taskType: 'RETRIEVAL_QUERY', outputDimensionality: 768 }
+});
 ```
 
-### Integration with Cloudflare Vectorize
+### Error 5: Cosine Similarity Calculation Errors
 
-**Create Vectorize Index** (768 dimensions for Gemini):
+**Error**: `Similarity values out of range (-1.5 to 1.2)`
 
-```bash
-bunx wrangler vectorize create gemini-embeddings --dimensions 768 --metric cosine
-```
+**Cause**: Using dot product instead of proper cosine similarity formula.
 
-**Bind in wrangler.jsonc**:
-
-```jsonc
-{
-  "name": "my-rag-app",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-10-25",
-  "vectorize": {
-    "bindings": [
-      {
-        "binding": "VECTORIZE",
-        "index_name": "gemini-embeddings"
-      }
-    ]
-  }
-}
-```
-
-**Complete RAG Worker**:
-
-See `templates/rag-with-vectorize.ts` for full implementation.
-
----
-
-## 7. Semantic Search
-
-Semantic search finds content based on **meaning**, not just keyword matching.
-
-### Cosine Similarity
-
-Cosine similarity measures how similar two embeddings are (range: -1 to 1, where 1 = identical):
-
+**Fix**:
 ```typescript
+// ✅ GOOD: Proper cosine similarity
 function cosineSimilarity(a: number[], b: number[]): number {
   if (a.length !== b.length) {
-    throw new Error('Vectors must have same length');
+    throw new Error('Vector dimensions must match');
   }
 
   let dotProduct = 0;
@@ -597,245 +472,23 @@ function cosineSimilarity(a: number[], b: number[]): number {
   }
 
   if (magnitudeA === 0 || magnitudeB === 0) {
-    return 0;
+    return 0; // Handle zero vectors
   }
 
   return dotProduct / (Math.sqrt(magnitudeA) * Math.sqrt(magnitudeB));
 }
 ```
 
-### Vector Normalization
-
-Normalize vectors to unit length for faster similarity calculations:
-
-```typescript
-function normalizeVector(vector: number[]): number[] {
-  const magnitude = Math.sqrt(vector.reduce((sum, val) => sum + val * val, 0));
-
-  if (magnitude === 0) {
-    return vector;
-  }
-
-  return vector.map(val => val / magnitude);
-}
-
-// Normalized vectors allow dot product instead of cosine similarity
-function dotProduct(a: number[], b: number[]): number {
-  return a.reduce((sum, val, i) => sum + val * b[i], 0);
-}
-```
-
-### Top-K Search
-
-Find the most similar documents to a query:
-
-```typescript
-interface Document {
-  id: string;
-  text: string;
-  embedding: number[];
-}
-
-function topKSimilar(
-  queryEmbedding: number[],
-  documents: Document[],
-  k: number = 5
-): Array<{ document: Document; similarity: number }> {
-  // Calculate similarity for each document
-  const similarities = documents.map(doc => ({
-    document: doc,
-    similarity: cosineSimilarity(queryEmbedding, doc.embedding)
-  }));
-
-  // Sort by similarity (descending) and return top K
-  return similarities
-    .sort((a, b) => b.similarity - a.similarity)
-    .slice(0, k);
-}
-
-// Usage
-const results = topKSimilar(queryEmbedding, documents, 5);
-
-results.forEach(result => {
-  console.log(`Similarity: ${result.similarity.toFixed(4)}`);
-  console.log(`Text: ${result.document.text}\n`);
-});
-```
-
-### Complete Semantic Search Example
-
-See `templates/semantic-search.ts` for full implementation with Gemini API.
+**Load `references/top-errors.md` for all 8 errors with detailed solutions, including batch size limits, vector storage precision loss, and model version confusion.**
 
 ---
 
-## 8. Document Clustering
-
-Clustering groups similar documents together automatically.
-
-### K-Means Clustering
-
-```typescript
-interface Cluster {
-  centroid: number[];
-  documents: number[][];
-}
-
-function kMeansClustering(
-  embeddings: number[][],
-  k: number = 3,
-  maxIterations: number = 100
-): Cluster[] {
-  // 1. Initialize centroids randomly
-  const centroids: number[][] = [];
-  for (let i = 0; i < k; i++) {
-    centroids.push(embeddings[Math.floor(Math.random() * embeddings.length)]);
-  }
-
-  // 2. Iterate until convergence
-  for (let iter = 0; iter < maxIterations; iter++) {
-    // Assign each embedding to nearest centroid
-    const clusters: number[][][] = Array(k).fill(null).map(() => []);
-
-    embeddings.forEach(embedding => {
-      let minDistance = Infinity;
-      let closestCluster = 0;
-
-      centroids.forEach((centroid, i) => {
-        const distance = 1 - cosineSimilarity(embedding, centroid);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestCluster = i;
-        }
-      });
-
-      clusters[closestCluster].push(embedding);
-    });
-
-    // Update centroids
-    let changed = false;
-    clusters.forEach((cluster, i) => {
-      if (cluster.length > 0) {
-        const newCentroid = cluster[0].map((_, dim) =>
-          cluster.reduce((sum, emb) => sum + emb[dim], 0) / cluster.length
-        );
-
-        if (cosineSimilarity(centroids[i], newCentroid) < 0.9999) {
-          changed = true;
-        }
-
-        centroids[i] = newCentroid;
-      }
-    });
-
-    if (!changed) break;
-  }
-
-  // Build final clusters
-  const finalClusters: Cluster[] = centroids.map((centroid, i) => ({
-    centroid,
-    documents: embeddings.filter(emb =>
-      cosineSimilarity(emb, centroid) === Math.max(
-        ...centroids.map(c => cosineSimilarity(emb, c))
-      )
-    )
-  }));
-
-  return finalClusters;
-}
-```
-
-See `templates/clustering.ts` for complete implementation with examples.
-
-### Use Cases
-
-1. **Content Organization**: Automatically group similar articles, products, or documents
-2. **Duplicate Detection**: Find near-duplicate content
-3. **Topic Modeling**: Discover themes in large text corpora
-4. **Customer Feedback Analysis**: Group similar customer complaints or feature requests
-
----
-
-## 9. Error Handling
-
-### Common Errors
-
-**1. API Key Missing or Invalid**
-
-```typescript
-// ❌ Error: API key not set
-const ai = new GoogleGenAI({});
-
-// ✅ Correct
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error('GEMINI_API_KEY environment variable not set');
-}
-```
-
-**2. Dimension Mismatch**
-
-```typescript
-// ❌ Error: Embedding has 3072 dims, Vectorize expects 768
-const embedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text
-  // No outputDimensionality specified → defaults to 3072
-});
-
-await env.VECTORIZE.insert([{
-  id: '1',
-  values: embedding.embedding.values // 3072 dims, but index is 768!
-}]);
-
-// ✅ Correct: Match dimensions
-const embedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text,
-  config: { outputDimensionality: 768 } // ← Match index dimensions
-});
-```
-
-**3. Rate Limiting**
-
-```typescript
-// ❌ Error: 429 Too Many Requests
-for (let i = 0; i < 1000; i++) {
-  await ai.models.embedContent({ /* ... */ }); // Exceeds 100 RPM on free tier
-}
-
-// ✅ Correct: Implement rate limiting
-async function embedWithRetry(text: string, maxRetries = 3) {
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      return await ai.models.embedContent({
-        model: 'gemini-embedding-001',
-        content: text,
-        config: { taskType: 'SEMANTIC_SIMILARITY' }
-      });
-    } catch (error: any) {
-      if (error.status === 429 && attempt < maxRetries - 1) {
-        const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
-      }
-      throw error;
-    }
-  }
-}
-```
-
-See `references/top-errors.md` for all 8 documented errors with detailed solutions.
-
----
-
-## 10. Best Practices
+## 7. Best Practices
 
 ### Always Do
 
 ✅ **Specify Task Type**
 ```typescript
-// Task type optimizes embeddings for your use case
 const embedding = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   content: text,
@@ -845,7 +498,6 @@ const embedding = await ai.models.embedContent({
 
 ✅ **Match Dimensions with Vectorize**
 ```typescript
-// Ensure embeddings match your Vectorize index dimensions
 const embedding = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   content: text,
@@ -855,15 +507,11 @@ const embedding = await ai.models.embedContent({
 
 ✅ **Implement Rate Limiting**
 ```typescript
-// Use exponential backoff for 429 errors
-async function embedWithBackoff(text: string) {
-  // Implementation from Error Handling section
-}
+// Use exponential backoff for 429 errors (see Error 2)
 ```
 
 ✅ **Cache Embeddings**
 ```typescript
-// Cache embeddings to avoid redundant API calls
 const cache = new Map<string, number[]>();
 
 async function getCachedEmbedding(text: string): Promise<number[]> {
@@ -874,7 +522,7 @@ async function getCachedEmbedding(text: string): Promise<number[]> {
   const response = await ai.models.embedContent({
     model: 'gemini-embedding-001',
     content: text,
-    config: { taskType: 'SEMANTIC_SIMILARITY' }
+    config: { taskType: 'SEMANTIC_SIMILARITY', outputDimensionality: 768 }
   });
 
   const embedding = response.embedding.values;
@@ -889,50 +537,61 @@ async function getCachedEmbedding(text: string): Promise<number[]> {
 const embeddings = await ai.models.embedContent({
   model: 'gemini-embedding-001',
   contents: texts, // Array of texts
-  config: { taskType: 'RETRIEVAL_DOCUMENT' }
+  config: { taskType: 'RETRIEVAL_DOCUMENT', outputDimensionality: 768 }
 });
 ```
 
 ### Never Do
 
-❌ **Don't Skip Task Type**
-```typescript
-// Reduces quality by 10-30%
-const embedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text
-  // Missing taskType!
-});
-```
+❌ **Don't Skip Task Type** - Reduces quality by 10-30%
+❌ **Don't Mix Different Dimensions** - Can't compare embeddings
+❌ **Don't Use Wrong Task Type for RAG** - Reduces search quality
+❌ **Don't Exceed 2,048 Tokens** - Text will be silently truncated
+❌ **Don't Ignore Rate Limits** - Will hit 429 errors
 
-❌ **Don't Mix Different Dimensions**
-```typescript
-// Can't compare embeddings with different dimensions
-const emb1 = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text1,
-  config: { outputDimensionality: 768 }
-});
+---
 
-const emb2 = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: text2,
-  config: { outputDimensionality: 1536 } // Different dimensions!
-});
+## 8. When to Load References
 
-// ❌ Can't calculate similarity between different dimensions
-const similarity = cosineSimilarity(emb1.embedding.values, emb2.embedding.values);
-```
+### Load `references/rag-patterns.md` when:
+- Building a RAG (Retrieval Augmented Generation) system
+- Need document ingestion pipeline with chunking strategies
+- Implementing semantic search with cosine similarity
+- Building conversational RAG with history
+- Need citation RAG or multi-query RAG patterns
+- Want complete examples of filtered RAG, streaming RAG, or hybrid search
+- Need document clustering with K-means implementation
 
-❌ **Don't Use Wrong Task Type for RAG**
-```typescript
-// Reduces search quality
-const queryEmbedding = await ai.models.embedContent({
-  model: 'gemini-embedding-001',
-  content: query,
-  config: { taskType: 'RETRIEVAL_DOCUMENT' } // Wrong! Should be RETRIEVAL_QUERY
-});
-```
+### Load `references/vectorize-integration.md` when:
+- Setting up Cloudflare Vectorize index for embeddings
+- Need complete RAG example with Vectorize insert/query patterns
+- Configuring dimension/metric settings for Vectorize
+- Implementing metadata best practices
+- Troubleshooting dimension mismatch errors with Vectorize
+- Need index management commands (create/delete/list)
+
+### Load `references/dimension-guide.md` when:
+- Deciding between 768, 1536, or 3072 dimensions
+- Need storage cost analysis (100k vs 1M vectors)
+- Understanding accuracy trade-offs (MTEB benchmarks)
+- Migrating between different dimensions
+- Want query performance comparisons
+- Testing methodology for optimal dimension selection
+
+### Load `references/model-comparison.md` when:
+- Comparing Gemini vs OpenAI (text-embedding-3-small/large)
+- Comparing Gemini vs Cloudflare Workers AI (BGE)
+- Need MTEB benchmark scores
+- Deciding which embedding model to use
+- Migrating from OpenAI to Gemini
+- Understanding cost differences between providers
+
+### Load `references/top-errors.md` when:
+- Encountering any of the 8 documented errors
+- Need detailed root cause analysis
+- Want production-tested solutions with code examples
+- Building error handling for production systems
+- Need verification checklist before deployment
 
 ---
 
@@ -986,7 +645,7 @@ const queryEmbedding = await ai.models.embedContent({
 **Errors Prevented**: 8 documented errors with solutions
 **Production Tested**: ✅ Verified in RAG applications
 **Package Version**: @google/genai@1.27.0
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-11-21
 
 ---
 

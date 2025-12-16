@@ -23,15 +23,13 @@ Complete skill for building AI applications with OpenAI Agents SDK (JavaScript/T
 
 ---
 
-## Installation & Setup
+## Quick Start
 
-Install required packages:
+### Installation
 
 ```bash
-bun add @openai/agents zod@3  # preferred
-# or: bun add @openai/agents zod@3
-bun add @openai/agents-realtime  # preferred, for voice agents
-# or: bun add @openai/agents-realtime  # For voice agents
+bun add @openai/agents zod@3
+bun add @openai/agents-realtime  # For voice agents
 ```
 
 Set environment variable:
@@ -40,371 +38,56 @@ Set environment variable:
 export OPENAI_API_KEY="your-api-key"
 ```
 
-Supported runtimes:
-- Node.js 22+
-- Deno
-- Bun
-- Cloudflare Workers (experimental)
-
----
-
-## Core Concepts
-
-### 1. Agents
-LLMs equipped with instructions and tools:
+### Basic Text Agent
 
 ```typescript
-import { Agent } from '@openai/agents';
+import { Agent, run, tool } from '@openai/agents';
+import { z } from 'zod';
 
 const agent = new Agent({
   name: 'Assistant',
   instructions: 'You are helpful.',
-  tools: [myTool],
+  tools: [tool({
+    name: 'get_weather',
+    parameters: z.object({ city: z.string() }),
+    execute: async ({ city }) => `Weather in ${city}: sunny`,
+  })],
   model: 'gpt-4o-mini',
 });
+
+const result = await run(agent, 'What is the weather in SF?');
 ```
 
-### 2. Tools
-Functions agents can call, with automatic schema generation:
+### Voice Agent & Multi-Agent
 
 ```typescript
-import { tool } from '@openai/agents';
-import { z } from 'zod';
-
-const weatherTool = tool({
-  name: 'get_weather',
-  description: 'Get weather for a city',
-  parameters: z.object({
-    city: z.string(),
-  }),
-  execute: async ({ city }) => {
-    return `Weather in ${city}: sunny`;
-  },
+// Voice agent
+const voiceAgent = new RealtimeAgent({
+  voice: 'alloy',
+  model: 'gpt-4o-realtime-preview',
 });
-```
 
-### 3. Handoffs
-Multi-agent delegation:
+// Browser session
+const session = new RealtimeSession(voiceAgent, {
+  apiKey: sessionApiKey, // From backend!
+  transport: 'webrtc',
+});
 
-```typescript
-const specialist = new Agent({ /* ... */ });
-
+// Multi-agent handoffs
 const triageAgent = Agent.create({
-  name: 'Triage',
-  instructions: 'Route to specialists',
-  handoffs: [specialist],
-});
-```
-
-### 4. Guardrails
-Input/output validation for safety:
-
-```typescript
-const agent = new Agent({
-  inputGuardrails: [homeworkDetector],
-  outputGuardrails: [piiFilter],
-});
-```
-
-### 5. Structured Outputs
-Type-safe responses with Zod:
-
-```typescript
-const agent = new Agent({
-  outputType: z.object({
-    sentiment: z.enum(['positive', 'negative', 'neutral']),
-    confidence: z.number(),
-  }),
-});
-```
-
----
-
-## Text Agents
-
-### Basic Usage
-
-```typescript
-import { run } from '@openai/agents';
-
-const result = await run(agent, 'What is 2+2?');
-console.log(result.finalOutput);
-console.log(result.usage.totalTokens);
-```
-
-### Streaming
-
-```typescript
-const stream = await run(agent, 'Tell me a story', {
-  stream: true,
-});
-
-for await (const event of stream) {
-  if (event.type === 'raw_model_stream_event') {
-    const chunk = event.data?.choices?.[0]?.delta?.content || '';
-    process.stdout.write(chunk);
-  }
-}
-```
-
-**Templates**:
-- `templates/text-agents/agent-basic.ts`
-- `templates/text-agents/agent-streaming.ts`
-
----
-
-## Multi-Agent Handoffs
-
-Create specialized agents and route between them:
-
-```typescript
-const billingAgent = new Agent({
-  name: 'Billing',
-  handoffDescription: 'For billing and payment questions',
-  tools: [processRefundTool],
-});
-
-const techAgent = new Agent({
-  name: 'Technical',
-  handoffDescription: 'For technical issues',
-  tools: [createTicketTool],
-});
-
-const triageAgent = Agent.create({
-  name: 'Triage',
-  instructions: 'Route customers to the right specialist',
   handoffs: [billingAgent, techAgent],
 });
 ```
 
-**Templates**:
-- `templates/text-agents/agent-handoffs.ts`
-
-**References**:
-- `references/agent-patterns.md` - LLM vs code orchestration
+**17 Templates**: `templates/` directory has production-ready examples for all patterns.
 
 ---
 
-## Guardrails
-
-### Input Guardrails
-
-Validate input before processing:
-
-```typescript
-const homeworkGuardrail: InputGuardrail = {
-  name: 'Homework Detection',
-  execute: async ({ input, context }) => {
-    const result = await run(guardrailAgent, input);
-    return {
-      tripwireTriggered: result.finalOutput.isHomework,
-      outputInfo: result.finalOutput,
-    };
-  },
-};
-
-const agent = new Agent({
-  inputGuardrails: [homeworkGuardrail],
-});
-```
-
-### Output Guardrails
-
-Filter responses:
-
-```typescript
-const piiGuardrail: OutputGuardrail = {
-  name: 'PII Detection',
-  execute: async ({ agentOutput }) => {
-    const phoneRegex = /\b\d{3}[-. ]?\d{3}[-. ]?\d{4}\b/;
-    return {
-      tripwireTriggered: phoneRegex.test(agentOutput as string),
-      outputInfo: { detected: 'phone_number' },
-    };
-  },
-};
-```
-
-**Templates**:
-- `templates/text-agents/agent-guardrails-input.ts`
-- `templates/text-agents/agent-guardrails-output.ts`
-
----
-
-## Human-in-the-Loop
-
-Require approval for specific actions:
-
-```typescript
-const refundTool = tool({
-  name: 'process_refund',
-  requiresApproval: true,  // ← Requires human approval
-  execute: async ({ amount }) => {
-    return `Refunded $${amount}`;
-  },
-});
-
-// Handle approval requests
-let result = await runner.run(input);
-
-while (result.interruption) {
-  if (result.interruption.type === 'tool_approval') {
-    const approved = await promptUser(result.interruption);
-    result = approved
-      ? await result.state.approve(result.interruption)
-      : await result.state.reject(result.interruption);
-  }
-}
-```
-
-**Templates**:
-- `templates/text-agents/agent-human-approval.ts`
-
----
-
-## Realtime Voice Agents
-
-### Creating Voice Agents
-
-```typescript
-import { RealtimeAgent, tool } from '@openai/agents-realtime';
-
-const voiceAgent = new RealtimeAgent({
-  name: 'Voice Assistant',
-  instructions: 'Keep responses concise for voice',
-  tools: [weatherTool],
-  voice: 'alloy', // alloy, echo, fable, onyx, nova, shimmer
-  model: 'gpt-4o-realtime-preview',
-});
-```
-
-### Browser Session (React)
-
-```typescript
-import { RealtimeSession } from '@openai/agents-realtime';
-
-const session = new RealtimeSession(voiceAgent, {
-  apiKey: sessionApiKey, // From your backend!
-  transport: 'webrtc', // or 'websocket'
-});
-
-session.on('connected', () => console.log('Connected'));
-session.on('audio.transcription.completed', (e) => console.log('User:', e.transcript));
-session.on('agent.audio.done', (e) => console.log('Agent:', e.transcript));
-
-await session.connect();
-```
-
-**CRITICAL**: Never send your main OPENAI_API_KEY to the browser! Generate ephemeral session tokens server-side.
-
-### Voice Agent Handoffs
-
-Voice agents support handoffs with constraints:
-- **Cannot change voice** during handoff
-- **Cannot change model** during handoff
-- Conversation history automatically passed
-
-```typescript
-const specialist = new RealtimeAgent({
-  voice: 'nova', // Must match parent
-  /* ... */
-});
-
-const triageAgent = new RealtimeAgent({
-  voice: 'nova',
-  handoffs: [specialist],
-});
-```
-
-**Templates**:
-- `templates/realtime-agents/realtime-agent-basic.ts`
-- `templates/realtime-agents/realtime-session-browser.tsx`
-- `templates/realtime-agents/realtime-handoffs.ts`
-
-**References**:
-- `references/realtime-transports.md` - WebRTC vs WebSocket
-
----
-
-## Framework Integration
-
-### Cloudflare Workers (Experimental)
-
-```typescript
-import { Agent, run } from '@openai/agents';
-
-export default {
-  async fetch(request: Request, env: Env) {
-    const { message } = await request.json();
-
-    process.env.OPENAI_API_KEY = env.OPENAI_API_KEY;
-
-    const agent = new Agent({
-      name: 'Assistant',
-      instructions: 'Be helpful and concise',
-      model: 'gpt-4o-mini',
-    });
-
-    const result = await run(agent, message, {
-      maxTurns: 5,
-    });
-
-    return new Response(JSON.stringify({
-      response: result.finalOutput,
-      tokens: result.usage.totalTokens,
-    }), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  },
-};
-```
-
-**Limitations**:
-- No realtime voice agents
-- CPU time limits (30s max)
-- Memory constraints (128MB)
-
-**Templates**:
-- `templates/cloudflare-workers/worker-text-agent.ts`
-- `templates/cloudflare-workers/worker-agent-hono.ts`
-
-**References**:
-- `references/cloudflare-integration.md`
-
-### Next.js App Router
-
-```typescript
-// app/api/agent/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { Agent, run } from '@openai/agents';
-
-export async function POST(request: NextRequest) {
-  const { message } = await request.json();
-
-  const agent = new Agent({
-    name: 'Assistant',
-    instructions: 'Be helpful',
-  });
-
-  const result = await run(agent, message);
-
-  return NextResponse.json({
-    response: result.finalOutput,
-  });
-}
-```
-
-**Templates**:
-- `templates/nextjs/api-agent-route.ts`
-- `templates/nextjs/api-realtime-route.ts`
-
----
-
-## Error Handling (9+ Errors Prevented)
+## Top 3 Critical Errors
 
 ### 1. Zod Schema Type Errors
 
-**Error**: Type errors with tool parameters.
+**Error**: Type errors with tool parameters even when structurally compatible.
 
 **Workaround**: Define schemas inline.
 
@@ -438,7 +121,7 @@ await initializeTracing();
 
 ```typescript
 const result = await run(agent, input, {
-  maxTurns: 20, // Increase limit
+  maxTurns: 20,
 });
 
 // Or improve instructions
@@ -446,115 +129,233 @@ instructions: `After using tools, provide a final answer.
 Do not loop endlessly.`
 ```
 
-### 4. ToolCallError
-
-**Error**: Tool execution fails.
-
-**Solution**: Retry with exponential backoff:
-
-```typescript
-for (let attempt = 1; attempt <= 3; attempt++) {
-  try {
-    return await run(agent, input);
-  } catch (error) {
-    if (error instanceof ToolCallError && attempt < 3) {
-      await sleep(1000 * Math.pow(2, attempt - 1));
-      continue;
-    }
-    throw error;
-  }
-}
-```
-
-### 5. Schema Mismatch
-
-**Error**: Output doesn't match `outputType`.
-
-**Solution**: Use stronger model or add validation instructions:
-
-```typescript
-const agent = new Agent({
-  model: 'gpt-4o', // More reliable than gpt-4o-mini
-  instructions: 'CRITICAL: Return JSON matching schema exactly',
-  outputType: mySchema,
-});
-```
-
-**All Errors**: See `references/common-errors.md`
-
-**Template**: `templates/shared/error-handling.ts`
+**All 9 Errors**: Load `references/common-errors.md` for complete error catalog with workarounds.
 
 ---
 
-## Orchestration Patterns
+## When to Load References
 
-### LLM-Based
+Load reference files when working on specific aspects of agent development:
 
-Agent decides routing autonomously:
+### Agent Patterns (`references/agent-patterns.md`)
+Load when:
+- Designing multi-agent orchestration strategies
+- Choosing between LLM-based vs code-based orchestration
+- Implementing parallel agent execution
+- Creating agents-as-tools patterns
+- Need to understand when to use which orchestration pattern
+
+### Common Errors (`references/common-errors.md`)
+Load when:
+- Debugging agent issues beyond the top 3 errors above
+- Implementing comprehensive error handling
+- Encountering: GuardrailExecutionError, ToolCallError, Schema Mismatch, Ollama integration, webSearchTool failures, Agent Builder export bugs
+- Building production error recovery patterns
+
+### Realtime Transports (`references/realtime-transports.md`)
+Load when:
+- Choosing between WebRTC vs WebSocket for voice agents
+- Optimizing voice agent latency
+- Debugging voice connection issues
+- Understanding network/firewall requirements for voice
+- Implementing custom audio sources/sinks
+
+### Cloudflare Integration (`references/cloudflare-integration.md`)
+Load when:
+- Deploying agents to Cloudflare Workers
+- Understanding Workers limitations (CPU, memory, no voice)
+- Implementing streaming in Workers
+- Debugging Workers-specific issues
+- Optimizing for Workers performance and costs
+
+### Official Links (`references/official-links.md`)
+Load when:
+- Need official documentation links
+- Looking for examples or community resources
+- Checking latest SDK versions
+- Finding pricing information
+- Need migration guides
+
+---
+
+## Core Concepts Summary
+
+**Agents**: LLMs equipped with instructions and tools.
+
+**Tools**: Functions with Zod schemas that agents can call automatically.
+
+**Handoffs**: Multi-agent delegation where agents route tasks to specialists.
+
+**Guardrails**: Input/output validation for safety (content filtering, PII detection).
+
+**Structured Outputs**: Type-safe responses using Zod schemas.
+
+**Streaming**: Real-time event streaming for progressive responses.
+
+**Human-in-the-Loop**: Require approval for specific tool executions (`requiresApproval: true`).
+
+For detailed examples, see templates in `templates/text-agents/` and `templates/realtime-agents/`.
+
+---
+
+## Text Agents Quick Reference
 
 ```typescript
-const manager = Agent.create({
-  instructions: 'Analyze request and route to appropriate agent',
-  handoffs: [agent1, agent2, agent3],
+// Basic
+const result = await run(agent, 'Your question');
+
+// Streaming
+const stream = await run(agent, input, { stream: true });
+
+// Structured output
+const agent = new Agent({
+  outputType: z.object({ sentiment: z.enum([...]), confidence: z.number() }),
 });
 ```
 
-**Pros**: Adaptive, handles complexity
-**Cons**: Less predictable, higher tokens
+**Templates**: `templates/text-agents/` (8 templates)
 
-### Code-Based
+---
 
-Explicit control flow:
+## Realtime Voice Agents Quick Reference
 
 ```typescript
-const summary = await run(summarizerAgent, text);
-const sentiment = await run(sentimentAgent, summary.finalOutput);
+const voiceAgent = new RealtimeAgent({
+  voice: 'alloy', // alloy, echo, fable, onyx, nova, shimmer
+  model: 'gpt-4o-realtime-preview',
+});
 
-if (sentiment.finalOutput.score < 0.3) {
-  await run(escalationAgent, text);
+const session = new RealtimeSession(voiceAgent, {
+  apiKey: sessionApiKey,
+  transport: 'webrtc', // or 'websocket'
+});
+```
+
+**Voice handoff constraints**: Cannot change voice/model during handoff.
+
+**Templates**: `templates/realtime-agents/` (3 templates) | **Details**: `references/realtime-transports.md`
+
+---
+
+## Framework Integration Quick Reference
+
+### Cloudflare Workers (Experimental)
+
+```typescript
+export default {
+  async fetch(request: Request, env: Env) {
+    const { message } = await request.json();
+    process.env.OPENAI_API_KEY = env.OPENAI_API_KEY;
+
+    const agent = new Agent({
+      name: 'Assistant',
+      instructions: 'Be helpful and concise',
+      model: 'gpt-4o-mini',
+    });
+
+    const result = await run(agent, message, { maxTurns: 5 });
+
+    return new Response(JSON.stringify({
+      response: result.finalOutput,
+      tokens: result.usage.totalTokens,
+    }));
+  },
+};
+```
+
+**Limitations**: No realtime voice, CPU time limits (30s max), memory constraints (128MB).
+
+**Templates**: `templates/cloudflare-workers/` (2 templates)
+
+**Details**: Load `references/cloudflare-integration.md` for complete Workers guide.
+
+### Next.js App Router
+
+```typescript
+// app/api/agent/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { Agent, run } from '@openai/agents';
+
+export async function POST(request: NextRequest) {
+  const { message } = await request.json();
+  const agent = new Agent({ /* ... */ });
+  const result = await run(agent, message);
+  return NextResponse.json({ response: result.finalOutput });
 }
 ```
 
-**Pros**: Predictable, lower cost
-**Cons**: Less flexible
+**Templates**: `templates/nextjs/` (2 templates)
 
-### Parallel
+---
 
-Run multiple agents concurrently:
+## Guardrails & Human-in-the-Loop
 
 ```typescript
-const [summary, keywords, entities] = await Promise.all([
-  run(summarizerAgent, text),
-  run(keywordAgent, text),
-  run(entityAgent, text),
-]);
+// Input/output guardrails
+const agent = new Agent({
+  inputGuardrails: [homeworkDetectorGuardrail],
+  outputGuardrails: [piiFilterGuardrail],
+});
+
+// Human approval
+const tool = tool({
+  requiresApproval: true,
+  execute: async ({ amount }) => `Refunded $${amount}`,
+});
+
+// Handle approval loop
+while (result.interruption?.type === 'tool_approval') {
+  result = (await promptUser(result.interruption))
+    ? await result.state.approve(result.interruption)
+    : await result.state.reject(result.interruption);
+}
 ```
 
-**Template**: `templates/text-agents/agent-parallel.ts`
+**Templates**: `templates/text-agents/agent-guardrails-*.ts`, `agent-human-approval.ts`
 
-**References**: `references/agent-patterns.md`
+---
+
+## Orchestration Patterns Summary
+
+**LLM-Based**: Agent decides routing autonomously. Use for adaptive workflows.
+
+**Code-Based**: Explicit control flow. Use for predictable, deterministic workflows.
+
+**Parallel**: Run multiple agents concurrently. Use for independent tasks.
+
+**Agents as Tools**: Wrap agents as tools for manager LLM. Use for specialist delegation.
+
+**Details**: Load `references/agent-patterns.md` for comprehensive orchestration strategies with examples.
+
+**Template**: `templates/text-agents/agent-parallel.ts`
 
 ---
 
 ## Debugging & Tracing
 
-Enable verbose logging:
-
 ```typescript
 process.env.DEBUG = '@openai/agents:*';
-```
 
-Access execution details:
-
-```typescript
 const result = await run(agent, input);
-
-console.log('Tokens:', result.usage.totalTokens);
-console.log('Turns:', result.history.length);
-console.log('Current Agent:', result.currentAgent?.name);
+console.log('Tokens:', result.usage.totalTokens, 'Turns:', result.history.length);
 ```
 
 **Template**: `templates/shared/tracing-setup.ts`
+
+---
+
+## Production Checklist
+
+- [ ] Set `OPENAI_API_KEY` as environment secret
+- [ ] Implement error handling for all agent calls
+- [ ] Add guardrails for safety-critical applications
+- [ ] Set reasonable `maxTurns` to prevent runaway costs
+- [ ] Use `gpt-4o-mini` where possible for cost efficiency
+- [ ] Implement rate limiting
+- [ ] Log token usage for cost monitoring
+- [ ] Test handoff flows thoroughly
+- [ ] Never expose API keys to browsers (use session tokens)
+- [ ] Enable tracing/observability for debugging
 
 ---
 
@@ -573,21 +374,6 @@ console.log('Current Agent:', result.currentAgent?.name);
 - Simple OpenAI API calls (use `openai-api` skill instead)
 - Non-OpenAI models exclusively
 - Production voice at massive scale (consider LiveKit Agents)
-
----
-
-## Production Checklist
-
-- [ ] Set `OPENAI_API_KEY` as environment secret
-- [ ] Implement error handling for all agent calls
-- [ ] Add guardrails for safety-critical applications
-- [ ] Enable tracing for debugging
-- [ ] Set reasonable `maxTurns` to prevent runaway costs
-- [ ] Use `gpt-4o-mini` where possible for cost efficiency
-- [ ] Implement rate limiting
-- [ ] Log token usage for cost monitoring
-- [ ] Test handoff flows thoroughly
-- [ ] Never expose API keys to browsers (use session tokens)
 
 ---
 
@@ -637,11 +423,11 @@ console.log('Current Agent:', result.currentAgent?.name);
 
 ## References
 
-1. `agent-patterns.md` - Orchestration strategies
-2. `common-errors.md` - 9 errors with workarounds
-3. `realtime-transports.md` - WebRTC vs WebSocket
-4. `cloudflare-integration.md` - Workers limitations
-5. `official-links.md` - Documentation links
+1. `agent-patterns.md` - Orchestration strategies (LLM vs code, parallel, agents-as-tools)
+2. `common-errors.md` - All 9 errors with workarounds and sources
+3. `realtime-transports.md` - WebRTC vs WebSocket comparison, latency, debugging
+4. `cloudflare-integration.md` - Workers setup, limitations, performance, costs
+5. `official-links.md` - Documentation, GitHub, npm, community resources
 
 ---
 
@@ -654,7 +440,7 @@ console.log('Current Agent:', result.currentAgent?.name);
 
 ---
 
-**Version**: SDK v0.2.1
-**Last Verified**: 2025-10-26
+**Version**: SDK v0.3.3
+**Last Verified**: 2025-11-21
 **Skill Author**: Claude Skills Maintainers
 **Production Tested**: Yes

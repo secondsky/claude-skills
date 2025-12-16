@@ -98,31 +98,108 @@ console.log(data.content[0].text);
 
 ---
 
-## Top 5 Use Cases
+## Top 3 Errors (Prevent 80% of Issues)
 
-### Use Case 1: Basic Chat
+### Error #1: Rate Limit 429
 
-**Quick Pattern:**
+**Symptom**: `429 Too Many Requests: Number of request tokens has exceeded your per-minute rate limit`
+
+**Solution**: Implement exponential backoff with retry-after header
 
 ```typescript
-const message = await client.messages.create({
-  model: 'claude-sonnet-4-5-20250929',
-  max_tokens: 1024,
-  messages: [
-    { role: 'user', content: 'Explain quantum computing.' },
-  ],
-});
-
-console.log(message.content[0].text);
+async function handleRateLimit(requestFn, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await requestFn();
+    } catch (error) {
+      if (error.status === 429) {
+        const retryAfter = error.response?.headers?.['retry-after'];
+        const delay = retryAfter ? parseInt(retryAfter) * 1000 : 1000 * Math.pow(2, attempt);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      } else {
+        throw error;
+      }
+    }
+  }
+}
 ```
 
-**Load**: `templates/basic-chat.ts` for complete example
+**Prevention**: Monitor rate limit headers, upgrade tier, implement backoff
 
 ---
 
-### Use Case 2: Streaming Responses
+### Error #2: Prompt Caching Not Activating
 
-**Quick Pattern:**
+**Symptom**: High costs despite `cache_control` blocks, `cache_read_input_tokens: 0`
+
+**Solution**: Place `cache_control` on LAST block with >= 1024 tokens
+
+```typescript
+// ❌ Wrong - cache_control not at end
+{
+  type: 'text',
+  text: DOCUMENT,
+  cache_control: { type: 'ephemeral' },  // Wrong position
+},
+{
+  type: 'text',
+  text: 'Additional text',
+}
+
+// ✅ Correct - cache_control at end
+{
+  type: 'text',
+  text: DOCUMENT + '\n\nAdditional text',
+  cache_control: { type: 'ephemeral' },  // Correct position
+}
+```
+
+**Prevention**: Ensure content >= 1024 tokens, keep cached content identical, monitor usage
+
+**Load `references/prompt-caching-guide.md` for complete caching strategy.**
+
+---
+
+### Error #3: Tool Use Response Format Errors
+
+**Symptom**: `invalid_request_error: tools[0].input_schema is invalid`
+
+**Solution**: Valid tool schema with proper JSON Schema
+
+```typescript
+// ✅ Valid tool schema
+{
+  name: 'get_weather',
+  description: 'Get current weather',
+  input_schema: {
+    type: 'object',           // Must be 'object'
+    properties: {
+      location: {
+        type: 'string',       // Valid JSON Schema types
+        description: 'City'   // Optional but recommended
+      }
+    },
+    required: ['location']    // List required fields
+  }
+}
+
+// ✅ Valid tool result
+{
+  type: 'tool_result',
+  tool_use_id: block.id,      // Must match tool_use id
+  content: JSON.stringify(result)  // Convert to string
+}
+```
+
+**Prevention**: Validate schemas, match tool_use_id exactly, stringify results
+
+**Load `references/tool-use-patterns.md` + `references/top-errors.md` for all 12 errors.**
+
+---
+
+## Common Use Cases (Quick Patterns)
+
+### Streaming Responses
 
 ```typescript
 const stream = await client.messages.stream({
@@ -138,13 +215,11 @@ for await (const event of stream) {
 }
 ```
 
-**Load**: `templates/streaming-chat.ts` for complete implementation
+**Load**: `templates/streaming-chat.ts`
 
 ---
 
-### Use Case 3: Prompt Caching (90% Cost Savings)
-
-**Quick Pattern:**
+### Prompt Caching (90% Cost Savings)
 
 ```typescript
 const message = await client.messages.create({
@@ -153,7 +228,7 @@ const message = await client.messages.create({
   system: [
     {
       type: 'text',
-      text: 'Long system prompt...',  // This gets cached
+      text: 'Long system prompt...',
       cache_control: { type: 'ephemeral' },
     },
   ],
@@ -161,36 +236,28 @@ const message = await client.messages.create({
 });
 ```
 
-**Benefits**: Cache lasts 5 minutes, 90% savings on cached tokens
+**Cache lasts 5 minutes, 90% savings on cached tokens**
 
 **Load**: `references/prompt-caching-guide.md` + `templates/prompt-caching.ts`
 
 ---
 
-### Use Case 4: Tool Use (Function Calling)
-
-**Quick Pattern:**
+### Tool Use (Function Calling)
 
 ```typescript
 const message = await client.messages.create({
   model: 'claude-sonnet-4-5-20250929',
   max_tokens: 1024,
-  tools: [
-    {
-      name: 'get_weather',
-      description: 'Get weather for a location',
-      input_schema: {
-        type: 'object',
-        properties: {
-          location: { type: 'string' },
-        },
-        required: ['location'],
-      },
+  tools: [{
+    name: 'get_weather',
+    description: 'Get weather for a location',
+    input_schema: {
+      type: 'object',
+      properties: { location: { type: 'string' } },
+      required: ['location'],
     },
-  ],
-  messages: [
-    { role: 'user', content: 'What is the weather in SF?' },
-  ],
+  }],
+  messages: [{ role: 'user', content: 'Weather in SF?' }],
 });
 
 if (message.stop_reason === 'tool_use') {
@@ -203,34 +270,53 @@ if (message.stop_reason === 'tool_use') {
 
 ---
 
-### Use Case 5: Vision (Image Understanding)
-
-**Quick Pattern:**
+### Vision (Image Understanding)
 
 ```typescript
 const message = await client.messages.create({
   model: 'claude-sonnet-4-5-20250929',
   max_tokens: 1024,
-  messages: [
-    {
-      role: 'user',
-      content: [
-        {
-          type: 'image',
-          source: {
-            type: 'base64',
-            media_type: 'image/jpeg',
-            data: base64Image,
-          },
+  messages: [{
+    role: 'user',
+    content: [
+      {
+        type: 'image',
+        source: {
+          type: 'base64',
+          media_type: 'image/jpeg',
+          data: base64Image,
         },
-        { type: 'text', text: 'What is in this image?' },
-      ],
-    },
-  ],
+      },
+      { type: 'text', text: 'What is in this image?' },
+    ],
+  }],
 });
 ```
 
+**Supports**: JPEG, PNG, WebP, GIF (max 5MB)
+
 **Load**: `references/vision-capabilities.md` + `templates/vision-image.ts`
+
+---
+
+### Extended Thinking Mode
+
+```typescript
+const message = await client.messages.create({
+  model: 'claude-sonnet-4-5-20250929',
+  max_tokens: 4096,
+  thinking: {
+    type: 'enabled',
+    budget_tokens: 2000,
+  },
+  messages: [{ role: 'user', content: 'Solve complex problem...' }],
+});
+
+const thinking = message.content.find(b => b.type === 'thinking')?.thinking;
+const answer = message.content.find(b => b.type === 'text')?.text;
+```
+
+**Load**: `templates/extended-thinking.ts`
 
 ---
 
@@ -246,194 +332,50 @@ const message = await client.messages.create({
 
 ---
 
-## Streaming
-
-**Benefits:**
-- Better user experience (progressive output)
-- Lower latency to first token
-- Handle long responses without timeout
-
-**Basic streaming:**
-
-```typescript
-const stream = await client.messages.stream({
-  model: 'claude-sonnet-4-5-20250929',
-  max_tokens: 1024,
-  messages: [{ role: 'user', content: 'Tell me a story.' }],
-});
-
-for await (const event of stream) {
-  if (event.type === 'content_block_delta') {
-    process.stdout.write(event.delta.text);
-  }
-}
-```
-
-**Load `templates/streaming-chat.ts` for complete SSE handling.**
-
----
-
-## Prompt Caching (⭐ 90% Cost Savings)
-
-**How it works:**
-- Mark content with `cache_control: { type: 'ephemeral' }`
-- Cache lasts 5 minutes
-- 90% cost reduction on cached tokens
-- 95% cost reduction on cache writes vs reads
-
-**Best for:**
-- Large system prompts
-- Documents in context
-- Tool definitions
-- Examples/few-shot prompts
-
-**Example:**
-
-```typescript
-system: [
-  {
-    type: 'text',
-    text: largeSystemPrompt,
-    cache_control: { type: 'ephemeral' },  // Cache this
-  },
-],
-```
-
-**Load `references/prompt-caching-guide.md` for complete guide with benchmarks.**
-
----
-
-## Extended Thinking Mode
-
-**For complex reasoning tasks:**
-
-```typescript
-const message = await client.messages.create({
-  model: 'claude-sonnet-4-5-20250929',
-  max_tokens: 4096,
-  thinking: {
-    type: 'enabled',
-    budget_tokens: 2000,  // Optional limit
-  },
-  messages: [{ role: 'user', content: 'Solve complex problem...' }],
-});
-
-// Access thinking process
-const thinking = message.content.find(b => b.type === 'thinking')?.thinking;
-console.log('Reasoning:', thinking);
-
-// Get answer
-const answer = message.content.find(b => b.type === 'text')?.text;
-```
-
-**Load `templates/extended-thinking.ts` for complete example.**
-
----
-
-## Error Handling
-
-**Common errors:**
-
-```typescript
-try {
-  const message = await client.messages.create({...});
-} catch (error) {
-  if (error instanceof Anthropic.APIError) {
-    if (error.status === 429) {
-      // Rate limit - retry with backoff
-      await sleep(1000);
-      return retry();
-    } else if (error.status === 401) {
-      // Invalid API key
-      console.error('Invalid API key');
-    } else if (error.status === 400) {
-      // Bad request
-      console.error('Bad request:', error.message);
-    } else if (error.status === 529) {
-      // Overloaded - retry
-      await sleep(2000);
-      return retry();
-    }
-  }
-  throw error;
-}
-```
-
-**Load `references/top-errors.md` for all errors with solutions.**
-
----
-
-## Rate Limits
-
-**Standard limits:**
-- Requests: 50/minute, 1000/day
-- Tokens: 40,000/minute, 1,000,000/day
-
-**Handle 429 errors:**
-
-```typescript
-async function createWithRetry(params, retries = 3) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      return await client.messages.create(params);
-    } catch (error) {
-      if (error.status === 429 && i < retries - 1) {
-        await sleep(Math.pow(2, i) * 1000);  // 1s, 2s, 4s
-        continue;
-      }
-      throw error;
-    }
-  }
-}
-```
-
-**Load `references/rate-limits.md` for limits and best practices.**
-
----
-
 ## When to Load References
 
 ### Load `references/setup-guide.md` when:
-- First-time Claude API user
-- Need complete Node.js or Cloudflare Workers setup
-- Want production deployment checklist
-- Troubleshooting setup issues
+- First-time Claude API user needing complete setup walkthrough
+- Setting up Node.js or Cloudflare Workers from scratch
+- Need production deployment checklist and platform-specific tips
+- Troubleshooting basic setup issues (API keys, authentication, environment)
 
 ### Load `references/prompt-caching-guide.md` when:
-- Want to reduce costs by 90%
-- Using large system prompts or documents
-- Need caching strategy and benchmarks
-- Optimizing for repeated content
+- Want to reduce costs by 90% on repeated content
+- Using large system prompts, documents, or codebases in context
+- Need detailed caching strategy with benchmarks and cost calculations
+- Optimizing multi-turn conversations with conversation history caching
+- Troubleshooting cache activation issues or cache misses
 
 ### Load `references/tool-use-patterns.md` when:
-- Implementing function calling
-- Need tool definition patterns
-- Want multi-turn tool use examples
-- Troubleshooting tool use issues
+- Implementing function calling and tool definitions
+- Need tool execution loop patterns and multi-turn tool use
+- Want Zod validation examples for type-safe tools
+- Troubleshooting tool use response format errors
 
 ### Load `references/vision-capabilities.md` when:
-- Processing images with Claude
-- Need image format requirements
-- Want vision use cases and limitations
-- Troubleshooting vision issues
+- Processing images with Claude (OCR, analysis, description)
+- Need image format requirements and validation logic
+- Want vision use cases and best practices
+- Combining vision with tools or prompt caching
 
 ### Load `references/api-reference.md` when:
-- Need complete API parameter reference
-- Want all message formats
-- Need response schema details
-- Looking up specific fields
+- Need complete API parameter reference and request/response schemas
+- Looking up specific fields or content block types
+- Want endpoint details, authentication headers, or model IDs
+- Need streaming event types and SSE format details
 
 ### Load `references/top-errors.md` when:
-- Encountering API errors
-- Need error code reference
-- Want prevention strategies
-- Implementing error handling
+- Encountering API errors (all 12 documented errors with solutions)
+- Need error code reference (400, 401, 429, 529, etc.)
+- Want comprehensive prevention strategies
+- Implementing robust error handling and retry logic
 
 ### Load `references/rate-limits.md` when:
-- Planning high-volume usage
-- Encountering 429 errors
-- Need tier limits information
-- Optimizing request patterns
+- Planning high-volume usage and scaling strategy
+- Encountering 429 rate limit errors repeatedly
+- Need tier limits information and upgrade path
+- Optimizing request patterns to stay within limits
 
 ---
 
@@ -441,22 +383,22 @@ async function createWithRetry(params, retries = 3) {
 
 ### References (references/)
 
-- **setup-guide.md** - Complete setup (Node.js + Cloudflare Workers)
-- **api-reference.md** - Complete API parameter reference
-- **prompt-caching-guide.md** - 90% cost savings guide
-- **tool-use-patterns.md** - Function calling patterns
-- **vision-capabilities.md** - Image understanding guide
-- **top-errors.md** - Complete error catalog
-- **rate-limits.md** - Limits and best practices
+- **setup-guide.md** - Complete setup (Node.js + Cloudflare Workers + Next.js)
+- **api-reference.md** - Complete API parameter reference + schemas
+- **prompt-caching-guide.md** - 90% cost savings guide + benchmarks
+- **tool-use-patterns.md** - Function calling patterns + Zod examples
+- **vision-capabilities.md** - Image understanding guide + validation
+- **top-errors.md** - All 12 errors with solutions + prevention
+- **rate-limits.md** - Limits by tier + best practices
 
 ### Templates (templates/)
 
 - **basic-chat.ts** - Simple chat example
-- **streaming-chat.ts** - Streaming implementation
-- **prompt-caching.ts** - Caching example
-- **tool-use-basic.ts** - Basic tool use
-- **tool-use-advanced.ts** - Advanced tool patterns
-- **vision-image.ts** - Vision example
+- **streaming-chat.ts** - Streaming implementation with SSE
+- **prompt-caching.ts** - Caching example with benchmarks
+- **tool-use-basic.ts** - Basic tool use pattern
+- **tool-use-advanced.ts** - Advanced multi-turn tool patterns
+- **vision-image.ts** - Vision example with validation
 - **extended-thinking.ts** - Extended thinking mode
 - **error-handling.ts** - Complete error handling
 - **nodejs-example.ts** - Complete Node.js app
@@ -466,42 +408,27 @@ async function createWithRetry(params, retries = 3) {
 
 ---
 
-## Platform Integrations
+## Platform Integration
 
-### Node.js
-```bash
-bun add @anthropic-ai/sdk
-```
+**Node.js**: `bun add @anthropic-ai/sdk` → Use templates: `nodejs-example.ts`, `basic-chat.ts`
 
-Use templates: `nodejs-example.ts`, `basic-chat.ts`, `streaming-chat.ts`
+**Cloudflare Workers**: Use fetch API → Use templates: `cloudflare-worker.ts`
 
-### Cloudflare Workers
-No SDK needed - use fetch API
-
-Use templates: `cloudflare-worker.ts`
-
-### Next.js
-```bash
-bun add @anthropic-ai/sdk
-```
-
-Use templates: `nextjs-api-route.ts`
+**Next.js**: `bun add @anthropic-ai/sdk` → Use templates: `nextjs-api-route.ts`
 
 ---
 
 ## Production Checklist
 
-- [ ] API key stored securely (environment variable or secret)
+- [ ] API key stored securely (environment variable)
 - [ ] Error handling implemented (401, 429, 400, 529)
-- [ ] Rate limiting handled (exponential backoff)
+- [ ] Rate limiting with exponential backoff
 - [ ] Prompt caching enabled for repeated content
-- [ ] Streaming implemented for long responses
-- [ ] Input validation added
-- [ ] Output sanitization implemented
-- [ ] Monitoring and logging set up
-- [ ] Cost tracking enabled
+- [ ] Streaming for long responses
+- [ ] Input validation + output sanitization
+- [ ] Monitoring and cost tracking
 - [ ] Timeouts configured
-- [ ] Model version pinned (not `-latest`)
+- [ ] Model version pinned
 - [ ] max_tokens set appropriately
 
 ---

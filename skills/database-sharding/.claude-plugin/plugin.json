@@ -8,5 +8,30 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "database sharding",
+    "horizontal partitioning",
+    "shard key",
+    "consistent hashing",
+    "hash sharding",
+    "range sharding",
+    "directory sharding",
+    "cross-shard queries",
+    "shard rebalancing",
+    "scatter-gather pattern",
+    "multi-tenant sharding",
+    "shard router",
+    "distributed database",
+    "database scalability",
+    "shard migration",
+    "hotspot shards",
+    "shard key selection",
+    "cross-shard aggregation",
+    "two-phase commit",
+    "saga pattern",
+    "virtual shards",
+    "shard distribution",
+    "tenant isolation",
+    "zero-downtime migration"
+  ]
 }

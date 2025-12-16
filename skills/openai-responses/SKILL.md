@@ -66,61 +66,35 @@ console.log(data.output_text);
 
 ## What Is the Responses API?
 
-The Responses API (`/v1/responses`) is OpenAI's unified interface for agentic applications launched March 2025.
+The Responses API (`/v1/responses`) is OpenAI's unified interface for agentic applications launched March 2025. **Key Innovation**: Preserved reasoning state across turns (unlike Chat Completions which discards it), improving multi-turn performance by ~5% on TAUBench.
 
-**Key Innovation**: **Preserved Reasoning State**
+**Why Use Responses Over Chat Completions?** Automatic state management, preserved reasoning, server-side tools, 40-80% better cache utilization, and built-in MCP support.
 
-Unlike Chat Completions where reasoning is discarded, Responses **keeps the notebook open**. The model's thought processes survive into the next turn, improving multi-turn performance by ~5% on TAUBench.
-
-**Why Use Responses Over Chat Completions?**
-
-| Feature | Chat Completions | Responses API |
-|---------|-----------------|---------------|
-| State Management | Manual history tracking | Automatic (conversation IDs) |
-| Reasoning | Dropped between turns | Preserved across turns |
-| Tools | Client-side round trips | Server-side hosted |
-| Cache Utilization | Baseline | 40-80% better |
-| MCP Support | Manual integration | Built-in |
-
-**Load `references/responses-vs-chat-completions.md` for complete comparison.**
+**Load `references/responses-vs-chat-completions.md` for complete comparison and decision guide.**
 
 ---
 
-## Critical Rules
+## Top 3 Critical Rules
 
 ### Always Do ✅
 
-1. **Store conversation_id** - Preserve state between turns
+1. **Store conversation_id** - Preserve state between turns (most critical)
 2. **Use environment variables** for API keys (NEVER hardcode)
-3. **Implement error handling** - Handle rate limits (429), auth errors (401)
-4. **Enable tools explicitly** - `tools: { web_search: { enabled: true } }`
-5. **Stream long responses** - Use `stream: true` for better UX
-6. **Validate inputs** - Sanitize user messages before sending
-7. **Monitor costs** - Track token usage and API calls
-8. **Handle polymorphic outputs** - Check `output.type` (message, reasoning, function_call)
-9. **Set timeouts** - Prevent hanging requests
-10. **Cache aggressively** - Leverage improved cache utilization
+3. **Handle polymorphic outputs** - Check `output.type` (message, reasoning, function_call)
 
 ### Never Do ❌
 
-1. **Never expose API key** in client-side code
-2. **Never ignore conversation_id** - State will be lost
-3. **Never assume single output type** - Always check `output.type`
-4. **Never skip error handling** - API calls can fail
-5. **Never hardcode model names** - Use constants
-6. **Never forget to enable tools** - Tools won't work without explicit enable
-7. **Never mix Chat Completions and Responses** in same conversation
-8. **Never ignore rate limits** - Implement backoff
-9. **Never store API keys** in databases or logs
-10. **Never skip input validation** - Prevent injection attacks
+1. **Never ignore conversation_id** - State will be lost
+2. **Never assume single output type** - Always check `output.type`
+3. **Never mix Chat Completions and Responses** in same conversation
+
+**Load `references/setup-guide.md` for complete rules and best practices.**
 
 ---
 
 ## Top 5 Use Cases
 
 ### Use Case 1: Stateful Conversation
-
-**Quick Pattern:**
 
 ```typescript
 // First turn
@@ -146,8 +120,6 @@ const response2 = await openai.responses.create({
 
 ### Use Case 2: Web Search Agent
 
-**Quick Pattern:**
-
 ```typescript
 const response = await openai.responses.create({
   model: 'gpt-5',
@@ -164,8 +136,6 @@ const response = await openai.responses.create({
 
 ### Use Case 3: Code Interpreter
 
-**Quick Pattern:**
-
 ```typescript
 const response = await openai.responses.create({
   model: 'gpt-5',
@@ -181,8 +151,6 @@ const response = await openai.responses.create({
 ---
 
 ### Use Case 4: File Search (RAG)
-
-**Quick Pattern:**
 
 ```typescript
 // Upload file
@@ -210,8 +178,6 @@ const response = await openai.responses.create({
 
 ### Use Case 5: MCP Server Integration
 
-**Quick Pattern:**
-
 ```typescript
 const response = await openai.responses.create({
   model: 'gpt-5',
@@ -231,16 +197,11 @@ const response = await openai.responses.create({
 
 ---
 
-## Built-in Tools (Server-Side)
+## Built-in Tools
 
-All tools run server-side for lower latency and simpler code:
+All tools run server-side: **Code Interpreter** (Python execution), **File Search** (RAG), **Web Search** (real-time), **Image Generation** (DALL-E).
 
-1. **Code Interpreter** - Execute Python code, data analysis
-2. **File Search** - Search uploaded documents (RAG)
-3. **Web Search** - Real-time web search
-4. **Image Generation** - DALL-E integration
-
-**Enable explicitly:**
+Enable explicitly:
 
 ```typescript
 tools: {
@@ -251,13 +212,13 @@ tools: {
 }
 ```
 
-**Load `references/built-in-tools-guide.md` for complete guide with examples.**
+**Load `references/built-in-tools-guide.md` for complete guide with examples and configuration options.**
 
 ---
 
 ## Stateful Conversations
 
-**Automatic state management** with conversation IDs:
+Automatic state management with conversation IDs eliminates manual message tracking, preserves reasoning, and improves cache utilization by 40-80%.
 
 ```typescript
 // Create conversation
@@ -269,41 +230,31 @@ const response1 = await openai.responses.create({
 // Continue conversation
 const response2 = await openai.responses.create({
   model: 'gpt-5',
-  conversation_id: response1.conversation_id,  // Pass ID
+  conversation_id: response1.conversation_id,
   input: 'What is my name?',
 });
 ```
 
-**Benefits:**
-- No manual message array management
-- Reasoning preserved between turns
-- Better cache utilization (40-80%)
-
-**Storage options:**
-- **Node.js**: Session storage, Redis, database
-- **Cloudflare Workers**: KV namespace
-
-**Load `references/stateful-conversations.md` for persistence patterns.**
+**Load `references/stateful-conversations.md` for persistence patterns (Node.js/Redis/KV) and lifecycle management.**
 
 ---
 
 ## Migration from Chat Completions
 
-### Before (Chat Completions):
+Quick changes: `messages` → `input`, `system` role → `developer`, `choices[0].message.content` → `output_text`, `/v1/chat/completions` → `/v1/responses`.
+
+**Before (Chat Completions):**
 
 ```typescript
 const messages = [{ role: 'user', content: 'Hello' }];
-
 const response = await openai.chat.completions.create({
   model: 'gpt-4o',
   messages: messages,
 });
-
-// Manual history management
-messages.push(response.choices[0].message);
+messages.push(response.choices[0].message); // Manual history
 ```
 
-### After (Responses API):
+**After (Responses API):**
 
 ```typescript
 const response = await openai.responses.create({
@@ -311,29 +262,22 @@ const response = await openai.responses.create({
   input: 'Hello',
 });
 
-// Automatic state management
 const response2 = await openai.responses.create({
   model: 'gpt-5',
-  conversation_id: response.conversation_id,
+  conversation_id: response.conversation_id, // Automatic state
   input: 'Follow-up question',
 });
 ```
 
-**Load `references/migration-guide.md` for complete migration checklist.**
+**Load `references/migration-guide.md` for complete migration checklist with tool migration patterns.**
 
 ---
 
 ## Polymorphic Outputs
 
-Responses can return multiple output types:
+Responses can return multiple output types (message, reasoning, function_call, image). Handle each type or use `output_text` convenience property.
 
 ```typescript
-const response = await openai.responses.create({
-  model: 'gpt-5',
-  input: 'Calculate 2 + 2 and explain your reasoning.',
-});
-
-// Handle different output types
 for (const output of response.output) {
   if (output.type === 'message') {
     console.log('Message:', output.content);
@@ -341,173 +285,150 @@ for (const output of response.output) {
     console.log('Reasoning:', output.summary);
   } else if (output.type === 'function_call') {
     console.log('Function:', output.name, output.arguments);
-  } else if (output.type === 'image') {
-    console.log('Image URL:', output.url);
   }
 }
+
+// Or use convenience property
+console.log(response.output_text);
 ```
 
-**Or use convenience property:**
-
-```typescript
-console.log(response.output_text);  // Simplified text output
-```
-
-**Load `references/reasoning-preservation.md` for reasoning output details.**
+**Load `references/reasoning-preservation.md` for reasoning output details and debugging patterns.**
 
 ---
 
 ## Background Mode
 
-For long-running tasks (>60 seconds):
+For long-running tasks (>60 seconds), use `background: true` to run asynchronously and poll for completion.
 
 ```typescript
 const response = await openai.responses.create({
   model: 'gpt-5',
   input: 'Analyze this 50-page document.',
-  background: true,  // Runs asynchronously
+  background: true,
 });
-
-console.log(response.status);  // 'in_progress'
 
 // Poll for completion
 const completed = await openai.responses.retrieve(response.id);
-console.log(completed.output_text);
 ```
 
-**Load `templates/background-mode.ts` for complete polling pattern.**
+**Load `templates/background-mode.ts` for complete polling pattern with exponential backoff.**
 
 ---
 
-## Error Handling
+## Top 3 Errors & Solutions
 
-**Common errors:**
+### Error 1: Session State Not Persisting
+
+**Symptom**: Model doesn't remember previous turns.
+
+**Cause**: Not using conversation IDs or creating new conversation each time.
+
+**Solution**:
 
 ```typescript
-try {
-  const response = await openai.responses.create({
-    model: 'gpt-5',
-    input: userMessage,
-  });
-} catch (error) {
-  if (error.status === 429) {
-    // Rate limit - implement backoff
-    await sleep(1000);
-    return retry();
-  } else if (error.status === 401) {
-    // Invalid API key
-    console.error('Invalid API key');
-  } else if (error.status === 400) {
-    // Bad request - invalid input
-    console.error('Invalid input:', error.message);
-  } else {
-    console.error('OpenAI error:', error);
-  }
-  throw error;
+// ✅ GOOD: Reuse conversation ID
+const conv = await openai.conversations.create();
+const response1 = await openai.responses.create({
+  model: 'gpt-5',
+  conversation: conv.id, // Same ID
+  input: 'Question 1',
+});
+const response2 = await openai.responses.create({
+  model: 'gpt-5',
+  conversation: conv.id, // Same ID - remembers previous
+  input: 'Question 2',
+});
+```
+
+---
+
+### Error 2: MCP Server Connection Failed
+
+**Cause**: Invalid server URL, missing/expired authorization token.
+
+**Solution**:
+
+```typescript
+const response = await openai.responses.create({
+  model: 'gpt-5',
+  input: 'Test MCP',
+  tools: [
+    {
+      type: 'mcp',
+      server_url: 'https://mcp.stripe.com', // ✅ Full HTTPS URL
+      authorization: process.env.STRIPE_OAUTH_TOKEN, // ✅ Valid token
+    },
+  ],
+});
+```
+
+**Prevention**: Use environment variables for secrets, implement token refresh logic, add retry with exponential backoff.
+
+---
+
+### Error 3: Code Interpreter Timeout
+
+**Cause**: Code runs longer than 30 seconds (standard mode limit).
+
+**Solution**:
+
+```typescript
+// ✅ GOOD: Use background mode for long tasks
+const response = await openai.responses.create({
+  model: 'gpt-5',
+  input: 'Process this massive dataset',
+  background: true, // ✅ Up to 10 minutes
+  tools: [{ type: 'code_interpreter' }],
+});
+
+// Poll for results
+let result = await openai.responses.retrieve(response.id);
+while (result.status === 'in_progress') {
+  await new Promise(r => setTimeout(r, 5000));
+  result = await openai.responses.retrieve(response.id);
 }
 ```
 
-**Load `references/top-errors.md` for all errors with solutions.**
+**Load `references/top-errors.md` for all 8 errors with detailed solutions and prevention strategies.**
 
 ---
 
 ## When to Load References
 
 ### Load `references/setup-guide.md` when:
-- First-time Responses API user
-- Need complete Node.js or Cloudflare Workers setup
-- Want production deployment checklist
-- Troubleshooting setup issues
+- First-time Responses API user needing complete Node.js or Cloudflare Workers setup
+- Want production deployment checklist with environment-specific best practices
+- Troubleshooting setup issues or implementing streaming/background patterns
 
 ### Load `references/responses-vs-chat-completions.md` when:
-- Deciding between Responses and Chat Completions
-- Understanding differences in detail
-- Comparing performance characteristics
-- Evaluating migration effort
+- Deciding between Responses and Chat Completions APIs
+- Understanding performance benchmarks (TAUBench results, cache utilization)
+- Evaluating migration effort or comparing cost structures
 
 ### Load `references/migration-guide.md` when:
-- Migrating from Chat Completions API
-- Need step-by-step migration checklist
-- Want code comparison examples
-- Planning migration timeline
+- Migrating from Chat Completions API with step-by-step checklist
+- Need code comparison examples (before/after patterns)
+- Migrating tools from custom functions to built-in/MCP
 
 ### Load `references/built-in-tools-guide.md` when:
 - Using Code Interpreter, File Search, Web Search, or Image Generation
-- Need tool configuration options
-- Want complete tool examples
-- Troubleshooting tool issues
+- Need tool configuration options, combining multiple tools, or troubleshooting
 
 ### Load `references/mcp-integration-guide.md` when:
-- Integrating external MCP servers
-- Building custom MCP tools
-- Need MCP configuration examples
-- Connecting to third-party APIs
+- Integrating external MCP servers or building custom MCP tools
+- Need MCP configuration examples or authentication patterns
 
 ### Load `references/stateful-conversations.md` when:
-- Implementing conversation persistence
-- Using KV/Redis for state storage
-- Need conversation lifecycle management
-- Building multi-turn applications
+- Implementing conversation persistence with KV/Redis/database
+- Need conversation lifecycle management or metadata tracking patterns
 
 ### Load `references/reasoning-preservation.md` when:
-- Want to access model reasoning
-- Debugging model behavior
-- Building transparent AI systems
-- Need reasoning output examples
+- Want to access model reasoning for debugging or transparency
+- Building auditable AI systems or need reasoning output examples
 
 ### Load `references/top-errors.md` when:
-- Encountering API errors
-- Need error code reference
-- Want prevention strategies
-- Implementing error handling
-
----
-
-## Using Bundled Resources
-
-### References (references/)
-
-- **setup-guide.md** - Complete setup (Node.js + Cloudflare Workers)
-- **responses-vs-chat-completions.md** - Detailed API comparison
-- **migration-guide.md** - Chat Completions migration checklist
-- **built-in-tools-guide.md** - Code Interpreter, File Search, Web Search, Image Generation
-- **mcp-integration-guide.md** - MCP server integration guide
-- **stateful-conversations.md** - Conversation persistence patterns
-- **reasoning-preservation.md** - Accessing model reasoning
-- **top-errors.md** - Complete error catalog with solutions
-
-### Templates (templates/)
-
-- **basic-response.ts** - Simple response example
-- **stateful-conversation.ts** - Multi-turn conversation
-- **code-interpreter.ts** - Code execution example
-- **file-search.ts** - Document search (RAG)
-- **web-search.ts** - Web search agent
-- **image-generation.ts** - Image generation
-- **mcp-integration.ts** - MCP server integration
-- **background-mode.ts** - Long-running tasks
-- **cloudflare-worker.ts** - Complete Cloudflare Workers implementation
-- **package.json** - Dependencies
-
----
-
-## Node.js vs Cloudflare Workers
-
-**Node.js:**
-- Use official `openai` SDK
-- Better for complex applications
-- Full streaming support
-- Easier debugging
-
-**Cloudflare Workers:**
-- Use fetch API (no SDK needed)
-- Lower latency (edge deployment)
-- KV for conversation state
-- Cost-effective at scale
-
-**Load templates for platform-specific examples:**
-- Node.js: All `.ts` templates work
-- Cloudflare Workers: `templates/cloudflare-worker.ts`
+- Encountering API errors (8 common errors covered with solutions)
+- Need error code reference, prevention strategies, or error handling patterns
 
 ---
 
@@ -519,14 +440,11 @@ Before deploying:
 - [ ] Error handling implemented (401, 429, 400, 500)
 - [ ] Rate limiting handled (exponential backoff)
 - [ ] Conversation IDs persisted (database/KV)
-- [ ] Input validation added
-- [ ] Output sanitization implemented
 - [ ] Streaming enabled for long responses
-- [ ] Timeouts configured
-- [ ] Monitoring and logging set up
-- [ ] Cost tracking enabled
 - [ ] Tools enabled explicitly
 - [ ] Polymorphic output handling
+
+**Load `references/setup-guide.md` for complete production checklist with platform-specific considerations.**
 
 ---
 

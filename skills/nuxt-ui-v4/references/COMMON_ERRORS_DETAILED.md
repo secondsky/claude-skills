@@ -851,6 +851,98 @@ export default defineAppConfig({
 
 ---
 
+## 21. Cannot read property 'focus' of undefined (v4.2+)
+
+**Error**: `TypeError: Cannot read properties of undefined (reading 'focus')` or `inputRef.value.$el is undefined`
+
+**Symptoms**:
+- Template refs not working after upgrading to v4.2.0+
+- `.$el` accessor returns undefined
+- TypeScript errors on component refs
+- Focus/scroll operations failing
+
+**Root Cause**: Breaking change in v4.2.0 - InputMenu, InputNumber, and SelectMenu now expose HTML elements directly instead of component instances.
+
+**Affected Components**:
+- `UInputMenu`
+- `UInputNumber`
+- `USelectMenu`
+
+**Solution**: Remove the `.$el` accessor and use direct element access:
+
+**Before (v4.0/v4.1)** ❌:
+```vue
+<template>
+  <UInputMenu ref="inputRef" />
+</template>
+
+<script setup lang="ts">
+const inputRef = ref()
+
+onMounted(() => {
+  // Old way - component instance
+  inputRef.value.$el.focus()  // ❌ Breaks in v4.2+
+})
+</script>
+```
+
+**After (v4.2+)** ✅:
+```vue
+<template>
+  <UInputMenu ref="inputRef" />
+</template>
+
+<script setup lang="ts">
+const inputRef = ref<HTMLElement>()
+
+onMounted(() => {
+  // New way - direct element access
+  inputRef.value?.focus()  // ✅ Works in v4.2+
+})
+</script>
+```
+
+**Migration steps**:
+1. Search codebase for `.$el` usage on InputMenu, InputNumber, SelectMenu
+2. Remove all `.$el` accessors
+3. Update TypeScript types from component refs to `HTMLElement`
+4. Test all imperative DOM operations (focus, scroll, etc.)
+
+**Complete migration example**:
+```vue
+<template>
+  <div class="space-y-4">
+    <UInputMenu ref="menuRef" />
+    <UInputNumber ref="numberRef" />
+    <USelectMenu ref="selectRef" />
+    <UButton @click="focusAll">Focus All</UButton>
+  </div>
+</template>
+
+<script setup lang="ts">
+// ✅ Correct types for v4.2+
+const menuRef = ref<HTMLElement>()
+const numberRef = ref<HTMLElement>()
+const selectRef = ref<HTMLElement>()
+
+function focusAll() {
+  // ✅ Direct element access
+  menuRef.value?.focus()
+  numberRef.value?.focus()
+  selectRef.value?.focus()
+
+  // ✅ Scrolling also works
+  menuRef.value?.scrollIntoView({ behavior: 'smooth' })
+}
+</script>
+```
+
+**Why this change?**: Consistency with other Nuxt UI components and HTML standards. Most components already exposed HTML elements directly.
+
+**See also**: `nuxt-v4-features.md` for complete v4.2.x migration guide
+
+---
+
 **See also:**
 - `COMPONENT_EXAMPLES_DETAILED.md` for component-specific examples
 - `RESPONSIVE_ACCESSIBILITY.md` for responsive patterns and accessibility
