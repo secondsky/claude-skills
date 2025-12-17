@@ -184,203 +184,36 @@ git checkout -b fix/login-redirect       # Just login fix
 
 ---
 
-## Top 5 Mistakes (See references/error-catalog.md for all 16)
+## Top 5 Mistakes
 
-### Mistake #1: Including Personal Development Artifacts
+**For complete catalog**: Load `references/error-catalog.md` when making any contribution to see all 16 mistakes, detailed fixes, and prevention strategies.
 
-**Problem**: SESSION.md, planning/*, debug screenshots, temp test files
+**Quick list** (most common):
+1. **Including personal artifacts** - SESSION.md, planning/*, debug screenshots, temp test files
+2. **Not testing before PR** - Submitting untested code causing CI failures (Violates RULE 2)
+3. **Working on main branch** - Committing directly to main instead of feature branch (Violates RULE 1)
+4. **Including unrelated changes** - Mixing multiple features/fixes in one PR (Violates RULE 3)
+5. **Submitting massive PRs** - PRs >500 lines are hard to review (split into <200 line chunks)
 
-**Examples:**
-- SESSION.md, NOTES.md, TODO.md
-- planning/*, research-logs/*
-- screenshots/debug-*.png
-- test-manual.js, quick-test.py
+**Prevention**: Run `templates/validate-pr.sh` before every PR to catch these automatically.
 
-**Fix**: Remove before PR
-
-```bash
-# Remove artifacts
-git rm SESSION.md NOTES.md TODO.md
-git rm -r planning/ research-logs/
-
-# Amend last commit
-git commit --amend --no-edit
-```
-
-**Prevention**: Load `templates/validate-pr.sh` and run before every PR
-
----
-
-### Mistake #2: Not Testing Before Submitting (Violates RULE 2)
-
-**Problem**: Submitting code without running tests, causing CI failures
-
-**Fix**: ALWAYS run before pushing
-
-```bash
-npm test            # All tests must pass
-npm run build       # Build must succeed
-npm run lint        # Linting must pass
-```
-
-**Include testing evidence in PR** (screenshots, videos, test results)
-
----
-
-### Mistake #3: Working on main/master Branch (Violates RULE 1)
-
-**Problem**: Committing directly to main branch
-
-**Fix**: ALWAYS create feature branch
-
-```bash
-# Correct workflow
-git checkout main
-git pull upstream main
-git checkout -b feature/my-feature  # Create branch
-# Make changes
-git commit -m "add feature"
-```
-
----
-
-### Mistake #4: Including Unrelated Changes (Violates RULE 3)
-
-**Problem**: Mixing multiple features/fixes in one PR
-
-**Fix**: Create separate branches
-
-```bash
-# Found bug while adding feature?
-git stash                          # Stash feature work
-git checkout main
-git checkout -b fix/bug            # Separate branch for bug
-# Fix bug, commit, push, create PR
-
-git checkout feature/my-feature    # Return to feature
-git stash pop                      # Continue feature work
-```
-
----
-
-### Mistake #5: Submitting Massive Pull Requests
-
-**Problem**: PR with >500 lines is hard to review
-
-**Fix**: Break into smaller PRs
-- Ideal: <200 lines
-- Maximum: 500 lines
-- Split large features into logical chunks
-
-**Example:**
-
-```bash
-# Instead of: "Add complete OAuth system" (800 lines)
-# Split into:
-1. feature/add-oauth-models       # Just data models
-2. feature/add-oauth-routes       # Just API routes
-3. feature/add-oauth-ui           # Just UI components
-```
-
-**Load `references/error-catalog.md` for all 16 mistakes with detailed solutions.**
+**For detailed fixes and code examples**: Load `references/error-catalog.md`
 
 ---
 
 ## Common Use Cases
 
-### Use Case 1: Fix Existing Bug
+**For complete workflows**: Load `references/workflow-guide.md` when implementing any contribution pattern.
 
-**Quick Pattern:**
+**Quick trigger guide**:
 
-```bash
-# 1. Sync and create branch
-git checkout main && git pull upstream main
-git checkout -b fix/pagination-last-page
+1. **Fix existing bug** → Sync main, create `fix/` branch, test, commit with "Fixes #123"
+2. **Add new feature** → Create issue first, get approval, create `feature/` branch, implement incrementally
+3. **Update documentation** → Create `docs/` branch, edit, commit with "Closes #789"
+4. **First-time contribution** → Read CONTRIBUTING.md, fork, clone, add upstream, find good first issue
+5. **Validate before PR** → Run `templates/validate-pr.sh` (automated) or `templates/pre-submission-checklist.md` (manual)
 
-# 2. Fix bug, test
-npm test
-
-# 3. Commit with issue reference
-git commit -am "fix(pagination): correct off-by-one error
-
-Fixes #456"
-
-# 4. Validate and push
-bash scripts/validate-pr.sh
-git push origin fix/pagination-last-page
-```
-
-**Load**: `references/workflow-guide.md` → "Workflow: Fix Bug in Existing Issue"
-
----
-
-### Use Case 2: Add New Feature
-
-**Quick Pattern:**
-
-1. Create issue first (discuss approach)
-2. Wait for maintainer approval
-3. Create feature branch
-4. Implement incrementally (commit often)
-5. Final checks: test + build + lint + cleanup
-6. Create detailed PR with testing evidence
-
-**Load**: `references/workflow-guide.md` → "Workflow: Add New Feature"
-
----
-
-### Use Case 3: Update Documentation
-
-**Quick Pattern:**
-
-```bash
-git checkout -b docs/update-api-examples
-# Edit docs
-git commit -am "docs(api): update examples to v2.0
-
-Closes #789"
-git push origin docs/update-api-examples
-```
-
-**Load**: `references/workflow-guide.md` → "Workflow: Update Documentation"
-
----
-
-### Use Case 4: First-Time Contribution to Project
-
-**Complete workflow:**
-
-1. Read CONTRIBUTING.md thoroughly
-2. Fork and clone repository
-3. Add upstream remote
-4. Install dependencies and run tests
-5. Find good first issue
-6. Comment to claim work
-7. Follow complete fork-to-PR workflow
-
-**Load**: `references/workflow-guide.md` → "Complete Fork-to-PR Workflow"
-
----
-
-### Use Case 5: Validate PR Before Submission
-
-**Quick Pattern:**
-
-```bash
-# Run validation script
-bash scripts/validate-pr.sh  # Load from templates/
-
-# Checks:
-# - On feature branch?
-# - Personal artifacts removed?
-# - Tests passing?
-# - Reasonable PR size?
-# - Clean commit messages?
-```
-
-**Load**: `templates/validate-pr.sh` for automated validation
-
-**Load**: `templates/pre-submission-checklist.md` for manual checklist
+**For step-by-step commands and patterns**: Load `references/workflow-guide.md` → specific workflow section
 
 ---
 
@@ -450,72 +283,28 @@ bash scripts/validate-pr.sh  # Load from templates/
 
 ## Pre-Submission Checklist
 
-Quick checklist before submitting PR:
+**For complete checklist**: Load `templates/pre-submission-checklist.md` when validating PR before submission.
 
-**Code Quality:**
-- [ ] All tests pass (`npm test`)
-- [ ] Build succeeds (`npm run build`)
-- [ ] Linting passes (`npm run lint`)
+**Quick essentials**:
+- Code: Tests pass, build succeeds, linting passes
+- Git: On feature branch, no personal artifacts, focused changes
+- Docs: README/comments/CHANGELOG updated if needed
+- PR: Clear title, detailed description with testing evidence, issues linked, <500 lines
 
-**Git Hygiene:**
-- [ ] On feature branch (not main)
-- [ ] No personal artifacts (SESSION.md, planning/*, etc.)
-- [ ] Only related changes included
-- [ ] Clean commit messages
-
-**Documentation:**
-- [ ] README updated (if needed)
-- [ ] Code comments added
-- [ ] CHANGELOG entry (if required)
-
-**PR Quality:**
-- [ ] PR title clear and descriptive
-- [ ] PR description has What/Why/How/Testing
-- [ ] Testing evidence included (screenshots/videos)
-- [ ] Issues linked ("Closes #123")
-- [ ] PR size <500 lines (or justified)
-
-**Load `templates/pre-submission-checklist.md` for complete checklist.**
+**Automated validation**: Run `templates/validate-pr.sh` to check automatically.
 
 ---
 
 ## Quick Command Reference
 
-```bash
-# Initial setup (one time)
-git clone https://github.com/YOUR-USERNAME/project.git
-cd project
-git remote add upstream https://github.com/ORIGINAL-OWNER/project.git
+**For complete command reference**: Load `references/workflow-guide.md` when setting up fork, syncing with upstream, or managing contribution workflow.
 
-# Before each contribution
-git checkout main
-git pull upstream main
-git push origin main
-
-# Start work
-git checkout -b feature/my-feature
-
-# Regular workflow
-git add .
-git commit -m "feat: add feature"
-npm test && npm run build && npm run lint
-
-# Validate and submit
-bash scripts/validate-pr.sh  # Load from templates/
-git push origin feature/my-feature
-# Create PR on GitHub
-
-# Update PR with feedback
-git add .
-git commit -m "fix: address review feedback"
-git push origin feature/my-feature
-
-# After merge
-git checkout main
-git pull upstream main
-git push origin main
-git branch -d feature/my-feature
-```
+**Essential commands**:
+- Setup: `git clone` → `git remote add upstream`
+- Sync: `git pull upstream main` → `git push origin main`
+- Work: `git checkout -b feature/name` → test → commit → `bash scripts/validate-pr.sh`
+- Submit: `git push origin feature/name` → create PR on GitHub
+- After merge: sync main → `git branch -d feature/name`
 
 **Load `references/workflow-guide.md` → "Quick Command Reference" for detailed commands.**
 
@@ -523,86 +312,39 @@ git branch -d feature/my-feature
 
 ## Communication Best Practices
 
-**When claiming issue:**
-```markdown
-Hi! I'd like to work on this. I plan to:
-1. [Approach summary]
-2. [Timeline]
+**For complete templates**: Load `references/pr-templates.md` when writing PR descriptions or communicating with maintainers.
 
-Is this acceptable? Is anyone working on this already?
-```
-
-**When receiving feedback:**
-```markdown
-Thanks for the review! I've made these changes:
-
-✅ Fixed error handling per your suggestion
-✅ Added type annotations
-✅ Updated documentation
-
-Let me know if you need any other changes!
-```
-
-**When following up (after 1-2 weeks):**
-```markdown
-Hi! Gently pinging this PR. No rush - I know maintainers
-are busy volunteers! Let me know if you need clarifications.
-```
-
-**Key principles:**
+**Key principles**:
 - Be patient (wait 1-2 weeks before follow-up)
 - Be responsive (reply within 48 hours)
 - Be professional (always courteous)
 - Be appreciative (maintainers are volunteers)
 
+**Common scenarios**: Claiming issues, receiving feedback, following up on PRs - all covered in references with example templates.
+
 ---
 
 ## Troubleshooting
 
-**Problem: Committed to main by mistake**
+**For complete solutions**: Load `references/workflow-guide.md` → "Troubleshooting" when encountering git issues or PR problems.
 
-```bash
-git branch feature/my-feature    # Create branch with commits
-git reset --hard upstream/main   # Reset main
-git checkout feature/my-feature  # Switch to feature branch
-```
+**Common problems**:
+- Committed to main by mistake
+- Need to remove personal artifacts
+- PR too large
 
-**Problem: Need to remove personal artifacts**
-
-```bash
-git rm SESSION.md NOTES.md planning/*.md
-git commit --amend --no-edit
-git push --force-with-lease origin feature/my-feature
-```
-
-**Problem: PR too large**
-
-Create separate focused PRs, reference original for context.
-
-**Load `references/workflow-guide.md` → "Troubleshooting" for all scenarios.**
+**All solutions with commands available in workflow-guide.md**
 
 ---
 
 ## Key Takeaways
 
-**The 3 Critical Rules:**
+**The 3 Critical Rules** (detailed in lines 79-185):
 1. ALWAYS work on feature branches (never main)
 2. ALWAYS test thoroughly before PR (with evidence)
 3. ALWAYS keep PRs focused (one feature/fix per PR)
 
-**Before Every PR:**
-- Run `validate-pr.sh` script
-- Remove personal artifacts
-- Run all tests/build/lint
-- Include testing evidence
-- Use PR description template
-
-**Professional Behavior:**
-- Read CONTRIBUTING.md first
-- Communicate clearly and professionally
-- Be patient with maintainers
-- Respond to feedback promptly
-- Show appreciation
+**Before Every PR**: Run `validate-pr.sh` script, remove artifacts, test thoroughly
 
 **Load `references/error-catalog.md` to avoid all 16 common mistakes.**
 

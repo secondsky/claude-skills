@@ -76,320 +76,46 @@ with D1 changes."
 
 ## What This Skill Does
 
-### 15-Phase Systematic Audit
+**For complete audit methodology**: Load `references/audit-methodology.md` when performing skill audits - includes detailed descriptions of all 15 phases, official Claude best practices enforced, error prevention catalog, verification methods, and production testing evidence.
 
-1. **Pre-Review Setup** (5-10 min)
-   - Install skill locally: `./scripts/install-skill.sh <skill-name>`
-   - Check current version and last verified date
-   - Test skill discovery
+**15-Phase Systematic Audit Overview:**
 
-2. **Standards Compliance** (10-15 min)
-   - Validate YAML frontmatter with **exact rules**:
-     - `name`: Max 64 chars, pattern `^[a-z0-9-]+$`, NO "anthropic" or "claude"
-     - `description`: Max 1024 chars, NO XML tags (`<tag>`), non-empty
-     - `license`: Present and valid (MIT, Apache-2.0, etc.)
-   - **SKILL.md line count**: Body should be <500 lines (optimal performance)
-   - Check keyword comprehensiveness
-   - Verify **third-person description style** (NOT "You should..." but "This skill should be used when...")
-   - Ensure gerund form naming (e.g., "processing-pdfs" not "pdf-processor")
-   - Ensure directory structure matches spec
+1. **Pre-Review Setup** - Install skill, test discovery, check version
+2. **Standards Compliance** - YAML frontmatter validation, line count check, third-person style
+3. **Official Docs Verification** - Context7 MCP / WebFetch API validation, GitHub checks, npm registry
+4. **Code Examples Audit** - Import statements, API signatures, schema consistency, template testing
+5. **Cross-File Consistency** - SKILL.md vs README vs references alignment
+6. **Dependencies & Versions** - Package currency checks, breaking changes detection
+7. **Progressive Disclosure Review** - Reference depth (ONE level), TOC presence, 3-tier model compliance
+8. **Conciseness Audit** - Over-explained concepts, verbosity assessment, degrees of freedom
+9. **Anti-Pattern Detection** - Windows paths, inconsistent terminology, time-sensitive info, nested references
+10. **Testing & Evaluation** - Test scenarios (minimum 3), multi-model consideration, real problem validation
+11. **Security & MCP** - External URLs, MCP tool qualification, error handling, script permissions
+12. **Issue Categorization** - Severity classification (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence
+12.5. **Resource Inventory** ⚠️ MANDATORY - Inventory existing references, read all files, create coverage matrix BEFORE condensation
+13. **Fix Implementation** - Auto-fix unambiguous issues, ask user for architectural decisions
+14. **Post-Fix Verification** - Discovery test, template validation, consistency check, commit
 
-3. **Official Documentation Verification** (15-30 min)
-   - Use Context7 MCP or WebFetch to verify API patterns
-   - Check GitHub for recent updates and issues
-   - Verify package versions against npm registry
-   - Compare with production repositories
+**Automated Checks** (`./scripts/review-skill.sh`):
+- ✅ YAML syntax, package versions, broken links, TODO markers, file organization, date staleness
 
-4. **Code Examples & Templates Audit** (20-40 min)
-   - Verify import statements exist in current packages
-   - Check API method signatures match official docs
-   - Ensure schema consistency across files
-   - Test templates build and run
-
-5. **Cross-File Consistency** (15-25 min)
-   - Compare SKILL.md vs README.md examples
-   - Verify "Bundled Resources" section matches actual files
-   - Ensure configuration examples consistent
-
-6. **Dependencies & Versions** (10-15 min)
-   - Run `./scripts/check-versions.sh <skill-name>`
-   - Check for breaking changes in package updates
-   - Verify "Last Verified" date is recent
-
-7. **Progressive Disclosure Architecture Review** (10-15 min)
-   - Check reference depth: Resources should be **ONE LEVEL DEEP** from SKILL.md
-   - Verify files >100 lines have **Table of Contents**
-   - Assess 3-tier model compliance:
-     - Level 1 (Metadata): Always in context (~100 tokens)
-     - Level 2 (SKILL.md body): Loaded when triggered (<500 lines)
-     - Level 3 (Bundled resources): On-demand loading
-   - Flag deeply nested references (references → sub-references → ❌)
-
-8. **Conciseness & Degrees of Freedom Audit** (15-20 min)
-   - Identify **over-explained concepts** (Claude already knows this)
-   - Flag verbose sections that could be trimmed
-   - Assess **degrees of freedom** appropriateness:
-     - High freedom: Exploratory tasks, vague requirements
-     - Medium freedom: Conventional solutions, some flexibility
-     - Low freedom: Fragile tasks, exact patterns required
-   - Check for **defaults with escape hatches** (not endless options)
-   - Apply "context window is a public good" mindset
-   - Verify consistent terminology (same concept = same words throughout)
-
-9. **Anti-Pattern Detection** (10-15 min)
-   - ❌ Windows-style paths (`C:\path\file` → use forward slashes)
-   - ❌ Inconsistent terminology (endpoint/URL/path mixed usage)
-   - ❌ Time-sensitive information ("as of 2024" → use "old patterns" sections)
-   - ❌ Too many options without defaults (decision paralysis)
-   - ❌ Deeply nested references (>1 level)
-   - ❌ Vague phrases without examples
-   - ❌ Missing input/output examples for templates
-   - ❌ No feedback loops in complex workflows
-
-10. **Testing & Evaluation Review** (10-15 min)
-    - Check for **at least 3 test scenarios/evaluations**
-    - Verify **multi-model consideration** (Haiku/Sonnet/Opus may need different detail)
-    - Assess if skill solves **real problems** vs imagined ones
-    - Check for iterative development evidence (Claude A creates, Claude B tests)
-    - Verify production testing claims with evidence
-
-11. **Security & MCP Considerations** (5-10 min)
-    - Flag external URL fetches (potential risks)
-    - Check for skills from untrusted sources warnings
-    - Verify MCP tool references are **fully qualified** (ServerName:tool_name)
-    - Review script permissions and error handling
-    - Check "solve, don't punt" pattern (explicit error handling, not silent failures)
-    - **Marketplace schema compliance**: Only standard fields allowed (name, source, description, version, category, keywords, author, license, repository) - NO custom fields like `lastVerified`
-
-12. **Issue Categorization** (10-20 min)
-    - Classify by severity: 🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low
-    - Document with evidence (GitHub URL, docs link, npm changelog)
-
-12.5. **Resource Inventory & Coverage Audit** (10-15 min) ⚠️ MANDATORY
-    - **Purpose**: Before ANY condensation, map existing resources and determine extraction needs
-    - **CRITICAL**: This phase is MANDATORY - never skip it before Phase 13
-
-    **Step 12.5.1: Inventory All Resources**
-    ```bash
-    ls -la skills/<skill>/references/
-    ls -la skills/<skill>/scripts/
-    ls -la skills/<skill>/templates/
-    ls -la skills/<skill>/assets/
-    ```
-
-    **Step 12.5.2: Read Every Reference File**
-    - Read ENTIRE content of each file in references/
-    - Document topics covered, line count, completeness
-    - Do NOT skip this - you must READ the files, not just list them
-
-    **Step 12.5.3: Create Coverage Matrix**
-    | SKILL.md Section | Lines | Existing Reference | Coverage | Action |
-    |------------------|-------|-------------------|----------|--------|
-    | Section A | 148 | refs/x.md | Complete | Pointer only |
-    | Section B | 94 | NONE | N/A | Extract first |
-    | Section C | 85 | refs/y.md | Partial | Supplement + pointer |
-
-    **Step 12.5.4: Document Extraction Plan**
-    - Content EXISTS in reference → Condense with pointer (no extraction needed)
-    - Content MISSING from references → Extract first, then condense
-    - Content PARTIAL in reference → Supplement existing file, then condense
-
-    **Verification Checklist (MUST complete before Phase 13)**
-    - [ ] Listed all files in references/ directory
-    - [ ] READ each reference file (not just listed)
-    - [ ] Listed all files in scripts/, templates/, assets/ directories
-    - [ ] Created coverage matrix
-    - [ ] Documented extraction plan for each section
-
-13. **Fix Implementation** (30 min - 4 hours)
-    - Auto-fix unambiguous issues
-    - Ask user only for architectural decisions
-    - Update all affected files consistently
-    - Bump version if breaking changes
-
-    **Anti-Patterns to Avoid (Lessons Learned)**
-
-    ❌ **DO NOT**:
-    - Delete content before creating reference files
-    - Add pointers to non-existent files
-    - Condense Top 3-5 errors to one-liners
-    - Focus on speed over correctness
-    - Skip verification steps
-    - **Extract content that already exists in reference files** (creates duplication)
-    - **Start condensation without completing Phase 12.5** (Resource Inventory)
-    - **Assume reference files need to be created** (check first - they may already exist!)
-    - **Condense SKILL.md before reading ALL reference files**
-    - **Skip the coverage matrix** - it's required, not optional
-
-    ✅ **DO**:
-    - **INVENTORY FIRST** - Complete Phase 12.5 before ANY condensation
-    - **CHECK COVERAGE** - Map each verbose SKILL.md section to existing references
-    - **EXTRACT ONLY MISSING** - Only create new reference files for content NOT already covered
-    - **REUSE EXISTING** - If content exists in reference, just add pointer (no extraction)
-    - **CREATE COVERAGE MATRIX** - Document what exists vs what's missing before changes
-    - **READ, DON'T JUST LIST** - Actually read reference file contents, not just filenames
-    - CONDENSE SECOND (Edit main file after verifying extraction needs)
-    - VERIFY ALWAYS (Check files exist, content complete)
-    - Keep Top errors DETAILED in main file
-    - Document immediately after completion
-
-14. **Post-Fix Verification** (10-15 min)
-    - Test skill discovery
-    - Verify templates work
-    - Check no contradictions remain
-    - Commit with detailed changelog
-
-### Automated Checks (via script)
-
-The skill runs `./scripts/review-skill.sh <skill-name>` which checks:
-- ✅ YAML frontmatter syntax and required fields
-- ✅ Package version currency (npm)
-- ✅ Broken links (HTTP status)
-- ✅ TODO markers in code
-- ✅ File organization (expected directories exist)
-- ✅ "Last Verified" date staleness
-
-### Manual Verification (AI-powered)
-
-Claude performs:
-- 🔍 API method verification against official docs
-- 🔍 GitHub activity and issue checks
-- 🔍 Production repository comparisons
-- 🔍 Code example correctness
-- 🔍 Schema consistency validation
+**Manual Verification** (AI-powered):
+- 🔍 API method validation, GitHub activity, production comparisons, code correctness, schema consistency
 
 ---
 
 ## Process Workflow
 
-### Step 1: Run Automated Checks
+**For complete workflow guide**: Load `references/audit-methodology.md` for detailed verification methods and `references/audit-report-template.md` for full report structure.
 
-```bash
-./scripts/review-skill.sh <skill-name>
-```
+**High-Level Workflow:**
 
-Interpret output to identify technical issues.
-
-### Step 2: Execute Manual Verification
-
-For **Phase 3: Official Documentation Verification**:
-
-1. Use Context7 MCP (if available):
-   ```
-   Use Context7 to fetch: /websites/<package-docs>
-   Search for: [API method from skill]
-   ```
-
-2. Or use WebFetch:
-   ```
-   Fetch: https://<official-docs-url>
-   Verify: [specific patterns]
-   ```
-
-3. Check GitHub:
-   ```
-   Visit: https://github.com/<org>/<repo>/commits/main
-   Check: Last commit, recent changes
-   Search issues: [keywords from skill]
-   ```
-
-4. Find production examples:
-   ```
-   WebSearch: "<package> cloudflare production github"
-   Compare: Do real projects match our patterns?
-   ```
-
-For **Phase 4: Code Examples Audit**:
-
-- Verify all imports exist (check official docs)
-- Check API method signatures match
-- Ensure schema consistency across files
-- Test templates actually work
-
-### Step 3: Categorize Issues
-
-**🔴 CRITICAL** - Breaks functionality:
-- Non-existent API methods/imports
-- Invalid configuration
-- Missing required dependencies
-
-**🟡 HIGH** - Causes confusion:
-- Contradictory examples across files
-- Inconsistent patterns
-- Outdated major versions
-
-**🟠 MEDIUM** - Reduces quality:
-- Stale minor versions (>90 days)
-- Missing documentation sections
-- Incomplete error lists
-
-**🟢 LOW** - Polish issues:
-- Typos, formatting inconsistencies
-- Missing optional metadata
-
-### Step 4: Fix Issues
-
-**Auto-fix** when:
-- ✅ Fix is unambiguous (correct import from docs)
-- ✅ Evidence is clear
-- ✅ No architectural impact
-
-**Ask user** when:
-- ❓ Multiple valid approaches
-- ❓ Breaking change decision
-- ❓ Architectural choice
-
-**Format for questions**:
-```
-I found [issue]. There are [N] approaches:
-
-1. [Approach A] - [Pros/Cons]
-2. [Approach B] - [Pros/Cons]
-
-Recommendation: [Default based on evidence]
-
-Which would you prefer?
-```
-
-### Step 5: Version Bump Assessment
-
-If breaking changes:
-- Major: v1.0.0 → v2.0.0 (API patterns change)
-- Minor: v1.0.0 → v1.1.0 (new features, backward compatible)
-- Patch: v1.0.0 → v1.0.1 (bug fixes only)
-
-### Step 6: Generate Audit Report
-
-```markdown
-## Skill Review Report: <skill-name>
-
-**Date**: YYYY-MM-DD
-**Trigger**: [Why review performed]
-**Time Spent**: [Duration]
-
-### Findings
-
-🔴 CRITICAL (N): [List with evidence]
-🟡 HIGH (N): [List with evidence]
-🟠 MEDIUM (N): [List with evidence]
-🟢 LOW (N): [List with evidence]
-
-### Remediation
-
-**Files Modified**: [List]
-**Version Update**: [old] → [new]
-**Breaking Changes**: Yes/No
-
-### Verification
-
-✅ Discovery test passed
-✅ Templates work
-✅ Committed: [hash]
-
-### Recommendation
-
-[Final assessment]
-```
+1. **Run Automated Checks** - Execute `./scripts/review-skill.sh <skill-name>` for technical validation
+2. **Execute Manual Verification** - Use Context7 MCP / WebFetch for API validation, GitHub checks, production comparisons
+3. **Categorize Issues** - Classify by severity (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence
+4. **Fix Issues** - Auto-fix unambiguous issues, ask user for architectural decisions
+5. **Version Bump** - Major (breaking) / Minor (features) / Patch (bugs)
+6. **Generate Report** - Document findings, remediation, verification, recommendations
 
 ---
 
@@ -432,6 +158,35 @@ This skill references:
 
 ---
 
+## When to Load References
+
+Load reference files when working on specific aspects of skill audits:
+
+### audit-methodology.md
+Load when:
+- **Process-based**: Need detailed description of all 15 audit phases (Pre-review Setup, Standards Compliance, Official Docs Verification, Code Examples Audit, Cross-File Consistency, Dependencies & Versions, Progressive Disclosure Review, Conciseness Audit, Anti-Pattern Detection, Testing & Evaluation, Security & MCP, Issue Categorization, Resource Inventory, Fix Implementation, Post-Fix Verification)
+- **Standards-based**: Verifying YAML frontmatter standards (name 64 chars, description 1024 chars), SKILL.md file standards (<500 lines), code quality standards, reference file standards
+- **Error-based**: Need complete error prevention catalog covering documentation issues (SKILL.md too long, YAML errors, version drift, schema inconsistency, Windows paths), technical issues (fake API adapters, non-existent imports, outdated dependencies), structure issues (duplicate extraction, skipping resource inventory, deeply nested references, second-person descriptions)
+- **Verification-based**: Understanding automated technical checks (YAML syntax, package versions, broken links, TODO markers, file organization, date staleness), AI-powered verification methods (API validation, GitHub checks, production comparisons, code correctness), output format (severity classification)
+- **Example-based**: Need production testing evidence (better-auth v2.0.0 audit with 6 critical/high issues, 665 lines removed, 1931 lines added)
+
+### audit-report-template.md
+Load when:
+- **Reporting-based**: Need to document skill audit findings in standardized format
+- **Template-based**: Need complete report structure (executive summary, quick validation checks, progressive disclosure score, conciseness rating, anti-pattern detection, testing & evaluation review, security & MCP review, detailed findings, remediation summary, version update, post-fix verification, lessons learned, recommendations, appendix)
+- **Checklist-based**: Need specific validation checklists (7 quick validation checks: name length/format, reserved words, description length/XML, SKILL.md lines, third-person style; 8 anti-pattern checks; post-fix verification steps)
+- **Severity-based**: Need to categorize findings by severity (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with detailed evidence citations
+
+### multi-skill-tracking.md
+Load when:
+- **Batch-based**: Reviewing 2+ skills simultaneously and need centralized progress tracking across multiple skills
+- **Tracking-based**: Need to monitor progress across multiple skills, identify bottlenecks in audit workflow, ensure completeness across all 15 phases, document timestamps for each phase, prioritize work across skills, track blockers
+- **Template-based**: Need tracking document structure (quick status overview table, detailed phase tracking per skill with all 15 phases, issues found by severity, batch summary statistics, active blockers, lessons learned, recommendations)
+- **Workflow-based**: Need guidance on creating tracking doc, initializing skill entries, updating frequently during audits, referencing in commits
+- **Status-based**: Need status indicators (⏳ Pending, 🔄 In Progress, ✅ Complete, ⚠️ Blocked, ❌ Skipped)
+
+---
+
 ## When Claude Should Invoke This Skill
 
 **Proactive triggers**:
@@ -468,55 +223,20 @@ This skill references:
 
 ## Common Issues Prevented
 
-### Content & API Issues
-1. **Fake API adapters** - Non-existent imports
-2. **Stale API methods** - Changed signatures
-3. **Schema inconsistency** - Different table names
-4. **Outdated scripts** - Deprecated approaches
-5. **Contradictory examples** - Multiple conflicting patterns
-6. **Incomplete bundled resources** - Listed files don't exist
+**For complete error catalog**: Load `references/audit-methodology.md` for all 36+ documented issues with detailed prevention strategies.
 
-### Structure & Standards Issues
-7. **YAML errors** - Invalid frontmatter syntax
-8. **Name too long** - Exceeds 64 char limit
-9. **Description too long** - Exceeds 1024 char limit
-10. **Invalid name format** - Not lowercase/hyphens only
-11. **Reserved words** - Contains "anthropic" or "claude"
-12. **Second-person descriptions** - "You should..." instead of "This skill should be used when..."
-13. **SKILL.md too long** - Body exceeds 500 lines (performance impact)
+**Top 10 Most Common Issues:**
 
-### Architecture Issues
-14. **Deeply nested references** - More than one level deep from SKILL.md
-15. **Missing table of contents** - Files >100 lines without navigation
-16. **Over-explained concepts** - Claude already knows this content
-
-### Quality & Testing Issues
-17. **Missing keywords** - Poor discoverability
-18. **Version drift** - Packages >90 days old
-19. **Broken links** - 404 documentation URLs
-20. **No test scenarios** - Missing evaluation cases
-21. **No multi-model consideration** - Only tested with one model
-
-### Anti-Patterns
-22. **Windows-style paths** - Backslashes instead of forward slashes
-23. **Inconsistent terminology** - Same concept, different words
-24. **Time-sensitive info** - "As of 2024" instead of version-based
-25. **Too many options** - No defaults provided
-26. **No feedback loops** - Complex workflows without validation steps
-
-### Security & MCP Issues
-27. **Unqualified MCP references** - Missing ServerName:tool_name format
-28. **Silent error handling** - "Punt" instead of "solve"
-29. **Unvalidated external URLs** - Fetching from untrusted sources
-30. **Missing permissions warnings** - Scripts without clear scope
-31. **Non-standard marketplace fields** - Custom fields rejected by schema (e.g., lastVerified)
-
-### Resource Inventory Issues (NEW in v1.4.0)
-32. **Duplicate extraction** - Creating reference files for content that already exists
-33. **Skipping resource inventory** - Starting condensation without Phase 12.5
-34. **Coverage matrix omitted** - No documentation of what exists vs needs extraction
-35. **Listing without reading** - Knowing reference files exist but not reading their content
-36. **Unnecessary file creation** - Creating new references when existing ones suffice
+1. **Fake API adapters** - Non-existent imports (prevents broken code examples)
+2. **SKILL.md too long** - Body exceeds 500 lines (performance impact)
+3. **Duplicate extraction** - Creating reference files for content that already exists
+4. **Skipping resource inventory** - Starting condensation without Phase 12.5
+5. **YAML errors** - Invalid frontmatter syntax (prevents skill from loading)
+6. **Version drift** - Packages >90 days old (stale documentation)
+7. **Schema inconsistency** - Different patterns across files (user confusion)
+8. **Windows-style paths** - Backslashes instead of forward slashes
+9. **Deeply nested references** - More than one level deep from SKILL.md
+10. **Second-person descriptions** - "You should..." instead of "This skill should be used when..."
 
 ---
 

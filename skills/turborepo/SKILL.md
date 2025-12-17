@@ -2,7 +2,12 @@
 name: turborepo
 description: Guide for implementing Turborepo - a high-performance build system for JavaScript and TypeScript monorepos. Use when setting up monorepos, optimizing build performance, implementing task pipelines, configuring caching strategies, or orchestrating tasks across multiple packages.
 license: MIT
-version: 1.0.0
+metadata:
+  version: 2.0.0
+  last_verified: 2025-12-17
+  optimization_date: 2025-12-17
+  token_savings: ~54%
+  complexity: 7/10
 ---
 
 # Turborepo Skill
@@ -132,17 +137,6 @@ Define what gets cached:
 node --version # v18.0.0+
 ```
 
-### Global Installation
-
-```bash
-bun add turbo --global
-
-# Alternatives:
-# npm install turbo --global
-# pnpm add turbo --global
-# yarn global add turbo
-```
-
 ### Per-Project Installation (Recommended)
 
 ```bash
@@ -156,151 +150,44 @@ bun add turbo --dev
 
 ---
 
-## Project Setup
+## Configuration
 
-### Create New Monorepo
-
-#### Option 1: Interactive CLI
-
-```bash
-bunx create-turbo@latest
-```
-
-Prompts for:
-- Project name
-- Package manager (npm/yarn/pnpm/bun)
-- Example template selection
-
-#### Option 2: Automated Script
-
-```bash
-# Use the setup script
-./scripts/setup-monorepo.sh
-```
-
-Interactive script creates complete monorepo structure.
-
-### Manual Setup
-
-**1. Initialize workspace:**
-
-```json
-// package.json (root)
-{
-	"name": "my-turborepo",
-	"private": true,
-	"workspaces": ["apps/*", "packages/*"],
-	"scripts": {
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"test": "turbo run test",
-		"lint": "turbo run lint"
-	},
-	"devDependencies": {
-		"turbo": "latest"
-	}
-}
-```
-
-**2. Create directory structure:**
-
-See `templates/monorepo-structure.txt` for complete structure.
-
-**3. Create turbo.json:**
-
-See `templates/turbo-basic.json` for starter config or `templates/turbo-fullstack.json` for comprehensive setup.
-
----
-
-## Configuration (turbo.json)
-
-### Basic Structure
+### Basic turbo.json
 
 ```json
 {
-	"$schema": "https://turbo.build/schema.json",
-	"globalDependencies": [".env", "tsconfig.json"],
-	"globalEnv": ["NODE_ENV"],
-	"pipeline": {
-		// Task definitions
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [".env", "tsconfig.json"],
+  "globalEnv": ["NODE_ENV"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "dependsOn": ["build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
 }
 ```
 
-**Templates Available**:
+**For complete configuration guide**: Load `references/configuration-guide.md` when configuring turbo.json, task pipelines, or framework-specific setups.
+
+**Available Templates**:
 - `templates/turbo-basic.json` - Minimal configuration
 - `templates/turbo-fullstack.json` - Production-ready setup
 - `templates/turbo-nextjs.json` - Next.js specific
 - `templates/turbo-vite.json` - Vite specific
 
-### Pipeline Configuration
-
-**Task with dependencies:**
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": ["dist/**", ".next/**"],
-			"env": ["NODE_ENV", "API_URL"]
-		}
-	}
-}
-```
-
-**Key properties:**
-
-- `dependsOn`: Tasks to run first
-  - `["^build"]`: Run dependencies' build first
-  - `["build"]`: Run own build first
-  - `["^build", "lint"]`: Run deps' build and own lint
-- `outputs`: Files/directories to cache
-- `inputs`: Override input detection (default: all tracked files)
-- `cache`: Enable/disable caching (default: true)
-- `env`: Environment variables that affect output
-- `persistent`: Keep task running (for dev servers)
-- `outputMode`: Control output display
-
-### Task Dependency Patterns
-
-**Topological (^):**
-
-```json
-{
-	"build": {
-		"dependsOn": ["^build"] // Run dependencies' build first
-	}
-}
-```
-
-**Regular:**
-
-```json
-{
-	"deploy": {
-		"dependsOn": ["build", "test"] // Run own build and test first
-	}
-}
-```
-
-**Combined:**
-
-```json
-{
-	"test": {
-		"dependsOn": ["^build", "lint"] // Deps' build, then own lint
-	}
-}
-```
-
 ---
 
-## Commands
+## Essential Commands
 
 ### turbo run
-
-Run tasks across packages:
 
 ```bash
 # Run build in all packages
@@ -311,203 +198,75 @@ turbo run build test lint
 
 # Run in specific packages
 turbo run build --filter=web
-turbo run build --filter=@myorg/ui
-
-# Run in packages matching pattern
 turbo run build --filter='./apps/*'
 
-# Force execution (skip cache)
-turbo run build --force
-
-# Parallel execution control
-turbo run build --concurrency=3
-turbo run build --concurrency=50%
-
-# Continue on error
-turbo run test --continue
-
-# Dry run
-turbo run build --dry-run
-
-# Output control
-turbo run build --output-logs=errors-only
-turbo run build --output-logs=hash-only
+# Build only changed packages
+turbo run build --filter='...[origin/main]'
 ```
 
-**Advanced Filtering**: See `references/advanced-filtering.md` for complete guide.
+**For complete command reference**: Load `references/configuration-guide.md` when using advanced command options or filters.
 
-### turbo prune
-
-Create a subset of the monorepo:
+### Other Commands
 
 ```bash
-# Prune for specific app
-turbo prune --scope=web
+# Prune monorepo for deployment
+turbo prune --scope=web --docker
 
-# Prune with Docker
-turbo prune --scope=api --docker
-
-# Output to custom directory
-turbo prune --scope=web --out-dir=./deploy
-```
-
-**Use cases:**
-- Docker builds (only include necessary packages)
-- Deploy specific apps
-- Reduce CI/CD context size
-
-**Docker Template**: See `templates/Dockerfile` for multi-stage build example.
-
-### turbo gen
-
-Generate code in your monorepo:
-
-```bash
-# Generate new package
-turbo gen workspace
-
-# Generate from custom generator
-turbo gen my-generator
-
-# List available generators
-turbo gen --list
-```
-
-### turbo link
-
-Link local repo to remote cache:
-
-```bash
-# Link to Vercel
+# Link to remote cache
+turbo login
 turbo link
 
-# Unlink
-turbo unlink
-```
-
-**Setup Guide**: Run `scripts/link-remote-cache.sh` for interactive setup.
-
-### turbo login
-
-Authenticate with Vercel:
-
-```bash
-turbo login
-```
-
-### turbo ls
-
-List packages in monorepo:
-
-```bash
-# List all packages
+# List packages
 turbo ls
-
-# JSON output
-turbo ls --json
 ```
 
 ---
 
 ## Filtering
 
-Turborepo's filtering system allows targeted task execution.
-
-### Basic Filters
+### Quick Examples
 
 ```bash
 # Single package
 turbo run build --filter=web
 
-# Multiple packages
-turbo run build --filter=web --filter=api
-
-# Pattern matching
-turbo run build --filter='./apps/*'
-```
-
-### Git-Based Filters
-
-```bash
-# Changed since main
+# Git-based (changed since main)
 turbo run build --filter='[origin/main]'
 
-# Changed in last commit
-turbo run build --filter='[HEAD~1]'
-
-# Changed in working directory
-turbo run test --filter='...[HEAD]'
-```
-
-### Dependency Filters
-
-```bash
-# Package and its dependencies
+# With dependencies
 turbo run build --filter='...web'
 
-# Package and its dependents
+# With dependents
 turbo run test --filter='ui...'
-
-# Package, dependencies, and dependents
-turbo run build --filter='...ui...'
 ```
 
-**Complete Guide**: See `references/advanced-filtering.md` for all patterns and examples.
+**For complete filtering guide**: Load `references/advanced-filtering.md` when implementing CI/CD filters, dependency-based builds, or advanced filter patterns.
 
 ---
 
-## Caching Strategies
+## Caching
 
 ### Local Caching
 
 Enabled by default, stores in `./node_modules/.cache/turbo`
 
-```json
-{
-	"pipeline": {
-		"build": {
-			"outputs": ["dist/**"], // Cache dist directory
-			"cache": true // Enable caching (default)
-		},
-		"dev": {
-			"cache": false // Disable for dev servers
-		}
-	}
-}
-```
-
-**Clear cache:**
-
 ```bash
+# Clear cache
 rm -rf ./node_modules/.cache/turbo
-# Or
-turbo run build --force # Skip cache for this run
+# Or skip cache
+turbo run build --force
 ```
 
 ### Remote Caching
 
 Share cache across team and CI:
 
-**Setup (Vercel - Recommended):**
-
 ```bash
 turbo login
 turbo link
 ```
 
-**Or use automated script:**
-
-```bash
-./scripts/link-remote-cache.sh
-```
-
-**Benefits:**
-- Share builds across team
-- Speed up CI/CD (50-90% faster)
-- Consistent builds
-- Reduce compute costs
-
-**CI/CD Setup**: See `references/ci-cd-guide.md` for platform-specific configuration.
+**For complete caching guide**: Load `references/best-practices-patterns.md` when optimizing cache configuration or implementing remote caching strategies.
 
 ---
 
@@ -534,259 +293,12 @@ jobs:
           TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 ```
 
+**For complete CI/CD guide**: Load `references/ci-cd-guide.md` when setting up CI/CD pipelines, optimizing builds, or configuring platform-specific workflows (GitHub Actions, GitLab, Docker, etc.).
+
 **Complete Templates**:
 - `templates/github-actions.yml` - GitHub Actions
 - `templates/gitlab-ci.yml` - GitLab CI
 - `templates/Dockerfile` - Docker builds
-
-**Complete Guide**: See `references/ci-cd-guide.md` for:
-- All major CI platforms
-- Optimization strategies
-- Remote caching setup
-- Docker integration
-- Performance benchmarks
-
----
-
-## Framework Integration
-
-### Next.js
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"outputs": [".next/**", "!.next/cache/**"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		}
-	}
-}
-```
-
-**Template**: `templates/turbo-nextjs.json`
-
-### Vite
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": ["dist/**"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		}
-	}
-}
-```
-
-**Template**: `templates/turbo-vite.json`
-
-### Nuxt
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"outputs": [".output/**", ".nuxt/**"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		}
-	}
-}
-```
-
----
-
-## Best Practices
-
-### 1. Structure Your Monorepo
-
-```
-my-monorepo/
-├── apps/                    # Applications
-│   ├── web/                # Frontend app
-│   ├── api/                # Backend API
-│   └── docs/               # Documentation
-├── packages/               # Shared packages
-│   ├── ui/                 # UI components
-│   ├── config/             # Shared configs
-│   ├── utils/              # Utilities
-│   └── tsconfig/           # TS configs
-├── tooling/                # Development tools
-│   ├── eslint-config/
-│   └── prettier-config/
-└── turbo.json
-```
-
-**Template**: See `templates/monorepo-structure.txt`
-
-### 2. Define Clear Task Dependencies
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"dependsOn": ["^build"]
-		},
-		"test": {
-			"dependsOn": ["build"]
-		},
-		"lint": {
-			"dependsOn": ["^build"]
-		},
-		"deploy": {
-			"dependsOn": ["build", "test", "lint"]
-		}
-	}
-}
-```
-
-### 3. Optimize Cache Configuration
-
-- **Cache build outputs, not source files**
-- **Include all generated files in outputs**
-- **Exclude cache directories** (e.g., `.next/cache`)
-- **Disable cache for dev servers**
-
-```json
-{
-	"pipeline": {
-		"build": {
-			"outputs": [
-				"dist/**",
-				".next/**",
-				"!.next/cache/**",
-				"storybook-static/**"
-			]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		}
-	}
-}
-```
-
-### 4. Use Environment Variables Wisely
-
-```json
-{
-	"globalEnv": ["NODE_ENV", "CI"],
-	"pipeline": {
-		"build": {
-			"env": ["NEXT_PUBLIC_API_URL"],
-			"passThroughEnv": ["DEBUG"] // Don't affect cache
-		}
-	}
-}
-```
-
-### 5. Leverage Remote Caching
-
-- Enable for all team members
-- Configure in CI/CD
-- Reduces build times significantly (50-90%)
-- Especially beneficial for large teams
-
-**Setup**: Run `scripts/link-remote-cache.sh`
-
-### 6. Use Filters Effectively
-
-```bash
-# Build only changed packages
-turbo run build --filter='...[origin/main]'
-
-# Build specific app with dependencies
-turbo run build --filter='...web'
-
-# Test only affected packages
-turbo run test --filter='...[HEAD^1]'
-```
-
-**Complete Guide**: See `references/advanced-filtering.md`
-
-### 7. Organize Scripts Consistently
-
-Root package.json:
-
-```json
-{
-	"scripts": {
-		"build": "turbo run build",
-		"dev": "turbo run dev",
-		"lint": "turbo run lint",
-		"test": "turbo run test",
-		"clean": "turbo run clean && rm -rf node_modules"
-	}
-}
-```
-
-### 8. Handle Persistent Tasks
-
-```json
-{
-	"pipeline": {
-		"dev": {
-			"cache": false,
-			"persistent": true // Keeps running
-		}
-	}
-}
-```
-
----
-
-## Common Patterns
-
-### Full-Stack Application
-
-```
-apps/
-├── web/          # Next.js frontend
-├── api/          # Express backend
-└── mobile/       # React Native
-
-packages/
-├── ui/           # Shared UI components
-├── database/     # Database client/migrations
-├── types/        # Shared TypeScript types
-└── config/       # Shared configs
-```
-
-### Shared Component Library
-
-```
-packages/
-├── ui/                    # Component library
-│   ├── src/
-│   ├── package.json
-│   └── tsconfig.json
-└── ui-docs/              # Storybook
-    ├── .storybook/
-    ├── stories/
-    └── package.json
-```
-
-### Microfrontends
-
-```
-apps/
-├── shell/        # Container app
-├── dashboard/    # Dashboard MFE
-└── settings/     # Settings MFE
-
-packages/
-├── shared-ui/    # Shared components
-└── router/       # Routing logic
-```
 
 ---
 
@@ -818,70 +330,97 @@ rm -rf ./node_modules/.cache/turbo
 }
 ```
 
-**Remote cache not working:**
-```bash
-turbo link                      # Verify authentication
-echo $TURBO_TOKEN              # Check env vars
-echo $TURBO_TEAM
-turbo run build --output-logs=hash-only  # Test connection
-```
-
-**Complete Troubleshooting Guide**: See `references/troubleshooting.md` for:
-- Cache issues
-- Dependency issues
-- Task execution issues
-- Performance issues
-- CI/CD issues
-- Docker issues
-- Environment variable issues
-- All error messages and solutions
+**For complete troubleshooting**: Load `references/troubleshooting.md` when encountering cache issues, dependency problems, task execution issues, or CI/CD errors.
 
 ---
 
 ## Migration
 
-### Migrating from Lerna
+### From Lerna
 
 ```bash
 # 1. Install Turborepo
 npm install turbo --save-dev
 
 # 2. Create turbo.json (see templates/turbo-basic.json)
-
 # 3. Update scripts in package.json
 # 4. Test builds locally
 # 5. Update CI/CD workflows
 ```
 
-**Lerna → Turborepo Mapping:**
+**Command Mapping**:
 - `lerna run build` → `turbo run build`
-- `lerna run test --scope=package` → `turbo run test --filter=package`
+- `lerna run test --scope=pkg` → `turbo run test --filter=pkg`
 - `lerna run build --since main` → `turbo run build --filter='...[main]'`
 
-### Migrating from Nx
+### From Nx
 
 ```bash
 # 1. Install Turborepo
 npm install turbo --save-dev
 
 # 2. Convert nx.json to turbo.json
-
 # 3. Update scripts
-# 4. Test locally
-# 5. Update CI/CD
+# 4. Update CI/CD
 ```
 
-**Nx → Turborepo Mapping:**
-- `nx run-many --target=build --all` → `turbo run build`
+**Command Mapping**:
+- `nx run-many --target=build` → `turbo run build`
 - `nx run app:build` → `turbo run build --filter=app`
 - `nx affected --target=build` → `turbo run build --filter='...[origin/main]'`
 
-**Complete Migration Guide**: See `references/migration-guide.md` for:
-- Detailed step-by-step instructions
-- Configuration conversion
-- Common pitfalls
-- Rollback strategies
-- Success metrics
+**For complete migration guide**: Load `references/migration-guide.md` when migrating from Lerna or Nx, including detailed steps, configuration conversion, and common pitfalls.
+
+---
+
+## When to Load References
+
+Load reference files when working on specific aspects of Turborepo:
+
+### configuration-guide.md
+Load when:
+- **Task-based**: Configuring turbo.json for the first time, setting up task pipelines with complex dependencies
+- **Framework-based**: Configuring framework-specific builds (Next.js, Vite, Nuxt, Remix, Astro, SvelteKit)
+- **Command-based**: Using advanced command options (prune, gen, link with custom configs)
+- **Problem-based**: Need detailed examples of pipeline configuration, environment variable setup
+
+### best-practices-patterns.md
+Load when:
+- **Project setup**: Structuring a new monorepo, organizing packages and apps
+- **Optimization**: Optimizing task dependencies, cache configuration, environment variable usage
+- **Architecture**: Implementing full-stack applications, shared component libraries, microfrontends, multi-platform setups
+- **Team setup**: Implementing remote caching strategies, organizing scripts consistently
+
+### advanced-filtering.md
+Load when:
+- **CI/CD optimization**: Implementing git-based filters to build only changed packages
+- **Selective builds**: Building specific apps with dependencies, testing only affected packages
+- **Complex filters**: Using dependency operators, exclude patterns, combined filters
+- **Performance**: Need CI/CD optimization patterns, filter benchmarks, best practices
+
+### ci-cd-guide.md
+Load when:
+- **Platform setup**: Configuring GitHub Actions, GitLab CI, CircleCI, Buildkite, Travis CI, Vercel
+- **Docker**: Creating Docker builds with turbo prune, multi-stage builds
+- **Remote cache**: Setting up Vercel remote cache or custom cache servers
+- **Optimization**: Implementing optimization strategies, environment variable management, deployment strategies
+- **Troubleshooting**: Debugging CI/CD cache issues, out-of-memory problems
+
+### migration-guide.md
+Load when:
+- **Migration**: Migrating from Lerna or Nx to Turborepo
+- **Conversion**: Converting lerna.json or nx.json to turbo.json
+- **Coexistence**: Running Turborepo alongside Lerna or Nx temporarily
+- **Pitfalls**: Understanding common migration pitfalls, rollback strategies, success metrics
+
+### troubleshooting.md
+Load when:
+- **Cache issues**: Tasks not using cache, cache too large, remote cache not working
+- **Dependency issues**: Internal packages not found, version mismatches
+- **Task execution**: Tasks running in wrong order, dev servers not starting, tasks skipping unexpectedly
+- **Performance**: Builds taking too long, out of memory in CI
+- **CI/CD issues**: Cache not persisting, environment variable problems
+- **Docker**: Docker builds failing, multi-stage build issues
 
 ---
 
@@ -901,12 +440,14 @@ npm install turbo --save-dev
 - **Discord**: <https://turbo.build/discord>
 - **GitHub**: <https://github.com/vercel/turbo>
 
-### Detailed Guides
+### Detailed Guides (6 references)
 
-- `references/troubleshooting.md` - Complete troubleshooting guide
+- `references/configuration-guide.md` - Complete configuration, commands, framework setups
+- `references/best-practices-patterns.md` - Best practices, architectural patterns
+- `references/advanced-filtering.md` - Complete filtering guide
 - `references/ci-cd-guide.md` - CI/CD platform integration
 - `references/migration-guide.md` - Migration from Lerna/Nx
-- `references/advanced-filtering.md` - Advanced filter patterns
+- `references/troubleshooting.md` - Complete troubleshooting guide
 
 ---
 
@@ -924,15 +465,13 @@ When setting up Turborepo:
 - [ ] Configure CI/CD integration (see references/ci-cd-guide.md)
 - [ ] Add filtering strategies for large repos
 - [ ] Document monorepo structure for team
-- [ ] Set up code generation (turbo gen)
-- [ ] Configure Docker builds (see templates/Dockerfile)
 - [ ] Test caching behavior locally
 - [ ] Verify remote cache in CI
 - [ ] Optimize concurrency settings
 
 ---
 
-**Last Updated**: 2025-11-19
-**Skill Version**: 1.0.0
+**Last Updated**: 2025-12-17
+**Skill Version**: 2.0.0
 **Turborepo Version**: 2.6.1+
 **Official LLM Docs**: <https://turborepo.com/llms.txt>

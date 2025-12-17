@@ -265,6 +265,14 @@ All 114 skills are production-ready and organized by domain:
 - Next reviews: Tier 1 foundation skills (manual verification)
 - Full report: `planning/COMPREHENSIVE_REVIEW_SUMMARY.md`
 
+**Recent Optimizations:**
+- **Tier 7 Optimization** (2025-12-17): 11 Tooling & Planning skills optimized
+  - Total reduction: 9,558 → 4,764 lines (-50.1%)
+  - Progressive disclosure implemented across all 11 skills
+  - "When to Load References" sections added for better discovery
+  - Skills optimized: better-chatbot, project-planning, claude-hook-writer, github-project-automation, turborepo, typescript-mcp, design-review, skill-review, multi-ai-consultant, better-chatbot-patterns, open-source-contributions
+  - Full summary: `planning/TIER_7_OPTIMIZATION_SUMMARY.md`
+
 ---
 
 ## Development Workflow

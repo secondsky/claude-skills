@@ -1,11 +1,28 @@
 ---
 name: claude-hook-writer
 description: Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks.
+metadata:
+  version: 2.0.0
+  author: Claude Skills Maintainers
+  last_verified: 2025-12-17
+  optimization_date: 2025-12-17
+  token_savings: ~55%
+  errors_prevented: 5
 ---
 
 # Claude Hook Writer
 
-Use this skill when creating or improving Claude Code hooks. This skill ensures hooks are secure, reliable, performant, and follow best practices.
+**Status**: Production Ready
+**Version**: 2.0.0 (Optimized with progressive disclosure)
+**Last Updated**: 2025-12-17
+
+---
+
+## Overview
+
+Expert guidance for writing secure, reliable, and performant Claude Code hooks. This skill validates design decisions, enforces best practices, and prevents common pitfalls.
+
+---
 
 ## When to Use This Skill
 
@@ -16,13 +33,17 @@ Use this skill when creating or improving Claude Code hooks. This skill ensures 
 - Securing hooks that handle sensitive data
 - Publishing hooks as PRPM packages
 
+---
+
 ## Core Principles
 
 ### 1. Security is Non-Negotiable
 
-Hooks execute automatically with user permissions. They can read, modify, or delete any file the user can access.
+Hooks execute automatically with user permissions and can read, modify, or delete any file the user can access.
 
 **ALWAYS validate and sanitize all input.** Hooks receive JSON via stdin—never trust it blindly.
+
+**For complete security patterns**: Load `references/security-requirements.md` when implementing validation or securing hooks.
 
 ### 2. Reliability Over Features
 
@@ -30,17 +51,23 @@ A hook that works 99% of the time is a broken hook. Edge cases (Unicode filename
 
 **Test with edge cases before deploying.**
 
+**For reliability patterns**: Load `references/reliability-performance.md` when handling errors or edge cases.
+
 ### 3. Performance Matters
 
 Hooks block operations. A 5-second hook means Claude waits 5 seconds before continuing.
 
 **Keep hooks fast. Run heavy operations in background.**
 
+**For performance optimization**: Load `references/reliability-performance.md` when optimizing hook speed.
+
 ### 4. Fail Gracefully
 
 Missing dependencies, malformed input, and disk errors will occur.
 
 **Handle errors explicitly. Log failures. Return meaningful exit codes.**
+
+---
 
 ## Hook Design Checklist
 
@@ -126,847 +153,268 @@ fi
 - Exit codes don't block (tool already ran)
 - Use exit 0 for success, 1 for logging errors
 
-## Security Requirements
+---
 
-### MUST-HAVE Security Checks
+## Top 5 Pitfalls (Must Know)
 
-Every hook must implement these:
+### Pitfall #1: Not Quoting Variables
 
-#### 1. Input Validation
+**Error**: Hooks break on filenames with spaces or special characters
 
+**Why**: Unquoted variables split on whitespace
+
+**Example**:
 ```bash
-#!/bin/bash
-set -euo pipefail  # Exit on errors, undefined vars
-
-INPUT=$(cat)
-
-# Validate JSON parse
-if ! FILE=$(echo "$INPUT" | jq -r '.input.file_path // empty' 2>&1); then
-  echo "JSON parse failed: $FILE" >&2
-  exit 1
-fi
-
-# Validate field exists
-if [[ -z "$FILE" ]]; then
-  echo "No file path in input" >&2
-  exit 1
-fi
-```
-
-#### 2. Path Sanitization
-
-```bash
-# Validate file is in project
-if [[ "$FILE" != "$CLAUDE_PROJECT_DIR"* ]]; then
-  echo "File outside project: $FILE" >&2
-  exit 2  # Block operation
-fi
-
-# Validate no directory traversal
-if [[ "$FILE" == *".."* ]]; then
-  echo "Path traversal detected: $FILE" >&2
-  exit 2
-fi
-```
-
-#### 3. Sensitive File Protection
-
-```bash
-# Block list (extend as needed)
-BLOCKED_PATTERNS=(
-  ".env"
-  ".env.*"
-  "*.pem"
-  "*.key"
-  "*credentials*"
-  ".git/*"
-  ".ssh/*"
-)
-
-for pattern in "${BLOCKED_PATTERNS[@]}"; do
-  if [[ "$FILE" == $pattern ]]; then
-    echo "Blocked: $FILE matches sensitive pattern $pattern" >&2
-    exit 2
-  fi
-done
-```
-
-#### 4. Quote All Variables
-
-Spaces and special characters in paths break unquoted variables:
-
-```bash
-# WRONG
-cat $FILE              # Breaks on "my file.txt"
-prettier --write $FILE # Fails with spaces
-
-# RIGHT
-cat "$FILE"              # Handles spaces
-prettier --write "$FILE" # Safe
-```
-
-#### 5. Use Absolute Paths for Scripts
-
-```bash
-# WRONG - relative path might not resolve
-./my-script.sh
-
-# RIGHT - explicit path
-"${CLAUDE_PLUGIN_ROOT}/scripts/my-script.sh"
-
-# ALSO RIGHT - use environment variable
-"$HOME/.claude/scripts/my-script.sh"
-```
-
-## Reliability Requirements
-
-### Handle Missing Dependencies
-
-```bash
-# Check tool exists
-if ! command -v prettier &> /dev/null; then
-  echo "prettier not installed, skipping" >&2
-  exit 0  # Success exit (just skip)
-fi
-
-# Check file exists
-if [[ ! -f "$FILE" ]]; then
-  echo "File not found: $FILE" >&2
-  exit 1
-fi
-```
-
-### Set Timeouts
-
-Default is 60 seconds. For slow operations, set explicit timeout:
-
-```json
-{
-  "hooks": [{
-    "type": "command",
-    "command": "./slow-operation.sh",
-    "timeout": 10000  // 10 seconds
-  }]
-}
-```
-
-Or run in background:
-
-```bash
-# Don't block Claude
-(heavy_operation "$FILE" &)
-exit 0
-```
-
-### Log Errors Properly
-
-```bash
-LOG_FILE=~/.claude-hooks/my-hook.log
-
-# Log to stderr (shown in transcript)
-echo "Hook failed: some reason" >&2
-
-# Or log to file (for debugging)
-echo "[$(date)] Error: some reason" >> "$LOG_FILE"
-```
-
-**Don't log to stdout** unless you want output in Claude's transcript.
-
-### Test With Edge Cases
-
-Test files:
-- `"file with spaces.txt"`
-- `"文件.txt"` (Unicode)
-- `"src/deep/nested/path/file.tsx"` (deep paths)
-- `"/absolute/path.txt"` (absolute paths)
-- `"../../../etc/passwd"` (traversal attempts)
-
-Test input:
-- Malformed JSON
-- Missing fields
-- Empty strings
-- `null` values
-
-## Performance Requirements
-
-### Keep Hooks Fast
-
-Target < 100ms for PreToolUse hooks. Longer hooks block Claude visibly.
-
-**Slow operations:**
-- Running tests: Run in background or use PostToolUse
-- Type checking: Cache results by file hash
-- Network calls: Avoid in hooks (use subagents instead)
-- Heavy linting: Only lint changed file, not entire project
-
-### Use Specific Matchers
-
-```json
-// BAD - runs on everything
-{"matcher": "*", ...}
-
-// GOOD - only file writes
-{"matcher": "Write", ...}
-
-// BETTER - only TypeScript writes
-// (check file extension in hook)
-{"matcher": "Write", ...}
-```
-
-### Dedupe Expensive Operations
-
-If multiple hooks match, they run in parallel. Dedupe with locks:
-
-```bash
-LOCK_FILE="/tmp/claude-hook-${SESSION_ID}-${HOOK_NAME}.lock"
-
-if [[ -f "$LOCK_FILE" ]]; then
-  exit 0  # Already running
-fi
-
-touch "$LOCK_FILE"
-trap "rm -f '$LOCK_FILE'" EXIT  # Clean up on exit
-
-# Do work here
-expensive_operation
-```
-
-## Code Templates
-
-### Template: Format On Save Hook
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-# Parse input
-INPUT=$(cat)
-FILE=$(echo "$INPUT" | jq -r '.input.file_path // empty')
-
-# Validate
-[[ -n "$FILE" ]] || exit 0
-[[ -f "$FILE" ]] || exit 0
-[[ "$FILE" == "$CLAUDE_PROJECT_DIR"* ]] || exit 0
-
-# Check formatter installed
-if ! command -v prettier &> /dev/null; then
-  exit 0
-fi
-
-# Format by extension
-case "$FILE" in
-  *.ts|*.tsx|*.js|*.jsx)
-    prettier --write "$FILE" 2>/dev/null || exit 0
-    ;;
-  *.py)
-    black "$FILE" 2>/dev/null || exit 0
-    ;;
-  *.go)
-    gofmt -w "$FILE" 2>/dev/null || exit 0
-    ;;
-esac
-```
-
-**JSON config:**
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": [{
-        "type": "command",
-        "command": "/path/to/format-on-save.sh",
-        "timeout": 5000
-      }]
-    }]
-  }
-}
-```
-
-### Template: Block Sensitive Files Hook
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-INPUT=$(cat)
-FILE=$(echo "$INPUT" | jq -r '.input.file_path // empty')
-
-[[ -n "$FILE" ]] || exit 0
-
-# Sensitive patterns
-BLOCKED=(
-  ".env"
-  ".env.*"
-  "*.pem"
-  "*.key"
-  "*secret*"
-  "*credential*"
-  ".git/*"
-)
-
-for pattern in "${BLOCKED[@]}"; do
-  # Use case for glob matching
-  case "$FILE" in
-    $pattern)
-      echo "Blocked: $FILE is a sensitive file" >&2
-      echo "   Pattern: $pattern" >&2
-      exit 2  # Block operation
-      ;;
-  esac
-done
-
-exit 0  # Allow
-```
-
-**JSON config:**
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": [{
-        "type": "command",
-        "command": "/path/to/block-sensitive.sh"
-      }]
-    }]
-  }
-}
-```
-
-### Template: Command Logger Hook
-
-```bash
-#!/bin/bash
-set -euo pipefail
-
-INPUT=$(cat)
-COMMAND=$(echo "$INPUT" | jq -r '.input.command // empty')
-
-[[ -n "$COMMAND" ]] || exit 0
-
-LOG_FILE=~/claude-commands.log
-mkdir -p "$(dirname "$LOG_FILE")"
-
-# Log with timestamp and context
-{
-  echo "---"
-  echo "Time: $(date '+%Y-%m-%d %H:%M:%S')"
-  echo "Directory: $CLAUDE_CURRENT_DIR"
-  echo "Command: $COMMAND"
-} >> "$LOG_FILE"
-
-exit 0
-```
-
-**JSON config:**
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "Bash",
-      "hooks": [{
-        "type": "command",
-        "command": "/path/to/command-logger.sh"
-      }]
-    }]
-  }
-}
-```
-
-### Template: Prompt-Based Security Hook
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "Write",
-      "hooks": [{
-        "type": "prompt",
-        "prompt": "Analyze the file content being written to ${input.file_path}. Check if it contains: hardcoded API keys, AWS credentials, private keys, passwords, or secrets. Return {\"decision\": \"block\", \"reason\": \"<specific issue>\"} if found, otherwise {\"decision\": \"allow\"}.",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "decision": {"enum": ["allow", "block"]},
-            "reason": {"type": "string"}
-          },
-          "required": ["decision"]
-        }
-      }]
-    }]
-  }
-}
-```
-
-**Use sparingly:** Prompt hooks take 2-10 seconds. Only use for critical security checks.
-
-## Testing Hooks
-
-### Manual Testing
-
-Create test input:
-
-```bash
-# Test with sample JSON
-echo '{
-  "session_id": "test",
-  "input": {
-    "file_path": "/tmp/test.ts"
-  }
-}' | ./my-hook.sh
-
-# Check exit code
-echo $?  # 0 = success, 2 = blocked, 1 = error
-```
-
-### Edge Case Testing
-
-```bash
-#!/bin/bash
-# test-hook.sh
-
-HOOK=./my-hook.sh
-
-test_case() {
-  local description="$1"
-  local input="$2"
-  local expected_exit="$3"
-
-  echo "Testing: $description"
-
-  echo "$input" | $HOOK
-  actual_exit=$?
-
-  if [[ $actual_exit -eq $expected_exit ]]; then
-    echo "  PASS"
-  else
-    echo "  FAIL (expected exit $expected_exit, got $actual_exit)"
-    return 1
-  fi
-}
-
-# Test cases
-test_case "Normal file" \
-  '{"input":{"file_path":"/tmp/test.ts"}}' \
-  0
-
-test_case "Sensitive .env file" \
-  '{"input":{"file_path":".env"}}' \
-  2
-
-test_case "File with spaces" \
-  '{"input":{"file_path":"/tmp/my file.ts"}}' \
-  0
-
-test_case "Missing file_path" \
-  '{"input":{}}' \
-  1
-
-test_case "Malformed JSON" \
-  'not json' \
-  1
-
-echo "All tests passed"
-```
-
-### Integration Testing
-
-1. Register hook in Claude Code
-2. Trigger the event (write file, run command)
-3. Check transcript (Ctrl-R) for hook output
-4. Verify expected behavior
-
-## Publishing Hooks as PRPM Packages
-
-### Package Structure
-
-```
-my-hook/
-├── prpm.json          # Package manifest
-├── hook.json          # Hook configuration
-├── scripts/
-│   └── my-hook.sh     # Hook script
-└── README.md          # Documentation
-```
-
-### prpm.json
-
-```json
-{
-  "name": "@yourname/my-hook",
-  "version": "1.0.0",
-  "description": "Brief description of what hook does (shown in search)",
-  "author": "Your Name",
-  "format": "claude",
-  "subtype": "hook",
-  "tags": [
-    "formatting",
-    "security",
-    "automation"
-  ],
-  "main": "hook.json",
-  "scripts": {
-    "test": "./test-hook.sh"
-  }
-}
-```
-
-### hook.json
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [{
-      "matcher": "Edit|Write",
-      "hooks": [{
-        "type": "command",
-        "command": "${CLAUDE_PLUGIN_ROOT}/scripts/my-hook.sh",
-        "timeout": 5000
-      }]
-    }]
-  }
-}
-```
-
-**Use `${CLAUDE_PLUGIN_ROOT}`** to reference scripts—expands to hook installation directory.
-
-### Advanced Hook Configuration
-
-All hook types support optional fields for controlling execution behavior:
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "Write",
-      "hooks": [{
-        "type": "command",
-        "command": "./my-hook.sh",
-        "timeout": 5000,
-        "continue": true,              // Whether Claude continues after hook (default: true)
-        "stopReason": "string",        // Message shown when continue is false
-        "suppressOutput": false,       // Hide stdout from transcript (default: false)
-        "systemMessage": "string"      // Warning message shown to user
-      }]
-    }]
-  }
-}
-```
-
-#### `continue` (boolean, default: true)
-
-Controls whether Claude continues after hook execution.
-
-**When to use `false`:**
-- Security hooks that must block operations
-- Validation hooks that found critical errors
-- Hooks that require user intervention
-
-```json
-{
-  "type": "command",
-  "command": "./validate-security.sh",
-  "continue": false,
-  "stopReason": "Security validation failed. Please review the detected issues before proceeding."
-}
-```
-
-**Exit code interaction:**
-- If hook exits with code 2 (block): `continue` is ignored, operation is blocked
-- If hook exits with code 0 or 1: `continue` field determines behavior
-
-#### `stopReason` (string)
-
-Message displayed to user when `continue: false`. Should explain why execution stopped and what action is needed.
-
-```json
-{
-  "continue": false,
-  "stopReason": "Pre-commit checks failed. Fix linting errors and try again."
-}
-```
-
-#### `suppressOutput` (boolean, default: false)
-
-Hides hook stdout from transcript mode (Ctrl-R). Stderr is always shown.
-
-**When to use `true`:**
-- Hooks that produce verbose output
-- Debugging logs not useful to users
-- Noisy background operations
-
-```json
-{
-  "type": "command",
-  "command": "./sync-to-cloud.sh",
-  "suppressOutput": true  // Don't show sync progress in transcript
-}
-```
-
-**Note:** Always show critical errors via stderr, as stderr is never suppressed.
-
-#### `systemMessage` (string)
-
-Warning or info message shown to user when hook executes. Useful for non-blocking warnings.
-
-```json
-{
-  "type": "command",
-  "command": "./check-dependencies.sh",
-  "systemMessage": "Some dependencies are outdated. Consider running 'npm update'."
-}
-```
-
-**Difference from `stopReason`:**
-- `systemMessage`: Informational, Claude continues
-- `stopReason`: Critical, requires `continue: false`
-
-### README.md
-
-```markdown
-# My Hook
-
-Brief description.
-
-## What It Does
-
-- Clear, specific bullet points
-- Mention which events it triggers on
-- Mention which tools it matches
-
-## Installation
-
-```bash
-prpm install @yourname/my-hook
-```
-
-## Requirements
-
-- prettier (install: `bun install -g prettier` or `bun add -g prettier`)
-- jq (install: `brew install jq`)
-
-## Configuration
-
-Optional: How to customize behavior.
-
-## Examples
-
-Show example output or behavior.
-
-## Troubleshooting
-
-Common issues and fixes.
-```
-
-### Publishing
-
-```bash
-# Test locally first
-prpm test
-
-# Publish
-prpm publish
-
-# Version bumps
-prpm publish patch  # 1.0.0 -> 1.0.1
-prpm publish minor  # 1.0.0 -> 1.1.0
-prpm publish major  # 1.0.0 -> 2.0.0
-```
-
-## Common Pitfalls
-
-### Pitfall 1: Not Quoting Variables
-
-```bash
-# BREAKS on spaces
+# ❌ WRONG - breaks on "my file.txt"
+cat $FILE
 prettier --write $FILE
+rm $FILE
 
-# SAFE
+# ✅ RIGHT - handles spaces and special chars
+cat "$FILE"
 prettier --write "$FILE"
+rm "$FILE"
 ```
 
-### Pitfall 2: Trusting Input
+**Why this matters**: Files with spaces (`"my file.txt"`), Unicode (`"文件.txt"`), or special chars (`"file (1).txt"`) are common.
 
+---
+
+### Pitfall #2: Trusting Input Without Validation
+
+**Error**: Hook executes on malicious or malformed input
+
+**Why**: Not validating JSON fields before using them
+
+**Example**:
 ```bash
-# DANGEROUS - no validation
+# ❌ DANGEROUS - no validation
 FILE=$(jq -r '.input.file_path')
-rm "$FILE"
+rm "$FILE"  # Could delete ../../../etc/passwd
 
-# SAFE - validate first
+# ✅ SAFE - validate first
 FILE=$(jq -r '.input.file_path // empty')
+[[ -n "$FILE" ]] || exit 1
 [[ "$FILE" == "$CLAUDE_PROJECT_DIR"* ]] || exit 2
-[[ "$FILE" != *".env"* ]] || exit 2
+[[ "$FILE" != *".."* ]] || exit 2
 rm "$FILE"
 ```
 
-### Pitfall 3: Blocking Operations Too Long
+**Why this matters**: Prevents path traversal attacks, protects files outside project, prevents malformed input crashes.
 
+**For complete security patterns**: Load `references/security-requirements.md`.
+
+---
+
+### Pitfall #3: Blocking Operations Too Long
+
+**Error**: Hook takes 30+ seconds, blocking Claude
+
+**Why**: Running expensive operations (tests, builds) synchronously in hook
+
+**Example**:
 ```bash
-# BLOCKS Claude for 30 seconds
+# ❌ BLOCKS Claude for 30 seconds
 npm test
+npm run build
 
-# RUN IN BACKGROUND
-(npm test &)
+# ✅ RUN IN BACKGROUND - returns immediately
+(npm test > /tmp/test-results.log 2>&1 &)
+(npm run build > /tmp/build.log 2>&1 &)
 exit 0
 ```
 
-### Pitfall 4: Wrong Exit Code
+**Why this matters**: Slow hooks create bad user experience. Target < 100ms for PreToolUse, < 500ms for PostToolUse.
 
+**For performance optimization**: Load `references/reliability-performance.md`.
+
+---
+
+### Pitfall #4: Wrong Exit Code for Blocking
+
+**Error**: PreToolUse hook doesn't actually block the operation
+
+**Why**: Using exit 1 instead of exit 2
+
+**Example**:
 ```bash
-# PreToolUse hook that should block
-
+# ❌ WRONG - logs error but doesn't block
 if [[ $FILE == ".env" ]]; then
   echo "Don't edit .env" >&2
-  exit 1  # WRONG - doesn't block, just logs error
+  exit 1  # Tool still runs!
 fi
 
-# RIGHT
+# ✅ RIGHT - actually blocks
 if [[ $FILE == ".env" ]]; then
   echo "Blocked: .env is protected" >&2
-  exit 2  # Blocks operation
+  exit 2  # Tool is blocked
 fi
 ```
 
-### Pitfall 5: Logging to stdout
+**Why this matters**: Exit 1 only logs errors. Exit 2 is required to block in PreToolUse hooks.
 
+---
+
+### Pitfall #5: Assuming Tools Exist
+
+**Error**: Hook crashes when dependency is missing
+
+**Why**: Not checking if tool is installed before using
+
+**Example**:
 ```bash
-# WRONG - appears in transcript
-echo "Hook running..."
-
-# RIGHT - stderr or file
-echo "Hook running..." >&2
-# or
-echo "Hook running..." >> ~/.claude-hooks/debug.log
-```
-
-### Pitfall 6: Assuming Tools Exist
-
-```bash
-# BREAKS if prettier not installed
+# ❌ BREAKS if prettier not installed
 prettier --write "$FILE"
 
-# SAFE
+# ✅ SAFE - check first
 if command -v prettier &>/dev/null; then
   prettier --write "$FILE"
+else
+  echo "prettier not installed, skipping" >&2
+  exit 0  # Success exit, just skip
 fi
 ```
 
-## Debugging Hooks
+**Why this matters**: Users may not have all tools installed. Hooks should degrade gracefully.
 
-### Enable Verbose Logging
+**For reliability patterns**: Load `references/reliability-performance.md`.
 
-```bash
-#!/bin/bash
-set -x  # Print commands as they execute
-```
+---
 
-### Check Transcript
+## Critical Rules
 
-Run Claude Code with Ctrl-R (transcript mode) to see hook execution:
+### Always Do
 
-```
-PreToolUse hook: ./my-hook.sh
-  stdout: Formatted file.ts
-  stderr:
-  exit: 0
-  duration: 47ms
-```
+✅ Validate all JSON input before using (`jq -r '... // empty'`)
+✅ Quote all variables containing paths or user input
+✅ Use absolute paths for scripts (`${CLAUDE_PLUGIN_ROOT}/...`)
+✅ Block sensitive files (`.env`, `*.key`, credentials)
+✅ Check if required tools exist (`command -v toolname`)
+✅ Set reasonable timeouts (< 5s for PreToolUse)
+✅ Run heavy operations in background
+✅ Test with edge cases (spaces, Unicode, special chars)
+✅ Use exit 2 to block in PreToolUse hooks
+✅ Log errors to stderr or file, not stdout
 
-### Test JSON Parsing
+### Never Do
 
-```bash
-# Debug what jq extracts
-INPUT=$(cat)
-echo "$INPUT" | jq '.' >&2  # Show full JSON
-echo "$INPUT" | jq -r '.input.file_path' >&2  # Show field
-```
+❌ Trust JSON input without validation
+❌ Use unquoted variables ($FILE instead of "$FILE")
+❌ Use relative paths for scripts
+❌ Skip path sanitization (check for `..`, validate in project)
+❌ Assume tools are installed
+❌ Block for > 1 second in PreToolUse hooks
+❌ Use exit 1 when you mean to block (use exit 2)
+❌ Log sensitive data to stdout or files
+❌ Use `matcher: "*"` unless truly necessary
 
-### Check Environment Variables
+---
 
-```bash
-echo "PROJECT_DIR: $CLAUDE_PROJECT_DIR" >&2
-echo "CURRENT_DIR: $CLAUDE_CURRENT_DIR" >&2
-echo "SESSION_ID: $SESSION_ID" >&2
-echo "PLUGIN_ROOT: $CLAUDE_PLUGIN_ROOT" >&2
-```
+## When to Load References
 
-## Quick Reference
+Load reference files when working on specific hook aspects:
 
-### Exit Codes
-- `0` = Success (continue)
-- `2` = Block operation (PreToolUse only)
-- `1` or other = Non-blocking error
+### Security Requirements (`references/security-requirements.md`)
+Load when:
+- Implementing input validation and sanitization
+- Securing hooks that handle sensitive data
+- Blocking sensitive files (`.env`, keys, credentials)
+- Preventing path traversal attacks
+- Understanding security vulnerabilities and best practices
+- Testing security with malicious input
 
-### Hook Configuration Fields
-**Required:**
-- `type` - "command" or "prompt"
-- `command` or `prompt` - Script path or prompt text
+### Reliability & Performance (`references/reliability-performance.md`)
+Load when:
+- Handling missing dependencies or tools
+- Setting timeouts and handling slow operations
+- Optimizing hook performance (< 100ms target)
+- Running heavy operations in background
+- Caching expensive results
+- Testing with edge cases (Unicode, spaces, deep paths)
+- Deduplicating expensive operations
 
-**Optional:**
-- `timeout` - Max execution time in ms (default: 60000)
-- `continue` - Continue after hook? (default: true)
-- `stopReason` - Message when continue=false
-- `suppressOutput` - Hide stdout from transcript (default: false)
-- `systemMessage` - Warning message to user
+### Code Templates (`references/code-templates.md`)
+Load when:
+- Starting a new hook and need working examples
+- Implementing format-on-save functionality
+- Blocking sensitive files from modification
+- Logging commands or operations
+- Using prompt-based security analysis
+- Customizing templates for specific use cases
 
-### Environment Variables
-- `$CLAUDE_PROJECT_DIR` - Project root
-- `$CLAUDE_CURRENT_DIR` - Current directory
-- `$SESSION_ID` - Session identifier
-- `$CLAUDE_PLUGIN_ROOT` - Hook installation directory
-- `$CLAUDE_ENV_FILE` - File for persisting vars
+### Testing & Debugging (`references/testing-debugging.md`)
+Load when:
+- Writing test cases for hooks
+- Debugging hook failures or unexpected behavior
+- Testing with edge cases (malformed JSON, missing fields)
+- Checking hook execution in transcript (Ctrl-R)
+- Profiling hook performance
+- Creating automated test suites
 
-### JSON Input Structure
+### Publishing Guide (`references/publishing-guide.md`)
+Load when:
+- Publishing hooks to PRPM registry
+- Creating package manifest (prpm.json)
+- Configuring hook.json with advanced options
+- Using `continue`, `stopReason`, `suppressOutput`, `systemMessage`
+- Writing README.md for users
+- Understanding versioning and publishing commands
 
-```json
-{
-  "session_id": "...",
-  "transcript_path": "...",
-  "current_dir": "...",
-  "input": {
-    // Tool-specific fields
-  }
-}
-```
+### Quick Reference (`references/quick-reference.md`)
+Load when:
+- Need quick syntax lookup (exit codes, jq patterns)
+- Looking up environment variables
+- Finding common bash patterns (file validation, background execution)
+- Checking hook events and matchers
+- Need performance tips summary
+- Looking up JSON input structure
 
-### Common jq Patterns
-
-```bash
-# Extract with default
-$(jq -r '.input.file_path // empty')
-
-# Extract array
-$(jq -r '.input.files[]')
-
-# Check field exists
-if jq -e '.input.file_path' >/dev/null; then
-
-# Parse entire object
-INPUT_OBJ=$(jq '.input')
-```
+---
 
 ## Final Checklist
 
-Before publishing:
+Before publishing a hook:
 
-- [ ] Validates all stdin input
+- [ ] Validates all stdin input with jq
 - [ ] Quotes all variables
 - [ ] Uses absolute paths for scripts
-- [ ] Blocks sensitive files
+- [ ] Blocks sensitive files (`.env`, `*.key`, etc.)
 - [ ] Handles missing tools gracefully
-- [ ] Sets reasonable timeout
-- [ ] Logs errors to stderr or file
-- [ ] Tests with edge cases
-- [ ] Tests in real Claude session
-- [ ] Documents dependencies
-- [ ] README includes examples
-- [ ] Semantic version number
+- [ ] Sets reasonable timeout (< 5s for PreToolUse)
+- [ ] Logs errors to stderr or file, not stdout
+- [ ] Tests with edge cases (spaces, Unicode, malformed JSON)
+- [ ] Tests in real Claude Code session
+- [ ] Documents dependencies in README
+- [ ] Uses semantic versioning
 - [ ] Clear description and tags
+
+---
+
+## Using Bundled Resources
+
+This skill includes 6 reference files for on-demand loading:
+
+**Security & Reliability** (2 files):
+- `security-requirements.md` - Input validation, path sanitization, blocking sensitive files
+- `reliability-performance.md` - Error handling, timeouts, performance optimization
+
+**Implementation** (2 files):
+- `code-templates.md` - Working hook examples (format-on-save, block-sensitive, logger, etc.)
+- `quick-reference.md` - Fast syntax lookup (exit codes, jq patterns, environment vars)
+
+**Testing & Publishing** (2 files):
+- `testing-debugging.md` - Test patterns, edge cases, debugging techniques
+- `publishing-guide.md` - PRPM packaging, advanced configuration, README template
+
+Load references on-demand when specific knowledge is needed. See "When to Load References" section for triggers.
+
+---
 
 ## Resources
 
 - [Claude Code Hooks Docs](https://docs.claude.com/en/docs/claude-code/hooks)
 - [PRPM Hook Packages](https://prpm.dev/packages?format=claude&subtype=hook)
+
+---
+
+**Last verified**: 2025-12-17 | **Version**: 2.0.0
