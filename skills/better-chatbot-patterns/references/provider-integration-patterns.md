@@ -248,7 +248,9 @@ export function ModelSelector({
 
 ## Environment Variables Setup
 
-Create `.env.local`:
+### Development Setup
+
+Create `.env.local` for local development:
 
 ```bash
 # OpenAI
@@ -267,7 +269,68 @@ XAI_API_KEY=xai-...
 GROQ_API_KEY=gsk_...
 ```
 
-**Security**: Never commit `.env.local` to version control. Add to `.gitignore`.
+**Development Security**:
+- Never commit `.env.local` to version control
+- Add to `.gitignore`
+- Use separate development keys (not production keys)
+
+### Production Deployment
+
+**⚠️ CRITICAL**: `.env.local` is for **development only**. For production deployments:
+
+#### Cloud Platform Secret Management
+
+**Vercel**:
+- Use Environment Variables in project settings
+- Supports environment-specific values (Preview/Production)
+- [Vercel Environment Variables Guide](https://vercel.com/docs/environment-variables)
+
+**AWS**:
+- Use AWS Secrets Manager for automatic rotation
+- Or AWS Systems Manager Parameter Store for simpler use cases
+- Integrate via AWS SDK in your application
+- [AWS Secrets Manager Documentation](https://aws.amazon.com/secrets-manager/)
+
+**Google Cloud**:
+- Use Secret Manager with automatic rotation
+- Supports versioning and access control
+- [Google Secret Manager Guide](https://cloud.google.com/secret-manager)
+
+**Azure**:
+- Use Key Vault with managed identities
+- Supports certificate and key management
+- [Azure Key Vault Documentation](https://azure.microsoft.com/en-us/products/key-vault)
+
+#### CI/CD Integration
+
+- Store secrets in **GitHub Actions secrets** / **GitLab CI variables**
+- Never log or expose secrets in build output
+- Use separate keys per environment (dev/staging/production)
+- Rotate keys immediately if exposed in logs
+
+#### Security Best Practices
+
+**Key Rotation**:
+- Rotate API keys **quarterly** minimum (set calendar reminders)
+- Automate rotation where supported (AWS Secrets Manager, Google Secret Manager)
+- Have rollback plan before rotating production keys
+
+**Access Control**:
+- Use separate keys for each environment
+- Restrict keys to specific IP ranges when possible
+- Enable provider-specific security features (IP allowlists, rate limits)
+
+**Monitoring**:
+- Monitor key usage via provider dashboards
+- Set up alerts for unusual API activity
+- Track costs to detect unauthorized usage
+- Log all API errors for security auditing
+
+#### Additional Resources
+
+- [Anthropic Security Best Practices](https://docs.anthropic.com/en/api/security)
+- [OpenAI API Security](https://platform.openai.com/docs/guides/safety-best-practices)
+- [OWASP Secrets Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html)
 
 ---
 

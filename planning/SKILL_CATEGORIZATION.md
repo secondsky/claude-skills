@@ -6,7 +6,7 @@
 
 ## Suite Plugin Categories
 
-### 1. cloudflare-skills (28 skills)
+### 1. cloudflare-skills (23 skills)
 Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable Objects, and more.
 
 - cloudflare-agents
@@ -138,7 +138,7 @@ Testing frameworks, tools, and quality assurance.
 - test-quality-analysis
 - vitest-testing
 
-### 9. mobile-skills (6 skills)
+### 9. mobile-skills (8 skills)
 Mobile app development for iOS and Android.
 
 - app-store-deployment

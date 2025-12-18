@@ -28,8 +28,17 @@ export enum DefaultToolName {
   MyNewTool = "my_new_tool",
 }
 
+// TODO: Define AppDefaultToolkit enum to categorize your tools
+// Example:
+// export enum AppDefaultToolkit {
+//   Visualization = "visualization",
+//   WebSearch = "web-search",
+//   Http = "http",
+//   Code = "code",
+// }
+
 export const APP_DEFAULT_TOOL_KIT = {
-  [AppDefaultToolkit.MyCategory]: {
+  [AppDefaultToolkit.MyCategory]: {  // Replace MyCategory with actual category from your enum
     [DefaultToolName.MyNewTool]: myNewTool,
   },
 };
@@ -41,12 +50,18 @@ export function MyToolInvocation({ part }: { part: ToolUIPart }) {
 }
 
 // 4. Add to components/tool-invocation/index.tsx switch
-if (toolName === DefaultToolName.MyTool) {
+if (toolName === DefaultToolName.MyNewTool) {
   return <MyToolInvocation part={part} />;
 }
 ```
 
 ### Template: Adding a New API Route
+
+**Note**: Replace placeholder tokens with your actual values:
+- `[resource]` → your resource name (e.g., "tasks", "messages", "users")
+- `[domain]` → your domain name (e.g., "chat", "analytics", "billing")
+- Use singular form for types/repository names: `TaskRepository`, `MessageRepository`
+- Use the same name consistently throughout imports, filenames, and calls
 
 ```typescript
 // src/app/api/[resource]/route.ts
@@ -88,6 +103,11 @@ export async function GET(request: Request) {
     return new Response("Internal Server Error", { status: 500 });
   }
 }
+
+const createSchema = z.object({
+  // Define fields matching your resource structure
+  // Example: name: z.string(), description: z.string().optional()
+});
 
 export async function POST(request: Request) {
   const session = await getSession();

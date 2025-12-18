@@ -178,6 +178,8 @@ rm "$FILE"
 
 **Why this matters**: Files with spaces (`"my file.txt"`), Unicode (`"文件.txt"`), or special chars (`"file (1).txt"`) are common.
 
+**For quoting best practices**: Load `references/security-requirements.md` for comprehensive input handling patterns.
+
 ---
 
 ### Pitfall #2: Trusting Input Without Validation
@@ -252,6 +254,8 @@ fi
 ```
 
 **Why this matters**: Exit 1 only logs errors. Exit 2 is required to block in PreToolUse hooks.
+
+**For exit code patterns**: Load `references/hook-templates.md` for complete hook response patterns.
 
 ---
 
