@@ -60,24 +60,26 @@ export const providers = {
 // Model registry - update with latest models
 export const models = {
   openai: {
-    "gpt-5": providers.openai("gpt-5"),
-    "gpt-5-mini": providers.openai("gpt-5-mini"),
+    "gpt-5.2": providers.openai("gpt-5.2"),
+    "gpt-5.2-chat-latest": providers.openai("gpt-5.2-chat-latest"),
+    "gpt-5.2-pro": providers.openai("gpt-5.2-pro"),
     "gpt-4o": providers.openai("gpt-4o"),
     "gpt-4o-mini": providers.openai("gpt-4o-mini")
   },
   anthropic: {
     "claude-sonnet-4-5": providers.anthropic("claude-sonnet-4-5"),
     "claude-haiku-4-5": providers.anthropic("claude-haiku-4-5"),
-    "claude-opus-4": providers.anthropic("claude-opus-4")
+    "claude-opus-4-5": providers.anthropic("claude-opus-4-5")
   },
   google: {
+    "gemini-3-pro-preview": providers.google("gemini-3-pro-preview"),
+    "gemini-3-flash-preview": providers.google("gemini-3-flash-preview"),
     "gemini-2.5-pro": providers.google("gemini-2.5-pro"),
-    "gemini-2.5-flash": providers.google("gemini-2.5-flash"),
-    "gemini-2.0-flash": providers.google("gemini-2.0-flash")
+    "gemini-2.5-flash": providers.google("gemini-2.5-flash")
   },
   xai: {
-    "grok-2": providers.xai("grok-2"),
-    "grok-2-mini": providers.xai("grok-2-mini")
+    "grok-4.1-fast": providers.xai("grok-4.1-fast"),
+    "grok-4-1-fast-reasoning": providers.xai("grok-4-1-fast-reasoning")
   },
   groq: {
     "llama-3.3-70b": providers.groq("llama-3.3-70b-versatile"),
@@ -340,7 +342,8 @@ GROQ_API_KEY=gsk_...
 
 ```typescript
 // lib/ai/health.ts
-import { isProviderConfigured, type AIProvider } from "./providers"
+import { isProviderConfigured, type AIProvider, getModel, models } from "./providers"
+import { generateText } from "ai" // or your AI SDK module
 
 export async function checkProviderHealth(provider: AIProvider): Promise<boolean> {
   if (!isProviderConfigured(provider)) {
@@ -413,7 +416,7 @@ export function selectModelForTask(
   const recommendations = {
     chat: { provider: "anthropic" as const, model: "claude-sonnet-4-5" },
     coding: { provider: "anthropic" as const, model: "claude-sonnet-4-5" },
-    creative: { provider: "anthropic" as const, model: "claude-opus-4" },
+    creative: { provider: "anthropic" as const, model: "claude-opus-4-5" },
     fast: { provider: "groq" as const, model: "llama-3.1-8b" }
   }
 

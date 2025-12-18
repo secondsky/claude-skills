@@ -33,7 +33,7 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-workflows
 - cloudflare-zero-trust-access
 
-### 2. ai-skills (17 skills)
+### 2. ai-skills (20 skills)
 AI and ML integrations - OpenAI, Gemini, Claude API, Eleven Labs, and ML pipelines.
 
 - ai-elements-chatbot
