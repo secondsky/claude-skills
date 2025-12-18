@@ -81,9 +81,9 @@ extract_keywords() {
     keywords_raw=$(awk '/^keywords:/{flag=1; next} /^[a-z-]+:/{flag=0} flag && /^  - /{gsub(/^  - /, ""); print}' "$skill_md" | tr '\n' ',' | sed 's/,$//')
   fi
 
-  # Clean up and convert to JSON array (limit to 20 keywords for better discoverability)
+  # Clean up and convert to JSON array (limit to 50 keywords for better discoverability)
   if [ -n "$keywords_raw" ]; then
-    echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | $HEAD_CMD -20 | awk '
+    echo "$keywords_raw" | sed 's/,/\n/g' | sed 's/^ *//;s/ *$//' | grep -v '^$' | $HEAD_CMD -50 | awk '
       BEGIN { printf "[" }
       {
         gsub(/\\/, "\\\\")
@@ -98,10 +98,10 @@ extract_keywords() {
   fi
 }
 
-# Function to clean description (remove Keywords line, limit to 1024 chars - official spec limit)
+# Function to clean description (remove Keywords line, limit to 2048 chars to prevent truncation)
 clean_description() {
   local description="$1"
-  echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | $HEAD_CMD -c 1024
+  echo "$description" | sed 's/Keywords:.*$//' | tr -d '"' | tr -d "'" | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | $HEAD_CMD -c 2048
 }
 
 # Function to extract metadata field from SKILL.md (e.g., version, last_verified)
