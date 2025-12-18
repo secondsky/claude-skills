@@ -127,7 +127,6 @@ Moderate bloat, can likely be condensed with targeted edits:
 | Skill | Lines | Over Limit | % Over | Tier |
 |-------|-------|------------|--------|------|
 | design-review | 579 | +79 | +15% | Tooling |
-| project-workflow | 713 | +213 | +42% | Tooling |
 | react-hook-form-zod | 694 | +194 | +38% | Frontend |
 | firecrawl-scraper | 689 | +189 | +37% | Frontend |
 | swift-settingskit | 670 | +170 | +34% | Mobile |
@@ -155,6 +154,7 @@ Moderate bloat, can likely be condensed with targeted edits:
 - ~~multi-ai-consultant~~ → 424 lines (2025-12-17, Tier 7 optimization)
 - ~~better-chatbot-patterns~~ → 307 lines (2025-12-17, Tier 7 optimization)
 - ~~open-source-contributions~~ → 378 lines (2025-12-17, Tier 7 optimization)
+- ~~project-workflow~~ → 361 lines (2025-12-18, Tier 7 follow-up optimization)
 
 ### Recommended Review Order
 
@@ -383,7 +383,7 @@ Based on severity and impact, process bloated skills in this order:
 | 90 | fastmcp | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 91 | project-planning | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-17 |
 | 92 | project-session-management | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
-| 93 | project-workflow | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | 🟠 | ✅ | ✅ | ✅ | ✅ | ⏳ | ⏳ | 1H | 2025-11-21 |
+| 93 | project-workflow | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-18 |
 | 94 | mcp-dynamic-orchestrator | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
 | 95 | skill-review | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-12-17 |
 | 96 | dependency-upgrade | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 0 | 2025-11-21 |
