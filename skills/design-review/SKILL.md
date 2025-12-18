@@ -107,42 +107,15 @@ Follow the systematic checklist below. Each phase has specific objectives and te
 
 **Objective:** Verify the interactive experience works as expected.
 
-For detailed interaction testing patterns, see [references/interaction-patterns.md](references/interaction-patterns.md).
+**For complete interaction guide**: Load `references/interaction-patterns.md` when testing interactive states, forms, buttons, navigation flows, micro-interactions, modals, or keyboard navigation.
 
-**Core tests:**
+**Quick checklist:**
+- Test 5 interactive states (default, hover, active, focus, disabled) for all elements
+- Execute primary user flow (form submission, navigation, key actions)
+- Verify destructive actions have confirmation dialogs
+- Assess perceived performance (loading states, optimistic UI)
 
-1. **Execute primary user flow** (based on PR notes or typical usage):
-   - Navigate through the intended workflow
-   - Complete key actions (form submission, navigation, etc.)
-   - Verify success states and confirmation messages
-
-2. **Test all interactive states** for each element:
-   - **Hover**: Visual feedback on mouse over
-   - **Active/Pressed**: Down state when clicking
-   - **Focus**: Clear outline/highlight for keyboard navigation
-   - **Disabled**: Visually distinct, non-interactive
-
-3. **Verify destructive actions** have confirmations:
-   - Delete operations show warnings
-   - Irreversible actions require explicit confirmation
-   - Cancel options clearly available
-
-4. **Assess perceived performance**:
-   - Interactions feel snappy (<100ms feedback)
-   - Loading states for async operations
-   - Optimistic UI updates where appropriate
-
-**Common issues to flag:**
-- Missing hover states (looks unresponsive)
-- Invisible focus states (keyboard nav broken)
-- No confirmation for destructive actions
-- Sluggish interactions or missing loading indicators
-
-**Triage priorities:**
-- **[Blocker]** Critical flow broken or inaccessible
-- **[High]** Poor UX or confusing interaction
-- **[Medium]** Missing polish on states
-- **[Nitpick]** Minor timing or animation issues
+**Triage:** [Blocker] Critical flow broken | [High] Poor UX/missing focus states | [Medium] Missing polish | [Nitpick] Minor timing issues
 
 ---
 
@@ -150,54 +123,22 @@ For detailed interaction testing patterns, see [references/interaction-patterns.
 
 **Objective:** Ensure design works across all viewport sizes.
 
-For complete responsive testing guide, see [references/responsive-testing.md](references/responsive-testing.md).
+**For complete responsive guide**: Load `references/responsive-testing.md` when testing viewports, touch targets, mobile navigation, image responsiveness, or debugging horizontal scrolling.
 
-**Test viewports:**
+**Test 3 viewports:**
+- **Desktop (1440px)**: Optimal layout, full feature set
+- **Tablet (768px)**: Graceful adaptation, 44×44px touch targets, collapsing nav
+- **Mobile (375px)**: No horizontal scroll, 16px min text, mobile-friendly navigation
 
-1. **Desktop: 1440px width**
-   - Take full-page screenshot
-   - Verify optimal layout and spacing
-   - Check that all content is accessible without excessive scrolling
-
-2. **Tablet: 768px width**
-   - Resize using browser tools
-   - Verify layout adapts gracefully (no cramping or awkward wrapping)
-   - Test touch target sizes (minimum 44px × 44px)
-   - Check navigation collapses appropriately
-
-3. **Mobile: 375px width**
-   - Resize to mobile viewport
-   - Ensure no horizontal scrolling
-   - Verify text remains readable (16px minimum for body)
-   - Test mobile navigation (hamburger menu, etc.)
-   - Confirm touch targets are adequately sized
-
-**Common responsive issues:**
-- Horizontal scrolling on mobile (viewport overflow)
-- Overlapping or cramped elements at tablet breakpoints
-- Text too small to read on mobile (<16px)
-- Touch targets too small (<44px) for fat fingers
-- Images not scaling properly
-- Fixed-width containers breaking layout
-
-**Testing procedure:**
+**Quick testing:**
 ```bash
-# Using Playwright MCP
 mcp__playwright__browser_resize(width: 1440, height: 900)  # Desktop
-mcp__playwright__browser_take_screenshot(fullPage: true)
-
 mcp__playwright__browser_resize(width: 768, height: 1024)  # Tablet
-mcp__playwright__browser_take_screenshot(fullPage: true)
-
-mcp__playwright__browser_resize(width: 375, height: 667)  # Mobile
+mcp__playwright__browser_resize(width: 375, height: 667)   # Mobile
 mcp__playwright__browser_take_screenshot(fullPage: true)
 ```
 
-**Triage priorities:**
-- **[Blocker]** Layout completely broken at any viewport
-- **[High]** Horizontal scrolling or overlapping content
-- **[Medium]** Suboptimal use of space or minor alignment issues
-- **[Nitpick]** Minor spacing inconsistencies
+**Triage:** [Blocker] Layout broken | [High] Horizontal scroll/overlapping | [Medium] Suboptimal spacing | [Nitpick] Minor inconsistencies
 
 ---
 
@@ -205,53 +146,16 @@ mcp__playwright__browser_take_screenshot(fullPage: true)
 
 **Objective:** Assess aesthetic quality and visual consistency.
 
-For design principles and visual standards, see [references/visual-polish.md](references/visual-polish.md).
+**For design principles guide**: Load `references/visual-polish.md` when evaluating typography hierarchy, spacing/layout, color palette, alignment/grid, visual hierarchy, image quality, or S-Tier design standards.
 
-**Evaluation criteria:**
+**Quick evaluation (5 criteria):**
+1. **Layout & spacing**: Grid alignment, 8px scale, design tokens (no magic numbers like 17px)
+2. **Typography**: Clear H1>H2>H3 hierarchy, 1.5-1.7 line height, limited font weights
+3. **Color**: Design system tokens, semantic usage (red=error, green=success), consistent brand
+4. **Images**: High-res (no pixelation), correct aspect ratios, optimized sizes, alt text
+5. **Visual hierarchy**: Primary actions stand out, eye flows naturally, strategic whitespace
 
-1. **Layout alignment and spacing**:
-   - Elements aligned on consistent grid
-   - Spacing follows design token scale (e.g., 8px, 16px, 24px)
-   - Consistent padding/margins across similar components
-   - Visual grouping through proximity
-
-2. **Typography hierarchy**:
-   - Clear distinction between heading levels (H1 > H2 > H3)
-   - Appropriate font sizes and weights for hierarchy
-   - Consistent line height for readability (1.5-1.7 for body text)
-   - Adequate letter spacing (tracking)
-
-3. **Color palette consistency**:
-   - Colors follow design system tokens
-   - Semantic colors used appropriately (error=red, success=green)
-   - Consistent application of brand colors
-   - No random color values (no `#c0ffee` magic numbers)
-
-4. **Image quality and sizing**:
-   - High-resolution images (no pixelation)
-   - Correct aspect ratios maintained
-   - Appropriate file sizes (optimized, not bloated)
-   - Alt text provided for accessibility
-
-5. **Visual hierarchy**:
-   - Primary actions stand out (larger, bolder, contrasting)
-   - Secondary actions visually subordinate
-   - Eye naturally flows to most important elements first
-   - Whitespace used to create breathing room
-
-**Common visual problems:**
-- Inconsistent spacing (mixing pixels: `margin: 14px` vs design tokens: `space-4`)
-- Poor typography hierarchy (everything same size/weight)
-- Low-quality or incorrectly sized images
-- Misaligned elements (off-grid by 1-2px)
-- Weak visual hierarchy (everything competes for attention)
-- Magic numbers instead of design tokens
-
-**Triage priorities:**
-- **[Blocker]** Completely illegible text or broken images
-- **[High]** Obvious visual inconsistencies that hurt brand perception
-- **[Medium]** Spacing or alignment issues affecting clarity
-- **[Nitpick]** Minor aesthetic preferences
+**Triage:** [Blocker] Illegible text/broken images | [High] Obvious inconsistencies | [Medium] Spacing/alignment issues | [Nitpick] Aesthetic preferences
 
 ---
 
@@ -259,87 +163,22 @@ For design principles and visual standards, see [references/visual-polish.md](re
 
 **Objective:** Ensure inclusive design for all users.
 
-For complete WCAG 2.1 AA checklist, see [references/accessibility-wcag.md](references/accessibility-wcag.md).
+**For complete WCAG 2.1 AA checklist**: Load `references/accessibility-wcag.md` when verifying WCAG compliance, testing keyboard navigation, checking color contrast, auditing semantic HTML, or using accessibility testing tools (Lighthouse, axe, WAVE).
 
-**Core accessibility tests:**
+**Quick WCAG tests (4 principles):**
 
-#### 4.1 Keyboard Navigation
+1. **Perceivable**: Alt text on images, color contrast (4.5:1 text, 3:1 UI components), semantic HTML
+2. **Operable**: Keyboard navigation (Tab order logical, visible focus on ALL interactive elements, Enter/Space activation, Escape closes modals, no keyboard traps)
+3. **Understandable**: Clear labels, helpful error messages, consistent navigation/terminology
+4. **Robust**: Valid HTML, proper ARIA attributes (roles, states, properties)
 
-**Test procedure:**
-1. Tab through all interactive elements in order
-2. Verify logical tab order (left-to-right, top-to-bottom)
-3. Ensure visible focus states on ALL interactive elements
-4. Test Enter/Space activation on buttons and links
-5. Test Escape key to close modals/menus
-6. Verify no keyboard traps (can always Tab away)
+**Critical tests:**
+- Tab through entire page (verify focus states visible, logical order, no traps)
+- Test with WebAIM Contrast Checker (all text/UI ≥4.5:1 or 3:1)
+- Verify form labels associated with inputs (`<label for="id">` or `aria-label`)
+- Check semantic HTML (h1→h2→h3 no skipping, `<button>` not `<div onClick>`)
 
-**Common violations:**
-- Invisible or barely visible focus states
-- Illogical tab order (jumps around page)
-- Keyboard traps (can't Tab out of component)
-- Buttons/links not activatable with Enter/Space
-
-#### 4.2 Semantic HTML
-
-**Check for:**
-- Proper heading hierarchy: h1 → h2 → h3 (no skipping levels)
-- Landmark regions: `<nav>`, `<main>`, `<aside>`, `<footer>`
-- Form labels: Every `<input>` has associated `<label>`
-- Buttons are `<button>`, not `<div onClick>`
-- Links are `<a href>`, not `<span onClick>`
-- Lists use `<ul>`/`<ol>` + `<li>` structure
-
-**Common violations:**
-- Skipping heading levels (h1 → h3)
-- Missing form labels
-- Clickable divs instead of buttons
-- No landmark regions for screen readers
-
-#### 4.3 Color Contrast
-
-**Minimum ratios (WCAG AA):**
-- Body text: **4.5:1** minimum
-- Large text (18pt+ or 14pt+ bold): **3:1** minimum
-- UI components (buttons, inputs, icons): **3:1** minimum
-
-**Test procedure:**
-1. Take screenshots of all text and UI components
-2. Use WebAIM Contrast Checker or browser DevTools
-3. Verify foreground/background combinations meet thresholds
-
-**Common violations:**
-- Gray text on gray background (<4.5:1)
-- Light colored text on white
-- Disabled state text too faint
-- Placeholder text with poor contrast
-
-#### 4.4 Image Alt Text
-
-**Requirements:**
-- All meaningful images have descriptive alt text
-- Decorative images use empty alt (`alt=""`)
-- Icon buttons have `aria-label` or visible text
-- Complex images (charts) have long descriptions
-
-**Testing:**
-```bash
-# Check for images without alt text
-grep -r '<img' . | grep -v 'alt='
-```
-
-#### 4.5 Form Accessibility
-
-**Requirements:**
-- Every input has a `<label>` (visual or aria-label)
-- Error messages clearly associated (aria-describedby)
-- Required fields marked with `aria-required="true"`
-- Fieldsets group related inputs with `<legend>`
-
-**Triage priorities:**
-- **[Blocker]** Critical accessibility failure (no keyboard access to core features)
-- **[High]** WCAG AA violation (contrast, missing labels, no focus states)
-- **[Medium]** Semantic HTML issues or minor violations
-- **[Nitpick]** Enhanced accessibility beyond WCAG AA
+**Triage:** [Blocker] No keyboard access to core features | [High] WCAG AA violations | [Medium] Semantic HTML issues | [Nitpick] Enhanced accessibility
 
 ---
 
@@ -405,30 +244,14 @@ grep -r '<img' . | grep -v 'alt='
 
 **Objective:** Ensure maintainable, consistent implementation.
 
-For detailed code examples and patterns, see [references/code-health-patterns.md](references/code-health-patterns.md).
+**For code patterns guide**: Load `references/code-health-patterns.md` when evaluating component reuse (DRY principle), design token usage (colors, spacing, typography), pattern consistency (naming, file structure, API patterns), or identifying red flags (duplication, magic numbers, broken abstractions).
 
-**Review criteria:**
+**Quick review (3 criteria):**
+1. **Component reuse**: No copy-paste, shared components extracted, composition over duplication
+2. **Design tokens**: CSS variables for colors/spacing/typography (no magic numbers like `margin: 17px`), border radii consistent
+3. **Pattern consistency**: Follows codebase patterns, naming conventions match, file structure organized
 
-#### 6.1 Component Reuse
-- No copy-pasted components (DRY principle)
-- Shared components extracted to common location
-- Component composition over duplication
-
-#### 6.2 Design Token Usage
-- Colors use CSS variables or design tokens
-- Spacing uses design system scale (no magic numbers)
-- Typography follows type scale
-- Border radii consistent with design system
-
-#### 6.3 Pattern Consistency
-- Follows established code patterns in codebase
-- Naming conventions match existing code
-- File structure consistent with project organization
-
-**Triage priorities:**
-- **[High]** Introduces tech debt or breaks established patterns
-- **[Medium]** Missed reuse opportunities, inconsistent with system
-- **[Nitpick]** Code style preferences
+**Triage:** [High] Introduces tech debt/breaks patterns | [Medium] Missed reuse opportunities | [Nitpick] Code style preferences
 
 ---
 
@@ -545,87 +368,119 @@ However, there are a few accessibility and responsiveness issues to address befo
 
 ## Report Structure Template
 
-Use this template for all design reviews:
+**For complete template**: Load `assets/review-report-template.md` for the full markdown template with all sections and examples.
+
+**Essential structure:**
 
 ```markdown
 ## Design Review Summary
-
-[2-3 sentences of positive acknowledgment and overall assessment]
-
-**Review scope:** [What was reviewed - PR #, pages, components]
+[2-3 sentences: positive acknowledgment + overall assessment]
+**Review scope:** [PR #, pages, components]
 **Viewports tested:** Desktop (1440px), Tablet (768px), Mobile (375px)
 **Methodology:** 7-phase comprehensive review
-**Browser tools:** [Playwright MCP / Chrome DevTools]
 
 ---
 
 ### Findings
 
 #### 🚨 Blockers
-
 [Critical issues requiring immediate fix before merge]
-
-- **[Blocker] [Issue title]**
-  - **Problem:** [Describe impact on users or functionality]
-  - **Screenshot:** [Attach visual evidence if applicable]
-  - **Phase:** [Which phase caught this - e.g., Phase 4: Accessibility]
+- **[Blocker] [Title]**: Problem + Screenshot + Phase
 
 #### ⚠️ High-Priority Issues
-
 [Significant issues to fix before merge]
-
-- **[High] [Issue title]**
-  - **Problem:** [Describe impact]
-  - **Screenshot:** [If visual issue]
-  - **Phase:** [Which phase]
+- **[High] [Title]**: Problem + Screenshot + Phase
 
 #### 📋 Medium-Priority / Suggestions
-
-[Improvements for follow-up PR or future consideration]
-
-- **[Medium] [Issue title]**
-  - **Problem:** [Describe]
-  - **Phase:** [Which phase]
+[Improvements for follow-up PR]
+- **[Medium] [Title]**: Problem + Phase
 
 #### ✨ Nitpicks
-
-[Minor aesthetic details - optional refinements]
-
+[Minor aesthetic details - optional]
 - **Nit:** [Issue] - [Brief description]
 
 ---
 
 ### Testing Evidence
-
-**Screenshots captured:**
-- Desktop (1440px): [Attach full-page screenshot]
-- Tablet (768px): [Attach full-page screenshot]
-- Mobile (375px): [Attach full-page screenshot]
-
-**Console output:**
-[Copy any errors/warnings from browser console]
-```
-[If console is clean, note: "Console clean - no errors or warnings"]
-```
-
-**Accessibility testing:**
-- Keyboard navigation: [Tested/Issues found]
-- Focus states: [Visible on all interactive elements / Issues noted above]
-- Color contrast: [All combinations meet WCAG AA / Issues noted above]
+**Screenshots:** Desktop (1440px) + Tablet (768px) + Mobile (375px)
+**Console output:** [Errors/warnings or "Console clean"]
+**Accessibility:** Keyboard nav + Focus states + Color contrast
 
 ---
 
 ### Next Steps
+1. Fix Blockers
+2. Address High-Priority issues
+3. Consider Medium-Priority items
 
-1. [Recommended action 1 - usually fixing Blockers]
-2. [Recommended action 2 - usually fixing High-Priority issues]
-3. [Optional follow-up improvements - Medium-Priority items]
-
-**Overall assessment:**
-[Choose one: "Ready to merge after blockers fixed" / "Needs revisions - see High-Priority issues" / "Ready to merge - excellent work!"]
+**Overall assessment:** [Ready to merge after blockers fixed / Needs revisions / Ready to merge!]
 ```
 
-For full template file, see [assets/review-report-template.md](assets/review-report-template.md).
+---
+
+## When to Load References
+
+Load reference files when working on specific aspects of design review:
+
+### accessibility-wcag.md
+Load when:
+- **Standards-based**: Verifying WCAG 2.1 AA compliance for production deployment
+- **Issue-based**: Encountering accessibility violations (color contrast, keyboard navigation, semantic HTML, focus states, ARIA attributes)
+- **Testing-based**: Conducting comprehensive accessibility audit with systematic checklist
+- **Tools-based**: Using accessibility testing tools (Lighthouse, axe, WAVE, Pa11y) for automated testing
+- **Triage-based**: Determining severity of accessibility issues (Blocker/High/Medium for WCAG violations)
+
+### browser-tools-reference.md
+Load when:
+- **Setup-based**: Installing or configuring Playwright MCP or Chrome DevTools CLI for testing
+- **Command-based**: Need specific Playwright commands (navigate, resize viewport, screenshot, click, type, hover, get console output)
+- **Workflow-based**: Implementing common testing workflows (responsive review across 3 viewports, form interaction testing, keyboard navigation testing)
+- **Selector-based**: Struggling with CSS selectors, text selectors, or accessibility selectors for element targeting
+- **Troubleshooting-based**: Playwright MCP not finding elements, Chrome dependencies missing, screenshot capture issues
+
+### code-health-patterns.md
+Load when:
+- **Pattern-based**: Evaluating component reuse patterns, DRY principle compliance, extracting shared components
+- **Token-based**: Checking design token usage (colors, spacing scale, typography scale, border radii consistency)
+- **Consistency-based**: Reviewing pattern consistency (naming conventions, file structure organization, API patterns, state management)
+- **Example-based**: Need code examples comparing good vs bad patterns (inline styles vs tokens, duplication vs composition)
+- **Red-flag-based**: Identifying code health issues (copy-paste duplication, magic numbers like `17px`, inconsistent state management, broken abstractions)
+
+### design-principles-s-tier.md
+Load when:
+- **Standards-based**: Ensuring S-Tier SaaS dashboard quality (Stripe, Airbnb, Linear, Vercel level polish)
+- **System-based**: Evaluating design system foundation (color palette structure, typography scale, spacing scale, core UI components)
+- **Module-based**: Reviewing specific modules (multimedia moderation interfaces, data tables, configuration panels, dashboards)
+- **Philosophy-based**: Applying core design philosophy (users first, meticulous craft over speed, simplicity over complexity, consistency)
+- **Architecture-based**: Evaluating CSS & styling architecture (design tokens, component patterns, responsive strategies)
+
+### interaction-patterns.md
+Load when:
+- **States-based**: Testing interactive states (default, hover, active, focus, disabled) for buttons, inputs, links
+- **Form-based**: Testing form interactions, validation patterns, error states, success states, loading states
+- **Button-based**: Evaluating button loading states, destructive action confirmation patterns, primary vs secondary actions
+- **Flow-based**: Testing navigation flows, user journeys, multi-step processes, modal interactions
+- **Animation-based**: Reviewing micro-interactions, animation timing (200-300ms), perceived performance (optimistic UI, skeleton screens)
+- **Modal-based**: Testing modal interactions, keyboard traps, focus management, Escape key behavior
+
+### responsive-testing.md
+Load when:
+- **Viewport-based**: Testing at specific viewports (desktop 1440px, tablet 768px, mobile 375px) with Playwright MCP
+- **Touch-based**: Verifying touch target sizes meet minimum 44×44px requirement for mobile usability
+- **Overflow-based**: Debugging horizontal scrolling issues or layout overflow problems on mobile
+- **Mobile-based**: Ensuring text readability (16px minimum font size), mobile navigation patterns, responsive images
+- **Breakpoint-based**: Implementing or testing breakpoint strategy (common breakpoints: 640px, 768px, 1024px, 1280px)
+- **Navigation-based**: Testing responsive navigation patterns (hamburger menus, collapsing navigation, mobile drawer menus)
+
+### visual-polish.md
+Load when:
+- **Typography-based**: Evaluating font hierarchy (H1>H2>H3), font scale standards (16/18/24/32/48/64px), line height (1.5-1.7), readability
+- **Spacing-based**: Checking 8-point grid compliance (8/16/24/32/40/48/64px), consistent spacing scale, component padding/margin
+- **Color-based**: Verifying color palette consistency, semantic color usage (red=error, green=success), design token usage (no hardcoded hex values)
+- **Alignment-based**: Checking grid-based layout, precise alignment (0.5px precision), vertical rhythm, visual balance
+- **Hierarchy-based**: Evaluating visual hierarchy techniques (size contrast, weight contrast, color contrast, position, strategic whitespace)
+- **Quality-based**: Assessing image quality (no pixelation), correct aspect ratios, proper image optimization for web
+- **Component-based**: Reviewing design system components (button styles, form input styles, card components, consistent border radii)
 
 ---
 

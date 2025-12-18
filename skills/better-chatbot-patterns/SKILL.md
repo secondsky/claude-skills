@@ -41,400 +41,106 @@ This skill extracts reusable patterns from the better-chatbot project for use in
 
 ## Pattern 1: Server Action Validators
 
-### The Problem
-Manual server action auth and validation leads to:
-- Inconsistent auth checks
-- Repeated FormData parsing boilerplate
-- Non-standard error handling
-- Type safety issues
+**For complete implementation**: Load `references/server-action-patterns.md` when implementing server action validators, auth validation, or FormData parsing.
 
-### The Solution: Validated Action Utilities
+**What it solves**: Inconsistent auth checks, repeated FormData parsing boilerplate, non-standard error handling, and type safety issues in server actions.
 
-Create `lib/action-utils.ts`:
+**Three validator patterns**:
+1. `validatedAction` - Simple validation (no auth)
+2. `validatedActionWithUser` - With user context (auth required)
+3. `validatedActionWithPermission` - With permission checks (role-based)
 
+**Quick example**:
 ```typescript
-import { z } from "zod"
-
-// Type for action result
-type ActionResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string }
-
-// Pattern 1: Simple validation (no auth)
-export function validatedAction<TSchema extends z.ZodType>(
-  schema: TSchema,
-  handler: (
-    data: z.infer<TSchema>,
-    formData: FormData
-  ) => Promise<ActionResult<any>>
-) {
-  return async (formData: FormData): Promise<ActionResult<any>> => {
-    try {
-      const rawData = Object.fromEntries(formData.entries())
-      const parsed = schema.safeParse(rawData)
-
-      if (!parsed.success) {
-        return { success: false, error: parsed.error.errors[0].message }
-      }
-
-      return await handler(parsed.data, formData)
-    } catch (error) {
-      return { success: false, error: String(error) }
-    }
-  }
-}
-
-// Pattern 2: With user context (adapt getUser() to your auth system)
-export function validatedActionWithUser<TSchema extends z.ZodType>(
-  schema: TSchema,
-  handler: (
-    data: z.infer<TSchema>,
-    formData: FormData,
-    user: { id: string; email: string } // Adapt to your User type
-  ) => Promise<ActionResult<any>>
-) {
-  return async (formData: FormData): Promise<ActionResult<any>> => {
-    try {
-      // Adapt this to your auth system (Better Auth, Clerk, Auth.js, etc.)
-      const user = await getUser()
-      if (!user) {
-        return { success: false, error: "Unauthorized" }
-      }
-
-      const rawData = Object.fromEntries(formData.entries())
-      const parsed = schema.safeParse(rawData)
-
-      if (!parsed.success) {
-        return { success: false, error: parsed.error.errors[0].message }
-      }
-
-      return await handler(parsed.data, formData, user)
-    } catch (error) {
-      return { success: false, error: String(error) }
-    }
-  }
-}
-
-// Pattern 3: With permission check (adapt to your roles system)
-export function validatedActionWithPermission<TSchema extends z.ZodType>(
-  schema: TSchema,
-  permission: "admin" | "user-manage" | string, // Your permission types
-  handler: (
-    data: z.infer<TSchema>,
-    formData: FormData,
-    user: { id: string; email: string; role: string }
-  ) => Promise<ActionResult<any>>
-) {
-  return async (formData: FormData): Promise<ActionResult<any>> => {
-    try {
-      const user = await getUser()
-      if (!user) {
-        return { success: false, error: "Unauthorized" }
-      }
-
-      // Adapt this to your permission system
-      const hasPermission = await checkPermission(user, permission)
-      if (!hasPermission) {
-        return { success: false, error: "Forbidden" }
-      }
-
-      const rawData = Object.fromEntries(formData.entries())
-      const parsed = schema.safeParse(rawData)
-
-      if (!parsed.success) {
-        return { success: false, error: parsed.error.errors[0].message }
-      }
-
-      return await handler(parsed.data, formData, user)
-    } catch (error) {
-      return { success: false, error: String(error) }
-    }
-  }
-}
-
-// Placeholder functions - replace with your auth system
-async function getUser() {
-  // Better Auth: await auth()
-  // Clerk: const { userId } = auth(); if (!userId) return null; return await currentUser()
-  // Auth.js: const session = await getServerSession(); return session?.user
-  throw new Error("Implement getUser() with your auth provider")
-}
-
-async function checkPermission(user: any, permission: string) {
-  // Implement based on your role system
-  throw new Error("Implement checkPermission() with your role system")
-}
-```
-
-### Usage Example
-
-```typescript
-// app/actions/profile.ts
-"use server"
-
-import { validatedActionWithUser } from "@/lib/action-utils"
-import { z } from "zod"
-import { db } from "@/lib/db"
-
-const updateProfileSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email()
-})
-
+// Server action with automatic auth + validation
 export const updateProfile = validatedActionWithUser(
-  updateProfileSchema,
+  z.object({ name: z.string(), email: z.string().email() }),
   async (data, formData, user) => {
-    // user is guaranteed authenticated
-    // data is validated and typed
+    // user is authenticated, data is validated
     await db.update(users).set(data).where(eq(users.id, user.id))
-    return { success: true, data: { updated: true } }
+    return { success: true }
   }
 )
 ```
 
-**When to use**:
-- Any server action requiring auth
-- Form submissions needing validation
-- Preventing inconsistent error handling
+**Adapt to your auth**: Better Auth, Clerk, Auth.js, or custom auth system.
 
 ---
 
 ## Pattern 2: Tool Abstraction System
 
-### The Problem
-Handling multiple tool types (MCP, Workflow, Default) with different execution patterns leads to:
-- Type mismatches at runtime
-- Repeated type checking boilerplate
-- Difficulty adding new tool types
+**For complete implementation**: Load `references/tool-abstraction-patterns.md` when building multi-type tool systems, MCP integration, or extensible tool architectures.
 
-### The Solution: Branded Type Tags
+**What it solves**: Type mismatches at runtime, repeated type checking boilerplate, and difficulty adding new tool types (TypeScript can't enforce runtime types).
 
-Create `lib/tool-tags.ts`:
+**How it works**: Branded type tags enable runtime type narrowing with full TypeScript safety.
 
+**Quick example**:
 ```typescript
-// Branded type system for runtime type narrowing
-export class ToolTag<T extends string> {
-  private readonly _tag: T
-  private readonly _branded: unique symbol
-
-  private constructor(tag: T) {
-    this._tag = tag
-  }
-
-  static create<TTag extends string>(tag: TTag) {
-    return new ToolTag(tag) as ToolTag<TTag>
-  }
-
-  is(tag: string): boolean {
-    return this._tag === tag
-  }
-
-  get tag(): T {
-    return this._tag
-  }
-}
-
-// Define your tool types
-export type MCPTool = { type: "mcp"; name: string; execute: (...args: any[]) => Promise<any> }
-export type WorkflowTool = { type: "workflow"; id: string; nodes: any[] }
-export type DefaultTool = { type: "default"; name: string }
-
-// Branded tag system
-export const VercelAIMcpToolTag = {
-  create: (tool: any) => ({ ...tool, _tag: ToolTag.create("mcp") }),
-  isMaybe: (tool: any): tool is MCPTool & { _tag: ToolTag<"mcp"> } =>
-    tool?._tag?.is("mcp")
-}
-
-export const VercelAIWorkflowToolTag = {
-  create: (tool: any) => ({ ...tool, _tag: ToolTag.create("workflow") }),
-  isMaybe: (tool: any): tool is WorkflowTool & { _tag: ToolTag<"workflow"> } =>
-    tool?._tag?.is("workflow")
-}
-
-export const VercelAIDefaultToolTag = {
-  create: (tool: any) => ({ ...tool, _tag: ToolTag.create("default") }),
-  isMaybe: (tool: any): tool is DefaultTool & { _tag: ToolTag<"default"> } =>
-    tool?._tag?.is("default")
-}
-```
-
-### Usage Example
-
-```typescript
-// lib/ai/tool-executor.ts
-import {
-  VercelAIMcpToolTag,
-  VercelAIWorkflowToolTag,
-  VercelAIDefaultToolTag
-} from "@/lib/tool-tags"
-
+// Runtime type checking with branded tags
 async function executeTool(tool: unknown) {
-  // Runtime type narrowing with branded tags
   if (VercelAIMcpToolTag.isMaybe(tool)) {
-    console.log("Executing MCP tool:", tool.name)
-    return await tool.execute()
+    return await tool.execute() // TypeScript knows tool is MCPTool
   } else if (VercelAIWorkflowToolTag.isMaybe(tool)) {
-    console.log("Executing workflow:", tool.id)
-    return await executeWorkflow(tool.nodes)
-  } else if (VercelAIDefaultToolTag.isMaybe(tool)) {
-    console.log("Executing default tool:", tool.name)
-    return await executeDefault(tool)
+    return await executeWorkflow(tool.nodes) // TypeScript knows tool is WorkflowTool
   }
-
   throw new Error("Unknown tool type")
 }
 
-// When creating tools, tag them
+// Create tagged tools
 const mcpTool = VercelAIMcpToolTag.create({
   type: "mcp",
   name: "search",
   execute: async () => { /* ... */ }
 })
-
-const workflowTool = VercelAIWorkflowToolTag.create({
-  type: "workflow",
-  id: "workflow-123",
-  nodes: []
-})
 ```
 
-**When to use**:
-- Multi-type tool systems
-- Runtime type checking needed
-- Adding extensible tool types
+**Extensible**: Add new tool types without breaking existing code.
 
 ---
 
 ## Pattern 3: Multi-AI Provider Setup
 
-### The Problem
-Supporting multiple AI providers (OpenAI, Anthropic, Google, xAI, etc.) requires:
-- Different SDK initialization patterns
-- Provider-specific configurations
-- Unified interface for switching providers
+**For complete implementation**: Load `references/provider-integration-patterns.md` when setting up multi-AI provider support, configuring Vercel AI SDK, or implementing provider fallbacks.
 
-### The Solution: Provider Registry
+**What it solves**: Different SDK initialization patterns, provider-specific configurations, and unified interface for switching providers at runtime.
 
-Create `lib/ai/providers.ts`:
+**Supported providers**: OpenAI, Anthropic (Claude), Google (Gemini), xAI (Grok), Groq.
 
+**Quick example**:
 ```typescript
-import { createOpenAI } from "@ai-sdk/openai"
-import { createAnthropic } from "@ai-sdk/anthropic"
-import { createGoogleGenerativeAI } from "@ai-sdk/google"
-
-export type AIProvider = "openai" | "anthropic" | "google" | "xai" | "groq"
-
+// Provider registry in lib/ai/providers.ts
 export const providers = {
-  openai: createOpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    compatibility: "strict"
-  }),
-
-  anthropic: createAnthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY
-  }),
-
-  google: createGoogleGenerativeAI({
-    apiKey: process.env.GOOGLE_API_KEY
-  }),
-
-  xai: createOpenAI({
-    apiKey: process.env.XAI_API_KEY,
-    baseURL: "https://api.x.ai/v1"
-  }),
-
-  groq: createOpenAI({
-    apiKey: process.env.GROQ_API_KEY,
-    baseURL: "https://api.groq.com/openai/v1"
-  })
+  openai: createOpenAI({ apiKey: process.env.OPENAI_API_KEY }),
+  anthropic: createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY }),
+  google: createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_API_KEY })
 }
 
-// Model registry
-export const models = {
-  openai: {
-    "gpt-5": providers.openai("gpt-5"),
-    "gpt-5-mini": providers.openai("gpt-5-mini")
-  },
-  anthropic: {
-    "claude-sonnet-4-5": providers.anthropic("claude-sonnet-4-5"),
-    "claude-haiku-4-5": providers.anthropic("claude-haiku-4-5")
-  },
-  google: {
-    "gemini-2.5-pro": providers.google("gemini-2.5-pro"),
-    "gemini-2.5-flash": providers.google("gemini-2.5-flash")
-  }
-}
-
-// Helper to get model
-export function getModel(provider: AIProvider, modelName: string) {
-  const providerModels = models[provider]
-  if (!providerModels || !providerModels[modelName]) {
-    throw new Error(`Model ${modelName} not found for provider ${provider}`)
-  }
-  return providerModels[modelName]
-}
-```
-
-### Usage Example
-
-```typescript
-import { streamText } from "ai"
-import { getModel } from "@/lib/ai/providers"
-
-// In your API route
+// API route with user provider selection
 export async function POST(req: Request) {
   const { messages, provider, model } = await req.json()
-
   const selectedModel = getModel(provider, model)
 
-  const result = await streamText({
-    model: selectedModel,
-    messages
-  })
-
-  return result.toDataStreamResponse()
+  return streamText({ model: selectedModel, messages }).toDataStreamResponse()
 }
 ```
 
-**When to use**:
-- Multi-provider support needed
-- User choice of AI model
-- Fallback between providers
+**Features**: Fallback strategies, health checks, cost-aware selection.
 
 ---
 
 ## Pattern 4: State Management (Zustand)
 
-### The Problem
-Managing complex nested state (workflows, UI config) without mutations
+**For complete implementation**: Load `references/state-validation-patterns.md` when implementing Zustand stores, workflow state, or complex nested state management.
 
-### The Solution: Shallow Update Pattern
+**What it solves**: Managing complex nested state without mutations, avoiding re-render issues, and preventing state update bugs.
 
-Create `app/store/workflow.ts`:
-
+**Quick example**:
 ```typescript
-import { create } from "zustand"
-
-type WorkflowNode = {
-  id: string
-  status: "pending" | "running" | "complete" | "error"
-  data: any
-}
-
-type WorkflowStore = {
-  workflow: {
-    id: string
-    nodes: WorkflowNode[]
-  } | null
-  updateNodeStatus: (nodeId: string, status: WorkflowNode["status"]) => void
-  updateNodeData: (nodeId: string, data: any) => void
-}
-
+// Zustand store with shallow update pattern
 export const useWorkflowStore = create<WorkflowStore>((set) => ({
   workflow: null,
-
-  // Shallow update pattern - no deep mutation
+  // Shallow update - no deep mutation
   updateNodeStatus: (nodeId, status) =>
     set(state => ({
       workflow: state.workflow ? {
@@ -443,38 +149,23 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           node.id === nodeId ? { ...node, status } : node
         )
       } : null
-    })),
-
-  updateNodeData: (nodeId, data) =>
-    set(state => ({
-      workflow: state.workflow ? {
-        ...state.workflow,
-        nodes: state.workflow.nodes.map(node =>
-          node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
-        )
-      } : null
     }))
 }))
 ```
 
-**When to use**:
-- Complex nested state
-- Frequent updates without mutations
-- Avoiding re-render issues
+**Patterns included**: Multi-store organization, Immer integration, persist middleware.
 
 ---
 
 ## Pattern 5: Cross-Field Validation (Zod)
 
-### The Problem
-Validating related fields (password confirmation, date ranges, etc.)
+**For complete implementation**: Load `references/state-validation-patterns.md` when implementing cross-field validation, password confirmation, or date ranges.
 
-### The Solution: Zod superRefine
+**What it solves**: Validating related fields (password confirmation, date ranges, conditional requirements) with consistent error messages and business rules.
 
+**Quick example**:
 ```typescript
-import { z } from "zod"
-
-// Password match validation
+// Zod superRefine for cross-field validation
 const passwordSchema = z.object({
   password: z.string().min(8),
   confirmPassword: z.string()
@@ -487,49 +178,43 @@ const passwordSchema = z.object({
     })
   }
 })
-
-// Date range validation
-const dateRangeSchema = z.object({
-  startDate: z.string().datetime(),
-  endDate: z.string().datetime()
-}).superRefine((data, ctx) => {
-  if (new Date(data.endDate) < new Date(data.startDate)) {
-    ctx.addIssue({
-      path: ["endDate"],
-      code: z.ZodIssueCode.custom,
-      message: "End date must be after start date"
-    })
-  }
-})
-
-// Conditional required fields
-const conditionalSchema = z.object({
-  type: z.enum(["email", "sms"]),
-  email: z.string().email().optional(),
-  phone: z.string().optional()
-}).superRefine((data, ctx) => {
-  if (data.type === "email" && !data.email) {
-    ctx.addIssue({
-      path: ["email"],
-      code: z.ZodIssueCode.custom,
-      message: "Email is required when type is 'email'"
-    })
-  }
-  if (data.type === "sms" && !data.phone) {
-    ctx.addIssue({
-      path: ["phone"],
-      code: z.ZodIssueCode.custom,
-      message: "Phone is required when type is 'sms'"
-    })
-  }
-})
 ```
 
-**When to use**:
-- Password confirmation
-- Date range validation
-- Conditional required fields
-- Cross-field business rules
+**Use cases**: Password match, date ranges, conditional fields, business rules, array validation.
+
+---
+
+## When to Load References
+
+Load reference files when implementing specific chatbot patterns:
+
+### server-action-patterns.md
+Load when:
+- **Pattern-based**: Implementing server action validators, auth validation, FormData parsing
+- **Auth-based**: Setting up authentication checks, user context, permission systems
+- **Validation-based**: Building form validation, schema validation, error handling
+- **Adaptation-based**: Adapting patterns to Better Auth, Clerk, Auth.js, or custom auth
+
+### tool-abstraction-patterns.md
+Load when:
+- **Tool-based**: Building multi-type tool systems, MCP integration, workflow tools
+- **Type-based**: Implementing runtime type checking, branded types, type narrowing
+- **Execution-based**: Creating tool executors, tool dispatchers, extensible tool systems
+- **Extension-based**: Adding new tool types to existing systems
+
+### provider-integration-patterns.md
+Load when:
+- **Provider-based**: Setting up multi-AI provider support (OpenAI, Anthropic, Google, xAI, Groq)
+- **Integration-based**: Configuring Vercel AI SDK, provider SDKs, model registries
+- **Switching-based**: Implementing provider fallbacks, user model selection, dynamic model loading
+- **Configuration-based**: Managing API keys, base URLs, provider-specific settings
+
+### state-validation-patterns.md
+Load when:
+- **State-based**: Implementing Zustand stores, workflow state, complex nested state
+- **Update-based**: Building shallow update patterns, mutation-free updates, state synchronization
+- **Validation-based**: Creating cross-field validation, password confirmation, date ranges
+- **Workflow-based**: Managing workflow execution state, node status tracking, dynamic data updates
 
 ---
 

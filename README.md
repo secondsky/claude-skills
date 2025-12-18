@@ -74,18 +74,22 @@ A curated collection of battle-tested skills for building modern web application
 
 ### Option A: Marketplace Installation (Recommended for Users)
 
-**Easiest method** - install skills directly from the marketplace:
+**Easiest method** - install skills via suite plugins from the marketplace:
 
 ```bash
 # Add the marketplace
 /plugin marketplace add https://github.com/secondsky/claude-skills
 
-# Install skills
-/plugin install cloudflare-worker-base@claude-pro-skills
-/plugin install tailwind-v4-shadcn@claude-pro-skills openai-agents@claude-pro-skills
+# Install suite plugins (v3.0+ format)
+/plugin install cloudflare-skills@claude-skills      # 23 Cloudflare platform skills
+/plugin install ai-skills@claude-skills              # 20 AI/ML integration skills
+/plugin install frontend-skills@claude-skills        # 21 UI framework skills
+# ... 18 suite plugins total
+
+# See MARKETPLACE.md for all suites
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete marketplace documentation including all 169 available skills.
+**Note**: v3.0+ uses suite plugins instead of individual skills. See [MARKETPLACE.md](MARKETPLACE.md) for complete documentation, migration guide, and all 169 available skills organized into 18 suites.
 
 ### Option B: Direct Installation (For Contributors & Development)
 

@@ -92,6 +92,8 @@ User can explicitly request consultation with:
 | **OpenAI GPT-4** | `codex` CLI | Repo-aware analysis, code review | Auto-scans directory, OpenAI reasoning | ~$0.05-0.30 |
 | **Fresh Claude** | Task tool | Quick second opinion, budget-friendly | Same capabilities, fresh perspective | Free |
 
+**For detailed AI comparison**: Load `references/ai-strengths.md` when choosing which AI to consult for specific use cases.
+
 ---
 
 ## How It Works
@@ -132,451 +134,134 @@ Every consultation must follow this format (prevents parroting):
 
 ---
 
-## Setup Instructions
+## Setup
 
-### 1. Install CLIs
+**For complete installation guide**: Load `references/setup-guide.md` when installing CLIs, configuring API keys, or setting up templates.
 
-**Gemini CLI** (required):
-```bash
-bun add -g @google/generative-ai-cli
-export GEMINI_API_KEY="your-key"
-```
+**Quick setup**:
+1. **Install CLIs**: `bun add -g @google/generative-ai-cli` (Gemini), `bun add -g codex` (Codex, optional)
+2. **Set API keys**: `export GEMINI_API_KEY="..."`, `export OPENAI_API_KEY="..."`
+3. **Install skill**: Symlink to `~/.claude/skills/multi-ai-consultant`
+4. **Copy templates**: `GEMINI.md`, `codex.md`, `.geminiignore` to project root
+5. **Verify**: `gemini -p "test"`, `codex exec - --yolo`
 
-Get API key: https://aistudio.google.com/apikey
-
-**Codex CLI** (optional):
-```bash
-bun add -g codex
-export OPENAI_API_KEY="sk-..."
-```
-
-Get API key: https://platform.openai.com/api-keys
-
-**Fresh Claude**: Built-in (uses Task tool, no setup)
-
-### 2. Install Skill
-
-```bash
-cd ~/.claude/skills
-git clone [this-repo] multi-ai-consultant
-# OR symlink from development location
-```
-
-### 3. Copy Templates to Project
-
-```bash
-# Copy to project root
-cp ~/.claude/skills/multi-ai-consultant/templates/GEMINI.md ./
-cp ~/.claude/skills/multi-ai-consultant/templates/codex.md ./
-cp ~/.claude/skills/multi-ai-consultant/templates/.geminiignore ./
-
-# Copy log parser (optional - requires ~/bin in PATH)
-mkdir -p ~/bin
-cp ~/.claude/skills/multi-ai-consultant/templates/consultation-log-parser.sh ~/bin/
-chmod +x ~/bin/consultation-log-parser.sh
-# Alternatively, copy to /usr/local/bin (requires sudo):
-# sudo cp ~/.claude/skills/multi-ai-consultant/templates/consultation-log-parser.sh /usr/local/bin/
-```
-
-### 4. Verify Installation
-
-```bash
-# Test Gemini CLI
-gemini -p "test" && echo "✅ Gemini working"
-
-# Test Codex CLI (if installed)
-codex exec "test" --yolo && echo "✅ Codex working"
-
-# Test skill discovery
-# Ask Claude Code: "I'm stuck on this bug, can you help?"
-# Claude should suggest consultation
-```
+Get API keys:
+- Gemini: https://aistudio.google.com/apikey
+- OpenAI: https://platform.openai.com/api-keys
 
 ---
 
-## Usage Examples
+## Usage
 
-### Example 1: Stuck on Bug
+**For detailed examples**: Load `references/usage-examples.md` when learning consultation workflows or seeing real-world scenarios.
 
-**Scenario**: JWT authentication failing after one attempt
+**Quick examples**:
+- **Bug**: After 1 failed attempt → `/consult-gemini` for web-researched solution
+- **Architecture**: Design decision → `/consult-gemini` for latest best practices
+- **Code review**: Refactoring validation → `/consult-codex` for repo-aware consistency check
+- **Quick opinion**: Sanity check → `/consult-claude` for free fresh perspective
 
-**Claude's process**:
-```
-1. Try initial fix (token expiry check)
-2. Still failing (now "invalid signature" error)
-3. → Automatically suggest consultation
-4. User approves
-5. Execute /consult-gemini with:
-   - Problem: 401 error details
-   - What was tried: token expiry fix
-   - Current status: invalid signature error
-   - Context: @src/auth/session.ts @src/middleware/jwt.ts
-6. Gemini finds: Using process.env instead of env binding (Cloudflare)
-7. Synthesize both perspectives
-8. Ask permission to implement Gemini's fix
-```
-
-**Result**: Bug fixed with second opinion, avoided 2-3 more trial-and-error attempts
-
-### Example 2: Architecture Decision
-
-**Scenario**: Choosing state management for new feature
-
-**Claude's process**:
-```
-1. User asks: "How should we handle state for this feature?"
-2. → Auto-consult Gemini (architectural decision)
-3. Execute /consult-gemini with:
-   - Problem: State management choice
-   - Options considered: Redux, Zustand, Context
-   - Context: @src/ (existing patterns)
-4. Gemini searches for latest React state management best practices
-5. Synthesize Claude's + Gemini's analysis
-6. Present recommendation with trade-offs
-```
-
-**Result**: Informed decision with latest best practices
-
-### Example 3: Manual Consultation
-
-**User**: "I want a second opinion on this refactoring"
-
-**Claude's process**:
-```
-1. User explicitly requests consultation
-2. Ask which AI: Gemini, Codex, or Fresh Claude?
-3. User chooses Codex (wants repo-aware analysis)
-4. Execute /consult-codex with:
-   - Problem: Refactoring proposal
-   - Context: (Codex scans repo automatically)
-5. Codex checks consistency with existing code
-6. Synthesize both perspectives
-7. Present recommendation
-```
-
-**Result**: Validation of refactoring approach + consistency check
+**5 detailed examples available**:
+1. JWT authentication bug (saved ~30 min, found platform-specific issue)
+2. State management choice (informed decision with 2025 patterns)
+3. Refactoring review (found 3 consistency issues)
+4. Security validation (found 2 critical issues via OWASP 2025)
+5. Multi-AI workflow (high-stakes database choice)
 
 ---
 
 ## Slash Commands
 
-### `/consult-gemini [question]`
+**For complete command reference**: Load `references/commands-reference.md` when needing detailed syntax, options, or cost tracking information.
 
-**Use when**: Need web research, latest docs, extended thinking
+**Quick command overview**:
 
-**What it does**:
-1. Pre-flight check (Gemini CLI working?)
-2. Smart context selection based on problem type
-3. Execute with locked config: `gemini-2.5-pro --thinking --google-search --grounding`
-4. Parse JSON response
-5. Synthesize with 5-part format
-6. Log cost to `~/.claude/ai-consultations/consultations.log`
+### /consult-gemini [question]
+- **Use**: Web research, latest docs, extended thinking
+- **Features**: Google Search, grounding, thinking mode
+- **Cost**: ~$0.10-0.50
+- **Example**: `/consult-gemini Is this JWT secure by 2025 standards?`
 
-**Example**:
-```
-/consult-gemini Is this JWT validation secure by 2025 standards?
-```
+### /consult-codex [question]
+- **Use**: Repo-aware analysis, code review
+- **Features**: Auto-scans directory, consistency checks
+- **Cost**: ~$0.05-0.30
+- **Example**: `/consult-codex Review for performance bottlenecks`
 
-**Context**: Uses `@<path>` syntax for selective context
+### /consult-claude [question]
+- **Use**: Quick second opinion, budget-friendly
+- **Features**: Free, fast, fresh perspective
+- **Cost**: Free
+- **Example**: `/consult-claude Am I missing something obvious?`
 
-**System instructions**: Auto-loads `GEMINI.md` from project root
-
-**Privacy**: Respects `.gitignore` + `.geminiignore`
-
----
-
-### `/consult-codex [question]`
-
-**Use when**: Need repo-aware analysis, code review, OpenAI reasoning
-
-**What it does**:
-1. Pre-flight check (OpenAI API key valid?)
-2. `cd` to project directory (Codex scans automatically)
-3. Execute with `--yolo` flag: `codex exec - -m gpt-4-turbo --yolo`
-4. Parse output from temp file
-5. Synthesize with 5-part format
-6. Log cost (estimated tokens)
-
-**Example**:
-```
-/consult-codex Review this codebase for performance issues
-```
-
-**Context**: Repo-aware (automatically reads all non-gitignored files)
-
-**System instructions**: Auto-loads `codex.md` from project root or `~/.codex/instructions.md`
-
-**Privacy**: Respects `.gitignore`, warns if not in Git repo
-
----
-
-### `/consult-claude [question]`
-
-**Use when**: Quick second opinion, free, fresh perspective
-
-**What it does**:
-1. Gather context with Read tool
-2. Build detailed prompt for subagent
-3. Launch Task tool (general-purpose subagent)
-4. Receive fresh perspective
-5. Synthesize with 5-part format
-6. Log consultation (free, but tracked)
-
-**Example**:
-```
-/consult-claude Am I missing something obvious in this state management bug?
-```
-
-**Context**: You manually read relevant files and pass inline
-
-**Advantages**: Free, same capabilities, fast, fresh perspective
-
-**Limitations**: No web search, no extended thinking, same knowledge cutoff
-
----
-
-### `/consult-ai [question]`
-
-**Use when**: Unsure which AI to use
-
-**What it does**:
-1. Analyze problem type (bug, architecture, security, etc.)
-2. Recommend which AI based on needs
-3. Ask user to choose
-4. Route to appropriate command
-
-**Example**:
-```
-/consult-ai How should we structure this microservices architecture?
-
-→ Recommends Gemini (needs web research for latest patterns)
-→ User approves
-→ Executes /consult-gemini internally
-```
-
-**Decision factors**:
-- Need web research? → Gemini
-- Need repo-aware? → Codex
-- Need budget-friendly? → Fresh Claude
-- Need extended thinking? → Gemini
-- Need fresh perspective? → Fresh Claude
+### /consult-ai [question]
+- **Use**: Router (recommends which AI to use)
+- **Features**: Analyzes question, suggests best AI
+- **Cost**: Varies by chosen AI
+- **Example**: `/consult-ai How should we structure this architecture?`
 
 ---
 
 ## Templates
 
-### `GEMINI.md` (Project Root)
+Templates customize AI behavior for consultations (auto-loaded from project root):
 
-System instructions for Gemini consultations. Enforces:
-- 5-part response format
-- Comparison with Claude's analysis
-- Web search for latest docs
-- Specific code references
-- No parroting
+1. **GEMINI.md** - System instructions for Gemini (enforces 5-part format, web search)
+2. **codex.md** - System instructions for Codex (enforces repo-aware analysis)
+3. **.geminiignore** - Privacy exclusions beyond `.gitignore`
+4. **consultation-log-parser.sh** - View consultation history (optional)
 
-**Auto-loaded**: Place in project root, Gemini CLI reads automatically
-
-### `codex.md` (Project Root or `~/.codex/instructions.md`)
-
-System instructions for Codex consultations. Enforces:
-- 5-part response format
-- Repo-aware analysis
-- Consistency checks
-- Impact assessment
-- Specific file references
-
-**Auto-loaded**: Codex CLI reads from project root or global config
-
-### `.geminiignore` (Project Root)
-
-Extra privacy exclusions beyond `.gitignore`. Excludes:
-- `.env*` files
-- `*secret*`, `*credentials*`
-- Build artifacts
-- Large media files
-- API keys and tokens
-
-**Auto-loaded**: Gemini CLI respects this file
-
-### `consultation-log-parser.sh`
-
-View consultation history:
-```bash
-consultation-log-parser.sh           # Last 10
-consultation-log-parser.sh --all     # All consultations
-consultation-log-parser.sh --summary # Stats only
-consultation-log-parser.sh --ai gemini # Filter by AI
-```
-
-**Log format**: `timestamp,ai,model,input_tokens,output_tokens,cost,project_path`
-
----
-
-## Cost Tracking
-
-Every consultation is logged to `~/.claude/ai-consultations/consultations.log`
-
-**Format**:
-```csv
-2025-11-07T14:23:45-05:00,gemini,gemini-2.5-pro,15420,850,0.1834,/path/to/project
-2025-11-07T15:10:22-05:00,codex,gpt-4-turbo,8230,430,0.0952,/path/to/project
-2025-11-07T16:05:11-05:00,claude-subagent,claude-sonnet-4-5,0,0,0.00,/path/to/project
-```
-
-**View logs**:
-```bash
-consultation-log-parser.sh --summary
-# Total consultations: 47
-# Gemini: 23, Codex: 12, Fresh Claude: 12
-# Total cost: $8.45
-```
-
-**Pricing** (verify current rates):
-- Gemini 2.5 Pro: ~$0.000015/input token, ~$0.00006/output token
-- GPT-4 Turbo: ~$0.00001/input token, ~$0.00003/output token
-- Fresh Claude: Free (same API call)
+**Installation**: Copy from `~/.claude/skills/multi-ai-consultant/templates/` to project root
 
 ---
 
 ## Privacy & Security
 
-### Automatic Protection
+**Automatic protection**:
+- Both CLIs respect `.gitignore` automatically
+- Create `.geminiignore` for extra exclusions (`.env*`, `*secret*`, `*credentials*`)
+- Pre-consultation check warns if sensitive patterns detected
 
-Both CLIs respect `.gitignore` automatically. Files in `.gitignore` are never sent.
+**Privacy best practices**:
+- Always configure `.gitignore` properly
+- Create `.geminiignore` for extra safety
+- Use smart context selection (specific files, not entire repo)
+- Verify what will be sent: `git status --ignored`
 
-### Additional Protection (`.geminiignore`)
+**For detailed privacy configuration**: Load `references/setup-guide.md` when setting up `.geminiignore` or privacy exclusions.
 
-Create `.geminiignore` in project root for extra exclusions:
-```gitignore
-*.env*
-*secret*
-*credentials*
-.dev.vars
-wrangler.toml
+---
+
+## Cost Tracking
+
+Every consultation logged to `~/.claude/ai-consultations/consultations.log`
+
+**Log format**: `timestamp,ai,model,input_tokens,output_tokens,cost,project_path`
+
+**View logs**: `consultation-log-parser.sh --summary`
+
+**Example output**:
+```
+Total consultations: 47
+Gemini: 23 ($4.25), Codex: 12 ($1.85), Fresh Claude: 12 ($0.00)
+Total cost: $6.10
 ```
 
-### Pre-Consultation Check
-
-Claude Code should warn if:
-- Sensitive file patterns detected in context
-- Not in Git repo (Codex)
-- Large context (>100k tokens estimated)
-
-**Ask permission**: "About to send context to [AI]. Files include: [list]. Proceed?"
-
-### Manual Verification
-
-Before consultation, user can check:
-```bash
-# What will be sent to Gemini
-ls -la @src/
-
-# Check gitignore is working
-git status --ignored
-```
+**For detailed cost tracking**: Load `references/commands-reference.md` when viewing logs, calculating costs, or managing budgets.
 
 ---
 
-## Known Issues & Solutions
+## Common Issues
 
-### 1. CLI Not Installed
+**For complete troubleshooting**: Load `references/troubleshooting.md` when encountering errors or setup issues.
 
-**Error**: `gemini: command not found` or `codex: command not found`
+**Top 5 issues**:
 
-**Fix**:
-```bash
-bun add -g @google/generative-ai-cli
-bun add -g codex
-```
-
-**Prevention**: Pre-flight checks in slash commands
-
----
-
-### 2. API Keys Invalid
-
-**Error**: "API key invalid" or authentication failures
-
-**Fix**:
-```bash
-export GEMINI_API_KEY="your-key"
-export OPENAI_API_KEY="sk-..."
-
-# Or add to ~/.bashrc
-echo 'export GEMINI_API_KEY="your-key"' >> ~/.bashrc
-source ~/.bashrc
-```
-
-**Prevention**: Pre-flight checks test API before consultation
-
----
-
-### 3. Context Too Large
-
-**Error**: Token limit exceeded or very expensive consultation
-
-**Fix**: Use smart context selection
-- Bug: Just buggy file + imports (not entire codebase)
-- Architecture: Relevant directories only
-- Use `@path/to/specific/file.ts` not `@.`
-
-**Prevention**: Slash commands guide smart context selection
-
----
-
-### 4. Privacy Leaks
-
-**Risk**: Accidentally sending `.env` or secrets
-
-**Fix**:
-- Both CLIs respect `.gitignore` (automatic)
-- Create `.geminiignore` for extra protection
-- Claude warns if sensitive patterns detected
-
-**Prevention**: Always check `.gitignore` is configured
-
----
-
-### 5. Cost Overruns
-
-**Issue**: Expensive consultations accumulating
-
-**Fix**:
-- Check logs: `consultation-log-parser.sh --summary`
-- Use Fresh Claude for quick questions (free)
-- Use smart context (specific files, not entire repo)
-
-**Prevention**: Cost tracking + warnings for large context
-
----
-
-### 6. Codex Hanging
-
-**Error**: `codex exec` hangs waiting for approval
-
-**Fix**: Always use `--yolo` flag
-
-**Prevention**: Slash command includes `--yolo` by default (hard to miss)
-
----
-
-### 7. JSON Parsing Fails (Gemini)
-
-**Error**: `jq: parse error`
-
-**Fix**: Check exit code before parsing, fall back to plain text
-
-**Prevention**: Slash command checks exit code first
-
----
-
-### 8. Not in Git Repo (Codex)
-
-**Warning**: Codex warns if not in Git repo (safety feature)
-
-**Fix**: Add `--skip-git-repo-check` flag if appropriate
-
-**Prevention**: Slash command includes flag
+1. **CLI not installed**: `gemini: command not found` → Fix: `bun add -g @google/generative-ai-cli`
+2. **API key invalid**: Authentication failed → Fix: `export GEMINI_API_KEY="..."`
+3. **Context too large**: Token limit exceeded → Fix: Use specific files, not entire repo
+4. **Privacy leak**: `.env` file sent → Fix: Add to `.gitignore` and `.geminiignore`
+5. **Skill not discovered**: Not working → Fix: Check `~/.claude/skills/multi-ai-consultant`
 
 ---
 
@@ -587,10 +272,9 @@ source ~/.bashrc
 **Typical scenario** (stuck on bug):
 1. Try approach 1 (~4k tokens)
 2. Research CLI syntax (~3k tokens)
-3. Format response (~2k tokens)
-4. Try approach 2 (~4k tokens)
-5. Research documentation (~3k tokens)
-6. Try approach 3 (~4k tokens)
+3. Try approach 2 (~4k tokens)
+4. Research documentation (~3k tokens)
+5. Try approach 3 (~4k tokens)
 
 **Total**: ~20k tokens, 30-45 minutes
 
@@ -598,15 +282,13 @@ source ~/.bashrc
 
 **Same scenario**:
 1. Try approach 1 (~4k tokens)
-2. Execute `/consult-gemini` (~1k tokens to execute)
-3. Gemini finds issue (billed separately, but <5k tokens)
+2. Execute `/consult-gemini` (~1k tokens)
+3. Gemini finds issue (<5k tokens, billed separately)
 4. Implement fix (~3k tokens)
 
 **Total**: ~8k tokens, 5-10 minutes
 
 **Savings**: ~60% tokens, ~75% time
-
-**Value**: Gemini's web search finds issue Claude couldn't
 
 ---
 
@@ -649,69 +331,52 @@ source ~/.bashrc
 
 ---
 
-## Troubleshooting
+## When to Load References
 
-### Gemini Not Working
+Load reference files when working on specific aspects of AI consultation:
 
-```bash
-# Check CLI installed
-which gemini
+### ai-strengths.md
+Load when:
+- **Selection-based**: Choosing which AI to consult (Gemini vs Codex vs Fresh Claude)
+- **Comparison-based**: Understanding capabilities, costs, and trade-offs between AIs
+- **Strategy-based**: Planning combination strategies (free → paid, paid first, budget-conscious)
+- **Capability-based**: Understanding special features (Google Search, extended thinking, grounding, repo-aware, fresh perspective)
+- **Scenario-based**: Multiple AI consultation workflows, validation workflows
 
-# Check API key set
-echo $GEMINI_API_KEY
+### setup-guide.md
+Load when:
+- **Installation-based**: Setting up Gemini CLI, Codex CLI, or installing the skill
+- **Configuration-based**: Configuring API keys, environment variables, or system paths
+- **Privacy-based**: Setting up .geminiignore, privacy exclusions, or security configurations
+- **Template-based**: Installing GEMINI.md, codex.md, .geminiignore, or consultation-log-parser.sh
+- **Verification-based**: Testing CLI installation, API keys, or skill discovery
 
-# Test manually
-gemini -p "test"
+### commands-reference.md
+Load when:
+- **Command-based**: Using /consult-gemini, /consult-codex, /consult-claude, or /consult-ai
+- **Syntax-based**: Understanding command flags, options, or context selection
+- **Cost-based**: Understanding cost tracking, log format, or viewing consultation history
+- **Logging-based**: Using consultation-log-parser.sh or analyzing consultation patterns
 
-# Check API key valid
-curl -H "Content-Type: application/json" \
-  -d '{"contents":[{"parts":[{"text":"test"}]}]}' \
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=$GEMINI_API_KEY"
-```
+### usage-examples.md
+Load when:
+- **Scenario-based**: Learning how to use skill for bugs, architecture decisions, or code review
+- **Workflow-based**: Understanding consultation workflow, synthesis process, or multi-AI approach
+- **Example-based**: Seeing real-world examples of consultations and their outcomes (5 detailed examples available)
 
-### Codex Not Working
-
-```bash
-# Check CLI installed
-which codex
-
-# Check API key set (if using API key auth)
-echo $OPENAI_API_KEY
-
-# Test manually
-echo "test" | codex exec - --yolo
-
-# Check OpenAI API (if installed)
-openai api models.list
-```
-
-### Fresh Claude Not Working
-
-```bash
-# Fresh Claude uses Task tool (built-in)
-# If Task tool fails, check Claude Code CLI status
-claude --version
-```
-
-### Skill Not Discovered
-
-```bash
-# Check skill installed
-ls -la ~/.claude/skills/multi-ai-consultant
-
-# Check SKILL.md has YAML frontmatter
-head -20 ~/.claude/skills/multi-ai-consultant/SKILL.md
-
-# Ask Claude Code to list skills
-# It should mention multi-ai-consultant
-```
+### troubleshooting.md
+Load when:
+- **Error-based**: Encountering specific errors (command not found, API key invalid, parsing failures)
+- **Diagnosis-based**: Troubleshooting CLI issues, API connectivity, or skill discovery
+- **Fix-based**: Resolving known issues with step-by-step solutions (8 common issues documented)
+- **Debugging-based**: Testing CLIs manually, checking configurations, or verifying installations
 
 ---
 
 ## Contributing
 
 **Found an issue?**
-- Document it in Known Issues section
+- Document it in troubleshooting.md
 - Include fix/workaround
 - Update slash commands to prevent
 
@@ -744,6 +409,7 @@ head -20 ~/.claude/skills/multi-ai-consultant/SKILL.md
 - **Slash commands**: `commands/*.md`
 - **Templates**: `templates/*`
 - **Scripts**: `scripts/*`
+- **References**: `references/*.md` (5 reference files)
 
 ---
 
