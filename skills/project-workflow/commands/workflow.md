@@ -157,7 +157,7 @@ First: Does this project have SESSION.md? (y/n)
 
 Options:
 1. Run /plan-project to set up workflow for this project
-2. Manually create SESSION.md (see docs/JEZWEB_WORKFLOW.md)
+2. Manually create SESSION.md (see docs/skills_workflow.md)
 3. Just work without workflow
 
 Your choice (1-3):
@@ -306,7 +306,7 @@ If yes: Execute `/continue-session`
 
 I've created comprehensive documentation at:
 
-📖 docs/JEZWEB_WORKFLOW.md (~800 lines)
+📖 docs/skills_workflow.md (~800 lines)
 
 Contents:
 • Philosophy (why this workflow exists)
@@ -329,7 +329,7 @@ Would you like me to:
 Your choice (1-4):
 ```
 
-**If Choice 1**: Read and display docs/JEZWEB_WORKFLOW.md
+**If Choice 1**: Read and display docs/skills_workflow.md
 
 **If Choice 2**: Show decision trees section from guide
 
@@ -465,7 +465,7 @@ Total per project: 25-40 minutes saved
 DOCS
 ───────────────────────────────────────────────
 
-📖 Complete guide: docs/JEZWEB_WORKFLOW.md
+📖 Complete guide: docs/skills_workflow.md
 📋 Commands README: commands/README.md
 🚀 Project README: README.md
 
@@ -493,7 +493,7 @@ Then commands will be available immediately.
 
 Options:
 1. Run /plan-project to set up workflow (creates SESSION.md)
-2. Manually create SESSION.md (see docs/JEZWEB_WORKFLOW.md for template)
+2. Manually create SESSION.md (see docs/skills_workflow.md for template)
 3. Continue without workflow
 
 Which would you prefer?
@@ -528,7 +528,7 @@ Based on your answers, I'll recommend the right command.
 
 **Purpose of this command**: Interactive guidance, NOT a replacement for comprehensive docs
 
-**For detailed info**: Point user to docs/JEZWEB_WORKFLOW.md
+**For detailed info**: Point user to docs/skills_workflow.md
 
 **For command details**: Point user to commands/README.md
 
