@@ -1,12 +1,27 @@
 {
   "name": "swift-best-practices",
-  "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes.",
-  "version": "1.0.0",
+  "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "swift-best-practices",
+    "swift",
+    "best",
+    "practices",
+    "mobile",
+    "ios",
+    "android",
+    "app",
+    "native",
+    "api",
+    "mainactor",
+    "migration",
+    "async"
+  ],
+  "category": "mobile"
 }

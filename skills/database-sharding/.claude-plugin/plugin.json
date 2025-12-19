@@ -1,7 +1,7 @@
 {
   "name": "database-sharding",
-  "description": "Implements horizontal data partitioning across multiple database servers using range, hash, or directory-based sharding. Use when scaling beyond single-server capacity, optimizing geographic distribution, or implementing multi-tenant isolation.",
-  "version": "1.0.0",
+  "description": "Implements horizontal data partitioning across multiple database servers using range, hash, or directory-based sharding. Use when scaling beyond single-server capacity, optimizing geographic distribution, or implementing multi-tenant isolation.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -9,29 +9,13 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-    "database sharding",
-    "horizontal partitioning",
-    "shard key",
-    "consistent hashing",
-    "hash sharding",
-    "range sharding",
-    "directory sharding",
-    "cross-shard queries",
-    "shard rebalancing",
-    "scatter-gather pattern",
-    "multi-tenant sharding",
-    "shard router",
-    "distributed database",
-    "database scalability",
-    "shard migration",
-    "hotspot shards",
-    "shard key selection",
-    "cross-shard aggregation",
-    "two-phase commit",
-    "saga pattern",
-    "virtual shards",
-    "shard distribution",
-    "tenant isolation",
-    "zero-downtime migration"
-  ]
+    "database-sharding",
+    "database",
+    "sharding",
+    "orm",
+    "sql",
+    "storage",
+    "query"
+  ],
+  "category": "database"
 }

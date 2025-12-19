@@ -1,12 +1,22 @@
 {
   "name": "ml-model-training",
-  "description": "Trains machine learning models with data preparation, algorithm selection, and evaluation using scikit-learn, PyTorch, and TensorFlow. Use when building predictive models, implementing classification/regression, or training neural networks.",
-  "version": "1.0.0",
+  "description": "Trains machine learning models with data preparation, algorithm selection, and evaluation using scikit-learn, PyTorch, and TensorFlow. Use when building predictive models, implementing classification/regression, or training neural networks.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "ml-model-training",
+    "model",
+    "training",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "pytorch",
+    "tensorflow"
+  ],
+  "category": "ai"
 }

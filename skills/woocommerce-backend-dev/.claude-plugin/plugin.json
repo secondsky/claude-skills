@@ -1,12 +1,22 @@
 {
   "name": "woocommerce-backend-dev",
-  "description": "Add or modify WooCommerce backend PHP code following project conventions. Use when creating new classes, methods, hooks, or modifying existing backend code in WooCommerce projects.",
-  "version": "1.0.0",
+  "description": "Add or modify WooCommerce backend PHP code following project conventions. Use when creating new classes, methods, hooks, or modifying existing backend code in WooCommerce projects.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "woocommerce-backend-dev",
+    "woocommerce",
+    "backend",
+    "dev",
+    "wordpress",
+    "ecommerce",
+    "shop",
+    "php"
+  ],
+  "category": "woocommerce"
 }

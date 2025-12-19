@@ -1,12 +1,25 @@
 {
   "name": "google-gemini-file-search",
-  "description": "Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation). This skill should be used when building document Q&A systems, searchable knowledge bases, or semantic search with automatic chunking, embedding generation, and citation support. Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors: document immutability (delete+re-upload pattern required), storage quota calculation (3x input size for embeddings), chunking configuration (5",
-  "version": "2.0.0",
+  "description": "Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation). This skill should be used when building document Q&A systems, searchable knowledge bases, or semantic search with automatic chunking, embedding generation, and citation support. Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors: document immutability (delete+re-upload pattern required), storage quota calculation (3x input size for embeddings), chunking configuration (5\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "google-gemini-file-search",
+    "google",
+    "gemini",
+    "file",
+    "search",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "pdf",
+    "rag",
+    "configuration"
+  ],
+  "category": "ai"
 }

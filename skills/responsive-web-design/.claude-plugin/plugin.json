@@ -1,12 +1,22 @@
 {
   "name": "responsive-web-design",
-  "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility.",
-  "version": "1.0.0",
+  "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "responsive-web-design",
+    "responsive",
+    "web",
+    "design",
+    "performance",
+    "optimization",
+    "pwa",
+    "css"
+  ],
+  "category": "web"
 }

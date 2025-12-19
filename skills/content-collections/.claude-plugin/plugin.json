@@ -1,12 +1,20 @@
 {
   "name": "content-collections",
-  "description": "Introduction to Content Collections",
-  "version": "1.0.0",
+  "description": "Introduction to Content Collections\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "content-collections",
+    "content",
+    "collections",
+    "cms",
+    "management",
+    "publishing"
+  ],
+  "category": "cms"
 }

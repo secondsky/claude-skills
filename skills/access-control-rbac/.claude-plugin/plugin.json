@@ -1,12 +1,25 @@
 {
   "name": "access-control-rbac",
-  "description": "Implements role-based access control (RBAC), permissions management, and authorization policies for secure multi-tenant applications. Use when building admin dashboards, enterprise access management, API authorization, or fine-grained data access controls.",
-  "version": "1.0.0",
+  "description": "Implements role-based access control (RBAC), permissions management, and authorization policies for secure multi-tenant applications. Use when building admin dashboards, enterprise access management, API authorization, or fine-grained data access controls.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "access-control-rbac",
+    "access",
+    "control",
+    "rbac",
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf",
+    "xss",
+    "api",
+    "authorization"
+  ],
+  "category": "security"
 }

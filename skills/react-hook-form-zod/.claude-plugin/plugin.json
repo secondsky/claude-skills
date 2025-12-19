@@ -1,12 +1,24 @@
 {
   "name": "react-hook-form-zod",
-  "description": "This skill provides comprehensive knowledge for building type-safe, validated forms in React using React Hook Form and Zod schema validation. Use when: building forms with validation in React, integrating Zod schema validation with React Hook Form, using shadcn/ui Form or Field components, implementing client and server-side validation with a single schema, handling complex validation scenarios (nested objects, arrays, conditional fields, async validation), building multi-step forms or wizards, ",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for building type-safe, validated forms in React using React Hook Form and Zod schema validation. Use when: building forms with validation in React, integrating Zod schema validation with React Hook Form, using shadcn/ui Form or Field components, implementing client and server-side validation with a single schema, handling complex validation scenarios (nested objects, arrays, conditional fields, async validation), building multi-step forms or wizards, \n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["react-hook-form","useForm","zod validation","zodResolver","@hookform/resolvers","form schema","register","handleSubmit","formState","useFieldArray","useWatch","useController","Controller","shadcn form","Field component"]
+  "keywords": [
+    "react-hook-form-zod",
+    "react",
+    "hook",
+    "form",
+    "zod",
+    "frontend",
+    "components",
+    "typescript",
+    "validation",
+    "async"
+  ],
+  "category": "frontend"
 }

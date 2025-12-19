@@ -1,12 +1,23 @@
 {
   "name": "cloudflare-browser-rendering",
-  "description": "Complete knowledge domain for Cloudflare Browser Rendering - Headless Chrome automation with Puppeteer and Playwright on Cloudflare Workers for screenshots, PDFs, web scraping, and browser automation workflows. Use when: taking screenshots, generating PDFs from HTML or URLs, web scraping content, crawling websites, browser automation tasks, testing web applications, managing browser sessions, performing batch browser operations, integrating with AI for content extraction, or encountering browser",
-  "version": "1.0.0",
+  "description": "Complete knowledge domain for Cloudflare Browser Rendering - Headless Chrome automation with Puppeteer and Playwright on Cloudflare Workers for screenshots, PDFs, web scraping, and browser automation workflows. Use when: taking screenshots, generating PDFs from HTML or URLs, web scraping content, crawling websites, browser automation tasks, testing web applications, managing browser sessions, performing batch browser operations, integrating with AI for content extraction, or encountering browser\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["browser rendering cloudflare","@cloudflare/puppeteer","@cloudflare/playwright","puppeteer workers","playwright workers","screenshot cloudflare","pdf generation workers","web scraping cloudflare","headless chrome workers","browser automation","puppeteer.launch","playwright.chromium.launch","browser binding","session management","puppeteer.sessions"]
+  "keywords": [
+    "cloudflare-browser-rendering",
+    "cloudflare",
+    "browser",
+    "rendering",
+    "workers",
+    "edge",
+    "serverless",
+    "wrangler",
+    "html"
+  ],
+  "category": "cloudflare"
 }

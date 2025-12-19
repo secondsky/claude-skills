@@ -1,12 +1,23 @@
 {
   "name": "websocket-implementation",
-  "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.",
-  "version": "1.0.0",
+  "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "websocket-implementation",
+    "websocket",
+    "implementation",
+    "api",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "real-time"
+  ],
+  "category": "api"
 }

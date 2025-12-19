@@ -1,12 +1,22 @@
 {
   "name": "recommendation-engine",
-  "description": "Builds recommendation systems using collaborative filtering, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, or personalization features.",
-  "version": "1.0.0",
+  "description": "Builds recommendation systems using collaborative filtering, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, or personalization features.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "recommendation-engine",
+    "recommendation",
+    "engine",
+    "data",
+    "analytics",
+    "processing",
+    "sql",
+    "queries"
+  ],
+  "category": "data"
 }

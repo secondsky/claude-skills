@@ -1,12 +1,20 @@
 {
   "name": "web-performance-audit",
-  "description": "Conducts comprehensive web performance audits measuring Core Web Vitals, identifying bottlenecks, and implementing optimizations. Use when improving page load times, preparing for performance reviews, or optimizing user experience.",
-  "version": "1.0.0",
+  "description": "Conducts comprehensive web performance audits measuring Core Web Vitals, identifying bottlenecks, and implementing optimizations. Use when improving page load times, preparing for performance reviews, or optimizing user experience.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "web-performance-audit",
+    "web",
+    "performance",
+    "audit",
+    "optimization",
+    "pwa"
+  ],
+  "category": "web"
 }

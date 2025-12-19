@@ -1,12 +1,22 @@
 {
   "name": "mobile-app-testing",
-  "description": "Implements comprehensive mobile testing strategies including unit tests, UI automation, and performance testing across platforms. Use when setting up test infrastructure, writing E2E tests, or establishing testing standards for mobile apps.",
-  "version": "1.0.0",
+  "description": "Implements comprehensive mobile testing strategies including unit tests, UI automation, and performance testing across platforms. Use when setting up test infrastructure, writing E2E tests, or establishing testing standards for mobile apps.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "mobile-app-testing",
+    "mobile",
+    "app",
+    "testing",
+    "ios",
+    "android",
+    "native",
+    "e2e"
+  ],
+  "category": "mobile"
 }

@@ -1,12 +1,21 @@
 {
   "name": "pinia-v3",
-  "description": "This skill provides comprehensive knowledge for building Vue 3 applications with Pinia, the official state management library. It should be used when setting up Pinia stores, managing state in Vue applications, migrating from Vuex to Pinia, configuring SSR with Pinia, or encountering state management issues in Vue projects. Use when: creating Pinia stores, defining state/getters/actions, setting up Pinia with Nuxt, implementing store composition, configuring plugins, testing stores, using Pinia ",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for building Vue 3 applications with Pinia, the official state management library. It should be used when setting up Pinia stores, managing state in Vue applications, migrating from Vuex to Pinia, configuring SSR with Pinia, or encountering state management issues in Vue projects. Use when: creating Pinia stores, defining state/getters/actions, setting up Pinia with Nuxt, implementing store composition, configuring plugins, testing stores, using Pinia \n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["pinia","vue state management","pinia stores","defineStore","vue 3 state","state management","getters","actions","pinia plugins","pinia ssr","nuxt pinia","vuex migration","store composition","pinia testing","setup stores"]
+  "keywords": [
+    "pinia-v3",
+    "pinia",
+    "frontend",
+    "components",
+    "react",
+    "typescript",
+    "ssr"
+  ],
+  "category": "frontend"
 }

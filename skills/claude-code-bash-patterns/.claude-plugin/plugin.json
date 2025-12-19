@@ -1,12 +1,23 @@
 {
   "name": "claude-code-bash-patterns",
-  "description": "Deploy to production",
-  "version": "2.0.0",
+  "description": "Deploy to production\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "claude-code-bash-patterns",
+    "claude",
+    "code",
+    "bash",
+    "patterns",
+    "development",
+    "tooling",
+    "workflow",
+    "production"
+  ],
+  "category": "tooling"
 }

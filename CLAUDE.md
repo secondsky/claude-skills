@@ -338,6 +338,70 @@ git add .claude-plugin/marketplace.json && git commit -m "Update marketplace wit
 
 ---
 
+## Plugin Management Workflow
+
+**Single Entry Point**: `./scripts/sync-plugins.sh`
+
+This script consolidates all plugin management into one command:
+
+### What It Does
+1. **Syncs version** from marketplace.json to all 169 plugin.json files
+2. **Adds category** field based on skill name patterns
+3. **Detects agents** in `agents/` directory → adds agents array
+4. **Detects commands** in `commands/` directory → adds commands array
+5. **Generates keywords** from skill name, category, and description
+6. **Regenerates marketplace.json** with all updated data
+
+### Usage
+
+```bash
+# Full sync (updates all plugin.json files + regenerates marketplace)
+./scripts/sync-plugins.sh
+
+# Preview changes without modifying files
+./scripts/sync-plugins.sh --dry-run
+
+# Show help
+./scripts/sync-plugins.sh --help
+```
+
+### When to Run
+
+- After adding new skills
+- After modifying skill descriptions in SKILL.md
+- After adding agents or commands to a skill
+- Before releasing/pushing changes
+- To sync version across all skills
+
+### Plugin.json Schema
+
+Each skill's plugin.json follows the Anthropic plugin schema:
+
+```json
+{
+  "name": "feature-dev",
+  "description": "...",
+  "version": "3.0.0",
+  "author": {"name": "...", "email": "..."},
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["feature", "dev", "workflow", ...],
+  "category": "tooling",
+  "agents": ["./agents/code-reviewer.md", "./agents/code-explorer.md"],
+  "commands": ["./commands/feature-dev.md"]
+}
+```
+
+### Deprecated Scripts
+
+The following scripts are **deprecated** (kept for reference):
+- `scripts/generate-plugin-manifests.sh` → use `sync-plugins.sh`
+- `scripts/populate-keywords.sh` → use `sync-plugins.sh`
+
+The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.sh`.
+
+---
+
 ## Key Principles
 
 ### 1. Atomic Skills Philosophy

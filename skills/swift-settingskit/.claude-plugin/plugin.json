@@ -1,12 +1,23 @@
 {
   "name": "swift-settingskit",
-  "description": "This skill provides comprehensive knowledge for building settings interfaces in SwiftUI using SettingsKit, a declarative framework for iOS, macOS, watchOS, tvOS, and visionOS apps. It should be used when creating settings screens, implementing searchable preferences, building nested navigation hierarchies, or encountering issues with settings UI state management. Use when: Building settings/preferences screens, implementing search in settings, creating nested settings navigation, customizing set",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for building settings interfaces in SwiftUI using SettingsKit, a declarative framework for iOS, macOS, watchOS, tvOS, and visionOS apps. It should be used when creating settings screens, implementing searchable preferences, building nested navigation hierarchies, or encountering issues with settings UI state management. Use when: Building settings/preferences screens, implementing search in settings, creating nested settings navigation, customizing set\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["SettingsKit","SwiftUI settings","settings interface","preferences UI","searchable settings","settings navigation","SettingsContainer","SettingsGroup","SettingsItem","CustomSettingsGroup","settings tags","settings search","Observable settings","Bindable settings","iOS 17"]
+  "keywords": [
+    "swift-settingskit",
+    "swift",
+    "settingskit",
+    "mobile",
+    "ios",
+    "android",
+    "app",
+    "native",
+    "swiftui"
+  ],
+  "category": "mobile"
 }

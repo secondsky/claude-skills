@@ -1,12 +1,22 @@
 {
   "name": "mobile-offline-support",
-  "description": "Implements offline-first mobile applications with local storage, sync queues, and conflict resolution strategies. Use when building apps that must work without connectivity, implementing data sync, or handling offline scenarios.",
-  "version": "1.0.0",
+  "description": "Implements offline-first mobile applications with local storage, sync queues, and conflict resolution strategies. Use when building apps that must work without connectivity, implementing data sync, or handling offline scenarios.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "mobile-offline-support",
+    "mobile",
+    "offline",
+    "support",
+    "ios",
+    "android",
+    "app",
+    "native"
+  ],
+  "category": "mobile"
 }

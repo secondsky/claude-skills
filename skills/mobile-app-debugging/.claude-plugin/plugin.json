@@ -1,12 +1,21 @@
 {
   "name": "mobile-app-debugging",
-  "description": "Debugs mobile applications across iOS, Android, and cross-platform frameworks using platform-specific tools and techniques. Use when diagnosing crashes, memory leaks, performance issues, or network problems in mobile apps.",
-  "version": "1.0.0",
+  "description": "Debugs mobile applications across iOS, Android, and cross-platform frameworks using platform-specific tools and techniques. Use when diagnosing crashes, memory leaks, performance issues, or network problems in mobile apps.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "mobile-app-debugging",
+    "mobile",
+    "app",
+    "debugging",
+    "ios",
+    "android",
+    "native"
+  ],
+  "category": "mobile"
 }

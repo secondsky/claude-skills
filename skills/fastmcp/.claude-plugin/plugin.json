@@ -1,12 +1,25 @@
 {
   "name": "fastmcp",
-  "description": "Use this skill when building MCP (Model Context Protocol) servers with FastMCP in Python. FastMCP is a framework for creating servers that expose tools, resources, and prompts to LLMs like Claude. The skill covers server creation, tool/resource definitions, storage backends (memory/disk/Redis/DynamoDB), server lifespans, middleware system (8 built-in types), server composition (import/mount), OAuth Proxy, authentication patterns, icons, OpenAPI integration, client configuration, cloud deployment",
-  "version": "2.0.0",
+  "description": "Use this skill when building MCP (Model Context Protocol) servers with FastMCP in Python. FastMCP is a framework for creating servers that expose tools, resources, and prompts to LLMs like Claude. The skill covers server creation, tool/resource definitions, storage backends (memory/disk/Redis/DynamoDB), server lifespans, middleware system (8 built-in types), server composition (import/mount), OAuth Proxy, authentication patterns, icons, OpenAPI integration, client configuration, cloud deployment\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["FastMCP","MCP server Python","Model Context Protocol Python","fastmcp framework","mcp tools","mcp resources","mcp prompts","fastmcp storage","fastmcp memory storage","fastmcp disk storage","fastmcp redis","fastmcp dynamodb","fastmcp lifespan","fastmcp middleware","fastmcp oauth proxy"]
+  "keywords": [
+    "fastmcp",
+    "development",
+    "tooling",
+    "workflow",
+    "mcp",
+    "dynamodb",
+    "openapi",
+    "authentication",
+    "integration",
+    "configuration",
+    "deployment"
+  ],
+  "category": "tooling"
 }

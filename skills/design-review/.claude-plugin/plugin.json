@@ -1,12 +1,21 @@
 {
   "name": "design-review",
-  "description": "Conduct comprehensive design reviews on frontend code changes, PRs, and UI implementations using a systematic 7-phase methodology. Evaluates interaction flows, responsiveness, visual polish, accessibility (WCAG 2.1 AA), robustness, and code health with automated browser testing. Use when: reviewing pull requests with UI changes, auditing frontend components for quality, verifying responsive design across viewports, checking accessibility compliance, testing interaction flows and user experience,",
-  "version": "1.0.0",
+  "description": "Conduct comprehensive design reviews on frontend code changes, PRs, and UI implementations using a systematic 7-phase methodology. Evaluates interaction flows, responsiveness, visual polish, accessibility (WCAG 2.1 AA), robustness, and code health with automated browser testing. Use when: reviewing pull requests with UI changes, auditing frontend components for quality, verifying responsive design across viewports, checking accessibility compliance, testing interaction flows and user experience,\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["design review","UI audit","frontend review","accessibility audit","WCAG compliance","responsive design","visual QA","UX review","component review","PR design check","layout issues","accessibility violations","contrast problems","broken responsive","interaction bugs"]
+  "keywords": [
+    "design-review",
+    "design",
+    "review",
+    "interface",
+    "user-experience",
+    "wcag",
+    "implementation"
+  ],
+  "category": "design"
 }

@@ -1,12 +1,23 @@
 {
   "name": "tanstack-ai",
-  "description": "This skill provides production-ready guidance for TanStack AI (alpha) to build provider-agnostic, type-safe AI chat with streaming, server/client tools, approval flows, and adapters for OpenAI, Anthropic, Gemini, and Ollama. Use it to scaffold new chat APIs, wire React or Solid frontends with `useChat`/`ChatClient`, define isomorphic tools with `toolDefinition().server()` / `.client()`, or debug streaming and agent loop behavior. Use when: connecting TanStack AI to OpenAI/Anthropic/Gemini/Ollama",
-  "version": "1.0.0",
+  "description": "This skill provides production-ready guidance for TanStack AI (alpha) to build provider-agnostic, type-safe AI chat with streaming, server/client tools, approval flows, and adapters for OpenAI, Anthropic, Gemini, and Ollama. Use it to scaffold new chat APIs, wire React or Solid frontends with `useChat`/`ChatClient`, define isomorphic tools with `toolDefinition().server()` / `.client()`, or debug streaming and agent loop behavior. Use when: connecting TanStack AI to OpenAI/Anthropic/Gemini/Ollama\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["TanStack AI","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","toolDefinition","client tools","server tools","tool approval","agent loop","streaming"]
+  "keywords": [
+    "tanstack-ai",
+    "tanstack",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "chatclient",
+    "openai",
+    "production",
+    "streaming"
+  ],
+  "category": "ai"
 }

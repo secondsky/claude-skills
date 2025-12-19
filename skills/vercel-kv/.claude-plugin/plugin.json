@@ -1,12 +1,25 @@
 {
   "name": "vercel-kv",
-  "description": "This skill provides comprehensive knowledge for integrating Vercel KV (Redis-compatible key-value storage powered by Upstash) into Vercel applications. It should be used when setting up Vercel KV for Next.js applications, implementing caching patterns, managing sessions, or handling rate limiting in edge and serverless functions. Use this skill when: - Setting up Vercel KV for Next.js applications - Implementing caching strategies (page cache, API cache, data cache) - Managing user sessions or a",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for integrating Vercel KV (Redis-compatible key-value storage powered by Upstash) into Vercel applications. It should be used when setting up Vercel KV for Next.js applications, implementing caching patterns, managing sessions, or handling rate limiting in edge and serverless functions. Use this skill when: - Setting up Vercel KV for Next.js applications - Implementing caching strategies (page cache, API cache, data cache) - Managing user sessions or a\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["vercel kv","@vercel/kv","vercel redis","upstash vercel","kv vercel","redis vercel edge","key-value vercel","vercel cache","vercel sessions","vercel rate limit","redis upstash","kv storage","edge kv","serverless redis","vercel ttl"]
+  "keywords": [
+    "vercel-kv",
+    "vercel",
+    "database",
+    "orm",
+    "sql",
+    "storage",
+    "query",
+    "api",
+    "serverless",
+    "edge",
+    "caching"
+  ],
+  "category": "database"
 }

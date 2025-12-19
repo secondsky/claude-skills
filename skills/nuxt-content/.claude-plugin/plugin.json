@@ -1,12 +1,21 @@
 {
   "name": "nuxt-content",
-  "description": "My first Nuxt Content page",
-  "version": "1.0.0",
+  "description": "My first Nuxt Content page\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "nuxt-content",
+    "nuxt",
+    "content",
+    "frontend",
+    "components",
+    "react",
+    "typescript"
+  ],
+  "category": "frontend"
 }

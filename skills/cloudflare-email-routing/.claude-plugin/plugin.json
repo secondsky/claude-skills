@@ -1,12 +1,22 @@
 {
   "name": "cloudflare-email-routing",
-  "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker",
-  "version": "2.0.0",
+  "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["Cloudflare Email Routing","Email Workers","send email","receive email","email forwarding","email allowlist","email blocklist","postal-mime","mimetext","cloudflare:email","EmailMessage","ForwardableEmailMessage","EmailEvent","MX records","SPF"]
+  "keywords": [
+    "cloudflare-email-routing",
+    "cloudflare",
+    "email",
+    "routing",
+    "workers",
+    "edge",
+    "serverless",
+    "wrangler"
+  ],
+  "category": "cloudflare"
 }

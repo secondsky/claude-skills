@@ -1,12 +1,25 @@
 {
   "name": "recommendation-system",
-  "description": "Designs and evaluates recommendation systems with metrics, A/B testing, and production deployment strategies. Use when building personalization features, analyzing recommendation quality, or implementing real-time suggestions.",
-  "version": "1.0.0",
+  "description": "Designs and evaluates recommendation systems with metrics, A/B testing, and production deployment strategies. Use when building personalization features, analyzing recommendation quality, or implementing real-time suggestions.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "recommendation-system",
+    "recommendation",
+    "system",
+    "data",
+    "analytics",
+    "processing",
+    "sql",
+    "queries",
+    "production",
+    "deployment",
+    "real-time"
+  ],
+  "category": "data"
 }

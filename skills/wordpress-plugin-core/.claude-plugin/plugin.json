@@ -1,12 +1,25 @@
 {
   "name": "wordpress-plugin-core",
-  "description": "This skill provides comprehensive knowledge for WordPress plugin development, covering core patterns, security best practices, database interactions, hooks/filters, Settings API, custom post types, REST API, and AJAX. This skill should be used when creating WordPress plugins, troubleshooting security issues, implementing custom post types/taxonomies, building admin interfaces, or working with the WordPress database. Use when: Creating new WordPress plugins, implementing nonces/sanitization/escap",
-  "version": "1.0.0",
+  "description": "This skill provides comprehensive knowledge for WordPress plugin development, covering core patterns, security best practices, database interactions, hooks/filters, Settings API, custom post types, REST API, and AJAX. This skill should be used when creating WordPress plugins, troubleshooting security issues, implementing custom post types/taxonomies, building admin interfaces, or working with the WordPress database. Use when: Creating new WordPress plugins, implementing nonces/sanitization/escap\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["wordpress plugin development","wordpress security","wordpress hooks","wordpress filters","wordpress database","wpdb prepare","sanitize_text_field","esc_html","wp_nonce","custom post type","register_post_type","settings api","rest api","admin-ajax","wordpress sql injection"]
+  "keywords": [
+    "wordpress-plugin-core",
+    "wordpress",
+    "plugin",
+    "core",
+    "cms",
+    "content",
+    "management",
+    "publishing",
+    "ajax",
+    "api",
+    "rest"
+  ],
+  "category": "cms"
 }

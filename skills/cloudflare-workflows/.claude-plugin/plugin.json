@@ -1,12 +1,23 @@
 {
   "name": "cloudflare-workflows",
-  "description": "Complete knowledge domain for Cloudflare Workflows - durable execution framework for building multi-step applications on Workers that automatically retry, persist state, and run for hours or days. Use when: creating long-running workflows, implementing retry logic, building event-driven processes, scheduling multi-step tasks, coordinating between APIs, or encountering NonRetryableError, I/O context, workflow execution failed, serialization error, or WorkflowEvent not found errors.",
-  "version": "1.1.0",
+  "description": "Complete knowledge domain for Cloudflare Workflows - durable execution framework for building multi-step applications on Workers that automatically retry, persist state, and run for hours or days. Use when: creating long-running workflows, implementing retry logic, building event-driven processes, scheduling multi-step tasks, coordinating between APIs, or encountering NonRetryableError, I/O context, workflow execution failed, serialization error, or WorkflowEvent not found errors.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["cloudflare workflows","workflows workers","durable execution","workflow step","WorkflowEntrypoint","step.do","step.sleep","workflow retries","NonRetryableError","workflow state","wrangler workflows","workflow events","long-running tasks","step.sleepUntil","step.waitForEvent"]
+  "keywords": [
+    "cloudflare-workflows",
+    "cloudflare",
+    "workflows",
+    "workers",
+    "edge",
+    "serverless",
+    "wrangler",
+    "nonretryableerror",
+    "workflowevent"
+  ],
+  "category": "cloudflare"
 }
