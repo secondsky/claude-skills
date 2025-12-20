@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-d1",
-  "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflares edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering D1_ERROR, statement too long, too many requests queued, migration failures, or query performance issues.\n",
+  "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflare's edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering \"D1_ERROR\", \"statement too long\", \"too many requests queued\", migration failures, or query performance issues. Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers, serverless database, edge database, d1 queries, sql cloudflare, prepared statements, batch queries, d1 api, wrangler migrations, D1_ERROR, D1_EXEC_ERROR, statement too long, database bindings, sqlite cloudflare, sql workers api, d1 indexes, query optimization, d1 schema, read replication, read replica, withSession, Sessions API, global replication, database replication, served_by_region, bookmarks, sequential consistency\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,7 +15,9 @@
     "edge",
     "serverless",
     "wrangler",
+    "api",
     "sql",
+    "optimization",
     "migration"
   ],
   "category": "cloudflare"

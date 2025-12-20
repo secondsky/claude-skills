@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ui-v4",
-  "description": "Production-ready Nuxt UI v4 component library for Nuxt v4 with 100+ accessible components, Tailwind CSS v4, and Reka UI foundation. Use when: setting up Nuxt v4 projects with UI component library, implementing design systems with semantic colors, building accessible forms and data displays, configuring dark mode and color themes, creating responsive layouts with Cards and Containers, implementing navigation with Tabs and CommandPalette, building overlays with Modal/Drawer/Popover/DropdownMenu, a\n",
+  "description": "Production-ready Nuxt UI v4 component library for Nuxt v4 with 100+ accessible components, Tailwind CSS v4, and Reka UI foundation. Use when: setting up Nuxt v4 projects with UI component library, implementing design systems with semantic colors, building accessible forms and data displays, configuring dark mode and color themes, creating responsive layouts with Cards and Containers, implementing navigation with Tabs and CommandPalette, building overlays with Modal/Drawer/Popover/DropdownMenu, adding feedback with Toast/Alert/Skeleton/Progress, integrating AI chat interfaces with AI SDK v5, customizing component themes globally or per-instance, or encountering component rendering issues, theming problems, composable errors (useToast, useNotification), TypeScript errors, or responsive pattern challenges. Covers: Nuxt v4 setup, @nuxt/ui module installation, semantic color system (7 color aliases), component theming with Tailwind Variants, form components and validation, data display with Tables and Cards, navigation patterns (Tabs, Breadcrumb, CommandPalette), overlay components (Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip), feedback patterns (Toast, Alert, Skeleton, Progress), layout components (Card, Container, Avatar, Badge), composables (useToast, useNotification, useColorMode, defineShortcuts), AI SDK v5 integration, dark mode setup, accessibility with Reka UI, responsive patterns, TypeScript configuration, and 20+ common errors with solutions. Keywords: Nuxt v4, Nuxt 4, Nuxt UI v4, Nuxt UI 4, @nuxt/ui, Tailwind v4, Tailwind CSS 4, Reka UI, semantic colors, design system, accessible components, ARIA, WAI-ARIA, dark mode, color mode, theming, component library, form validation, Input, InputDate, InputTime, date picker, time picker, @internationalized/date, Select, Checkbox, Radio, Textarea, Table, Card, Container, Avatar, Badge, Button, Tabs, Breadcrumb, CommandPalette, Pagination, Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip, Sheet, Alert, Toast, Notification, Progress, Skeleton, Empty, empty state, Carousel, useToast, useNotification, useColorMode, defineShortcuts, UApp wrapper, Tailwind Variants, Tailwind prefix, component customization, component detection, virtualization, tree-shaking, responsive design, mobile patterns, AI SDK v5, chat interface, Zod validation, nested forms, file uploads, keyboard navigation, focus management, CSS variables, Embla carousel, Fuse.js search, template refs, $el accessor, v4.2 migration\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,10 +15,19 @@
     "components",
     "react",
     "typescript",
+    "aria",
     "css",
+    "sdk",
+    "wai",
     "commandpalette",
     "dropdownmenu",
-    "production"
+    "inputdate",
+    "inputtime",
+    "production",
+    "validation",
+    "integration",
+    "configuration",
+    "migration"
   ],
   "category": "frontend"
 }

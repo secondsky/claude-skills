@@ -302,27 +302,23 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
 
   # Get current values or defaults
   if [ -f "$plugin_json" ]; then
-    current_desc=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
     current_author=$(jq -c '.author // {"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}' "$plugin_json" 2>/dev/null)
   else
-    current_desc=""
     current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
   fi
 
-  # Extract description from SKILL.md if not in plugin.json
+  # ALWAYS extract description from SKILL.md (source of truth)
+  current_desc=$(awk '/^description:/{if($0 !~ /[\|>]$/){gsub(/^description: */, ""); print; exit}}' "$skill_md")
   if [ -z "$current_desc" ]; then
-    current_desc=$(awk '/^description:/{if($0 !~ /[\|>]$/){gsub(/^description: */, ""); print; exit}}' "$skill_md")
-    if [ -z "$current_desc" ]; then
-      current_desc=$(awk '
-        /^description: [\|>]/{flag=1; next}
-        /^[a-z-]+:/{flag=0}
-        flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
-        END{gsub(/ $/, "", line); print line}
-      ' "$skill_md")
-    fi
-    if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
-      current_desc="Production-ready skill for $skill_name"
-    fi
+    current_desc=$(awk '
+      /^description: [\|>]/{flag=1; next}
+      /^[a-z-]+:/{flag=0}
+      flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
+      END{gsub(/ $/, "", line); print line}
+    ' "$skill_md")
+  fi
+  if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
+    current_desc="Production-ready skill for $skill_name"
   fi
 
   # Get category

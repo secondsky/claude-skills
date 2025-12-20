@@ -1,6 +1,6 @@
 {
   "name": "github-project-automation",
-  "description": "This skill provides comprehensive automation for GitHub repository setup and configuration. It should be used when creating new projects, setting up CI/CD pipelines, configuring issue templates, enabling security scanning, or migrating existing projects to GitHub automation. The skill prevents 18 documented errors in GitHub Actions YAML syntax, workflow configuration, issue template structure, Dependabot setup, and CodeQL security scanning. It includes 12 production-tested workflow templates, 4 \n",
+  "description": "This skill provides comprehensive automation for GitHub repository setup and configuration. It should be used when creating new projects, setting up CI/CD pipelines, configuring issue templates, enabling security scanning, or migrating existing projects to GitHub automation. The skill prevents 18 documented errors in GitHub Actions YAML syntax, workflow configuration, issue template structure, Dependabot setup, and CodeQL security scanning. It includes 12 production-tested workflow templates, 4 issue templates, security configurations, and automation scripts for rapid project setup. Use when: setting up GitHub Actions CI/CD, creating issue/PR templates, enabling Dependabot, configuring CodeQL scanning, automating GitHub repository setup, fixing YAML syntax errors, integrating security scanning, deploying to Cloudflare Workers via GitHub Actions, or implementing multi-framework testing matrices. Keywords: github actions, github workflow, ci/cd, issue templates, pull request templates, dependabot, codeql, security scanning, yaml syntax, github automation, repository setup, workflow templates, github actions matrix, secrets management, branch protection, codeowners, github projects, continuous integration, continuous deployment, workflow syntax error, action version pinning, runner version, github context, yaml indentation error\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -19,7 +19,9 @@
     "yaml",
     "codeql",
     "production",
-    "configuration"
+    "integration",
+    "configuration",
+    "deployment"
   ],
   "category": "tooling"
 }

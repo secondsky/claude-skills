@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-email-routing",
-  "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker\n",
+  "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker errors. Prevents 8 documented issues: \"Email Trigger not available\" errors, destination address verification bugs, Gmail rate limiting, SPF permerror issues, worker call failures, test event loading issues, activity log discrepancies, and limited debugging on free plans. Keywords: Cloudflare Email Routing, Email Workers, send email, receive email, email forwarding, email allowlist, email blocklist, postal-mime, mimetext, cloudflare:email, EmailMessage, ForwardableEmailMessage, EmailEvent, MX records, SPF, DKIM, email worker binding, send_email binding, wrangler email, email handler, email routing worker, \"Email Trigger not available\", \"failed to call worker\", email delivery failed, email not forwarding, destination address not verified\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -16,7 +16,12 @@
     "workers",
     "edge",
     "serverless",
-    "wrangler"
+    "wrangler",
+    "dkim",
+    "spf",
+    "emailevent",
+    "emailmessage",
+    "forwardableemailmessage"
   ],
   "category": "cloudflare"
 }

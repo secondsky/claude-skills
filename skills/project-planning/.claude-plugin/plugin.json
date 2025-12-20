@@ -1,6 +1,6 @@
 {
   "name": "project-planning",
-  "description": "Generates comprehensive planning documentation for web application projects, structuring work into context-safe phases with built-in verification criteria. Creates IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md, and other planning docs based on project needs. Optimized for Cloudflare Workers + Vite + React stack. Use when starting new projects, adding major features, or restructuring existing work into manageable phases.\n",
+  "description": "Generates comprehensive planning documentation for web application projects, structuring work into context-safe phases with built-in verification criteria. Creates IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md, and other planning docs based on project needs. Optimized for Cloudflare Workers + Vite + React stack. Use when starting new projects, adding major features, or restructuring existing work into manageable phases. Keywords: project planning, planning documentation, IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md, UI_COMPONENTS.md, TESTING.md, AGENTS_CONFIG.md, phased development, context-safe phases, verification criteria, exit criteria, planning docs generator, web app planning, Cloudflare Workers planning, Vite React planning, project structure, project phases, major features planning, new project setup\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -16,6 +16,7 @@
     "tooling",
     "workflow",
     "architecture",
+    "testing",
     "implementation"
   ],
   "category": "tooling"

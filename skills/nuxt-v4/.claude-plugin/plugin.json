@@ -1,6 +1,6 @@
 {
   "name": "nuxt-v4",
-  "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest.\n",
+  "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest. Keywords: Nuxt 4, Nuxt v4, SSR, universal rendering, Nitro, Vue 3, useState, useFetch, useAsyncData, $fetch, composables, auto-imports, middleware, server routes, API routes, hydration, file-based routing, app directory, SEO, meta tags, useHead, useSeoMeta, transitions, error handling, runtime config, Cloudflare Pages, Cloudflare Workers, NuxtHub, Workers Assets, D1, KV, R2, Durable Objects, Vitest, testing, performance optimization, lazy loading, code splitting, prerendering, layers, modules, plugins, Vite, TypeScript, hydration mismatch, shallow reactivity, reactive keys, singleton pattern, defineNuxtConfig, defineEventHandler, navigateTo, definePageMeta, useRuntimeConfig, app.vue, server directory, public directory, assets directory\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,8 +15,12 @@
     "components",
     "react",
     "typescript",
+    "api",
+    "seo",
     "ssr",
+    "nuxthub",
     "production",
+    "optimization",
     "deployment"
   ],
   "category": "frontend"

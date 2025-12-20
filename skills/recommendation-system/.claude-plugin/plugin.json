@@ -1,6 +1,6 @@
 {
   "name": "recommendation-system",
-  "description": "Designs and evaluates recommendation systems with metrics, A/B testing, and production deployment strategies. Use when building personalization features, analyzing recommendation quality, or implementing real-time suggestions.\n",
+  "description": "Designs and deploys production recommendation systems with feature stores, caching, A/B testing, and monitoring. Use when building personalization features, implementing real-time recommendations, optimizing for low latency, conducting recommendation experiments, or monitoring recommendation quality at scale.\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -18,7 +18,7 @@
     "sql",
     "queries",
     "production",
-    "deployment",
+    "caching",
     "real-time"
   ],
   "category": "data"

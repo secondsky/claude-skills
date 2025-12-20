@@ -1,6 +1,6 @@
 {
   "name": "sveltia-cms",
-  "description": "Complete Sveltia CMS skill for lightweight, Git-backed content management. Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB), faster GraphQL-based performance, and solves 260+ predecessor issues. Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class i18n support and mobile-friendly\n",
+  "description": "Complete Sveltia CMS skill for lightweight, Git-backed content management. Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB), faster GraphQL-based performance, and solves 260+ predecessor issues. Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class i18n support and mobile-friendly editing interface. Prevents 8+ common errors including OAuth authentication failures, TOML formatting issues, YAML parse errors, CORS/COOP policy problems, content not listing, script loading errors, image upload failures, and deployment problems. Includes complete Keywords: Sveltia CMS, Git-backed CMS, Decap CMS alternative, Netlify CMS alternative, headless CMS, static site CMS, Hugo CMS, Jekyll CMS, 11ty CMS, Gatsby CMS, Astro CMS, SvelteKit CMS, Next.js CMS, content management, visual editing, markdown CMS, YAML frontmatter, i18n CMS, multilingual CMS, mobile-friendly CMS, OAuth authentication CMS, TOML config, admin/config.yml, GraphQL performance, cloudflare workers oauth proxy, OAuth authentication failure, YAML parse error, CORS COOP policy, content not listing, image upload failures Cloudflare Workers OAuth proxy setup guide.\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,8 +15,14 @@
     "content",
     "management",
     "publishing",
+    "coop",
+    "cors",
+    "toml",
+    "yaml",
     "graphql",
-    "sveltekit"
+    "sveltekit",
+    "authentication",
+    "deployment"
   ],
   "category": "cms"
 }

@@ -1,6 +1,6 @@
 {
   "name": "drizzle-orm-d1",
-  "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. This skill provides comprehensive patterns for schema definition, migrations management, type-safe queries, relations, schema design best practices, performance optimization, and Cloudflare Workers integration. Use when: building D1 database schemas, writing type-safe SQL queries, managing database migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API for transactions, designing schema \n",
+  "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. This skill provides comprehensive patterns for schema definition, migrations management, type-safe queries, relations, schema design best practices, performance optimization, and Cloudflare Workers integration. Use when: building D1 database schemas, writing type-safe SQL queries, managing database migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API for transactions, designing schema indexes, implementing soft deletes, optimizing query performance, testing schema constraints, or encountering \"D1_ERROR\", transaction errors, foreign key constraint failures, migration apply errors, or schema inference issues. Prevents 12 documented issues: D1 transaction errors (SQL BEGIN not supported), foreign key constraint failures during migrations, module import errors with Wrangler, D1 binding not found, migration apply failures, schema TypeScript inference errors, prepared statement caching issues, transaction rollback patterns, TypeScript strict mode errors, drizzle.config.ts not found, remote vs local database confusion, and wrangler.toml vs wrangler.jsonc mixing. Keywords: drizzle orm, drizzle d1, type-safe sql, drizzle schema, drizzle migrations, drizzle kit, orm cloudflare, d1 orm, drizzle typescript, drizzle relations, drizzle transactions, drizzle query builder, schema definition, prepared statements, drizzle batch, migration management, relational queries, drizzle joins, D1_ERROR, BEGIN TRANSACTION d1, foreign key constraint, migration failed, schema not found, d1 binding error, schema design, database indexes, soft deletes, uuid primary keys, enum constraints, performance optimization, naming conventions, schema testing\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -17,9 +17,13 @@
     "storage",
     "query",
     "api",
+    "begin",
+    "transaction",
+    "typescript",
     "optimization",
     "integration",
-    "migration"
+    "migration",
+    "caching"
   ],
   "category": "database"
 }

@@ -1,6 +1,6 @@
 {
   "name": "nextjs",
-  "description": "Use this skill for Next.js App Router patterns, Server Components, Server Actions, Cache Components, and framework-level optimizations. Covers Next.js 16 breaking changes including async params, proxy.ts migration, Cache Components with use cache, and React 19.2 integration. For deploying to Cloudflare Workers, use the cloudflare-nextjs skill instead. This skill is deployment-agnostic and works with Vercel, AWS, self-hosted, or any platform.\n",
+  "description": "Use this skill for Next.js App Router patterns, Server Components, Server Actions, Cache Components, and framework-level optimizations. Covers Next.js 16 breaking changes including async params, proxy.ts migration, Cache Components with \"use cache\", and React 19.2 integration. For deploying to Cloudflare Workers, use the cloudflare-nextjs skill instead. This skill is deployment-agnostic and works with Vercel, AWS, self-hosted, or any platform. Keywords: Next.js 16, Next.js App Router, Next.js Pages Router, Server Components, React Server Components, Server Actions, Cache Components, use cache, Next.js 16 breaking changes, async params nextjs, proxy.ts migration, React 19.2, Next.js metadata, Next.js SEO, generateMetadata, static generation, dynamic rendering, streaming SSR, Suspense, parallel routes, intercepting routes, route groups, Next.js middleware, Next.js API routes, Route Handlers, revalidatePath, revalidateTag, next/navigation, useSearchParams, turbopack, next.config\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,11 +14,15 @@
     "components",
     "react",
     "typescript",
+    "api",
     "aws",
+    "seo",
+    "ssr",
     "optimization",
     "integration",
     "deployment",
     "migration",
+    "streaming",
     "async"
   ],
   "category": "frontend"

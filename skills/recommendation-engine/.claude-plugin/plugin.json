@@ -1,6 +1,6 @@
 {
   "name": "recommendation-engine",
-  "description": "Builds recommendation systems using collaborative filtering, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, or personalization features.\n",
+  "description": "Builds recommendation systems using collaborative filtering, matrix factorization, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, personalization features, handling cold start problems, or evaluating recommendation quality with precision@k, NDCG, and coverage metrics.\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -16,7 +16,8 @@
     "analytics",
     "processing",
     "sql",
-    "queries"
+    "queries",
+    "ndcg"
   ],
   "category": "data"
 }

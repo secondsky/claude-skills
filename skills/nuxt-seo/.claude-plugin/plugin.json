@@ -1,6 +1,6 @@
 {
   "name": "nuxt-seo",
-  "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO confi\n",
+  "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO configuration errors, sitemap generation issues, OG image rendering problems, and robots.txt misconfigurations.\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,7 +15,8 @@
     "frontend",
     "components",
     "react",
-    "typescript"
+    "typescript",
+    "configuration"
   ],
   "category": "frontend"
 }
