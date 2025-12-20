@@ -12,21 +12,17 @@
     "vercel-kv",
     "vercel",
     "database",
+    "orm",
+    "sql",
     "storage",
     "query",
-    "key-value",
-    "kv",
-    "redis",
-    "cache",
-    "caching",
-    "sessions",
-    "rate-limiting",
     "api",
     "json",
     "ttl",
     "authentication",
     "serverless",
-    "edge"
+    "edge",
+    "caching"
   ],
   "category": "database"
 }

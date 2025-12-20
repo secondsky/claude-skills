@@ -1,6 +1,6 @@
 {
   "name": "content-collections",
-  "description": "Production-tested setup for Content Collections - a TypeScript-first build tool that transforms local content files (Markdown/MDX) into type-safe data collections with automatic validation. Use when: building blogs, documentation sites, or content-heavy applications with Vite + React, setting up MDX content with React components, implementing type-safe content schemas with Zod, migrating from Contentlayer, or encountering TypeScript import errors with content collections. Covers: Vite plugin setup, tsconfig path aliases, collection schemas with Zod validation, MDX compilation with compileMDX, transform functions for computed properties, rehype/remark plugins, React component integration with MDXContent, Cloudflare Workers deployment, and production build optimization.",
+  "description": "Introduction to Content Collections\n",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
