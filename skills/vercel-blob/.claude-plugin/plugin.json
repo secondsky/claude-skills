@@ -12,15 +12,15 @@
     "vercel-blob",
     "vercel",
     "blob",
-    "database",
-    "orm",
-    "sql",
     "storage",
-    "query",
+    "object-storage",
+    "upload",
+    "files",
+    "assets",
     "cdn",
     "serverless",
     "edge",
     "streaming"
   ],
-  "category": "database"
+  "category": "storage"
 }
