@@ -9,6 +9,19 @@
 
 ---
 
+## ⚠️ CRITICAL: Repository Policy
+
+**ONLY work in the official repository: https://github.com/secondsky/claude-skills**
+
+- ❌ NEVER push, create PRs, or make changes to the `jezweb/claude-skills` fork
+- ❌ NEVER create branches or commits targeting the fork
+- ✅ ALWAYS use `origin` pointing to `secondsky/claude-skills`
+- ✅ If asked to create a PR, ensure it targets `secondsky/claude-skills`
+
+The `jezweb` repository is a fork used only when explicitly requested by the user.
+
+---
+
 ## What This Repository Is
 
 This is a curated collection of **production-tested Claude Code skills** for building modern web applications. Skills are modular capabilities that extend Claude's knowledge in specific domains, enabling faster development with fewer errors.
