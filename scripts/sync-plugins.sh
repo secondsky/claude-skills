@@ -79,7 +79,8 @@ categorize_skill() {
   elif [[ "$skill_name" =~ ^(nextjs|nuxt-|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then echo "frontend"
   elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation) ]]; then echo "auth"
   elif [[ "$skill_name" =~ ^(content-collections|hugo|nuxt-content|sveltia-cms|wordpress-plugin-core) ]]; then echo "cms"
-  elif [[ "$skill_name" =~ ^(database-|drizzle-|neon-|vercel-blob|vercel-kv) ]]; then echo "database"
+  elif [[ "$skill_name" =~ ^(vercel-blob) ]]; then echo "storage"
+  elif [[ "$skill_name" =~ ^(database-|drizzle-|neon-|vercel-kv) ]]; then echo "database"
   elif [[ "$skill_name" =~ ^(api-|graphql-|rest-api-design|websocket-implementation) ]]; then echo "api"
   elif [[ "$skill_name" =~ ^(jest-generator|mutation-testing|playwright-testing|test-quality-analysis|vitest-testing) ]]; then echo "testing"
   elif [[ "$skill_name" =~ ^(access-control-rbac|csrf-protection|defense-in-depth-validation|security-headers-configuration|vulnerability-scanning|xss-prevention) ]]; then echo "security"
@@ -103,13 +104,14 @@ get_category_keywords() {
   case "$category" in
     "cloudflare") echo "cloudflare,workers,edge,serverless,wrangler" ;;
     "ai") echo "ai,machine-learning,ml,llm,artificial-intelligence" ;;
-    "frontend") echo "frontend,ui,components,react,typescript" ;;
+    "frontend") echo "frontend,ui,components,typescript" ;;
     "auth") echo "authentication,authorization,login,security,session" ;;
-    "database") echo "database,orm,sql,storage,query" ;;
+    "storage") echo "storage,object-storage,blob,upload,files,cdn,assets" ;;
+    "database") echo "database,orm,sql,query,migrations" ;;
     "api") echo "api,rest,graphql,endpoints,http" ;;
     "testing") echo "testing,tests,unit-tests,integration,quality" ;;
     "security") echo "security,vulnerability,protection,csrf,xss" ;;
-    "mobile") echo "mobile,ios,android,app,native" ;;
+    "mobile") echo "mobile,app,native" ;;
     "web") echo "web,performance,optimization,pwa" ;;
     "seo") echo "seo,search,keywords,optimization,ranking" ;;
     "design") echo "design,ui,ux,interface,user-experience" ;;

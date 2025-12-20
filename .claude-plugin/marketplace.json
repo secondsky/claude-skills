@@ -23,7 +23,7 @@
       "name": "aceternity-ui",
       "source": "./skills/aceternity-ui",
       "description": "Build modern, animated React UI components with Aceternity UI - a premium component library featuring 100+ production-ready components including backgrounds, 3D effects, cards, animations, and interactive elements. Use when building Next.js applications with Tailwind CSS that need visually stunning hero sections, animated backgrounds, interactive cards, parallax effects, animated text, smooth transitions, or modern UI elements. Ideal for landing pages, portfolios, SaaS applications, and marketing websites requiring professional animations and visual effects. Includes shadcn CLI integration for easy component installation. ",
-      "keywords": ["aceternity-ui","aceternity","frontend","components","react","typescript","cli","css","saas","production","integration"],
+      "keywords": ["aceternity-ui","aceternity","frontend","components","typescript","cli","css","saas","production","integration"],
       "category": "frontend"
     }
 ,
@@ -167,7 +167,7 @@
       "name": "app-store-deployment",
       "source": "./skills/app-store-deployment",
       "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines. ",
-      "keywords": ["app-store-deployment","app","store","deployment","mobile","ios","android","native"],
+      "keywords": ["app-store-deployment","app","store","deployment","mobile","native"],
       "category": "mobile"
     }
 ,
@@ -183,7 +183,7 @@
       "name": "auto-animate",
       "source": "./skills/auto-animate",
       "description": "Production-tested setup for AutoAnimate (@formkit/auto-animate) - a zero-config, drop-in animation library that automatically adds smooth transitions when DOM elements are added, removed, or moved. This skill should be used when building UIs that need simple, automatic animations for lists, accordions, toasts, or form validation messages without the complexity of full animation libraries. Use when: Adding smooth animations to dynamic lists, building filter/sort interfaces, creating accordion components, implementing toast notifications, animating form validation messages, needing simple transitions without animation code, working with Vite + React + Tailwind, deploying to Cloudflare Workers Static Assets, or encountering SSR errors with animation libraries. Keywords: auto-animate, @formkit/auto-animate, formkit, zero-config animation, automatic animations, drop-in animation, list animations, accordion animation, toast animation, form validation animation, lightweight animation, 2kb animation, prefers-reduced-motion, accessible animations, vite react animation, cloudflare workers animation, ssr safe animation ",
-      "keywords": ["auto-animate","auto","animate","frontend","components","react","typescript","dom","ssr","autoanimate","production","validation"],
+      "keywords": ["auto-animate","auto","animate","frontend","components","typescript","dom","ssr","autoanimate","production","validation"],
       "category": "frontend"
     }
 ,
@@ -479,7 +479,7 @@
       "name": "database-schema-design",
       "source": "./skills/database-schema-design",
       "description": "Comprehensive database schema design patterns for PostgreSQL and MySQL. Covers normalization (1NF-5NF), relationships (1:1, 1:M, M:M, hierarchical), data types, constraints, audit patterns, and anti-patterns to avoid. Use when designing new databases, reviewing schema designs, planning migrations, choosing data types, defining relationships, implementing audit trails, or troubleshooting schema issues. Prevents 12 documented issues: missing primary keys, no foreign key constraints, VARCHAR(MAX) everywhere, premature denormalization, missing NOT NULL constraints, missing foreign key indexes, wrong data types, missing CHECK constraints, no audit columns, circular dependencies, missing cascade rules, EAV anti-pattern. Production-tested with comprehensive examples and best practices. ",
-      "keywords": ["database-schema-design","database","schema","design","orm","sql","storage","query","check","eav","max","not","null","varchar","mysql","postgresql","production","migration"],
+      "keywords": ["database-schema-design","database","schema","design","orm","sql","query","migrations","check","eav","max","not","null","varchar","mysql","postgresql","production","migration"],
       "category": "database"
     }
 ,
@@ -487,7 +487,7 @@
       "name": "database-sharding",
       "source": "./skills/database-sharding",
       "description": "Comprehensive database sharding implementation patterns for PostgreSQL and MySQL. Covers hash-based, range-based, and directory-based sharding strategies, shard key selection, cross-shard queries, rebalancing, and router implementation. Use when scaling beyond single-server capacity, implementing multi-tenant isolation, distributing geographic load, or handling billions of records. Essential for high-traffic applications requiring horizontal scalability. Prevents 10 documented issues: wrong shard key choice (hotspots), missing shard key in queries, cross-shard transactions without handling, hotspot shards from sequential IDs, no rebalancing strategy, timestamp-based sharding hotspots, mutable shard keys, missing shard routing layer, no monitoring for shard balance, incorrect hash function. Production-tested with routers, aggregation patterns, and zero-downtime migration strategies. ",
-      "keywords": ["database-sharding","database","sharding","orm","sql","storage","query","mysql","postgresql","production","implementation","migration"],
+      "keywords": ["database-sharding","database","sharding","orm","sql","query","migrations","mysql","postgresql","production","implementation","migration"],
       "category": "database"
     }
 ,
@@ -527,7 +527,7 @@
       "name": "drizzle-orm-d1",
       "source": "./skills/drizzle-orm-d1",
       "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. This skill provides comprehensive patterns for schema definition, migrations management, type-safe queries, relations, schema design best practices, performance optimization, and Cloudflare Workers integration. Use when: building D1 database schemas, writing type-safe SQL queries, managing database migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API for transactions, designing schema indexes, implementing soft deletes, optimizing query performance, testing schema constraints, or encountering \"D1_ERROR\", transaction errors, foreign key constraint failures, migration apply errors, or schema inference issues. Prevents 12 documented issues: D1 transaction errors (SQL BEGIN not supported), foreign key constraint failures during migrations, module import errors with Wrangler, D1 binding not found, migration apply failures, schema TypeScript inference errors, prepared statement caching issues, transaction rollback patterns, TypeScript strict mode errors, drizzle.config.ts not found, remote vs local database confusion, and wrangler.toml vs wrangler.jsonc mixing. Keywords: drizzle orm, drizzle d1, type-safe sql, drizzle schema, drizzle migrations, drizzle kit, orm cloudflare, d1 orm, drizzle typescript, drizzle relations, drizzle transactions, drizzle query builder, schema definition, prepared statements, drizzle batch, migration management, relational queries, drizzle joins, D1_ERROR, BEGIN TRANSACTION d1, foreign key constraint, migration failed, schema not found, d1 binding error, schema design, database indexes, soft deletes, uuid primary keys, enum constraints, performance optimization, naming conventions, schema testing ",
-      "keywords": ["drizzle-orm-d1","drizzle","orm","database","sql","storage","query","api","begin","transaction","typescript","optimization","integration","migration","caching"],
+      "keywords": ["drizzle-orm-d1","drizzle","orm","database","sql","query","migrations","api","begin","transaction","typescript","optimization","integration","migration","caching"],
       "category": "database"
     }
 ,
@@ -663,7 +663,7 @@
       "name": "inspira-ui",
       "source": "./skills/inspira-ui",
       "description": "This skill should be used when building Vue or Nuxt applications with animated UI components and effects. Inspira UI provides 120+ production-ready components including backgrounds (aurora, cosmic portal, particles), buttons (shimmer, ripple, rainbow), cards (3D, flip, spotlight), text animations (morphing, glitch, hyper text), special effects (confetti, meteors, neon borders), cursors (fluid, tailed), visualizations (3D globe, carousels, icon cloud), input forms (color picker, file upload), device mocks (iPhone, Safari), and miscellaneous components (dock, timeline, bento grid). Built with TailwindCSS v4, motion-v, GSAP, and Three.js for Vue 3 and Nuxt 4 projects. This skill should be used when implementing animated hero sections, interactive backgrounds, modern UI effects, 3D visualizations, form inputs with effects, testimonial blocks, or any animated web interface components for Vue/Nuxt applications. Prevents common pitfalls with TailwindCSS v4 setup, CSS variables configuration, motion-v integration, component prop typing, and WebGL dependencies. ",
-      "keywords": ["inspira-ui","inspira","frontend","components","react","typescript","css","gsap","tailwindcss","webgl","production","integration","configuration"],
+      "keywords": ["inspira-ui","inspira","frontend","components","typescript","css","gsap","tailwindcss","webgl","production","integration","configuration"],
       "category": "frontend"
     }
 ,
@@ -751,7 +751,7 @@
       "name": "mobile-app-debugging",
       "source": "./skills/mobile-app-debugging",
       "description": "Debugs mobile applications across iOS, Android, and cross-platform frameworks using platform-specific tools and techniques. Use when diagnosing crashes, memory leaks, performance issues, or network problems in mobile apps. ",
-      "keywords": ["mobile-app-debugging","mobile","app","debugging","ios","android","native"],
+      "keywords": ["mobile-app-debugging","mobile","app","debugging","native"],
       "category": "mobile"
     }
 ,
@@ -759,7 +759,7 @@
       "name": "mobile-app-testing",
       "source": "./skills/mobile-app-testing",
       "description": "Implements comprehensive mobile testing strategies including unit tests, UI automation, and performance testing across platforms. Use when setting up test infrastructure, writing E2E tests, or establishing testing standards for mobile apps. ",
-      "keywords": ["mobile-app-testing","mobile","app","testing","ios","android","native","e2e"],
+      "keywords": ["mobile-app-testing","mobile","app","testing","native","e2e"],
       "category": "mobile"
     }
 ,
@@ -767,7 +767,7 @@
       "name": "mobile-first-design",
       "source": "./skills/mobile-first-design",
       "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts. ",
-      "keywords": ["mobile-first-design","mobile","first","design","ios","android","app","native"],
+      "keywords": ["mobile-first-design","mobile","first","design","app","native"],
       "category": "mobile"
     }
 ,
@@ -775,7 +775,7 @@
       "name": "mobile-offline-support",
       "source": "./skills/mobile-offline-support",
       "description": "Implements offline-first mobile applications with local storage, sync queues, and conflict resolution strategies. Use when building apps that must work without connectivity, implementing data sync, or handling offline scenarios. ",
-      "keywords": ["mobile-offline-support","mobile","offline","support","ios","android","app","native"],
+      "keywords": ["mobile-offline-support","mobile","offline","support","app","native"],
       "category": "mobile"
     }
 ,
@@ -791,7 +791,7 @@
       "name": "motion",
       "source": "./skills/motion",
       "description": "Production-ready setup for Motion (formerly Framer Motion) - the most popular React animation library with 30,200+ GitHub stars. Motion provides declarative animations, gesture controls, scroll-based effects, spring physics, layout animations, and SVG manipulation. This skill should be used when building UIs that need complex animations beyond simple list transitions: gesture controls (drag, hover, tap), scroll-linked animations, parallax effects, shared element transitions, SVG path morphing, spring physics, or orchestrated animation sequences. Use when: Adding drag-and-drop interactions, creating scroll-triggered animations, implementing modal dialogs with sophisticated transitions, building carousels with momentum, animating page/route transitions, creating hero sections with parallax, implementing accordion components with smooth expand/collapse, or optimizing animation bundle size with LazyMotion. **Important**: For simple list add/remove/sort animations, use the `auto-animate` skill instead (3.28 KB vs 34 KB bundle). Motion is designed for complex interactive animations that require fine-grained control. ",
-      "keywords": ["motion","frontend","components","react","typescript","svg","github","lazymotion","production"],
+      "keywords": ["motion","frontend","components","typescript","svg","github","lazymotion","production"],
       "category": "frontend"
     }
 ,
@@ -823,7 +823,7 @@
       "name": "neon-vercel-postgres",
       "source": "./skills/neon-vercel-postgres",
       "description": "This skill provides comprehensive knowledge for integrating Neon serverless Postgres and Vercel Postgres (which is built on Neon infrastructure) into web applications. It should be used when setting up serverless Postgres databases, configuring connection pooling for edge and serverless environments, implementing database branching workflows, or troubleshooting Postgres connection issues in Cloudflare Workers, Vercel Edge Functions, or Node.js serverless functions. Use this skill when: - Setting up Neon Postgres for Cloudflare Workers, Vercel Edge, or serverless environments - Configuring Vercel Postgres for Next.js applications - Implementing database branching workflows (git-like database branches) - Integrating Drizzle ORM or Prisma with Neon/Vercel Postgres - Debugging connection pool errors, transaction timeouts, or SSL configuration issues - Migrating from D1/SQLite to Postgres or from traditional Postgres to serverless Postgres - Setting up point-in-time restore (PITR) or database backups - Encountering errors like \"connection pool exhausted\", \"TCP connections not supported in serverless\", or \"sslmode required\" Keywords: neon postgres, @neondatabase/serverless, @vercel/postgres, serverless postgres, postgres edge, neon branching, vercel database, http postgres, websocket postgres, pooled connection, drizzle neon, prisma neon, postgres cloudflare, postgres vercel edge, sql template tag, neonctl, database branches, point in time restore, postgres migrations, serverless sql, edge database, neon api, vercel sql ",
-      "keywords": ["neon-vercel-postgres","neon","vercel","postgres","database","orm","sql","storage","query","pitr","ssl","tcp","configuration","migration","serverless","edge"],
+      "keywords": ["neon-vercel-postgres","neon","vercel","postgres","database","orm","sql","query","migrations","pitr","ssl","tcp","configuration","migration","serverless","edge"],
       "category": "database"
     }
 ,
@@ -831,7 +831,7 @@
       "name": "nextjs",
       "source": "./skills/nextjs",
       "description": "Use this skill for Next.js App Router patterns, Server Components, Server Actions, Cache Components, and framework-level optimizations. Covers Next.js 16 breaking changes including async params, proxy.ts migration, Cache Components with \"use cache\", and React 19.2 integration. For deploying to Cloudflare Workers, use the cloudflare-nextjs skill instead. This skill is deployment-agnostic and works with Vercel, AWS, self-hosted, or any platform. Keywords: Next.js 16, Next.js App Router, Next.js Pages Router, Server Components, React Server Components, Server Actions, Cache Components, use cache, Next.js 16 breaking changes, async params nextjs, proxy.ts migration, React 19.2, Next.js metadata, Next.js SEO, generateMetadata, static generation, dynamic rendering, streaming SSR, Suspense, parallel routes, intercepting routes, route groups, Next.js middleware, Next.js API routes, Route Handlers, revalidatePath, revalidateTag, next/navigation, useSearchParams, turbopack, next.config ",
-      "keywords": ["nextjs","frontend","components","react","typescript","api","aws","seo","ssr","optimization","integration","deployment","migration","streaming","async"],
+      "keywords": ["nextjs","frontend","components","typescript","api","aws","seo","ssr","optimization","integration","deployment","migration","streaming","async"],
       "category": "frontend"
     }
 ,
@@ -839,7 +839,7 @@
       "name": "nuxt-content",
       "source": "./skills/nuxt-content",
       "description": "My first Nuxt Content page ",
-      "keywords": ["nuxt-content","nuxt","content","frontend","components","react","typescript"],
+      "keywords": ["nuxt-content","nuxt","content","frontend","components","typescript"],
       "category": "frontend"
     }
 ,
@@ -847,7 +847,7 @@
       "name": "nuxt-seo",
       "source": "./skills/nuxt-seo",
       "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO configuration errors, sitemap generation issues, OG image rendering problems, and robots.txt misconfigurations. ",
-      "keywords": ["nuxt-seo","nuxt","seo","frontend","components","react","typescript","configuration"],
+      "keywords": ["nuxt-seo","nuxt","seo","frontend","components","typescript","configuration"],
       "category": "frontend"
     }
 ,
@@ -855,7 +855,7 @@
       "name": "nuxt-ui-v4",
       "source": "./skills/nuxt-ui-v4",
       "description": "Production-ready Nuxt UI v4 component library for Nuxt v4 with 100+ accessible components, Tailwind CSS v4, and Reka UI foundation. Use when: setting up Nuxt v4 projects with UI component library, implementing design systems with semantic colors, building accessible forms and data displays, configuring dark mode and color themes, creating responsive layouts with Cards and Containers, implementing navigation with Tabs and CommandPalette, building overlays with Modal/Drawer/Popover/DropdownMenu, adding feedback with Toast/Alert/Skeleton/Progress, integrating AI chat interfaces with AI SDK v5, customizing component themes globally or per-instance, or encountering component rendering issues, theming problems, composable errors (useToast, useNotification), TypeScript errors, or responsive pattern challenges. Covers: Nuxt v4 setup, @nuxt/ui module installation, semantic color system (7 color aliases), component theming with Tailwind Variants, form components and validation, data display with Tables and Cards, navigation patterns (Tabs, Breadcrumb, CommandPalette), overlay components (Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip), feedback patterns (Toast, Alert, Skeleton, Progress), layout components (Card, Container, Avatar, Badge), composables (useToast, useNotification, useColorMode, defineShortcuts), AI SDK v5 integration, dark mode setup, accessibility with Reka UI, responsive patterns, TypeScript configuration, and 20+ common errors with solutions. Keywords: Nuxt v4, Nuxt 4, Nuxt UI v4, Nuxt UI 4, @nuxt/ui, Tailwind v4, Tailwind CSS 4, Reka UI, semantic colors, design system, accessible components, ARIA, WAI-ARIA, dark mode, color mode, theming, component library, form validation, Input, InputDate, InputTime, date picker, time picker, @internationalized/date, Select, Checkbox, Radio, Textarea, Table, Card, Container, Avatar, Badge, Button, Tabs, Breadcrumb, CommandPalette, Pagination, Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip, Sheet, Alert, Toast, Notification, Progress, Skeleton, Empty, empty state, Carousel, useToast, useNotification, useColorMode, defineShortcuts, UApp wrapper, Tailwind Variants, Tailwind prefix, component customization, component detection, virtualization, tree-shaking, responsive design, mobile patterns, AI SDK v5, chat interface, Zod validation, nested forms, file uploads, keyboard navigation, focus management, CSS variables, Embla carousel, Fuse.js search, template refs, $el accessor, v4.2 migration ",
-      "keywords": ["nuxt-ui-v4","nuxt","frontend","components","react","typescript","aria","css","sdk","wai","commandpalette","dropdownmenu","inputdate","inputtime","production","validation","integration","configuration","migration"],
+      "keywords": ["nuxt-ui-v4","nuxt","frontend","components","typescript","aria","css","sdk","wai","commandpalette","dropdownmenu","inputdate","inputtime","production","validation","integration","configuration","migration"],
       "category": "frontend"
     }
 ,
@@ -863,7 +863,7 @@
       "name": "nuxt-v4",
       "source": "./skills/nuxt-v4",
       "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest. Keywords: Nuxt 4, Nuxt v4, SSR, universal rendering, Nitro, Vue 3, useState, useFetch, useAsyncData, $fetch, composables, auto-imports, middleware, server routes, API routes, hydration, file-based routing, app directory, SEO, meta tags, useHead, useSeoMeta, transitions, error handling, runtime config, Cloudflare Pages, Cloudflare Workers, NuxtHub, Workers Assets, D1, KV, R2, Durable Objects, Vitest, testing, performance optimization, lazy loading, code splitting, prerendering, layers, modules, plugins, Vite, TypeScript, hydration mismatch, shallow reactivity, reactive keys, singleton pattern, defineNuxtConfig, defineEventHandler, navigateTo, definePageMeta, useRuntimeConfig, app.vue, server directory, public directory, assets directory ",
-      "keywords": ["nuxt-v4","nuxt","frontend","components","react","typescript","api","seo","ssr","nuxthub","production","optimization","deployment"],
+      "keywords": ["nuxt-v4","nuxt","frontend","components","typescript","api","seo","ssr","nuxthub","production","optimization","deployment"],
       "category": "frontend"
     }
 ,
@@ -927,7 +927,7 @@
       "name": "pinia-colada",
       "source": "./skills/pinia-colada",
       "description": "This skill provides comprehensive knowledge for Pinia Colada, the smart data fetching layer for Vue.js built on top of Pinia. It should be used when setting up async data fetching with useQuery, implementing mutations with useMutation, configuring query cache, managing server state, implementing optimistic updates, using paginated queries, configuring SSR/Nuxt integration, or encountering query/mutation errors. Use when: initializing Pinia Colada in Vue 3 or Nuxt projects, configuring PiniaColada plugin settings, creating reusable query composables, implementing mutations with automatic invalidation, setting up optimistic updates, using paginated queries, prefetching data, migrating from TanStack Vue Query, debugging cache issues, fixing SSR hydration errors, implementing query invalidation strategies, or setting up custom plugins for auto-refetch behavior. Keywords: Pinia Colada, @pinia/colada, useQuery, useMutation, useQueryCache, data fetching, async state, Vue 3, Nuxt, Pinia, server state, caching, staleTime, gcTime, query invalidation, prefetching, optimistic updates, mutations, query keys, paginated queries, SSR, server-side rendering, Nuxt module, @pinia/colada-nuxt, query cache, auto-refetch, cache invalidation, request deduplication, loading states, error handling, onSettled, onSuccess, onError, defineColadaLoader ",
-      "keywords": ["pinia-colada","pinia","colada","frontend","components","react","typescript","ssr","piniacolada","tanstack","integration","caching","async"],
+      "keywords": ["pinia-colada","pinia","colada","frontend","components","typescript","ssr","piniacolada","tanstack","integration","caching","async"],
       "category": "frontend"
     }
 ,
@@ -935,7 +935,7 @@
       "name": "pinia-v3",
       "source": "./skills/pinia-v3",
       "description": "This skill provides comprehensive knowledge for building Vue 3 applications with Pinia, the official state management library. It should be used when setting up Pinia stores, managing state in Vue applications, migrating from Vuex to Pinia, configuring SSR with Pinia, or encountering state management issues in Vue projects. Use when: creating Pinia stores, defining state/getters/actions, setting up Pinia with Nuxt, implementing store composition, configuring plugins, testing stores, using Pinia with Options API, handling SSR state hydration, migrating from Vuex, or debugging store-related errors. Keywords: pinia, vue state management, pinia stores, defineStore, vue 3 state, state management, getters, actions, pinia plugins, pinia ssr, nuxt pinia, vuex migration, store composition, pinia testing, setup stores, option stores, storeToRefs, mapState, mapActions, state hydration, pinia nuxt module, createPinia, useStore, pinia devtools, pinia hmr, hot module replacement ",
-      "keywords": ["pinia-v3","pinia","frontend","components","react","typescript","api","ssr","migration"],
+      "keywords": ["pinia-v3","pinia","frontend","components","typescript","api","ssr","migration"],
       "category": "frontend"
     }
 ,
@@ -999,7 +999,7 @@
       "name": "react-native-app",
       "source": "./skills/react-native-app",
       "description": "Builds cross-platform mobile applications using React Native with navigation, state management, and native features. Use when developing iOS/Android apps from a single codebase, prototyping mobile solutions, or sharing code with React web apps. ",
-      "keywords": ["react-native-app","react","native","app","mobile","ios","android"],
+      "keywords": ["react-native-app","react","native","app","mobile"],
       "category": "mobile"
     }
 ,
@@ -1087,7 +1087,7 @@
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
       "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue. Keywords: shadcn-vue, shadcn vue, Reka UI, radix-vue, Vue components, Nuxt components, Tailwind CSS, accessible components, headless ui, Auto Form, Zod validation, TanStack Table, data tables, Unovis charts, dark mode, useColorMode, components.json, bunx shadcn-vue, vueuse, composables, Vue 3, Nuxt 3, TypeScript, accessibility, ARIA, component library, UI components, form builder, schema validation ",
-      "keywords": ["shadcn-vue","shadcn","vue","frontend","components","react","typescript","aria","cli","css","tanstack","production","validation","integration","configuration","migration"],
+      "keywords": ["shadcn-vue","shadcn","vue","frontend","components","typescript","aria","cli","css","tanstack","production","validation","integration","configuration","migration"],
       "category": "frontend"
     }
 ,
@@ -1119,7 +1119,7 @@
       "name": "swift-best-practices",
       "source": "./skills/swift-best-practices",
       "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes. ",
-      "keywords": ["swift-best-practices","swift","best","practices","mobile","ios","android","app","native","api","mainactor","migration","async"],
+      "keywords": ["swift-best-practices","swift","best","practices","mobile","app","native","api","mainactor","migration","async"],
       "category": "mobile"
     }
 ,
@@ -1127,7 +1127,7 @@
       "name": "swift-settingskit",
       "source": "./skills/swift-settingskit",
       "description": "This skill provides comprehensive knowledge for building settings interfaces in SwiftUI using SettingsKit, a declarative framework for iOS, macOS, watchOS, tvOS, and visionOS apps. It should be used when creating settings screens, implementing searchable preferences, building nested navigation hierarchies, or encountering issues with settings UI state management. Use when: Building settings/preferences screens, implementing search in settings, creating nested settings navigation, customizing settings appearance, working with @Observable/@Bindable state in settings, encountering \"settings not updating\" errors, dealing with navigation state issues in settings, or migrating from traditional settings implementations. Keywords: SettingsKit, SwiftUI settings, settings interface, preferences UI, searchable settings, settings navigation, SettingsContainer, SettingsGroup, SettingsItem, CustomSettingsGroup, settings tags, settings search, Observable settings, Bindable settings, iOS 17, macOS 14, Swift 6, settings style, sidebar settings, declarative settings, settings hierarchy ",
-      "keywords": ["swift-settingskit","swift","settingskit","mobile","ios","android","app","native","customsettingsgroup","settingscontainer","settingsgroup","settingsitem","swiftui","implementation"],
+      "keywords": ["swift-settingskit","swift","settingskit","mobile","app","native","customsettingsgroup","settingscontainer","settingsgroup","settingsitem","swiftui","implementation"],
       "category": "mobile"
     }
 ,
@@ -1143,7 +1143,7 @@
       "name": "tailwind-v4-shadcn",
       "source": "./skills/tailwind-v4-shadcn",
       "description": "Production-tested setup for Tailwind CSS v4 with shadcn/ui, Vite, and React. Use when: initializing React projects with Tailwind v4, setting up shadcn/ui, implementing dark mode, debugging CSS variable issues, fixing theme switching, migrating from Tailwind v3, or encountering color/theming problems. Covers: @theme inline pattern, CSS variable architecture, dark mode with ThemeProvider, component composition, vite.config setup, common v4 gotchas, and production-tested patterns. Keywords: Tailwind v4, shadcn/ui, @tailwindcss/vite, @theme inline, dark mode, CSS variables, hsl() wrapper, components.json, React theming, theme switching, colors not working, variables broken, theme not applying, @plugin directive, typography plugin, forms plugin, prose class, @tailwindcss/typography, @tailwindcss/forms ",
-      "keywords": ["tailwind-v4-shadcn","tailwind","shadcn","frontend","components","react","typescript","css","themeprovider","production"],
+      "keywords": ["tailwind-v4-shadcn","tailwind","shadcn","frontend","components","typescript","css","themeprovider","production"],
       "category": "frontend"
     }
 ,
@@ -1159,7 +1159,7 @@
       "name": "tanstack-query",
       "source": "./skills/tanstack-query",
       "description": "This skill provides comprehensive knowledge for TanStack Query v5 (React Query) server state management in React applications. It should be used when setting up data fetching with useQuery, implementing mutations with useMutation, configuring QueryClient, managing caching strategies, migrating from v4 to v5, implementing optimistic updates, using infinite queries, or encountering query/mutation errors. Use when: initializing TanStack Query in React projects, configuring QueryClient settings, creating custom query hooks, implementing mutations with error handling, setting up optimistic updates, using useInfiniteQuery for pagination, migrating from React Query v4 to v5, debugging stale data issues, fixing caching problems, resolving v5 breaking changes, implementing suspense queries, or setting up query devtools. Keywords: TanStack Query, React Query, useQuery, useMutation, useInfiniteQuery, useSuspenseQuery, QueryClient, QueryClientProvider, data fetching, server state, caching, staleTime, gcTime, query invalidation, prefetching, optimistic updates, mutations, query keys, query functions, error boundaries, suspense, React Query DevTools, v5 migration, v4 to v5, request waterfalls, background refetching, cacheTime renamed, loading status renamed, pending status, initialPageParam required, keepPreviousData removed, placeholderData, query callbacks removed, onSuccess removed, onError removed, object syntax required ",
-      "keywords": ["tanstack-query","tanstack","query","frontend","components","react","typescript","devtools","queryclient","queryclientprovider","migration","caching"],
+      "keywords": ["tanstack-query","tanstack","query","frontend","components","typescript","devtools","queryclient","queryclientprovider","migration","caching"],
       "category": "frontend"
     }
 ,
@@ -1167,7 +1167,7 @@
       "name": "tanstack-router",
       "source": "./skills/tanstack-router",
       "description": "Build type-safe, file-based routing for React applications with TanStack Router. This skill provides patterns for client-side routing, data loading, and Cloudflare Workers integration. Use when: building SPAs with type-safe navigation, implementing file-based routing, integrating with TanStack Query for data fetching, or deploying to Cloudflare Workers. Includes 7+ documented error solutions and prevents common issues: devtools dependency errors, type safety problems, loader configuration mistakes, and Vite bundling issues. ",
-      "keywords": ["tanstack-router","tanstack","router","frontend","components","react","typescript","integration","configuration"],
+      "keywords": ["tanstack-router","tanstack","router","frontend","components","typescript","integration","configuration"],
       "category": "frontend"
     }
 ,
@@ -1175,7 +1175,7 @@
       "name": "tanstack-start",
       "source": "./skills/tanstack-start",
       "description": "Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns. ",
-      "keywords": ["tanstack-start","tanstack","start","frontend","components","react","typescript","spa","ssr","deployment","edge"],
+      "keywords": ["tanstack-start","tanstack","start","frontend","components","typescript","spa","ssr","deployment","edge"],
       "category": "frontend"
     }
 ,
@@ -1183,7 +1183,7 @@
       "name": "tanstack-table",
       "source": "./skills/tanstack-table",
       "description": "Build production-ready data tables with headless TanStack Table v8. This skill provides server-side pagination, filtering, and sorting patterns optimized for Cloudflare Workers + D1 databases. Use when: building data tables with large datasets, implementing server-side table features, integrating with TanStack Query for data fetching, or need virtualization for performance. Includes 6+ documented error solutions and Cloudflare D1 integration examples. Prevents common issues: server-side state management confusion, TanStack Query coordination errors, manual sorting setup mistakes, URL state sync problems, and performance issues with large datasets. ",
-      "keywords": ["tanstack-table","tanstack","table","frontend","components","react","typescript","url","production","integration"],
+      "keywords": ["tanstack-table","tanstack","table","frontend","components","typescript","url","production","integration"],
       "category": "frontend"
     }
 ,
@@ -1231,7 +1231,7 @@
       "name": "ultracite",
       "source": "./skills/ultracite",
       "description": "Use when setting up, configuring, or migrating to Ultracite, a fast Rust-based linting and formatting tool built on Biome. This skill provides comprehensive guidance for project setup, framework-specific configurations (React, Next.js, Vue, Svelte), Git hook integrations (Husky, Lefthook, lint-staged), AI editor rules, monorepo support, and migrations from ESLint, Prettier, or Biome. Includes project suitability assessment, troubleshooting, known limitations, and best practices for JavaScript/TypeScript projects. ",
-      "keywords": ["ultracite","frontend","components","react","typescript","javascript","integration","configuration","migration"],
+      "keywords": ["ultracite","frontend","components","typescript","javascript","integration","configuration","migration"],
       "category": "frontend"
     }
 ,
@@ -1239,7 +1239,7 @@
       "name": "vercel-blob",
       "source": "./skills/vercel-blob",
       "description": "This skill provides comprehensive knowledge for integrating Vercel Blob object storage into Vercel applications. It should be used when setting up file uploads, managing images and documents, implementing CDN-delivered assets, or handling large files in Next.js serverless and edge functions. Use this skill when: - Setting up file uploads for Next.js applications (images, PDFs, videos) - Implementing client-side uploads with presigned URLs - Managing user-generated content (avatars, attachments, media) - Building file management features (list, download, delete) - Migrating from Cloudflare R2 to Vercel Blob - Encountering errors like \"BLOB_READ_WRITE_TOKEN not set\", \"file size limit exceeded\", or \"client upload token errors\" - Need simple object storage with automatic CDN distribution Keywords: vercel blob, @vercel/blob, vercel storage, vercel file upload, vercel cdn, blob storage vercel, client upload vercel, presigned url vercel, file upload nextjs, image upload vercel, pdf upload, video upload, user uploads, multipart upload, streaming upload, blob cdn, vercel assets, file download ",
-      "keywords": ["vercel-blob","vercel","blob","database","orm","sql","storage","query","cdn","serverless","edge","streaming"],
+      "keywords": ["vercel-blob","vercel","blob","storage","object-storage","upload","files","cdn","assets","serverless","edge","streaming"],
       "category": "database"
     }
 ,
@@ -1247,7 +1247,7 @@
       "name": "vercel-kv",
       "source": "./skills/vercel-kv",
       "description": "This skill provides comprehensive knowledge for integrating Vercel KV (Redis-compatible key-value storage powered by Upstash) into Vercel applications. It should be used when setting up Vercel KV for Next.js applications, implementing caching patterns, managing sessions, or handling rate limiting in edge and serverless functions. Use this skill when: - Setting up Vercel KV for Next.js applications - Implementing caching strategies (page cache, API cache, data cache) - Managing user sessions or authentication tokens in serverless environments - Building rate limiting for APIs or features - Storing temporary data with TTL (time-to-live) - Migrating from Cloudflare KV to Vercel KV - Encountering errors like \"KV_REST_API_URL not set\", \"rate limit exceeded\", or \"JSON serialization errors\" - Need Redis-compatible API with strong consistency (vs eventual consistency) Keywords: vercel kv, @vercel/kv, vercel redis, upstash vercel, kv vercel, redis vercel edge, key-value vercel, vercel cache, vercel sessions, vercel rate limit, redis upstash, kv storage, edge kv, serverless redis, vercel ttl, vercel expire, kv typescript, next.js kv, server actions kv, edge runtime kv ",
-      "keywords": ["vercel-kv","vercel","database","orm","sql","storage","query","api","json","ttl","authentication","serverless","edge","caching"],
+      "keywords": ["vercel-kv","vercel","database","orm","sql","query","migrations","api","json","ttl","authentication","serverless","edge","caching"],
       "category": "database"
     }
 ,
@@ -1359,7 +1359,7 @@
       "name": "zustand-state-management",
       "source": "./skills/zustand-state-management",
       "description": "Production-tested setup for Zustand state management in React applications with TypeScript. This skill provides comprehensive patterns for building scalable, type-safe global state. Use when: setting up global state in React, migrating from Redux or Context API, implementing state persistence with localStorage, configuring TypeScript with Zustand, using slices pattern for modular stores, adding devtools middleware for debugging, handling Next.js SSR hydration, or encountering hydration errors, TypeScript inference issues, or persist middleware problems. Prevents 5 documented issues: Next.js hydration mismatches, TypeScript double parentheses syntax errors, persist middleware export errors, infinite render loops, and slices pattern type inference failures. Keywords: zustand, state management, React state, TypeScript state, persist middleware, devtools, slices pattern, global state, React hooks, create store, useBoundStore, StateCreator, hydration error, text content mismatch, infinite render, localStorage, sessionStorage, immer middleware, shallow equality, selector pattern, zustand v5 ",
-      "keywords": ["zustand-state-management","zustand","state","management","frontend","components","react","typescript","api","ssr","statecreator","scalable","production"],
+      "keywords": ["zustand-state-management","zustand","state","management","frontend","components","typescript","api","ssr","statecreator","scalable","production"],
       "category": "frontend"
     }
   ]

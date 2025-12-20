@@ -13,9 +13,7 @@
     "react",
     "native",
     "app",
-    "mobile",
-    "ios",
-    "android"
+    "mobile"
   ],
   "category": "mobile"
 }
