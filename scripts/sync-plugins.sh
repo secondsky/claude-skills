@@ -173,6 +173,32 @@ extract_description_keywords() {
 }
 
 # -----------------------------------------------------------------------------
+# Function: Extract explicit keywords from "Keywords: ..." line in description
+# -----------------------------------------------------------------------------
+extract_explicit_keywords() {
+  local description="$1"
+  local keywords=""
+
+  # Look for "Keywords: ..." line in description
+  if echo "$description" | grep -q "Keywords:"; then
+    # Extract everything after "Keywords:" until end of line/description
+    keywords=$(echo "$description" | sed -n 's/.*Keywords:\s*\(.*\)/\1/p' | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v '^$' | tr '\n' ',')
+  fi
+
+  echo "$keywords"
+}
+
+# -----------------------------------------------------------------------------
+# Function: Remove "Keywords: ..." line from description
+# -----------------------------------------------------------------------------
+remove_keywords_line() {
+  local description="$1"
+
+  # Remove "Keywords: ..." portion from description
+  echo "$description" | sed 's/Keywords:.*$//' | sed 's/[[:space:]]*$//'
+}
+
+# -----------------------------------------------------------------------------
 # Function: Generate keywords JSON array with deduplication
 # -----------------------------------------------------------------------------
 generate_keywords_json() {
@@ -181,10 +207,18 @@ generate_keywords_json() {
   local description="$3"
 
   # Collect from all sources
+  # PRIORITY ORDER: 1) Explicit keywords from SKILL.md, 2) Name, 3) Category, 4) Auto-extracted
+  local explicit_kw=$(extract_explicit_keywords "$description")
   local name_kw=$(generate_name_keywords "$skill_name")
   local cat_kw=$(get_category_keywords "$category")
   local desc_kw=$(extract_description_keywords "$description")
-  local all_kw="$name_kw,$cat_kw,$desc_kw"
+
+  # If explicit keywords exist, prioritize them over category defaults
+  if [ -n "$explicit_kw" ]; then
+    local all_kw="$name_kw,$explicit_kw,$desc_kw"
+  else
+    local all_kw="$name_kw,$cat_kw,$desc_kw"
+  fi
 
   # Convert to JSON array with deduplication
   local json_array="["
@@ -310,11 +344,32 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   fi
 
   # ALWAYS extract description from SKILL.md (source of truth)
-  current_desc=$(awk '/^description:/{if($0 !~ /[\|>]$/){gsub(/^description: */, ""); print; exit}}' "$skill_md")
+  # Only search within first YAML frontmatter block (between first two --- delimiters)
+  current_desc=$(awk '
+    BEGIN {in_frontmatter=0; found_desc=0}
+    /^---$/ {
+      frontmatter_count++
+      if (frontmatter_count==1) {in_frontmatter=1; next}
+      if (frontmatter_count==2) {exit}
+    }
+    in_frontmatter && /^description:/ {
+      if ($0 !~ /[\|>]$/) {
+        gsub(/^description: */, "")
+        print
+        exit
+      }
+    }
+  ' "$skill_md")
   if [ -z "$current_desc" ]; then
     current_desc=$(awk '
-      /^description: [\|>]/{flag=1; next}
-      /^[a-z-]+:/{flag=0}
+      BEGIN {in_frontmatter=0}
+      /^---$/ {
+        frontmatter_count++
+        if (frontmatter_count==1) {in_frontmatter=1; next}
+        if (frontmatter_count==2) {exit}
+      }
+      in_frontmatter && /^description: [\|>]/{flag=1; next}
+      in_frontmatter && /^[a-z-]+:/{flag=0}
       flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
       END{gsub(/ $/, "", line); print line}
     ' "$skill_md")
@@ -326,8 +381,11 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   # Get category
   category=$(categorize_skill "$skill_name")
 
-  # Generate keywords
+  # Generate keywords (uses full description with Keywords line for extraction)
   keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc")
+
+  # Remove "Keywords: ..." line from description for plugin.json output
+  clean_desc=$(remove_keywords_line "$current_desc")
 
   # Scan for agents and commands
   agents_json=$(scan_agents "$skill_dir")
@@ -339,7 +397,7 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
     cat > "$plugin_json.tmp" << EOF
 {
   "name": "$skill_name",
-  "description": $(echo "$current_desc" | jq -Rs '.'),
+  "description": $(echo "$clean_desc" | jq -Rs '.'),
   "version": "$GLOBAL_VERSION",
   "author": $current_author,
   "license": "MIT",
