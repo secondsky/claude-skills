@@ -39,8 +39,7 @@
     "integration",
     "configuration",
     "deployment",
-    "migration",
-    "serverless"
+    "migration"
   ],
   "category": "cloudflare"
 }

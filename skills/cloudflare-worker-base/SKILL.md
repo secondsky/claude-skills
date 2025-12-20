@@ -12,7 +12,7 @@ description: |
   format confusion.
 
   Keywords: Cloudflare Workers, CF Workers, Hono, wrangler, Vite, Static Assets, @cloudflare/vite-plugin,
-  wrangler.jsonc, ES Module, run_worker_first, SPA fallback, API routes, serverless, edge computing,
+  wrangler.jsonc, ES Module, run_worker_first, SPA fallback, API routes, edge computing,
   "Cannot read properties of undefined", "Static Assets 404", "A hanging Promise was canceled",
   "Handler does not export", deployment fails, routing not working, HMR crashes
 license: MIT

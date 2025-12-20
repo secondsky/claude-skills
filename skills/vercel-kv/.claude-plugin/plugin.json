@@ -35,7 +35,6 @@
     "json",
     "ttl",
     "authentication",
-    "serverless",
     "edge",
     "caching"
   ],

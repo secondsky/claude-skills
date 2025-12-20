@@ -14,7 +14,6 @@
     "manager",
     "workers",
     "edge",
-    "serverless",
     "wrangler",
     "dns"
   ],

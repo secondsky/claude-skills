@@ -42,7 +42,6 @@
     "tcp",
     "configuration",
     "migration",
-    "serverless",
     "edge"
   ],
   "category": "database"

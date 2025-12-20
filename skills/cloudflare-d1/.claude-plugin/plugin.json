@@ -17,7 +17,6 @@
     "d1 migrations",
     "d1 bindings",
     "sqlite workers",
-    "serverless database",
     "edge database",
     "d1 queries",
     "sql cloudflare",
@@ -47,7 +46,6 @@
     "sql",
     "optimization",
     "migration",
-    "serverless",
     "edge"
   ],
   "category": "cloudflare"

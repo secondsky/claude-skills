@@ -46,7 +46,6 @@
     "workers ai vectorize",
     "llm",
     "rag",
-    "serverless",
     "streaming"
   ],
   "category": "cloudflare"

@@ -102,7 +102,7 @@ get_category_keywords() {
   local category="$1"
 
   case "$category" in
-    "cloudflare") echo "cloudflare,workers,edge,serverless,wrangler" ;;
+    "cloudflare") echo "cloudflare,workers,edge,wrangler" ;;
     "ai") echo "ai,machine-learning,ml,llm,artificial-intelligence" ;;
     "frontend") echo "frontend,ui,components,typescript" ;;
     "auth") echo "authentication,authorization,login,security,session" ;;
@@ -161,7 +161,7 @@ extract_description_keywords() {
   keywords="$keywords$camel_terms"
 
   # Extract valuable technical terms
-  local valuable_terms="scalable maintainable production authentication authorization validation optimization integration implementation configuration deployment migration refactoring serverless edge caching streaming realtime real-time webhooks async asynchronous"
+  local valuable_terms="scalable maintainable production authentication authorization validation optimization integration implementation configuration deployment migration refactoring edge caching streaming realtime real-time webhooks async asynchronous"
 
   for term in $valuable_terms; do
     if echo "$description" | grep -qi "\b$term"; then
@@ -182,7 +182,8 @@ extract_explicit_keywords() {
   # Look for "Keywords: ..." line in description
   if echo "$description" | grep -q "Keywords:"; then
     # Extract everything after "Keywords:" until end of line/description
-    keywords=$(echo "$description" | sed -n 's/.*Keywords:\s*\(.*\)/\1/p' | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | grep -v '^$' | tr '\n' ',')
+    # Strip surrounding quotes from each keyword
+    keywords=$(echo "$description" | sed -n 's/.*Keywords:\s*\(.*\)/\1/p' | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//; s/^"//; s/"$//' | grep -v '^$' | tr '\n' ',')
   fi
 
   echo "$keywords"
@@ -231,6 +232,12 @@ generate_keywords_json() {
     if [ -z "$kw" ] || [ ${#kw} -le 2 ] || [[ "$seen" == *"|$kw|"* ]]; then
       continue
     fi
+
+    # Skip category-redundant keywords
+    if [[ "$category" == "cloudflare" && "$kw" == "serverless" ]]; then
+      continue  # "serverless" is implied by "workers" + "edge"
+    fi
+
     seen="$seen|$kw|"
 
     if [ "$first" = true ]; then

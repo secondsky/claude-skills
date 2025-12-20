@@ -50,7 +50,6 @@
     "integration",
     "implementation",
     "deployment",
-    "serverless",
     "edge"
   ],
   "category": "tooling"
