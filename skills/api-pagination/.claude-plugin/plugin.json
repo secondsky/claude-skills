@@ -1,12 +1,21 @@
 {
   "name": "api-pagination",
-  "description": "Implements efficient API pagination using offset, cursor, and keyset strategies for large datasets. Use when building paginated endpoints, implementing infinite scroll, or optimizing database queries for collections.",
-  "version": "1.0.0",
+  "description": "Implements efficient API pagination using offset, cursor, and keyset strategies for large datasets. Use when building paginated endpoints, implementing infinite scroll, or optimizing database queries for collections.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "api-pagination",
+    "api",
+    "pagination",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http"
+  ],
+  "category": "api"
 }

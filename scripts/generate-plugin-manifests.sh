@@ -1,4 +1,19 @@
 #!/bin/bash
+# =============================================================================
+# DEPRECATED: Use ./scripts/sync-plugins.sh instead
+# =============================================================================
+# This script is kept for reference only. All plugin.json management is now
+# handled by the unified sync-plugins.sh script which:
+# - Syncs version across all plugin.json files
+# - Adds category field
+# - Detects agents and commands directories
+# - Generates keywords
+# - Regenerates marketplace.json
+#
+# Migration: Run ./scripts/sync-plugins.sh instead of this script
+# =============================================================================
+#
+# [ORIGINAL DESCRIPTION]
 # Generate plugin.json for all skills
 # Extracts metadata from SKILL.md frontmatter
 

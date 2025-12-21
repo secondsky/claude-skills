@@ -1,7 +1,7 @@
 {
   "name": "database-sharding",
-  "description": "Implements horizontal data partitioning across multiple database servers using range, hash, or directory-based sharding. Use when scaling beyond single-server capacity, optimizing geographic distribution, or implementing multi-tenant isolation.",
-  "version": "1.0.0",
+  "description": "Comprehensive database sharding implementation patterns for PostgreSQL and MySQL. Covers hash-based, range-based, and directory-based sharding strategies, shard key selection, cross-shard queries, rebalancing, and router implementation. Use when scaling beyond single-server capacity, implementing multi-tenant isolation, distributing geographic load, or handling billions of records. Essential for high-traffic applications requiring horizontal scalability. Prevents 10 documented issues: wrong shard key choice (hotspots), missing shard key in queries, cross-shard transactions without handling, hotspot shards from sequential IDs, no rebalancing strategy, timestamp-based sharding hotspots, mutable shard keys, missing shard routing layer, no monitoring for shard balance, incorrect hash function. Production-tested with routers, aggregation patterns, and zero-downtime migration strategies.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -9,29 +9,18 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-    "database sharding",
-    "horizontal partitioning",
-    "shard key",
-    "consistent hashing",
-    "hash sharding",
-    "range sharding",
-    "directory sharding",
-    "cross-shard queries",
-    "shard rebalancing",
-    "scatter-gather pattern",
-    "multi-tenant sharding",
-    "shard router",
-    "distributed database",
-    "database scalability",
-    "shard migration",
-    "hotspot shards",
-    "shard key selection",
-    "cross-shard aggregation",
-    "two-phase commit",
-    "saga pattern",
-    "virtual shards",
-    "shard distribution",
-    "tenant isolation",
-    "zero-downtime migration"
-  ]
+    "database-sharding",
+    "database",
+    "sharding",
+    "orm",
+    "sql",
+    "query",
+    "migrations",
+    "mysql",
+    "postgresql",
+    "production",
+    "implementation",
+    "migration"
+  ],
+  "category": "database"
 }

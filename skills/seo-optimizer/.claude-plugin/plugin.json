@@ -1,12 +1,22 @@
 {
   "name": "seo-optimizer",
-  "description": "Analyzes and optimizes content for search engines through keyword analysis, readability assessment, technical SEO validation, and content quality evaluation. Use when improving search rankings, optimizing blog posts, or conducting content audits.",
-  "version": "1.0.0",
+  "description": "Analyzes and optimizes content for search engines through keyword analysis, readability assessment, technical SEO validation, and content quality evaluation. Use when improving search rankings, optimizing blog posts, or conducting content audits.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "seo-optimizer",
+    "seo",
+    "optimizer",
+    "search",
+    "keywords",
+    "optimization",
+    "ranking",
+    "validation"
+  ],
+  "category": "seo"
 }

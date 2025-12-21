@@ -1,12 +1,24 @@
 {
   "name": "skill-review",
-  "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKIL",
-  "version": "1.4.0",
+  "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "skill-review",
+    "skill",
+    "review",
+    "development",
+    "tooling",
+    "workflow",
+    "api",
+    "yaml",
+    "production",
+    "validation"
+  ],
+  "category": "tooling"
 }

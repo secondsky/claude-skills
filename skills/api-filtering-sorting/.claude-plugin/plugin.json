@@ -1,12 +1,23 @@
 {
   "name": "api-filtering-sorting",
-  "description": "Builds flexible API filtering and sorting systems with query parameter parsing, validation, and security. Use when implementing search endpoints, building data grids, or creating dynamic query APIs.",
-  "version": "1.0.0",
+  "description": "Builds flexible API filtering and sorting systems with query parameter parsing, validation, and security. Use when implementing search endpoints, building data grids, or creating dynamic query APIs.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "api-filtering-sorting",
+    "api",
+    "filtering",
+    "sorting",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "validation"
+  ],
+  "category": "api"
 }

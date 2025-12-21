@@ -8,7 +8,7 @@ description: |
   "too many requests queued", migration failures, or query performance issues.
 
   Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers,
-  serverless database, edge database, d1 queries, sql cloudflare, prepared statements, batch queries,
+  edge database, d1 queries, sql cloudflare, prepared statements, batch queries,
   d1 api, wrangler migrations, D1_ERROR, D1_EXEC_ERROR, statement too long, database bindings,
   sqlite cloudflare, sql workers api, d1 indexes, query optimization, d1 schema, read replication,
   read replica, withSession, Sessions API, global replication, database replication, served_by_region,

@@ -1,12 +1,24 @@
 {
   "name": "model-deployment",
-  "description": "Deploys ML models to production using REST APIs, containers, and model serving platforms with proper monitoring. Use when serving predictions via API, containerizing models, or implementing model versioning in production.",
-  "version": "1.0.0",
+  "description": "Deploys ML models to production using FastAPI REST APIs, Docker containers, Kubernetes, and model serving platforms with monitoring, drift detection, A/B testing, and CI/CD automation. Use when serving predictions via API, containerizing models, implementing model versioning, deploying to Kubernetes, monitoring model performance, detecting data/prediction drift, or setting up automated ML pipelines.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "model-deployment",
+    "model",
+    "deployment",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "api",
+    "rest",
+    "fastapi",
+    "production"
+  ],
+  "category": "ai"
 }

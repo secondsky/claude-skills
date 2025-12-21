@@ -1,12 +1,38 @@
 {
   "name": "project-session-management",
-  "description": "Manages session state and context handoffs for multi-session projects using the Session Handoff Protocol. Creates and maintains SESSION.md to track phase progress, git checkpoints, and next actions across context clears. Integrates with project-planning skill to convert IMPLEMENTATION_PHASES.md into trackable session state. Use when starting new projects after planning, resuming work after context clear, or managing complex multi-phase implementations.",
-  "version": "1.0.0",
+  "description": "Manages session state and context handoffs for multi-session projects using the Session Handoff Protocol. Creates and maintains SESSION.md to track phase progress, git checkpoints, and next actions across context clears. Integrates with project-planning skill to convert IMPLEMENTATION_PHASES.md into trackable session state. Use when starting new projects after planning, resuming work after context clear, or managing complex multi-phase implementations.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["session management","SESSION.md","session handoff protocol","context handoff","multi-session projects","phase tracking","git checkpoints","session state tracking","resume work","context clear","phase progress tracking","implementation phases","verification stage","debugging stage","next action tracking"]
+  "keywords": [
+    "project-session-management",
+    "project",
+    "session",
+    "management",
+    "session management",
+    "session.md",
+    "session handoff protocol",
+    "context handoff",
+    "multi-session projects",
+    "phase tracking",
+    "git checkpoints",
+    "session state tracking",
+    "resume work",
+    "context clear",
+    "phase progress tracking",
+    "implementation phases",
+    "verification stage",
+    "debugging stage",
+    "next action tracking",
+    "work continuity",
+    "session recovery",
+    "context management",
+    "phased implementation tracking",
+    "implementation"
+  ],
+  "category": "tooling"
 }

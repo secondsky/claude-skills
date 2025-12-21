@@ -1,12 +1,22 @@
 {
   "name": "motion",
-  "description": "Production-ready setup for Motion (formerly Framer Motion) - the most popular React animation library with 30,200+ GitHub stars. Motion provides declarative animations, gesture controls, scroll-based effects, spring physics, layout animations, and SVG manipulation. This skill should be used when building UIs that need complex animations beyond simple list transitions: gesture controls (drag, hover, tap), scroll-linked animations, parallax effects, shared element transitions, SVG path morphing, s",
-  "version": "1.0.0",
+  "description": "Production-ready setup for Motion (formerly Framer Motion) - the most popular React animation library with 30,200+ GitHub stars. Motion provides declarative animations, gesture controls, scroll-based effects, spring physics, layout animations, and SVG manipulation. This skill should be used when building UIs that need complex animations beyond simple list transitions: gesture controls (drag, hover, tap), scroll-linked animations, parallax effects, shared element transitions, SVG path morphing, spring physics, or orchestrated animation sequences. Use when: Adding drag-and-drop interactions, creating scroll-triggered animations, implementing modal dialogs with sophisticated transitions, building carousels with momentum, animating page/route transitions, creating hero sections with parallax, implementing accordion components with smooth expand/collapse, or optimizing animation bundle size with LazyMotion. **Important**: For simple list add/remove/sort animations, use the `auto-animate` skill instead (3.28 KB vs 34 KB bundle). Motion is designed for complex interactive animations that require fine-grained control.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "motion",
+    "frontend",
+    "components",
+    "typescript",
+    "svg",
+    "github",
+    "lazymotion",
+    "production"
+  ],
+  "category": "frontend"
 }

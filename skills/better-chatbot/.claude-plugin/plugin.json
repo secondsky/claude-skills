@@ -1,12 +1,44 @@
 {
   "name": "better-chatbot",
-  "description": "This skill provides project-specific coding conventions, architectural principles, repository structure standards, testing patterns, and contribution guidelines for the better-chatbot project (https://github.com/cgoinglove/better-chatbot). Use this skill when contributing to or working with better-chatbot to understand the design philosophy and ensure code follows established patterns. Includes: API architecture deep-dive, three-tier tool system (MCP/Workflow/Default), component design patterns,",
-  "version": "2.1.0",
+  "description": "This skill provides project-specific coding conventions, architectural principles, repository structure standards, testing patterns, and contribution guidelines for the better-chatbot project (https://github.com/cgoinglove/better-chatbot). Use this skill when contributing to or working with better-chatbot to understand the design philosophy and ensure code follows established patterns. Includes: API architecture deep-dive, three-tier tool system (MCP/Workflow/Default), component design patterns, database repository patterns, architectural principles (progressive enhancement, defensive programming, streaming-first), practical templates for adding features (tools, routes, repositories). Use when: working in better-chatbot repository, contributing features/fixes, understanding architectural decisions, following server action validators, implementing tools/workflows, setting up Playwright tests, adding API routes, designing database queries, building UI components, handling multi-AI provider integration\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["better-chatbot","chatbot contribution","better-chatbot standards","chatbot development","AI chatbot patterns","API architecture","three-tier tool system","repository pattern","progressive enhancement","defensive programming","streaming-first","compound component pattern","Next.js chatbot","Vercel AI SDK chatbot","MCP tools"]
+  "keywords": [
+    "better-chatbot",
+    "better",
+    "chatbot",
+    "chatbot contribution",
+    "better-chatbot standards",
+    "chatbot development",
+    "ai chatbot patterns",
+    "api architecture",
+    "three-tier tool system",
+    "repository pattern",
+    "progressive enhancement",
+    "defensive programming",
+    "streaming-first",
+    "compound component pattern",
+    "next.js chatbot",
+    "vercel ai sdk chatbot",
+    "mcp tools",
+    "workflow builder",
+    "server action validators",
+    "tool abstraction",
+    "dag workflows",
+    "shared business logic",
+    "safe() wrapper",
+    "tool lifecycle",
+    "api",
+    "dag",
+    "mcp",
+    "sdk",
+    "integration",
+    "streaming"
+  ],
+  "category": "tooling"
 }

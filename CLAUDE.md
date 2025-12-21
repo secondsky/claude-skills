@@ -9,6 +9,19 @@
 
 ---
 
+## ⚠️ CRITICAL: Repository Policy
+
+**ONLY work in the official repository: https://github.com/secondsky/claude-skills**
+
+- ❌ NEVER push, create PRs, or make changes to the `jezweb/claude-skills` fork
+- ❌ NEVER create branches or commits targeting the fork
+- ✅ ALWAYS use `origin` pointing to `secondsky/claude-skills`
+- ✅ If asked to create a PR, ensure it targets `secondsky/claude-skills`
+
+The `jezweb` repository is a fork used only when explicitly requested by the user.
+
+---
+
 ## What This Repository Is
 
 This is a curated collection of **production-tested Claude Code skills** for building modern web applications. Skills are modular capabilities that extend Claude's knowledge in specific domains, enabling faster development with fewer errors.
@@ -335,6 +348,70 @@ git add skills/my-skill && git commit -m "Add my-skill" && git push
 ./scripts/generate-marketplace.sh
 git add .claude-plugin/marketplace.json && git commit -m "Update marketplace with my-skill" && git push
 ```
+
+---
+
+## Plugin Management Workflow
+
+**Single Entry Point**: `./scripts/sync-plugins.sh`
+
+This script consolidates all plugin management into one command:
+
+### What It Does
+1. **Syncs version** from marketplace.json to all 169 plugin.json files
+2. **Adds category** field based on skill name patterns
+3. **Detects agents** in `agents/` directory → adds agents array
+4. **Detects commands** in `commands/` directory → adds commands array
+5. **Generates keywords** from skill name, category, and description
+6. **Regenerates marketplace.json** with all updated data
+
+### Usage
+
+```bash
+# Full sync (updates all plugin.json files + regenerates marketplace)
+./scripts/sync-plugins.sh
+
+# Preview changes without modifying files
+./scripts/sync-plugins.sh --dry-run
+
+# Show help
+./scripts/sync-plugins.sh --help
+```
+
+### When to Run
+
+- After adding new skills
+- After modifying skill descriptions in SKILL.md
+- After adding agents or commands to a skill
+- Before releasing/pushing changes
+- To sync version across all skills
+
+### Plugin.json Schema
+
+Each skill's plugin.json follows the Anthropic plugin schema:
+
+```json
+{
+  "name": "feature-dev",
+  "description": "...",
+  "version": "3.0.0",
+  "author": {"name": "...", "email": "..."},
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["feature", "dev", "workflow", ...],
+  "category": "tooling",
+  "agents": ["./agents/code-reviewer.md", "./agents/code-explorer.md"],
+  "commands": ["./commands/feature-dev.md"]
+}
+```
+
+### Deprecated Scripts
+
+The following scripts are **deprecated** (kept for reference):
+- `scripts/generate-plugin-manifests.sh` → use `sync-plugins.sh`
+- `scripts/populate-keywords.sh` → use `sync-plugins.sh`
+
+The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.sh`.
 
 ---
 

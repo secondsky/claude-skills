@@ -1,7 +1,7 @@
 {
   "name": "sql-query-optimization",
-  "description": "Optimizes database query performance through indexing, query rewriting, and execution plan analysis for PostgreSQL and MySQL. Use when debugging slow queries, improving database performance, or analyzing query execution plans.",
-  "version": "1.0.0",
+  "description": "Comprehensive SQL query performance optimization for PostgreSQL and MySQL using indexing strategies, query plan analysis, and systematic optimization workflows. This skill provides patterns for debugging slow queries, creating optimal indexes, rewriting inefficient queries, and monitoring database performance. Use when: debugging slow database queries, analyzing EXPLAIN output, optimizing query execution plans, creating indexes for performance, rewriting N+1 queries, implementing pagination, using prepared statements, monitoring query performance, or encountering \"sequential scan\", \"missing index\", \"N+1 query problem\", \"slow LIKE queries\", \"OFFSET pagination\", \"temp table spills\", or cache hit ratio issues. Prevents 12 documented issues: sequential scans on large tables, missing indexes on foreign keys, N+1 query problems from ORMs, leading wildcard LIKE queries, SELECT * in production, missing LIMIT on large results, inefficient subqueries vs JOINs, stale statistics after bulk loads, missing composite indexes, wrong index column order, SQL injection from non-parameterized queries, and missing connection pooling.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -9,6 +9,10 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
+    "sql-query-optimization",
+    "sql",
+    "query",
+    "optimization",
     "sql optimization",
     "query performance",
     "database indexes",
@@ -26,8 +30,8 @@
     "connection pooling",
     "sequential scan",
     "missing index",
-    "SELECT *",
-    "LIMIT optimization",
+    "select *",
+    "limit optimization",
     "subquery performance",
     "pagination",
     "cursor based pagination",
@@ -41,6 +45,15 @@
     "cache hit ratio",
     "work_mem",
     "shared_buffers",
-    "database monitoring"
-  ]
+    "database monitoring",
+    "explain",
+    "like",
+    "limit",
+    "offset",
+    "select",
+    "mysql",
+    "postgresql",
+    "production"
+  ],
+  "category": "data"
 }

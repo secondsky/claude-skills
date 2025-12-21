@@ -1,12 +1,22 @@
 {
   "name": "idempotency-handling",
-  "description": "Implements idempotent API operations using idempotency keys, Redis caching, and database constraints to prevent duplicate processing. Use when building payment systems, handling webhook retries, or ensuring safe operation retries.",
-  "version": "1.0.0",
+  "description": "Implements idempotent API operations using idempotency keys, Redis caching, and database constraints to prevent duplicate processing. Use when building payment systems, handling webhook retries, or ensuring safe operation retries.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "idempotency-handling",
+    "idempotency",
+    "handling",
+    "development",
+    "tooling",
+    "workflow",
+    "api",
+    "caching"
+  ],
+  "category": "tooling"
 }

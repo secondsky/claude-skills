@@ -1,12 +1,23 @@
 {
   "name": "api-response-optimization",
-  "description": "Optimizes API performance through payload reduction, caching strategies, and compression techniques. Use when improving API response times, reducing bandwidth usage, or implementing efficient caching.",
-  "version": "1.0.0",
+  "description": "Optimizes API performance through payload reduction, caching strategies, and compression techniques. Use when improving API response times, reducing bandwidth usage, or implementing efficient caching.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "api-response-optimization",
+    "api",
+    "response",
+    "optimization",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "caching"
+  ],
+  "category": "api"
 }

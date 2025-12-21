@@ -435,14 +435,148 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
+## Maintainer Guide
+
+This section documents the technical implementation for maintainers and contributors.
+
+### File Structure
+
+```
+claude-skills/
+├── .claude-plugin/
+│   └── marketplace.json          ← Central registry (auto-generated)
+└── skills/[skill-name]/
+    ├── .claude-plugin/
+    │   └── plugin.json           ← Individual plugin metadata
+    ├── SKILL.md                  ← Skill content
+    ├── agents/                   ← Optional: Agent definitions (auto-detected)
+    └── commands/                 ← Optional: Slash commands (auto-detected)
+```
+
+### Plugin.json Schema
+
+Each skill has a `plugin.json` following the Anthropic specification:
+
+```json
+{
+  "name": "cloudflare-d1",
+  "description": "Complete knowledge domain for Cloudflare D1...",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["cloudflare-d1", "cloudflare", "sql", "database"],
+  "category": "cloudflare",
+  "agents": ["./agents/code-reviewer.md"],
+  "commands": ["./commands/feature-dev.md"]
+}
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `name` | Yes | Unique skill identifier |
+| `description` | Yes | Skill description with "Use when:" scenarios |
+| `version` | Yes | Semantic version (synced from marketplace) |
+| `keywords` | Yes | Search terms (auto-generated) |
+| `category` | Yes | One of 18 categories (auto-detected) |
+| `agents` | No | Agent file paths (auto-detected from `agents/`) |
+| `commands` | No | Command file paths (auto-detected from `commands/`) |
+
+### Scripts
+
+**Primary Script: `sync-plugins.sh`** (Single entry point)
+
+```bash
+# Full sync - updates all plugin.json files and regenerates marketplace.json
+./scripts/sync-plugins.sh
+
+# Preview changes without modifying files
+./scripts/sync-plugins.sh --dry-run
+```
+
+**What it does:**
+1. Reads global version from `marketplace.json` metadata
+2. For each skill: syncs version, auto-detects category, scans agents/commands, generates keywords
+3. Regenerates `marketplace.json` with all updated data
+
+**Other Scripts:**
+- `generate-marketplace.sh` - Regenerates marketplace.json only
+- `generate-plugin-manifests.sh` - **DEPRECATED** (use sync-plugins.sh)
+- `populate-keywords.sh` - **DEPRECATED** (use sync-plugins.sh)
+
+### Issues Encountered & Fixes
+
+#### Issue 1: Cache Duplication (18× Bloat)
+- **Problem**: Old format used `source: "./"` copying entire repo to cache
+- **Fix**: Changed to `source: "./skills/[name]"` to copy only skill directory
+- **Impact**: Reduced cache from 3,218 entries to 169
+
+#### Issue 2: Version Mismatch
+- **Problem**: marketplace.json had "3.0.0", plugin.json files had "1.0.0"
+- **Fix**: sync-plugins.sh reads global version and syncs to all files
+
+#### Issue 3: Duplicate Keywords
+- **Problem**: Keywords had both `"openai-agents"` AND `"openai agents"`
+- **Fix**: Removed space-separated pair generation from keyword logic
+
+#### Issue 4: Missing Fields
+- **Problem**: plugin.json files missing `category`, `agents`, `commands`
+- **Fix**: sync-plugins.sh auto-detects and adds these fields
+
+#### Issue 5: Multiple Scripts Confusion
+- **Problem**: 3 separate scripts for plugin management
+- **Fix**: Consolidated into single `sync-plugins.sh` entry point
+
+### Keyword Generation
+
+Keywords are generated from 3 sources with deduplication:
+
+1. **Name keywords**: `openai-agents` → `["openai-agents", "openai", "agents"]`
+2. **Category keywords**: Domain-specific terms (e.g., cloudflare → `["workers", "edge", "serverless"]`)
+3. **Description keywords**: Extracted technical terms (ALL-CAPS, CamelCase, valuable terms)
+
+### Validation Commands
+
+```bash
+# Check version sync (all should show 3.0.0)
+jq -r '.version' skills/*/.claude-plugin/plugin.json | sort -u
+
+# Category distribution
+jq -r '.category' skills/*/.claude-plugin/plugin.json | sort | uniq -c | sort -rn
+
+# Marketplace count
+jq '.plugins | length' .claude-plugin/marketplace.json
+
+# Find missing descriptions
+jq '.plugins[] | select(.description == "") | .name' .claude-plugin/marketplace.json
+
+# Skills with agents/commands
+jq -r 'select(.agents != null) | .name' skills/*/.claude-plugin/plugin.json
+jq -r 'select(.commands != null) | .name' skills/*/.claude-plugin/plugin.json
+```
+
+### Changelog
+
+| Date | Version | Change |
+|------|---------|--------|
+| 2025-12-19 | 3.0.0 | Fixed duplicate keywords, created unified sync-plugins.sh |
+| 2025-12-19 | 3.0.0 | Added category, agents, commands to all plugin.json |
+| 2025-12-19 | 3.0.0 | Fixed cache duplication (18× bloat reduction) |
+| 2025-12-18 | 2.0.0 | Migrated to suite plugins format |
+
+---
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2025-12-18
-**Marketplace Version**: 2.0.0
+**Last Updated**: 2025-12-19
+**Marketplace Version**: 3.0.0
 **Skills**: 169 (organized into 18 suite plugins)
 **Format**: Anthropic-compliant suite plugins
 **Maintainer**: Claude Skills Maintainers

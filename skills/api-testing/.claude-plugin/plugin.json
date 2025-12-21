@@ -1,12 +1,24 @@
 {
   "name": "api-testing",
-  "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.",
-  "version": "1.0.0",
+  "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.\n",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": []
+  "keywords": [
+    "api-testing",
+    "api",
+    "testing",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "typescript",
+    "authentication",
+    "validation"
+  ],
+  "category": "api"
 }
