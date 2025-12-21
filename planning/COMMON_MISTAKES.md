@@ -1,3 +1,11 @@
+---
+title: Common Mistakes to Avoid
+purpose: Learn from failures without experiencing them yourself
+last_updated: 2025-11-21
+category: planning
+type: reference
+---
+
 # Common Mistakes to Avoid
 
 **Purpose**: Learn from failures without experiencing them yourself
@@ -44,6 +52,23 @@ def refactor_skill(skill_file):
 - Time: 30min-2hrs per skill (INTENTIONAL - quality over speed)
 
 **See CLAUDE.md** for complete manual refactoring process documentation.
+
+---
+
+### ⚠️ System Prompt Budget Constraint (TOTAL Across All Skills)
+
+Claude Code has a **15,000 character TOTAL budget** for ALL skill descriptions combined in the system prompt. This is NOT per-skill—it's shared across every installed skill.
+
+**Impact**: With 114 skills in this repository:
+- If all installed with 200-char descriptions = 22,800 chars TOTAL → Budget exceeded
+- Result: Random skills silently omitted without warnings or errors
+- Math: 15,000 chars ÷ 114 skills = ~130 chars average maximum
+
+**Best Practice**: Keep descriptions under 100 characters to leave headroom for new skills.
+
+**Workaround**: Set `SLASH_COMMAND_TOOL_CHAR_BUDGET=30000` environment variable to double the limit.
+
+**Source**: https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/
 
 ---
 

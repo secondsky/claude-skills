@@ -1,6 +1,6 @@
 ---
 name: api-authentication
-description: Implements secure API authentication using JWT, OAuth 2.0, and API keys with proper token management and security headers. Use when building authentication systems, integrating third-party providers, or securing service-to-service communication.
+description: Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.
 ---
 
 # API Authentication

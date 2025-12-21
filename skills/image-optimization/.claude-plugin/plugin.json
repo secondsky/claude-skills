@@ -1,6 +1,6 @@
 {
   "name": "image-optimization",
-  "description": "Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment.\n",
+  "description": "Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,9 +14,7 @@
     "optimization",
     "web",
     "performance",
-    "pwa",
-    "production",
-    "deployment"
+    "pwa"
   ],
   "category": "web"
 }

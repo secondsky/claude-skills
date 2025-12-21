@@ -1,6 +1,6 @@
 {
   "name": "turborepo",
-  "description": "Guide for implementing Turborepo - a high-performance build system for JavaScript and TypeScript monorepos. Use when setting up monorepos, optimizing build performance, implementing task pipelines, configuring caching strategies, or orchestrating tasks across multiple packages.\n",
+  "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -10,11 +10,8 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "turborepo",
-    "development",
     "tooling",
     "workflow",
-    "javascript",
-    "typescript",
     "caching"
   ],
   "category": "tooling"

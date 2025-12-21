@@ -1,6 +1,6 @@
 {
   "name": "zustand-state-management",
-  "description": "Production-tested setup for Zustand state management in React applications with TypeScript. This skill provides comprehensive patterns for building scalable, type-safe global state. Use when: setting up global state in React, migrating from Redux or Context API, implementing state persistence with localStorage, configuring TypeScript with Zustand, using slices pattern for modular stores, adding devtools middleware for debugging, handling Next.js SSR hydration, or encountering hydration errors, TypeScript inference issues, or persist middleware problems. Prevents 5 documented issues: Next.js hydration mismatches, TypeScript double parentheses syntax errors, persist middleware export errors, infinite render loops, and slices pattern type inference failures.\n",
+  "description": "Production-tested setup for Zustand state management in React applications with TypeScript. This skill provides comprehensive patterns for building scalable, type-safe global state. Use when: setting up global state in React, migrating from Redux or Context API, implementing state persistence with localStorage, configuring TypeScript with Zustand, using slices pattern for modular stores, adding devtools middleware for debugging, handling Next.js SSR hydration, or encountering hydration errors, TypeScript inference issues, or persist middleware problems. Prevents 5 documented issues: Next.js hydration mismatches, TypeScript double parentheses syntax errors, persist middleware export errors, infinite render loops, and slices pattern type inference failures.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -35,9 +35,7 @@
     "zustand v5",
     "api",
     "ssr",
-    "typescript",
-    "scalable",
-    "production"
+    "scalable"
   ],
   "category": "frontend"
 }

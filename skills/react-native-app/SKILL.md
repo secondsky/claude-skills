@@ -1,6 +1,6 @@
 ---
 name: react-native-app
-description: Builds cross-platform mobile applications using React Native with navigation, state management, and native features. Use when developing iOS/Android apps from a single codebase, prototyping mobile solutions, or sharing code with React web apps.
+description: React Native cross-platform mobile apps with navigation, state management, native features. Use for iOS/Android development, mobile prototyping, code sharing, or encountering bridge errors, platform-specific bugs, performance bottlenecks.
 ---
 
 # React Native App Development

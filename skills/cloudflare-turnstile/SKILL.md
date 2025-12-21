@@ -1,9 +1,6 @@
 ---
 name: cloudflare-turnstile
-description: |
-  This skill provides comprehensive knowledge for implementing Cloudflare Turnstile, the CAPTCHA-alternative bot protection system. It should be used when integrating bot protection into forms, login pages, signup flows, or any user-facing feature requiring spam/bot prevention. Turnstile runs invisible challenges in the background, maintaining excellent user experience while blocking automated traffic.
-
-  Use when: Adding bot protection to forms, implementing login security, protecting API endpoints from abuse, migrating from reCAPTCHA/hCaptcha, encountering CSP errors with Turnstile, handling token validation failures, implementing E2E tests with Turnstile, integrating with React/Next.js/Hono applications, or debugging error codes 100*, 300*, 600*.
+description: Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.
 
   Keywords: turnstile, captcha, bot protection, cloudflare challenge, siteverify, recaptcha alternative, spam prevention, form protection, cf-turnstile, turnstile widget, token validation, managed challenge, invisible challenge, @marsidev/react-turnstile, hono turnstile, workers turnstile
 license: MIT

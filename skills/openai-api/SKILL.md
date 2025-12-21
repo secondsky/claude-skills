@@ -1,6 +1,6 @@
 ---
 name: openai-api
-description: Complete guide for OpenAI APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), Moderation. Includes Node.js SDK and fetch approaches.
+description: Complete guide for OpenAI APIs: Chat Completions (GPT-5.2, GPT-4o), Embeddings, Images (GPT-Image-1.5), Audio (Whisper + TTS + Transcribe), Moderation. Includes Node.js SDK and fetch approaches.
 license: MIT
 ---
 
@@ -28,9 +28,11 @@ const response = await client.chat.completions.create({
 
 ## Current Models (2025)
 
-- **gpt-5**: Most capable (128k context)
+- **gpt-5.2**: Most capable (128k context)
 - **gpt-4o**: Fast multimodal (128k context)
-- **gpt-4o-mini**: Cost-effective (128k context)  
+- **gpt-4o-mini**: Cost-effective (128k context)
+- **gpt-4o-transcribe**: Audio transcription optimized
+- **gpt-4o-mini-transcribe**: Cost-effective transcription
 - **o1-preview**: Advanced reasoning (128k context)
 - **o1-mini**: Fast reasoning (128k context)
 
@@ -93,11 +95,11 @@ const response = await client.embeddings.create({
 const embedding = response.data[0].embedding; // 1536 dimensions
 ```
 
-## Images (DALL-E 3)
+## Images (GPT-Image-1.5)
 
 ```typescript
 const image = await client.images.generate({
-  model: 'dall-e-3',
+  model: 'gpt-image-1.5',
   prompt: 'A serene landscape',
   size: '1024x1024',
   quality: 'standard'  // or 'hd'
@@ -140,7 +142,7 @@ const speech = await client.audio.speech.create({
 - `references/function-calling-patterns.md` - Function calling best practices
 - `references/structured-output-guide.md` - Structured outputs with JSON Schema
 - `references/embeddings-guide.md` - Text embeddings and vector search
-- `references/images-guide.md` - DALL-E 3 image generation
+- `references/images-guide.md` - GPT-Image-1.5 image generation
 - `references/audio-guide.md` - Whisper transcription + TTS
 - `references/cost-optimization.md` - Token optimization and pricing
 - `references/top-errors.md` - Top 20 errors with solutions
@@ -156,7 +158,7 @@ const speech = await client.audio.speech.create({
 - `templates/structured-output.ts` - JSON Schema outputs
 - `templates/vision-gpt4o.ts` - Vision with GPT-4o
 - `templates/embeddings.ts` - Text embeddings
-- `templates/image-generation.ts` - DALL-E 3 generation
+- `templates/image-generation.ts` - GPT-Image-1.5 generation
 - `templates/image-editing.ts` - Image editing
 - `templates/audio-transcription.ts` - Whisper transcription
 - `templates/text-to-speech.ts` - TTS with voices

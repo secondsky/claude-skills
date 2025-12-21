@@ -1,6 +1,6 @@
 {
   "name": "graphql-implementation",
-  "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.\n",
+  "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,11 +12,9 @@
     "graphql-implementation",
     "graphql",
     "implementation",
-    "api",
     "rest",
     "endpoints",
     "http",
-    "optimization",
     "real-time"
   ],
   "category": "api"

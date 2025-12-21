@@ -1,6 +1,6 @@
 {
   "name": "payment-gateway-integration",
-  "description": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.\n",
+  "description": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,9 +14,6 @@
     "gateway",
     "integration",
     "web",
-    "performance",
-    "optimization",
-    "pwa",
     "pci",
     "paypal",
     "webhooks"

@@ -1,6 +1,6 @@
 ---
 name: idempotency-handling
-description: Implements idempotent API operations using idempotency keys, Redis caching, and database constraints to prevent duplicate processing. Use when building payment systems, handling webhook retries, or ensuring safe operation retries.
+description: Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors.
 ---
 
 # Idempotency Handling

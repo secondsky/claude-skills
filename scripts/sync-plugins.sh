@@ -33,17 +33,14 @@ MARKETPLACE_JSON="$ROOT_DIR/.claude-plugin/marketplace.json"
 
 # Parse arguments
 DRY_RUN=false
-VERBOSE=false
 for arg in "$@"; do
   case $arg in
     --dry-run) DRY_RUN=true ;;
-    --verbose|-v) VERBOSE=true ;;
     --help|-h)
-      echo "Usage: $0 [--dry-run] [--verbose]"
+      echo "Usage: $0 [--dry-run]"
       echo ""
       echo "Options:"
       echo "  --dry-run   Preview changes without modifying files"
-      echo "  --verbose   Show detailed output"
       echo "  --help      Show this help message"
       exit 0
       ;;
@@ -72,6 +69,14 @@ echo ""
 categorize_skill() {
   local skill_name="$1"
 
+  # Explicit overrides for mismatched categories (checked first)
+  case "$skill_name" in
+    mobile-first-design)
+      echo "design"  # Responsive web design, not native mobile
+      return
+      ;;
+  esac
+
   if [[ "$skill_name" =~ ^cloudflare- ]]; then echo "cloudflare"
   elif [[ "$skill_name" =~ ^(app-store-deployment|mobile-|react-native-app|swift-) ]]; then echo "mobile"
   elif [[ "$skill_name" =~ ^(claude-code-|claude-hook-) ]]; then echo "tooling"
@@ -87,6 +92,7 @@ categorize_skill() {
   elif [[ "$skill_name" =~ ^woocommerce- ]]; then echo "woocommerce"
   elif [[ "$skill_name" =~ ^(firecrawl-scraper|hono-routing|image-optimization|internationalization-i18n|payment-gateway-integration|progressive-web-app|push-notification-setup|responsive-web-design|session-management|web-performance-) ]]; then echo "web"
   elif [[ "$skill_name" =~ ^seo- ]]; then echo "seo"
+  elif [[ "$skill_name" =~ ^frontend-design$ ]]; then echo "design"
   elif [[ "$skill_name" =~ ^(design-|interaction-design|kpi-dashboard-design|mobile-first-design) ]]; then echo "design"
   elif [[ "$skill_name" =~ ^(recommendation-|sql-query-optimization) ]]; then echo "data"
   elif [[ "$skill_name" =~ ^technical-specification ]]; then echo "documentation"
@@ -121,6 +127,53 @@ get_category_keywords() {
     "woocommerce") echo "woocommerce,wordpress,ecommerce,shop" ;;
     "cms") echo "cms,content,management,publishing" ;;
     *) echo "development,tooling,workflow" ;;
+  esac
+}
+
+# -----------------------------------------------------------------------------
+# Function: Filter category keywords for specific skills
+# -----------------------------------------------------------------------------
+filter_category_keywords() {
+  local skill_name="$1"
+  local category="$2"
+  local category_kws="$3"
+
+  # Skills that should NOT get certain category defaults
+  case "$skill_name" in
+    internationalization-i18n)
+      # Remove web performance keywords - i18n is not about performance/pwa
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(pwa|performance|optimization)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    ml-model-training)
+      # Remove LLM keyword - this is for general ML, not LLM training
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^llm$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    access-control-rbac)
+      # RBAC is about roles/permissions, not attack prevention
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(csrf|xss)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    mobile-first-design)
+      # Responsive web design, not native mobile apps
+      # Remove misleading mobile keywords, add responsive design keywords
+      filtered=$(echo "$category_kws" | tr ',' '\n' | grep -v -E '^(app|native)$' | tr '\n' ',' | sed 's/,$//')
+      echo "$filtered,responsive-design,media-queries,breakpoints"
+      ;;
+    websocket-implementation)
+      # WebSockets, not REST/GraphQL
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(rest|graphql|endpoints)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    payment-gateway-integration)
+      # Payment integration, not PWA/performance optimization
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(pwa|performance)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    push-notification-setup)
+      # Keep all - notifications are a web/mobile feature
+      echo "$category_kws"
+      ;;
+    *)
+      # Default: keep all category keywords
+      echo "$category_kws"
+      ;;
   esac
 }
 
@@ -173,14 +226,71 @@ extract_description_keywords() {
 }
 
 # -----------------------------------------------------------------------------
+# Function: Extract keywords from YAML frontmatter in SKILL.md
+# -----------------------------------------------------------------------------
+extract_yaml_keywords() {
+  local skill_md="$1"
+  local keywords=""
+
+  if [ ! -f "$skill_md" ]; then
+    echo ""
+    return
+  fi
+
+  # Extract keywords from YAML frontmatter
+  # Handles both top-level keywords and nested (under metadata)
+  keywords=$(awk '
+    BEGIN {in_frontmatter=0; in_keywords=0; indent_level=0}
+    /^---$/ {
+      frontmatter_count++
+      if (frontmatter_count==1) {in_frontmatter=1; next}
+      if (frontmatter_count==2) {exit}
+    }
+    # Match both top-level keywords: and nested keywords:
+    in_frontmatter && /keywords:/ {
+      in_keywords=1
+      # Detect indentation level
+      match($0, /^[[:space:]]*/)
+      indent_level = RLENGTH
+      next
+    }
+    # Exit keywords section when we hit another key at same or lower indentation
+    in_frontmatter && in_keywords && /^[[:space:]]*[a-z-]+:/ {
+      match($0, /^[[:space:]]*/)
+      if (RLENGTH <= indent_level) {
+        in_keywords=0
+      }
+    }
+    # Extract keyword list items (with proper indentation)
+    in_frontmatter && in_keywords && /[[:space:]]*- / {
+      gsub(/^[[:space:]]*- /, "")
+      gsub(/^"/, "")
+      gsub(/"$/, "")
+      # Skip comment lines
+      if ($0 !~ /^#/) {
+        print
+      }
+    }
+  ' "$skill_md" | grep -v '^$' | tr '\n' ',' | sed 's/,$//')
+
+  echo "$keywords"
+}
+
+# -----------------------------------------------------------------------------
 # Function: Extract explicit keywords from "Keywords: ..." line in description
 # -----------------------------------------------------------------------------
 extract_explicit_keywords() {
   local description="$1"
+  local skill_md="$2"
   local keywords=""
 
-  # Look for "Keywords: ..." line in description
-  if echo "$description" | grep -q "Keywords:"; then
+  # PRIORITY 1: Extract from YAML frontmatter in SKILL.md
+  if [ -n "$skill_md" ]; then
+    keywords=$(extract_yaml_keywords "$skill_md")
+  fi
+
+  # PRIORITY 2: Fallback to "Keywords: ..." line in description (legacy support)
+  if [ -z "$keywords" ] && echo "$description" | grep -q "Keywords:"; then
     # Extract everything after "Keywords:" until end of line/description
     # Strip surrounding quotes from each keyword
     keywords=$(echo "$description" | sed -n 's/.*Keywords:\s*\(.*\)/\1/p' | tr ',' '\n' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//; s/^"//; s/"$//' | grep -v '^$' | tr '\n' ',')
@@ -206,12 +316,14 @@ generate_keywords_json() {
   local skill_name="$1"
   local category="$2"
   local description="$3"
+  local skill_md="$4"
 
   # Collect from all sources
   # PRIORITY ORDER: 1) Explicit keywords from SKILL.md, 2) Name, 3) Category, 4) Auto-extracted
-  local explicit_kw=$(extract_explicit_keywords "$description")
+  local explicit_kw=$(extract_explicit_keywords "$description" "$skill_md")
   local name_kw=$(generate_name_keywords "$skill_name")
   local cat_kw=$(get_category_keywords "$category")
+  cat_kw=$(filter_category_keywords "$skill_name" "$category" "$cat_kw")
   local desc_kw=$(extract_description_keywords "$description")
 
   # If explicit keywords exist, prioritize them over category defaults
@@ -222,8 +334,7 @@ generate_keywords_json() {
   fi
 
   # Convert to JSON array with deduplication
-  local json_array="["
-  local first=true
+  local deduplicated_keywords=()
   local seen=""
 
   IFS=',' read -ra keywords <<< "$all_kw"
@@ -238,17 +349,53 @@ generate_keywords_json() {
       continue  # "serverless" is implied by "workers" + "edge"
     fi
 
-    seen="$seen|$kw|"
-
-    if [ "$first" = true ]; then
-      first=false
-    else
-      json_array="$json_array,"
+    # Skip generic keywords for specific skills
+    if [[ "$skill_name" == "nuxt-seo" && "$kw" == "configuration" ]]; then
+      continue  # Too generic - "configuration" doesn't distinguish SEO functionality
     fi
-    json_array="$json_array\"$kw\""
+
+    # Global generic keyword filter (all skills)
+    case "$kw" in
+      # Programming languages (standalone - not compounded)
+      typescript|javascript|python|go|rust)
+        continue ;;
+      # Generic deployment/process terms
+      deployment|production|development)
+        continue ;;
+      # Directory names (too descriptive, not searchable)
+      "server directory"|"public directory"|"assets directory"|"app directory"|"components directory")
+        continue ;;
+      # Generic single-word terms (too broad, hurt search relevance)
+      api|beta|status|integration|first|design|app|correct|not|streaming|sdk)
+        # Keep if it's part of the skill name (e.g., "api" ok for "openai-api")
+        if [[ ! "$skill_name" =~ $kw ]]; then
+          continue
+        fi
+        ;;
+      # Standalone generic terms (only skip if not part of skill name)
+      modules|plugins|layers|middleware|configuration|optimization)
+        # Keep if it's part of the skill name (e.g., "middleware" skill keeps "middleware" keyword)
+        if [[ ! "$skill_name" =~ $kw ]]; then
+          continue
+        fi
+        ;;
+    esac
+
+    seen="$seen|$kw|"
+    deduplicated_keywords+=("$kw")
   done
 
-  json_array="$json_array]"
+  # Build JSON array using jq (proper escaping)
+  local json_array=$(printf '%s\n' "${deduplicated_keywords[@]}" | jq -R . | jq -s .)
+
+  # Validation: Warn if keyword count is outside optimal range
+  keyword_count=$(echo "$json_array" | jq '. | length')
+  if [ "$keyword_count" -lt 15 ]; then
+    echo "  ⚠️  Warning: $skill_name has only $keyword_count keywords (recommend 15-35)" >&2
+  elif [ "$keyword_count" -gt 35 ]; then
+    echo "  ⚠️  Warning: $skill_name has $keyword_count keywords (recommend 15-35 for search relevance)" >&2
+  fi
+
   echo "$json_array"
 }
 
@@ -389,10 +536,21 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   category=$(categorize_skill "$skill_name")
 
   # Generate keywords (uses full description with Keywords line for extraction)
-  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc")
+  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
 
   # Remove "Keywords: ..." line from description for plugin.json output
   clean_desc=$(remove_keywords_line "$current_desc")
+
+  # Validate description length
+  desc_length=${#clean_desc}
+  if [ "$desc_length" -gt 250 ]; then
+    echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
+    echo "  Description: $clean_desc" >&2
+    echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
+    continue  # Skip this skill
+  elif [ "$desc_length" -gt 150 ]; then
+    echo "  ⚠️  Warning: $skill_name description is $desc_length chars (recommend <150 for brevity)" >&2
+  fi
 
   # Scan for agents and commands
   agents_json=$(scan_agents "$skill_dir")
@@ -401,10 +559,12 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   # Build the updated plugin.json
   if [ "$DRY_RUN" = false ]; then
     # Create temp file with updated content
+    # Use jq to convert to JSON string and trim trailing whitespace/newlines
+    desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
     cat > "$plugin_json.tmp" << EOF
 {
   "name": "$skill_name",
-  "description": $(echo "$clean_desc" | jq -Rs '.'),
+  "description": $desc_json,
   "version": "$GLOBAL_VERSION",
   "author": $current_author,
   "license": "MIT",
@@ -470,7 +630,10 @@ echo ""
 if [ "$DRY_RUN" = false ]; then
   # Regenerate marketplace.json
   echo "Regenerating marketplace.json..."
-  "$SCRIPT_DIR/generate-marketplace.sh"
+  if ! "$SCRIPT_DIR/generate-marketplace.sh"; then
+    echo "❌ ERROR: Failed to regenerate marketplace.json" >&2
+    exit 1
+  fi
 else
   echo "Dry run complete. No files were modified."
   echo "Run without --dry-run to apply changes."

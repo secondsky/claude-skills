@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-worker-base",
-  "description": "Production-tested setup for Cloudflare Workers with Hono, Vite, and Static Assets. Use when: creating new Cloudflare Workers projects, setting up Hono routing with Workers, configuring Vite plugin for Workers, adding Static Assets to Workers, deploying with Wrangler, or encountering deployment errors, routing conflicts, or HMR crashes. Prevents 6 documented issues: export syntax errors, Static Assets routing conflicts, scheduled handler errors, HMR race conditions, upload race conditions, and Service Worker format confusion.\n",
+  "description": "Cloudflare Workers with Hono, Vite, Static Assets. Use for new projects, deployment, or encountering export errors, routing conflicts, HMR crashes.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -13,32 +13,10 @@
     "cloudflare",
     "worker",
     "base",
-    "cloudflare workers",
-    "cf workers",
-    "hono",
+    "workers",
+    "edge",
     "wrangler",
-    "vite",
-    "static assets",
-    "@cloudflare/vite-plugin",
-    "wrangler.jsonc",
-    "es module",
-    "run_worker_first",
-    "spa fallback",
-    "api routes",
-    "edge computing",
-    "cannot read properties of undefined",
-    "static assets 404",
-    "a hanging promise was canceled",
-    "handler does not export",
-    "deployment fails",
-    "routing not working",
-    "hmr crashes",
-    "api",
-    "hmr",
-    "spa",
-    "production",
-    "deployment",
-    "edge"
+    "hmr"
   ],
   "category": "cloudflare"
 }

@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 114 Skills Complete
+**Status**: Active Development | 169 Skills Complete
 **Last Updated**: 2025-11-20
 **Last Audit**: 2025-11-20 (Baseline: 100% Pass)
 
@@ -160,64 +160,117 @@ This repo aligns with **official Anthropic standards**:
 
 ## Directory Structure
 
+**Total**: 2,528 files | 19.8MB
+**Top Extensions**: .md (1,155), .ts (337), .json (242), .html (127), .sh (123)
+
 ```
 claude-skills/
-├── START_HERE.md                 # ← Read this first!
-├── CLAUDE.md                     # ← You are here
-├── ONE_PAGE_CHECKLIST.md         # Quick verification
-├── QUICK_WORKFLOW.md             # 5-minute skill creation
-├── README.md                     # Public-facing overview
-├── CONTRIBUTING.md               # Contribution guidelines
-├── CLOUDFLARE_SKILLS_AUDIT.md    # Example compliance audit
-├── ATOMIC-SKILLS-SUMMARY.md      # Skill philosophy
-├── CHANGELOG.md                  # Version history
-├── LICENSE                       # MIT License
-│
-├── skills/                       # ← All production skills (114 total)
-│   ├── tailwind-v4-shadcn/       # Gold standard example
-│   ├── cloudflare-worker-base/   # Foundation skill
-│   ├── ai-sdk-core/              # AI integration
-│   ├── openai-agents/            # OpenAI Agents SDK
-│   ├── project-planning/         # Planning automation
-│   └── [108 more skills...]      # Run ls skills/ for full list
-│
-├── templates/                    # ← Templates for new skills
-│   ├── SKILL-TEMPLATE.md         # Copy-paste SKILL.md starter
-│   ├── README-TEMPLATE.md        # Copy-paste README starter
-│   └── skill-skeleton/           # Complete directory to copy
+├── .claude/                      # Claude Code config
+│   └── settings.local.json
+├── .claude-plugin/               # Plugin marketplace
+│   └── marketplace.json (255KB) # Generated marketplace catalog
+├── commands/                     # Slash commands (8 files)
+│   ├── explore-idea.md          # Pre-planning exploration
+│   ├── plan-project.md          # Project planning generator
+│   ├── plan-feature.md          # Feature planning
+│   ├── continue-session.md      # Session resumption
+│   ├── wrap-session.md          # Session checkpoint
+│   ├── release.md               # Pre-release safety checks
+│   └── workflow.md              # Interactive guidance
+├── docs/                         # Documentation
+│   └── skills_workflow.md
+├── examples/                     # Working examples
+│   └── cloudflare-worker-base-test/
+│       ├── public/              # Static assets
+│       ├── src/                 # Source code
+│       ├── test/                # Tests
+│       └── wrangler.jsonc       # Cloudflare config
+├── planning/                     # Planning & research (13 files)
+│   ├── COMMON_MISTAKES.md       # Learn from failures
+│   ├── STANDARDS_COMPARISON.md  # Official vs our standards
+│   ├── claude-code-skill-standards.md
+│   ├── research-protocol.md
+│   ├── verification-checklist.md
+│   ├── SKILL_CATEGORIZATION.md
+│   ├── SKILL_REVIEW_PROCESS.md
+│   └── ... (7 more files)
+├── scripts/                      # Automation (15 files)
+│   ├── sync-plugins.sh          # ⭐ Single entry point
+│   ├── generate-marketplace.sh  # Marketplace generation
+│   ├── install-skill.sh         # Install single skill
+│   ├── install-all.sh           # Install all skills
+│   ├── check-versions.sh        # Verify package versions
+│   ├── review-skill.sh          # Skill review automation
+│   ├── audit-keywords.sh        # Keyword auditing
+│   ├── baseline-audit-all.sh    # Baseline validation
+│   └── ... (7 more scripts)
+├── skills/                       # ⭐ 169 production skills (18.2MB)
+│   ├── cloudflare-*/            # 23 Cloudflare skills
+│   │   ├── .claude-plugin/      # Plugin manifest
+│   │   ├── references/          # Extended docs
+│   │   ├── templates/           # Code templates
+│   │   ├── scripts/             # Helper scripts
+│   │   ├── assets/              # Images, data
+│   │   ├── SKILL.md             # Main skill file
+│   │   └── README.md            # Public documentation
+│   ├── ai-*/                    # 20 AI/ML skills
+│   ├── api-*/                   # 17 API skills
+│   ├── mobile-*/                # 8 Mobile skills
+│   ├── *-testing/               # 5 Testing skills
+│   └── ... (96 more skills)     # Run: ls skills/
+├── skills-review/                # Review documentation
+│   └── ... (11 comprehensive reports)
+├── templates/                    # ⭐ Skill templates
+│   ├── SKILL-TEMPLATE.md        # Copy-paste starter
+│   ├── README-TEMPLATE.md       # Public doc starter
+│   └── skill-skeleton/          # Complete skeleton
 │       ├── SKILL.md
 │       ├── README.md
+│       ├── .claude-plugin/
 │       ├── scripts/
 │       ├── references/
 │       └── assets/
-│
-├── planning/                     # Planning & research docs
-│   ├── claude-code-skill-standards.md
-│   ├── research-protocol.md
-│   ├── skills-roadmap.md
-│   ├── verification-checklist.md
-│   ├── STANDARDS_COMPARISON.md
-│   ├── COMMON_MISTAKES.md
-│   └── research-logs/            # Per-skill research
-│
-├── scripts/                      # Automation scripts
-│   ├── install-skill.sh          # Symlink skill to ~/.claude/skills/
-│   ├── install-all.sh            # Install all skills
-│   └── check-versions.sh         # Verify package versions
-│
-└── examples/                     # Working example projects
-    └── cloudflare-worker-base-test/
+└── *.md                          # Root documentation
+    ├── START_HERE.md            # ← Read this first!
+    ├── CLAUDE.md                # ← You are here
+    ├── ONE_PAGE_CHECKLIST.md    # Quick verification
+    ├── QUICK_WORKFLOW.md        # 5-minute skill creation
+    ├── README.md                # Public overview
+    ├── CONTRIBUTING.md          # Contribution guide
+    ├── CHANGELOG.md             # Version history
+    └── LICENSE                  # MIT License
+```
+
+**Skill Directory Structure** (standard for all skills):
+```
+skills/<skill-name>/
+├── .claude-plugin/
+│   └── plugin.json              # Auto-generated manifest
+├── SKILL.md                     # ⭐ Main skill content
+├── README.md                    # Public documentation
+├── references/                  # Extended docs (loaded as needed)
+│   ├── command-<name>.md
+│   ├── troubleshooting.md
+│   └── advanced-usage.md
+├── templates/                   # Code templates
+│   ├── basic-setup.ts
+│   └── advanced-example.tsx
+├── scripts/                     # Helper scripts
+│   ├── setup.sh
+│   └── validate.sh
+└── assets/                      # Images, data
+    └── diagram.png
 ```
 
 ---
 
 ## Current Status (2025-11-20)
 
-### ✅ Completed Skills (114)
+### ✅ Completed Skills (169)
 
-**Baseline Audit (2025-11-20):** All 114 skills passed automated validation with 100% compliance. Zero critical/high/medium issues detected in structure, YAML frontmatter, or file organization.
+**Baseline Audit (2025-11-20):** All 169 skills passed automated validation with 100% compliance. Zero critical/high/medium issues detected in structure, YAML frontmatter, or file organization.
 
-All 114 skills are production-ready and organized by domain:
+All 169 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (23 skills):
 - cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -273,7 +326,7 @@ All 114 skills are production-ready and organized by domain:
 
 **Audit Details:**
 - Last Baseline Audit: 2025-11-20
-- Automated validation: 114/114 skills passed
+- Automated validation: 169/169 skills passed
 - Issues found: 0 Critical, 0 High, 0 Medium
 - Next reviews: Tier 1 foundation skills (manual verification)
 - Full report: `planning/COMPREHENSIVE_REVIEW_SUMMARY.md`
@@ -441,6 +494,14 @@ The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.
 - **SKILL.md body**: Loaded when skill triggers (<5k words)
 - **Bundled resources**: Loaded as needed by Claude
 
+**⚠️ CRITICAL - System Prompt Limits:**
+- Claude Code has a **15,000 character budget** for all skill descriptions in the system prompt
+- When exceeded, skills are **silently omitted** without warnings
+- With 169 skills, concise descriptions are essential for skill discovery
+- **Workaround**: Set `SLASH_COMMAND_TOOL_CHAR_BUDGET=30000` environment variable
+- **Best Practice**: Keep descriptions under 100 characters when possible
+- Source: [Skills Not Triggering](https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/)
+
 ---
 
 ## Commands & Scripts
@@ -509,6 +570,7 @@ Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) to verify:
 
 - [ ] YAML frontmatter valid (name + description)
 - [ ] Description includes "Use when" scenarios
+- [ ] **Description is concise** (<100 chars ideal, <200 chars max to avoid system prompt budget issues)
 - [ ] Keywords comprehensive (technologies, use cases, errors)
 - [ ] Third-person description style
 - [ ] Instructions in imperative form
@@ -555,6 +617,7 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 - ❌ Non-standard frontmatter fields (use only name, description, license, allowed-tools, metadata)
 - ❌ Second-person descriptions ("You should..." instead of "This skill should be used when...")
 - ❌ Vague descriptions (no "Use when" scenarios)
+- ❌ **Verbose descriptions** (exceeds system prompt budget → skill omitted silently)
 - ❌ Missing keywords (reduces discoverability)
 - ❌ Outdated package versions
 - ❌ Untested templates

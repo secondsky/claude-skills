@@ -1,6 +1,6 @@
 {
   "name": "responsive-web-design",
-  "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility.\n",
+  "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,7 +14,6 @@
     "web",
     "design",
     "performance",
-    "optimization",
     "pwa",
     "css"
   ],

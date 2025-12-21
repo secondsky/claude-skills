@@ -150,6 +150,24 @@ Claude automatically loads and uses relevant Skills when needed for your request
 - Only relevant instructions are loaded when triggered
 - Bundled resources remain on filesystem until accessed
 
+**⚠️ System Prompt Budget Limits**
+
+Claude Code includes skill metadata (name + description) in the system prompt, but this has size constraints:
+- **Default budget**: 15,000 characters (~4,000 tokens) for all skill descriptions combined
+- **When exceeded**: Skills are silently omitted from the system prompt without warnings
+- **Impact**: Omitted skills become completely invisible and unusable by Claude
+- **Claude Code version**: Issue documented in v2.0.70
+
+**Mitigation Strategies:**
+1. **Immediate workaround**: Set environment variable before launching Claude Code:
+   ```bash
+   SLASH_COMMAND_TOOL_CHAR_BUDGET=30000 claude
+   ```
+2. **Long-term solution**: Keep skill descriptions concise (under 100 characters ideal)
+3. **Future improvements**: Superpowers 4.0 will combine infrequently used skills and optimize descriptions
+
+Source: [Claude Code Skills Not Triggering](https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/)
+
 ### Multi-Turn Conversations
 
 Reuse containers across messages by specifying `container.id` rather than recreating the container, maintaining state across turns.
@@ -293,6 +311,30 @@ The context window is shared across system prompts, conversation history, and ot
 
 **Challenge each piece of information**: Does Claude truly need this explanation?
 
+**⚠️ CRITICAL - Description Length Impacts Skill Discovery**
+
+Skill descriptions must be extremely concise because:
+- Claude Code has a **15,000 character budget** for all skill descriptions in the system prompt
+- When exceeded, skills are **silently omitted** without any warnings
+- If Claude doesn't see your skill in the system prompt, it cannot use it
+- With many skills installed, every character counts
+
+**Best practices for descriptions:**
+- Keep under 100 characters when possible (ideal)
+- Maximum 200 characters for complex skills
+- Focus on triggers and use cases, not implementation details
+- Use third-person, active voice
+- Omit articles ("the", "a") where possible to save characters
+
+**Example optimization:**
+```yaml
+# ❌ Too verbose (143 chars)
+description: This skill helps you process and analyze Excel spreadsheets with advanced formatting and data validation capabilities for business reports
+
+# ✅ Concise (87 chars)
+description: Processes Excel files with formatting and validation. Use for business reports.
+```
+
 #### 2. Appropriate Degrees of Freedom
 
 Match specificity to task fragility:
@@ -321,15 +363,19 @@ This clearly describes the capability.
 
 - Write in third person: "Processes Excel files" (not "I can help you")
 - Include both what the Skill does and specific triggers for when to use it
-- Maximum 1024 characters, non-empty
+- **Keep extremely concise** (under 100 chars ideal, under 200 chars max)
+- Maximum 1024 characters allowed, but much shorter recommended for discovery
+- Non-empty required
 
-**Example**:
+**Example (optimized for discovery)**:
 ```yaml
 ---
 name: analyzing-financial-data
-description: Analyzes financial statements and generates investment reports. Use when processing balance sheets, income statements, or cash flow data. Calculates key financial ratios and identifies trends.
+description: Analyzes financial statements, calculates ratios. Use for balance sheets, income statements.
 ---
 ```
+
+**Why conciseness matters**: Due to system prompt budget limits (15,000 chars for all skills), verbose descriptions can cause your skill to be silently omitted from Claude's available skills list, making it completely unusable.
 
 ### Progressive Disclosure Patterns
 
@@ -576,7 +622,18 @@ description: I can help you process Excel files and create reports
 ```markdown
 # Good
 name: processing-excel-files
-description: Processes Excel files and creates formatted reports with data validation
+description: Processes Excel files, creates reports with validation
+```
+
+❌ **Verbose descriptions that exceed system prompt budget**
+```markdown
+# Bad (143 chars - wastes system prompt budget)
+description: This skill provides comprehensive capabilities for processing and analyzing Excel spreadsheets with advanced formatting and validation
+```
+✅ Concise descriptions under 100 characters:
+```markdown
+# Good (68 chars - maximizes skill discovery)
+description: Processes Excel files with formatting and validation
 ```
 
 ---

@@ -1,6 +1,6 @@
 {
   "name": "ml-pipeline-automation",
-  "description": "Automates ML workflows from data ingestion to deployment using Airflow, Kubeflow, and MLflow orchestration. Use when building reproducible ML pipelines, scheduling retraining jobs, implementing MLOps practices, orchestrating model training at scale, or tracking experiments across teams.\n",
+  "description": "Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible pipelines, retraining schedules, MLOps, or encountering task failures, dependency errors, experiment tracking issues.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,8 +14,7 @@
     "automation",
     "machine-learning",
     "llm",
-    "artificial-intelligence",
-    "deployment"
+    "artificial-intelligence"
   ],
   "category": "ai"
 }

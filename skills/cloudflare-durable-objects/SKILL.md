@@ -1,11 +1,6 @@
 ---
 name: cloudflare-durable-objects
-description: |
-  Comprehensive guide for Cloudflare Durable Objects - globally unique, stateful objects for coordination, real-time communication, and persistent state management.
-
-  Use when: building real-time applications, creating WebSocket servers with hibernation, implementing chat rooms or multiplayer games, coordinating between multiple clients, managing per-user or per-room state, implementing rate limiting or session management, scheduling tasks with alarms, building queues or workflows, or encountering "do class export", "new_sqlite_classes", "migrations required", "websocket hibernation", "alarm api error", or "global uniqueness" errors.
-
-  Prevents 15+ documented issues: class not exported, missing migrations, wrong migration type, constructor overhead blocking hibernation, setTimeout breaking hibernation, in-memory state lost on hibernation, outgoing WebSocket not hibernating, global uniqueness confusion, partial deleteAll on KV backend, binding name mismatches, state size limits exceeded, non-atomic migrations, location hints misunderstood, alarm retry failures, and fetch calls blocking hibernation.
+description: Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.
 
   Keywords: durable objects, cloudflare do, DurableObject class, do bindings, websocket hibernation, do state api, ctx.storage.sql, ctx.acceptWebSocket, webSocketMessage, alarm() handler, storage.setAlarm, idFromName, newUniqueId, getByName, DurableObjectStub, serializeAttachment, real-time cloudflare, multiplayer cloudflare, chat room workers, coordination cloudflare, stateful workers, new_sqlite_classes, do migrations, location hints, RPC methods, blockConcurrencyWhile, "do class export", "new_sqlite_classes", "migrations required", "websocket hibernation", "alarm api error", "global uniqueness", "binding not found"
 license: MIT

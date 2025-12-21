@@ -14,47 +14,47 @@
     {
       "name": "access-control-rbac",
       "source": "./skills/access-control-rbac",
-      "description": "Implements role-based access control (RBAC), permissions management, and authorization policies for secure multi-tenant applications. Use when building admin dashboards, enterprise access management, API authorization, or fine-grained data access controls. ",
-      "keywords": ["access-control-rbac","access","control","rbac","security","vulnerability","protection","csrf","xss","api","authorization"],
+      "description": "Role-based access control (RBAC) with permissions and policies. Use for admin dashboards, enterprise access, multi-tenant apps, fine-grained authorization, or encountering permission hierarchies, role inheritance, policy conflicts. ",
+      "keywords": ["access-control-rbac","access","control","rbac","security","vulnerability","protection","authorization"],
       "category": "security"
     }
 ,
     {
       "name": "aceternity-ui",
       "source": "./skills/aceternity-ui",
-      "description": "Build modern, animated React UI components with Aceternity UI - a premium component library featuring 100+ production-ready components including backgrounds, 3D effects, cards, animations, and interactive elements. Use when building Next.js applications with Tailwind CSS that need visually stunning hero sections, animated backgrounds, interactive cards, parallax effects, animated text, smooth transitions, or modern UI elements. Ideal for landing pages, portfolios, SaaS applications, and marketing websites requiring professional animations and visual effects. Includes shadcn CLI integration for easy component installation. ",
-      "keywords": ["aceternity-ui","aceternity","frontend","components","typescript","cli","css","saas","production","integration"],
+      "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors. ",
+      "keywords": ["aceternity-ui","aceternity","react","nextjs","next.js","tailwind","tailwindcss","tailwind-css","framer-motion","motion","animations","animated-components","ui-components","component-library","shadcn","shadcn-ui","3d-effects","background-effects","hero-sections","landing-pages","parallax","card-components","animated-cards","interactive-ui","modern-ui","visual-effects","bun","npm","pnpm","cli"],
       "category": "frontend"
     }
 ,
     {
       "name": "ai-elements-chatbot",
       "source": "./skills/ai-elements-chatbot",
-      "description": "This skill provides production-ready AI chat UI components built on shadcn/ui for conversational AI interfaces. Use when building ChatGPT-style chat interfaces with streaming responses, tool/function call displays, reasoning visualization, or source citations. Provides 30+ components including Message, Conversation, Response, CodeBlock, Reasoning, Tool, Actions, Sources optimized for Vercel AI SDK v5. Prevents common setup errors with Next.js App Router, Tailwind v4, shadcn/ui integration, AI SDK v5 migration, component composition patterns, voice input browser compatibility, responsive design issues, and streaming optimization. ",
-      "keywords": ["ai-elements-chatbot","elements","chatbot","ai-elements","vercel-ai-sdk","shadcn","conversational-ai","streaming-ui","chat-interface","ai-chat","message-components","conversation-ui","tool-calling","reasoning-display","source-citations","markdown-streaming","function-calling","ai-responses","prompt-input","code-highlighting","web-preview","branch-navigation","thinking-display","perplexity-style","claude-artifacts","sdk","chatgpt","codeblock","production","optimization","integration","migration","streaming"],
+      "description": "shadcn/ui AI chat components for conversational interfaces. Use for streaming chat, tool/function displays, reasoning visualization, or encountering Next.js App Router setup, Tailwind v4 integration, AI SDK v5 migration errors. ",
+      "keywords": ["ai-elements-chatbot","elements","chatbot","machine-learning","llm","artificial-intelligence","migration"],
       "category": "ai"
     }
 ,
     {
       "name": "ai-sdk-core",
       "source": "./skills/ai-sdk-core",
-      "description": "Backend AI functionality with Vercel AI SDK v5 - text generation, structured output with Zod, tool calling, and agents. Multi-provider support for OpenAI, Anthropic, Google, and Cloudflare Workers AI. Use when: implementing server-side AI features, generating text/chat completions, creating structured AI outputs with Zod schemas, building AI agents with tools, streaming AI responses, integrating OpenAI/Anthropic/Google/Cloudflare providers, or encountering AI SDK errors like AI_APICallError, AI_NoObjectGeneratedError, streaming failures, or worker startup limits. ",
-      "keywords": ["ai-sdk-core","sdk","core","ai sdk core","vercel ai sdk","generatetext","streamtext","generateobject","streamobject","ai sdk node","ai sdk server","zod ai schema","ai tools calling","ai agent class","openai sdk","anthropic sdk","google gemini sdk","workers-ai-provider","ai streaming backend","multi-provider ai","ai sdk errors","ai_apicallerror","ai_noobjectgeneratederror","streamtext fails","worker startup limit ai","openai","streaming"],
+      "description": "Vercel AI SDK v5 for backend AI (text generation, structured output, tools, agents). Multi-provider. Use for server-side AI or encountering AI_APICallError, AI_NoObjectGeneratedError, streaming failures. ",
+      "keywords": ["ai-sdk-core","sdk","core","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
 ,
     {
       "name": "ai-sdk-ui",
       "source": "./skills/ai-sdk-ui",
-      "description": "Frontend React hooks for AI-powered chat interfaces, completions, and streaming UIs with Vercel AI SDK v5. Includes useChat, useCompletion, and useObject hooks for building interactive AI applications. Use when: building React chat interfaces, implementing AI completions in UI, streaming AI responses to frontend, handling chat message state, building Next.js AI apps, managing file attachments with AI, or encountering errors like \"useChat failed to parse stream\", \"useChat no response\", unclosed streams, or streaming issues. ",
-      "keywords": ["ai-sdk-ui","sdk","ai sdk ui","usechat hook","usecompletion hook","useobject hook","react ai chat","ai chat interface","streaming ai ui","nextjs ai chat","vercel ai ui","react streaming","ai sdk react","chat message state","ai file attachments","message persistence","usechat error","streaming failed ui","parse stream error","usechat no response","react ai hooks","nextjs app router ai","nextjs pages router ai","streaming"],
+      "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat interfaces. Use for React/Next.js AI apps or encountering parse stream errors, no response, streaming issues. ",
+      "keywords": ["ai-sdk-ui","sdk","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
 ,
     {
       "name": "api-authentication",
       "source": "./skills/api-authentication",
-      "description": "Implements secure API authentication using JWT, OAuth 2.0, and API keys with proper token management and security headers. Use when building authentication systems, integrating third-party providers, or securing service-to-service communication. ",
+      "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors. ",
       "keywords": ["api-authentication","api","authentication","rest","graphql","endpoints","http","jwt"],
       "category": "api"
     }
@@ -87,7 +87,7 @@
       "name": "api-error-handling",
       "source": "./skills/api-error-handling",
       "description": "Implements standardized API error responses with proper status codes, logging, and user-friendly messages. Use when building production APIs, implementing error recovery patterns, or integrating error monitoring services. ",
-      "keywords": ["api-error-handling","api","error","handling","rest","graphql","endpoints","http","production"],
+      "keywords": ["api-error-handling","api","error","handling","rest","graphql","endpoints","http"],
       "category": "api"
     }
 ,
@@ -127,7 +127,7 @@
       "name": "api-reference-documentation",
       "source": "./skills/api-reference-documentation",
       "description": "Creates professional API documentation using OpenAPI specifications with endpoints, authentication, and interactive examples. Use when documenting REST APIs, creating SDK references, or building developer portals. ",
-      "keywords": ["api-reference-documentation","api","reference","documentation","rest","graphql","endpoints","http","sdk","openapi","authentication"],
+      "keywords": ["api-reference-documentation","api","reference","documentation","rest","graphql","endpoints","http","openapi","authentication"],
       "category": "api"
     }
 ,
@@ -142,8 +142,8 @@
     {
       "name": "api-security-hardening",
       "source": "./skills/api-security-hardening",
-      "description": "Hardens REST APIs against common vulnerabilities through authentication, rate limiting, input validation, and security headers. Use when securing production APIs, conducting security audits, or implementing defense-in-depth strategies. ",
-      "keywords": ["api-security-hardening","api","security","hardening","rest","graphql","endpoints","http","production","authentication","validation"],
+      "description": "REST API security hardening with authentication, rate limiting, input validation, security headers. Use for production APIs, security audits, defense-in-depth, or encountering vulnerabilities, injection attacks, CORS issues. ",
+      "keywords": ["api-security-hardening","api","security","hardening","rest","graphql","endpoints","http","cors","authentication","validation"],
       "category": "api"
     }
 ,
@@ -151,7 +151,7 @@
       "name": "api-testing",
       "source": "./skills/api-testing",
       "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling. ",
-      "keywords": ["api-testing","api","testing","rest","graphql","endpoints","http","typescript","authentication","validation"],
+      "keywords": ["api-testing","api","testing","rest","graphql","endpoints","http","authentication","validation"],
       "category": "api"
     }
 ,
@@ -167,7 +167,7 @@
       "name": "app-store-deployment",
       "source": "./skills/app-store-deployment",
       "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines. ",
-      "keywords": ["app-store-deployment","app","store","deployment","mobile","native"],
+      "keywords": ["app-store-deployment","app","store","mobile","native"],
       "category": "mobile"
     }
 ,
@@ -175,79 +175,79 @@
       "name": "architecture-patterns",
       "source": "./skills/architecture-patterns",
       "description": "Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability. ",
-      "keywords": ["architecture-patterns","architecture","patterns","microservices","design","refactoring"],
+      "keywords": ["architecture-patterns","architecture","patterns","microservices","refactoring"],
       "category": "architecture"
     }
 ,
     {
       "name": "auto-animate",
       "source": "./skills/auto-animate",
-      "description": "Production-tested setup for AutoAnimate (@formkit/auto-animate) - a zero-config, drop-in animation library that automatically adds smooth transitions when DOM elements are added, removed, or moved. This skill should be used when building UIs that need simple, automatic animations for lists, accordions, toasts, or form validation messages without the complexity of full animation libraries. Use when: Adding smooth animations to dynamic lists, building filter/sort interfaces, creating accordion components, implementing toast notifications, animating form validation messages, needing simple transitions without animation code, working with Vite + React + Tailwind, deploying to Cloudflare Workers Static Assets, or encountering SSR errors with animation libraries. ",
-      "keywords": ["auto-animate","auto","animate","@formkit/auto-animate","formkit","zero-config animation","automatic animations","drop-in animation","list animations","accordion animation","toast animation","form validation animation","lightweight animation","2kb animation","prefers-reduced-motion","accessible animations","vite react animation","cloudflare workers animation","ssr safe animation","dom","ssr","autoanimate","production","validation"],
+      "description": "AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity. ",
+      "keywords": ["auto-animate","auto","animate","frontend","components","ssr","autoanimate"],
       "category": "frontend"
     }
 ,
     {
       "name": "base-ui-react",
       "source": "./skills/base-ui-react",
-      "description": "Production-tested setup for Base UI (@base-ui-components/react) - MUI's unstyled component library that provides accessible, customizable React components using render props pattern. This skill should be used when building accessible UIs with full styling control, migrating from Radix UI, or needing components with Floating UI integration for smart positioning. Use when: Setting up Base UI in Vite + React projects, migrating from Radix UI to Base UI, implementing accessible components (Dialog, Select, Popover, Tooltip, NumberField, Accordion), encountering positioning issues with popups, needing render prop API instead of asChild pattern, building with Tailwind v4 + shadcn/ui, or deploying to Cloudflare Workers. ⚠️ BETA STATUS: Base UI is v1.0.0-beta.4. Stable v1.0 expected Q4 2025. This skill provides workarounds for known beta issues and guidance on API stability. ",
-      "keywords": ["base-ui-react","base","react","base-ui","@base-ui-components/react","mui base ui","unstyled components","accessible components","render props","radix alternative","radix migration","floating-ui","positioner pattern","headless ui","accessible dialog","accessible select","accessible popover","accessible tooltip","accessible accordion","number field","react components","tailwind components","vite react","cloudflare workers ui","beta components","component library","api","beta","mui","status","numberfield","production","integration","migration"],
+      "description": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues. ",
+      "keywords": ["base-ui-react","base","react","frontend","components","mui","migration"],
       "category": "frontend"
     }
 ,
     {
       "name": "better-auth",
       "source": "./skills/better-auth",
-      "description": "Production-ready authentication framework for TypeScript with Cloudflare D1 support via Drizzle ORM or Kysely. Use this skill when building auth systems as a self-hosted alternative to Clerk or Auth.js, particularly for Cloudflare Workers projects. CRITICAL: better-auth requires Drizzle ORM or Kysely as database adapters - there is NO direct D1 adapter. Supports social providers (Google, GitHub, Microsoft, Apple), email/password, magic links, 2FA, passkeys, organizations, and RBAC. Prevents 12+ common authentication errors including D1 adapter misconfiguration, schema generation issues, session serialization, CORS, OAuth flows, and JWT token handling. ",
-      "keywords": ["better-auth","better","auth","authentication","cloudflare d1 auth","drizzle orm auth","kysely auth","self-hosted auth","typescript auth","clerk alternative","auth.js alternative","social login","oauth providers","session management","jwt tokens","2fa","two-factor","passkeys","webauthn","multi-tenant auth","organizations","teams","rbac","role-based access","google auth","github auth","microsoft auth","apple auth","magic links","email password","better-auth setup","drizzle d1","kysely d1","session serialization error","cors auth","d1 adapter","cors","critical","jwt","orm","github","typescript","production"],
+      "description": "better-auth authentication for TypeScript with Cloudflare D1 via Drizzle ORM/Kysely. Use for self-hosted auth, social providers, 2FA, passkeys, RBAC, or encountering D1 adapter, schema generation, session, CORS, OAuth flow errors. ",
+      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac"],
       "category": "auth"
     }
 ,
     {
       "name": "better-chatbot",
       "source": "./skills/better-chatbot",
-      "description": "This skill provides project-specific coding conventions, architectural principles, repository structure standards, testing patterns, and contribution guidelines for the better-chatbot project (https://github.com/cgoinglove/better-chatbot). Use this skill when contributing to or working with better-chatbot to understand the design philosophy and ensure code follows established patterns. Includes: API architecture deep-dive, three-tier tool system (MCP/Workflow/Default), component design patterns, database repository patterns, architectural principles (progressive enhancement, defensive programming, streaming-first), practical templates for adding features (tools, routes, repositories). Use when: working in better-chatbot repository, contributing features/fixes, understanding architectural decisions, following server action validators, implementing tools/workflows, setting up Playwright tests, adding API routes, designing database queries, building UI components, handling multi-AI provider integration ",
-      "keywords": ["better-chatbot","better","chatbot","chatbot contribution","better-chatbot standards","chatbot development","ai chatbot patterns","api architecture","three-tier tool system","repository pattern","progressive enhancement","defensive programming","streaming-first","compound component pattern","next.js chatbot","vercel ai sdk chatbot","mcp tools","workflow builder","server action validators","tool abstraction","dag workflows","shared business logic","safe() wrapper","tool lifecycle","api","dag","mcp","sdk","integration","streaming"],
+      "description": "better-chatbot project conventions and standards. Use for contributing code, following three-tier tool system (MCP/Workflow/Default), or encountering server action validators, repository patterns, component design errors. ",
+      "keywords": ["better-chatbot","better","chatbot","tooling","workflow","mcp"],
       "category": "tooling"
     }
 ,
     {
       "name": "better-chatbot-patterns",
       "source": "./skills/better-chatbot-patterns",
-      "description": "This skill provides reusable implementation patterns extracted from the better-chatbot project for custom AI chatbot deployments. Use this skill when building AI chatbots with server action validators, tool abstraction systems, workflow execution, or multi-AI provider integration in your own projects (not contributing to better-chatbot itself). Use when: building AI chatbot features, implementing server action validators, creating tool abstraction layers, setting up multi-AI provider support, building workflow execution systems, adapting better-chatbot patterns to custom projects ",
-      "keywords": ["better-chatbot-patterns","better","chatbot","patterns","ai chatbot patterns","server action validators","tool abstraction","multi-ai providers","workflow execution","mcp integration","validated actions","tool type checking","vercel ai sdk patterns","chatbot architecture","mcp","sdk","integration","implementation","deployment"],
+      "description": "Reusable better-chatbot patterns for custom deployments. Use for server action validators, tool abstraction, multi-AI providers, or encountering auth validation, FormData parsing, workflow execution errors. ",
+      "keywords": ["better-chatbot-patterns","better","chatbot","patterns","tooling","workflow","formdata","validation"],
       "category": "tooling"
     }
 ,
     {
       "name": "chrome-devtools",
       "source": "./skills/chrome-devtools",
-      "description": "Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Use for automating browsers, taking screenshots, analyzing performance, monitoring network traffic, web scraping, form automation, and JavaScript debugging. ",
-      "keywords": ["chrome-devtools","chrome","devtools","development","tooling","workflow","cli","javascript"],
+      "description": "Browser automation with Puppeteer CLI scripts. Use for screenshots, performance analysis, network monitoring, web scraping, form automation, or encountering JavaScript debugging, browser automation errors. ",
+      "keywords": ["chrome-devtools","chrome","devtools","tooling","workflow","cli"],
       "category": "tooling"
     }
 ,
     {
       "name": "claude-agent-sdk",
       "source": "./skills/claude-agent-sdk",
-      "description": "This skill provides comprehensive knowledge for working with the Anthropic Claude Agent SDK. It should be used when building autonomous AI agents, creating multi-step reasoning workflows, orchestrating specialized subagents, integrating custom tools and MCP servers, or implementing production-ready agentic systems with Claude Code's capabilities. Use when building coding agents, SRE systems, security auditors, incident responders, code review bots, or any autonomous system that requires programmatic interaction with Claude Code CLI, persistent sessions, tool orchestration, and fine-grained permission control. ",
-      "keywords": ["claude-agent-sdk","claude","agent","sdk","claude agent sdk","@anthropic-ai/claude-agent-sdk","query()","createsdkmcpserver","agentdefinition","tool()","claude subagents","mcp servers","autonomous agents","agentic loops","session management","permissionmode","canusetool","multi-agent orchestration","settingsources","cli not found","context length exceeded","cli","mcp","sre","production"],
+      "description": "Anthropic Claude Agent SDK for autonomous agents and multi-step workflows. Use for subagents, tool orchestration, MCP servers, or encountering CLI not found, context length exceeded errors. ",
+      "keywords": ["claude-agent-sdk","claude","agent","sdk","machine-learning","llm","artificial-intelligence","cli","mcp"],
       "category": "ai"
     }
 ,
     {
       "name": "claude-api",
       "source": "./skills/claude-api",
-      "description": "This skill provides comprehensive knowledge for working with the Anthropic Messages API (Claude API). It should be used when integrating Claude models into applications, implementing streaming responses, enabling prompt caching for cost savings, adding tool use (function calling), processing images with vision capabilities, or using extended thinking mode. Use when building chatbots, AI assistants, content generation tools, or any application requiring Claude's language understanding. Covers both server-side implementations (Node.js, Cloudflare Workers, Next.js) and direct API access. ",
-      "keywords": ["claude-api","claude","api","claude api","anthropic api","messages api","@anthropic-ai/sdk","claude streaming","prompt caching","tool use","vision","extended thinking","claude 3.5 sonnet","claude 3.7 sonnet","claude sonnet 4","function calling","sse","rate limits","429 errors","implementation","caching","streaming"],
+      "description": "Anthropic Messages API (Claude API) for integrations, streaming, prompt caching, tool use, vision. Use for chatbots, assistants, or encountering rate limits, 429 errors. ",
+      "keywords": ["claude-api","claude","api","machine-learning","llm","artificial-intelligence","caching"],
       "category": "ai"
     }
 ,
     {
       "name": "claude-code-bash-patterns",
       "source": "./skills/claude-code-bash-patterns",
-      "description": "Comprehensive knowledge for using the Bash tool in Claude Code effectively. This skill should be used when orchestrating CLI tools, configuring hooks, setting up automation workflows, managing git operations, handling multi-command patterns, or encountering Bash tool errors. Covers: PreToolUse hooks, command chaining patterns, git workflow automation, CLI tool integration, custom commands (.claude/commands/), security configurations, allowlisting, session persistence, output handling, error prevention, and troubleshooting common issues. Use when: setting up Claude Code hooks, configuring bash permissions, creating custom commands, automating git workflows, orchestrating multiple CLI tools, debugging bash command failures, implementing security guards, logging command execution, or preventing dangerous operations. ",
-      "keywords": ["claude-code-bash-patterns","claude","code","bash","patterns","development","tooling","workflow","cli","pretooluse","integration","configuration"],
+      "description": "Claude Code Bash tool patterns with hooks, automation, git workflows. Use for PreToolUse hooks, command chaining, CLI orchestration, custom commands, or encountering bash permissions, command failures, security guards, hook configurations. ",
+      "keywords": ["claude-code-bash-patterns","claude","code","bash","patterns","tooling","workflow","cli","pretooluse"],
       "category": "tooling"
     }
 ,
@@ -255,7 +255,7 @@
       "name": "claude-hook-writer",
       "source": "./skills/claude-hook-writer",
       "description": "Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks. ",
-      "keywords": ["claude-hook-writer","claude","hook","writer","development","tooling","workflow"],
+      "keywords": ["claude-hook-writer","claude","hook","writer","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -271,87 +271,87 @@
       "name": "cloudflare-agents",
       "source": "./skills/cloudflare-agents",
       "description": "Build AI agents on Cloudflare Workers with MCP integration, tool use, and LLM providers. ",
-      "keywords": ["cloudflare-agents","cloudflare","agents","workers","edge","wrangler","llm","mcp","integration"],
+      "keywords": ["cloudflare-agents","cloudflare","agents","workers","edge","wrangler","llm","mcp"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-browser-rendering",
       "source": "./skills/cloudflare-browser-rendering",
-      "description": "Complete knowledge domain for Cloudflare Browser Rendering - Headless Chrome automation with Puppeteer and Playwright on Cloudflare Workers for screenshots, PDFs, web scraping, and browser automation workflows. Use when: taking screenshots, generating PDFs from HTML or URLs, web scraping content, crawling websites, browser automation tasks, testing web applications, managing browser sessions, performing batch browser operations, integrating with AI for content extraction, or encountering browser rendering errors, XPath selector errors, browser timeout issues, concurrency limits, memory exceeded errors, or \"Cannot read properties of undefined (reading 'fetch')\" errors. ",
-      "keywords": ["cloudflare-browser-rendering","cloudflare","browser","rendering","browser rendering cloudflare","@cloudflare/puppeteer","@cloudflare/playwright","puppeteer workers","playwright workers","screenshot cloudflare","pdf generation workers","web scraping cloudflare","headless chrome workers","browser automation","puppeteer.launch","playwright.chromium.launch","browser binding","session management","puppeteer.sessions","puppeteer.connect","browser.close","browser.disconnect","xpath not supported","browser timeout","concurrency limit","keep_alive","page.screenshot","page.pdf","page.goto","page.evaluate","incognito context","session reuse","batch scraping","crawling websites","html"],
+      "description": "Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded. ",
+      "keywords": ["cloudflare-browser-rendering","cloudflare","browser","rendering","workers","edge","wrangler"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-cron-triggers",
       "source": "./skills/cloudflare-cron-triggers",
-      "description": "Complete knowledge domain for Cloudflare Cron Triggers - scheduled execution of Workers using cron expressions for periodic tasks, maintenance jobs, and automated workflows. Use when: scheduling Workers to run periodically, adding cron triggers to Workers, configuring scheduled tasks, testing cron handlers, combining crons with Workflows, enabling Green Compute, handling multiple schedules, or encountering \"scheduled handler not found\", \"cron expression invalid\", \"changes not propagating\", \"handler does not export\", \"timezone issues\" errors. ",
-      "keywords": ["cloudflare-cron-triggers","cloudflare","cron","triggers","cloudflare cron","cron triggers","scheduled workers","scheduled handler","periodic tasks","background jobs","scheduled tasks","cron expression","wrangler crons","scheduled event","green compute","workflow triggers","maintenance tasks","scheduled() handler","scheduledcontroller","utc timezone","utc"],
+      "description": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors. ",
+      "keywords": ["cloudflare-cron-triggers","cloudflare","cron","triggers","workers","edge","wrangler"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-d1",
       "source": "./skills/cloudflare-d1",
-      "description": "Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflare's edge network. Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers, handling SQLite data, building relational data models, or encountering \"D1_ERROR\", \"statement too long\", \"too many requests queued\", migration failures, or query performance issues. ",
-      "keywords": ["cloudflare-d1","cloudflare","d1 database","cloudflare d1","wrangler d1","d1 migrations","d1 bindings","sqlite workers","edge database","d1 queries","sql cloudflare","prepared statements","batch queries","d1 api","wrangler migrations","d1_error","d1_exec_error","statement too long","database bindings","sqlite cloudflare","sql workers api","d1 indexes","query optimization","d1 schema","read replication","read replica","withsession","sessions api","global replication","database replication","served_by_region","bookmarks","sequential consistency","api","sql","optimization","migration","edge"],
+      "description": "Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors. ",
+      "keywords": ["cloudflare-d1","cloudflare","workers","edge","wrangler","migration"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-durable-objects",
       "source": "./skills/cloudflare-durable-objects",
-      "description": "Comprehensive guide for Cloudflare Durable Objects - globally unique, stateful objects for coordination, real-time communication, and persistent state management. Use when: building real-time applications, creating WebSocket servers with hibernation, implementing chat rooms or multiplayer games, coordinating between multiple clients, managing per-user or per-room state, implementing rate limiting or session management, scheduling tasks with alarms, building queues or workflows, or encountering \"do class export\", \"new_sqlite_classes\", \"migrations required\", \"websocket hibernation\", \"alarm api error\", or \"global uniqueness\" errors. Prevents 15+ documented issues: class not exported, missing migrations, wrong migration type, constructor overhead blocking hibernation, setTimeout breaking hibernation, in-memory state lost on hibernation, outgoing WebSocket not hibernating, global uniqueness confusion, partial deleteAll on KV backend, binding name mismatches, state size limits exceeded, non-atomic migrations, location hints misunderstood, alarm retry failures, and fetch calls blocking hibernation. ",
-      "keywords": ["cloudflare-durable-objects","cloudflare","durable","objects","durable objects","cloudflare do","durableobject class","do bindings","websocket hibernation","do state api","ctx.storage.sql","ctx.acceptwebsocket","websocketmessage","alarm() handler","storage.setalarm","idfromname","newuniqueid","getbyname","durableobjectstub","serializeattachment","real-time cloudflare","multiplayer cloudflare","chat room workers","coordination cloudflare","stateful workers","new_sqlite_classes","do migrations","location hints","rpc methods","blockconcurrencywhile","do class export","migrations required","alarm api error","global uniqueness","binding not found","rpc","durableobject","websocket","migration","real-time"],
+      "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors. ",
+      "keywords": ["cloudflare-durable-objects","cloudflare","durable","objects","workers","edge","wrangler","websocket","migration","real-time"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-email-routing",
       "source": "./skills/cloudflare-email-routing",
-      "description": "Complete guide for Cloudflare Email Routing covering both Email Workers (receiving emails) and Send Email bindings (sending emails from Workers). Use when: setting up email routing, creating email workers, processing incoming emails, sending emails from Workers, implementing email allowlists/blocklists, forwarding emails with custom logic, replying to emails automatically, parsing email content, configuring MX records for email, troubleshooting email delivery issues, or encountering email worker errors. Prevents 8 documented issues: \"Email Trigger not available\" errors, destination address verification bugs, Gmail rate limiting, SPF permerror issues, worker call failures, test event loading issues, activity log discrepancies, and limited debugging on free plans. ",
-      "keywords": ["cloudflare-email-routing","cloudflare","email","routing","cloudflare email routing","email workers","send email","receive email","email forwarding","email allowlist","email blocklist","postal-mime","mimetext","cloudflare:email","emailmessage","forwardableemailmessage","emailevent","mx records","spf","dkim","email worker binding","send_email binding","wrangler email","email handler","email routing worker","email trigger not available","failed to call worker","email delivery failed","email not forwarding","destination address not verified"],
+      "description": "Cloudflare Email Routing for receiving/sending emails via Workers. Use for email workers, forwarding, allowlists, or encountering Email Trigger errors, worker call failures, SPF issues. ",
+      "keywords": ["cloudflare-email-routing","cloudflare","email","routing","workers","edge","wrangler","spf"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-full-stack-integration",
       "source": "./skills/cloudflare-full-stack-integration",
-      "description": "Production-tested integration patterns for connecting React frontends to Cloudflare Worker backends with Hono, Clerk authentication, and D1 databases. Prevents common frontend-backend connection issues, CORS errors, auth token failures, and race conditions. Use when: connecting frontend to backend, implementing auth flow, setting up API calls, troubleshooting CORS, fixing race conditions, auth tokens not passing, frontend-backend connection errors, 401 errors, integrating Clerk with Workers, setting up full-stack Cloudflare app, vite cloudflare plugin setup. Prevents: CORS errors, 401 Unauthorized, auth token mismatches, race conditions with auth loading, environment variable confusion, frontend calling wrong endpoints, JWT verification errors, D1 connection issues. ",
-      "keywords": ["cloudflare-full-stack-integration","cloudflare","full","stack","integration","frontend backend integration","cloudflare workers","hono","clerk auth","jwt verification","cors","react api client","race conditions","auth loading","connection issues","full-stack integration","vite plugin","@cloudflare/vite-plugin","d1 database","environment variables","token attachment","session management","protected routes","api middleware","api","jwt","production","authentication"],
+      "description": "React-to-Cloudflare Workers integration patterns with Hono, Clerk, D1. Use for frontend-backend connection, auth flow, or encountering CORS, 401 errors, token mismatches, race conditions. ",
+      "keywords": ["cloudflare-full-stack-integration","cloudflare","full","stack","integration","workers","edge","wrangler","cors"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-full-stack-scaffold",
       "source": "./skills/cloudflare-full-stack-scaffold",
-      "description": "Production-ready starter project for React + Cloudflare Workers + Hono with core services (D1, KV, R2, Workers AI) and optional advanced features (Clerk Auth, AI Chat, Queues, Vectorize). Complete with planning docs, session handoff protocol, and enable scripts for opt-in features. Use when: starting new full-stack project, creating Cloudflare app, scaffolding web app, AI-powered application, chat interface, RAG application, need complete starter, avoid setup time, production-ready template, full-stack boilerplate, React Cloudflare starter. Prevents: service configuration errors, binding setup mistakes, frontend-backend connection issues, CORS errors, auth integration problems, AI SDK setup confusion, missing planning docs, incomplete project structure, hours of initial setup. ",
-      "keywords": ["cloudflare-full-stack-scaffold","cloudflare","full","stack","scaffold","cloudflare scaffold","full-stack starter","react cloudflare","hono template","production boilerplate","ai sdk integration","workers ai","complete starter project","d1 kv r2 setup","web app template","chat application scaffold","rag starter","planning docs included","session handoff","tailwind v4 shadcn","typescript starter","vite cloudflare plugin","all services configured","cors","rag","sdk","production","integration","configuration"],
+      "description": "Production React + Cloudflare Workers + Hono starter with D1, KV, R2, Workers AI. Use for full-stack projects, MVPs, AI apps on Cloudflare. ",
+      "keywords": ["cloudflare-full-stack-scaffold","cloudflare","full","stack","scaffold","workers","edge","wrangler"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-hyperdrive",
       "source": "./skills/cloudflare-hyperdrive",
-      "description": "Complete knowledge domain for Cloudflare Hyperdrive - connecting Cloudflare Workers to existing PostgreSQL and MySQL databases with global connection pooling, query caching, and reduced latency. Use when: connecting Workers to existing databases, migrating PostgreSQL/MySQL to Cloudflare, setting up connection pooling, configuring Hyperdrive bindings, using node-postgres/postgres.js/mysql2 drivers, integrating Drizzle ORM or Prisma ORM, or encountering \"Failed to acquire a connection from the pool\", \"TLS not supported by the database\", \"connection refused\", \"nodejs_compat missing\", \"Code generation from strings disallowed\", or Hyperdrive configuration errors. ",
-      "keywords": ["cloudflare-hyperdrive","cloudflare","hyperdrive","cloudflare hyperdrive","workers hyperdrive","postgres workers","mysql workers","connection pooling","query caching","node-postgres","postgres.js","mysql2","drizzle hyperdrive","prisma hyperdrive","workers rds","workers aurora","workers neon","workers supabase","database acceleration","hybrid architecture","cloudflare tunnel database","wrangler hyperdrive","hyperdrive bindings","local development hyperdrive","orm","tls","mysql","postgresql","configuration","caching"],
+      "description": "Cloudflare Hyperdrive for Workers-to-database connections with pooling and caching. Use for PostgreSQL/MySQL, Drizzle/Prisma, or encountering pool errors, TLS issues, connection refused. ",
+      "keywords": ["cloudflare-hyperdrive","cloudflare","hyperdrive","workers","edge","wrangler","tls","mysql","postgresql","caching"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-images",
       "source": "./skills/cloudflare-images",
-      "description": "This skill provides comprehensive knowledge for Cloudflare Images, covering both the Images API (upload/storage) and Image Transformations (optimize any image). It should be used when uploading images to Cloudflare, resizing images, optimizing image delivery, implementing direct creator uploads, creating image variants, generating signed URLs for private images, transforming images via Workers, or encountering image upload/transformation errors. Use when: setting up Cloudflare Images storage, implementing user-uploaded images, creating responsive images, optimizing image formats (WebP/AVIF), resizing images via URL or Workers, debugging CORS errors with direct uploads, handling image transformation errors (9401-9413), implementing signed URLs, managing image variants, or building image CDNs. ",
-      "keywords": ["cloudflare-images","cloudflare","images","cloudflare images","image upload cloudflare","imagedelivery.net","cloudflare image transformations","/cdn-cgi/image/","direct creator upload","image variants","cf.image workers","signed urls images","flexible variants","webp avif conversion","responsive images cloudflare","error 5408","error 9401","error 9403","cors direct upload","multipart/form-data","image optimization cloudflare","api","avif","cors","url","webp","optimization"],
+      "description": "Cloudflare Images for upload/storage and transformations. Use for image uploads, resizing, WebP/AVIF optimization, or encountering CORS errors, transformation errors 9401-9413. ",
+      "keywords": ["cloudflare-images","cloudflare","images","workers","edge","wrangler","avif","cors","webp"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-kv",
       "source": "./skills/cloudflare-kv",
-      "description": "Complete knowledge domain for Cloudflare Workers KV - global, low-latency key-value storage on Cloudflare's edge network. Use when: creating KV namespaces, storing configuration data, caching API responses, managing user preferences, implementing TTL expiration, handling KV metadata, or encountering \"KV_ERROR\", \"429 too many requests\", \"kv rate limit\", cacheTtl errors, or eventual consistency issues. ",
-      "keywords": ["cloudflare-kv","cloudflare","kv storage","cloudflare kv","workers kv","kv namespace","kv bindings","kv cache","kv ttl","kv metadata","kv list","kv pagination","cache optimization","edge caching","kv_error","429 too many requests","kv rate limit","eventually consistent","wrangler kv","kv operations","key value storage","api","ttl","optimization","configuration","edge","caching"],
+      "description": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues. ",
+      "keywords": ["cloudflare-kv","cloudflare","workers","edge","wrangler","ttl","caching"],
       "category": "cloudflare"
     }
 ,
@@ -374,88 +374,88 @@
     {
       "name": "cloudflare-nextjs",
       "source": "./skills/cloudflare-nextjs",
-      "description": "Deploy Next.js applications (App Router and Pages Router) to Cloudflare Workers using the OpenNext adapter. This skill should be used when deploying Next.js apps with SSR, ISR, or server components to Cloudflare's serverless platform. It covers setup for both new and existing projects, configuration requirements, development workflows, integration with Cloudflare services (D1, R2, KV, Workers AI), and prevention of 10+ documented errors including worker size limits, runtime compatibility, database connection scoping, and security vulnerabilities. ",
-      "keywords": ["cloudflare-nextjs","cloudflare","nextjs","cloudflare next.js","opennext cloudflare","@opennextjs/cloudflare","next.js workers","next.js app router cloudflare","next.js pages router cloudflare","next.js ssr cloudflare","next.js isr","server components cloudflare","server actions cloudflare","next.js middleware workers","nextjs d1","nextjs r2","nextjs kv","next.js deployment","opennextjs-cloudflare cli","nodejs_compat","worker size limit","next.js runtime compatibility","database connection scoping","next.js migration cloudflare","isr","ssr","opennext","integration","configuration","deployment","migration"],
+      "description": "Deploy Next.js to Cloudflare Workers via OpenNext adapter. Use for SSR, ISR, App/Pages Router, or encountering worker size limits, runtime compatibility, connection scoping errors. ",
+      "keywords": ["cloudflare-nextjs","cloudflare","nextjs","workers","edge","wrangler","isr","ssr","opennext"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-queues",
       "source": "./skills/cloudflare-queues",
-      "description": "Complete knowledge domain for Cloudflare Queues - flexible message queue for asynchronous processing and background tasks on Cloudflare Workers. Use when: creating message queues, async processing, background jobs, batch processing, handling retries, configuring dead letter queues, implementing consumer concurrency, or encountering \"queue timeout\", \"batch retry\", \"message lost\", \"throughput exceeded\", \"consumer not scaling\" errors. ",
-      "keywords": ["cloudflare-queues","cloudflare","queues","cloudflare queues","queues workers","message queue","queue bindings","async processing","background jobs","queue consumer","queue producer","batch processing","dead letter queue","dlq","message retry","queue ack","consumer concurrency","queue backlog","wrangler queues","async","asynchronous"],
+      "description": "Cloudflare Queues for async processing and background jobs. Use for message queues, batch processing, retries, or encountering timeout, retry, throughput errors. ",
+      "keywords": ["cloudflare-queues","cloudflare","queues","workers","edge","wrangler","async"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-r2",
       "source": "./skills/cloudflare-r2",
-      "description": "Complete knowledge domain for Cloudflare R2 - S3-compatible object storage on Cloudflare's edge network. Use when: creating R2 buckets, uploading files to R2, downloading objects, configuring R2 bindings, setting up CORS, generating presigned URLs, multipart uploads, storing images/assets, managing object metadata, or encountering \"R2_ERROR\", CORS errors, presigned URL failures, multipart upload issues, or storage quota errors. ",
-      "keywords": ["cloudflare-r2","cloudflare","r2 storage","cloudflare r2","r2 bucket","r2 upload","r2 download","r2 binding","object storage","s3 compatible","r2 cors","presigned urls","multipart upload","r2 api","r2 workers","file upload","asset storage","r2_error","r2bucket","r2 metadata","custom metadata","http metadata","content-type","cache-control","aws4fetch","s3 client","bulk delete","r2 list","storage class","cors","url","edge"],
+      "description": "Cloudflare R2 S3-compatible object storage. Use for buckets, uploads, CORS, presigned URLs, or encountering R2_ERROR, CORS failures, multipart issues. ",
+      "keywords": ["cloudflare-r2","cloudflare","workers","edge","wrangler","cors"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-sandbox",
       "source": "./skills/cloudflare-sandbox",
-      "description": "This skill provides comprehensive knowledge for building applications with Cloudflare Sandboxes SDK, which enables secure, isolated code execution in full Linux containers at the edge. It should be used when executing untrusted code, running Python/Node.js scripts, performing git operations, building AI code execution systems, creating interactive development environments, or implementing CI/CD workflows that require full OS capabilities. Use when: Setting up Cloudflare Sandboxes, executing Python/Node.js code safely, managing stateful development environments, implementing AI code interpreters, running shell commands in isolation, handling git repositories programmatically, building chat-based coding agents, creating temporary build environments, processing files with system tools (ffmpeg, imagemagick, etc.), or when encountering issues with container lifecycle, session management, or state persistence. ",
-      "keywords": ["cloudflare-sandbox","cloudflare","sandbox","cloudflare sandbox","container execution","code execution","isolated environment","durable objects","linux container","python execution","node execution","git operations","code interpreter","ai agents","session management","ephemeral container","workspace","sandbox sdk","@cloudflare/sandbox","exec()","getsandbox()","runcode()","gitcheckout()","ubuntu container","sdk","edge"],
+      "description": "Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations. ",
+      "keywords": ["cloudflare-sandbox","cloudflare","sandbox","workers","edge","wrangler"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-turnstile",
       "source": "./skills/cloudflare-turnstile",
-      "description": "This skill provides comprehensive knowledge for implementing Cloudflare Turnstile, the CAPTCHA-alternative bot protection system. It should be used when integrating bot protection into forms, login pages, signup flows, or any user-facing feature requiring spam/bot prevention. Turnstile runs invisible challenges in the background, maintaining excellent user experience while blocking automated traffic. Use when: Adding bot protection to forms, implementing login security, protecting API endpoints from abuse, migrating from reCAPTCHA/hCaptcha, encountering CSP errors with Turnstile, handling token validation failures, implementing E2E tests with Turnstile, integrating with React/Next.js/Hono applications, or debugging error codes 100*, 300*, 600*. ",
-      "keywords": ["cloudflare-turnstile","cloudflare","turnstile","captcha","bot protection","cloudflare challenge","siteverify","recaptcha alternative","spam prevention","form protection","cf-turnstile","turnstile widget","token validation","managed challenge","invisible challenge","@marsidev/react-turnstile","hono turnstile","workers turnstile","api","csp","e2e","validation"],
+      "description": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*. ",
+      "keywords": ["cloudflare-turnstile","cloudflare","turnstile","workers","edge","wrangler","captcha","csp","validation"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-vectorize",
       "source": "./skills/cloudflare-vectorize",
-      "description": "Complete knowledge domain for Cloudflare Vectorize - globally distributed vector database for building semantic search, RAG (Retrieval Augmented Generation), and AI-powered applications. Use when: creating vector indexes, inserting embeddings, querying vectors, implementing semantic search, building RAG systems, configuring metadata filtering, working with Workers AI embeddings, integrating with OpenAI embeddings, or encountering metadata index timing errors, dimension mismatches, filter syntax issues, or insert vs upsert confusion. ",
-      "keywords": ["cloudflare-vectorize","cloudflare","vectorize","vector database","vector index","vector search","similarity search","semantic search","nearest neighbor","knn search","ann search","rag","retrieval augmented generation","chat with data","document search","semantic q&a","context retrieval","bge-base","@cf/baai/bge-base-en-v1.5","text-embedding-3-small","text-embedding-3-large","workers ai embeddings","openai embeddings","insert vectors","upsert vectors","query vectors","delete vectors","metadata filtering","namespace filtering","topk search","cosine similarity","euclidean distance","dot product","wrangler vectorize","metadata index","create vectorize index","vectorize dimensions","vectorize metric","vectorize binding","openai"],
+      "description": "Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors. ",
+      "keywords": ["cloudflare-vectorize","cloudflare","vectorize","workers","edge","wrangler","rag"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-worker-base",
       "source": "./skills/cloudflare-worker-base",
-      "description": "Production-tested setup for Cloudflare Workers with Hono, Vite, and Static Assets. Use when: creating new Cloudflare Workers projects, setting up Hono routing with Workers, configuring Vite plugin for Workers, adding Static Assets to Workers, deploying with Wrangler, or encountering deployment errors, routing conflicts, or HMR crashes. Prevents 6 documented issues: export syntax errors, Static Assets routing conflicts, scheduled handler errors, HMR race conditions, upload race conditions, and Service Worker format confusion. ",
-      "keywords": ["cloudflare-worker-base","cloudflare","worker","base","cloudflare workers","cf workers","hono","wrangler","vite","static assets","@cloudflare/vite-plugin","wrangler.jsonc","es module","run_worker_first","spa fallback","api routes","edge computing","cannot read properties of undefined","static assets 404","a hanging promise was canceled","handler does not export","deployment fails","routing not working","hmr crashes","api","hmr","spa","production","deployment","edge"],
+      "description": "Cloudflare Workers with Hono, Vite, Static Assets. Use for new projects, deployment, or encountering export errors, routing conflicts, HMR crashes. ",
+      "keywords": ["cloudflare-worker-base","cloudflare","worker","base","workers","edge","wrangler","hmr"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-workers-ai",
       "source": "./skills/cloudflare-workers-ai",
-      "description": "Complete knowledge domain for Cloudflare Workers AI - Run AI models on serverless GPUs across Cloudflare's global network. Use when: implementing AI inference on Workers, running LLM models, generating text/images with AI, configuring Workers AI bindings, implementing AI streaming, using AI Gateway, integrating with embeddings/RAG systems, or encountering \"AI_ERROR\", rate limit errors, model not found, token limit exceeded, or neurons exceeded errors. ",
-      "keywords": ["cloudflare-workers-ai","cloudflare","workers","workers ai","cloudflare ai","ai bindings","llm workers","@cf/meta/llama","workers ai models","ai inference","cloudflare llm","ai streaming","text generation ai","ai embeddings","image generation ai","workers ai rag","ai gateway","llama workers","flux image generation","stable diffusion workers","vision models ai","ai chat completion","ai_error","rate limit ai","model not found","token limit exceeded","neurons exceeded","ai quota exceeded","streaming failed","model unavailable","workers ai hono","ai gateway workers","vercel ai sdk workers","openai compatible workers","workers ai vectorize","llm","rag","streaming"],
+      "description": "Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors. ",
+      "keywords": ["cloudflare-workers-ai","cloudflare","workers","edge","wrangler","gpu"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-workflows",
       "source": "./skills/cloudflare-workflows",
-      "description": "Complete knowledge domain for Cloudflare Workflows - durable execution framework for building multi-step applications on Workers that automatically retry, persist state, and run for hours or days. Use when: creating long-running workflows, implementing retry logic, building event-driven processes, scheduling multi-step tasks, coordinating between APIs, or encountering \"NonRetryableError\", \"I/O context\", \"workflow execution failed\", \"serialization error\", or \"WorkflowEvent not found\" errors. ",
-      "keywords": ["cloudflare-workflows","cloudflare","workflows","cloudflare workflows","workflows workers","durable execution","workflow step","workflowentrypoint","step.do","step.sleep","workflow retries","nonretryableerror","workflow state","wrangler workflows","workflow events","long-running tasks","step.sleepuntil","step.waitforevent","workflow bindings","workflowevent"],
+      "description": "Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors. ",
+      "keywords": ["cloudflare-workflows","cloudflare","workflows","workers","edge","wrangler","nonretryableerror"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "cloudflare-zero-trust-access",
       "source": "./skills/cloudflare-zero-trust-access",
-      "description": "Use this skill when integrating Cloudflare Zero Trust Access authentication with Cloudflare Workers applications. Provides Hono middleware setup, manual JWT validation patterns, service token authentication, CORS handling with Access, and multi-tenant configurations. Prevents 8 common errors including CORS preflight blocking (45 min saved), key cache race conditions (20 min), missing JWT headers (30 min), and dev/prod team mismatches (15 min). Saves ~58% tokens (3,250 tokens) and 2.5 hours per implementation. Covers user authentication flows, service-to-service auth, geographic restrictions, role-based access control, and Access policy configuration. ",
-      "keywords": ["cloudflare-zero-trust-access","cloudflare","zero","trust","access","cloudflare access","zero trust","cloudflare zero trust access","access authentication","jwt validation","access jwt","service tokens","hono cloudflare access","hono-cloudflare-access middleware","workers authentication","protect worker routes","admin authentication","access policy","identity providers","azure ad access","google workspace access","okta access","github access","rbac cloudflare","geographic restrictions","multi-tenant access","cors access","cors preflight blocked","jwt header missing","access key cache","team mismatch","access claims","cors","jwt","authentication","validation","implementation","configuration"],
+      "description": "Cloudflare Zero Trust Access authentication for Workers. Use for JWT validation, service tokens, CORS, or encountering preflight blocking, cache race conditions, missing JWT headers. ",
+      "keywords": ["cloudflare-zero-trust-access","cloudflare","zero","trust","access","workers","edge","wrangler","cors","jwt","authentication","validation"],
       "category": "cloudflare"
     }
 ,
     {
       "name": "code-review",
       "source": "./skills/code-review",
-      "description": "Use when receiving code review feedback (especially if unclear or technically questionable), when completing tasks or major features requiring review before proceeding, or before making any completion/success claims. Covers three practices - receiving feedback with technical rigor over performative agreement, requesting reviews via code-reviewer subagent, and verification gates requiring evidence before any status claims. Essential for subagent-driven development, pull requests, and preventing false completion claims. ",
-      "keywords": ["code-review","code","review","development","tooling","workflow"],
+      "description": "Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests. ",
+      "keywords": ["code-review","code","review","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -463,7 +463,7 @@
       "name": "content-collections",
       "source": "./skills/content-collections",
       "description": "Production-tested setup for Content Collections - a TypeScript-first build tool that transforms local content files (Markdown/MDX) into type-safe data collections with automatic validation. Use when: building blogs, documentation sites, or content-heavy applications with Vite + React, setting up MDX content with React components, implementing type-safe content schemas with Zod, migrating from Contentlayer, or encountering TypeScript import errors with content collections. Covers: Vite plugin setup, tsconfig path aliases, collection schemas with Zod validation, MDX compilation with compileMDX, transform functions for computed properties, rehype/remark plugins, React component integration with MDXContent, Cloudflare Workers deployment, and production build optimization. ",
-      "keywords": ["content-collections","content","collections","@content-collections/core","@content-collections/vite","@content-collections/mdx","mdx","markdown","zod schema validation","type-safe content","frontmatter","compilemdx","definecollection","defineconfig","vite plugin","tsconfig paths",".content-collections/generated","mdxcontent component","rehype plugins","remark plugins","content schema","document transform","allposts import","static site generation","blog setup","documentation","cloudflare workers static assets","content validation errors","module not found content-collections","path alias not working","mdx type errors","transform function async","collection not updating","typescript","production","validation","optimization","integration","deployment","async"],
+      "keywords": ["content-collections","content","collections","@content-collections/core","@content-collections/vite","@content-collections/mdx","mdx","markdown","zod schema validation","type-safe content","frontmatter","compilemdx","definecollection","defineconfig","vite plugin","tsconfig paths",".content-collections/generated","mdxcontent component","rehype plugins","remark plugins","content schema","document transform","allposts import","static site generation","blog setup","documentation","cloudflare workers static assets","content validation errors","module not found content-collections","path alias not working","mdx type errors","transform function async","collection not updating","validation","integration","async"],
       "category": "cms"
     }
 ,
@@ -478,16 +478,16 @@
     {
       "name": "database-schema-design",
       "source": "./skills/database-schema-design",
-      "description": "Comprehensive database schema design patterns for PostgreSQL and MySQL. Covers normalization (1NF-5NF), relationships (1:1, 1:M, M:M, hierarchical), data types, constraints, audit patterns, and anti-patterns to avoid. Use when designing new databases, reviewing schema designs, planning migrations, choosing data types, defining relationships, implementing audit trails, or troubleshooting schema issues. Prevents 12 documented issues: missing primary keys, no foreign key constraints, VARCHAR(MAX) everywhere, premature denormalization, missing NOT NULL constraints, missing foreign key indexes, wrong data types, missing CHECK constraints, no audit columns, circular dependencies, missing cascade rules, EAV anti-pattern. Production-tested with comprehensive examples and best practices. ",
-      "keywords": ["database-schema-design","database","schema","design","orm","sql","query","migrations","check","eav","max","not","null","varchar","mysql","postgresql","production","migration"],
+      "description": "Database schema design for PostgreSQL/MySQL with normalization, relationships, constraints. Use for new databases, schema reviews, migrations, or encountering missing PKs/FKs, wrong data types, premature denormalization, EAV anti-pattern. ",
+      "keywords": ["database-schema-design","database","schema","design","orm","sql","query","migrations","eav","mysql","postgresql","migration"],
       "category": "database"
     }
 ,
     {
       "name": "database-sharding",
       "source": "./skills/database-sharding",
-      "description": "Comprehensive database sharding implementation patterns for PostgreSQL and MySQL. Covers hash-based, range-based, and directory-based sharding strategies, shard key selection, cross-shard queries, rebalancing, and router implementation. Use when scaling beyond single-server capacity, implementing multi-tenant isolation, distributing geographic load, or handling billions of records. Essential for high-traffic applications requiring horizontal scalability. Prevents 10 documented issues: wrong shard key choice (hotspots), missing shard key in queries, cross-shard transactions without handling, hotspot shards from sequential IDs, no rebalancing strategy, timestamp-based sharding hotspots, mutable shard keys, missing shard routing layer, no monitoring for shard balance, incorrect hash function. Production-tested with routers, aggregation patterns, and zero-downtime migration strategies. ",
-      "keywords": ["database-sharding","database","sharding","orm","sql","query","migrations","mysql","postgresql","production","implementation","migration"],
+      "description": "Database sharding for PostgreSQL/MySQL with hash/range/directory strategies. Use for horizontal scaling, multi-tenant isolation, billions of records, or encountering wrong shard keys, hotspots, cross-shard transactions, rebalancing issues. ",
+      "keywords": ["database-sharding","database","sharding","orm","sql","query","migrations","mysql","postgresql"],
       "category": "database"
     }
 ,
@@ -503,15 +503,15 @@
       "name": "dependency-upgrade",
       "source": "./skills/dependency-upgrade",
       "description": "Manage major dependency version upgrades with compatibility analysis, staged rollout, and comprehensive testing. Use when upgrading framework versions, updating major dependencies, or managing breaking changes in libraries. ",
-      "keywords": ["dependency-upgrade","dependency","upgrade","development","tooling","workflow"],
+      "keywords": ["dependency-upgrade","dependency","upgrade","tooling","workflow"],
       "category": "tooling"
     }
 ,
     {
       "name": "design-review",
       "source": "./skills/design-review",
-      "description": "Conduct comprehensive design reviews on frontend code changes, PRs, and UI implementations using a systematic 7-phase methodology. Evaluates interaction flows, responsiveness, visual polish, accessibility (WCAG 2.1 AA), robustness, and code health with automated browser testing. Use when: reviewing pull requests with UI changes, auditing frontend components for quality, verifying responsive design across viewports, checking accessibility compliance, testing interaction flows and user experience, ensuring visual consistency with design systems, or encountering design issues like poor contrast, broken layouts, accessibility violations, inconsistent spacing, missing focus states, or broken responsive behavior. Requires: Live preview environment, Playwright MCP or Chrome DevTools for automated testing. ",
-      "keywords": ["design-review","design","review","design review","ui audit","frontend review","accessibility audit","wcag compliance","responsive design","visual qa","ux review","component review","pr design check","layout issues","accessibility violations","contrast problems","broken responsive","interaction bugs","keyboard navigation","focus states","design system compliance","visual consistency","user experience","mcp","wcag","devtools","implementation"],
+      "description": "7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states. ",
+      "keywords": ["design-review","design","review","interface","user-experience","wcag"],
       "category": "design"
     }
 ,
@@ -519,47 +519,47 @@
       "name": "design-system-creation",
       "source": "./skills/design-system-creation",
       "description": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency. ",
-      "keywords": ["design-system-creation","design","system","creation","interface","user-experience"],
+      "keywords": ["design-system-creation","design","system","creation","design-tokens","typography","spacing","color-palette","components","patterns","variables","dark-mode","theming","css-variables","accessibility","wcag","responsive","grid-system","breakpoints","design-scale","semantic-tokens","component-library","style-guide","documentation","figma","storybook","brand-consistency","design-principles","css"],
       "category": "design"
     }
 ,
     {
       "name": "drizzle-orm-d1",
       "source": "./skills/drizzle-orm-d1",
-      "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. This skill provides comprehensive patterns for schema definition, migrations management, type-safe queries, relations, schema design best practices, performance optimization, and Cloudflare Workers integration. Use when: building D1 database schemas, writing type-safe SQL queries, managing database migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API for transactions, designing schema indexes, implementing soft deletes, optimizing query performance, testing schema constraints, or encountering \"D1_ERROR\", transaction errors, foreign key constraint failures, migration apply errors, or schema inference issues. Prevents 12 documented issues: D1 transaction errors (SQL BEGIN not supported), foreign key constraint failures during migrations, module import errors with Wrangler, D1 binding not found, migration apply failures, schema TypeScript inference errors, prepared statement caching issues, transaction rollback patterns, TypeScript strict mode errors, drizzle.config.ts not found, remote vs local database confusion, and wrangler.toml vs wrangler.jsonc mixing. ",
-      "keywords": ["drizzle-orm-d1","drizzle","orm","drizzle orm","drizzle d1","type-safe sql","drizzle schema","drizzle migrations","drizzle kit","orm cloudflare","d1 orm","drizzle typescript","drizzle relations","drizzle transactions","drizzle query builder","schema definition","prepared statements","drizzle batch","migration management","relational queries","drizzle joins","d1_error","begin transaction d1","foreign key constraint","migration failed","schema not found","d1 binding error","schema design","database indexes","soft deletes","uuid primary keys","enum constraints","performance optimization","naming conventions","schema testing","api","begin","sql","transaction","typescript","optimization","integration","migration","caching"],
+      "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1 database schemas, writing type-safe SQL queries, managing migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API, or encountering D1_ERROR, transaction errors, foreign key constraint failures, or schema inference issues. ",
+      "keywords": ["drizzle-orm-d1","drizzle","orm","drizzle orm","drizzle d1","type-safe sql","drizzle schema","drizzle migrations","drizzle kit","orm cloudflare","d1 orm","drizzle typescript","drizzle relations","drizzle transactions","drizzle query builder","schema definition","prepared statements","drizzle batch","migration management","relational queries","drizzle joins","d1_error","begin transaction d1","foreign key constraint","migration failed","schema not found","d1 binding error","schema design","database indexes","soft deletes","uuid primary keys","enum constraints","performance optimization","naming conventions","schema testing","api","begin","sql","transaction","migration"],
       "category": "database"
     }
 ,
     {
       "name": "elevenlabs-agents",
       "source": "./skills/elevenlabs-agents",
-      "description": "Use this skill when building AI voice agents with the ElevenLabs Agents Platform. This skill covers the complete platform including agent configuration (system prompts, turn-taking, workflows), voice & language features (multi-voice, pronunciation, speed control), knowledge base (RAG), tools (client/server/MCP/system), SDKs (React, JavaScript, React Native, Swift, Widget), Scribe (real-time STT), WebRTC/WebSocket connections, testing & evaluation, analytics, privacy/compliance (GDPR/HIPAA/SOC 2), cost optimization, CLI workflows (\"agents as code\"), and DevOps integration. Prevents 17+ common errors including package deprecation, Android audio cutoff, CSP violations, missing dynamic variables, case-sensitive tool names, webhook authentication failures, and WebRTC configuration issues. Provides production-tested templates for React, Next.js, React Native, Swift, and Cloudflare Workers. Token savings: ~73% (22k → 6k tokens). Production tested. ",
-      "keywords": ["elevenlabs-agents","elevenlabs","agents","elevenlabs agents","elevenlabs voice agents","ai voice agents","conversational ai","@elevenlabs/react","@elevenlabs/client","@elevenlabs/react-native","@elevenlabs/elevenlabs-js","@elevenlabs/agents-cli","elevenlabs sdk","voice ai","tts","text-to-speech","asr","speech recognition","turn-taking model","webrtc voice","websocket voice","elevenlabs conversation","agent system prompt","agent tools","agent knowledge base","rag voice agents","multi-voice agents","pronunciation dictionary","voice speed control","elevenlabs scribe","@11labs deprecated","android audio cutoff","csp violation elevenlabs","dynamic variables elevenlabs","case-sensitive tool names","webhook authentication","cli","csp","gdpr","hipaa","mcp","rag","sdk","soc","stt","devops","javascript","webrtc","websocket","production","authentication","optimization","integration","configuration","real-time"],
+      "description": "ElevenLabs Agents Platform for AI voice agents (React/JS/Native/Swift). Use for voice AI, RAG, tools, or encountering package deprecation, audio cutoff, CSP violations, webhook auth failures. ",
+      "keywords": ["elevenlabs-agents","elevenlabs","agents","machine-learning","llm","artificial-intelligence","csp","rag"],
       "category": "ai"
     }
 ,
     {
       "name": "fastmcp",
       "source": "./skills/fastmcp",
-      "description": "Use this skill when building MCP (Model Context Protocol) servers with FastMCP in Python. FastMCP is a framework for creating servers that expose tools, resources, and prompts to LLMs like Claude. The skill covers server creation, tool/resource definitions, storage backends (memory/disk/Redis/DynamoDB), server lifespans, middleware system (8 built-in types), server composition (import/mount), OAuth Proxy, authentication patterns, icons, OpenAPI integration, client configuration, cloud deployment (FastMCP Cloud), error handling, and production patterns. It prevents 25+ common errors including storage misconfiguration, lifespan issues, middleware order errors, circular imports, module-level server issues, async/await confusion, OAuth security vulnerabilities, and cloud deployment failures. Includes templates for basic servers, storage backends, middleware, server composition, OAuth proxy, API integrations, testing, and self-contained production architectures. ",
-      "keywords": ["fastmcp","mcp server python","model context protocol python","fastmcp framework","mcp tools","mcp resources","mcp prompts","fastmcp storage","fastmcp memory storage","fastmcp disk storage","fastmcp redis","fastmcp dynamodb","fastmcp lifespan","fastmcp middleware","fastmcp oauth proxy","server composition mcp","fastmcp import","fastmcp mount","fastmcp cloud","fastmcp deployment","mcp authentication","fastmcp icons","openapi mcp","claude mcp server","fastmcp testing","storage misconfiguration","lifespan issues","middleware order","circular imports","module-level server","async await mcp","api","mcp","dynamodb","openapi","production","authentication","integration","configuration","deployment","async"],
+      "description": "FastMCP Python framework for MCP servers with tools, resources, storage backends (memory/disk/Redis/DynamoDB). Use for Claude tool exposure, OAuth Proxy, cloud deployment, or encountering storage, lifespan, middleware, circular import, async errors. ",
+      "keywords": ["fastmcp","tooling","workflow","mcp","dynamodb","async"],
       "category": "tooling"
     }
 ,
     {
       "name": "feature-dev",
       "source": "./skills/feature-dev",
-      "description": "Automate complete feature development lifecycle with 7-phase guided workflow including codebase exploration, architecture design, and quality review. Use when building complex features, making architectural decisions, integrating with existing code, or clarifying ambiguous requirements. Launches specialized agents (code-explorer, code-architect, code-reviewer) that run in parallel for discovery, design, and review phases. Prevents common mistakes by ensuring understanding before implementation, asking clarifying questions, comparing design approaches, and reviewing for bugs and conventions. Use when: building multi-file features, requiring architectural decisions, integrating with existing patterns, or working with underspecified requirements. Don't use for: single-line fixes, trivial changes, or urgent hotfixes. ",
-      "keywords": ["feature-dev","feature","dev","feature development","code exploration","architecture design","code review","workflow automation","slash command","agents","discovery phase","implementation planning","quality review","implementation"],
+      "description": "Automate 7-phase feature development with specialized agents (code-explorer, code-architect, code-reviewer). Use for multi-file features, architectural decisions, or encountering ambiguous requirements, integration patterns, design approach errors. ",
+      "keywords": ["feature-dev","feature","dev","tooling","workflow"],
       "category": "tooling"
     }
 ,
     {
       "name": "firecrawl-scraper",
       "source": "./skills/firecrawl-scraper",
-      "description": "Complete knowledge domain for Firecrawl v2 API - web scraping and crawling that converts websites into LLM-ready markdown or structured data. Use when: scraping websites, crawling entire sites, extracting web content, converting HTML to markdown, building web scrapers, handling dynamic JavaScript content, bypassing anti-bot protection, extracting structured data from web pages, or when encountering \"content not loading\", \"JavaScript rendering issues\", or \"blocked by bot detection\". ",
-      "keywords": ["firecrawl-scraper","firecrawl","scraper","firecrawl api","web scraping","web crawler","scrape website","crawl website","extract content","html to markdown","site crawler","content extraction","web automation","firecrawl-py","firecrawl-js","llm ready data","structured data extraction","bot bypass","javascript rendering","scraping api","crawling api","map urls","batch scraping","api","html","llm","javascript"],
+      "description": "Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors. ",
+      "keywords": ["firecrawl-scraper","firecrawl","scraper","web","performance","pwa","llm"],
       "category": "web"
     }
 ,
@@ -567,47 +567,47 @@
       "name": "frontend-design",
       "source": "./skills/frontend-design",
       "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics. ",
-      "keywords": ["frontend-design","frontend","design","development","tooling","workflow","production"],
+      "keywords": ["frontend-design","frontend","design","interface","user-experience"],
       "category": "tooling"
     }
 ,
     {
       "name": "gemini-cli",
       "source": "./skills/gemini-cli",
-      "description": "Use Google Gemini CLI directly from Claude Code for second opinions, architectural advice, debugging help, code reviews, and security audits. Leverage Gemini's 1M+ context window for comprehensive code analysis using the official gemini command-line tool. Use when: Need second opinion on architectural decisions, stuck debugging after 2+ attempts, writing security-sensitive code (auth, payments, data handling), planning large refactors (5+ files), approaching 70%+ context capacity, unfamiliar with technology stack, want to compare Flash vs Pro model recommendations, need comprehensive codebase analysis, or consulting Gemini for peer review on critical code changes. ",
-      "keywords": ["gemini-cli","gemini","cli","google gemini","gemini command line","second opinion","model comparison","gemini-2.5-flash","gemini-2.5-pro","architectural decisions","debugging assistant","code review gemini","security audit gemini","1m context window","ai pair programming","gemini consultation","flash vs pro","ai-to-ai prompting","peer review","codebase analysis","gemini cli tool","shell gemini","command line ai assistant","gemini architecture advice","gemini debug help","gemini security scan","gemini code compare"],
+      "description": "Google Gemini CLI for second opinions, architectural advice, code reviews, security audits. Leverage 1M+ context for comprehensive codebase analysis via command-line tool. ",
+      "keywords": ["gemini-cli","gemini","cli","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
 ,
     {
       "name": "github-project-automation",
       "source": "./skills/github-project-automation",
-      "description": "This skill provides comprehensive automation for GitHub repository setup and configuration. It should be used when creating new projects, setting up CI/CD pipelines, configuring issue templates, enabling security scanning, or migrating existing projects to GitHub automation. The skill prevents 18 documented errors in GitHub Actions YAML syntax, workflow configuration, issue template structure, Dependabot setup, and CodeQL security scanning. It includes 12 production-tested workflow templates, 4 issue templates, security configurations, and automation scripts for rapid project setup. Use when: setting up GitHub Actions CI/CD, creating issue/PR templates, enabling Dependabot, configuring CodeQL scanning, automating GitHub repository setup, fixing YAML syntax errors, integrating security scanning, deploying to Cloudflare Workers via GitHub Actions, or implementing multi-framework testing matrices. ",
-      "keywords": ["github-project-automation","github","project","automation","github actions","github workflow","ci/cd","issue templates","pull request templates","dependabot","codeql","security scanning","yaml syntax","github automation","repository setup","workflow templates","github actions matrix","secrets management","branch protection","codeowners","github projects","continuous integration","continuous deployment","workflow syntax error","action version pinning","runner version","github context","yaml indentation error","yaml","production","integration","configuration","deployment"],
+      "description": "GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors. ",
+      "keywords": ["github-project-automation","github","project","automation","tooling","workflow","yaml","codeql"],
       "category": "tooling"
     }
 ,
     {
       "name": "google-gemini-api",
       "source": "./skills/google-gemini-api",
-      "description": "Complete guide for Google Gemini API using the CORRECT current SDK (@google/genai v1.27+, NOT the deprecated @google/generative-ai). Covers text generation, multimodal inputs (text + images + video + audio + PDFs), function calling, thinking mode, streaming, and system instructions with accurate 2025 model information (Gemini 2.5 Pro/Flash/Flash-Lite with 1M input tokens, NOT 2M). Use when: integrating Gemini API, implementing multimodal AI applications, using thinking mode for complex reasoning, function calling with parallel execution, streaming responses, deploying to Cloudflare Workers, building chat applications, or encountering SDK deprecation warnings, context window errors, model not found errors, function calling failures, or multimodal format errors. ",
-      "keywords": ["google-gemini-api","google","gemini","api","gemini api","@google/genai","gemini-2.5-pro","gemini-2.5-flash","gemini-2.5-flash-lite","multimodal gemini","thinking mode","google ai","genai sdk","function calling gemini","streaming gemini","gemini vision","gemini video","gemini audio","gemini pdf","system instructions","multi-turn chat","deprecated @google/generative-ai","gemini context window","gemini models 2025","gemini 1m tokens","gemini tool use","parallel function calling","compositional function calling","correct","deprecated","not","sdk","streaming"],
+      "description": "Google Gemini API with @google/genai SDK. Use for multimodal AI, thinking mode, function calling, or encountering SDK deprecation warnings, context errors, multimodal format errors. ",
+      "keywords": ["google-gemini-api","google","gemini","api","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
 ,
     {
       "name": "google-gemini-embeddings",
       "source": "./skills/google-gemini-embeddings",
-      "description": "This skill provides complete coverage of Google Gemini embeddings API (gemini-embedding-001) for building RAG systems, semantic search, document clustering, and similarity matching. Use when implementing vector search with Google's embedding models, integrating with Cloudflare Vectorize, or building retrieval-augmented generation systems. Covers SDK usage (@google/genai), fetch-based Workers implementation, batch processing, 8 task types (RETRIEVAL_QUERY, RETRIEVAL_DOCUMENT, SEMANTIC_SIMILARITY, etc.), dimension optimization (128-3072), and cosine similarity calculations. Prevents 8+ embedding-specific errors including dimension mismatches, incorrect task types, rate limiting issues (100 RPM free tier), vector normalization mistakes, text truncation (2,048 token limit), and model version confusion. Includes production-ready RAG patterns with Cloudflare Vectorize integration, chunking strategies, and caching patterns. Token savings: ~60%. Production tested. ",
-      "keywords": ["google-gemini-embeddings","google","gemini","embeddings","gemini embeddings","gemini-embedding-001","google embeddings","semantic search","rag","vector search","document clustering","similarity search","retrieval augmented generation","vectorize integration","cloudflare vectorize embeddings","768 dimensions","embed content gemini","batch embeddings","embeddings api","cosine similarity","vector normalization","retrieval query","retrieval document","task types","dimension mismatch","embeddings rate limit","text truncation","@google/genai","api","rpm","sdk","production","optimization","integration","implementation","caching"],
+      "description": "Google Gemini embeddings API (gemini-embedding-001) for RAG and semantic search. Use for vector search, Vectorize integration, or encountering dimension mismatches, rate limits, text truncation. ",
+      "keywords": ["google-gemini-embeddings","google","gemini","embeddings","machine-learning","llm","artificial-intelligence","rag"],
       "category": "ai"
     }
 ,
     {
       "name": "google-gemini-file-search",
       "source": "./skills/google-gemini-file-search",
-      "description": "Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation). This skill should be used when building document Q&A systems, searchable knowledge bases, or semantic search with automatic chunking, embedding generation, and citation support. Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors: document immutability (delete+re-upload pattern required), storage quota calculation (3x input size for embeddings), chunking configuration (500 tokens/chunk recommended), metadata limits (20 key-value pairs max), indexing cost surprises (one-time $0.15/1M tokens), operation polling (must wait for done: true), force delete requirement (for stores with documents), and model support (only Gemini 2.5 Pro/Flash). TypeScript/JavaScript support via @google/genai SDK. Token savings: ~65%. ",
-      "keywords": ["google-gemini-file-search","google","gemini","file","search","machine-learning","llm","artificial-intelligence","pdf","rag","sdk","javascript","typescript","configuration"],
+      "description": "Google Gemini File Search for managed RAG with 100+ file formats. Use for document Q&A, knowledge bases, or encountering immutability errors, quota issues, polling failures. Supports Gemini 3 Pro/Flash (Gemini 2.5 legacy). ",
+      "keywords": ["google-gemini-file-search","google","gemini","file","search","machine-learning","llm","artificial-intelligence","rag"],
       "category": "ai"
     }
 ,
@@ -615,39 +615,39 @@
       "name": "graphql-implementation",
       "source": "./skills/graphql-implementation",
       "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions. ",
-      "keywords": ["graphql-implementation","graphql","implementation","api","rest","endpoints","http","optimization","real-time"],
+      "keywords": ["graphql-implementation","graphql","implementation","rest","endpoints","http","real-time"],
       "category": "api"
     }
 ,
     {
       "name": "health-check-endpoints",
       "source": "./skills/health-check-endpoints",
-      "description": "Implements health check endpoints for liveness, readiness, and dependency monitoring in Kubernetes and load balancer environments. Use when deploying to container orchestrators, configuring auto-scaling, or monitoring service availability. ",
-      "keywords": ["health-check-endpoints","health","check","endpoints","architecture","patterns","microservices","design"],
+      "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors. ",
+      "keywords": ["health-check-endpoints","health","check","endpoints","architecture","patterns","microservices"],
       "category": "architecture"
     }
 ,
     {
       "name": "hono-routing",
       "source": "./skills/hono-routing",
-      "description": "This skill provides comprehensive knowledge for building type-safe APIs with Hono, focusing on routing patterns, middleware composition, request validation, RPC client/server patterns, error handling, and context management. Use when: building APIs with Hono (any runtime), setting up request validation with Zod/Valibot/Typia/ArkType validators, creating type-safe RPC client/server communication, implementing custom middleware, handling errors with HTTPException, extending Hono context with custom variables, or encountering middleware type inference issues, validation hook confusion, or RPC performance problems. ",
-      "keywords": ["hono-routing","hono","routing","hono routing","hono middleware","hono rpc","hono validator","zod validator","valibot validator","type-safe api","hono context","hono error handling","httpexception","c.req.valid","middleware composition","hono hooks","typed routes","hono client","middleware response not typed","hono validation failed","hono rpc type inference","rpc","arktype","validation"],
+      "description": "Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors. ",
+      "keywords": ["hono-routing","hono","routing","web","performance","pwa","rpc","validation"],
       "category": "web"
     }
 ,
     {
       "name": "hugo",
       "source": "./skills/hugo",
-      "description": "This skill provides comprehensive knowledge for building static websites with Hugo static site generator. It should be used when setting up Hugo projects (blogs, documentation sites, landing pages, portfolios), integrating Tailwind CSS v4 for custom styling, integrating headless CMS systems (Sveltia CMS or TinaCMS), deploying to Cloudflare Workers with Static Assets, configuring themes and templates, and preventing common Hugo setup errors. Use this skill when encountering these scenarios: scaffolding new Hugo sites, choosing between Hugo Extended and Standard editions, integrating Tailwind CSS v4 with Hugo Pipes, configuring hugo.yaml or hugo.toml files, integrating PaperMod or other themes via Git submodules, setting up Sveltia CMS or TinaCMS for content management, deploying to Cloudflare Workers or Pages, troubleshooting baseURL configuration, resolving theme installation errors, fixing frontmatter format issues (YAML vs TOML), preventing date-related build failures, setting up PostCSS with Hugo, or setting up CI/CD with GitHub Actions. ",
-      "keywords": ["hugo","hugo-extended","static-site-generator","ssg","go-templates","papermod","goldmark","markdown","blog","documentation","docs-site","landing-page","sveltia-cms","tina-cms","headless-cms","cloudflare-workers","workers-static-assets","wrangler","hugo-server","hugo-build","frontmatter","yaml-frontmatter","toml-config","hugo-themes","hugo-modules","multilingual","i18n","github-actions","version-mismatch","baseurl-error","theme-not-found","tailwind","tailwind-v4","tailwind-css","hugo-pipes","postcss","css-framework","utility-css","hugo-tailwind","tailwind-integration","hugo-assets","cms","css","toml","yaml","github","tinacms","integration","configuration"],
+      "description": "Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment. Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors. ",
+      "keywords": ["hugo","cms","content","management","publishing"],
       "category": "cms"
     }
 ,
     {
       "name": "idempotency-handling",
       "source": "./skills/idempotency-handling",
-      "description": "Implements idempotent API operations using idempotency keys, Redis caching, and database constraints to prevent duplicate processing. Use when building payment systems, handling webhook retries, or ensuring safe operation retries. ",
-      "keywords": ["idempotency-handling","idempotency","handling","development","tooling","workflow","api","caching"],
+      "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors. ",
+      "keywords": ["idempotency-handling","idempotency","handling","tooling","workflow","caching"],
       "category": "tooling"
     }
 ,
@@ -655,15 +655,15 @@
       "name": "image-optimization",
       "source": "./skills/image-optimization",
       "description": "Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment. ",
-      "keywords": ["image-optimization","image","optimization","web","performance","pwa","production","deployment"],
+      "keywords": ["image-optimization","image","optimization","web","performance","pwa"],
       "category": "web"
     }
 ,
     {
       "name": "inspira-ui",
       "source": "./skills/inspira-ui",
-      "description": "This skill should be used when building Vue or Nuxt applications with animated UI components and effects. Inspira UI provides 120+ production-ready components including backgrounds (aurora, cosmic portal, particles), buttons (shimmer, ripple, rainbow), cards (3D, flip, spotlight), text animations (morphing, glitch, hyper text), special effects (confetti, meteors, neon borders), cursors (fluid, tailed), visualizations (3D globe, carousels, icon cloud), input forms (color picker, file upload), device mocks (iPhone, Safari), and miscellaneous components (dock, timeline, bento grid). Built with TailwindCSS v4, motion-v, GSAP, and Three.js for Vue 3 and Nuxt 4 projects. This skill should be used when implementing animated hero sections, interactive backgrounds, modern UI effects, 3D visualizations, form inputs with effects, testimonial blocks, or any animated web interface components for Vue/Nuxt applications. Prevents common pitfalls with TailwindCSS v4 setup, CSS variables configuration, motion-v integration, component prop typing, and WebGL dependencies. ",
-      "keywords": ["inspira-ui","inspira","frontend","components","typescript","css","gsap","tailwindcss","webgl","production","integration","configuration"],
+      "description": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors. ",
+      "keywords": ["inspira-ui","inspira","vue","nuxt","vue 3","nuxt 4","inspira ui","animated components","tailwindcss v4","motion-v","three.js","ogl","webgl","aurora background","shimmer button","morphing text","3d globe","fluid cursor","confetti","neon border","icon cloud","flip card","css","gsap","tailwindcss"],
       "category": "frontend"
     }
 ,
@@ -679,15 +679,15 @@
       "name": "internationalization-i18n",
       "source": "./skills/internationalization-i18n",
       "description": "Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages. ",
-      "keywords": ["internationalization-i18n","internationalization","i18n","web","performance","optimization","pwa","api","rtl"],
+      "keywords": ["internationalization-i18n","internationalization","i18n","web","rtl"],
       "category": "web"
     }
 ,
     {
       "name": "jest-generator",
       "source": "./skills/jest-generator",
-      "description": "Generate Jest-based unit tests for JavaScript/TypeScript code. Creates test files following Jest conventions with proper mocking, describe blocks, and coverage. Use when generating tests for JS/TS modules, React components, or adding missing test coverage. ",
-      "keywords": ["jest-generator","jest","generator","testing","tests","unit-tests","integration","quality","javascript","typescript"],
+      "description": "Generate Jest unit tests for JavaScript/TypeScript with mocking, coverage. Use for JS/TS modules, React components, test generation, or encountering missing coverage, improper mocking, test structure errors. ",
+      "keywords": ["jest-generator","jest","generator","testing","tests","unit-tests","quality"],
       "category": "testing"
     }
 ,
@@ -702,24 +702,24 @@
     {
       "name": "logging-best-practices",
       "source": "./skills/logging-best-practices",
-      "description": "Implements structured logging with proper levels, contextual information, PII handling, and centralized aggregation. Use when setting up application logging, integrating with log management systems, or implementing distributed tracing. ",
-      "keywords": ["logging-best-practices","logging","best","practices","development","tooling","workflow","pii"],
+      "description": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors. ",
+      "keywords": ["logging-best-practices","logging","best","practices","tooling","workflow","pii"],
       "category": "tooling"
     }
 ,
     {
       "name": "mcp-dynamic-orchestrator",
       "source": "./skills/mcp-dynamic-orchestrator",
-      "description": "This skill provides dynamic discovery and code-mode execution for MCP servers defined in a central registry file. It should be used when an agent needs to know which MCP integrations are available, what domains they cover, and how to call them efficiently via generated code without eagerly loading each MCP tool as a first-class tool. Use when: working with multiple MCP servers (APIs, internal systems, SaaS tools), especially when the set of available MCPs changes over time or is large enough that exposing all tools directly would bloat context. ",
-      "keywords": ["mcp-dynamic-orchestrator","mcp","dynamic","orchestrator","code-mode","registry","dynamic tools","tool discovery","progressive disclosure","saas","integration"],
+      "description": "Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets. ",
+      "keywords": ["mcp-dynamic-orchestrator","mcp","dynamic","orchestrator","tooling","workflow"],
       "category": "tooling"
     }
 ,
     {
       "name": "mcp-management",
       "source": "./skills/mcp-management",
-      "description": "Manage Model Context Protocol (MCP) servers - discover, analyze, and execute tools/prompts/resources from configured MCP servers. Use when working with MCP integrations, need to discover available MCP capabilities, filter MCP tools for specific tasks, execute MCP tools programmatically, access MCP prompts/resources, or implement MCP client functionality. Supports intelligent tool selection, multi-server management, and context-efficient capability discovery. ",
-      "keywords": ["mcp-management","mcp","management","development","tooling","workflow","integration"],
+      "description": "Manage MCP servers - discover, analyze, execute tools/prompts/resources. Use for MCP integrations, capability discovery, tool filtering, programmatic execution, or encountering context bloat, server configuration, tool execution errors. ",
+      "keywords": ["mcp-management","mcp","management","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -727,30 +727,30 @@
       "name": "microservices-patterns",
       "source": "./skills/microservices-patterns",
       "description": "Design microservices architectures with service boundaries, event-driven communication, and resilience patterns. Use when building distributed systems, decomposing monoliths, or implementing microservices. ",
-      "keywords": ["microservices-patterns","microservices","patterns","architecture","design"],
+      "keywords": ["microservices-patterns","microservices","patterns","architecture"],
       "category": "architecture"
     }
 ,
     {
       "name": "ml-model-training",
       "source": "./skills/ml-model-training",
-      "description": "Trains machine learning models with data preparation, algorithm selection, and evaluation using scikit-learn, PyTorch, and TensorFlow. Use when building predictive models, implementing classification/regression, training neural networks, fine-tuning hyperparameters, or evaluating model performance. ",
-      "keywords": ["ml-model-training","model","training","machine-learning","llm","artificial-intelligence","pytorch","tensorflow"],
+      "description": "Train ML models with scikit-learn, PyTorch, TensorFlow. Use for classification/regression, neural networks, hyperparameter tuning, or encountering overfitting, underfitting, convergence issues. ",
+      "keywords": ["ml-model-training","model","training","machine-learning","artificial-intelligence","pytorch","tensorflow"],
       "category": "ai"
     }
 ,
     {
       "name": "ml-pipeline-automation",
       "source": "./skills/ml-pipeline-automation",
-      "description": "Automates ML workflows from data ingestion to deployment using Airflow, Kubeflow, and MLflow orchestration. Use when building reproducible ML pipelines, scheduling retraining jobs, implementing MLOps practices, orchestrating model training at scale, or tracking experiments across teams. ",
-      "keywords": ["ml-pipeline-automation","pipeline","automation","machine-learning","llm","artificial-intelligence","deployment"],
+      "description": "Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible pipelines, retraining schedules, MLOps, or encountering task failures, dependency errors, experiment tracking issues. ",
+      "keywords": ["ml-pipeline-automation","pipeline","automation","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
 ,
     {
       "name": "mobile-app-debugging",
       "source": "./skills/mobile-app-debugging",
-      "description": "Debugs mobile applications across iOS, Android, and cross-platform frameworks using platform-specific tools and techniques. Use when diagnosing crashes, memory leaks, performance issues, or network problems in mobile apps. ",
+      "description": "Mobile app debugging for iOS, Android, cross-platform frameworks. Use for crashes, memory leaks, performance issues, network problems, or encountering Xcode instruments, Android Profiler, React Native debugger, native bridge errors. ",
       "keywords": ["mobile-app-debugging","mobile","app","debugging","native"],
       "category": "mobile"
     }
@@ -758,7 +758,7 @@
     {
       "name": "mobile-app-testing",
       "source": "./skills/mobile-app-testing",
-      "description": "Implements comprehensive mobile testing strategies including unit tests, UI automation, and performance testing across platforms. Use when setting up test infrastructure, writing E2E tests, or establishing testing standards for mobile apps. ",
+      "description": "Mobile app testing with unit tests, UI automation, performance testing. Use for test infrastructure, E2E tests, testing standards, or encountering test framework setup, device farms, flaky tests, platform-specific test errors. ",
       "keywords": ["mobile-app-testing","mobile","app","testing","native","e2e"],
       "category": "mobile"
     }
@@ -767,39 +767,39 @@
       "name": "mobile-first-design",
       "source": "./skills/mobile-first-design",
       "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts. ",
-      "keywords": ["mobile-first-design","mobile","first","design","app","native"],
+      "keywords": ["mobile-first-design","mobile","first","design","interface","user-experience","responsive-design","media-queries","breakpoints"],
       "category": "mobile"
     }
 ,
     {
       "name": "mobile-offline-support",
       "source": "./skills/mobile-offline-support",
-      "description": "Implements offline-first mobile applications with local storage, sync queues, and conflict resolution strategies. Use when building apps that must work without connectivity, implementing data sync, or handling offline scenarios. ",
-      "keywords": ["mobile-offline-support","mobile","offline","support","app","native"],
+      "description": "Offline-first mobile apps with local storage, sync queues, conflict resolution. Use for offline functionality, data sync, connectivity handling, or encountering sync conflicts, queue management, storage limits, network transition errors. ",
+      "keywords": ["mobile-offline-support","mobile","offline","support","native"],
       "category": "mobile"
     }
 ,
     {
       "name": "model-deployment",
       "source": "./skills/model-deployment",
-      "description": "Deploys ML models to production using FastAPI REST APIs, Docker containers, Kubernetes, and model serving platforms with monitoring, drift detection, A/B testing, and CI/CD automation. Use when serving predictions via API, containerizing models, implementing model versioning, deploying to Kubernetes, monitoring model performance, detecting data/prediction drift, or setting up automated ML pipelines. ",
-      "keywords": ["model-deployment","model","deployment","machine-learning","llm","artificial-intelligence","api","rest","fastapi","production"],
+      "description": "Deploy ML models with FastAPI, Docker, Kubernetes. Use for serving predictions, containerization, monitoring, drift detection, or encountering latency issues, health check failures, version conflicts. ",
+      "keywords": ["model-deployment","model","machine-learning","llm","artificial-intelligence","fastapi"],
       "category": "ai"
     }
 ,
     {
       "name": "motion",
       "source": "./skills/motion",
-      "description": "Production-ready setup for Motion (formerly Framer Motion) - the most popular React animation library with 30,200+ GitHub stars. Motion provides declarative animations, gesture controls, scroll-based effects, spring physics, layout animations, and SVG manipulation. This skill should be used when building UIs that need complex animations beyond simple list transitions: gesture controls (drag, hover, tap), scroll-linked animations, parallax effects, shared element transitions, SVG path morphing, spring physics, or orchestrated animation sequences. Use when: Adding drag-and-drop interactions, creating scroll-triggered animations, implementing modal dialogs with sophisticated transitions, building carousels with momentum, animating page/route transitions, creating hero sections with parallax, implementing accordion components with smooth expand/collapse, or optimizing animation bundle size with LazyMotion. **Important**: For simple list add/remove/sort animations, use the `auto-animate` skill instead (3.28 KB vs 34 KB bundle). Motion is designed for complex interactive animations that require fine-grained control. ",
-      "keywords": ["motion","frontend","components","typescript","svg","github","lazymotion","production"],
+      "description": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors. ",
+      "keywords": ["motion","frontend","components","svg"],
       "category": "frontend"
     }
 ,
     {
       "name": "multi-ai-consultant",
       "source": "./skills/multi-ai-consultant",
-      "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, fresh Claude) for second opinions when stuck on bugs or making architectural decisions. Use when: debugging attempts have failed, making significant architectural choices, security concerns, or need fresh perspective. Automatically suggests consultation after one failed attempt. Provides synthesis comparing multiple AI perspectives with web research, thinking mode, and repo-aware analysis. ",
-      "keywords": ["multi-ai-consultant","multi","consultant","machine-learning","llm","artificial-intelligence","openai"],
+      "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second opinions. Use for debugging failures, architectural decisions, security validation, or need fresh perspective with synthesis. ",
+      "keywords": ["multi-ai-consultant","multi","consultant","ai consultation","second opinion","gemini","openai","codex","debugging","architecture","multi-ai","synthesis","fresh perspective","stuck","web research","thinking mode","repo-aware","validation"],
       "category": "ai"
     }
 ,
@@ -807,15 +807,15 @@
       "name": "mutation-testing",
       "source": "./skills/mutation-testing",
       "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality. ",
-      "keywords": ["mutation-testing","mutation","testing","tests","unit-tests","integration","quality","javascript","typescript"],
+      "keywords": ["mutation-testing","mutation","testing","tests","unit-tests","quality"],
       "category": "testing"
     }
 ,
     {
       "name": "nano-banana-prompts",
       "source": "./skills/nano-banana-prompts",
-      "description": "Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use when user wants to create images with Gemini, needs help crafting image prompts, or requests \"nano banana\" style prompts. Applies proven best practices for natural language descriptions, photography, art styles, and multi-turn editing workflows. ",
-      "keywords": ["nano-banana-prompts","nano","banana","prompts","development","tooling","workflow"],
+      "description": "Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices. ",
+      "keywords": ["nano-banana-prompts","nano","banana","prompts","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -823,15 +823,15 @@
       "name": "neon-vercel-postgres",
       "source": "./skills/neon-vercel-postgres",
       "description": "This skill provides comprehensive knowledge for integrating Neon serverless Postgres and Vercel Postgres (which is built on Neon infrastructure) into web applications. It should be used when setting up serverless Postgres databases, configuring connection pooling for edge and serverless environments, implementing database branching workflows, or troubleshooting Postgres connection issues in Cloudflare Workers, Vercel Edge Functions, or Node.js serverless functions. Use this skill when: - Setting up Neon Postgres for Cloudflare Workers, Vercel Edge, or serverless environments - Configuring Vercel Postgres for Next.js applications - Implementing database branching workflows (git-like database branches) - Integrating Drizzle ORM or Prisma with Neon/Vercel Postgres - Debugging connection pool errors, transaction timeouts, or SSL configuration issues - Migrating from D1/SQLite to Postgres or from traditional Postgres to serverless Postgres - Setting up point-in-time restore (PITR) or database backups - Encountering errors like \"connection pool exhausted\", \"TCP connections not supported in serverless\", or \"sslmode required\" ",
-      "keywords": ["neon-vercel-postgres","neon","vercel","postgres","neon postgres","@neondatabase/serverless","@vercel/postgres","serverless postgres","postgres edge","neon branching","vercel database","http postgres","websocket postgres","pooled connection","drizzle neon","prisma neon","postgres cloudflare","postgres vercel edge","sql template tag","neonctl","database branches","point in time restore","postgres migrations","serverless sql","edge database","neon api","vercel sql","orm","pitr","ssl","tcp","configuration","migration","edge"],
+      "keywords": ["neon-vercel-postgres","neon","vercel","postgres","neon postgres","@neondatabase/serverless","@vercel/postgres","serverless postgres","postgres edge","neon branching","vercel database","http postgres","websocket postgres","pooled connection","drizzle neon","prisma neon","postgres cloudflare","postgres vercel edge","sql template tag","neonctl","database branches","point in time restore","postgres migrations","serverless sql","edge database","neon api","vercel sql","orm","pitr","ssl","tcp","migration","edge"],
       "category": "database"
     }
 ,
     {
       "name": "nextjs",
       "source": "./skills/nextjs",
-      "description": "Use this skill for Next.js App Router patterns, Server Components, Server Actions, Cache Components, and framework-level optimizations. Covers Next.js 16 breaking changes including async params, proxy.ts migration, Cache Components with \"use cache\", and React 19.2 integration. For deploying to Cloudflare Workers, use the cloudflare-nextjs skill instead. This skill is deployment-agnostic and works with Vercel, AWS, self-hosted, or any platform. ",
-      "keywords": ["nextjs","next.js 16","next.js app router","next.js pages router","server components","react server components","server actions","cache components","use cache","next.js 16 breaking changes","async params nextjs","proxy.ts migration","react 19.2","next.js metadata","next.js seo","generatemetadata","static generation","dynamic rendering","streaming ssr","suspense","parallel routes","intercepting routes","route groups","next.js middleware","next.js api routes","route handlers","revalidatepath","revalidatetag","next/navigation","usesearchparams","turbopack","next.config","api","aws","seo","ssr","optimization","integration","deployment","migration","streaming","async"],
+      "description": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors. ",
+      "keywords": ["nextjs","frontend","components","ssr","migration","async"],
       "category": "frontend"
     }
 ,
@@ -839,23 +839,23 @@
       "name": "nuxt-content",
       "source": "./skills/nuxt-content",
       "description": "This skill provides comprehensive knowledge for building content-driven sites with Nuxt Content v3, a Git-based CMS for Nuxt projects. Use this skill when creating blogs, documentation sites, or content-heavy applications with Markdown/MDC syntax, content collections with type-safe queries, schema validation using Zod or Valibot, navigation utilities, full-text search, and deploying to Cloudflare (Pages/Workers with D1) or Vercel. This skill covers Nuxt Studio integration for self-hosted production content editing with GitHub sync, SQL-based storage for optimal performance, automatic TypeScript type generation, MDC components (Markdown Components), Prose component customization, and query builders with SQL-like operations. Use when: implementing Git-based content workflows, setting up type-safe content queries, deploying Nuxt Content to Cloudflare D1 or Vercel, configuring Nuxt Studio for production content editing, building searchable content with queryCollectionSearchSections, creating auto-generated navigation from content structure, validating content schemas with Zod/Valibot, or troubleshooting content collection errors. ",
-      "keywords": ["nuxt-content","nuxt","content","nuxt content","@nuxt/content","content collections","git-based cms","markdown cms","mdc syntax","nuxt studio","content editing","querycollection","cloudflare d1 deployment","vercel deployment","markdown components","prose components","content navigation","full-text search","type-safe queries","sql storage","content schema validation","zod validation","valibot","remote repositories","content queries","querycollectionnavigation","querycollectionsearchsections","contentrenderer component","cms","mdc","sql","contentrenderer","github","typescript","production","validation","integration","deployment"],
+      "keywords": ["nuxt-content","nuxt","content","nuxt content","@nuxt/content","content collections","git-based cms","markdown cms","mdc syntax","nuxt studio","content editing","querycollection","cloudflare d1 deployment","vercel deployment","markdown components","prose components","content navigation","full-text search","type-safe queries","sql storage","content schema validation","zod validation","valibot","remote repositories","content queries","querycollectionnavigation","querycollectionsearchsections","contentrenderer component","cms","mdc","sql","contentrenderer","github","validation","integration"],
       "category": "frontend"
     }
 ,
     {
       "name": "nuxt-seo",
       "source": "./skills/nuxt-seo",
-      "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO configuration errors, sitemap generation issues, OG image rendering problems, and robots.txt misconfigurations. ",
-      "keywords": ["nuxt-seo","nuxt","seo","frontend","components","typescript","configuration"],
+      "description": "Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. ",
+      "keywords": ["nuxt-seo","nuxt","seo","nuxt 3","nuxt 4","nuxt seo","vue","vue 3","search engine optimization","@nuxtjs/seo","nuxt-robots","nuxt-sitemap","nuxt-og-image","nuxt-schema-org","nuxt-link-checker","nuxt-seo-utils","nuxt-site-config","robots.txt","sitemap","sitemap.xml","og image","open graph","social sharing","meta tags","schema.org","structured data","json-ld","canonical urls","breadcrumbs","bot detection","crawling","indexing","noindex","nofollow","xml sitemap","multiple sitemaps","sitemap index","dynamic sitemap","og image generation","satori","chromium rendering","vue templates","seo setup","seo configuration","meta management","social media preview","search optimization","link checking","broken links","site config","multi-language seo","i18n seo","sitemap not generated","robots.txt missing","og image not rendering","schema validation errors","duplicate meta tags","canonical url issues","sitemap index errors","validation"],
       "category": "frontend"
     }
 ,
     {
       "name": "nuxt-ui-v4",
       "source": "./skills/nuxt-ui-v4",
-      "description": "Production-ready Nuxt UI v4 component library for Nuxt v4 with 100+ accessible components, Tailwind CSS v4, and Reka UI foundation. Use when: setting up Nuxt v4 projects with UI component library, implementing design systems with semantic colors, building accessible forms and data displays, configuring dark mode and color themes, creating responsive layouts with Cards and Containers, implementing navigation with Tabs and CommandPalette, building overlays with Modal/Drawer/Popover/DropdownMenu, adding feedback with Toast/Alert/Skeleton/Progress, integrating AI chat interfaces with AI SDK v5, customizing component themes globally or per-instance, or encountering component rendering issues, theming problems, composable errors (useToast, useNotification), TypeScript errors, or responsive pattern challenges. Covers: Nuxt v4 setup, @nuxt/ui module installation, semantic color system (7 color aliases), component theming with Tailwind Variants, form components and validation, data display with Tables and Cards, navigation patterns (Tabs, Breadcrumb, CommandPalette), overlay components (Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip), feedback patterns (Toast, Alert, Skeleton, Progress), layout components (Card, Container, Avatar, Badge), composables (useToast, useNotification, useColorMode, defineShortcuts), AI SDK v5 integration, dark mode setup, accessibility with Reka UI, responsive patterns, TypeScript configuration, and 20+ common errors with solutions. ",
-      "keywords": ["nuxt-ui-v4","nuxt","nuxt v4","nuxt 4","nuxt ui v4","nuxt ui 4","@nuxt/ui","tailwind v4","tailwind css 4","reka ui","semantic colors","design system","accessible components","aria","wai-aria","dark mode","color mode","theming","component library","form validation","input","inputdate","inputtime","date picker","time picker","@internationalized/date","select","checkbox","radio","textarea","table","card","container","avatar","badge","button","tabs","breadcrumb","commandpalette","pagination","modal","drawer","dialog","popover","dropdownmenu","tooltip","sheet","alert","toast","notification","progress","skeleton","empty","empty state","carousel","usetoast","usenotification","usecolormode","defineshortcuts","uapp wrapper","tailwind variants","tailwind prefix","component customization","component detection","virtualization","tree-shaking","responsive design","mobile patterns","ai sdk v5","chat interface","zod validation","nested forms","file uploads","keyboard navigation","focus management","css variables","embla carousel","fuse.js search","template refs","$el accessor","v4.2 migration","css","sdk","wai","typescript","production","validation","integration","configuration","migration"],
+      "description": "Nuxt UI v4 component library with 100+ accessible components, Tailwind v4, Reka UI. Use for design systems, forms, overlays, AI chat integration, or encountering theming, composable, TypeScript errors. ",
+      "keywords": ["nuxt-ui-v4","nuxt","frontend","components"],
       "category": "frontend"
     }
 ,
@@ -863,55 +863,55 @@
       "name": "nuxt-v4",
       "source": "./skills/nuxt-v4",
       "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest. ",
-      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","middleware","server routes","api routes","hydration","file-based routing","app directory","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","workers assets","durable objects","vitest","testing","performance optimization","lazy loading","code splitting","prerendering","layers","modules","plugins","vite","typescript","hydration mismatch","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","server directory","public directory","assets directory","api","production","optimization","deployment"],
+      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","server routes","api routes","hydration","file-based routing","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","workers assets","durable objects","vitest","testing","nuxt performance","lazy loading","code splitting","prerendering","nuxt layers","nuxt modules","nuxt plugins","vite","hydration mismatch","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","api"],
       "category": "frontend"
     }
 ,
     {
       "name": "oauth-implementation",
       "source": "./skills/oauth-implementation",
-      "description": "Implements OAuth 2.0 and OpenID Connect flows for authentication and authorization with proper security measures. Use when integrating third-party providers, building SSO systems, or securing API access with token-based authentication. ",
-      "keywords": ["oauth-implementation","oauth","implementation","authentication","authorization","login","security","session","api","sso","openid"],
+      "description": "OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors. ",
+      "keywords": ["oauth-implementation","oauth","implementation","authentication","authorization","login","security","session","pkce","sso","openid"],
       "category": "auth"
     }
 ,
     {
       "name": "open-source-contributions",
       "source": "./skills/open-source-contributions",
-      "description": "Use this skill when contributing code to open source projects. The skill covers proper pull request creation, avoiding common mistakes that annoy maintainers, cleaning up personal development artifacts before submission, writing effective PR descriptions, following project conventions, and communicating professionally with maintainers. It prevents 16 common contribution mistakes including working on main branch, not testing before PR submission, including unrelated changes, submitting planning documents, session notes, temporary test files, screenshots, and other personal artifacts. Includes 3 Critical Workflow Rules that must NEVER be skipped: (1) Always work on feature branches, (2) Test thoroughly with evidence before PR, (3) Keep PRs focused on single feature. The skill includes automation scripts to validate PRs before submission, templates for PR descriptions and commit messages, and comprehensive checklists. This skill should be used whenever creating pull requests for public repositories, contributing to community projects, or submitting code to projects you don't own. ",
-      "keywords": ["open-source-contributions","open","source","contributions","open source contributions","github pull request","pr best practices","contribution guidelines","feature branch workflow","pr description","commit messages","open source etiquette","maintainer-friendly pr","pr checklist","clean pr","avoid personal artifacts","session notes cleanup","planning docs cleanup","test before pr","unrelated changes","working on main branch","focused pr","single feature pr","professional communication","community contributions","public repository contributions","fork workflow","upstream sync","never"],
+      "description": "Open source contribution best practices with PR validation scripts. Use for pull requests, community contributions, or encountering personal artifacts in PRs, working on main branch, untested submissions, unrelated changes, unfocused PRs. ",
+      "keywords": ["open-source-contributions","open","source","contributions","tooling","workflow","validation"],
       "category": "tooling"
     }
 ,
     {
       "name": "openai-agents",
       "source": "./skills/openai-agents",
-      "description": "Use this skill when building AI applications with OpenAI Agents SDK for JavaScript/TypeScript. The skill covers both text-based agents and realtime voice agents, including multi-agent workflows (handoffs), tools with Zod schemas, input/output guardrails, structured outputs, streaming, human-in-the-loop patterns, and framework integrations for Cloudflare Workers, Next.js, and React. It prevents 9+ common errors including Zod schema type errors, MCP tracing failures, infinite loops, tool call failures, and schema mismatches. The skill includes comprehensive templates for all agent types, error handling patterns, and debugging strategies. ",
-      "keywords": ["openai-agents","openai","agents","openai agents sdk","@openai/agents","@openai/agents-realtime","openai agents javascript","openai agents typescript","text agents","voice agents","realtime agents","multi-agent workflows","agent handoffs","agent tools","zod schemas agents","structured outputs agents","agent streaming","agent guardrails","input guardrails","output guardrails","human-in-the-loop","cloudflare workers agents","nextjs openai agents","react openai agents","hono agents","agent debugging","zod schema type error","mcp tracing failure","agent infinite loop","tool call failures","schema mismatch agents","mcp","sdk","javascript","typescript","integration","streaming","realtime"],
+      "description": "OpenAI Agents SDK for JavaScript/TypeScript (text + voice agents). Use for multi-agent workflows, tools, guardrails, or encountering Zod errors, MCP failures, infinite loops, tool call issues. ",
+      "keywords": ["openai-agents","openai","agents","machine-learning","llm","artificial-intelligence","mcp"],
       "category": "ai"
     }
 ,
     {
       "name": "openai-api",
       "source": "./skills/openai-api",
-      "description": "Complete guide for OpenAI APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), Moderation. Includes Node.js SDK and fetch approaches. ",
-      "keywords": ["openai-api","openai","api","machine-learning","llm","artificial-intelligence","dall","gpt","sdk","tts"],
+      "description": "Complete guide for OpenAI APIs: Chat Completions (GPT-5.2, GPT-4o), Embeddings, Images (GPT-Image-1.5), Audio (Whisper + TTS + Transcribe), Moderation. Includes Node.js SDK and fetch approaches. ",
+      "keywords": ["openai-api","openai","api","machine-learning","llm","artificial-intelligence","gpt","tts"],
       "category": "ai"
     }
 ,
     {
       "name": "openai-assistants",
       "source": "./skills/openai-assistants",
-      "description": "Complete guide for OpenAI's Assistants API v2: stateful conversational AI with built-in tools (Code Interpreter, File Search, Function Calling), vector stores for RAG (up to 10,000 files), thread/run lifecycle management, and streaming patterns. Both Node.js SDK and fetch approaches. ⚠️ DEPRECATION NOTICE: OpenAI plans to sunset Assistants API in H1 2026 in favor of Responses API. This skill remains valuable for existing apps and migration planning. Use when: building stateful chatbots with OpenAI, implementing RAG with vector stores, executing Python code with Code Interpreter, using file search for document Q&A, managing conversation threads, streaming assistant responses, or encountering errors like \"thread already has active run\", vector store indexing delays, run polling timeouts, or file upload issues. ",
-      "keywords": ["openai-assistants","openai","assistants","openai assistants","assistants api","openai threads","openai runs","code interpreter assistant","file search openai","vector store openai","openai rag","assistant streaming","thread persistence","stateful chatbot","thread already has active run","run status polling","vector store error","api","deprecation","notice","rag","sdk","migration","streaming"],
+      "description": "OpenAI Assistants API v2 for stateful chatbots with Code Interpreter, File Search, RAG. Use for threads, vector stores, or encountering active run errors, indexing delays. ⚠️ Sunset August 26, 2026. ",
+      "keywords": ["openai-assistants","openai","assistants","machine-learning","llm","artificial-intelligence","rag"],
       "category": "ai"
     }
 ,
     {
       "name": "openai-responses",
       "source": "./skills/openai-responses",
-      "description": "This skill provides comprehensive knowledge for working with OpenAI's Responses API, the unified stateful API for building agentic applications. It should be used when building AI agents that preserve reasoning across turns, integrating MCP servers for external tools, using built-in tools (Code Interpreter, File Search, Web Search, Image Generation), managing stateful conversations, implementing background processing, or migrating from Chat Completions API. Use when building agentic workflows, conversational AI with memory, tools-based applications, RAG systems, data analysis agents, or any application requiring OpenAI's reasoning models with persistent state. Covers both Node.js SDK and Cloudflare Workers implementations. ",
-      "keywords": ["openai-responses","openai","responses","responses api","openai responses","stateful openai","openai mcp","code interpreter openai","file search openai","web search openai","image generation openai","reasoning preservation","agentic workflows","conversation state","background mode","chat completions migration","gpt-5","polymorphic outputs","api","mcp","rag","sdk","implementation","migration"],
+      "description": "OpenAI Responses API for stateful agentic applications with reasoning preservation. Use for MCP integration, built-in tools, background processing, or migrating from Chat Completions. ",
+      "keywords": ["openai-responses","openai","responses","machine-learning","llm","artificial-intelligence","mcp"],
       "category": "ai"
     }
 ,
@@ -919,23 +919,23 @@
       "name": "payment-gateway-integration",
       "source": "./skills/payment-gateway-integration",
       "description": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes. ",
-      "keywords": ["payment-gateway-integration","payment","gateway","integration","web","performance","optimization","pwa","pci","paypal","webhooks"],
+      "keywords": ["payment-gateway-integration","payment","gateway","integration","web","pci","paypal","webhooks"],
       "category": "web"
     }
 ,
     {
       "name": "pinia-colada",
       "source": "./skills/pinia-colada",
-      "description": "This skill provides comprehensive knowledge for Pinia Colada, the smart data fetching layer for Vue.js built on top of Pinia. It should be used when setting up async data fetching with useQuery, implementing mutations with useMutation, configuring query cache, managing server state, implementing optimistic updates, using paginated queries, configuring SSR/Nuxt integration, or encountering query/mutation errors. Use when: initializing Pinia Colada in Vue 3 or Nuxt projects, configuring PiniaColada plugin settings, creating reusable query composables, implementing mutations with automatic invalidation, setting up optimistic updates, using paginated queries, prefetching data, migrating from TanStack Vue Query, debugging cache issues, fixing SSR hydration errors, implementing query invalidation strategies, or setting up custom plugins for auto-refetch behavior. ",
-      "keywords": ["pinia-colada","pinia","colada","pinia colada","@pinia/colada","usequery","usemutation","usequerycache","data fetching","async state","vue 3","nuxt","server state","caching","staletime","gctime","query invalidation","prefetching","optimistic updates","mutations","query keys","paginated queries","ssr","server-side rendering","nuxt module","@pinia/colada-nuxt","query cache","auto-refetch","cache invalidation","request deduplication","loading states","error handling","onsettled","onsuccess","onerror","definecoladaloader","piniacolada","tanstack","integration","async"],
+      "description": "Pinia Colada data fetching for Vue/Nuxt with useQuery, useMutation. Use for async state, query cache, SSR, or encountering invalidation, hydration, TanStack Vue Query migration errors. ",
+      "keywords": ["pinia-colada","pinia","colada","frontend","components","ssr","tanstack","migration","async"],
       "category": "frontend"
     }
 ,
     {
       "name": "pinia-v3",
       "source": "./skills/pinia-v3",
-      "description": "This skill provides comprehensive knowledge for building Vue 3 applications with Pinia, the official state management library. It should be used when setting up Pinia stores, managing state in Vue applications, migrating from Vuex to Pinia, configuring SSR with Pinia, or encountering state management issues in Vue projects. Use when: creating Pinia stores, defining state/getters/actions, setting up Pinia with Nuxt, implementing store composition, configuring plugins, testing stores, using Pinia with Options API, handling SSR state hydration, migrating from Vuex, or debugging store-related errors. ",
-      "keywords": ["pinia-v3","pinia","vue state management","pinia stores","definestore","vue 3 state","state management","getters","actions","pinia plugins","pinia ssr","nuxt pinia","vuex migration","store composition","pinia testing","setup stores","option stores","storetorefs","mapstate","mapactions","state hydration","pinia nuxt module","createpinia","usestore","pinia devtools","pinia hmr","hot module replacement","api","ssr","migration"],
+      "description": "Pinia v3 Vue state management with defineStore, getters, actions. Use for Vue 3 stores, Nuxt SSR, Vuex migration, or encountering store composition, hydration, testing errors. ",
+      "keywords": ["pinia-v3","pinia","frontend","components","ssr","migration"],
       "category": "frontend"
     }
 ,
@@ -943,7 +943,7 @@
       "name": "playwright-testing",
       "source": "./skills/playwright-testing",
       "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects. ",
-      "keywords": ["playwright-testing","playwright","testing","tests","unit-tests","integration","quality","api","e2e","javascript","typescript"],
+      "keywords": ["playwright-testing","playwright","testing","tests","unit-tests","quality","e2e"],
       "category": "testing"
     }
 ,
@@ -951,23 +951,23 @@
       "name": "progressive-web-app",
       "source": "./skills/progressive-web-app",
       "description": "Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps. ",
-      "keywords": ["progressive-web-app","progressive","web","app","performance","optimization","pwa"],
+      "keywords": ["progressive-web-app","progressive","web","app","performance","pwa"],
       "category": "web"
     }
 ,
     {
       "name": "project-planning",
       "source": "./skills/project-planning",
-      "description": "Generates comprehensive planning documentation for web application projects, structuring work into context-safe phases with built-in verification criteria. Creates IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md, and other planning docs based on project needs. Optimized for Cloudflare Workers + Vite + React stack. Use when starting new projects, adding major features, or restructuring existing work into manageable phases. ",
-      "keywords": ["project-planning","project","planning","project planning","planning documentation","implementation_phases.md","database_schema.md","api_endpoints.md","architecture.md","ui_components.md","testing.md","agents_config.md","phased development","context-safe phases","verification criteria","exit criteria","planning docs generator","web app planning","cloudflare workers planning","vite react planning","project structure","project phases","major features planning","new project setup","architecture","testing","implementation"],
+      "description": "Generate planning docs (IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md) for web projects. Use for new projects, major features, or phased development with Cloudflare Workers + Vite + React. ",
+      "keywords": ["project-planning","project","planning","tooling","workflow","architecture","implementation"],
       "category": "tooling"
     }
 ,
     {
       "name": "project-session-management",
       "source": "./skills/project-session-management",
-      "description": "Manages session state and context handoffs for multi-session projects using the Session Handoff Protocol. Creates and maintains SESSION.md to track phase progress, git checkpoints, and next actions across context clears. Integrates with project-planning skill to convert IMPLEMENTATION_PHASES.md into trackable session state. Use when starting new projects after planning, resuming work after context clear, or managing complex multi-phase implementations. ",
-      "keywords": ["project-session-management","project","session","management","session management","session.md","session handoff protocol","context handoff","multi-session projects","phase tracking","git checkpoints","session state tracking","resume work","context clear","phase progress tracking","implementation phases","verification stage","debugging stage","next action tracking","work continuity","session recovery","context management","phased implementation tracking","implementation"],
+      "description": "Session state and context handoff management with SESSION.md tracking. Use for multi-session projects, resuming after context clear, phase tracking, or encountering handoff protocol, session recovery, phase progress, checkpoint errors. ",
+      "keywords": ["project-session-management","project","session","management","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -975,7 +975,7 @@
       "name": "project-workflow",
       "source": "./skills/project-workflow",
       "description": "Automate complete project lifecycle from idea exploration to safe deployment with 7 integrated slash commands. Use when starting projects, planning features, managing development sessions, or ensuring safe releases. Includes /explore-idea, /plan-project, /add-feature, /start-session, /end-session, /safe-merge, /prepare-release commands. Saves 35-55 minutes per project by automating repetitive tasks and enforcing best practices for context management, planning documentation, and release safety checks. ",
-      "keywords": ["project-workflow","project","workflow","project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases","implementation","deployment"],
+      "keywords": ["project-workflow","project","workflow","project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases","implementation"],
       "category": "tooling"
     }
 ,
@@ -983,22 +983,22 @@
       "name": "push-notification-setup",
       "source": "./skills/push-notification-setup",
       "description": "Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels. ",
-      "keywords": ["push-notification-setup","push","notification","setup","web","performance","optimization","pwa"],
+      "keywords": ["push-notification-setup","push","notification","setup","web","performance","pwa"],
       "category": "web"
     }
 ,
     {
       "name": "react-hook-form-zod",
       "source": "./skills/react-hook-form-zod",
-      "description": "This skill provides comprehensive knowledge for building type-safe, validated forms in React using React Hook Form and Zod schema validation. Use when: building forms with validation in React, integrating Zod schema validation with React Hook Form, using shadcn/ui Form or Field components, implementing client and server-side validation with a single schema, handling complex validation scenarios (nested objects, arrays, conditional fields, async validation), building multi-step forms or wizards, implementing dynamic form fields with useFieldArray, optimizing form performance and re-renders, ensuring accessible form error handling, or debugging form validation issues. ",
-      "keywords": ["react-hook-form-zod","react","hook","form","zod","react-hook-form","useform","zod validation","zodresolver","@hookform/resolvers","form schema","register","handlesubmit","formstate","usefieldarray","usewatch","usecontroller","controller","shadcn form","field component","client server validation","nested validation","array field validation","dynamic fields","multi-step form","async validation","zod refine","z.infer","form error handling","uncontrolled to controlled","resolver not found","schema validation error","validation","async"],
+      "description": "Type-safe React forms with React Hook Form and Zod validation. Use for form schemas, field arrays, multi-step forms, or encountering validation errors, resolver issues, nested field problems. ",
+      "keywords": ["react-hook-form-zod","react","hook","form","zod","frontend","components","validation"],
       "category": "frontend"
     }
 ,
     {
       "name": "react-native-app",
       "source": "./skills/react-native-app",
-      "description": "Builds cross-platform mobile applications using React Native with navigation, state management, and native features. Use when developing iOS/Android apps from a single codebase, prototyping mobile solutions, or sharing code with React web apps. ",
+      "description": "React Native cross-platform mobile apps with navigation, state management, native features. Use for iOS/Android development, mobile prototyping, code sharing, or encountering bridge errors, platform-specific bugs, performance bottlenecks. ",
       "keywords": ["react-native-app","react","native","app","mobile"],
       "category": "mobile"
     }
@@ -1006,16 +1006,16 @@
     {
       "name": "recommendation-engine",
       "source": "./skills/recommendation-engine",
-      "description": "Builds recommendation systems using collaborative filtering, matrix factorization, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, personalization features, handling cold start problems, or evaluating recommendation quality with precision@k, NDCG, and coverage metrics. ",
-      "keywords": ["recommendation-engine","recommendation","engine","data","analytics","processing","sql","queries","ndcg"],
+      "description": "Build recommendation systems with collaborative filtering, matrix factorization, hybrid approaches. Use for product recommendations, personalization, or encountering cold start, sparsity, quality evaluation issues. ",
+      "keywords": ["recommendation-engine","recommendation","engine","data","analytics","processing","sql","queries"],
       "category": "data"
     }
 ,
     {
       "name": "recommendation-system",
       "source": "./skills/recommendation-system",
-      "description": "Designs and deploys production recommendation systems with feature stores, caching, A/B testing, and monitoring. Use when building personalization features, implementing real-time recommendations, optimizing for low latency, conducting recommendation experiments, or monitoring recommendation quality at scale. ",
-      "keywords": ["recommendation-system","recommendation","system","data","analytics","processing","sql","queries","production","caching","real-time"],
+      "description": "Deploy production recommendation systems with feature stores, caching, A/B testing. Use for personalization APIs, low latency serving, or encountering cache invalidation, experiment tracking, quality monitoring issues. ",
+      "keywords": ["recommendation-system","recommendation","system","data","analytics","processing","sql","queries","caching"],
       "category": "data"
     }
 ,
@@ -1023,7 +1023,7 @@
       "name": "responsive-web-design",
       "source": "./skills/responsive-web-design",
       "description": "Builds adaptive web interfaces using Flexbox, CSS Grid, and media queries with a mobile-first approach. Use when creating multi-device layouts, implementing flexible UI systems, or ensuring cross-browser compatibility. ",
-      "keywords": ["responsive-web-design","responsive","web","design","performance","optimization","pwa","css"],
+      "keywords": ["responsive-web-design","responsive","web","design","performance","pwa","css"],
       "category": "web"
     }
 ,
@@ -1039,7 +1039,7 @@
       "name": "root-cause-tracing",
       "source": "./skills/root-cause-tracing",
       "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger. ",
-      "keywords": ["root-cause-tracing","root","cause","tracing","development","tooling","workflow"],
+      "keywords": ["root-cause-tracing","root","cause","tracing","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -1055,23 +1055,23 @@
       "name": "seo-keyword-cluster-builder",
       "source": "./skills/seo-keyword-cluster-builder",
       "description": "Groups related keywords into topic clusters and creates content hub architecture recommendations with internal linking strategies. Use when planning content strategy, organizing keyword research, or building pillar page structures. ",
-      "keywords": ["seo-keyword-cluster-builder","seo","keyword","cluster","builder","search","keywords","optimization","ranking"],
+      "keywords": ["seo-keyword-cluster-builder","seo","keyword","cluster","builder","search","keywords","ranking"],
       "category": "seo"
     }
 ,
     {
       "name": "seo-optimizer",
       "source": "./skills/seo-optimizer",
-      "description": "Analyzes and optimizes content for search engines through keyword analysis, readability assessment, technical SEO validation, and content quality evaluation. Use when improving search rankings, optimizing blog posts, or conducting content audits. ",
-      "keywords": ["seo-optimizer","seo","optimizer","search","keywords","optimization","ranking","validation"],
+      "description": "SEO optimization with keyword analysis, readability assessment, technical validation, content quality. Use for search rankings, blog posts, content audits, or encountering keyword density, readability scores, meta tags, schema markup errors. ",
+      "keywords": ["seo-optimizer","seo","optimizer","search","keywords","ranking","validation"],
       "category": "seo"
     }
 ,
     {
       "name": "sequential-thinking",
       "source": "./skills/sequential-thinking",
-      "description": "Use when complex problems require systematic step-by-step reasoning with ability to revise thoughts, branch into alternative approaches, or dynamically adjust scope. Ideal for multi-stage analysis, design planning, problem decomposition, or tasks with initially unclear scope. ",
-      "keywords": ["sequential-thinking","sequential","thinking","development","tooling","workflow"],
+      "description": "Systematic step-by-step reasoning with revision and branching. Use for complex problems, multi-stage analysis, design planning, problem decomposition, or encountering unclear scope, alternative approaches needed, revision requirements. ",
+      "keywords": ["sequential-thinking","sequential","thinking","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -1079,39 +1079,39 @@
       "name": "session-management",
       "source": "./skills/session-management",
       "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality. ",
-      "keywords": ["session-management","session","management","web","performance","optimization","pwa","jwt","authentication","configuration"],
+      "keywords": ["session-management","session","management","web","performance","pwa","jwt","authentication"],
       "category": "web"
     }
 ,
     {
       "name": "shadcn-vue",
       "source": "./skills/shadcn-vue",
-      "description": "Production-ready setup for shadcn-vue, the Vue/Nuxt adaptation of shadcn/ui with Reka UI headless components and Tailwind CSS. Use when: initializing Vue or Nuxt projects with shadcn-vue, setting up accessible UI components, implementing forms with Auto Form, building data tables with TanStack Table, adding charts with Unovis, implementing dark mode, debugging component imports, or working with Reka UI components. Covers: CLI setup with bunx shadcn-vue@latest, components.json configuration, Reka UI v2 integration, 50+ component library, Auto Form with Zod schemas, Data Tables with TanStack integration, Charts with Unovis, dark mode with useColorMode, CSS variables vs utility classes, TypeScript path aliases, monorepo support, component dependencies, and migration from Radix Vue. ",
-      "keywords": ["shadcn-vue","shadcn","vue","shadcn vue","reka ui","radix-vue","vue components","nuxt components","tailwind css","accessible components","headless ui","auto form","zod validation","tanstack table","data tables","unovis charts","dark mode","usecolormode","components.json","bunx shadcn-vue","vueuse","composables","vue 3","nuxt 3","typescript","accessibility","aria","component library","ui components","form builder","schema validation","cli","css","tanstack","production","validation","integration","configuration","migration"],
+      "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors. ",
+      "keywords": ["shadcn-vue","shadcn","vue","frontend","components"],
       "category": "frontend"
     }
 ,
     {
       "name": "skill-review",
       "source": "./skills/skill-review",
-      "description": "Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology. ",
-      "keywords": ["skill-review","skill","review","development","tooling","workflow","api","yaml","production","validation"],
+      "description": "Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors. ",
+      "keywords": ["skill-review","skill","review","tooling","workflow","validation"],
       "category": "tooling"
     }
 ,
     {
       "name": "sql-query-optimization",
       "source": "./skills/sql-query-optimization",
-      "description": "Comprehensive SQL query performance optimization for PostgreSQL and MySQL using indexing strategies, query plan analysis, and systematic optimization workflows. This skill provides patterns for debugging slow queries, creating optimal indexes, rewriting inefficient queries, and monitoring database performance. Use when: debugging slow database queries, analyzing EXPLAIN output, optimizing query execution plans, creating indexes for performance, rewriting N+1 queries, implementing pagination, using prepared statements, monitoring query performance, or encountering \"sequential scan\", \"missing index\", \"N+1 query problem\", \"slow LIKE queries\", \"OFFSET pagination\", \"temp table spills\", or cache hit ratio issues. Prevents 12 documented issues: sequential scans on large tables, missing indexes on foreign keys, N+1 query problems from ORMs, leading wildcard LIKE queries, SELECT * in production, missing LIMIT on large results, inefficient subqueries vs JOINs, stale statistics after bulk loads, missing composite indexes, wrong index column order, SQL injection from non-parameterized queries, and missing connection pooling. ",
-      "keywords": ["sql-query-optimization","sql","query","optimization","sql optimization","query performance","database indexes","explain analyze","slow queries","n+1 problem","query plan","index strategy","composite index","covering index","postgresql performance","mysql optimization","query rewriting","prepared statements","connection pooling","sequential scan","missing index","select *","limit optimization","subquery performance","pagination","cursor based pagination","batch operations","pg_stat_statements","full-text search","bitmap scan","index only scan","query tuning","database performance","cache hit ratio","work_mem","shared_buffers","database monitoring","explain","like","limit","offset","select","mysql","postgresql","production"],
+      "description": "SQL query optimization for PostgreSQL/MySQL with indexing, EXPLAIN analysis. Use for slow queries, N+1 problems, missing indexes, or encountering sequential scans, OFFSET pagination, temp table spills, inefficient JOINs. ",
+      "keywords": ["sql-query-optimization","sql","query","optimization","data","analytics","processing","queries","explain","offset","mysql","postgresql"],
       "category": "data"
     }
 ,
     {
       "name": "sveltia-cms",
       "source": "./skills/sveltia-cms",
-      "description": "Complete Sveltia CMS skill for lightweight, Git-backed content management. Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB), faster GraphQL-based performance, and solves 260+ predecessor issues. Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class i18n support and mobile-friendly editing interface. Prevents 8+ common errors including OAuth authentication failures, TOML formatting issues, YAML parse errors, CORS/COOP policy problems, content not listing, script loading errors, image upload failures, and deployment problems. Includes complete ",
-      "keywords": ["sveltia-cms","sveltia","cms","sveltia cms","git-backed cms","decap cms alternative","netlify cms alternative","headless cms","static site cms","hugo cms","jekyll cms","11ty cms","gatsby cms","astro cms","sveltekit cms","next.js cms","content management","visual editing","markdown cms","yaml frontmatter","i18n cms","multilingual cms","mobile-friendly cms","oauth authentication cms","toml config","admin/config.yml","graphql performance","cloudflare workers oauth proxy","oauth authentication failure","yaml parse error","cors coop policy","content not listing","image upload failures cloudflare workers oauth proxy setup guide.","coop","cors","toml","yaml","graphql","sveltekit","authentication","deployment"],
+      "description": "Complete Sveltia CMS skill for lightweight, Git-backed content management. Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB), faster GraphQL-based performance, and solves 260+ predecessor issues. Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class i18n support and mobile-friendly editing interface. Prevents 8+ common errors including OAuth authentication failures, TOML formatting issues, YAML parse errors, CORS/COOP policy problems, content not listing, script loading errors, image upload failures, and deployment problems. Includes complete setup guides, configuration examples, and Cloudflare Workers OAuth proxy deployment documentation. ",
+      "keywords": ["sveltia-cms","sveltia","cms","content","management","publishing","coop","cors","toml","yaml","graphql","sveltekit","authentication"],
       "category": "cms"
     }
 ,
@@ -1119,7 +1119,7 @@
       "name": "swift-best-practices",
       "source": "./skills/swift-best-practices",
       "description": "This skill should be used when writing or reviewing Swift code for iOS or macOS projects. Apply modern Swift 6+ best practices, concurrency patterns, API design guidelines, and migration strategies. Covers async/await, actors, MainActor, Sendable, typed throws, and Swift 6 breaking changes. ",
-      "keywords": ["swift-best-practices","swift","best","practices","mobile","app","native","api","mainactor","migration","async"],
+      "keywords": ["swift-best-practices","swift","best","practices","concurrency","async-await","actors","sendable","typed-throws","swift-6","migration","data-races","mainactor","nonisolated","isolated","ios","macos","swiftui","combine","swift-concurrency","actor-isolation","strict-concurrency","swift-migration","modern-swift","swift-evolution","code-review","swift-patterns","apple-platforms","xcode","ios-development","macos-development","api","async"],
       "category": "mobile"
     }
 ,
@@ -1135,7 +1135,7 @@
       "name": "systematic-debugging",
       "source": "./skills/systematic-debugging",
       "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes. ",
-      "keywords": ["systematic-debugging","systematic","debugging","development","tooling","workflow"],
+      "keywords": ["systematic-debugging","systematic","debugging","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -1143,7 +1143,7 @@
       "name": "tailwind-v4-shadcn",
       "source": "./skills/tailwind-v4-shadcn",
       "description": "Production-tested setup for Tailwind CSS v4 with shadcn/ui, Vite, and React. Use when: initializing React projects with Tailwind v4, setting up shadcn/ui, implementing dark mode, debugging CSS variable issues, fixing theme switching, migrating from Tailwind v3, or encountering color/theming problems. Covers: @theme inline pattern, CSS variable architecture, dark mode with ThemeProvider, component composition, vite.config setup, common v4 gotchas, and production-tested patterns. ",
-      "keywords": ["tailwind-v4-shadcn","tailwind","shadcn","tailwind v4","shadcn/ui","@tailwindcss/vite","@theme inline","dark mode","css variables","hsl() wrapper","components.json","react theming","theme switching","colors not working","variables broken","theme not applying","@plugin directive","typography plugin","forms plugin","prose class","@tailwindcss/typography","@tailwindcss/forms","css","themeprovider","production"],
+      "keywords": ["tailwind-v4-shadcn","tailwind","shadcn","tailwind v4","shadcn/ui","@tailwindcss/vite","@theme inline","dark mode","css variables","hsl() wrapper","components.json","react theming","theme switching","colors not working","variables broken","theme not applying","@plugin directive","typography plugin","forms plugin","prose class","@tailwindcss/typography","@tailwindcss/forms","css","themeprovider"],
       "category": "frontend"
     }
 ,
@@ -1151,39 +1151,39 @@
       "name": "tanstack-ai",
       "source": "./skills/tanstack-ai",
       "description": "This skill provides production-ready guidance for TanStack AI (alpha) to build provider-agnostic, type-safe AI chat with streaming, server/client tools, approval flows, and adapters for OpenAI, Anthropic, Gemini, and Ollama. Use it to scaffold new chat APIs, wire React or Solid frontends with `useChat`/`ChatClient`, define isomorphic tools with `toolDefinition().server()` / `.client()`, or debug streaming and agent loop behavior. Use when: connecting TanStack AI to OpenAI/Anthropic/Gemini/Ollama adapters, enabling SSE streaming with `toStreamResponse` + `fetchServerSentEvents`, adding tool approval (`needsApproval`) for destructive actions, implementing agent loop strategies, supporting multimodal inputs, or troubleshooting missing tool definitions and model-specific option typing. ",
-      "keywords": ["tanstack-ai","tanstack","tanstack ai","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","tooldefinition","client tools","server tools","tool approval","agent loop","streaming","sse","connection adapters","multimodal","type-safe models","tanstack start","next.js api","tostreamresponse","fetchserversentevents","chat","usechat","chatclient","needsapproval","api","openai","production"],
+      "keywords": ["tanstack-ai","tanstack","tanstack ai","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","tooldefinition","client tools","server tools","tool approval","agent loop","streaming","sse","connection adapters","multimodal","type-safe models","tanstack start","next.js api","tostreamresponse","fetchserversentevents","chat","usechat","chatclient","needsapproval","api","openai"],
       "category": "ai"
     }
 ,
     {
       "name": "tanstack-query",
       "source": "./skills/tanstack-query",
-      "description": "This skill provides comprehensive knowledge for TanStack Query v5 (React Query) server state management in React applications. It should be used when setting up data fetching with useQuery, implementing mutations with useMutation, configuring QueryClient, managing caching strategies, migrating from v4 to v5, implementing optimistic updates, using infinite queries, or encountering query/mutation errors. Use when: initializing TanStack Query in React projects, configuring QueryClient settings, creating custom query hooks, implementing mutations with error handling, setting up optimistic updates, using useInfiniteQuery for pagination, migrating from React Query v4 to v5, debugging stale data issues, fixing caching problems, resolving v5 breaking changes, implementing suspense queries, or setting up query devtools. ",
-      "keywords": ["tanstack-query","tanstack","query","tanstack query","react query","usequery","usemutation","useinfinitequery","usesuspensequery","queryclient","queryclientprovider","data fetching","server state","caching","staletime","gctime","query invalidation","prefetching","optimistic updates","mutations","query keys","query functions","error boundaries","suspense","react query devtools","v5 migration","v4 to v5","request waterfalls","background refetching","cachetime renamed","loading status renamed","pending status","initialpageparam required","keeppreviousdata removed","placeholderdata","query callbacks removed","onsuccess removed","onerror removed","object syntax required","devtools","migration"],
+      "description": "TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors. ",
+      "keywords": ["tanstack-query","tanstack","query","frontend","components","migration","caching"],
       "category": "frontend"
     }
 ,
     {
       "name": "tanstack-router",
       "source": "./skills/tanstack-router",
-      "description": "Build type-safe, file-based routing for React applications with TanStack Router. This skill provides patterns for client-side routing, data loading, and Cloudflare Workers integration. Use when: building SPAs with type-safe navigation, implementing file-based routing, integrating with TanStack Query for data fetching, or deploying to Cloudflare Workers. Includes 7+ documented error solutions and prevents common issues: devtools dependency errors, type safety problems, loader configuration mistakes, and Vite bundling issues. ",
-      "keywords": ["tanstack-router","tanstack","router","frontend","components","typescript","integration","configuration"],
+      "description": "TanStack Router type-safe file-based routing for React. Use for SPAs, TanStack Query integration, Cloudflare Workers, or encountering devtools, type safety, loader, Vite bundling errors. ",
+      "keywords": ["tanstack-router","tanstack","router","tanstack router","react router","type-safe routing","file-based routing","client-side routing","spa routing","route loaders","data loading","navigation","vite plugin","cloudflare workers","tanstack query integration","typescript routing","route params","nested routes","code splitting"],
       "category": "frontend"
     }
 ,
     {
       "name": "tanstack-start",
       "source": "./skills/tanstack-start",
-      "description": "Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns. ",
-      "keywords": ["tanstack-start","tanstack","start","frontend","components","typescript","spa","ssr","deployment","edge"],
+      "description": "TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare Workers. Use for Next.js migration, edge rendering, or encountering hydration, auth, data pattern errors. ",
+      "keywords": ["tanstack-start","tanstack","start","tanstack start","tanstack react start","full-stack react","selective ssr","spa mode","static prerender","server functions","server routes","cloudflare workers","edge rendering","hydration errors","next.js migration","ssr","migration","edge"],
       "category": "frontend"
     }
 ,
     {
       "name": "tanstack-table",
       "source": "./skills/tanstack-table",
-      "description": "Build production-ready data tables with headless TanStack Table v8. This skill provides server-side pagination, filtering, and sorting patterns optimized for Cloudflare Workers + D1 databases. Use when: building data tables with large datasets, implementing server-side table features, integrating with TanStack Query for data fetching, or need virtualization for performance. Includes 6+ documented error solutions and Cloudflare D1 integration examples. Prevents common issues: server-side state management confusion, TanStack Query coordination errors, manual sorting setup mistakes, URL state sync problems, and performance issues with large datasets. ",
-      "keywords": ["tanstack-table","tanstack","table","frontend","components","typescript","url","production","integration"],
+      "description": "TanStack Table v8 headless data tables with server-side features for Cloudflare Workers + D1. Use for pagination, filtering, sorting, virtualization, or encountering state management, TanStack Query coordination, URL sync errors. ",
+      "keywords": ["tanstack-table","tanstack","table","tanstack table","react table","data table","datagrid","headless table","server-side pagination","server-side filtering","server-side sorting","tanstack query integration","cloudflare d1","cloudflare workers","virtualization","tanstack virtual","large datasets","table state management","url state sync","column configuration","typescript table","react table v8","headless ui","data visualization","pagination","filtering","sorting","url"],
       "category": "frontend"
     }
 ,
@@ -1199,7 +1199,7 @@
       "name": "test-quality-analysis",
       "source": "./skills/test-quality-analysis",
       "description": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality. ",
-      "keywords": ["test-quality-analysis","test","quality","analysis","testing","tests","unit-tests","integration"],
+      "keywords": ["test-quality-analysis","test","quality","analysis","testing","tests","unit-tests"],
       "category": "testing"
     }
 ,
@@ -1214,24 +1214,24 @@
     {
       "name": "turborepo",
       "source": "./skills/turborepo",
-      "description": "Guide for implementing Turborepo - a high-performance build system for JavaScript and TypeScript monorepos. Use when setting up monorepos, optimizing build performance, implementing task pipelines, configuring caching strategies, or orchestrating tasks across multiple packages. ",
-      "keywords": ["turborepo","development","tooling","workflow","javascript","typescript","caching"],
+      "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration. ",
+      "keywords": ["turborepo","tooling","workflow","caching"],
       "category": "tooling"
     }
 ,
     {
       "name": "typescript-mcp",
       "source": "./skills/typescript-mcp",
-      "description": "Use this skill when building MCP (Model Context Protocol) servers with TypeScript on Cloudflare Workers. This skill provides production-tested patterns for implementing tools, resources, and prompts using the official @modelcontextprotocol/sdk. It prevents 10+ common errors including export syntax issues, schema validation failures, memory leaks from unclosed transports, CORS misconfigurations, and authentication vulnerabilities. This skill should be used when developers need stateless MCP servers for API integrations, external tool exposure, or serverless edge deployments. For stateful agents with WebSockets and persistent storage, consider the Cloudflare Agents SDK instead. Supports multiple authentication methods (API keys, OAuth, Zero Trust), Cloudflare service integrations (D1, KV, R2, Vectorize), and comprehensive testing strategies. Production tested with token savings of ~70% vs manual implementation. ",
-      "keywords": ["typescript-mcp","typescript","mcp","model context protocol","typescript mcp","cloudflare workers mcp","mcp server","mcp tools","mcp resources","mcp sdk","@modelcontextprotocol/sdk","hono mcp","streamablehttpservertransport","mcp authentication","mcp cloudflare","edge mcp server","serverless mcp","typescript mcp server","mcp api","llm tools","ai tools","cloudflare d1 mcp","cloudflare kv mcp","mcp testing","mcp deployment","wrangler mcp","export syntax error","schema validation error","memory leak mcp","cors mcp","rate limiting mcp","api","cors","sdk","websockets","production","authentication","validation","integration","implementation","deployment","edge"],
+      "description": "MCP servers with TypeScript on Cloudflare Workers using @modelcontextprotocol/sdk. Use for API integrations, stateless tools, edge deployments, or encountering export syntax, schema validation, memory leak, CORS, auth errors. ",
+      "keywords": ["typescript-mcp","mcp","tooling","workflow","cors","validation","edge"],
       "category": "tooling"
     }
 ,
     {
       "name": "ultracite",
       "source": "./skills/ultracite",
-      "description": "Use when setting up, configuring, or migrating to Ultracite, a fast Rust-based linting and formatting tool built on Biome. This skill provides comprehensive guidance for project setup, framework-specific configurations (React, Next.js, Vue, Svelte), Git hook integrations (Husky, Lefthook, lint-staged), AI editor rules, monorepo support, and migrations from ESLint, Prettier, or Biome. Includes project suitability assessment, troubleshooting, known limitations, and best practices for JavaScript/TypeScript projects. ",
-      "keywords": ["ultracite","frontend","components","typescript","javascript","integration","configuration","migration"],
+      "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors. ",
+      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration"],
       "category": "frontend"
     }
 ,
@@ -1255,7 +1255,7 @@
       "name": "verification-before-completion",
       "source": "./skills/verification-before-completion",
       "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs. ",
-      "keywords": ["verification-before-completion","verification","before","completion","development","tooling","workflow"],
+      "keywords": ["verification-before-completion","verification","before","completion","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -1263,7 +1263,7 @@
       "name": "vitest-testing",
       "source": "./skills/vitest-testing",
       "description": "Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects. ",
-      "keywords": ["vitest-testing","vitest","testing","tests","unit-tests","integration","quality","esm","hmr","javascript","typescript"],
+      "keywords": ["vitest-testing","vitest","testing","tests","unit-tests","quality","esm","hmr"],
       "category": "testing"
     }
 ,
@@ -1271,15 +1271,15 @@
       "name": "vulnerability-scanning",
       "source": "./skills/vulnerability-scanning",
       "description": "Implements automated security scanning for dependencies, code, and containers using tools like Trivy, Snyk, and npm audit. Use when setting up CI/CD security gates, conducting pre-deployment audits, or meeting compliance requirements. ",
-      "keywords": ["vulnerability-scanning","vulnerability","scanning","security","protection","csrf","xss","deployment"],
+      "keywords": ["vulnerability-scanning","vulnerability","scanning","trivy","snyk","npm-audit","owasp","dependency-scanning","cve","security-vulnerabilities","outdated-packages","license-compliance","sca","sbom","container-scanning","image-scanning","security-gates","ci-cd-security","pre-deployment-audit","supply-chain-security","vulnerability-detection","security-compliance","docker-scan","grype","static-analysis","dependency-check"],
       "category": "security"
     }
 ,
     {
       "name": "web-performance-audit",
       "source": "./skills/web-performance-audit",
-      "description": "Conducts comprehensive web performance audits measuring Core Web Vitals, identifying bottlenecks, and implementing optimizations. Use when improving page load times, preparing for performance reviews, or optimizing user experience. ",
-      "keywords": ["web-performance-audit","web","performance","audit","optimization","pwa"],
+      "description": "Web performance audits with Core Web Vitals, bottleneck identification, optimization recommendations. Use for page load times, performance reviews, UX optimization, or encountering LCP, FID, CLS issues, resource blocking, render delays. ",
+      "keywords": ["web-performance-audit","web","performance","audit","pwa","cls","fid","lcp"],
       "category": "web"
     }
 ,
@@ -1295,7 +1295,7 @@
       "name": "websocket-implementation",
       "source": "./skills/websocket-implementation",
       "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards. ",
-      "keywords": ["websocket-implementation","websocket","implementation","api","rest","graphql","endpoints","http","real-time"],
+      "keywords": ["websocket-implementation","websocket","implementation","http","real-time"],
       "category": "api"
     }
 ,
@@ -1334,8 +1334,8 @@
     {
       "name": "wordpress-plugin-core",
       "source": "./skills/wordpress-plugin-core",
-      "description": "This skill provides comprehensive knowledge for WordPress plugin development, covering core patterns, security best practices, database interactions, hooks/filters, Settings API, custom post types, REST API, and AJAX. This skill should be used when creating WordPress plugins, troubleshooting security issues, implementing custom post types/taxonomies, building admin interfaces, or working with the WordPress database. Use when: Creating new WordPress plugins, implementing nonces/sanitization/escaping, working with $wpdb and prepared statements, building Settings API pages, registering custom post types or taxonomies, implementing REST API endpoints, handling AJAX requests, debugging plugin activation/deactivation issues, preventing SQL injection/XSS/CSRF vulnerabilities. ",
-      "keywords": ["wordpress-plugin-core","wordpress","plugin","core","wordpress plugin development","wordpress security","wordpress hooks","wordpress filters","wordpress database","wpdb prepare","sanitize_text_field","esc_html","wp_nonce","custom post type","register_post_type","settings api","rest api","admin-ajax","wordpress sql injection","wordpress xss","wordpress csrf","plugin header","activation hook","deactivation hook","wordpress coding standards","wordpress plugin architecture","ajax","api","csrf","rest","sql","xss"],
+      "description": "WordPress plugin development with hooks, security, REST API, custom post types. Use for plugin creation, $wpdb queries, Settings API, or encountering SQL injection, XSS, CSRF, nonce errors. ",
+      "keywords": ["wordpress-plugin-core","wordpress","plugin","core","cms","content","management","publishing","csrf","rest","sql","xss"],
       "category": "cms"
     }
 ,
@@ -1343,7 +1343,7 @@
       "name": "xss-prevention",
       "source": "./skills/xss-prevention",
       "description": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications. ",
-      "keywords": ["xss-prevention","xss","prevention","security","vulnerability","protection","csrf"],
+      "keywords": ["xss-prevention","xss","prevention","sanitization","html-encoding","dompurify","csp","content-security-policy","rich-text-editor","user-input","escaping","innerhtml","dom-manipulation","stored-xss","reflected-xss","input-validation","output-encoding","trusted-types","xss-attacks","web-security","user-generated-content","secure-coding","script-injection","dom-based-xss","dom","html","validation"],
       "category": "security"
     }
 ,
@@ -1351,7 +1351,7 @@
       "name": "zod",
       "source": "./skills/zod",
       "description": "TypeScript-first schema validation and type inference library. Use when: validating API requests/responses, form data, environment variables, or configuration; defining type-safe data schemas with runtime validation; transforming and refining data with custom logic; generating JSON Schema for OpenAPI or AI structured outputs; ensuring data integrity with zero dependencies (2kb gzipped); working with tRPC, React Hook Form, Prisma, or other ecosystem integrations. Prevents errors: missing validation leading to runtime crashes, incorrect type inference, unhandled validation errors, improper error message formatting, using outdated patterns, inefficient schema composition, missing refinements for business logic, incorrect async validation setup. ",
-      "keywords": ["zod","development","tooling","workflow","api","json","openapi","typescript","validation","integration","configuration","async"],
+      "keywords": ["zod","validation","schema","type-safety","runtime-validation","type-inference","data-validation","form-validation","api-validation","json-schema","refinement","transformation","error-handling","parse","safeparse","z.object","z.string","z.number","z.array","z.union","z.discriminatedunion","z.refine","z.transform","z.infer","z.coerce","z.enum","z.literal","z.tuple","z.record","z.intersection","z.codec","z.tojsonschema","z.treeifyerror","z.flattenerror","z.prettifyerror","z.registry","z.globalregistry",".register",".meta","error-customization","localization","i18n","migration","v3-to-v4","breaking-changes","trpc","prisma-zod","react-hook-form","environment-variables","env-validation","config-validation","dto","type-guard","runtime-type-checking","react-hook-form-zod","typescript-mcp","api","json","openapi","integration","async"],
       "category": "tooling"
     }
 ,
@@ -1359,7 +1359,7 @@
       "name": "zustand-state-management",
       "source": "./skills/zustand-state-management",
       "description": "Production-tested setup for Zustand state management in React applications with TypeScript. This skill provides comprehensive patterns for building scalable, type-safe global state. Use when: setting up global state in React, migrating from Redux or Context API, implementing state persistence with localStorage, configuring TypeScript with Zustand, using slices pattern for modular stores, adding devtools middleware for debugging, handling Next.js SSR hydration, or encountering hydration errors, TypeScript inference issues, or persist middleware problems. Prevents 5 documented issues: Next.js hydration mismatches, TypeScript double parentheses syntax errors, persist middleware export errors, infinite render loops, and slices pattern type inference failures. ",
-      "keywords": ["zustand-state-management","zustand","state","management","state management","react state","typescript state","persist middleware","devtools","slices pattern","global state","react hooks","create store","useboundstore","statecreator","hydration error","text content mismatch","infinite render","localstorage","sessionstorage","immer middleware","shallow equality","selector pattern","zustand v5","api","ssr","typescript","scalable","production"],
+      "keywords": ["zustand-state-management","zustand","state","management","state management","react state","typescript state","persist middleware","devtools","slices pattern","global state","react hooks","create store","useboundstore","statecreator","hydration error","text content mismatch","infinite render","localstorage","sessionstorage","immer middleware","shallow equality","selector pattern","zustand v5","api","ssr","scalable"],
       "category": "frontend"
     }
   ]

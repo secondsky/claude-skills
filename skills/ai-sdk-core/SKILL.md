@@ -1,13 +1,6 @@
 ---
 name: ai-sdk-core
-description: |
-  Backend AI functionality with Vercel AI SDK v5 - text generation, structured output with Zod,
-  tool calling, and agents. Multi-provider support for OpenAI, Anthropic, Google, and Cloudflare Workers AI.
-
-  Use when: implementing server-side AI features, generating text/chat completions, creating structured
-  AI outputs with Zod schemas, building AI agents with tools, streaming AI responses, integrating
-  OpenAI/Anthropic/Google/Cloudflare providers, or encountering AI SDK errors like AI_APICallError,
-  AI_NoObjectGeneratedError, streaming failures, or worker startup limits.
+description: Vercel AI SDK v5 for backend AI (text generation, structured output, tools, agents). Multi-provider. Use for server-side AI or encountering AI_APICallError, AI_NoObjectGeneratedError, streaming failures.
 
   Keywords: ai sdk core, vercel ai sdk, generateText, streamText, generateObject, streamObject,
   ai sdk node, ai sdk server, zod ai schema, ai tools calling, ai agent class, openai sdk, anthropic sdk,

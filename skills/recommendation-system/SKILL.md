@@ -1,6 +1,6 @@
 ---
 name: recommendation-system
-description: Designs and deploys production recommendation systems with feature stores, caching, A/B testing, and monitoring. Use when building personalization features, implementing real-time recommendations, optimizing for low latency, conducting recommendation experiments, or monitoring recommendation quality at scale.
+description: Deploy production recommendation systems with feature stores, caching, A/B testing. Use for personalization APIs, low latency serving, or encountering cache invalidation, experiment tracking, quality monitoring issues.
 keywords: recommendation system, personalization, feature store, model serving, caching strategy, Redis, A/B testing, Thompson sampling, recommendation metrics, CTR, conversion rate, catalog coverage, diversity, Prometheus monitoring, recommendation API, real-time recommendations, collaborative filtering integration, production recommendations, experiment tracking
 license: MIT
 ---

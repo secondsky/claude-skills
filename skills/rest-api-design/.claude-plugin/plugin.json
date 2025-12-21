@@ -1,6 +1,6 @@
 {
   "name": "rest-api-design",
-  "description": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes, and response formats. Use when building new APIs, establishing API conventions, or designing developer-friendly interfaces.\n",
+  "description": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes, and response formats. Use when building new APIs, establishing API conventions, or designing developer-friendly interfaces.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

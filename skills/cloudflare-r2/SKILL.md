@@ -1,12 +1,6 @@
 ---
 name: cloudflare-r2
-description: |
-  Complete knowledge domain for Cloudflare R2 - S3-compatible object storage on Cloudflare's edge network.
-
-  Use when: creating R2 buckets, uploading files to R2, downloading objects, configuring R2 bindings,
-  setting up CORS, generating presigned URLs, multipart uploads, storing images/assets, managing object
-  metadata, or encountering "R2_ERROR", CORS errors, presigned URL failures, multipart upload issues,
-  or storage quota errors.
+description: Cloudflare R2 S3-compatible object storage. Use for buckets, uploads, CORS, presigned URLs, or encountering R2_ERROR, CORS failures, multipart issues.
 
   Keywords: r2, r2 storage, cloudflare r2, r2 bucket, r2 upload, r2 download, r2 binding, object storage,
   s3 compatible, r2 cors, presigned urls, multipart upload, r2 api, r2 workers, file upload, asset storage,

@@ -1,6 +1,6 @@
 {
   "name": "websocket-implementation",
-  "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.\n",
+  "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,10 +12,6 @@
     "websocket-implementation",
     "websocket",
     "implementation",
-    "api",
-    "rest",
-    "graphql",
-    "endpoints",
     "http",
     "real-time"
   ],

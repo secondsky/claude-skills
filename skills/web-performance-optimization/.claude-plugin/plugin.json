@@ -1,6 +1,6 @@
 {
   "name": "web-performance-optimization",
-  "description": "Optimizes web application performance through code splitting, lazy loading, caching strategies, and Core Web Vitals monitoring. Use when improving page load times, implementing service workers, or reducing bundle sizes.\n",
+  "description": "Optimizes web application performance through code splitting, lazy loading, caching strategies, and Core Web Vitals monitoring. Use when improving page load times, implementing service workers, or reducing bundle sizes.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

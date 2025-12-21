@@ -1,6 +1,6 @@
 {
   "name": "dependency-upgrade",
-  "description": "Manage major dependency version upgrades with compatibility analysis, staged rollout, and comprehensive testing. Use when upgrading framework versions, updating major dependencies, or managing breaking changes in libraries.\n",
+  "description": "Manage major dependency version upgrades with compatibility analysis, staged rollout, and comprehensive testing. Use when upgrading framework versions, updating major dependencies, or managing breaking changes in libraries.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,7 +12,6 @@
     "dependency-upgrade",
     "dependency",
     "upgrade",
-    "development",
     "tooling",
     "workflow"
   ],

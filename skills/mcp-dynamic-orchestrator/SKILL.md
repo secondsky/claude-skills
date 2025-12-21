@@ -1,14 +1,6 @@
 ---
 name: mcp-dynamic-orchestrator
-description: |
-  This skill provides dynamic discovery and code-mode execution for MCP servers defined
-  in a central registry file. It should be used when an agent needs to know which MCP
-  integrations are available, what domains they cover, and how to call them efficiently
-  via generated code without eagerly loading each MCP tool as a first-class tool.
-
-  Use when: working with multiple MCP servers (APIs, internal systems, SaaS tools),
-  especially when the set of available MCPs changes over time or is large enough that
-  exposing all tools directly would bloat context.
+description: Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets.
 
   Keywords: MCP, code-mode, registry, dynamic tools, tool discovery, progressive disclosure
 license: MIT

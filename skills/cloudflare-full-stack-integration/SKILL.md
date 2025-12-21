@@ -1,16 +1,6 @@
 ---
 name: cloudflare-full-stack-integration
-description: |
-  Production-tested integration patterns for connecting React frontends to Cloudflare Worker backends
-  with Hono, Clerk authentication, and D1 databases. Prevents common frontend-backend connection issues,
-  CORS errors, auth token failures, and race conditions.
-
-  Use when: connecting frontend to backend, implementing auth flow, setting up API calls,
-  troubleshooting CORS, fixing race conditions, auth tokens not passing, frontend-backend connection errors,
-  401 errors, integrating Clerk with Workers, setting up full-stack Cloudflare app, vite cloudflare plugin setup.
-
-  Prevents: CORS errors, 401 Unauthorized, auth token mismatches, race conditions with auth loading,
-  environment variable confusion, frontend calling wrong endpoints, JWT verification errors, D1 connection issues.
+description: React-to-Cloudflare Workers integration patterns with Hono, Clerk, D1. Use for frontend-backend connection, auth flow, or encountering CORS, 401 errors, token mismatches, race conditions.
 
   Keywords: frontend backend integration, Cloudflare Workers, Hono, Clerk auth, JWT verification, CORS, React API client,
   race conditions, auth loading, connection issues, full-stack integration, vite plugin, @cloudflare/vite-plugin,

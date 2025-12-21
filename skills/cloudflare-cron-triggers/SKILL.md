@@ -1,13 +1,6 @@
 ---
 name: cloudflare-cron-triggers
-description: |
-  Complete knowledge domain for Cloudflare Cron Triggers - scheduled execution of Workers using
-  cron expressions for periodic tasks, maintenance jobs, and automated workflows.
-
-  Use when: scheduling Workers to run periodically, adding cron triggers to Workers, configuring
-  scheduled tasks, testing cron handlers, combining crons with Workflows, enabling Green Compute,
-  handling multiple schedules, or encountering "scheduled handler not found", "cron expression invalid",
-  "changes not propagating", "handler does not export", "timezone issues" errors.
+description: Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.
 
   Keywords: cloudflare cron, cron triggers, scheduled workers, scheduled handler, periodic tasks,
   background jobs, scheduled tasks, cron expression, wrangler crons, scheduled event, green compute,

@@ -1,20 +1,14 @@
 ---
 name: cloudflare-worker-base
-description: |
-  Production-tested setup for Cloudflare Workers with Hono, Vite, and Static Assets.
-
-  Use when: creating new Cloudflare Workers projects, setting up Hono routing with Workers,
-  configuring Vite plugin for Workers, adding Static Assets to Workers, deploying with Wrangler,
-  or encountering deployment errors, routing conflicts, or HMR crashes.
-
-  Prevents 6 documented issues: export syntax errors, Static Assets routing conflicts,
-  scheduled handler errors, HMR race conditions, upload race conditions, and Service Worker
-  format confusion.
+description: Cloudflare Workers with Hono, Vite, Static Assets. Use for new projects, deployment, or encountering export errors, routing conflicts, HMR crashes.
 
   Keywords: Cloudflare Workers, CF Workers, Hono, wrangler, Vite, Static Assets, @cloudflare/vite-plugin,
   wrangler.jsonc, ES Module, run_worker_first, SPA fallback, API routes, edge computing,
   "Cannot read properties of undefined", "Static Assets 404", "A hanging Promise was canceled",
-  "Handler does not export", deployment fails, routing not working, HMR crashes
+  "Handler does not export", deployment fails, routing not working, HMR crashes, hot-module-replacement,
+  scheduled-handlers, cron-triggers, environment-variables, bindings, wrangler-dev, local-development,
+  module-workers, fetch-handler, service-worker-format, bindings-configuration, environment-secrets,
+  wrangler-toml, TypeScript-workers, edge-runtime, serverless-functions
 license: MIT
 ---
 

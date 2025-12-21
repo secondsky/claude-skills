@@ -1,11 +1,6 @@
 ---
 name: cloudflare-kv
-description: |
-  Complete knowledge domain for Cloudflare Workers KV - global, low-latency key-value storage on Cloudflare's edge network.
-
-  Use when: creating KV namespaces, storing configuration data, caching API responses, managing user preferences,
-  implementing TTL expiration, handling KV metadata, or encountering "KV_ERROR", "429 too many requests",
-  "kv rate limit", cacheTtl errors, or eventual consistency issues.
+description: Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.
 
   Keywords: kv storage, cloudflare kv, workers kv, kv namespace, kv bindings, kv cache, kv ttl, kv metadata,
   kv list, kv pagination, cache optimization, edge caching, KV_ERROR, 429 too many requests, kv rate limit,

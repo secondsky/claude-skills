@@ -1,6 +1,6 @@
 {
   "name": "progressive-web-app",
-  "description": "Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps.\n",
+  "description": "Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,7 +14,6 @@
     "web",
     "app",
     "performance",
-    "optimization",
     "pwa"
   ],
   "category": "web"

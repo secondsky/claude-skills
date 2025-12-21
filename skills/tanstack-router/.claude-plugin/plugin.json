@@ -1,6 +1,6 @@
 {
   "name": "tanstack-router",
-  "description": "Build type-safe, file-based routing for React applications with TanStack Router. This skill provides patterns for client-side routing, data loading, and Cloudflare Workers integration. Use when: building SPAs with type-safe navigation, implementing file-based routing, integrating with TanStack Query for data fetching, or deploying to Cloudflare Workers. Includes 7+ documented error solutions and prevents common issues: devtools dependency errors, type safety problems, loader configuration mistakes, and Vite bundling issues.\n",
+  "description": "TanStack Router type-safe file-based routing for React. Use for SPAs, TanStack Query integration, Cloudflare Workers, or encountering devtools, type safety, loader, Vite bundling errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,11 +12,22 @@
     "tanstack-router",
     "tanstack",
     "router",
-    "frontend",
-    "components",
-    "typescript",
-    "integration",
-    "configuration"
+    "tanstack router",
+    "react router",
+    "type-safe routing",
+    "file-based routing",
+    "client-side routing",
+    "spa routing",
+    "route loaders",
+    "data loading",
+    "navigation",
+    "vite plugin",
+    "cloudflare workers",
+    "tanstack query integration",
+    "typescript routing",
+    "route params",
+    "nested routes",
+    "code splitting"
   ],
   "category": "frontend"
 }

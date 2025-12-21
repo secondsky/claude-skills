@@ -1,17 +1,6 @@
 ---
 name: feature-dev
-description: |
-  Automate complete feature development lifecycle with 7-phase guided workflow including
-  codebase exploration, architecture design, and quality review. Use when building complex
-  features, making architectural decisions, integrating with existing code, or clarifying
-  ambiguous requirements. Launches specialized agents (code-explorer, code-architect,
-  code-reviewer) that run in parallel for discovery, design, and review phases. Prevents
-  common mistakes by ensuring understanding before implementation, asking clarifying
-  questions, comparing design approaches, and reviewing for bugs and conventions.
-
-  Use when: building multi-file features, requiring architectural decisions, integrating
-  with existing patterns, or working with underspecified requirements. Don't use for:
-  single-line fixes, trivial changes, or urgent hotfixes.
+description: Automate 7-phase feature development with specialized agents (code-explorer, code-architect, code-reviewer). Use for multi-file features, architectural decisions, or encountering ambiguous requirements, integration patterns, design approach errors.
 
   Keywords: feature development, code exploration, architecture design, code review, workflow automation, slash command, agents, discovery phase, implementation planning, quality review
 license: MIT

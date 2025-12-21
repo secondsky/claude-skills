@@ -1,7 +1,6 @@
 ---
 name: tanstack-start
-description: |
-  Full-stack React framework (Release Candidate) built on TanStack Router with server functions, selective SSR, static prerendering, and Cloudflare Workers support. Use when: migrating from Next.js, building edge-rendered React apps, needing type-safe server functions + server routes, or mixing SSR/SPA per route. Includes Cloudflare deployment recipes, hydration troubleshooting, and auth/data patterns.
+description: TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare Workers. Use for Next.js migration, edge rendering, or encountering hydration, auth, data pattern errors.
 license: MIT
 allowed-tools: [Bash, Read, Write, Edit]
 metadata:
