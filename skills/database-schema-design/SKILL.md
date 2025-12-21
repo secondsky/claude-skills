@@ -1,20 +1,6 @@
 ---
 name: database-schema-design
-description: |
-  Comprehensive database schema design patterns for PostgreSQL and MySQL.
-  Covers normalization (1NF-5NF), relationships (1:1, 1:M, M:M, hierarchical),
-  data types, constraints, audit patterns, and anti-patterns to avoid.
-
-  Use when designing new databases, reviewing schema designs, planning migrations,
-  choosing data types, defining relationships, implementing audit trails,
-  or troubleshooting schema issues.
-
-  Prevents 12 documented issues: missing primary keys, no foreign key constraints,
-  VARCHAR(MAX) everywhere, premature denormalization, missing NOT NULL constraints,
-  missing foreign key indexes, wrong data types, missing CHECK constraints,
-  no audit columns, circular dependencies, missing cascade rules, EAV anti-pattern.
-
-  Production-tested with comprehensive examples and best practices.
+description: Database schema design for PostgreSQL/MySQL with normalization, relationships, constraints. Use for new databases, schema reviews, migrations, or encountering missing PKs/FKs, wrong data types, premature denormalization, EAV anti-pattern.
 keywords: database schema, schema design, database normalization, 1nf 2nf 3nf,
   primary key, foreign key, database relationships, one to many, many to many,
   data types postgresql, constraints check, audit columns, soft delete,

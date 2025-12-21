@@ -1,6 +1,6 @@
 ---
 name: web-performance-audit
-description: Conducts comprehensive web performance audits measuring Core Web Vitals, identifying bottlenecks, and implementing optimizations. Use when improving page load times, preparing for performance reviews, or optimizing user experience.
+description: Web performance audits with Core Web Vitals, bottleneck identification, optimization recommendations. Use for page load times, performance reviews, UX optimization, or encountering LCP, FID, CLS issues, resource blocking, render delays.
 license: MIT
 ---
 

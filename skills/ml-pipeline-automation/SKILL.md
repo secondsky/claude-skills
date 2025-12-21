@@ -1,6 +1,6 @@
 ---
 name: ml-pipeline-automation
-description: Automates ML workflows from data ingestion to deployment using Airflow, Kubeflow, and MLflow orchestration. Use when building reproducible ML pipelines, scheduling retraining jobs, implementing MLOps practices, orchestrating model training at scale, or tracking experiments across teams.
+description: Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible pipelines, retraining schedules, MLOps, or encountering task failures, dependency errors, experiment tracking issues.
 keywords: ML pipeline, Airflow, Kubeflow, MLflow, MLOps, workflow orchestration, data pipeline, model training automation, experiment tracking, model registry, Airflow DAG, task dependencies, pipeline monitoring, data quality, drift detection, hyperparameter tuning, model versioning, artifact management, Kubeflow Pipelines, pipeline automation, retries, sensors
 license: MIT
 ---

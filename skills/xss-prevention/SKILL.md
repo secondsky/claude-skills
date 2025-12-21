@@ -1,6 +1,9 @@
 ---
 name: xss-prevention
-description: Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.
+description: XSS attack prevention with input sanitization, output encoding, Content Security Policy. Use for user-generated content, rich text editors, web application security, or encountering stored XSS, reflected XSS, DOM manipulation, script injection errors.
+
+  Keywords: sanitization, HTML-encoding, DOMPurify, CSP, Content-Security-Policy, rich-text-editor, user-input, escaping, innerHTML, DOM-manipulation, stored-XSS, reflected-XSS, input-validation, output-encoding, trusted-types, XSS-attacks, web-security, user-generated-content, secure-coding, script-injection, DOM-based-XSS
+license: MIT
 ---
 
 # XSS Prevention

@@ -1,6 +1,6 @@
 {
   "name": "better-chatbot-patterns",
-  "description": "This skill provides reusable implementation patterns extracted from the better-chatbot project for custom AI chatbot deployments. Use this skill when building AI chatbots with server action validators, tool abstraction systems, workflow execution, or multi-AI provider integration in your own projects (not contributing to better-chatbot itself). Use when: building AI chatbot features, implementing server action validators, creating tool abstraction layers, setting up multi-AI provider support, building workflow execution systems, adapting better-chatbot patterns to custom projects\n",
+  "description": "Reusable better-chatbot patterns for custom deployments. Use for server action validators, tool abstraction, multi-AI providers, or encountering auth validation, FormData parsing, workflow execution errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -13,21 +13,10 @@
     "better",
     "chatbot",
     "patterns",
-    "ai chatbot patterns",
-    "server action validators",
-    "tool abstraction",
-    "multi-ai providers",
-    "workflow execution",
-    "mcp integration",
-    "validated actions",
-    "tool type checking",
-    "vercel ai sdk patterns",
-    "chatbot architecture",
-    "mcp",
-    "sdk",
-    "integration",
-    "implementation",
-    "deployment"
+    "tooling",
+    "workflow",
+    "formdata",
+    "validation"
   ],
   "category": "tooling"
 }

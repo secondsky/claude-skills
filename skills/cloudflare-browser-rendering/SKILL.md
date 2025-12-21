@@ -1,15 +1,6 @@
 ---
 name: cloudflare-browser-rendering
-description: |
-  Complete knowledge domain for Cloudflare Browser Rendering - Headless Chrome automation
-  with Puppeteer and Playwright on Cloudflare Workers for screenshots, PDFs, web scraping,
-  and browser automation workflows.
-
-  Use when: taking screenshots, generating PDFs from HTML or URLs, web scraping content,
-  crawling websites, browser automation tasks, testing web applications, managing browser sessions,
-  performing batch browser operations, integrating with AI for content extraction, or encountering
-  browser rendering errors, XPath selector errors, browser timeout issues, concurrency limits,
-  memory exceeded errors, or "Cannot read properties of undefined (reading 'fetch')" errors.
+description: Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded.
 
   Keywords: browser rendering cloudflare, @cloudflare/puppeteer, @cloudflare/playwright,
   puppeteer workers, playwright workers, screenshot cloudflare, pdf generation workers,

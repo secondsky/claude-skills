@@ -1,6 +1,6 @@
 ---
 name: seo-optimizer
-description: Analyzes and optimizes content for search engines through keyword analysis, readability assessment, technical SEO validation, and content quality evaluation. Use when improving search rankings, optimizing blog posts, or conducting content audits.
+description: SEO optimization with keyword analysis, readability assessment, technical validation, content quality. Use for search rankings, blog posts, content audits, or encountering keyword density, readability scores, meta tags, schema markup errors.
 ---
 
 # SEO Optimizer

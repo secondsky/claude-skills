@@ -1,12 +1,6 @@
 ---
 name: cloudflare-workers-ai
-description: |
-  Complete knowledge domain for Cloudflare Workers AI - Run AI models on serverless GPUs across Cloudflare's global network.
-
-  Use when: implementing AI inference on Workers, running LLM models, generating text/images with AI,
-  configuring Workers AI bindings, implementing AI streaming, using AI Gateway, integrating with
-  embeddings/RAG systems, or encountering "AI_ERROR", rate limit errors, model not found, token
-  limit exceeded, or neurons exceeded errors.
+description: Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors.
 
   Keywords: workers ai, cloudflare ai, ai bindings, llm workers, @cf/meta/llama, workers ai models,
   ai inference, cloudflare llm, ai streaming, text generation ai, ai embeddings, image generation ai,

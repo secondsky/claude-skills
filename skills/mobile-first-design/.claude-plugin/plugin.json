@@ -1,6 +1,6 @@
 {
   "name": "mobile-first-design",
-  "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts.\n",
+  "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -13,8 +13,11 @@
     "mobile",
     "first",
     "design",
-    "app",
-    "native"
+    "interface",
+    "user-experience",
+    "responsive-design",
+    "media-queries",
+    "breakpoints"
   ],
-  "category": "mobile"
+  "category": "design"
 }

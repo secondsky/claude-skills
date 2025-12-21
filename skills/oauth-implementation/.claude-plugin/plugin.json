@@ -1,6 +1,6 @@
 {
   "name": "oauth-implementation",
-  "description": "Implements OAuth 2.0 and OpenID Connect flows for authentication and authorization with proper security measures. Use when integrating third-party providers, building SSO systems, or securing API access with token-based authentication.\n",
+  "description": "OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -17,7 +17,7 @@
     "login",
     "security",
     "session",
-    "api",
+    "pkce",
     "sso",
     "openid"
   ],

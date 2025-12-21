@@ -15,11 +15,11 @@ description: |
   app directory, SEO, meta tags, useHead, useSeoMeta, transitions,
   error handling, runtime config, Cloudflare Pages, Cloudflare Workers,
   NuxtHub, Workers Assets, D1, KV, R2, Durable Objects, Vitest, testing,
-  performance optimization, lazy loading, code splitting, prerendering,
-  layers, modules, plugins, Vite, TypeScript, hydration mismatch,
+  nuxt performance, lazy loading, code splitting, prerendering,
+  nuxt layers, nuxt modules, nuxt plugins, Vite, hydration mismatch,
   shallow reactivity, reactive keys, singleton pattern, defineNuxtConfig,
   defineEventHandler, navigateTo, definePageMeta, useRuntimeConfig,
-  app.vue, server directory, public directory, assets directory
+  app.vue
 license: MIT
 allowed-tools: [Read, Write, Edit, Bash, WebFetch, WebSearch]
 metadata:

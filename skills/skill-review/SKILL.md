@@ -1,7 +1,6 @@
 ---
 name: skill-review
-description: |
-  Production-ready comprehensive audit skill for claude-skills repository. Use when reviewing skills for updates, investigating documented issues, verifying before marketplace submission, or checking package version currency. Performs systematic 15-phase audit covering standards compliance, dependency verification, API validation, cross-file consistency, and progressive disclosure review. Enforces official Anthropic standards including YAML validation (1,024-char descriptions, 64-char names), SKILL.md line limits (<500), and third-person style. Auto-fixes straightforward issues; asks user only for architectural decisions. Outputs severity-classified results (🔴 Critical / 🟡 High / 🟠 Medium / 🟢 Low) with evidence citations and remediation plans. See references/audit-methodology.md for complete methodology.
+description: Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors.
 
 license: MIT
 metadata:
@@ -237,6 +236,7 @@ Load when:
 8. **Windows-style paths** - Backslashes instead of forward slashes
 9. **Deeply nested references** - More than one level deep from SKILL.md
 10. **Second-person descriptions** - "You should..." instead of "This skill should be used when..."
+11. **Verbose descriptions** - >200 chars contributing to 15k total budget exhaustion across all skills
 
 ---
 
@@ -249,6 +249,7 @@ Load when:
 5. **Fix consistency** - Update all files, not just one
 6. **Document thoroughly** - Detailed commit messages
 7. **Test after fixes** - Verify skill still works
+8. **Keep descriptions concise** - Aim for <100 chars to avoid system prompt budget issues
 
 ---
 

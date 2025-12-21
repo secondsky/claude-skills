@@ -1,6 +1,6 @@
 {
   "name": "multi-ai-consultant",
-  "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, fresh Claude) for second opinions when stuck on bugs or making architectural decisions. Use when: debugging attempts have failed, making significant architectural choices, security concerns, or need fresh perspective. Automatically suggests consultation after one failed attempt. Provides synthesis comparing multiple AI perspectives with web research, thinking mode, and repo-aware analysis.\n",
+  "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second opinions. Use for debugging failures, architectural decisions, security validation, or need fresh perspective with synthesis.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,10 +12,21 @@
     "multi-ai-consultant",
     "multi",
     "consultant",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
-    "openai"
+    "ai consultation",
+    "second opinion",
+    "gemini",
+    "openai",
+    "codex",
+    "debugging",
+    "architecture",
+    "multi-ai",
+    "synthesis",
+    "fresh perspective",
+    "stuck",
+    "web research",
+    "thinking mode",
+    "repo-aware",
+    "validation"
   ],
   "category": "ai",
   "commands": [

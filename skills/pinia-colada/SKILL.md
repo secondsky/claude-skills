@@ -1,9 +1,6 @@
 ---
 name: pinia-colada
-description: |
-  This skill provides comprehensive knowledge for Pinia Colada, the smart data fetching layer for Vue.js built on top of Pinia. It should be used when setting up async data fetching with useQuery, implementing mutations with useMutation, configuring query cache, managing server state, implementing optimistic updates, using paginated queries, configuring SSR/Nuxt integration, or encountering query/mutation errors.
-
-  Use when: initializing Pinia Colada in Vue 3 or Nuxt projects, configuring PiniaColada plugin settings, creating reusable query composables, implementing mutations with automatic invalidation, setting up optimistic updates, using paginated queries, prefetching data, migrating from TanStack Vue Query, debugging cache issues, fixing SSR hydration errors, implementing query invalidation strategies, or setting up custom plugins for auto-refetch behavior.
+description: Pinia Colada data fetching for Vue/Nuxt with useQuery, useMutation. Use for async state, query cache, SSR, or encountering invalidation, hydration, TanStack Vue Query migration errors.
 
   Keywords: Pinia Colada, @pinia/colada, useQuery, useMutation, useQueryCache, data fetching, async state, Vue 3, Nuxt, Pinia, server state, caching, staleTime, gcTime, query invalidation, prefetching, optimistic updates, mutations, query keys, paginated queries, SSR, server-side rendering, Nuxt module, @pinia/colada-nuxt, query cache, auto-refetch, cache invalidation, request deduplication, loading states, error handling, onSettled, onSuccess, onError, defineColadaLoader
 license: MIT

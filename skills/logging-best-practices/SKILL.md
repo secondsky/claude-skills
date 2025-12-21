@@ -1,6 +1,6 @@
 ---
 name: logging-best-practices
-description: Implements structured logging with proper levels, contextual information, PII handling, and centralized aggregation. Use when setting up application logging, integrating with log management systems, or implementing distributed tracing.
+description: Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors.
 ---
 
 # Logging Best Practices

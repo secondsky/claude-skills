@@ -1,6 +1,6 @@
 ---
 name: health-check-endpoints
-description: Implements health check endpoints for liveness, readiness, and dependency monitoring in Kubernetes and load balancer environments. Use when deploying to container orchestrators, configuring auto-scaling, or monitoring service availability.
+description: Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors.
 ---
 
 # Health Check Endpoints

@@ -1,6 +1,6 @@
 {
   "name": "thesys-generative-ui",
-  "description": "AI-powered generative UI with Thesys - create React components from natural language.\n",
+  "description": "AI-powered generative UI with Thesys - create React components from natural language.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,18 +1,6 @@
 ---
 name: design-review
-description: |
-  Conduct comprehensive design reviews on frontend code changes, PRs, and UI implementations
-  using a systematic 7-phase methodology. Evaluates interaction flows, responsiveness,
-  visual polish, accessibility (WCAG 2.1 AA), robustness, and code health with automated
-  browser testing.
-
-  Use when: reviewing pull requests with UI changes, auditing frontend components for quality,
-  verifying responsive design across viewports, checking accessibility compliance, testing
-  interaction flows and user experience, ensuring visual consistency with design systems, or
-  encountering design issues like poor contrast, broken layouts, accessibility violations,
-  inconsistent spacing, missing focus states, or broken responsive behavior.
-
-  Requires: Live preview environment, Playwright MCP or Chrome DevTools for automated testing.
+description: 7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states.
 
   Keywords: design review, UI audit, frontend review, accessibility audit, WCAG compliance,
   responsive design, visual QA, UX review, component review, PR design check, layout issues,

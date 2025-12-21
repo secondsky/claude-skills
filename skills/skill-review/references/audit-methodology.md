@@ -36,6 +36,8 @@ The skill-review enforces these official Anthropic standards:
 - **license**: MIT (recommended)
 - Valid metadata fields only (no custom undocumented fields)
 
+**⚠️ System Prompt Budget**: Claude Code has a 15,000 character TOTAL budget across ALL installed skills combined (not per skill). With 114 skills in this repository, average description must be <130 chars to fit within budget. Verbose descriptions cause random skills to be silently omitted. Keep descriptions <100 chars. Source: https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/
+
 ### SKILL.md File Standards
 - **Line count**: <500 lines maximum
 - **Writing style**: Third-person, imperative/infinitive verb forms
@@ -68,6 +70,7 @@ The skill-review prevents these common documentation issues:
 - **Version drift**: Examples referencing old package versions
 - **Broken links**: Dead links to external resources or internal references
 - **Stale "Last Verified" dates**: Dates >3 months old without version checks
+- **Verbose descriptions**: >200 chars contributing to system prompt budget exhaustion (15k char TOTAL across all skills)
 
 ### Technical Issues
 - **YAML errors**: Invalid YAML frontmatter syntax

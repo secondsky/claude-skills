@@ -1,16 +1,6 @@
 ---
 name: google-gemini-file-search
-description: |
-  Set up Google Gemini File Search for fully managed RAG (Retrieval-Augmented Generation).
-  This skill should be used when building document Q&A systems, searchable knowledge bases,
-  or semantic search with automatic chunking, embedding generation, and citation support.
-  Supports 100+ file formats including PDF, Word, Excel, code files. Prevents common errors:
-  document immutability (delete+re-upload pattern required), storage quota calculation (3x
-  input size for embeddings), chunking configuration (500 tokens/chunk recommended), metadata
-  limits (20 key-value pairs max), indexing cost surprises (one-time $0.15/1M tokens),
-  operation polling (must wait for done: true), force delete requirement (for stores with
-  documents), and model support (only Gemini 2.5 Pro/Flash). TypeScript/JavaScript support
-  via @google/genai SDK. Token savings: ~65%.
+description: Google Gemini File Search for managed RAG with 100+ file formats. Use for document Q&A, knowledge bases, or encountering immutability errors, quota issues, polling failures. Supports Gemini 3 Pro/Flash (Gemini 2.5 legacy).
 license: MIT
 metadata:
   version: "2.0.0"

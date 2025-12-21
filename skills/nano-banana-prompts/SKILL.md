@@ -1,6 +1,6 @@
 ---
 name: nano-banana-prompts
-description: Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use when user wants to create images with Gemini, needs help crafting image prompts, or requests "nano banana" style prompts. Applies proven best practices for natural language descriptions, photography, art styles, and multi-turn editing workflows.
+description: Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices.
 license: MIT
 ---
 

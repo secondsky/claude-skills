@@ -1,6 +1,6 @@
 {
   "name": "mcp-management",
-  "description": "Manage Model Context Protocol (MCP) servers - discover, analyze, and execute tools/prompts/resources from configured MCP servers. Use when working with MCP integrations, need to discover available MCP capabilities, filter MCP tools for specific tasks, execute MCP tools programmatically, access MCP prompts/resources, or implement MCP client functionality. Supports intelligent tool selection, multi-server management, and context-efficient capability discovery.\n",
+  "description": "Manage MCP servers - discover, analyze, execute tools/prompts/resources. Use for MCP integrations, capability discovery, tool filtering, programmatic execution, or encountering context bloat, server configuration, tool execution errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,10 +12,8 @@
     "mcp-management",
     "mcp",
     "management",
-    "development",
     "tooling",
-    "workflow",
-    "integration"
+    "workflow"
   ],
   "category": "tooling"
 }

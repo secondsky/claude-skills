@@ -1,9 +1,6 @@
 ---
 name: react-hook-form-zod
-description: |
-  This skill provides comprehensive knowledge for building type-safe, validated forms in React using React Hook Form and Zod schema validation.
-
-  Use when: building forms with validation in React, integrating Zod schema validation with React Hook Form, using shadcn/ui Form or Field components, implementing client and server-side validation with a single schema, handling complex validation scenarios (nested objects, arrays, conditional fields, async validation), building multi-step forms or wizards, implementing dynamic form fields with useFieldArray, optimizing form performance and re-renders, ensuring accessible form error handling, or debugging form validation issues.
+description: Type-safe React forms with React Hook Form and Zod validation. Use for form schemas, field arrays, multi-step forms, or encountering validation errors, resolver issues, nested field problems.
 
   Keywords: react-hook-form, useForm, zod validation, zodResolver, @hookform/resolvers, form schema, register, handleSubmit, formState, useFieldArray, useWatch, useController, Controller, shadcn form, Field component, client server validation, nested validation, array field validation, dynamic fields, multi-step form, async validation, zod refine, z.infer, form error handling, uncontrolled to controlled, resolver not found, schema validation error
 

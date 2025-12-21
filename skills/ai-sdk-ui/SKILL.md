@@ -1,12 +1,6 @@
 ---
 name: ai-sdk-ui
-description: |
-  Frontend React hooks for AI-powered chat interfaces, completions, and streaming UIs with Vercel AI SDK v5.
-  Includes useChat, useCompletion, and useObject hooks for building interactive AI applications.
-
-  Use when: building React chat interfaces, implementing AI completions in UI, streaming AI responses to frontend,
-  handling chat message state, building Next.js AI apps, managing file attachments with AI, or encountering
-  errors like "useChat failed to parse stream", "useChat no response", unclosed streams, or streaming issues.
+description: Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat interfaces. Use for React/Next.js AI apps or encountering parse stream errors, no response, streaming issues.
 
   Keywords: ai sdk ui, useChat hook, useCompletion hook, useObject hook, react ai chat, ai chat interface,
   streaming ai ui, nextjs ai chat, vercel ai ui, react streaming, ai sdk react, chat message state,

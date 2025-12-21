@@ -1,6 +1,6 @@
 {
   "name": "playwright-testing",
-  "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.\n",
+  "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,12 +14,8 @@
     "testing",
     "tests",
     "unit-tests",
-    "integration",
     "quality",
-    "api",
-    "e2e",
-    "javascript",
-    "typescript"
+    "e2e"
   ],
   "category": "testing"
 }

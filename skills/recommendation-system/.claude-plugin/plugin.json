@@ -1,6 +1,6 @@
 {
   "name": "recommendation-system",
-  "description": "Designs and deploys production recommendation systems with feature stores, caching, A/B testing, and monitoring. Use when building personalization features, implementing real-time recommendations, optimizing for low latency, conducting recommendation experiments, or monitoring recommendation quality at scale.\n",
+  "description": "Deploy production recommendation systems with feature stores, caching, A/B testing. Use for personalization APIs, low latency serving, or encountering cache invalidation, experiment tracking, quality monitoring issues.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -17,9 +17,7 @@
     "processing",
     "sql",
     "queries",
-    "production",
-    "caching",
-    "real-time"
+    "caching"
   ],
   "category": "data"
 }

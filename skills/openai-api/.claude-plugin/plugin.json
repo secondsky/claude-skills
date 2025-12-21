@@ -1,6 +1,6 @@
 {
   "name": "openai-api",
-  "description": "Complete guide for OpenAI APIs: Chat Completions (GPT-5, GPT-4o), Embeddings, Images (DALL-E 3), Audio (Whisper + TTS), Moderation. Includes Node.js SDK and fetch approaches.\n",
+  "description": "Complete guide for OpenAI APIs: Chat Completions (GPT-5.2, GPT-4o), Embeddings, Images (GPT-Image-1.5), Audio (Whisper + TTS + Transcribe), Moderation. Includes Node.js SDK and fetch approaches.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,9 +15,7 @@
     "machine-learning",
     "llm",
     "artificial-intelligence",
-    "dall",
     "gpt",
-    "sdk",
     "tts"
   ],
   "category": "ai"

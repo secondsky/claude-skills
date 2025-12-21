@@ -1,85 +1,10 @@
 ---
 name: nuxt-seo
 description: |
-  Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings. Covers latest versions (v3+/v4+) with Bun/npm/pnpm package managers. Prevents common SEO configuration errors, sitemap generation issues, OG image rendering problems, and robots.txt misconfigurations.
+  Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings.
+
+  Keywords: nuxt-seo, nuxt, seo, nuxt 3, nuxt 4, nuxt seo, vue, vue 3, search engine optimization, @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, robots.txt, sitemap, sitemap.xml, og image, open graph, social sharing, meta tags, schema.org, structured data, json-ld, canonical urls, breadcrumbs, bot detection, crawling, indexing, noindex, nofollow, xml sitemap, multiple sitemaps, sitemap index, dynamic sitemap, og image generation, satori, chromium rendering, vue templates, seo setup, seo configuration, meta management, social media preview, search optimization, link checking, broken links, site config, multi-language seo, i18n seo, sitemap not generated, robots.txt missing, og image not rendering, schema validation errors, duplicate meta tags, canonical url issues, sitemap index errors
 license: MIT
-keywords:
-  # Core Technologies
-  - nuxt
-  - nuxt 3
-  - nuxt 4
-  - nuxt seo
-  - vue
-  - vue 3
-  - seo
-  - search engine optimization
-
-  # All 8 Modules
-  - "@nuxtjs/seo"
-  - nuxt-robots
-  - nuxt-sitemap
-  - nuxt-og-image
-  - nuxt-schema-org
-  - nuxt-link-checker
-  - nuxt-seo-utils
-  - nuxt-site-config
-
-  # SEO Features
-  - robots.txt
-  - sitemap
-  - sitemap.xml
-  - og image
-  - open graph
-  - social sharing
-  - meta tags
-  - schema.org
-  - structured data
-  - json-ld
-  - canonical urls
-  - breadcrumbs
-
-  # Technical Features
-  - bot detection
-  - crawling
-  - indexing
-  - noindex
-  - nofollow
-  - xml sitemap
-  - multiple sitemaps
-  - sitemap index
-  - dynamic sitemap
-  - og image generation
-  - satori
-  - chromium rendering
-  - vue templates
-
-  # Use Cases
-  - seo setup
-  - seo configuration
-  - meta management
-  - social media preview
-  - search optimization
-  - link checking
-  - broken links
-  - site config
-  - multi-language seo
-  - i18n seo
-
-  # Package Managers
-  - bun
-  - npm
-  - pnpm
-
-  # Common Errors Prevented
-  - sitemap not generated
-  - robots.txt missing
-  - og image not rendering
-  - schema validation errors
-  - broken links
-  - duplicate meta tags
-  - canonical url issues
-  - sitemap index errors
-
 metadata:
   version: 1.1.0
   last_updated: 2025-11-27

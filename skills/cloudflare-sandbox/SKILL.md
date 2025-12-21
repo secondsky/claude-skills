@@ -1,9 +1,6 @@
 ---
 name: cloudflare-sandbox
-description: |
-  This skill provides comprehensive knowledge for building applications with Cloudflare Sandboxes SDK, which enables secure, isolated code execution in full Linux containers at the edge. It should be used when executing untrusted code, running Python/Node.js scripts, performing git operations, building AI code execution systems, creating interactive development environments, or implementing CI/CD workflows that require full OS capabilities.
-
-  Use when: Setting up Cloudflare Sandboxes, executing Python/Node.js code safely, managing stateful development environments, implementing AI code interpreters, running shell commands in isolation, handling git repositories programmatically, building chat-based coding agents, creating temporary build environments, processing files with system tools (ffmpeg, imagemagick, etc.), or when encountering issues with container lifecycle, session management, or state persistence.
+description: Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations.
 
   Keywords: cloudflare sandbox, container execution, code execution, isolated environment, durable objects, linux container, python execution, node execution, git operations, code interpreter, AI agents, session management, ephemeral container, workspace, sandbox SDK, @cloudflare/sandbox, exec(), getSandbox(), runCode(), gitCheckout(), ubuntu container
 license: MIT

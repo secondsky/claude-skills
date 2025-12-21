@@ -1,6 +1,9 @@
 ---
 name: design-system-creation
-description: Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.
+description: |
+  Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.
+
+  Keywords: design-tokens, typography, spacing, color-palette, components, patterns, variables, dark-mode, theming, CSS-variables, accessibility, WCAG, responsive, grid-system, breakpoints, design-scale, semantic-tokens, component-library, style-guide, documentation, Figma, Storybook, brand-consistency, design-principles
 license: MIT
 ---
 

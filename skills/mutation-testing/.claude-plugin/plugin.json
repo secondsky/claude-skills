@@ -1,6 +1,6 @@
 {
   "name": "mutation-testing",
-  "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.\n",
+  "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,10 +14,7 @@
     "testing",
     "tests",
     "unit-tests",
-    "integration",
-    "quality",
-    "javascript",
-    "typescript"
+    "quality"
   ],
   "category": "testing"
 }

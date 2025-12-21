@@ -1,19 +1,6 @@
 ---
 name: sql-query-optimization
-description: |
-  Comprehensive SQL query performance optimization for PostgreSQL and MySQL using indexing strategies,
-  query plan analysis, and systematic optimization workflows. This skill provides patterns for debugging
-  slow queries, creating optimal indexes, rewriting inefficient queries, and monitoring database performance.
-
-  Use when: debugging slow database queries, analyzing EXPLAIN output, optimizing query execution plans,
-  creating indexes for performance, rewriting N+1 queries, implementing pagination, using prepared statements,
-  monitoring query performance, or encountering "sequential scan", "missing index", "N+1 query problem",
-  "slow LIKE queries", "OFFSET pagination", "temp table spills", or cache hit ratio issues.
-
-  Prevents 12 documented issues: sequential scans on large tables, missing indexes on foreign keys, N+1 query
-  problems from ORMs, leading wildcard LIKE queries, SELECT * in production, missing LIMIT on large results,
-  inefficient subqueries vs JOINs, stale statistics after bulk loads, missing composite indexes, wrong index
-  column order, SQL injection from non-parameterized queries, and missing connection pooling.
+description: SQL query optimization for PostgreSQL/MySQL with indexing, EXPLAIN analysis. Use for slow queries, N+1 problems, missing indexes, or encountering sequential scans, OFFSET pagination, temp table spills, inefficient JOINs.
 
   Keywords: sql optimization, query performance, database indexes, explain analyze, slow queries, n+1 problem,
   query plan, index strategy, composite index, covering index, postgresql performance, mysql optimization,

@@ -1,11 +1,6 @@
 ---
 name: cloudflare-d1
-description: |
-  Complete knowledge domain for Cloudflare D1 - serverless SQLite database on Cloudflare's edge network.
-
-  Use when: creating D1 databases, writing SQL migrations, configuring D1 bindings, querying D1 from Workers,
-  handling SQLite data, building relational data models, or encountering "D1_ERROR", "statement too long",
-  "too many requests queued", migration failures, or query performance issues.
+description: Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors.
 
   Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers,
   edge database, d1 queries, sql cloudflare, prepared statements, batch queries,

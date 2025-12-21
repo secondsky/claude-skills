@@ -1,7 +1,6 @@
 ---
 name: google-gemini-embeddings
-description: |
-  This skill provides complete coverage of Google Gemini embeddings API (gemini-embedding-001) for building RAG systems, semantic search, document clustering, and similarity matching. Use when implementing vector search with Google's embedding models, integrating with Cloudflare Vectorize, or building retrieval-augmented generation systems. Covers SDK usage (@google/genai), fetch-based Workers implementation, batch processing, 8 task types (RETRIEVAL_QUERY, RETRIEVAL_DOCUMENT, SEMANTIC_SIMILARITY, etc.), dimension optimization (128-3072), and cosine similarity calculations. Prevents 8+ embedding-specific errors including dimension mismatches, incorrect task types, rate limiting issues (100 RPM free tier), vector normalization mistakes, text truncation (2,048 token limit), and model version confusion. Includes production-ready RAG patterns with Cloudflare Vectorize integration, chunking strategies, and caching patterns. Token savings: ~60%. Production tested.
+description: Google Gemini embeddings API (gemini-embedding-001) for RAG and semantic search. Use for vector search, Vectorize integration, or encountering dimension mismatches, rate limits, text truncation.
 
   Keywords: gemini embeddings, gemini-embedding-001, google embeddings, semantic search, RAG, vector search, document clustering, similarity search, retrieval augmented generation, vectorize integration, cloudflare vectorize embeddings, 768 dimensions, embed content gemini, batch embeddings, embeddings api, cosine similarity, vector normalization, retrieval query, retrieval document, task types, dimension mismatch, embeddings rate limit, text truncation, @google/genai
 license: MIT

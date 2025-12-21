@@ -1,6 +1,6 @@
 {
   "name": "api-filtering-sorting",
-  "description": "Builds flexible API filtering and sorting systems with query parameter parsing, validation, and security. Use when implementing search endpoints, building data grids, or creating dynamic query APIs.\n",
+  "description": "Builds flexible API filtering and sorting systems with query parameter parsing, validation, and security. Use when implementing search endpoints, building data grids, or creating dynamic query APIs.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

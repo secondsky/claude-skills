@@ -1,19 +1,6 @@
 ---
 name: claude-code-bash-patterns
-description: |
-  Comprehensive knowledge for using the Bash tool in Claude Code effectively. This skill
-  should be used when orchestrating CLI tools, configuring hooks, setting up automation
-  workflows, managing git operations, handling multi-command patterns, or encountering
-  Bash tool errors.
-
-  Covers: PreToolUse hooks, command chaining patterns, git workflow automation, CLI tool
-  integration, custom commands (.claude/commands/), security configurations, allowlisting,
-  session persistence, output handling, error prevention, and troubleshooting common issues.
-
-  Use when: setting up Claude Code hooks, configuring bash permissions, creating custom
-  commands, automating git workflows, orchestrating multiple CLI tools, debugging bash
-  command failures, implementing security guards, logging command execution, or preventing
-  dangerous operations.
+description: Claude Code Bash tool patterns with hooks, automation, git workflows. Use for PreToolUse hooks, command chaining, CLI orchestration, custom commands, or encountering bash permissions, command failures, security guards, hook configurations.
 license: MIT
 metadata:
   version: "2.0.0"

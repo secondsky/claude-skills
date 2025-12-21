@@ -1,17 +1,6 @@
 ---
 name: cloudflare-full-stack-scaffold
-description: |
-  Production-ready starter project for React + Cloudflare Workers + Hono with core services
-  (D1, KV, R2, Workers AI) and optional advanced features (Clerk Auth, AI Chat, Queues, Vectorize).
-  Complete with planning docs, session handoff protocol, and enable scripts for opt-in features.
-
-  Use when: starting new full-stack project, creating Cloudflare app, scaffolding web app,
-  AI-powered application, chat interface, RAG application, need complete starter, avoid setup time,
-  production-ready template, full-stack boilerplate, React Cloudflare starter.
-
-  Prevents: service configuration errors, binding setup mistakes, frontend-backend connection issues,
-  CORS errors, auth integration problems, AI SDK setup confusion, missing planning docs,
-  incomplete project structure, hours of initial setup.
+description: Production React + Cloudflare Workers + Hono starter with D1, KV, R2, Workers AI. Use for full-stack projects, MVPs, AI apps on Cloudflare.
 
   Keywords: cloudflare scaffold, full-stack starter, react cloudflare, hono template, production boilerplate,
   AI SDK integration, workers AI, complete starter project, D1 KV R2 setup, web app template,

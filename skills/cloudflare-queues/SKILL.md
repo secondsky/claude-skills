@@ -1,12 +1,6 @@
 ---
 name: cloudflare-queues
-description: |
-  Complete knowledge domain for Cloudflare Queues - flexible message queue for asynchronous processing
-  and background tasks on Cloudflare Workers.
-
-  Use when: creating message queues, async processing, background jobs, batch processing, handling retries,
-  configuring dead letter queues, implementing consumer concurrency, or encountering "queue timeout",
-  "batch retry", "message lost", "throughput exceeded", "consumer not scaling" errors.
+description: Cloudflare Queues for async processing and background jobs. Use for message queues, batch processing, retries, or encountering timeout, retry, throughput errors.
 
   Keywords: cloudflare queues, queues workers, message queue, queue bindings, async processing,
   background jobs, queue consumer, queue producer, batch processing, dead letter queue, dlq,

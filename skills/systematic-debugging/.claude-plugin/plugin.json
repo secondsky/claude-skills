@@ -1,6 +1,6 @@
 {
   "name": "systematic-debugging",
-  "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.\n",
+  "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -12,7 +12,6 @@
     "systematic-debugging",
     "systematic",
     "debugging",
-    "development",
     "tooling",
     "workflow"
   ],

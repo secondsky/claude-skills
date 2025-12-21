@@ -1,6 +1,6 @@
 ---
 name: recommendation-engine
-description: Builds recommendation systems using collaborative filtering, matrix factorization, content-based, and hybrid approaches for personalized suggestions. Use when implementing product recommendations, content discovery, personalization features, handling cold start problems, or evaluating recommendation quality with precision@k, NDCG, and coverage metrics.
+description: Build recommendation systems with collaborative filtering, matrix factorization, hybrid approaches. Use for product recommendations, personalization, or encountering cold start, sparsity, quality evaluation issues.
 keywords: recommendation engine, collaborative filtering, matrix factorization, SVD, ALS, NMF, user-based CF, item-based CF, cold start, precision@k, recall@k, NDCG, hybrid recommender, content-based filtering, cosine similarity, implicit feedback, evaluation metrics, diversity, coverage
 license: MIT
 ---

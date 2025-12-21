@@ -1,6 +1,6 @@
 {
   "name": "database-sharding",
-  "description": "Comprehensive database sharding implementation patterns for PostgreSQL and MySQL. Covers hash-based, range-based, and directory-based sharding strategies, shard key selection, cross-shard queries, rebalancing, and router implementation. Use when scaling beyond single-server capacity, implementing multi-tenant isolation, distributing geographic load, or handling billions of records. Essential for high-traffic applications requiring horizontal scalability. Prevents 10 documented issues: wrong shard key choice (hotspots), missing shard key in queries, cross-shard transactions without handling, hotspot shards from sequential IDs, no rebalancing strategy, timestamp-based sharding hotspots, mutable shard keys, missing shard routing layer, no monitoring for shard balance, incorrect hash function. Production-tested with routers, aggregation patterns, and zero-downtime migration strategies.\n",
+  "description": "Database sharding for PostgreSQL/MySQL with hash/range/directory strategies. Use for horizontal scaling, multi-tenant isolation, billions of records, or encountering wrong shard keys, hotspots, cross-shard transactions, rebalancing issues.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -17,10 +17,7 @@
     "query",
     "migrations",
     "mysql",
-    "postgresql",
-    "production",
-    "implementation",
-    "migration"
+    "postgresql"
   ],
   "category": "database"
 }

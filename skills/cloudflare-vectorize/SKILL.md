@@ -1,13 +1,6 @@
 ---
 name: cloudflare-vectorize
-description: |
-  Complete knowledge domain for Cloudflare Vectorize - globally distributed vector database for building
-  semantic search, RAG (Retrieval Augmented Generation), and AI-powered applications.
-
-  Use when: creating vector indexes, inserting embeddings, querying vectors, implementing semantic search,
-  building RAG systems, configuring metadata filtering, working with Workers AI embeddings, integrating
-  with OpenAI embeddings, or encountering metadata index timing errors, dimension mismatches, filter
-  syntax issues, or insert vs upsert confusion.
+description: Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors.
 
   Keywords: vectorize, vector database, vector index, vector search, similarity search, semantic search,
   nearest neighbor, knn search, ann search, RAG, retrieval augmented generation, chat with data,

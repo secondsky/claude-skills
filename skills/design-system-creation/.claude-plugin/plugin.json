@@ -1,6 +1,6 @@
 {
   "name": "design-system-creation",
-  "description": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.\n",
+  "description": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -13,8 +13,31 @@
     "design",
     "system",
     "creation",
-    "interface",
-    "user-experience"
+    "design-tokens",
+    "typography",
+    "spacing",
+    "color-palette",
+    "components",
+    "patterns",
+    "variables",
+    "dark-mode",
+    "theming",
+    "css-variables",
+    "accessibility",
+    "wcag",
+    "responsive",
+    "grid-system",
+    "breakpoints",
+    "design-scale",
+    "semantic-tokens",
+    "component-library",
+    "style-guide",
+    "documentation",
+    "figma",
+    "storybook",
+    "brand-consistency",
+    "design-principles",
+    "css"
   ],
   "category": "design"
 }

@@ -1,6 +1,6 @@
 {
   "name": "session-management",
-  "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.\n",
+  "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -14,11 +14,9 @@
     "management",
     "web",
     "performance",
-    "optimization",
     "pwa",
     "jwt",
-    "authentication",
-    "configuration"
+    "authentication"
   ],
   "category": "web"
 }

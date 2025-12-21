@@ -69,6 +69,14 @@ echo ""
 categorize_skill() {
   local skill_name="$1"
 
+  # Explicit overrides for mismatched categories (checked first)
+  case "$skill_name" in
+    mobile-first-design)
+      echo "design"  # Responsive web design, not native mobile
+      return
+      ;;
+  esac
+
   if [[ "$skill_name" =~ ^cloudflare- ]]; then echo "cloudflare"
   elif [[ "$skill_name" =~ ^(app-store-deployment|mobile-|react-native-app|swift-) ]]; then echo "mobile"
   elif [[ "$skill_name" =~ ^(claude-code-|claude-hook-) ]]; then echo "tooling"
@@ -139,6 +147,24 @@ filter_category_keywords() {
     ml-model-training)
       # Remove LLM keyword - this is for general ML, not LLM training
       echo "$category_kws" | tr ',' '\n' | grep -v -E '^llm$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    access-control-rbac)
+      # RBAC is about roles/permissions, not attack prevention
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(csrf|xss)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    mobile-first-design)
+      # Responsive web design, not native mobile apps
+      # Remove misleading mobile keywords, add responsive design keywords
+      filtered=$(echo "$category_kws" | tr ',' '\n' | grep -v -E '^(app|native)$' | tr '\n' ',' | sed 's/,$//')
+      echo "$filtered,responsive-design,media-queries,breakpoints"
+      ;;
+    websocket-implementation)
+      # WebSockets, not REST/GraphQL
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(rest|graphql|endpoints)$' | tr '\n' ',' | sed 's/,$//'
+      ;;
+    payment-gateway-integration)
+      # Payment integration, not PWA/performance optimization
+      echo "$category_kws" | tr ',' '\n' | grep -v -E '^(pwa|performance)$' | tr '\n' ',' | sed 's/,$//'
       ;;
     push-notification-setup)
       # Keep all - notifications are a web/mobile feature
@@ -339,6 +365,13 @@ generate_keywords_json() {
       # Directory names (too descriptive, not searchable)
       "server directory"|"public directory"|"assets directory"|"app directory"|"components directory")
         continue ;;
+      # Generic single-word terms (too broad, hurt search relevance)
+      api|beta|status|integration|first|design|app|correct|not|streaming|sdk)
+        # Keep if it's part of the skill name (e.g., "api" ok for "openai-api")
+        if [[ ! "$skill_name" =~ $kw ]]; then
+          continue
+        fi
+        ;;
       # Standalone generic terms (only skip if not part of skill name)
       modules|plugins|layers|middleware|configuration|optimization)
         # Keep if it's part of the skill name (e.g., "middleware" skill keeps "middleware" keyword)
@@ -355,10 +388,12 @@ generate_keywords_json() {
   # Build JSON array using jq (proper escaping)
   local json_array=$(printf '%s\n' "${deduplicated_keywords[@]}" | jq -R . | jq -s .)
 
-  # Validation: Warn if keyword count is low
+  # Validation: Warn if keyword count is outside optimal range
   keyword_count=$(echo "$json_array" | jq '. | length')
   if [ "$keyword_count" -lt 15 ]; then
-    echo "  ⚠️  Warning: $skill_name has only $keyword_count keywords (recommend 15+)" >&2
+    echo "  ⚠️  Warning: $skill_name has only $keyword_count keywords (recommend 15-35)" >&2
+  elif [ "$keyword_count" -gt 35 ]; then
+    echo "  ⚠️  Warning: $skill_name has $keyword_count keywords (recommend 15-35 for search relevance)" >&2
   fi
 
   echo "$json_array"
@@ -505,6 +540,17 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
 
   # Remove "Keywords: ..." line from description for plugin.json output
   clean_desc=$(remove_keywords_line "$current_desc")
+
+  # Validate description length
+  desc_length=${#clean_desc}
+  if [ "$desc_length" -gt 250 ]; then
+    echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
+    echo "  Description: $clean_desc" >&2
+    echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
+    continue  # Skip this skill
+  elif [ "$desc_length" -gt 150 ]; then
+    echo "  ⚠️  Warning: $skill_name description is $desc_length chars (recommend <150 for brevity)" >&2
+  fi
 
   # Scan for agents and commands
   agents_json=$(scan_agents "$skill_dir")
