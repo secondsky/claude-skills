@@ -174,6 +174,12 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
     keywords="[]"
   fi
 
+  # Read version from plugin.json
+  version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
+  if [ -z "$version" ] || [ "$version" = "null" ]; then
+    version="3.0.0"
+  fi
+
   # Get category
   category=$(categorize_skill "$skill_name")
 
@@ -196,6 +202,7 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
     {
       "name": "$skill_name",
       "source": "./skills/$skill_name",
+      "version": "$version",
       "description": "$description_escaped",
       "keywords": $keywords,
       "category": "$category"
