@@ -13,9 +13,8 @@ description: |
   Prevents 8+ common errors including OAuth authentication failures, TOML formatting
   issues, YAML parse errors, CORS/COOP policy problems, content not listing, script
   loading errors, image upload failures, and deployment problems. Includes complete
-
-  Keywords: Sveltia CMS, Git-backed CMS, Decap CMS alternative, Netlify CMS alternative, headless CMS, static site CMS, Hugo CMS, Jekyll CMS, 11ty CMS, Gatsby CMS, Astro CMS, SvelteKit CMS, Next.js CMS, content management, visual editing, markdown CMS, YAML frontmatter, i18n CMS, multilingual CMS, mobile-friendly CMS, OAuth authentication CMS, TOML config, admin/config.yml, GraphQL performance, cloudflare workers oauth proxy, OAuth authentication failure, YAML parse error, CORS COOP policy, content not listing, image upload failures
-  Cloudflare Workers OAuth proxy setup guide.
+  setup guides, configuration examples, and Cloudflare Workers OAuth proxy deployment
+  documentation.
 license: MIT
 allowed-tools: ['Read', 'Write', 'Edit', 'Bash', 'Glob', 'Grep']
 metadata:
