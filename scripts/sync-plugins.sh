@@ -28,7 +28,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SKILLS_DIR="$ROOT_DIR/skills"
+PLUGINS_DIR="$ROOT_DIR/plugins"
 MARKETPLACE_JSON="$ROOT_DIR/.claude-plugin/marketplace.json"
 
 # Parse arguments
@@ -60,7 +60,7 @@ echo ""
 # -----------------------------------------------------------------------------
 GLOBAL_VERSION=$(jq -r '.metadata.version // "1.0.0"' "$MARKETPLACE_JSON" 2>/dev/null)
 echo "Global version: $GLOBAL_VERSION"
-echo "Skills directory: $SKILLS_DIR"
+echo "Plugins directory: $PLUGINS_DIR"
 echo ""
 
 # -----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ categorize_skill() {
   elif [[ "$skill_name" =~ ^(claude-code-|claude-hook-) ]]; then echo "tooling"
   elif [[ "$skill_name" =~ ^(ai-|openai-|claude-|google-gemini-|gemini-|elevenlabs-|thesys-|multi-ai-consultant|tanstack-ai|ml-|model-deployment) ]]; then echo "ai"
   elif [[ "$skill_name" =~ ^(nextjs|nuxt-|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then echo "frontend"
-  elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation) ]]; then echo "auth"
+  elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation|api-authentication|session-management) ]]; then echo "auth"
   elif [[ "$skill_name" =~ ^(content-collections|hugo|nuxt-content|sveltia-cms|wordpress-plugin-core) ]]; then echo "cms"
   elif [[ "$skill_name" =~ ^(vercel-blob) ]]; then echo "storage"
   elif [[ "$skill_name" =~ ^(database-|drizzle-|neon-|vercel-kv) ]]; then echo "database"
@@ -463,22 +463,22 @@ scan_commands() {
 count=0
 updated=0
 skipped=0
-total=$(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+total=$(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
 
-echo "Processing $total skills..."
+echo "Processing $total plugins..."
 echo ""
 
-for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
-  skill_name=$(basename "$skill_dir")
-  plugin_dir="$skill_dir/.claude-plugin"
+for plugin_base_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+  plugin_name=$(basename "$plugin_base_dir")
+  plugin_dir="$plugin_base_dir/.claude-plugin"
   plugin_json="$plugin_dir/plugin.json"
-  skill_md="$skill_dir/SKILL.md"
+  skill_md="$plugin_base_dir/skills/$plugin_name/SKILL.md"
 
   count=$((count + 1))
 
   # Skip if no SKILL.md
   if [ ! -f "$skill_md" ]; then
-    printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
+    printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$plugin_name"
     skipped=$((skipped + 1))
     continue
   fi
@@ -529,14 +529,14 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
     ' "$skill_md")
   fi
   if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
-    current_desc="Production-ready skill for $skill_name"
+    current_desc="Production-ready skill for $plugin_name"
   fi
 
   # Get category
-  category=$(categorize_skill "$skill_name")
+  category=$(categorize_skill "$plugin_name")
 
   # Generate keywords (uses full description with Keywords line for extraction)
-  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+  keywords_json=$(generate_keywords_json "$plugin_name" "$category" "$current_desc" "$skill_md")
 
   # Remove "Keywords: ..." line from description for plugin.json output
   clean_desc=$(remove_keywords_line "$current_desc")
@@ -544,17 +544,17 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   # Validate description length
   desc_length=${#clean_desc}
   if [ "$desc_length" -gt 250 ]; then
-    echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
+    echo "  ❌ ERROR: $plugin_name description is $desc_length chars (max 250)" >&2
     echo "  Description: $clean_desc" >&2
     echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
-    continue  # Skip this skill
+    continue  # Skip this plugin
   elif [ "$desc_length" -gt 150 ]; then
-    echo "  ⚠️  Warning: $skill_name description is $desc_length chars (recommend <150 for brevity)" >&2
+    echo "  ⚠️  Warning: $plugin_name description is $desc_length chars (recommend <150 for brevity)" >&2
   fi
 
   # Scan for agents and commands
-  agents_json=$(scan_agents "$skill_dir")
-  commands_json=$(scan_commands "$skill_dir")
+  agents_json=$(scan_agents "$plugin_base_dir")
+  commands_json=$(scan_commands "$plugin_base_dir")
 
   # Build the updated plugin.json
   if [ "$DRY_RUN" = false ]; then
@@ -563,7 +563,7 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
     desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
     cat > "$plugin_json.tmp" << EOF
 {
-  "name": "$skill_name",
+  "name": "$plugin_name",
   "description": $desc_json,
   "version": "$GLOBAL_VERSION",
   "author": $current_author,
@@ -589,7 +589,7 @@ EOF
       jq '.' "$plugin_json.tmp" > "$plugin_json"
       rm "$plugin_json.tmp"
     else
-      echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+      echo "  ❌ ERROR: Invalid JSON generated for $plugin_name"
       rm "$plugin_json.tmp"
       continue
     fi
@@ -607,9 +607,9 @@ EOF
   fi
 
   if [ "$DRY_RUN" = true ]; then
-    printf "[%3d/%d] %-40s → %s%s (dry run)\n" "$count" "$total" "$skill_name" "$category" "$extras"
+    printf "[%3d/%d] %-40s → %s%s (dry run)\n" "$count" "$total" "$plugin_name" "$category" "$extras"
   else
-    printf "[%3d/%d] %-40s → %s%s\n" "$count" "$total" "$skill_name" "$category" "$extras"
+    printf "[%3d/%d] %-40s → %s%s\n" "$count" "$total" "$plugin_name" "$category" "$extras"
   fi
 
   updated=$((updated + 1))
@@ -620,9 +620,9 @@ echo "============================================"
 echo "Plugin Sync Complete"
 echo "============================================"
 echo ""
-echo "Skills processed: $count"
-echo "Skills updated: $updated"
-echo "Skills skipped: $skipped"
+echo "Plugins processed: $count"
+echo "Plugins updated: $updated"
+echo "Plugins skipped: $skipped"
 echo "Global version: $GLOBAL_VERSION"
 echo ""
 

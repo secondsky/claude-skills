@@ -1,0 +1,21 @@
+{
+  "name": "api-authentication",
+  "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-authentication",
+    "api",
+    "authentication",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "jwt"
+  ]
+}
