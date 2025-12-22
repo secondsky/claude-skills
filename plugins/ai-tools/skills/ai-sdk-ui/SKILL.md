@@ -13,9 +13,9 @@ license: MIT
 
 Frontend React hooks for AI-powered user interfaces with Vercel AI SDK v5.
 
-**Version**: AI SDK v5.0.108 (Stable)
-**Framework**: React 18+, Next.js 14+
-**Last Updated**: 2025-12-10
+**Version**: AI SDK v5.0.116 (Stable)
+**Framework**: React 18+, Next.js 15+
+**Last Updated**: 2025-12-22
 
 ## Table of Contents
 1. [Quick Start](#quick-start-5-minutes)
@@ -446,10 +446,11 @@ See `references/streaming-patterns.md` for comprehensive best practices.
 ```json
 {
   "dependencies": {
-    "ai": "^5.0.76",
-    "@ai-sdk/openai": "^2.0.53",
+    "ai": "^5.0.116",
+    "@ai-sdk/openai": "^2.0.88",
     "react": "^18.2.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "isomorphic-dompurify": "^2.16.0"
   }
 }
 ```
@@ -466,7 +467,7 @@ See `references/streaming-patterns.md` for comprehensive best practices.
 ```
 
 **Version Notes:**
-- AI SDK v5.0.76+ (stable)
+- AI SDK v5.0.116+ (stable)
 - React 18+ (React 19 supported)
 - Next.js 14+ recommended (13.4+ works)
 - Zod 3.23.8+ for schema validation

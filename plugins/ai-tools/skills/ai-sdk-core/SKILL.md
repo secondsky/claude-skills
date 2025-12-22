@@ -459,10 +459,10 @@ return stream.toDataStreamResponse();
 ```json
 {
   "dependencies": {
-    "ai": "^5.0.98",
-    "@ai-sdk/openai": "^2.0.71",
-    "@ai-sdk/anthropic": "^2.0.45",
-    "@ai-sdk/google": "^2.0.40",
+    "ai": "^5.0.116",
+    "@ai-sdk/openai": "^2.0.88",
+    "@ai-sdk/anthropic": "^2.0.56",
+    "@ai-sdk/google": "^2.0.51",
     "workers-ai-provider": "^2.0.0",
     "zod": "^3.23.8"
   },
@@ -474,7 +474,7 @@ return stream.toDataStreamResponse();
 ```
 
 **Version Notes:**
-- AI SDK v5.0.98+ (stable, latest as of November 2025)
+- AI SDK v5.0.116+ (stable, latest as of December 2025)
 - v6 is in beta - not covered in this skill
 - **Zod compatibility**: This skill uses Zod 3.x, but AI SDK 5 officially supports both Zod 3.x and Zod 4.x (4.1.12 latest)
   - Zod 4 recommended for new projects (released August 2025)
@@ -566,6 +566,6 @@ All files are optimized for copy-paste into your project.
 
 ---
 
-**Last Updated:** 2025-10-29
+**Last Updated:** 2025-12-22
 **Skill Version:** 1.1.0
-**AI SDK Version:** 5.0.81+
+**AI SDK Version:** 5.0.116+
