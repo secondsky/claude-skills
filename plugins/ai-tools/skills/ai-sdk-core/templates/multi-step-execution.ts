@@ -33,7 +33,7 @@ async function example1_stepCount() {
   });
 
   console.log('\nResult:', result.text);
-  console.log('Steps taken:', result.steps);
+  console.log('Steps taken:', result.steps?.length ?? 0);
 }
 
 async function example2_specificTool() {

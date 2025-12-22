@@ -11,9 +11,25 @@ export default function VoiceAgent() {
 
     // Use signed URL (most secure)
     signedUrl: async () => {
-      const response = await fetch('https://your-api.com/elevenlabs/auth');
-      const { signedUrl } = await response.json();
-      return signedUrl;
+      try {
+        // TODO: Replace with your actual API endpoint
+        const response = await fetch('https://your-api.com/elevenlabs/auth');
+
+        if (!response.ok) {
+          throw new Error(`Auth failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.signedUrl) {
+          throw new Error('Missing signedUrl in response');
+        }
+
+        return data.signedUrl;
+      } catch (error) {
+        console.error('Failed to get signed URL:', error);
+        throw error;
+      }
     },
 
     clientTools: {

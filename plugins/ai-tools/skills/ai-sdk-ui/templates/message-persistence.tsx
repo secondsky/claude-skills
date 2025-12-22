@@ -73,6 +73,7 @@ export default function PersistentChat() {
   // Generate or use existing chat ID
   const [chatId, setChatId] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   // Initialize chat ID
   useEffect(() => {
@@ -108,6 +109,7 @@ export default function PersistentChat() {
   useEffect(() => {
     if (chatId && messages.length > 0) {
       saveMessages(chatId, messages);
+      setLastSaved(new Date());
     }
   }, [messages, chatId]);
 
@@ -246,8 +248,8 @@ export default function PersistentChat() {
             </button>
           </div>
           <div className="mt-2 text-xs text-gray-500 text-center">
-            {messages.length > 0 && (
-              <>Last saved: {new Date().toLocaleTimeString()}</>
+            {messages.length > 0 && lastSaved && (
+              <>Last saved: {lastSaved.toLocaleTimeString()}</>
             )}
           </div>
         </div>

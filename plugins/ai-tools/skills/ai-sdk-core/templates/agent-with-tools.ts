@@ -79,7 +79,7 @@ async function main() {
   console.log(result.text);
 
   console.log('\n--- Execution Summary ---');
-  console.log('Total steps:', result.steps);
+  console.log('Total steps:', result.steps?.length ?? 0);
   console.log('Tools used:', result.toolCalls?.map(tc => tc.toolName).join(', ') || 'none');
 }
 

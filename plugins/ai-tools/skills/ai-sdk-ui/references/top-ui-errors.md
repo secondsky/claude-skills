@@ -98,7 +98,7 @@ export async function POST(req: Request) {
 }
 ```
 
-**Docs**: https://vercel.com/docs/functions/streaming
+**Docs**: <https://vercel.com/docs/functions/streaming>
 
 ---
 
@@ -296,7 +296,7 @@ message.toolCalls  // Doesn't exist in v5
 ## For More Errors
 
 See complete error reference (28 total types):
-https://ai-sdk.dev/docs/reference/ai-sdk-errors
+<https://ai-sdk.dev/docs/reference/ai-sdk-errors>
 
 ---
 

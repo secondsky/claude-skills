@@ -9,7 +9,7 @@
  * - Loading states & error handling
  * - Stop generation button
  * - Responsive design
- * - Keyboard shortcuts (Enter to send, Cmd+K to clear)
+ * - Keyboard shortcuts (Enter to send, Cmd+K to focus input)
  *
  * Directory structure:
  * app/
@@ -31,7 +31,7 @@ import { useChat } from 'ai/react';
 import { useState, FormEvent, useRef, useEffect } from 'react';
 
 export default function ChatPage() {
-  const { messages, sendMessage, isLoading, error, stop, reload } = useChat({
+  const { messages, append, isLoading, error, stop, reload } = useChat({
     api: '/api/chat',
     onError: (error) => {
       console.error('Chat error:', error);
@@ -56,13 +56,13 @@ export default function ChatPage() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    sendMessage({ content: input });
+    append({ role: 'user', content: input });
     setInput('');
   };
 
   // Keyboard shortcuts
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // Cmd+K or Ctrl+K to clear (focus input)
+    // Cmd+K or Ctrl+K to focus input
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       inputRef.current?.focus();

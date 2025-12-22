@@ -32,12 +32,12 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // Custom message renderer component
 function MessageRenderer({ message }: { message: Message }) {
-  const [copied, setCopied] = useState(false);
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(null), 2000);
   };
 
   return (
@@ -97,7 +97,7 @@ function MessageRenderer({ message }: { message: Message }) {
                       onClick={() => copyCode(codeString)}
                       className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      {copied ? 'Copied!' : 'Copy'}
+                      {copiedCode === codeString ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
                 ) : (

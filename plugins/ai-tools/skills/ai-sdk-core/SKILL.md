@@ -37,7 +37,7 @@ Production-ready backend AI with Vercel AI SDK v5.
 
 ```bash
 bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod  # preferred
-# or: bun add ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod
+# or: npm install ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/google workers-ai-provider zod
 ```
 
 ### Environment Variables

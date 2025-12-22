@@ -23,7 +23,7 @@ for package in "${packages[@]}"; do
   echo "📦 $package"
 
   # Get installed version
-  installed=$(npm list "$package" --depth=0 2>/dev/null | grep "$package" | awk -F@ '{print $NF}')
+  installed=$(npm list "$package" --depth=0 2>/dev/null | grep "$package" | sed 's/.*@\([0-9]\)/\1/')
 
   if [ -z "$installed" ]; then
     echo "   ❌ Not installed"
@@ -43,7 +43,13 @@ for package in "${packages[@]}"; do
     if [ "$installed" = "$latest" ]; then
       echo "   ✨ Up to date!"
     elif [ -n "$installed" ]; then
-      echo "   ⬆️  Update available"
+      # Use sort -V for semantic version comparison
+      newer=$(printf '%s\n%s\n' "$installed" "$latest" | sort -V | tail -n1)
+      if [ "$newer" = "$installed" ]; then
+        echo "   ℹ️  Installed version ($installed) is newer than registry ($latest)"
+      else
+        echo "   ⬆️  Update available: $installed → $latest"
+      fi
     fi
   fi
 

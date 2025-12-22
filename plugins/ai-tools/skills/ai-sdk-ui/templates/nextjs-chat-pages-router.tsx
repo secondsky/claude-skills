@@ -27,7 +27,7 @@ import { useState, FormEvent, useRef, useEffect } from 'react';
 import Head from 'next/head';
 
 export default function ChatPage() {
-  const { messages, sendMessage, isLoading, error, stop } = useChat({
+  const { messages, append, isLoading, error, stop } = useChat({
     api: '/api/chat',
   });
 
@@ -43,7 +43,7 @@ export default function ChatPage() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    sendMessage({ content: input });
+    append({ role: 'user', content: input });
     setInput('');
   };
 
