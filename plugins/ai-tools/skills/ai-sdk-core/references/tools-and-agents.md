@@ -63,7 +63,7 @@ console.log(result.text);
 The Agent class simplifies multi-step execution with tools.
 
 ```typescript
-import { Agent, tool } from 'ai';
+import { Experimental_Agent as Agent, tool } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { z } from 'zod';
 
@@ -92,10 +92,8 @@ const weatherAgent = new Agent({
   },
 });
 
-const result = await weatherAgent.run({
-  messages: [
-    { role: 'user', content: 'What is the weather in SF in Celsius?' },
-  ],
+const result = await weatherAgent.generate({
+  prompt: 'What is the weather in SF in Celsius?',
 });
 
 console.log(result.text);

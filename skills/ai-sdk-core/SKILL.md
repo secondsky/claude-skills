@@ -213,7 +213,7 @@ const result = await generateText({
 
 ### Key Breaking Changes
 
-AI SDK v5 has 9 major breaking changes:
+AI SDK v5 has 5 major breaking changes:
 - `maxTokens` → `maxOutputTokens`
 - `parameters` → `inputSchema` (Zod)
 - `maxSteps` → `stopWhen(stepCountIs(n))`
@@ -464,7 +464,7 @@ return stream.toDataStreamResponse();
     "@ai-sdk/anthropic": "^2.0.45",
     "@ai-sdk/google": "^2.0.40",
     "workers-ai-provider": "^2.0.0",
-    "zod": "^3.23.8"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
@@ -476,11 +476,12 @@ return stream.toDataStreamResponse();
 **Version Notes:**
 - AI SDK v5.0.98+ (stable, latest as of November 2025)
 - v6 is in beta - not covered in this skill
-- **Zod compatibility**: This skill uses Zod 3.x, but AI SDK 5 officially supports both Zod 3.x and Zod 4.x (4.1.12 latest)
-  - Zod 4 recommended for new projects (released August 2025)
-  - Zod 4 has breaking changes: error APIs, `.default()` behavior, `ZodError.errors` removed
+- **Zod compatibility**: This skill uses Zod 4.x (4.2.1+), recommended for all new projects
+  - AI SDK 5 supports both Zod 3.x and Zod 4.x
+  - Zod 4 has breaking changes from 3.x: error APIs, `.default()` behavior, `ZodError.errors` removed
+  - If migrating from Zod 3.x, see https://zod.dev/v4/changelog for migration guide
   - Some peer dependency warnings may occur with `zod-to-json-schema` when using Zod 4
-  - See https://zod.dev/v4/changelog for migration guide
+  - For legacy projects requiring Zod 3.x, use `"zod": "^3.23.8"` instead
 - Provider packages at 2.0+ for v5 compatibility
 
 **Check Latest Versions:**

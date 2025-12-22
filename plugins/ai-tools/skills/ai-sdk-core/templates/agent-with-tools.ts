@@ -1,7 +1,7 @@
 // Agent class with multiple tools
 // AI SDK Core - Agent class for multi-step execution
 
-import { Agent, tool } from 'ai';
+import { Experimental_Agent as Agent, tool } from 'ai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { z } from 'zod';
 
@@ -66,13 +66,8 @@ const weatherAgent = new Agent({
 async function main() {
   console.log('Starting agent conversation...\n');
 
-  const result = await weatherAgent.run({
-    messages: [
-      {
-        role: 'user',
-        content: 'What is the weather in San Francisco? Tell me in Celsius and include air quality.',
-      },
-    ],
+  const result = await weatherAgent.generate({
+    prompt: 'What is the weather in San Francisco? Tell me in Celsius and include air quality.',
   });
 
   console.log('\n--- Agent Response ---');
@@ -80,7 +75,7 @@ async function main() {
 
   console.log('\n--- Execution Summary ---');
   console.log('Total steps:', result.steps?.length ?? 0);
-  console.log('Tools used:', result.toolCalls?.map(tc => tc.toolName).join(', ') || 'none');
+  console.log('Tools used:', result.steps?.flatMap(s => s.toolCalls || []).map(tc => tc.toolName).join(', ') || 'none');
 }
 
 main().catch(console.error);

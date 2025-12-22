@@ -28,7 +28,7 @@ check_package_versions() {
     echo "📦 $package"
 
     # Get installed version
-    installed=$($LIST_CMD "$package" --depth=0 2>/dev/null | grep "$package" | sed 's/.*@\([0-9]\)/\1/')
+    installed=$($LIST_CMD "$package" --depth=0 2>/dev/null | grep "$package" | awk -F@ '{print $NF}')
 
     if [ -z "$installed" ]; then
       echo "   ❌ Not installed"
