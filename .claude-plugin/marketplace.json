@@ -15,8 +15,8 @@
       "name": "aceternity-ui",
       "source": "./plugins/aceternity-ui",
       "version": "3.0.0",
-      "description": "Production-ready aceternity-ui development. Use for building with aceternity-ui. ",
-      "keywords": ["aceternity","ui","framer-motion","animations","3d-effects","components","ui-library","modern-ui","motion","react"],
+      "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors. ",
+      "keywords": ["aceternity-ui","aceternity","react","nextjs","next.js","tailwind","tailwindcss","tailwind-css","framer-motion","motion","animations","animated-components","ui-components","component-library","shadcn","shadcn-ui","3d-effects","background-effects","hero-sections","landing-pages","parallax","card-components","animated-cards","interactive-ui","modern-ui","visual-effects","bun","npm","pnpm","cli"],
       "category": "frontend"
     }
 ,
@@ -24,7 +24,7 @@
       "name": "ai-sdk-core",
       "source": "./plugins/ai-tools/skills/ai-sdk-core",
       "version": "3.0.0",
-      "description": "Vercel AI SDK v5 backend: text generation, structured output, tools, agents. Multi-provider. Use for server AI or API/streaming errors. ",
+      "description": "Vercel AI SDK v5 for backend AI (text generation, structured output, tools, agents). Multi-provider. Use for server-side AI or encountering AI_APICallError, AI_NoObjectGeneratedError, streaming failures. ",
       "keywords": ["ai-sdk-core","sdk","core","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
@@ -33,7 +33,7 @@
       "name": "ai-sdk-ui",
       "source": "./plugins/ai-tools/skills/ai-sdk-ui",
       "version": "3.0.0",
-      "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat UIs. Use for React/Next.js apps or stream/parse errors. ",
+      "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat interfaces. Use for React/Next.js AI apps or encountering parse stream errors, no response, streaming issues. ",
       "keywords": ["ai-sdk-ui","sdk","machine-learning","llm","artificial-intelligence"],
       "category": "ai"
     }
@@ -187,7 +187,7 @@
       "source": "./plugins/api-authentication",
       "version": "3.0.0",
       "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors. ",
-      "keywords": ["api-authentication","api","authentication","rest","graphql","endpoints","http","jwt"],
+      "keywords": ["api-authentication","api","authentication","authorization","login","security","session","jwt"],
       "category": "auth"
     }
 ,
@@ -195,8 +195,8 @@
       "name": "app-store-deployment",
       "source": "./plugins/app-store-deployment",
       "version": "3.0.0",
-      "description": "Production-ready app-store-deployment development. Use for building with app-store-deployment. ",
-      "keywords": ["app","store","deployment"],
+      "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines. ",
+      "keywords": ["app-store-deployment","app","store","mobile","native"],
       "category": "mobile"
     }
 ,
@@ -231,8 +231,8 @@
       "name": "auto-animate",
       "source": "./plugins/auto-animate",
       "version": "3.0.0",
-      "description": "Production-ready auto-animate development. Use for building with auto-animate. ",
-      "keywords": ["auto","animate"],
+      "description": "AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity. ",
+      "keywords": ["auto-animate","auto","animate","frontend","components","ssr","autoanimate"],
       "category": "frontend"
     }
 ,
@@ -240,8 +240,8 @@
       "name": "base-ui-react",
       "source": "./plugins/base-ui-react",
       "version": "3.0.0",
-      "description": "Production-ready base-ui-react development. Use for building with base-ui-react. ",
-      "keywords": ["base","ui","react"],
+      "description": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues. ",
+      "keywords": ["base-ui-react","base","react","frontend","components","mui","migration"],
       "category": "frontend"
     }
 ,
@@ -285,8 +285,8 @@
       "name": "chrome-devtools",
       "source": "./plugins/chrome-devtools",
       "version": "3.0.0",
-      "description": "Production-ready chrome-devtools development. Use for building with chrome-devtools. ",
-      "keywords": ["chrome","devtools"],
+      "description": "Browser automation with Puppeteer CLI scripts. Use for screenshots, performance analysis, network monitoring, web scraping, form automation, or encountering JavaScript debugging, browser automation errors. ",
+      "keywords": ["chrome-devtools","chrome","devtools","tooling","workflow","cli"],
       "category": "tooling"
     }
 ,
@@ -673,7 +673,7 @@
       "source": "./plugins/design/skills/frontend-design",
       "version": "3.0.0",
       "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, or applications. Generates creative, polished code that avoids generic AI aesthetics. ",
-      "keywords": ["frontend-design","frontend","design","interface","user-experience"],
+      "keywords": ["frontend-design","frontend","design","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -700,7 +700,7 @@
       "source": "./plugins/design/skills/mobile-first-design",
       "version": "3.0.0",
       "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts. ",
-      "keywords": ["mobile-first-design","mobile","first","design","interface","user-experience","responsive-design","media-queries","breakpoints"],
+      "keywords": ["mobile-first-design","mobile","first","design","responsive-design","media-queries","breakpoints"],
       "category": "mobile"
     }
 ,
@@ -717,8 +717,8 @@
       "name": "firecrawl-scraper",
       "source": "./plugins/firecrawl-scraper",
       "version": "3.0.0",
-      "description": "Production-ready firecrawl-scraper development. Use for building with firecrawl-scraper. ",
-      "keywords": ["firecrawl","scraper"],
+      "description": "Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors. ",
+      "keywords": ["firecrawl-scraper","firecrawl","scraper","web","performance","pwa","llm"],
       "category": "web"
     }
 ,
@@ -726,8 +726,8 @@
       "name": "github-project-automation",
       "source": "./plugins/github-project-automation",
       "version": "3.0.0",
-      "description": "Production-ready github-project-automation development. Use for building with github-project-automation. ",
-      "keywords": ["github","project","automation"],
+      "description": "GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors. ",
+      "keywords": ["github-project-automation","github","project","automation","tooling","workflow","yaml","codeql"],
       "category": "tooling"
     }
 ,
@@ -771,8 +771,8 @@
       "name": "graphql-implementation",
       "source": "./plugins/graphql-implementation",
       "version": "3.0.0",
-      "description": "Production-ready graphql-implementation development. Use for building with graphql-implementation. ",
-      "keywords": ["graphql","implementation"],
+      "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions. ",
+      "keywords": ["graphql-implementation","graphql","implementation","rest","endpoints","http","real-time"],
       "category": "api"
     }
 ,
@@ -780,8 +780,8 @@
       "name": "health-check-endpoints",
       "source": "./plugins/health-check-endpoints",
       "version": "3.0.0",
-      "description": "Production-ready health-check-endpoints development. Use for building with health-check-endpoints. ",
-      "keywords": ["health","check","endpoints"],
+      "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors. ",
+      "keywords": ["health-check-endpoints","health","check","endpoints","architecture","patterns","microservices"],
       "category": "architecture"
     }
 ,
@@ -789,8 +789,8 @@
       "name": "hono-routing",
       "source": "./plugins/hono-routing",
       "version": "3.0.0",
-      "description": "Production-ready hono-routing development. Use for building with hono-routing. ",
-      "keywords": ["hono","routing"],
+      "description": "Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors. ",
+      "keywords": ["hono-routing","hono","routing","web","performance","pwa","rpc","validation"],
       "category": "web"
     }
 ,
@@ -798,8 +798,8 @@
       "name": "idempotency-handling",
       "source": "./plugins/idempotency-handling",
       "version": "3.0.0",
-      "description": "Production-ready idempotency-handling development. Use for building with idempotency-handling. ",
-      "keywords": ["idempotency","handling"],
+      "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors. ",
+      "keywords": ["idempotency-handling","idempotency","handling","tooling","workflow","caching"],
       "category": "tooling"
     }
 ,
@@ -807,8 +807,8 @@
       "name": "inspira-ui",
       "source": "./plugins/inspira-ui",
       "version": "3.0.0",
-      "description": "Production-ready inspira-ui development. Use for building with inspira-ui. ",
-      "keywords": ["inspira","ui"],
+      "description": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors. ",
+      "keywords": ["inspira-ui","inspira","vue","nuxt","vue 3","nuxt 4","inspira ui","animated components","tailwindcss v4","motion-v","three.js","ogl","webgl","aurora background","shimmer button","morphing text","3d globe","fluid cursor","confetti","neon border","icon cloud","flip card","css","gsap","tailwindcss"],
       "category": "frontend"
     }
 ,
@@ -825,8 +825,8 @@
       "name": "logging-best-practices",
       "source": "./plugins/logging-best-practices",
       "version": "3.0.0",
-      "description": "Production-ready logging-best-practices development. Use for building with logging-best-practices. ",
-      "keywords": ["logging","best","practices"],
+      "description": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors. ",
+      "keywords": ["logging-best-practices","logging","best","practices","tooling","workflow","pii"],
       "category": "tooling"
     }
 ,
@@ -933,8 +933,8 @@
       "name": "motion",
       "source": "./plugins/motion",
       "version": "3.0.0",
-      "description": "Production-ready motion development. Use for building with motion. ",
-      "keywords": ["motion"],
+      "description": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors. ",
+      "keywords": ["motion","frontend","components","svg"],
       "category": "frontend"
     }
 ,
@@ -942,8 +942,8 @@
       "name": "nano-banana-prompts",
       "source": "./plugins/nano-banana-prompts",
       "version": "3.0.0",
-      "description": "Production-ready nano-banana-prompts development. Use for building with nano-banana-prompts. ",
-      "keywords": ["nano","banana","prompts"],
+      "description": "Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices. ",
+      "keywords": ["nano-banana-prompts","nano","banana","prompts","tooling","workflow"],
       "category": "tooling"
     }
 ,
@@ -951,8 +951,8 @@
       "name": "nextjs",
       "source": "./plugins/nextjs",
       "version": "3.0.0",
-      "description": "Production-ready nextjs development. Use for building with nextjs. ",
-      "keywords": ["nextjs"],
+      "description": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors. ",
+      "keywords": ["nextjs","frontend","components","ssr","migration","async"],
       "category": "frontend"
     }
 ,
@@ -1005,8 +1005,8 @@
       "name": "open-source-contributions",
       "source": "./plugins/open-source-contributions",
       "version": "3.0.0",
-      "description": "Production-ready open-source-contributions development. Use for building with open-source-contributions. ",
-      "keywords": ["open","source","contributions"],
+      "description": "Open source contribution best practices with PR validation scripts. Use for pull requests, community contributions, or encountering personal artifacts in PRs, working on main branch, untested submissions, unrelated changes, unfocused PRs. ",
+      "keywords": ["open-source-contributions","open","source","contributions","tooling","workflow","validation"],
       "category": "tooling"
     }
 ,
@@ -1122,8 +1122,8 @@
       "name": "react-hook-form-zod",
       "source": "./plugins/react-hook-form-zod",
       "version": "3.0.0",
-      "description": "Production-ready react-hook-form-zod development. Use for building with react-hook-form-zod. ",
-      "keywords": ["react","hook","form","zod"],
+      "description": "Type-safe React forms with React Hook Form and Zod validation. Use for form schemas, field arrays, multi-step forms, or encountering validation errors, resolver issues, nested field problems. ",
+      "keywords": ["react-hook-form-zod","react","hook","form","zod","frontend","components","validation"],
       "category": "frontend"
     }
 ,
@@ -1131,8 +1131,8 @@
       "name": "react-native-app",
       "source": "./plugins/react-native-app",
       "version": "3.0.0",
-      "description": "Production-ready react-native-app development. Use for building with react-native-app. ",
-      "keywords": ["react","native","app"],
+      "description": "React Native cross-platform mobile apps with navigation, state management, native features. Use for iOS/Android development, mobile prototyping, code sharing, or encountering bridge errors, platform-specific bugs, performance bottlenecks. ",
+      "keywords": ["react-native-app","react","native","app","mobile"],
       "category": "mobile"
     }
 ,
@@ -1240,7 +1240,7 @@
       "source": "./plugins/session-management",
       "version": "3.0.0",
       "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality. ",
-      "keywords": ["session-management","session","management","web","performance","pwa","jwt","authentication"],
+      "keywords": ["session-management","session","management","authentication","authorization","login","security","jwt"],
       "category": "auth"
     }
 ,
@@ -1248,8 +1248,8 @@
       "name": "shadcn-vue",
       "source": "./plugins/shadcn-vue",
       "version": "3.0.0",
-      "description": "Production-ready shadcn-vue development. Use for building with shadcn-vue. ",
-      "keywords": ["shadcn","vue"],
+      "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors. ",
+      "keywords": ["shadcn-vue","shadcn","vue","frontend","components"],
       "category": "frontend"
     }
 ,
@@ -1257,8 +1257,8 @@
       "name": "skill-review",
       "source": "./plugins/skill-review",
       "version": "3.0.0",
-      "description": "Production-ready skill-review development. Use for building with skill-review. ",
-      "keywords": ["skill","review"],
+      "description": "Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors. ",
+      "keywords": ["skill-review","skill","review","tooling","workflow","validation"],
       "category": "tooling"
     }
 ,
@@ -1392,8 +1392,8 @@
       "name": "turborepo",
       "source": "./plugins/turborepo",
       "version": "3.0.0",
-      "description": "Production-ready turborepo development. Use for building with turborepo. ",
-      "keywords": ["turborepo"],
+      "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration. ",
+      "keywords": ["turborepo","tooling","workflow","caching"],
       "category": "tooling"
     }
 ,
@@ -1401,8 +1401,8 @@
       "name": "ultracite",
       "source": "./plugins/ultracite",
       "version": "3.0.0",
-      "description": "Production-ready ultracite development. Use for building with ultracite. ",
-      "keywords": ["ultracite"],
+      "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors. ",
+      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration"],
       "category": "frontend"
     }
 ,
@@ -1464,8 +1464,8 @@
       "name": "websocket-implementation",
       "source": "./plugins/websocket-implementation",
       "version": "3.0.0",
-      "description": "Production-ready websocket-implementation development. Use for building with websocket-implementation. ",
-      "keywords": ["websocket","implementation"],
+      "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards. ",
+      "keywords": ["websocket-implementation","websocket","implementation","http","real-time"],
       "category": "api"
     }
 ,
@@ -1509,8 +1509,8 @@
       "name": "wordpress-plugin-core",
       "source": "./plugins/wordpress-plugin-core",
       "version": "3.0.0",
-      "description": "Production-ready wordpress-plugin-core development. Use for building with wordpress-plugin-core. ",
-      "keywords": ["wordpress","plugin","core"],
+      "description": "WordPress plugin development with hooks, security, REST API, custom post types. Use for plugin creation, $wpdb queries, Settings API, or encountering SQL injection, XSS, CSRF, nonce errors. ",
+      "keywords": ["wordpress-plugin-core","wordpress","plugin","core","cms","content","management","publishing","csrf","rest","sql","xss"],
       "category": "cms"
     }
 ,

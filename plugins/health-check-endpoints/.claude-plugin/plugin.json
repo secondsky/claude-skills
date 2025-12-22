@@ -1,6 +1,6 @@
 {
   "name": "health-check-endpoints",
-  "description": "Production-ready health-check-endpoints development. Use for building with health-check-endpoints.",
+  "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,8 +9,12 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "health",
-  "check",
-  "endpoints"
-]
+    "health-check-endpoints",
+    "health",
+    "check",
+    "endpoints",
+    "architecture",
+    "patterns",
+    "microservices"
+  ]
 }

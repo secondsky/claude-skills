@@ -1,6 +1,6 @@
 {
   "name": "skill-review",
-  "description": "Production-ready skill-review development. Use for building with skill-review.",
+  "description": "Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,11 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "skill",
-  "review"
-]
+    "skill-review",
+    "skill",
+    "review",
+    "tooling",
+    "workflow",
+    "validation"
+  ]
 }

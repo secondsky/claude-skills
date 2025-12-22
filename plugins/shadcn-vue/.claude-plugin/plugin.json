@@ -1,6 +1,6 @@
 {
   "name": "shadcn-vue",
-  "description": "Production-ready shadcn-vue development. Use for building with shadcn-vue.",
+  "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,10 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "shadcn",
-  "vue"
-]
+    "shadcn-vue",
+    "shadcn",
+    "vue",
+    "frontend",
+    "components"
+  ]
 }

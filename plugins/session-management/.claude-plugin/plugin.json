@@ -12,10 +12,10 @@
     "session-management",
     "session",
     "management",
-    "web",
-    "performance",
-    "pwa",
-    "jwt",
-    "authentication"
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "jwt"
   ]
 }

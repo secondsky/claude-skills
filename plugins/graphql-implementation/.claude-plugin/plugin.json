@@ -1,6 +1,6 @@
 {
   "name": "graphql-implementation",
-  "description": "Production-ready graphql-implementation development. Use for building with graphql-implementation.",
+  "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,12 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "graphql",
-  "implementation"
-]
+    "graphql-implementation",
+    "graphql",
+    "implementation",
+    "rest",
+    "endpoints",
+    "http",
+    "real-time"
+  ]
 }

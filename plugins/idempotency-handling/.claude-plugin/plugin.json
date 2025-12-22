@@ -1,6 +1,6 @@
 {
   "name": "idempotency-handling",
-  "description": "Production-ready idempotency-handling development. Use for building with idempotency-handling.",
+  "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,11 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "idempotency",
-  "handling"
-]
+    "idempotency-handling",
+    "idempotency",
+    "handling",
+    "tooling",
+    "workflow",
+    "caching"
+  ]
 }

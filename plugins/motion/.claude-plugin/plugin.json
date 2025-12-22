@@ -1,6 +1,6 @@
 {
   "name": "motion",
-  "description": "Production-ready motion development. Use for building with motion.",
+  "description": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,6 +9,9 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "motion"
-]
+    "motion",
+    "frontend",
+    "components",
+    "svg"
+  ]
 }

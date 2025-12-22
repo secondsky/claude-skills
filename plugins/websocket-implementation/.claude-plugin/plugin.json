@@ -1,6 +1,6 @@
 {
   "name": "websocket-implementation",
-  "description": "Production-ready websocket-implementation development. Use for building with websocket-implementation.",
+  "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,10 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "websocket",
-  "implementation"
-]
+    "websocket-implementation",
+    "websocket",
+    "implementation",
+    "http",
+    "real-time"
+  ]
 }
