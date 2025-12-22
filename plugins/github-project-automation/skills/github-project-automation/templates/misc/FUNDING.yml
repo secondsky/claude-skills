@@ -1,0 +1,23 @@
+# Funding Configuration
+# Links displayed on the repository "Sponsor" button
+#
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+
+# GitHub Sponsors
+github: [secondsky]  # Replace with your GitHub username
+
+# Other platforms (uncomment and add your usernames)
+# patreon: your-username
+# open_collective: your-project
+# ko_fi: your-username
+# tidelift: npm/package-name
+# community_bridge: project-name
+# liberapay: your-username
+# issuehunt: your-username
+# otechie: your-username
+# lfx_crowdfunding: project-name
+# polar: your-username
+# buy_me_a_coffee: your-username
+
+# Custom URLs (max 4)
+# custom: ['https://your-website.com/donate', 'https://paypal.me/your-username']

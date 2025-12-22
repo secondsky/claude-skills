@@ -1,0 +1,99 @@
+# Documentation Update Template (YAML Format)
+
+name: Documentation Update
+description: Suggest improvements or corrections to documentation
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+assignees:
+  - secondsky  # Replace with your GitHub username
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation!
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs updating?
+      options:
+        - README
+        - API documentation
+        - Code comments
+        - Tutorial/Guide
+        - Installation instructions
+        - Configuration guide
+        - Troubleshooting guide
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where is the documentation that needs updating?
+      placeholder: |
+        - File: README.md, line 42
+        - URL: https://docs.example.com/api/auth
+        - Section: "Installation" > "Prerequisites"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of documentation issue is this?
+      options:
+        - Missing information
+        - Incorrect/outdated information
+        - Unclear explanation
+        - Broken link
+        - Typo/grammar
+        - Code example doesn't work
+        - Needs more examples
+        - Formatting issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: Current Documentation
+      description: Quote the current documentation (if applicable)
+      placeholder: |
+        ```
+        Current text here...
+        ```
+
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested Improvement
+    description: How should it be changed?
+      placeholder: |
+        Suggested new text or explanation...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Why is this change needed? Who will benefit?
+      placeholder: "This confused me when I was trying to..."
+
+  - type: dropdown
+    id: willingness
+    attributes:
+      label: Willingness to Contribute
+      description: Can you submit a PR with this documentation update?
+      options:
+        - "Yes, I can submit a PR"
+        - "No, but I can help review"
+        - "No, just reporting the issue"
+    validations:
+      required: false

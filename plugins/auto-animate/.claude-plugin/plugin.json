@@ -1,0 +1,15 @@
+{
+  "name": "auto-animate",
+  "description": "Production-ready auto-animate development. Use for building with auto-animate.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "auto",
+  "animate"
+]
+}

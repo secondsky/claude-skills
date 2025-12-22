@@ -1,0 +1,90 @@
+/**
+ * MCP Server with OAuth Configuration
+ *
+ * This configuration supports:
+ * - OAuth authentication via workers-oauth-provider
+ * - KV namespace for token storage
+ * - Durable Objects for stateful sessions (optional)
+ * - Environment variables for OAuth credentials
+ *
+ * Perfect for: GitHub, Google, Azure OAuth integrations
+ */
+{
+  "name": "my-mcp-oauth-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  /**
+   * Account ID (required for deployment)
+   * Get your account ID: npx wrangler whoami
+   */
+  "account_id": "YOUR_ACCOUNT_ID_HERE",
+
+  /**
+   * Environment variables
+   * IMPORTANT: Never commit secrets to version control!
+   * Use .dev.vars for local development
+   */
+  "vars": {
+    "ENVIRONMENT": "production",
+
+    /**
+     * Optional: Pre-configured OAuth client credentials
+     * If not set, Dynamic Client Registration is used
+     */
+    // "GITHUB_CLIENT_ID": "your-client-id",
+    // "GOOGLE_CLIENT_ID": "your-client-id",
+  },
+
+  /**
+   * KV namespace for OAuth token storage
+   * REQUIRED for workers-oauth-provider
+   *
+   * Create KV namespace: npx wrangler kv namespace create OAUTH_KV
+   */
+  "kv_namespaces": [
+    {
+      "binding": "OAUTH_KV",
+      "id": "YOUR_KV_NAMESPACE_ID_HERE",
+      "preview_id": "YOUR_PREVIEW_KV_NAMESPACE_ID_HERE"
+    }
+  ],
+
+  /**
+   * Durable Objects configuration (optional, for stateful servers)
+   * Uncomment if your MCP server needs persistent state
+   */
+  // "durable_objects": {
+  //   "bindings": [
+  //     {
+  //       "name": "MY_MCP",
+  //       "class_name": "MyMCP",
+  //       "script_name": "my-mcp-oauth-server"
+  //     }
+  //   ]
+  // },
+
+  /**
+   * Durable Objects migrations (required on first deployment if using DOs)
+   */
+  // "migrations": [
+  //   {
+  //     "tag": "v1",
+  //     "new_classes": ["MyMCP"]
+  //   }
+  // ],
+
+  /**
+   * Node.js compatibility
+   * Required for @modelcontextprotocol/sdk and OAuth libraries
+   */
+  "node_compat": true,
+
+  /**
+   * Custom domains (optional)
+   */
+  // "routes": [
+  //   { "pattern": "mcp.example.com", "custom_domain": true }
+  // ]
+}

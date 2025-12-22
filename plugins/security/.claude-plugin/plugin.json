@@ -1,0 +1,12 @@
+{
+  "name": "security",
+  "description": "Security best practices: RBAC, CSRF protection, XSS prevention, security headers, vulnerability scanning, defense-in-depth validation, and API security hardening. Use for implementing secure applications, access control, and security audits.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["security", "rbac", "csrf", "xss", "security-headers", "vulnerability-scanning", "defense-in-depth", "api-security", "access-control"]
+}

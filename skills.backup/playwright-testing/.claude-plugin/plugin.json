@@ -1,0 +1,20 @@
+{
+  "name": "playwright-testing",
+  "description": "End-to-end testing with Playwright. Cross-browser testing, visual regression, API testing, and component testing. Use for E2E tests in TypeScript/JavaScript and Python projects.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "playwright-testing",
+    "playwright",
+    "testing",
+    "tests",
+    "unit-tests",
+    "quality",
+    "e2e"
+  ]
+}

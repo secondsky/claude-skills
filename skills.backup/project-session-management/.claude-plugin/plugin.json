@@ -1,0 +1,19 @@
+{
+  "name": "project-session-management",
+  "description": "Session state and context handoff management with SESSION.md tracking. Use for multi-session projects, resuming after context clear, phase tracking, or encountering handoff protocol, session recovery, phase progress, checkpoint errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "project-session-management",
+    "project",
+    "session",
+    "management",
+    "tooling",
+    "workflow"
+  ]
+}

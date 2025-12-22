@@ -1,0 +1,12 @@
+{
+  "name": "code-quality",
+  "description": "Code quality tools: code review, dependency upgrades, systematic debugging, root-cause tracing, and sequential thinking. Use for maintaining code quality, debugging issues, and continuous improvement.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["code-quality", "code-review", "dependency-upgrade", "debugging", "root-cause-analysis", "sequential-thinking"]
+}

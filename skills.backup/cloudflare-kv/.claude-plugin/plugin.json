@@ -1,0 +1,20 @@
+{
+  "name": "cloudflare-kv",
+  "description": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-kv",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "ttl",
+    "caching"
+  ]
+}

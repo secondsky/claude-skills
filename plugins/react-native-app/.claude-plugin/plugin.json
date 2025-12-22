@@ -1,0 +1,16 @@
+{
+  "name": "react-native-app",
+  "description": "Production-ready react-native-app development. Use for building with react-native-app.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "react",
+  "native",
+  "app"
+]
+}

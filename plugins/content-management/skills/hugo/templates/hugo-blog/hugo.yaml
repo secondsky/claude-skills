@@ -1,0 +1,32 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: Hugo Blog Test
+theme: PaperMod
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+
+params:
+  env: production
+  title: Hugo Blog Test
+  description: Test blog for Hugo skill development
+  author: Claude Skills Maintainers
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  defaultTheme: auto
+
+menu:
+  main:
+    - identifier: posts
+      name: Posts
+      url: /posts/
+      weight: 10
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 20

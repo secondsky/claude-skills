@@ -1,0 +1,106 @@
+{
+  // Cloudflare Worker Configuration with Static Assets
+  //
+  // This configures a Worker that serves a Vite+React frontend
+  // and handles API routes for TheSys C1 integration.
+  //
+  // Prerequisites:
+  // 1. Set THESYS_API_KEY secret: npx wrangler secret put THESYS_API_KEY
+  // 2. Build frontend: npm run build
+  // 3. Deploy: npx wrangler deploy
+
+  "name": "thesys-chat-worker",
+  "compatibility_date": "2025-10-26",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Main worker file (Hono backend)
+  "main": "backend/src/index.ts",
+
+  // Static assets configuration (Vite build output)
+  "assets": {
+    "directory": "dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "single-page-application"
+  },
+
+  // Environment variables (non-sensitive)
+  "vars": {
+    "ENVIRONMENT": "production",
+    "LOG_LEVEL": "info"
+  },
+
+  // Secrets (set via CLI, not in this file!)
+  // npx wrangler secret put THESYS_API_KEY
+  // npx wrangler secret put TAVILY_API_KEY (optional, for tool calling)
+
+  // Optional: D1 Database binding for message persistence
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "thesys-chat-db",
+  //     "database_id": "your-database-id"
+  //   }
+  // ],
+
+  // Optional: KV namespace for caching
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "KV",
+  //     "id": "your-kv-id"
+  //   }
+  // ],
+
+  // Optional: Workers AI binding (for hybrid approach)
+  // "ai": {
+  //   "binding": "AI"
+  // },
+
+  // Optional: Durable Objects for real-time features
+  // "durable_objects": {
+  //   "bindings": [
+  //     {
+  //       "name": "CHAT_SESSION",
+  //       "class_name": "ChatSession",
+  //       "script_name": "thesys-chat-worker"
+  //     }
+  //   ]
+  // },
+
+  // Node.js compatibility for packages like OpenAI SDK
+  "node_compat": true,
+
+  // Build configuration
+  "build": {
+    "command": "npm run build"
+  },
+
+  // Development settings
+  "dev": {
+    "port": 8787,
+    "local_protocol": "http"
+  },
+
+  // Observability
+  "observability": {
+    "enabled": true
+  },
+
+  // Routes (optional - for custom domains)
+  // "routes": [
+  //   {
+  //     "pattern": "chat.yourdomain.com/*",
+  //     "zone_name": "yourdomain.com"
+  //   }
+  // ],
+
+  // Workers Limits
+  "limits": {
+    "cpu_ms": 50000
+  },
+
+  // Placement (optional - for closer to users)
+  // "placement": {
+  //   "mode": "smart"
+  // }
+}

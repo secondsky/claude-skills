@@ -1,0 +1,191 @@
+# .envrc Example - Environment Setup for Claude Code
+#
+# This file is used with direnv to automatically load environment variables
+# when entering a project directory.
+#
+# Installation:
+#   1. Install direnv: brew install direnv (or apt install direnv)
+#   2. Add to shell: eval "$(direnv hook bash)" in ~/.bashrc
+#   3. Copy this to .envrc in your project root
+#   4. Run: direnv allow
+#
+# Claude Code Integration:
+#   Configure SessionStart hook to load .envrc:
+#
+#   {
+#     "hooks": {
+#       "SessionStart": [
+#         {
+#           "matcher": "*",
+#           "hooks": [
+#             {
+#               "type": "command",
+#               "command": "[ -f .envrc ] && source .envrc || true; env > $CLAUDE_ENV_FILE"
+#             }
+#           ]
+#         }
+#       ]
+#     }
+#   }
+
+# ============================================================================
+# Project Information
+# ============================================================================
+
+export PROJECT_NAME="my-project"
+export PROJECT_ENV="development"
+
+# ============================================================================
+# Development Tools
+# ============================================================================
+
+# Add local node_modules/.bin to PATH
+PATH_add node_modules/.bin
+
+# Add project scripts to PATH
+PATH_add scripts
+
+# Use project-specific Node version (if using nvm)
+# use node 20
+
+# ============================================================================
+# API Keys (Development Only - Never Commit Production Keys!)
+# ============================================================================
+
+# Cloudflare
+export CLOUDFLARE_ACCOUNT_ID="your-account-id"
+export CLOUDFLARE_API_TOKEN="your-dev-api-token"
+
+# OpenAI (for development/testing)
+export OPENAI_API_KEY="sk-..."
+
+# Anthropic
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# ============================================================================
+# Database Configuration
+# ============================================================================
+
+# Local D1 database
+export DATABASE_URL="file:./.wrangler/state/v3/d1/my-db.sqlite"
+
+# Or remote database connection
+# export DATABASE_URL="postgresql://user:pass@localhost:5432/mydb"
+
+# ============================================================================
+# Application Configuration
+# ============================================================================
+
+export APP_URL="http://localhost:8787"
+export API_URL="http://localhost:8787/api"
+
+# Feature flags
+export FEATURE_NEW_UI="true"
+export FEATURE_DEBUG_MODE="true"
+
+# ============================================================================
+# Wrangler Configuration
+# ============================================================================
+
+export WRANGLER_LOG_LEVEL="info"
+
+# Use specific wrangler version
+# export WRANGLER_VERSION="3.91.0"
+
+# ============================================================================
+# Custom Aliases (for CLI convenience)
+# ============================================================================
+
+# Git shortcuts
+alias gst='git status'
+alias gd='git diff'
+alias gc='git commit'
+alias gp='git push'
+
+# Development shortcuts
+alias dev='npm run dev'
+alias build='npm run build'
+alias test='npm test'
+alias deploy='npx wrangler deploy'
+
+# Wrangler shortcuts
+alias w='npx wrangler'
+alias d1='npx wrangler d1'
+alias kv='npx wrangler kv'
+alias r2='npx wrangler r2'
+
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+# Function to switch environment
+switch_env() {
+  case $1 in
+    dev|development)
+      export PROJECT_ENV="development"
+      export APP_URL="http://localhost:8787"
+      echo "Switched to development environment"
+      ;;
+    staging)
+      export PROJECT_ENV="staging"
+      export APP_URL="https://staging.example.com"
+      echo "Switched to staging environment"
+      ;;
+    prod|production)
+      export PROJECT_ENV="production"
+      export APP_URL="https://example.com"
+      echo "Switched to production environment"
+      ;;
+    *)
+      echo "Usage: switch_env [dev|staging|prod]"
+      ;;
+  esac
+}
+
+# Function to check required environment variables
+check_env() {
+  local missing=()
+
+  [ -z "$CLOUDFLARE_ACCOUNT_ID" ] && missing+=("CLOUDFLARE_ACCOUNT_ID")
+  [ -z "$CLOUDFLARE_API_TOKEN" ] && missing+=("CLOUDFLARE_API_TOKEN")
+
+  if [ ${#missing[@]} -gt 0 ]; then
+    echo "⚠️  Missing required environment variables:"
+    printf '  - %s\n' "${missing[@]}"
+    return 1
+  else
+    echo "✅ All required environment variables are set"
+    return 0
+  fi
+}
+
+# ============================================================================
+# Startup Message
+# ============================================================================
+
+echo "✅ Environment loaded for $PROJECT_NAME ($PROJECT_ENV)"
+echo "   App URL: $APP_URL"
+echo ""
+echo "Available commands:"
+echo "  switch_env [dev|staging|prod] - Switch environment"
+echo "  check_env                      - Check required variables"
+echo ""
+
+# Auto-check environment on load
+check_env
+
+# ============================================================================
+# Security Notes
+# ============================================================================
+
+# IMPORTANT:
+# 1. Add .envrc to .gitignore (never commit!)
+# 2. Use .envrc.example (this file) as template
+# 3. Never put production secrets in .envrc
+# 4. Use secret management tools for production (Doppler, Infisical, etc.)
+# 5. Rotate API keys regularly
+# 6. Use read-only keys when possible
+
+# ============================================================================
+# End of .envrc
+# ============================================================================

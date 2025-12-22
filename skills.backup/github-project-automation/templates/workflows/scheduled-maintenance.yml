@@ -1,0 +1,117 @@
+# Scheduled Maintenance Workflow
+# Runs periodic tasks on a schedule
+#
+# Triggers on: schedule (cron)
+# Tasks: Dependency updates check, cache cleanup, health checks
+
+name: Scheduled Maintenance
+
+on:
+  schedule:
+    # Run every Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  dependency-audit:
+    name: Security Audit
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
+        with:
+          node-version: '20'
+
+      - name: Run npm audit
+        run: |
+          echo "Running security audit..."
+          npm audit --production || true
+          echo "Audit complete. Check for vulnerabilities above."
+
+      - name: Check for outdated dependencies
+        run: |
+          echo "Checking for outdated dependencies..."
+          npm outdated || true
+
+  cache-cleanup:
+    name: Clean Old Caches
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Clean old caches
+        run: |
+          echo "Cleaning caches older than 7 days..."
+          gh cache list --limit 100 | while read -r line; do
+            CACHE_ID=$(echo $line | awk '{print $1}')
+            CACHE_AGE=$(echo $line | awk '{print $NF}')
+
+            # Delete if older than 7 days
+            if [[ "$CACHE_AGE" == *"days ago"* ]]; then
+              DAYS=$(echo $CACHE_AGE | awk '{print $1}')
+              if [ $DAYS -gt 7 ]; then
+                echo "Deleting cache $CACHE_ID (${DAYS} days old)"
+                gh cache delete $CACHE_ID || true
+              fi
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  health-check:
+    name: Health Check
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check production endpoint
+        run: |
+          echo "Checking production health..."
+          # Replace with your actual health check endpoint
+          curl -f https://your-app.com/health || exit 1
+          echo "✅ Health check passed"
+
+      - name: Check build time
+        run: |
+          echo "Testing build performance..."
+          START=$(date +%s)
+          # Add your build command here
+          # npm run build
+          END=$(date +%s)
+          DURATION=$((END - START))
+          echo "Build took ${DURATION} seconds"
+
+          if [ $DURATION -gt 300 ]; then
+            echo "⚠️  Build is slow (>${DURATION}s)"
+          fi
+
+  report:
+    name: Generate Report
+    needs: [dependency-audit, cache-cleanup, health-check]
+    runs-on: ubuntu-24.04
+    if: always()
+
+    steps:
+      - name: Summary
+        run: |
+          echo "=== Weekly Maintenance Report ==="
+          echo "Date: $(date)"
+          echo ""
+          echo "Security Audit: ${{ needs.dependency-audit.result }}"
+          echo "Cache Cleanup: ${{ needs.cache-cleanup.result }}"
+          echo "Health Check: ${{ needs.health-check.result }}"
+          echo ""
+          echo "Review details in job logs above."
+
+      # Optionally send notification
+      # - name: Send notification
+      #   if: failure()
+      #   run: |
+      #     curl -X POST ${{ secrets.SLACK_WEBHOOK_URL }} \
+      #       -H 'Content-Type: application/json' \
+      #       -d '{"text":"⚠️ Weekly maintenance job failed!"}'

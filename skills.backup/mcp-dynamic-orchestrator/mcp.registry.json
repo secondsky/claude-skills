@@ -1,0 +1,373 @@
+{
+  "servers": [
+    {
+      "id": "ultracite",
+      "title": "Ultracite AI MCP",
+      "summary": "Access Ultracite AI capabilities and services exposed via their MCP endpoint.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "mcp-remote",
+          "https://www.ultracite.ai/api/mcp/mcp"
+        ]
+      },
+      "domains": ["ai", "embedding", "search", "ultracite"],
+      "tags": ["ultracite", "ai", "mcp"],
+      "examples": [
+        "Use Ultracite search or AI utilities when tasks mention Ultracite.",
+        "Route relevant semantic search or analysis through Ultracite MCP when configured."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 7,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "shadcn",
+      "title": "shadcn UI registry MCP",
+      "summary": "Access shadcn-style component registry via MCP for generating UI components.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "shadcn@canary",
+          "registry:mcp"
+        ],
+        "env": {
+          "REGISTRY_URL": "https://animate-ui.com/r/registry.json"
+        }
+      },
+      "domains": ["ui", "components", "react", "shadcn"],
+      "tags": ["shadcn", "ui", "components", "registry"],
+      "examples": [
+        "Search for shadcn-compatible UI components.",
+        "Generate component boilerplate from the shadcn registry."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 8,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "nuxt",
+      "title": "Nuxt MCP",
+      "summary": "Interact with the official Nuxt MCP server for modules and documentation.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://mcp.nuxt.com/sse"
+        ],
+        "alwaysAllow": [
+          "list_nuxt_modules"
+        ]
+      },
+      "domains": ["nuxt", "modules", "vue", "framework"],
+      "tags": ["nuxt", "vue", "modules", "docs"],
+      "examples": [
+        "List Nuxt modules and features.",
+        "Fetch documentation for specific Nuxt modules."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 8,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "swiftlens",
+      "title": "SwiftLens MCP",
+      "summary": "Use SwiftLens for Swift and Xcode insights via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "uvx",
+        "args": ["swiftlens"]
+      },
+      "domains": ["swift", "ios", "xcode"],
+      "tags": ["swift", "ios", "xcode", "analysis"],
+      "examples": [
+        "Analyze Swift projects or suggest improvements via SwiftLens."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "better-auth",
+      "title": "Better Auth MCP",
+      "summary": "Access Better Auth builder and helpers via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://mcp.chonkie.ai/better-auth/better-auth-builder/mcp"
+        ]
+      },
+      "domains": ["auth", "better-auth", "security"],
+      "tags": ["auth", "better-auth", "mcp"],
+      "examples": [
+        "Generate Better Auth configs and integrations.",
+        "Inspect or scaffold auth flows with Better Auth."
+      ],
+      "sensitivity": "medium",
+      "visibility": "default",
+      "priority": 8,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "playwright",
+      "title": "Playwright MCP",
+      "summary": "Drive Playwright for browser automation and testing via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "@playwright/mcp@latest"
+        ]
+      },
+      "domains": ["testing", "browser", "playwright"],
+      "tags": ["playwright", "testing", "browser"],
+      "examples": [
+        "Run browser checks or gather DOM information via MCP."
+      ],
+      "sensitivity": "medium",
+      "visibility": "opt_in",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "lucide-icons",
+      "title": "Lucide Icons MCP",
+      "summary": "Search and retrieve Lucide icons via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "lucide-icons-mcp",
+          "--stdio"
+        ]
+      },
+      "domains": ["icons", "ui"],
+      "tags": ["lucide", "icons", "ui"],
+      "examples": [
+        "Fetch Lucide icon data for UI components."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 7,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "nuxtui",
+      "title": "Nuxt UI MCP",
+      "summary": "Access Nuxt UI component information via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "xflo-nuxtui-mcp-server"
+        ]
+      },
+      "domains": ["nuxt", "ui", "components"],
+      "tags": ["nuxt", "nuxtui", "ui", "components"],
+      "examples": [
+        "Discover Nuxt UI components and usage patterns."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 7,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "motion",
+      "title": "Motion MCP",
+      "summary": "Integrate with Motion AI / animation utilities via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "motion-ai"
+        ]
+      },
+      "domains": ["animation", "motion", "ui"],
+      "tags": ["motion", "animation", "ui"],
+      "examples": [
+        "Generate motion/animation configs for UI components."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "magnitude",
+      "title": "Magnitude MCP",
+      "summary": "Use Magnitude MCP for test generation and related automation.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "magnitude-mcp"
+        ]
+      },
+      "domains": ["testing", "magnitude"],
+      "tags": ["magnitude", "testing", "mcp"],
+      "examples": [
+        "Generate or run tests with Magnitude via MCP."
+      ],
+      "sensitivity": "medium",
+      "visibility": "opt_in",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "context7",
+      "title": "Context7 MCP",
+      "summary": "Access Context7 documentation and code search via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@upstash/context7-mcp"
+        ],
+        "env": {
+          "DEFAULT_MINIMUM_TOKENS": ""
+        }
+      },
+      "domains": ["docs", "search", "context7"],
+      "tags": ["context7", "docs", "search"],
+      "examples": [
+        "Search library docs using Context7 MCP."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 7,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "sequentialthinking",
+      "title": "Sequential Thinking MCP",
+      "summary": "Use the Sequential Thinking MCP server to structure and reason about complex problems.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-sequential-thinking"
+        ]
+      },
+      "domains": ["reasoning", "analysis"],
+      "tags": ["sequential-thinking", "reasoning", "planning"],
+      "examples": [
+        "Engage structured problem-solving workflows via MCP."
+      ],
+      "sensitivity": "low",
+      "visibility": "opt_in",
+      "priority": 5,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "grep-mcp",
+      "title": "Grep MCP",
+      "summary": "Run grep-like searches via the Grep MCP server.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "uvx",
+        "args": [
+          "grep-mcp"
+        ]
+      },
+      "domains": ["search", "filesystem"],
+      "tags": ["grep", "search", "mcp"],
+      "examples": [
+        "Search code or text via MCP grep."
+      ],
+      "sensitivity": "low",
+      "visibility": "opt_in",
+      "priority": 5,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "time",
+      "title": "Time MCP",
+      "summary": "Provide time and timezone utilities via MCP.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "uvx",
+        "args": [
+          "mcp-server-time"
+        ]
+      },
+      "domains": ["time", "timezone"],
+      "tags": ["time", "timezone", "mcp"],
+      "examples": [
+        "Query current time in specific timezones via MCP."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "chrome-devtools",
+      "title": "Chrome DevTools MCP",
+      "summary": "Control and inspect Chrome via the Chrome DevTools MCP server.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "chrome-devtools-mcp@latest"
+        ]
+      },
+      "domains": ["browser", "devtools"],
+      "tags": ["chrome", "devtools", "browser", "mcp"],
+      "examples": [
+        "Inspect pages or run DevTools-style interactions via MCP."
+      ],
+      "sensitivity": "medium",
+      "visibility": "opt_in",
+      "priority": 6,
+      "autoDiscoverTools": true
+    },
+    {
+      "id": "cloudflare",
+      "title": "Cloudflare platform MCP",
+      "summary": "Interact with Cloudflare's MCP endpoint for documentation and platform operations.",
+      "mcp": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": [
+          "mcp-remote",
+          "https://docs.mcp.cloudflare.com/sse"
+        ]
+      },
+      "domains": [
+        "cloudflare",
+        "workers",
+        "kv",
+        "r2",
+        "queues",
+        "zero_trust",
+        "networking",
+        "security",
+        "observability"
+      ],
+      "tags": ["cloudflare", "platform", "infra", "docs", "workers", "mcp"],
+      "examples": [
+        "Fetch Cloudflare Workers documentation for a specific API.",
+        "Search Cloudflare platform docs for queues or KV usage patterns.",
+        "Look up configuration guidance for Zero Trust or networking features."
+      ],
+      "sensitivity": "low",
+      "visibility": "default",
+      "priority": 10,
+      "autoDiscoverTools": true
+    }
+  ]
+}

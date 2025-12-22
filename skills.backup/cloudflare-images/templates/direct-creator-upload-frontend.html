@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Creator Upload - Cloudflare Images</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 { margin-bottom: 2rem; }
+    .upload-form { display: flex; flex-direction: column; gap: 1rem; }
+    .file-input-wrapper {
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .file-input-wrapper:hover { border-color: #007bff; background: #f8f9fa; }
+    .file-input-wrapper.dragover { border-color: #28a745; background: #e7f5e9; }
+    input[type="file"] { display: none; }
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover:not(:disabled) { background: #0056b3; }
+    button:disabled { background: #6c757d; cursor: not-allowed; }
+    .progress {
+      height: 30px;
+      background: #e9ecef;
+      border-radius: 6px;
+      overflow: hidden;
+      display: none;
+    }
+    .progress-bar {
+      height: 100%;
+      background: #28a745;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    .message {
+      padding: 1rem;
+      border-radius: 6px;
+      display: none;
+    }
+    .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .preview { margin-top: 1rem; max-width: 100%; border-radius: 6px; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Upload Image to Cloudflare</h1>
+
+  <form id="upload-form" class="upload-form">
+    <label for="file-input" class="file-input-wrapper" id="drop-zone">
+      <div>
+        <p><strong>Choose a file</strong> or drag it here</p>
+        <p style="margin-top: 0.5rem; color: #666;">Max 10MB, JPEG/PNG/WebP/GIF</p>
+      </div>
+      <input type="file" id="file-input" accept="image/*" />
+    </label>
+
+    <div id="file-name" style="color: #666;"></div>
+
+    <img id="preview" class="preview" alt="Preview" />
+
+    <button type="submit" id="upload-btn" disabled>Upload Image</button>
+
+    <div class="progress" id="progress">
+      <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+
+    <div id="message" class="message"></div>
+  </form>
+
+  <script>
+    // Configuration
+    const API_ENDPOINT = '/api/upload-url'; // Your backend endpoint
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+    // Elements
+    const form = document.getElementById('upload-form');
+    const fileInput = document.getElementById('file-input');
+    const dropZone = document.getElementById('drop-zone');
+    const fileName = document.getElementById('file-name');
+    const preview = document.getElementById('preview');
+    const uploadBtn = document.getElementById('upload-btn');
+    const progress = document.getElementById('progress');
+    const progressBar = document.getElementById('progress-bar');
+    const message = document.getElementById('message');
+
+    let selectedFile = null;
+
+    // File input change
+    fileInput.addEventListener('change', handleFileSelect);
+
+    // Drag and drop
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        fileInput.files = files;
+        handleFileSelect();
+      }
+    });
+
+    // Handle file selection
+    function handleFileSelect() {
+      selectedFile = fileInput.files[0];
+
+      if (!selectedFile) {
+        return;
+      }
+
+      // Validate file size
+      if (selectedFile.size > MAX_FILE_SIZE) {
+        showMessage(`File too large (${(selectedFile.size / 1024 / 1024).toFixed(2)}MB). Max 10MB.`, 'error');
+        resetForm();
+        return;
+      }
+
+      // Validate file type
+      if (!selectedFile.type.startsWith('image/')) {
+        showMessage('Please select an image file.', 'error');
+        resetForm();
+        return;
+      }
+
+      // Show file name
+      fileName.textContent = `Selected: ${selectedFile.name} (${(selectedFile.size / 1024 / 1024).toFixed(2)}MB)`;
+
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(selectedFile);
+
+      // Enable upload button
+      uploadBtn.disabled = false;
+    }
+
+    // Form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!selectedFile) {
+        showMessage('Please select a file', 'error');
+        return;
+      }
+
+      try {
+        // Disable form
+        uploadBtn.disabled = true;
+        fileInput.disabled = true;
+        progress.style.display = 'block';
+        message.style.display = 'none';
+
+        // Step 1: Get upload URL from backend
+        showProgress(10, 'Requesting upload URL...');
+
+        const urlResponse = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: 'user-123', // Replace with actual user ID
+            requireSignedURLs: false
+          })
+        });
+
+        if (!urlResponse.ok) {
+          throw new Error('Failed to get upload URL');
+        }
+
+        const { uploadURL, imageId } = await urlResponse.json();
+
+        // Step 2: Upload directly to Cloudflare
+        showProgress(30, 'Uploading...');
+
+        const formData = new FormData();
+        formData.append('file', selectedFile); // MUST be named 'file'
+
+        const uploadResponse = await fetch(uploadURL, {
+          method: 'POST',
+          body: formData
+          // NO Content-Type header - browser sets multipart/form-data automatically
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error(`Upload failed: ${uploadResponse.statusText}`);
+        }
+
+        const uploadResult = await uploadResponse.json();
+
+        showProgress(100, 'Complete!');
+
+        // Success
+        setTimeout(() => {
+          showMessage(`✓ Upload successful! Image ID: ${imageId}`, 'success');
+          progress.style.display = 'none';
+        }, 500);
+
+      } catch (error) {
+        console.error('Upload error:', error);
+        showMessage(`✗ Upload failed: ${error.message}`, 'error');
+        progress.style.display = 'none';
+        uploadBtn.disabled = false;
+        fileInput.disabled = false;
+      }
+    });
+
+    // Helper: Show progress
+    function showProgress(percent, text) {
+      progressBar.style.width = `${percent}%`;
+      progressBar.textContent = text || `${percent}%`;
+    }
+
+    // Helper: Show message
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
+      message.style.display = 'block';
+    }
+
+    // Helper: Reset form
+    function resetForm() {
+      selectedFile = null;
+      fileInput.value = '';
+      fileName.textContent = '';
+      preview.style.display = 'none';
+      uploadBtn.disabled = true;
+    }
+  </script>
+</body>
+</html>
+
+<!--
+CRITICAL CORS FIX:
+
+✅ CORRECT:
+const formData = new FormData();
+formData.append('file', selectedFile); // Name MUST be 'file'
+await fetch(uploadURL, {
+  method: 'POST',
+  body: formData // Browser sets multipart/form-data automatically
+});
+
+❌ WRONG:
+await fetch(uploadURL, {
+  headers: { 'Content-Type': 'application/json' }, // CORS error
+  body: JSON.stringify({ file: base64Image })
+});
+
+ARCHITECTURE:
+1. Frontend → POST /api/upload-url → Backend
+2. Backend → POST /direct_upload → Cloudflare API
+3. Backend → Returns uploadURL → Frontend
+4. Frontend → Uploads to uploadURL → Cloudflare
+5. Cloudflare → Returns success → Frontend
+
+WHY:
+- No API key exposure to browser
+- Users upload directly to Cloudflare (faster)
+- multipart/form-data required (CORS)
+- Field name MUST be 'file'
+-->

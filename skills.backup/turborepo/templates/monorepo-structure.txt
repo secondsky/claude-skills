@@ -1,0 +1,38 @@
+my-turborepo/
+├── apps/                    # Applications
+│   ├── web/                # Frontend app (Next.js, Vite, etc.)
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── api/                # Backend API
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   └── docs/               # Documentation site
+│       ├── src/
+│       ├── package.json
+│       └── tsconfig.json
+├── packages/               # Shared packages
+│   ├── ui/                 # UI components
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   ├── config/             # Shared configs
+│   │   ├── eslint/
+│   │   ├── typescript/
+│   │   └── package.json
+│   ├── utils/              # Utilities
+│   │   ├── src/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   └── tsconfig/           # TypeScript configs
+│       ├── base.json
+│       ├── nextjs.json
+│       ├── react.json
+│       └── package.json
+├── tooling/                # Development tools
+│   ├── eslint-config/
+│   └── prettier-config/
+├── turbo.json              # Turborepo configuration
+├── package.json            # Root package.json
+└── pnpm-workspace.yaml     # Workspace configuration (or use package.json workspaces)

@@ -1,0 +1,12 @@
+{
+  "name": "ai-tools",
+  "description": "AI development tools: Vercel AI SDK (core & UI), ElevenLabs Agents, Multi-AI Consultant, and Thesys Generative UI. Use for building AI applications, streaming interfaces, voice agents, and generative UI.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["ai", "ai-sdk", "vercel-ai-sdk", "elevenlabs", "agents", "generative-ui", "streaming", "voice", "multi-ai"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "cloudflare-r2",
+  "description": "Cloudflare R2 S3-compatible object storage. Use for buckets, uploads, CORS, presigned URLs, or encountering R2_ERROR, CORS failures, multipart issues.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-r2",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "cors"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "cloudflare-browser-rendering",
+  "description": "Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-browser-rendering",
+    "cloudflare",
+    "browser",
+    "rendering",
+    "workers",
+    "edge",
+    "wrangler"
+  ]
+}

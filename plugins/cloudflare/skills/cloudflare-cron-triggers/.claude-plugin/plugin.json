@@ -1,0 +1,20 @@
+{
+  "name": "cloudflare-cron-triggers",
+  "description": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-cron-triggers",
+    "cloudflare",
+    "cron",
+    "triggers",
+    "workers",
+    "edge",
+    "wrangler"
+  ]
+}

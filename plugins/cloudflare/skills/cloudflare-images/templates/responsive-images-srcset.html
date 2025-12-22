@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Images with Cloudflare Images</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 { margin-bottom: 2rem; }
+    section { margin-bottom: 3rem; }
+    h2 { margin-bottom: 1rem; color: #333; }
+    p { margin-bottom: 1rem; color: #666; }
+    img { max-width: 100%; height: auto; display: block; border-radius: 8px; }
+    .code-block { background: #f5f5f5; padding: 1rem; border-radius: 6px; margin-top: 0.5rem; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>Responsive Images with Cloudflare Images</h1>
+
+  <!-- Example 1: srcset with named variants -->
+  <section>
+    <h2>1. Using Named Variants</h2>
+    <p>Serve different image sizes based on viewport width using predefined variants.</p>
+
+    <img
+      srcset="
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/mobile 480w,
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/tablet 768w,
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop 1920w
+      "
+      sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+      src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop"
+      alt="Responsive image with named variants"
+      loading="lazy"
+    />
+
+    <div class="code-block">
+      <code>
+&lt;img
+  srcset="
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/mobile 480w,
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/tablet 768w,
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop 1920w
+  "
+  sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+  src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop"
+  alt="Responsive image"
+  loading="lazy"
+/&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Example 2: srcset with flexible variants -->
+  <section>
+    <h2>2. Using Flexible Variants</h2>
+    <p>Dynamic transformations with format=auto for optimal WebP/AVIF delivery.</p>
+
+    <img
+      srcset="
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=480,f=auto 480w,
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=768,f=auto 768w,
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=1920,f=auto 1920w
+      "
+      sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+      src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=1920,f=auto"
+      alt="Responsive image with flexible variants"
+      loading="lazy"
+    />
+
+    <div class="code-block">
+      <code>
+&lt;img
+  srcset="
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=480,f=auto 480w,
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=768,f=auto 768w,
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=1920,f=auto 1920w
+  "
+  sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+  src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=1920,f=auto"
+/&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Example 3: Art direction with picture element -->
+  <section>
+    <h2>3. Art Direction (Different Crops)</h2>
+    <p>Serve different image crops for mobile vs desktop (e.g., portrait on mobile, landscape on desktop).</p>
+
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/mobile-square"
+      />
+      <source
+        media="(min-width: 768px)"
+        srcset="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop-wide"
+      />
+      <img
+        src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop-wide"
+        alt="Art directed image"
+        loading="lazy"
+      />
+    </picture>
+
+    <div class="code-block">
+      <code>
+&lt;picture&gt;
+  &lt;source
+    media="(max-width: 767px)"
+    srcset="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/mobile-square"
+  /&gt;
+  &lt;source
+    media="(min-width: 768px)"
+    srcset="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop-wide"
+  /&gt;
+  &lt;img
+    src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/desktop-wide"
+    alt="Art directed image"
+  /&gt;
+&lt;/picture&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Example 4: Retina displays -->
+  <section>
+    <h2>4. High-DPI (Retina) Displays</h2>
+    <p>Serve 2x images for high-resolution screens.</p>
+
+    <img
+      srcset="
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,dpr=1,f=auto 1x,
+        https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,dpr=2,f=auto 2x
+      "
+      src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,f=auto"
+      alt="Retina-ready image"
+      loading="lazy"
+    />
+
+    <div class="code-block">
+      <code>
+&lt;img
+  srcset="
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,dpr=1,f=auto 1x,
+    https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,dpr=2,f=auto 2x
+  "
+  src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=400,f=auto"
+/&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Example 5: Blur placeholder (LQIP) -->
+  <section>
+    <h2>5. Low-Quality Image Placeholder (LQIP)</h2>
+    <p>Load a tiny blurred placeholder first, then swap to full image.</p>
+
+    <img
+      id="lqip-image"
+      src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=50,q=10,blur=20,f=webp"
+      data-src="https://imagedelivery.net/YOUR_HASH/IMAGE_ID/w=1920,f=auto"
+      alt="Image with LQIP"
+      style="filter: blur(10px); transition: filter 0.3s;"
+    />
+
+    <script>
+      const lqipImage = document.getElementById('lqip-image');
+      const fullImageURL = lqipImage.getAttribute('data-src');
+
+      // Load full-size image
+      const fullImage = new Image();
+      fullImage.src = fullImageURL;
+      fullImage.onload = () => {
+        lqipImage.src = fullImageURL;
+        lqipImage.style.filter = 'blur(0)';
+      };
+    </script>
+
+    <div class="code-block">
+      <code>
+&lt;img
+  src="https://imagedelivery.net/HASH/ID/w=50,q=10,blur=20,f=webp"
+  data-src="https://imagedelivery.net/HASH/ID/w=1920,f=auto"
+  alt="Image with LQIP"
+/&gt;
+
+&lt;script&gt;
+  const img = document.querySelector('img');
+  const fullImg = new Image();
+  fullImg.src = img.getAttribute('data-src');
+  fullImg.onload = () =&gt; { img.src = fullImg.src; };
+&lt;/script&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Example 6: URL transformations -->
+  <section>
+    <h2>6. Using URL Transformations (/cdn-cgi/image/)</h2>
+    <p>Transform ANY publicly accessible image (not just Cloudflare Images storage).</p>
+
+    <img
+      srcset="
+        /cdn-cgi/image/width=480,quality=85,format=auto/uploads/photo.jpg 480w,
+        /cdn-cgi/image/width=768,quality=85,format=auto/uploads/photo.jpg 768w,
+        /cdn-cgi/image/width=1920,quality=85,format=auto/uploads/photo.jpg 1920w
+      "
+      sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+      src="/cdn-cgi/image/width=1920,quality=85,format=auto/uploads/photo.jpg"
+      alt="Transformed image from origin"
+      loading="lazy"
+    />
+
+    <div class="code-block">
+      <code>
+&lt;img
+  srcset="
+    /cdn-cgi/image/width=480,format=auto/uploads/photo.jpg 480w,
+    /cdn-cgi/image/width=768,format=auto/uploads/photo.jpg 768w,
+    /cdn-cgi/image/width=1920,format=auto/uploads/photo.jpg 1920w
+  "
+  sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1920px"
+/&gt;
+      </code>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section>
+    <h2>Best Practices</h2>
+    <ul style="color: #666; line-height: 1.8; padding-left: 1.5rem;">
+      <li>Always use <code>format=auto</code> for optimal WebP/AVIF delivery</li>
+      <li>Add <code>loading="lazy"</code> for images below the fold</li>
+      <li>Use <code>sizes</code> attribute to match your CSS layout</li>
+      <li>Provide descriptive <code>alt</code> text for accessibility</li>
+      <li>Consider art direction for different screen sizes (portrait vs landscape)</li>
+      <li>Use LQIP (Low-Quality Image Placeholder) for better perceived performance</li>
+      <li>Named variants: Best for consistent sizes and signed URLs</li>
+      <li>Flexible variants: Best for dynamic sizing (public images only)</li>
+    </ul>
+  </section>
+</body>
+</html>

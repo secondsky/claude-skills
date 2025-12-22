@@ -1,0 +1,12 @@
+{
+  "name": "woocommerce",
+  "description": "WooCommerce development: backend development, code review, copy guidelines, and development cycle best practices. Use for building WooCommerce plugins, extensions, custom functionality, and WordPress e-commerce.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["woocommerce", "wordpress", "ecommerce", "php", "backend", "code-review", "copy-guidelines", "development-cycle"]
+}

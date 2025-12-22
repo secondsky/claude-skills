@@ -1,0 +1,108 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  // Monorepo root configuration
+  // Single config applies to all packages
+  "extends": ["ultracite/core", "ultracite/react"],
+
+  // Optional: Customize formatter
+  "formatter": {
+    "enabled": true,
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+
+  // Optional: Customize linter
+  "linter": {
+    "enabled": true
+  },
+
+  // Exclude common monorepo build outputs
+  "files": {
+    "ignore": [
+      // Package managers
+      "node_modules",
+      ".pnpm-store",
+
+      // Build outputs
+      "dist",
+      "build",
+      ".next",
+      "out",
+      ".turbo",
+      ".cache",
+
+      // Testing
+      "coverage",
+
+      // Generated
+      "**/*.generated.ts",
+      "**/__generated__/**"
+    ]
+  },
+
+  // Package-specific overrides
+  "overrides": [
+    {
+      // Legacy package with relaxed rules
+      "include": ["packages/legacy/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "warn",
+            "noVar": "warn"
+          },
+          "suspicious": {
+            "noExplicitAny": "warn"
+          }
+        }
+      }
+    },
+    {
+      // Next.js app
+      "include": ["apps/web/**"],
+      "extends": ["ultracite/next"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noImgElement": "error"
+          }
+        }
+      }
+    },
+    {
+      // Node.js API (no React)
+      "include": ["apps/api/**"],
+      "extends": ["ultracite/core"],
+      "javascript": {
+        "globals": ["process", "Buffer", "__dirname", "__filename"]
+      }
+    },
+    {
+      // Shared UI components
+      "include": ["packages/ui/**"],
+      "extends": ["ultracite/react"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            // Strict accessibility for shared components
+            "*": "error"
+          }
+        }
+      }
+    },
+    {
+      // Test files
+      "include": ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "style": {
+            "noNonNullAssertion": "off"
+          }
+        }
+      }
+    }
+  ]
+}

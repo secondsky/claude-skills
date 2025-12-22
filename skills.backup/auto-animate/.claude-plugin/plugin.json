@@ -1,0 +1,20 @@
+{
+  "name": "auto-animate",
+  "description": "AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "auto-animate",
+    "auto",
+    "animate",
+    "frontend",
+    "components",
+    "ssr",
+    "autoanimate"
+  ]
+}

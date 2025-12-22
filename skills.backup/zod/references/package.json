@@ -1,0 +1,42 @@
+{
+  "name": "zod-project-example",
+  "version": "1.0.0",
+  "description": "Example project setup with Zod",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "zod",
+    "validation",
+    "typescript",
+    "schema"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.5.0",
+    "tsx": "^4.0.0",
+    "vitest": "^2.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-zod-x": "^0.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

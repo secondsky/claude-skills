@@ -1,0 +1,173 @@
+{
+  // Cloudflare Workers configuration for MCP Server
+  // Documentation: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+  "name": "my-mcp-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-10-28",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Account ID (get from: wrangler whoami)
+  // "account_id": "YOUR_ACCOUNT_ID",
+
+  // Environment variables (non-sensitive)
+  // For sensitive values, use wrangler secret put or .dev.vars file
+  "vars": {
+    "ENVIRONMENT": "production",
+    "LOG_LEVEL": "info"
+  },
+
+  // D1 Database bindings
+  // Create: wrangler d1 create my-db
+  // "d1_databases": [
+  //   {
+  //     "binding": "DB",
+  //     "database_name": "my-db",
+  //     "database_id": "YOUR_DATABASE_ID"
+  //   }
+  // ],
+
+  // KV namespace bindings
+  // Create: wrangler kv namespace create CACHE
+  // Create: wrangler kv namespace create MCP_API_KEYS
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "CACHE",
+  //     "id": "YOUR_KV_NAMESPACE_ID"
+  //   },
+  //   {
+  //     "binding": "MCP_API_KEYS",
+  //     "id": "YOUR_API_KEYS_NAMESPACE_ID"
+  //   }
+  // ],
+
+  // R2 bucket bindings
+  // Create: wrangler r2 bucket create my-bucket
+  // "r2_buckets": [
+  //   {
+  //     "binding": "BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+
+  // Vectorize index bindings
+  // Create: wrangler vectorize create my-index --dimensions=768 --metric=cosine
+  // "vectorize": [
+  //   {
+  //     "binding": "VECTORIZE",
+  //     "index_name": "my-index"
+  //   }
+  // ],
+
+  // Workers AI binding
+  // "ai": {
+  //   "binding": "AI"
+  // },
+
+  // Queue bindings
+  // Create: wrangler queues create my-queue
+  // "queues": {
+  //   "producers": [
+  //     {
+  //       "binding": "MY_QUEUE",
+  //       "queue": "my-queue"
+  //     }
+  //   ],
+  //   "consumers": [
+  //     {
+  //       "queue": "my-queue",
+  //       "max_batch_size": 10,
+  //       "max_batch_timeout": 30
+  //     }
+  //   ]
+  // },
+
+  // Durable Objects bindings
+  // "durable_objects": {
+  //   "bindings": [
+  //     {
+  //       "name": "MY_DURABLE_OBJECT",
+  //       "class_name": "MyDurableObject",
+  //       "script_name": "my-worker"
+  //     }
+  //   ]
+  // },
+
+  // Service bindings (call other Workers)
+  // "services": [
+  //   {
+  //     "binding": "OTHER_SERVICE",
+  //     "service": "other-worker",
+  //     "environment": "production"
+  //   }
+  // ],
+
+  // Analytics Engine binding
+  // "analytics_engine_datasets": [
+  //   {
+  //     "binding": "ANALYTICS"
+  //   }
+  // ],
+
+  // Hyperdrive binding (Postgres connection pooling)
+  // Create: wrangler hyperdrive create my-hyperdrive --connection-string="postgres://..."
+  // "hyperdrive": [
+  //   {
+  //     "binding": "HYPERDRIVE",
+  //     "id": "YOUR_HYPERDRIVE_ID"
+  //   }
+  // ],
+
+  // Environment-specific configurations
+  "env": {
+    "staging": {
+      "name": "my-mcp-server-staging",
+      "vars": {
+        "ENVIRONMENT": "staging"
+      }
+      // Override bindings for staging
+      // "d1_databases": [...]
+    },
+    "production": {
+      "name": "my-mcp-server-production",
+      "vars": {
+        "ENVIRONMENT": "production"
+      }
+      // Override bindings for production
+      // "d1_databases": [...]
+    }
+  },
+
+  // Build configuration
+  "build": {
+    "command": "npm run build"
+  },
+
+  // Observability (optional)
+  "observability": {
+    "enabled": true
+  },
+
+  // Limits (optional, defaults shown)
+  // "limits": {
+  //   "cpu_ms": 50
+  // },
+
+  // Placement (optional, for advanced routing)
+  // "placement": {
+  //   "mode": "smart"
+  // },
+
+  // Custom domains (configure in dashboard first)
+  // "routes": [
+  //   {
+  //     "pattern": "mcp.example.com/*",
+  //     "custom_domain": true
+  //   }
+  // ],
+
+  // Cron triggers (scheduled tasks)
+  // "triggers": {
+  //   "crons": ["0 0 * * *"]  // Run daily at midnight
+  // }
+}

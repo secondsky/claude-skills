@@ -1,0 +1,21 @@
+{
+  "name": "csrf-protection",
+  "description": "Implements CSRF protection using synchronizer tokens, double-submit cookies, and SameSite attributes. Use when securing web forms, protecting state-changing endpoints, or implementing defense-in-depth authentication.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "csrf-protection",
+    "csrf",
+    "protection",
+    "security",
+    "vulnerability",
+    "xss",
+    "samesite",
+    "authentication"
+  ]
+}

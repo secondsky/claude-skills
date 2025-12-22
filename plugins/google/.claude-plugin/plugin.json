@@ -1,0 +1,12 @@
+{
+  "name": "google",
+  "description": "Google AI platform: Gemini API, embeddings, file search, and CLI tools. Use for building with Gemini models, text embeddings, multimodal AI, vector search, and Google AI integration.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["google", "gemini", "gemini-api", "embeddings", "file-search", "multimodal", "google-ai", "vertex-ai", "ai", "llm"]
+}

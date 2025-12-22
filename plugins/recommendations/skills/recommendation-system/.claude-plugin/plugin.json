@@ -1,0 +1,22 @@
+{
+  "name": "recommendation-system",
+  "description": "Deploy production recommendation systems with feature stores, caching, A/B testing. Use for personalization APIs, low latency serving, or encountering cache invalidation, experiment tracking, quality monitoring issues.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "recommendation-system",
+    "recommendation",
+    "system",
+    "data",
+    "analytics",
+    "processing",
+    "sql",
+    "queries",
+    "caching"
+  ]
+}

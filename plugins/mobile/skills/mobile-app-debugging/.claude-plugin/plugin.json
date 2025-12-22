@@ -1,0 +1,18 @@
+{
+  "name": "mobile-app-debugging",
+  "description": "Mobile app debugging for iOS, Android, cross-platform frameworks. Use for crashes, memory leaks, performance issues, network problems, or encountering Xcode instruments, Android Profiler, React Native debugger, native bridge errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mobile-app-debugging",
+    "mobile",
+    "app",
+    "debugging",
+    "native"
+  ]
+}

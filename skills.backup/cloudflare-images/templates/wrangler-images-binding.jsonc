@@ -1,0 +1,41 @@
+{
+  "name": "my-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-10-26",
+
+  // Cloudflare Images doesn't require explicit bindings in wrangler.jsonc
+  // Images API is accessed via fetch to api.cloudflare.com
+  // Image Transformations work automatically when enabled on your zone
+
+  // Example: If storing originals in R2 and using Images for transformations
+  "r2_buckets": [
+    {
+      "binding": "IMAGES_BUCKET",
+      "bucket_name": "original-images",
+      "preview_bucket_name": "original-images-preview"
+    }
+  ],
+
+  // Environment variables for Images API
+  "vars": {
+    "IMAGES_ACCOUNT_ID": "your-account-id",
+    "IMAGES_ACCOUNT_HASH": "your-account-hash" // From Dashboard → Images → Developer Resources
+  },
+
+  // Secrets (set via: wrangler secret put IMAGES_API_TOKEN)
+  // IMAGES_API_TOKEN - API token with Cloudflare Images: Edit permission
+  // IMAGES_SIGNING_KEY - Key for signed URLs (optional, from Dashboard → Images → Keys)
+
+  // No explicit binding needed for:
+  // - Image Transformations (/cdn-cgi/image/...)
+  // - Workers fetch with cf.image options
+  // - Direct Creator Upload API
+
+  // Example worker routes
+  "routes": [
+    {
+      "pattern": "example.com/*",
+      "zone_name": "example.com"
+    }
+  ]
+}

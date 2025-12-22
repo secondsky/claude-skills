@@ -1,0 +1,193 @@
+# Gemini Privacy Exclusions
+# Place this file in project root to exclude files from Gemini consultations
+# Note: Gemini CLI automatically respects .gitignore as well
+
+# Environment & Secrets
+.env*
+*.env
+.env.local
+.env.development
+.env.production
+.env.test
+*secret*
+*secrets*
+*credential*
+*credentials*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# API Keys & Tokens
+*apikey*
+*api-key*
+*token*
+*auth*
+*.token
+
+# Configuration with sensitive data
+config/production.js
+config/production.json
+config/secrets.*
+wrangler.toml
+.dev.vars
+
+# Build Artifacts (usually in .gitignore, but double-check)
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+.vite/
+*.bundle.js
+*.bundle.js.map
+
+# Dependencies (usually in .gitignore)
+node_modules/
+vendor/
+.pnp/
+.pnp.js
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Test Coverage Reports (can be large)
+coverage/
+.nyc_output/
+*.lcov
+
+# Large Media Files (usually not needed for code analysis)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.flac
+
+# IDE & OS Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Backup Files
+*.bak
+*.backup
+*.old
+
+# Examples (optional - comment out if you want these included)
+# examples/
+# demos/
+
+# Documentation (optional - comment out if you want these included)
+# Often you DO want docs, but uncomment if they're too large
+# docs/
+# documentation/
+
+# Test Fixtures (optional)
+# May want to exclude large test data files
+# tests/fixtures/
+# __fixtures__/
+
+# Minified Files (not useful for analysis)
+*.min.js
+*.min.css
+*.min.html
+
+# Source Maps (usually not needed)
+*.map
+*.js.map
+*.css.map
+
+# Package Lock Files (can be very large)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# CI/CD Secrets
+.github/workflows/*.secret.*
+.gitlab-ci.yml
+
+# Cloud Provider Config
+.aws/
+.gcloud/
+.azure/
+
+# Docker Secrets
+docker-compose.override.yml
+.dockerignore
+
+---
+
+# IMPORTANT NOTES
+
+1. This file supplements .gitignore (not replaces it)
+   - Gemini CLI already respects .gitignore
+   - Use .geminiignore for extra exclusions
+
+2. Check your project for sensitive files
+   - grep -r "password" .
+   - grep -r "secret" .
+   - grep -r "api_key" .
+
+3. When in doubt, exclude it
+   - Better to exclude and manually add context
+   - Than accidentally leak secrets
+
+4. Verify before consulting Gemini
+   - Review what files will be sent
+   - Use `ls @path/` to check directory contents
+   - Ask user if uncertain about sensitive files
+
+5. This is a TEMPLATE
+   - Customize for your project
+   - Add project-specific exclusions
+   - Remove entries that don't apply
+
+---
+
+# TESTING
+
+To test what will be sent to Gemini:
+
+1. List files in context:
+   ls -la @.
+
+2. Check specific directory:
+   ls -la @src/
+
+3. Preview file contents:
+   cat @path/to/file.ts
+
+4. Check gitignore is working:
+   git status --ignored
+
+---
+
+**Last Updated**: 2025-11-07
+**Purpose**: Privacy protection for Gemini CLI consultations
+**Usage**: Place in project root, auto-loaded by `gemini` CLI

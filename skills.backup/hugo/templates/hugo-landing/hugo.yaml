@@ -1,0 +1,71 @@
+baseURL: "https://example.org/"
+title: "My Product"
+languageCode: "en-us"
+
+# No theme - using custom layouts
+
+params:
+  description: "Launch your product with confidence"
+  author: "Your Company"
+
+  # Hero section
+  hero:
+    title: "Launch Your Product with Confidence"
+    subtitle: "The all-in-one platform for modern teams"
+    ctaText: "Get Started"
+    ctaLink: "#contact"
+    secondaryCtaText: "Learn More"
+    secondaryCtaLink: "#features"
+    image: "/images/hero.png"
+
+  # Features
+  features:
+    - title: "Fast & Reliable"
+      description: "Built for performance from the ground up"
+      icon: "⚡"
+    - title: "Secure by Default"
+      description: "Enterprise-grade security out of the box"
+      icon: "🔒"
+    - title: "Easy Integration"
+      description: "Integrate with your existing tools in minutes"
+      icon: "🔧"
+    - title: "24/7 Support"
+      description: "Our team is here to help whenever you need"
+      icon: "💬"
+
+  # Testimonials
+  testimonials:
+    - quote: "This product transformed how our team works together."
+      author: "Jane Smith"
+      role: "CTO, Tech Company"
+      image: "/images/testimonial-1.jpg"
+    - quote: "Incredible value and amazing support. Highly recommended!"
+      author: "John Doe"
+      role: "Founder, Startup Inc"
+      image: "/images/testimonial-2.jpg"
+    - quote: "The best investment we made this year."
+      author: "Sarah Johnson"
+      role: "VP Engineering, SaaS Co"
+      image: "/images/testimonial-3.jpg"
+
+  # CTA section
+  cta:
+    title: "Ready to Get Started?"
+    description: "Join thousands of teams already using our platform"
+    buttonText: "Start Free Trial"
+    buttonLink: "#contact"
+
+  # Contact/Social
+  email: "hello@example.com"
+  github: "https://github.com/yourusername"
+  twitter: "https://twitter.com/yourusername"
+  linkedin: "https://linkedin.com/company/yourcompany"
+
+# Enable robots.txt
+enableRobotsTXT: true
+
+# Markup configuration
+markup:
+  goldmark:
+    renderer:
+      unsafe: true  # Allow HTML in markdown

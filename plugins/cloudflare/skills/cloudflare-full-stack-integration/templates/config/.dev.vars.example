@@ -1,0 +1,42 @@
+# Development Environment Variables
+#
+# Copy this file to .dev.vars (gitignored) and fill in your actual values.
+#
+# IMPORTANT:
+# - .dev.vars is for LOCAL DEVELOPMENT ONLY
+# - DO NOT commit .dev.vars to git (it's in .gitignore)
+# - For production, use: npx wrangler secret put VARIABLE_NAME
+#
+# Access in code: env.VARIABLE_NAME (backend) or import.meta.env.VITE_VARIABLE_NAME (frontend)
+
+# Clerk Authentication
+# Get these from: https://dashboard.clerk.com
+#
+# CRITICAL: Frontend uses PUBLISHABLE key, backend uses SECRET key
+CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+CLERK_SECRET_KEY=sk_test_xxxxx
+
+# Database URLs (if using external databases like Supabase, Planetscale, etc.)
+DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+
+# API Keys for third-party services
+OPENAI_API_KEY=sk-xxxxx
+STRIPE_SECRET_KEY=sk_test_xxxxx
+
+# Other secrets
+JWT_SECRET=your-super-secret-jwt-key
+ENCRYPTION_KEY=your-encryption-key
+
+# Feature flags (non-secret, but environment-specific)
+ENABLE_DEBUG_MODE=true
+LOG_LEVEL=debug
+
+# IMPORTANT FOR FRONTEND:
+# Frontend variables MUST start with VITE_ to be exposed to the client
+# These should go in your .env file, NOT .dev.vars
+#
+# Example .env file:
+#   VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+#   VITE_API_URL=http://localhost:8787
+#
+# Access in frontend: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY

@@ -1,0 +1,148 @@
+/**
+ * Cloudflare Zero Trust Access - Wrangler Configuration
+ *
+ * This is a complete wrangler.jsonc example for a Worker using Access authentication.
+ *
+ * Configuration includes:
+ * - Access team domain as environment variable
+ * - Access AUD (Application Audience) tag
+ * - Optional bindings (D1, KV, R2) for user/tenant data
+ * - Development and production environments
+ *
+ * Usage:
+ * 1. Copy this to your project root as wrangler.jsonc
+ * 2. Replace placeholder values with your actual configuration
+ * 3. Run: npx wrangler deploy
+ */
+{
+	"name": "my-access-protected-worker",
+	"main": "src/index.ts",
+	"compatibility_date": "2024-10-01",
+
+	// ============================================================================
+	// ENVIRONMENT VARIABLES
+	// ============================================================================
+
+	"vars": {
+		// Your Access team domain (without https://)
+		"ACCESS_TEAM_DOMAIN": "your-team.cloudflareaccess.com",
+
+		// Application Audience (AUD) tag from your Access policy
+		// Find this in: Zero Trust Dashboard > Access > Applications > Your App > Application Audience
+		"ACCESS_AUD": "your-app-aud-tag-here"
+
+		// Optional: Frontend URL for CORS
+		// "FRONTEND_URL": "https://app.example.com"
+	},
+
+	// ============================================================================
+	// BINDINGS (Optional - add as needed)
+	// ============================================================================
+
+	// D1 Database (for user profiles, tenant configs, etc.)
+	// Uncomment if using D1:
+	/*
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "access-users-db",
+      "database_id": "your-database-id"
+    }
+  ],
+  */
+
+	// KV Namespace (for session storage, user preferences, etc.)
+	// Uncomment if using KV:
+	/*
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "your-kv-namespace-id"
+    }
+  ],
+  */
+
+	// R2 Bucket (for user uploads, assets, etc.)
+	// Uncomment if using R2:
+	/*
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "user-uploads"
+    }
+  ],
+  */
+
+	// ============================================================================
+	// SECRETS (Set via Wrangler CLI - DO NOT commit to git!)
+	// ============================================================================
+
+	// Service token credentials (if using service tokens)
+	// Set with:
+	// npx wrangler secret put SERVICE_TOKEN_ID
+	// npx wrangler secret put SERVICE_TOKEN_SECRET
+
+	// ============================================================================
+	// ROUTES & CUSTOM DOMAIN
+	// ============================================================================
+
+	// Uncomment to map your Worker to a custom domain:
+	/*
+  "routes": [
+    {
+      "pattern": "api.example.com/*",
+      "custom_domain": true
+    }
+  ],
+  */
+
+	// ============================================================================
+	// DEVELOPMENT ENVIRONMENT (Optional)
+	// ============================================================================
+
+	// Configure separate settings for development
+	"env": {
+		"dev": {
+			"vars": {
+				"ACCESS_TEAM_DOMAIN": "your-dev-team.cloudflareaccess.com",
+				"ACCESS_AUD": "dev-app-aud-tag"
+			}
+			// Add dev-specific bindings here
+		},
+
+		"staging": {
+			"vars": {
+				"ACCESS_TEAM_DOMAIN": "your-staging-team.cloudflareaccess.com",
+				"ACCESS_AUD": "staging-app-aud-tag"
+			}
+		},
+
+		"production": {
+			"vars": {
+				"ACCESS_TEAM_DOMAIN": "your-prod-team.cloudflareaccess.com",
+				"ACCESS_AUD": "prod-app-aud-tag"
+			}
+		}
+	}
+
+	// ============================================================================
+	// ADDITIONAL CONFIGURATION
+	// ============================================================================
+
+	// Workers Limits
+	// "limits": {
+	//   "cpu_ms": 50
+	// },
+
+	// Observability
+	// "observability": {
+	//   "enabled": true
+	// },
+
+	// Tail consumers (for logging)
+	// "tail_consumers": [
+	//   {
+	//     "service": "my-log-consumer"
+	//   }
+	// ]
+}

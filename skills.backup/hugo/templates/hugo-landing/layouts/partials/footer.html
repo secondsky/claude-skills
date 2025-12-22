@@ -1,0 +1,24 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <p class="logo">{{ .Site.Title }}</p>
+                <p>&copy; {{ now.Year }} {{ .Site.Params.author }}. All rights reserved.</p>
+            </div>
+            <div class="footer-social">
+                {{ if .Site.Params.github }}
+                <a href="{{ .Site.Params.github }}" target="_blank" rel="noopener">GitHub</a>
+                {{ end }}
+                {{ if .Site.Params.twitter }}
+                <a href="{{ .Site.Params.twitter }}" target="_blank" rel="noopener">Twitter</a>
+                {{ end }}
+                {{ if .Site.Params.linkedin }}
+                <a href="{{ .Site.Params.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+                {{ end }}
+                {{ if .Site.Params.email }}
+                <a href="mailto:{{ .Site.Params.email }}">Contact</a>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+</footer>

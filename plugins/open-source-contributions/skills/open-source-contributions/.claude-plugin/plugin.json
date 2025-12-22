@@ -1,0 +1,20 @@
+{
+  "name": "open-source-contributions",
+  "description": "Open source contribution best practices with PR validation scripts. Use for pull requests, community contributions, or encountering personal artifacts in PRs, working on main branch, untested submissions, unrelated changes, unfocused PRs.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "open-source-contributions",
+    "open",
+    "source",
+    "contributions",
+    "tooling",
+    "workflow",
+    "validation"
+  ]
+}

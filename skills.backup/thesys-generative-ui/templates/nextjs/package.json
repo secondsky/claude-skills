@@ -1,0 +1,43 @@
+{
+  "name": "thesys-nextjs-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Next.js App Router integration with TheSys Generative UI",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@thesysai/genui-sdk": "^0.6.40",
+    "@crayonai/react-ui": "^0.8.42",
+    "@crayonai/react-core": "^0.7.6",
+    "@crayonai/stream": "^0.1.0",
+    "next": "^15.1.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-error-boundary": "^5.0.0",
+    "openai": "^4.73.0",
+    "zod": "^3.24.1",
+    "zod-to-json-schema": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.3",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.1.4",
+    "tailwindcss": "^4.1.14",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20"
+  },
+  "optionalDependencies": {
+    "@tavily/core": "^1.0.0",
+    "@clerk/nextjs": "^6.10.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

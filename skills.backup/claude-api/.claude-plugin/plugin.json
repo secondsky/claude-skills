@@ -1,0 +1,20 @@
+{
+  "name": "claude-api",
+  "description": "Anthropic Messages API (Claude API) for integrations, streaming, prompt caching, tool use, vision. Use for chatbots, assistants, or encountering rate limits, 429 errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "claude-api",
+    "claude",
+    "api",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "caching"
+  ]
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ElevenLabs Voice Agent Widget</title>
+</head>
+<body>
+  <h1>Welcome to Our Support</h1>
+  <p>Need help? Click the voice assistant button in the bottom-right corner!</p>
+
+  <!-- ElevenLabs Widget -->
+  <script src="https://elevenlabs.io/convai-widget/index.js"></script>
+  <script>
+    ElevenLabsWidget.init({
+      // Required: Your agent ID
+      agentId: 'your-agent-id',
+
+      // Optional: Theming
+      theme: {
+        primaryColor: '#3B82F6',      // Blue
+        backgroundColor: '#1F2937',    // Dark gray
+        textColor: '#F9FAFB',          // Light gray
+        accentColor: '#10B981'         // Green
+      },
+
+      // Optional: Position
+      position: 'bottom-right', // or 'bottom-left'
+
+      // Optional: Custom branding
+      branding: {
+        logo: 'https://example.com/logo.png',
+        name: 'Support Assistant',
+        tagline: 'How can I help you today?'
+      },
+
+      // Optional: Customize button
+      button: {
+        size: 'medium', // 'small' | 'medium' | 'large'
+        icon: 'microphone', // 'microphone' | 'chat' | 'phone'
+        text: 'Talk to us' // Optional button label
+      },
+
+      // Optional: Auto-open widget
+      autoOpen: false,
+      autoOpenDelay: 3000, // milliseconds
+
+      // Optional: Welcome message
+      welcomeMessage: {
+        enabled: true,
+        message: "Hi! I'm here to help. Click to start a voice conversation."
+      },
+
+      // Optional: Callbacks
+      onOpen: () => {
+        console.log('Widget opened');
+      },
+      onClose: () => {
+        console.log('Widget closed');
+      },
+      onConversationStart: () => {
+        console.log('Conversation started');
+      },
+      onConversationEnd: () => {
+        console.log('Conversation ended');
+      }
+    });
+  </script>
+
+  <!-- Optional: Custom styling -->
+  <style>
+    /* Override widget styles if needed */
+    .elevenlabs-widget {
+      /* Custom styles */
+    }
+  </style>
+</body>
+</html>

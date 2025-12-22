@@ -1,0 +1,20 @@
+{
+  "name": "ml-model-training",
+  "description": "Train ML models with scikit-learn, PyTorch, TensorFlow. Use for classification/regression, neural networks, hyperparameter tuning, or encountering overfitting, underfitting, convergence issues.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "ml-model-training",
+    "model",
+    "training",
+    "machine-learning",
+    "artificial-intelligence",
+    "pytorch",
+    "tensorflow"
+  ]
+}

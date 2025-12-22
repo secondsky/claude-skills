@@ -1,0 +1,24 @@
+# FastMCP Core
+fastmcp>=2.12.0
+
+# HTTP Client (for API integrations)
+httpx>=0.27.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Validation (optional, for complex validation)
+pydantic>=2.0.0
+
+# System Monitoring (optional, for health checks)
+psutil>=5.9.0
+
+# Async Support
+asyncio-extras>=1.3.2
+
+# Development Dependencies (optional)
+# Uncomment for development
+# pytest>=8.0.0
+# pytest-asyncio>=0.23.0
+# ruff>=0.3.0
+# mypy>=1.8.0

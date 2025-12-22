@@ -1,0 +1,19 @@
+{
+  "name": "image-optimization",
+  "description": "Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "image-optimization",
+    "image",
+    "optimization",
+    "web",
+    "performance",
+    "pwa"
+  ]
+}

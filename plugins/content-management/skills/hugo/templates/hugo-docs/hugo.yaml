@@ -1,0 +1,69 @@
+baseURL: "https://example.org/"
+title: "Documentation Site"
+theme: "hugo-book"
+languageCode: "en-us"
+
+# Book theme configuration
+params:
+  # Enable search (requires index.json output format)
+  BookSearch: true
+
+  # Enable table of contents
+  BookToC: true
+
+  # Enable menu
+  BookMenuBundle: /menu
+
+  # Maximum levels to show in table of contents
+  BookSectionMaxTOC: 4
+
+  # Folder name to store assets (images, etc)
+  BookAssets: "assets"
+
+  # Logo image
+  # BookLogo: "/logo.png"
+
+  # Repository URL for "Edit this page" links
+  BookRepo: "https://github.com/yourusername/yourrepo"
+
+  # Enable git info (last modified date)
+  BookGitInfo: true
+
+  # Date format for git info
+  BookDateFormat: "January 2, 2006"
+
+  # Enable comments
+  BookComments: false
+
+# Output formats for search functionality
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+# Enable Git info for last modified dates
+enableGitInfo: false
+
+# Enable robots.txt
+enableRobotsTXT: true
+
+# Markup configuration
+markup:
+  goldmark:
+    renderer:
+      unsafe: true  # Allow HTML in markdown
+  highlight:
+    codeFences: true
+    guessSyntax: false
+    hl_Lines: ""
+    lineNoStart: 1
+    lineNos: false
+    lineNumbersInTable: true
+    noClasses: true
+    style: monokai
+    tabWidth: 4
+  tableOfContents:
+    endLevel: 6
+    ordered: false
+    startLevel: 2
