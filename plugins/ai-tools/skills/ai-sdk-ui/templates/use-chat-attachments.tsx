@@ -20,15 +20,17 @@
 'use client';
 
 import { useChat } from 'ai/react';
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef, useEffect } from 'react';
 
 export default function ChatWithAttachments() {
-  const { messages, sendMessage, isLoading, error } = useChat({
+  const { messages, append, isLoading, error } = useChat({
     api: '/api/chat',
   });
   const [input, setInput] = useState('');
   const [files, setFiles] = useState<FileList | null>(null);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+  const createdUrls = useRef<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Handle file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,10 +38,12 @@ export default function ChatWithAttachments() {
     setFiles(selectedFiles);
 
     if (selectedFiles) {
-      // Create preview URLs
-      const urls = Array.from(selectedFiles).map((file) =>
-        URL.createObjectURL(file)
-      );
+      // Create preview URLs and track them
+      const urls = Array.from(selectedFiles).map((file) => {
+        const url = URL.createObjectURL(file);
+        createdUrls.current.push(url);
+        return url;
+      });
       setPreviewUrls(urls);
     } else {
       setPreviewUrls([]);
@@ -47,26 +51,39 @@ export default function ChatWithAttachments() {
   };
 
   // Handle form submission
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() && !files) return;
 
-    sendMessage({
+    // Reuse preview URLs for attachments (don't create new ones)
+    const attachments = files
+      ? Array.from(files).map((file, index) => ({
+          name: file.name,
+          contentType: file.type,
+          url: previewUrls[index], // Reuse existing URLs
+        }))
+      : undefined;
+
+    // Send message with attachments
+    await append({
+      role: 'user',
       content: input || 'Please analyze these images',
-      experimental_attachments: files
-        ? Array.from(files).map((file) => ({
-            name: file.name,
-            contentType: file.type,
-            url: URL.createObjectURL(file),
-          }))
-        : undefined,
+      experimental_attachments: attachments,
     });
 
-    // Clean up
+    // Now that message is sent, revoke URLs and clean up
+    previewUrls.forEach((url) => URL.revokeObjectURL(url));
+    createdUrls.current = [];
+
+    // Clear state
     setInput('');
     setFiles(null);
-    previewUrls.forEach((url) => URL.revokeObjectURL(url));
     setPreviewUrls([]);
+
+    // Clear file input element
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   // Remove file
@@ -83,6 +100,14 @@ export default function ChatWithAttachments() {
     URL.revokeObjectURL(previewUrls[index]);
     setPreviewUrls(previewUrls.filter((_, i) => i !== index));
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Revoke any remaining URLs when component unmounts
+      createdUrls.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   return (
     <div className="flex flex-col h-screen max-w-3xl mx-auto">
@@ -197,6 +222,7 @@ export default function ChatWithAttachments() {
               📎 Attach Files
             </div>
             <input
+              ref={fileInputRef}
               type="file"
               multiple
               accept="image/*"

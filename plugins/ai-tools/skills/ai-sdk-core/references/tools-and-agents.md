@@ -167,7 +167,7 @@ const result = await generateText({
       baseTool.weather = tool({ /* ... */ });
     }
 
-    return baseTools;
+    return baseTool;
   },
   prompt: 'Help me with my task',
 });

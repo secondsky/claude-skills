@@ -134,7 +134,7 @@ function MessageRenderer({ message }: { message: Message }) {
 
 // Main chat component
 export default function ChatWithCustomRenderer() {
-  const { messages, sendMessage, isLoading, error } = useChat({
+  const { messages, append, isLoading, error } = useChat({
     api: '/api/chat',
   });
   const [input, setInput] = useState('');
@@ -143,7 +143,7 @@ export default function ChatWithCustomRenderer() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    sendMessage({ content: input });
+    append({ role: 'user', content: input });
     setInput('');
   };
 

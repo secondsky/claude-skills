@@ -16,7 +16,7 @@ import { useChat } from 'ai/react';
 import { useState, FormEvent, useRef, useEffect } from 'react';
 
 export default function ChatWithAttachments() {
-  const { messages, sendMessage, isLoading } = useChat({ api: '/api/chat' });
+  const { messages, append, isLoading } = useChat({ api: '/api/chat' });
   const [input, setInput] = useState('');
   const [files, setFiles] = useState<FileList | null>(null);
   const createdUrls = useRef<string[]>([]);
@@ -33,7 +33,8 @@ export default function ChatWithAttachments() {
         })
       : [];
 
-    sendMessage({
+    append({
+      role: 'user',
       content: input,
       experimental_attachments: files
         ? attachmentUrls.map((url, i) => ({

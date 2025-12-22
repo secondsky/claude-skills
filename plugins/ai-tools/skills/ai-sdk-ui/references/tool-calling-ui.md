@@ -48,6 +48,6 @@ export default function ChatWithTools() {
 ---
 
 **Related References**:
-- `references/hooks-api-full.md` - Full useChat API with tool handling options
-- `references/best-practices.md` - Tool call optimization patterns
-- `references/streaming-apis.md` - Server-side tool execution setup
+- `references/use-chat-migration.md` - Full useChat API with tool handling options
+- `references/top-ui-errors.md` - Tool call optimization and error prevention
+- `references/streaming-patterns.md` - Server-side tool execution setup
