@@ -1,8 +1,0 @@
-# This directory is for shadcn/ui components
-#
-# Install components with:
-#   pnpm dlx shadcn@latest add button
-#   pnpm dlx shadcn@latest add dialog
-#   pnpm dlx shadcn@latest add dropdown-menu
-#
-# See: https://ui.shadcn.com/docs/components

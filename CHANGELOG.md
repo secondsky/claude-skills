@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🚨 BREAKING CHANGE: Marketplace Restructure to Suite Plugins
 
-**Repository Status**: Restructured marketplace from 169 individual plugins to 18 suite plugins for Anthropic compliance and skill discoverability.
+**Repository Status**: Restructured marketplace from 169 individual plugins to 58 suite plugins for Anthropic compliance and skill discoverability.
 
 ### BREAKING CHANGES
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **What Changed**:
 - Marketplace.json restructured from individual plugin format → suite plugin format with `skills` arrays
-- 169 individual plugins → 18 suite plugins (cloudflare-skills, ai-skills, frontend-skills, etc.)
+- 169 individual plugins → 58 suite plugins (cloudflare, ai-tools, api, testing, etc.)
 - Skills now installed by suite instead of individually
 
 **Why This Change**:
@@ -43,9 +43,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **After (v3.0)**:
 ```bash
-/plugin install cloudflare-skills@claude-skills  # Gets ALL 23 Cloudflare skills
-/plugin install tooling-skills@claude-skills      # Gets ALL 26 tooling skills (includes zod)
-# ... (18 suite plugins total)
+/plugin install cloudflare@claude-skills  # Gets ALL 23 Cloudflare skills
+/plugin install tooling@claude-skills      # Gets tooling skills
+# ... (58 suite plugins total)
 ```
 
 #### Skill Naming Changes
@@ -57,26 +57,29 @@ Skills now have plugin prefix to indicate suite:
 
 ### Added
 
-#### Suite Plugin Categories (18 Total)
+#### Suite Plugin Categories (58 Total)
 
-1. **cloudflare-skills** (23 skills) - Complete Cloudflare platform
-2. **ai-skills** (20 skills) - AI/ML integrations
-3. **frontend-skills** (21 skills) - UI frameworks and libraries
-4. **api-skills** (17 skills) - API design and implementation
-5. **tooling-skills** (28 skills) - Development tools and utilities
-6. **database-skills** (6 skills) - Database and ORM solutions
-7. **testing-skills** (5 skills) - Testing frameworks
-8. **auth-skills** (3 skills) - Authentication solutions
-9. **cms-skills** (4 skills) - Content management
-10. **web-skills** (11 skills) - Web development and optimization
-11. **mobile-skills** (8 skills) - Mobile app development
-12. **security-skills** (6 skills) - Security best practices
-13. **architecture-skills** (3 skills) - Architecture patterns
-14. **design-skills** (4 skills) - UI/UX design
-15. **data-skills** (3 skills) - Data processing
-16. **seo-skills** (2 skills) - SEO optimization
-17. **woocommerce-skills** (4 skills) - WooCommerce development
-18. **documentation-skills** (1 skill) - Technical writing
+The marketplace contains 58 plugins organizing 169 skills:
+
+aceternity-ui, ai-tools, api, app-store-deployment, architecture, auth,
+auto-animate, base-ui-react, chatbot, chrome-devtools, claude, cloudflare,
+code-quality, content-management, database, design, firecrawl-scraper,
+github-project-automation, google, graphql-implementation, health-check-endpoints,
+hono-routing, idempotency-handling, inspira-ui, internationalization,
+logging-best-practices, machine-learning, mcp, mobile, motion, nano-banana-prompts,
+nextjs, nuxt, open-source-contributions, openai, payments, pinia, project-management,
+react-hook-form-zod, react-native-app, recommendations, security, seo, shadcn-vue,
+skill-review, swift, tailwind-v4-shadcn, tanstack, testing, turborepo, ultracite,
+vercel, web-performance, websocket-implementation, woocommerce, wordpress-plugin-core,
+zod, zustand-state-management
+
+**Major Categories:**
+- **cloudflare**: 23 Cloudflare platform skills
+- **ai-tools**: AI/ML integrations
+- **api**: API design and implementation
+- **testing**: Testing frameworks
+- **mobile**: Mobile app development
+- (and 53 more specialized plugins)
 
 #### Documentation
 
@@ -91,7 +94,7 @@ Skills now have plugin prefix to indicate suite:
   - Bash 3.2 compatible (removed associative arrays)
   - Automated skill categorization using pattern matching
   - Generates Anthropic-compliant marketplace.json
-  - 18 suite plugins with descriptions and skill arrays
+  - 58 suite plugins with descriptions and skill arrays
 
 ### Changed
 
@@ -103,7 +106,7 @@ Skills now have plugin prefix to indicate suite:
 
 #### Marketplace Structure
 - `.claude-plugin/marketplace.json`: Restructured to suite plugin format
-- Plugins count: 169 → 18 (suite plugins containing 169 skills)
+- Plugins count: 169 → 58 (suite plugins containing 169 skills)
 - Each suite plugin includes `skills` array with skill paths
 
 ### Migration Required
@@ -123,10 +126,10 @@ Skills now have plugin prefix to indicate suite:
 ### Quality Metrics
 
 **Marketplace Improvements:**
-- ✅ 169 skills properly organized into 18 logical suites
+- ✅ 169 skills properly organized into 58 logical suites
 - ✅ 100% Anthropic plugin specification compliance
 - ✅ Skill discovery: 0% → 100% (was broken, now working)
-- ✅ Installation efficiency: 169 commands → 18 commands (~90% reduction)
+- ✅ Installation efficiency: 169 commands → 58 commands (~66% reduction)
 
 **References:**
 - Upstream fix: https://github.com/jezweb/claude-skills/commit/43de3d3

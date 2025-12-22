@@ -3,7 +3,7 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 169 Skills Complete
+**Status**: Active Development | 58 Plugins | 169 Skills Complete
 **Last Updated**: 2025-11-20
 **Last Audit**: 2025-11-20 (Baseline: 100% Pass)
 
@@ -37,10 +37,13 @@ This is a curated collection of **production-tested Claude Code skills** for bui
 **👋 First Time Here?** → Read [START_HERE.md](START_HERE.md)
 **🔨 Building a Skill?** → See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md)
 **✅ Verifying Work?** → Check [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
+**📂 Need Project Structure?** → See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
 ---
 
 ## Codebase Exploration
+
+**📖 For detailed project structure, see [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** (generated with codemap)
 
 Use the `codemap` CLI tool ([github.com/JordanCoin/codemap](https://github.com/JordanCoin/codemap)) to quickly understand the project structure:
 
@@ -160,6 +163,8 @@ This repo aligns with **official Anthropic standards**:
 
 ## Directory Structure
 
+**📖 For comprehensive structure details, see [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)**
+
 **Total**: 2,528 files | 19.8MB
 **Top Extensions**: .md (1,155), .ts (337), .json (242), .html (127), .sh (123)
 
@@ -168,7 +173,7 @@ claude-skills/
 ├── .claude/                      # Claude Code config
 │   └── settings.local.json
 ├── .claude-plugin/               # Plugin marketplace
-│   └── marketplace.json (255KB) # Generated marketplace catalog
+│   └── marketplace.json (255KB) # 58 plugins containing 169 skills
 ├── commands/                     # Slash commands (8 files)
 │   ├── explore-idea.md          # Pre-planning exploration
 │   ├── plan-project.md          # Project planning generator
@@ -264,9 +269,40 @@ skills/<skill-name>/
 
 ---
 
+## Repository Architecture: Plugins vs Skills
+
+This repository uses a **two-tier structure**:
+
+### 58 Plugins (Marketplace Categories)
+Plugins are **logical groupings** that organize related skills by domain:
+- Each plugin appears in `.claude-plugin/marketplace.json`
+- Plugins have names like "cloudflare", "ai-tools", "api", "testing", etc.
+- Users install plugins via: `/plugin install <plugin-name>@claude-skills`
+
+### 169 Skills (Individual Capabilities)
+Skills are the **actual knowledge units** that Claude loads:
+- Each skill has its own directory in `/skills/`
+- Each skill has `SKILL.md`, `README.md`, templates, references
+- Skills are discovered automatically when relevant to user tasks
+
+### Example Structure
+```
+Plugin: "cloudflare" (1 of 58 plugins)
+  ↓ contains
+Skills: cloudflare-worker-base, cloudflare-d1, cloudflare-r2, ... (23 skills)
+```
+
+**Total**: 58 plugins organize 169 skills for optimal discoverability.
+
+---
+
 ## Current Status (2025-11-20)
 
-### ✅ Completed Skills (169)
+### ✅ Repository Status
+
+- **58 plugins** in marketplace (`.claude-plugin/marketplace.json`)
+- **169 individual skills** in repository (`/skills/` directory)
+- Each plugin groups 1-23 related skills by domain
 
 **Baseline Audit (2025-11-20):** All 169 skills passed automated validation with 100% compliance. Zero critical/high/medium issues detected in structure, YAML frontmatter, or file organization.
 

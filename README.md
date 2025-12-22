@@ -1,6 +1,6 @@
 # Claude Code Skills Collection
 
-**169 production-ready skills for Claude Code CLI**
+**58 plugins containing 169 production-ready skills for Claude Code CLI**
 
 Version 3.0.0 | Last Updated: 2025-12-19
 
@@ -22,7 +22,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install frontend-skills@claude-skills     # 21 UI framework skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for all 18 suite plugins and complete installation guide.
+See [MARKETPLACE.md](MARKETPLACE.md) for all 58 suite plugins and complete installation guide.
 
 ### Direct Installation (Contributors)
 
@@ -40,7 +40,28 @@ cd claude-skills
 
 ---
 
-## Available Skills (169)
+## Repository Structure
+
+### Two-Tier Architecture
+
+**58 Plugins** (Marketplace Categories)
+- Logical groupings that organize skills by domain
+- Examples: `cloudflare`, `ai-tools`, `frontend`, `testing`
+- Listed in `.claude-plugin/marketplace.json`
+- Installed via: `/plugin install <plugin-name>@claude-skills`
+
+**169 Skills** (Individual Capabilities)
+- Actual knowledge units that Claude Code loads
+- Each skill: one directory in `/skills/` with `SKILL.md`, templates, references
+- Auto-discovered by Claude when relevant to tasks
+
+**Example**: The `cloudflare` plugin contains 23 skills (cloudflare-worker-base, cloudflare-d1, cloudflare-r2, etc.)
+
+---
+
+## Available Skills (169 skills across 58 plugins)
+
+Plugins group related skills by domain. Install a plugin to get all its skills.
 
 **Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for detailed listings.
 
