@@ -90,10 +90,19 @@ function addToTranscript(role, text) {
   if (transcriptEl) {
     const messageEl = document.createElement('div');
     messageEl.className = `message ${role}`;
-    messageEl.innerHTML = `
-      <strong>${role === 'user' ? 'You' : 'Agent'}:</strong>
-      <p>${text}</p>
-    `;
+
+    // Create label element (safe - no user content)
+    const labelEl = document.createElement('strong');
+    labelEl.textContent = role === 'user' ? 'You' : 'Agent';
+    labelEl.textContent += ':';
+
+    // Create text element (safe - uses textContent, not innerHTML)
+    const textEl = document.createElement('p');
+    textEl.textContent = text;
+
+    // Append children
+    messageEl.appendChild(labelEl);
+    messageEl.appendChild(textEl);
     transcriptEl.appendChild(messageEl);
     transcriptEl.scrollTop = transcriptEl.scrollHeight;
   }

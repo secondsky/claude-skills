@@ -339,22 +339,103 @@ const optimisticSend = (content: string) => {
 
 ### 3. Custom Message Formatting
 
-```tsx
-const formatMessage = (content: string) => {
-  // Replace @mentions
-  content = content.replace(/@(\w+)/g, '<span class="mention">@$1</span>');
+⚠️ **SECURITY WARNING**: Never use `dangerouslySetInnerHTML` with user-controlled content. The pattern below is **UNSAFE** and vulnerable to XSS attacks:
 
-  // Replace URLs
-  content = content.replace(
+```tsx
+// ❌ DANGEROUS - DO NOT USE
+const formatMessage = (content: string) => {
+  content = content.replace(/@(\w+)/g, '<span class="mention">@$1</span>');
+  content = content.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
+  return content;
+};
+
+// ❌ VULNERABLE TO XSS
+<div dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }} />
+```
+
+**Attack Example**: A malicious message like `<img src=x onerror="alert('XSS')">` would execute arbitrary JavaScript.
+
+---
+
+**✅ SAFE OPTION 1: React Components (Text Only)**
+
+```tsx
+const MessageContent = ({ content }: { content: string }) => {
+  // Split on patterns but keep text safe
+  const parts = content.split(/(@\w+|https?:\/\/[^\s]+)/g);
+
+  return (
+    <div>
+      {parts.map((part, i) => {
+        // Mention
+        if (part.startsWith('@')) {
+          return (
+            <span key={i} className="mention text-blue-600 font-medium">
+              {part}
+            </span>
+          );
+        }
+
+        // URL
+        if (part.startsWith('http')) {
+          return (
+            <a
+              key={i}
+              href={part}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline"
+            >
+              {part}
+            </a>
+          );
+        }
+
+        // Regular text
+        return <span key={i}>{part}</span>;
+      })}
+    </div>
+  );
+};
+
+// Usage:
+<MessageContent content={message.content} />
+```
+
+**✅ SAFE OPTION 2: DOMPurify (If HTML Required)**
+
+First, install DOMPurify:
+```bash
+npm install isomorphic-dompurify
+```
+
+Then use it to sanitize HTML:
+
+```tsx
+import DOMPurify from 'isomorphic-dompurify';
+
+const formatMessage = (content: string) => {
+  // Apply your formatting
+  let formatted = content.replace(
+    /@(\w+)/g,
+    '<span class="mention">@$1</span>'
+  );
+  formatted = formatted.replace(
     /(https?:\/\/[^\s]+)/g,
-    '<a href="$1" target="_blank">$1</a>'
+    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
   );
 
-  return content;
+  // ✅ SANITIZE before rendering
+  return DOMPurify.sanitize(formatted, {
+    ALLOWED_TAGS: ['span', 'a', 'strong', 'em'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+  });
 };
 
 <div dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }} />
 ```
+
+**Why DOMPurify is Safe**: It parses HTML and removes all potentially dangerous elements/attributes before rendering.
 
 ### 4. Typing Indicators
 
