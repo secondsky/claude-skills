@@ -496,10 +496,10 @@ The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.
 
 **⚠️ CRITICAL - System Prompt Limits:**
 - Claude Code has a **15,000 character budget** for all skill descriptions in the system prompt
-- When exceeded, skills are **silently omitted** without warnings
-- With 169 skills, concise descriptions are essential for skill discovery
+- When exceeded, **some skills are silently omitted** without warnings (not all skills are hidden, but partial set will be invisible)
+- With 169 skills, concise descriptions are essential to maximize how many skills remain visible
 - **Workaround**: Set `SLASH_COMMAND_TOOL_CHAR_BUDGET=30000` environment variable
-- **Best Practice**: Keep descriptions under 100 characters when possible
+- **Best Practice**: Keep descriptions under 100 characters when possible to fit more skills in budget
 - Source: [Skills Not Triggering](https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/)
 
 ---

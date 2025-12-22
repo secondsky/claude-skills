@@ -53,3 +53,7 @@ Thumbs.db
 **/scratch/
 **/.temp/
 *.backup-*
+
+# Claude Code local config
+.claude/
+*.bak
