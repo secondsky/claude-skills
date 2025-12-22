@@ -1,6 +1,6 @@
 {
   "name": "react-hook-form-zod",
-  "description": "Production-ready react-hook-form-zod development. Use for building with react-hook-form-zod.",
+  "description": "Type-safe React forms with React Hook Form and Zod validation. Use for form schemas, field arrays, multi-step forms, or encountering validation errors, resolver issues, nested field problems.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,9 +9,13 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "react",
-  "hook",
-  "form",
-  "zod"
-]
+    "react-hook-form-zod",
+    "react",
+    "hook",
+    "form",
+    "zod",
+    "frontend",
+    "components",
+    "validation"
+  ]
 }

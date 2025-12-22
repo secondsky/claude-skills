@@ -1,6 +1,6 @@
 {
   "name": "nextjs",
-  "description": "Production-ready nextjs development. Use for building with nextjs.",
+  "description": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,6 +9,11 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "nextjs"
-]
+    "nextjs",
+    "frontend",
+    "components",
+    "ssr",
+    "migration",
+    "async"
+  ]
 }

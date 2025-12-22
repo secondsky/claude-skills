@@ -1,6 +1,6 @@
 {
   "name": "hono-routing",
-  "description": "Production-ready hono-routing development. Use for building with hono-routing.",
+  "description": "Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -9,7 +9,13 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "hono",
-  "routing"
-]
+    "hono-routing",
+    "hono",
+    "routing",
+    "web",
+    "performance",
+    "pwa",
+    "rpc",
+    "validation"
+  ]
 }

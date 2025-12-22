@@ -1,0 +1,24 @@
+{
+  "name": "oauth-implementation",
+  "description": "OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "oauth-implementation",
+    "oauth",
+    "implementation",
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "session",
+    "pkce",
+    "sso",
+    "openid"
+  ]
+}
