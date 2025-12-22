@@ -38,6 +38,10 @@ export default function ChatWithAttachments() {
     setFiles(selectedFiles);
 
     if (selectedFiles) {
+      // ✅ FIXED: Revoke old URLs before creating new ones to prevent memory leak
+      createdUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      createdUrls.current = [];
+
       // Create preview URLs and track them
       const urls = Array.from(selectedFiles).map((file) => {
         const url = URL.createObjectURL(file);
@@ -46,6 +50,9 @@ export default function ChatWithAttachments() {
       });
       setPreviewUrls(urls);
     } else {
+      // Revoke URLs when clearing selection
+      createdUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      createdUrls.current = [];
       setPreviewUrls([]);
     }
   };

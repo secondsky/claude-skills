@@ -23,7 +23,7 @@ import { useChat } from 'ai/react';
 import { useState, FormEvent } from 'react';
 
 export default function ChatWithTools() {
-  const { messages, sendMessage, isLoading, error } = useChat({
+  const { messages, append, isLoading, error } = useChat({
     api: '/api/chat',
   });
   const [input, setInput] = useState('');
@@ -32,7 +32,10 @@ export default function ChatWithTools() {
     e.preventDefault();
     if (!input.trim()) return;
 
-    sendMessage({ content: input });
+    append({
+      role: 'user',
+      content: input,
+    });
     setInput('');
   };
 
