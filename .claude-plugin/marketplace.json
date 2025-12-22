@@ -17,6 +17,732 @@
       "version": "3.0.0",
       "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors. ",
       "keywords": ["aceternity-ui","aceternity","react","nextjs","next.js","tailwind","tailwindcss","tailwind-css","framer-motion","motion","animations","animated-components","ui-components","component-library","shadcn","shadcn-ui","3d-effects","background-effects","hero-sections","landing-pages","parallax","card-components","animated-cards","interactive-ui","modern-ui","visual-effects","bun","npm","pnpm","cli"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "ai-tools",
+      "source": "./plugins/ai-tools",
+      "version": "3.0.0",
+      "description": "AI development tools: Vercel AI SDK (core & UI), ElevenLabs Agents, Multi-AI Consultant, and Thesys Generative UI. Use for building AI applications, streaming interfaces, voice agents, and generative UI. ",
+      "keywords": ["ai","ai-sdk","vercel-ai-sdk","elevenlabs","agents","generative-ui","streaming","voice","multi-ai"],
+      "category": "ai",
+      "type": "bundle",
+      "skillCount": 5
+    }
+,
+    {
+      "name": "api",
+      "source": "./plugins/api",
+      "version": "3.0.0",
+      "description": "Complete API development: design principles, error handling, filtering/sorting, gateway configuration, pagination, rate limiting, documentation, optimization, testing, versioning, changelog, contract testing, and REST design. Use for building robust REST APIs with proper patterns, security, and documentation. ",
+      "keywords": ["api","rest","api-design","error-handling","pagination","rate-limiting","api-docs","optimization","testing","versioning","openapi","swagger"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 13
+    }
+,
+    {
+      "name": "api-authentication",
+      "source": "./plugins/api-authentication",
+      "version": "3.0.0",
+      "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors. ",
+      "keywords": ["api-authentication","api","authentication","authorization","login","security","session","jwt"],
+      "category": "auth",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "app-store-deployment",
+      "source": "./plugins/app-store-deployment",
+      "version": "3.0.0",
+      "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines. ",
+      "keywords": ["app-store-deployment","app","store","mobile","native"],
+      "category": "mobile",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "architecture",
+      "source": "./plugins/architecture",
+      "version": "3.0.0",
+      "description": "Software architecture: patterns, microservices patterns, and technical specifications. Use for architectural design, system design, and technical documentation. ",
+      "keywords": ["architecture","architecture-patterns","microservices","system-design","technical-specification"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "auto-animate",
+      "source": "./plugins/auto-animate",
+      "version": "3.0.0",
+      "description": "AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity. ",
+      "keywords": ["auto-animate","auto","animate","frontend","components","ssr","autoanimate"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "base-ui-react",
+      "source": "./plugins/base-ui-react",
+      "version": "3.0.0",
+      "description": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues. ",
+      "keywords": ["base-ui-react","base","react","frontend","components","mui","migration"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "better-auth",
+      "source": "./plugins/better-auth",
+      "version": "3.0.0",
+      "description": "better-auth authentication for TypeScript with Cloudflare D1 via Drizzle ORM/Kysely. Use for self-hosted auth, social providers, 2FA, passkeys, RBAC, or encountering D1 adapter, schema generation, session, CORS, OAuth flow errors. ",
+      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac"],
+      "category": "auth",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "chatbot",
+      "source": "./plugins/chatbot",
+      "version": "3.0.0",
+      "description": "Chatbot development: Better Chatbot framework, design patterns, and AI Elements integration. Use for building conversational interfaces, chat UIs, and AI-powered chatbots. ",
+      "keywords": ["chatbot","better-chatbot","ai-elements","conversational-ai","chat-ui","patterns"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "chrome-devtools",
+      "source": "./plugins/chrome-devtools",
+      "version": "3.0.0",
+      "description": "Browser automation with Puppeteer CLI scripts. Use for screenshots, performance analysis, network monitoring, web scraping, form automation, or encountering JavaScript debugging, browser automation errors. ",
+      "keywords": ["chrome-devtools","chrome","devtools","tooling","workflow","cli"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "claude",
+      "source": "./plugins/claude",
+      "version": "3.0.0",
+      "description": "Claude platform integration: Claude API usage, Agent SDK for building AI agents, bash command patterns, and custom hooks. Use for building with Claude models, creating autonomous agents, scripting workflows, and extending Claude Code. ",
+      "keywords": ["claude","claude-api","agent-sdk","bash-patterns","hooks","anthropic","ai","llm","agents","claude-code"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "clerk-auth",
+      "source": "./plugins/clerk-auth",
+      "version": "3.0.0",
+      "description": "This skill provides comprehensive knowledge for integrating Clerk authentication in React, Next.js, and Cloudflare Workers applications. It should be used when setting up user authentication, implementing protected routes, verifying JWT tokens, creating custom JWT templates with user metadata and organization claims, configuring Clerk middleware, integrating with shadcn/ui components, testing authentication flows, or troubleshooting Clerk authentication errors. Use when: adding Clerk to React/Vite projects, setting up Clerk in Next.js App Router, implementing Clerk authentication in Cloudflare Workers, configuring clerkMiddleware for route protection, creating custom JWT templates with shortcodes (user.id, user.email, user.public_metadata.role), accessing session claims for RBAC, integrating with Supabase/Grafbase, verifying tokens with @clerk/backend, integrating Clerk with Hono, using Clerk shadcn/ui components, writing E2E tests with Playwright, generating test session tokens, using test email addresses and phone numbers, or encountering authentication errors. Prevents 11 documented issues: missing secret key errors, API key migration failures, JWKS cache race conditions, CSRF vulnerabilities from missing authorizedParties, import path errors after Core 2 upgrade, JWT size limit issues, deprecated API version warnings, ClerkProvider JSX component errors, async auth() helper confusion, environment variable misconfiguration, and Vite dev mode 431 header errors. ",
+      "keywords": ["clerk-auth","clerk","auth","clerk auth","clerk authentication","@clerk/nextjs","@clerk/backend","@clerk/clerk-react","clerkmiddleware","createroutematcher","verifytoken","useuser","useauth","useclerk","jwt template","jwt claims","jwt shortcodes","custom jwt","session claims","gettoken template","user.public_metadata","org_id","org_slug","org_role","customjwtsessionclaims","sessionclaims metadata","clerk webhook","clerk secret key","clerk publishable key","protected routes","cloudflare workers auth","next.js auth","shadcn/ui auth","@hono/clerk-auth","missing clerk secret key","cannot be used as a jsx component","jwks error","authorizedparties","clerk middleware","clerkprovider","userbutton","signin","signup","clerk testing","test emails","test phone numbers","+clerk_test","424242 otp","session token","testing token","@clerk/testing","playwright testing","e2e testing","clerk test mode","bot detection","generate session token","test users","api","csrf","e2e","jsx","jwks","jwt","otp","rbac","authentication","migration","async"],
+      "category": "auth",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "cloudflare",
+      "source": "./plugins/cloudflare",
+      "version": "3.0.0",
+      "description": "Complete Cloudflare platform ecosystem: Workers, D1 database, R2 storage, KV, Queues, Durable Objects, Workers AI, Vectorize, Workflows, Agents, Turnstile, Hyperdrive, Images, Browser Rendering, Zero Trust, and full-stack integrations. Use for building serverless applications, edge computing, distributed systems, AI at the edge, and Cloudflare deployments. ",
+      "keywords": ["cloudflare","workers","edge","serverless","d1","r2","kv","queues","durable-objects","workers-ai","vectorize","workflows","agents","turnstile","hyperdrive","cloudflare-images","browser-rendering","zero-trust","nextjs","deployment"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 23
+    }
+,
+    {
+      "name": "code-quality",
+      "source": "./plugins/code-quality",
+      "version": "3.0.0",
+      "description": "Code quality tools: code review, dependency upgrades, systematic debugging, root-cause tracing, and sequential thinking. Use for maintaining code quality, debugging issues, and continuous improvement. ",
+      "keywords": ["code-quality","code-review","dependency-upgrade","debugging","root-cause-analysis","sequential-thinking"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 5
+    }
+,
+    {
+      "name": "content-management",
+      "source": "./plugins/content-management",
+      "version": "3.0.0",
+      "description": "Content management systems: Sveltia CMS, Content Collections, and Hugo. Use for building content-driven sites, managing content, and static site generation. ",
+      "keywords": ["cms","content-management","sveltia-cms","content-collections","hugo","static-site"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "database",
+      "source": "./plugins/database",
+      "version": "3.0.0",
+      "description": "Database development: Drizzle ORM with D1, schema design, sharding strategies, and query optimization. Use for database modeling, migrations, performance tuning, and distributed databases. ",
+      "keywords": ["database","drizzle-orm","d1","schema-design","sharding","query-optimization","sql","orm"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "design",
+      "source": "./plugins/design",
+      "version": "3.0.0",
+      "description": "Design systems and UX: frontend design, design review, system creation, interaction design, KPI dashboards, responsive design, and mobile-first design. Use for UI/UX design, design systems, and user experience. ",
+      "keywords": ["design","ux","ui","design-systems","interaction-design","responsive-design","mobile-first","kpi-dashboards"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 7
+    }
+,
+    {
+      "name": "firecrawl-scraper",
+      "source": "./plugins/firecrawl-scraper",
+      "version": "3.0.0",
+      "description": "Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors. ",
+      "keywords": ["firecrawl-scraper","firecrawl","scraper","web","performance","pwa","llm"],
+      "category": "web",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "github-project-automation",
+      "source": "./plugins/github-project-automation",
+      "version": "3.0.0",
+      "description": "GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors. ",
+      "keywords": ["github-project-automation","github","project","automation","tooling","workflow","yaml","codeql"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "google",
+      "source": "./plugins/google",
+      "version": "3.0.0",
+      "description": "Google AI platform: Gemini API, embeddings, file search, and CLI tools. Use for building with Gemini models, text embeddings, multimodal AI, vector search, and Google AI integration. ",
+      "keywords": ["google","gemini","gemini-api","embeddings","file-search","multimodal","google-ai","vertex-ai","ai","llm"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "graphql-implementation",
+      "source": "./plugins/graphql-implementation",
+      "version": "3.0.0",
+      "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions. ",
+      "keywords": ["graphql-implementation","graphql","implementation","rest","endpoints","http","real-time"],
+      "category": "api",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "health-check-endpoints",
+      "source": "./plugins/health-check-endpoints",
+      "version": "3.0.0",
+      "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors. ",
+      "keywords": ["health-check-endpoints","health","check","endpoints","architecture","patterns","microservices"],
+      "category": "architecture",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "hono-routing",
+      "source": "./plugins/hono-routing",
+      "version": "3.0.0",
+      "description": "Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors. ",
+      "keywords": ["hono-routing","hono","routing","web","performance","pwa","rpc","validation"],
+      "category": "web",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "idempotency-handling",
+      "source": "./plugins/idempotency-handling",
+      "version": "3.0.0",
+      "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors. ",
+      "keywords": ["idempotency-handling","idempotency","handling","tooling","workflow","caching"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "inspira-ui",
+      "source": "./plugins/inspira-ui",
+      "version": "3.0.0",
+      "description": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors. ",
+      "keywords": ["inspira-ui","inspira","vue","nuxt","vue 3","nuxt 4","inspira ui","animated components","tailwindcss v4","motion-v","three.js","ogl","webgl","aurora background","shimmer button","morphing text","3d globe","fluid cursor","confetti","neon border","icon cloud","flip card","css","gsap","tailwindcss"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "internationalization",
+      "source": "./plugins/internationalization",
+      "version": "3.0.0",
+      "description": "Internationalization (i18n): multi-language support and localization. Use for building multilingual applications and content localization. ",
+      "keywords": ["i18n","internationalization","localization","multi-language","translations"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "logging-best-practices",
+      "source": "./plugins/logging-best-practices",
+      "version": "3.0.0",
+      "description": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors. ",
+      "keywords": ["logging-best-practices","logging","best","practices","tooling","workflow","pii"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "machine-learning",
+      "source": "./plugins/machine-learning",
+      "version": "3.0.0",
+      "description": "Machine learning workflows: model training, pipeline automation, and deployment. Use for ML model development, training pipelines, model serving, and MLOps. ",
+      "keywords": ["machine-learning","ml","model-training","pipelines","deployment","mlops","ai"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "mcp",
+      "source": "./plugins/mcp",
+      "version": "3.0.0",
+      "description": "Model Context Protocol: TypeScript MCP, FastMCP, dynamic orchestration, and MCP management. Use for building MCP servers, integrating external tools, and extending Claude Code. ",
+      "keywords": ["mcp","model-context-protocol","typescript-mcp","fastmcp","orchestration","servers","integration"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "mobile",
+      "source": "./plugins/mobile",
+      "version": "3.0.0",
+      "description": "Mobile development: debugging, offline support, push notifications, and progressive web apps. Use for building mobile applications, offline-first apps, and mobile features. ",
+      "keywords": ["mobile","mobile-debugging","offline-support","push-notifications","pwa","progressive-web-app"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "motion",
+      "source": "./plugins/motion",
+      "version": "3.0.0",
+      "description": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors. ",
+      "keywords": ["motion","frontend","components","svg"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "nano-banana-prompts",
+      "source": "./plugins/nano-banana-prompts",
+      "version": "3.0.0",
+      "description": "Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices. ",
+      "keywords": ["nano-banana-prompts","nano","banana","prompts","tooling","workflow"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "nextjs",
+      "source": "./plugins/nextjs",
+      "version": "3.0.0",
+      "description": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors. ",
+      "keywords": ["nextjs","frontend","components","ssr","migration","async"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "nuxt",
+      "source": "./plugins/nuxt",
+      "version": "3.0.0",
+      "description": "Complete Nuxt framework ecosystem: Nuxt 4 core with SSR/composables/server routes, Nuxt UI v4 component library with 100+ accessible components, Nuxt Content v3 Git-based CMS for content-driven sites, and comprehensive SEO with 8 official modules. Use for building Nuxt applications with SSR, component libraries, content management, SEO optimization, Cloudflare/Vercel deployment. ",
+      "keywords": ["nuxt","nuxt 4","nuxt v4","vue","vue 3","ssr","universal rendering","nitro","composables","server routes","api routes","hydration","nuxt-ui","nuxt ui v4","components","tailwind v4","reka ui","design systems","nuxt-content","nuxt content v3","@nuxt/content","content collections","git-based cms","markdown cms","mdc syntax","nuxt studio","nuxt-seo","@nuxtjs/seo","seo","robots.txt","sitemap","open graph","schema.org","meta tags","cloudflare pages","cloudflare workers","vercel","deployment","vitest","testing"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "oauth-implementation",
+      "source": "./plugins/oauth-implementation",
+      "version": "3.0.0",
+      "description": "OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors. ",
+      "keywords": ["oauth-implementation","oauth","implementation","authentication","authorization","login","security","session","pkce","sso","openid"],
+      "category": "auth",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "open-source-contributions",
+      "source": "./plugins/open-source-contributions",
+      "version": "3.0.0",
+      "description": "Open source contribution best practices with PR validation scripts. Use for pull requests, community contributions, or encountering personal artifacts in PRs, working on main branch, untested submissions, unrelated changes, unfocused PRs. ",
+      "keywords": ["open-source-contributions","open","source","contributions","tooling","workflow","validation"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "openai",
+      "source": "./plugins/openai",
+      "version": "3.0.0",
+      "description": "OpenAI platform integration: API usage, Agents SDK, Assistants API, and structured responses. Use for building AI applications, chatbots, assistants, function calling, streaming responses, and OpenAI integration. ",
+      "keywords": ["openai","openai-api","agents","assistants","gpt-4","gpt-4o","function-calling","streaming","structured-outputs","ai","llm"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "payments",
+      "source": "./plugins/payments",
+      "version": "3.0.0",
+      "description": "Payment gateway integration: payment processing and gateway implementations. Use for integrating payment systems, handling transactions, and e-commerce payments. ",
+      "keywords": ["payments","payment-gateway","transactions","ecommerce","stripe","payment-processing"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "pinia",
+      "source": "./plugins/pinia",
+      "version": "3.0.0",
+      "description": "Pinia state management for Vue: Pinia v3 core and Pinia Colada for async state. Use for Vue/Nuxt state management, stores, async data fetching, and reactive state. ",
+      "keywords": ["pinia","pinia-v3","pinia-colada","vue","nuxt","state-management","stores","async-state"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 2
+    }
+,
+    {
+      "name": "project-management",
+      "source": "./plugins/project-management",
+      "version": "3.0.0",
+      "description": "Project management: planning, session management, workflows, verification, and feature development. Use for project planning, task management, and development workflows. ",
+      "keywords": ["project-management","planning","workflow","feature-dev","verification","sessions"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 5
+    }
+,
+    {
+      "name": "react-hook-form-zod",
+      "source": "./plugins/react-hook-form-zod",
+      "version": "3.0.0",
+      "description": "Type-safe React forms with React Hook Form and Zod validation. Use for form schemas, field arrays, multi-step forms, or encountering validation errors, resolver issues, nested field problems. ",
+      "keywords": ["react-hook-form-zod","react","hook","form","zod","frontend","components","validation"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "react-native-app",
+      "source": "./plugins/react-native-app",
+      "version": "3.0.0",
+      "description": "React Native cross-platform mobile apps with navigation, state management, native features. Use for iOS/Android development, mobile prototyping, code sharing, or encountering bridge errors, platform-specific bugs, performance bottlenecks. ",
+      "keywords": ["react-native-app","react","native","app","mobile"],
+      "category": "mobile",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "recommendations",
+      "source": "./plugins/recommendations",
+      "version": "3.0.0",
+      "description": "Recommendation systems: engine implementation and system architecture. Use for building personalized recommendations, collaborative filtering, and recommendation algorithms. ",
+      "keywords": ["recommendations","recommendation-engine","recommendation-system","personalization","collaborative-filtering","algorithms"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 2
+    }
+,
+    {
+      "name": "security",
+      "source": "./plugins/security",
+      "version": "3.0.0",
+      "description": "Security best practices: RBAC, CSRF protection, XSS prevention, security headers, vulnerability scanning, defense-in-depth validation, and API security hardening. Use for implementing secure applications, access control, and security audits. ",
+      "keywords": ["security","rbac","csrf","xss","security-headers","vulnerability-scanning","defense-in-depth","api-security","access-control"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 7
+    }
+,
+    {
+      "name": "seo",
+      "source": "./plugins/seo",
+      "version": "3.0.0",
+      "description": "SEO optimization: SEO optimizer and keyword cluster builder. Use for improving search rankings, keyword research, and SEO strategy. ",
+      "keywords": ["seo","search-engine-optimization","keywords","keyword-clustering","search-rankings"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 2
+    }
+,
+    {
+      "name": "session-management",
+      "source": "./plugins/session-management",
+      "version": "3.0.0",
+      "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality. ",
+      "keywords": ["session-management","session","management","authentication","authorization","login","security","jwt"],
+      "category": "auth",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "shadcn-vue",
+      "source": "./plugins/shadcn-vue",
+      "version": "3.0.0",
+      "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors. ",
+      "keywords": ["shadcn-vue","shadcn","vue","frontend","components"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "skill-review",
+      "source": "./plugins/skill-review",
+      "version": "3.0.0",
+      "description": "Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors. ",
+      "keywords": ["skill-review","skill","review","tooling","workflow","validation"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "swift",
+      "source": "./plugins/swift",
+      "version": "3.0.0",
+      "description": "Swift development: best practices and SettingsKit for iOS settings. Use for Swift/iOS development, SwiftUI, code quality, and iOS settings interfaces. ",
+      "keywords": ["swift","ios","swiftui","best-practices","settingskit","apple","mobile"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 2
+    }
+,
+    {
+      "name": "tailwind-v4-shadcn",
+      "source": "./plugins/tailwind-v4-shadcn",
+      "version": "3.0.0",
+      "description": "Production-ready tailwind-v4-shadcn development. Use for building with tailwind-v4-shadcn. ",
+      "keywords": ["tailwind","v4","shadcn"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "tanstack-ai",
+      "source": "./plugins/tanstack-ai",
+      "version": "3.0.0",
+      "description": "This skill provides production-ready guidance for TanStack AI (alpha) to build provider-agnostic, type-safe AI chat with streaming, server/client tools, approval flows, and adapters for OpenAI, Anthropic, Gemini, and Ollama. Use it to scaffold new chat APIs, wire React or Solid frontends with `useChat`/`ChatClient`, define isomorphic tools with `toolDefinition().server()` / `.client()`, or debug streaming and agent loop behavior. Use when: connecting TanStack AI to OpenAI/Anthropic/Gemini/Ollama adapters, enabling SSE streaming with `toStreamResponse` + `fetchServerSentEvents`, adding tool approval (`needsApproval`) for destructive actions, implementing agent loop strategies, supporting multimodal inputs, or troubleshooting missing tool definitions and model-specific option typing. ",
+      "keywords": ["tanstack-ai","tanstack","tanstack ai","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","tooldefinition","client tools","server tools","tool approval","agent loop","streaming","sse","connection adapters","multimodal","type-safe models","tanstack start","next.js api","tostreamresponse","fetchserversentevents","chat","usechat","chatclient","needsapproval","api","openai"],
+      "category": "ai",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "tanstack-query",
+      "source": "./plugins/tanstack-query",
+      "version": "3.0.0",
+      "description": "TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors. ",
+      "keywords": ["tanstack-query","tanstack","query","frontend","components","migration","caching"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "tanstack-router",
+      "source": "./plugins/tanstack-router",
+      "version": "3.0.0",
+      "description": "TanStack Router type-safe file-based routing for React. Use for SPAs, TanStack Query integration, Cloudflare Workers, or encountering devtools, type safety, loader, Vite bundling errors. ",
+      "keywords": ["tanstack-router","tanstack","router","tanstack router","react router","type-safe routing","file-based routing","client-side routing","spa routing","route loaders","data loading","navigation","vite plugin","cloudflare workers","tanstack query integration","typescript routing","route params","nested routes","code splitting"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "tanstack-start",
+      "source": "./plugins/tanstack-start",
+      "version": "3.0.0",
+      "description": "TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare Workers. Use for Next.js migration, edge rendering, or encountering hydration, auth, data pattern errors. ",
+      "keywords": ["tanstack-start","tanstack","start","tanstack start","tanstack react start","full-stack react","selective ssr","spa mode","static prerender","server functions","server routes","cloudflare workers","edge rendering","hydration errors","next.js migration","ssr","migration","edge"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "tanstack-table",
+      "source": "./plugins/tanstack-table",
+      "version": "3.0.0",
+      "description": "TanStack Table v8 headless data tables with server-side features for Cloudflare Workers + D1. Use for pagination, filtering, sorting, virtualization, or encountering state management, TanStack Query coordination, URL sync errors. ",
+      "keywords": ["tanstack-table","tanstack","table","tanstack table","react table","data table","datagrid","headless table","server-side pagination","server-side filtering","server-side sorting","tanstack query integration","cloudflare d1","cloudflare workers","virtualization","tanstack virtual","large datasets","table state management","url state sync","column configuration","typescript table","react table v8","headless ui","data visualization","pagination","filtering","sorting","url"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "testing",
+      "source": "./plugins/testing",
+      "version": "3.0.0",
+      "description": "Testing frameworks and strategies: Jest, Playwright, Vitest, mutation testing, test quality analysis, and mobile app testing. Use for unit testing, E2E testing, test coverage, and quality assurance. ",
+      "keywords": ["testing","jest","playwright","vitest","mutation-testing","test-quality","mobile-testing","e2e","unit-testing"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 6
+    }
+,
+    {
+      "name": "turborepo",
+      "source": "./plugins/turborepo",
+      "version": "3.0.0",
+      "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration. ",
+      "keywords": ["turborepo","tooling","workflow","caching"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "ultracite",
+      "source": "./plugins/ultracite",
+      "version": "3.0.0",
+      "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors. ",
+      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "vercel",
+      "source": "./plugins/vercel",
+      "version": "3.0.0",
+      "description": "Vercel platform services: KV for edge key-value storage, Blob for file storage, and Neon Postgres integration. Use for Vercel deployments, edge data storage, file uploads, and serverless databases. ",
+      "keywords": ["vercel","vercel-kv","vercel-blob","neon","postgres","edge-storage","serverless","deployment"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "web-performance",
+      "source": "./plugins/web-performance",
+      "version": "3.0.0",
+      "description": "Web performance: auditing, optimization strategies, and image optimization. Use for improving page speed, Core Web Vitals, and performance metrics. ",
+      "keywords": ["web-performance","performance","optimization","core-web-vitals","image-optimization","page-speed"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 3
+    }
+,
+    {
+      "name": "websocket-implementation",
+      "source": "./plugins/websocket-implementation",
+      "version": "3.0.0",
+      "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards. ",
+      "keywords": ["websocket-implementation","websocket","implementation","http","real-time"],
+      "category": "api",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "woocommerce",
+      "source": "./plugins/woocommerce",
+      "version": "3.0.0",
+      "description": "WooCommerce development: backend development, code review, copy guidelines, and development cycle best practices. Use for building WooCommerce plugins, extensions, custom functionality, and WordPress e-commerce. ",
+      "keywords": ["woocommerce","wordpress","ecommerce","php","backend","code-review","copy-guidelines","development-cycle"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 4
+    }
+,
+    {
+      "name": "wordpress-plugin-core",
+      "source": "./plugins/wordpress-plugin-core",
+      "version": "3.0.0",
+      "description": "WordPress plugin development with hooks, security, REST API, custom post types. Use for plugin creation, $wpdb queries, Settings API, or encountering SQL injection, XSS, CSRF, nonce errors. ",
+      "keywords": ["wordpress-plugin-core","wordpress","plugin","core","cms","content","management","publishing","csrf","rest","sql","xss"],
+      "category": "cms",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "zod",
+      "source": "./plugins/zod",
+      "version": "3.0.0",
+      "description": "Production-ready zod development. Use for building with zod. ",
+      "keywords": ["zod"],
+      "category": "tooling",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "zustand-state-management",
+      "source": "./plugins/zustand-state-management",
+      "version": "3.0.0",
+      "description": "Production-ready zustand-state-management development. Use for building with zustand-state-management. ",
+      "keywords": ["zustand","state","management"],
+      "category": "frontend",
+      "type": "bundle",
+      "skillCount": 1
+    }
+,
+    {
+      "name": "aceternity-ui",
+      "source": "./plugins/aceternity-ui",
+      "version": "3.0.0",
+      "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors. ",
+      "keywords": ["aceternity-ui","aceternity","react","nextjs","next.js","tailwind","tailwindcss","tailwind-css","framer-motion","motion","animations","animated-components","ui-components","component-library","shadcn","shadcn-ui","3d-effects","background-effects","hero-sections","landing-pages","parallax","card-components","animated-cards","interactive-ui","modern-ui","visual-effects","bun","npm","pnpm","cli"],
       "category": "frontend"
     }
 ,
