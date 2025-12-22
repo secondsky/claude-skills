@@ -1,0 +1,19 @@
+{
+  "name": "mcp-dynamic-orchestrator",
+  "description": "Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mcp-dynamic-orchestrator",
+    "mcp",
+    "dynamic",
+    "orchestrator",
+    "tooling",
+    "workflow"
+  ]
+}

@@ -1,0 +1,122 @@
+name: Claude Code CI/CD
+
+# Example GitHub Actions workflow using Claude Code with bash automation
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Staging
+        run: npx wrangler deploy --env staging
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Run smoke tests
+        run: |
+          STAGING_URL="https://staging.example.com"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${STAGING_URL}/health)
+          if [ "$STATUS" != "200" ]; then
+            echo "Health check failed with status: $STATUS"
+            exit 1
+          fi
+          echo "Staging deployment successful: $STAGING_URL"
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://example.com
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Cloudflare Production
+        run: npx wrangler deploy --env production
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Run smoke tests
+        run: |
+          PROD_URL="https://example.com"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${PROD_URL}/health)
+          if [ "$STATUS" != "200" ]; then
+            echo "Health check failed with status: $STATUS"
+            echo "ALERT: Production deployment health check failed!"
+            exit 1
+          fi
+          echo "Production deployment successful: $PROD_URL"
+
+      - name: Create deployment tag
+        run: |
+          TAG="deploy-$(date +%Y%m%d-%H%M%S)"
+          git tag -a "$TAG" -m "Production deployment $TAG"
+          git push origin "$TAG"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Notify deployment
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "✅ Deployed to production: https://example.com"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name == 'pull_request'

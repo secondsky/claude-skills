@@ -1,0 +1,47 @@
+# Basic CI Workflow - Test, Lint, Build
+# Prevents Error #1 (YAML indentation), #2 (missing run/uses), #3 (version pinning)
+#
+# Triggers on: push to main, pull requests
+# Runs on: ubuntu-24.04 (explicit version, prevents Error #4)
+# Actions: Pinned to SHA256 (prevents Error #3)
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        with:
+          name: build-output
+          path: dist/
+          retention-days: 7

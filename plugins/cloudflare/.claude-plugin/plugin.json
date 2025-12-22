@@ -1,0 +1,12 @@
+{
+  "name": "cloudflare",
+  "description": "Complete Cloudflare platform ecosystem: Workers, D1 database, R2 storage, KV, Queues, Durable Objects, Workers AI, Vectorize, Workflows, Agents, Turnstile, Hyperdrive, Images, Browser Rendering, Zero Trust, and full-stack integrations. Use for building serverless applications, edge computing, distributed systems, AI at the edge, and Cloudflare deployments.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["cloudflare", "workers", "edge", "serverless", "d1", "r2", "kv", "queues", "durable-objects", "workers-ai", "vectorize", "workflows", "agents", "turnstile", "hyperdrive", "cloudflare-images", "browser-rendering", "zero-trust", "nextjs", "deployment"]
+}

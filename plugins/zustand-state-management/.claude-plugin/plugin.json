@@ -1,0 +1,16 @@
+{
+  "name": "zustand-state-management",
+  "description": "Production-ready zustand-state-management development. Use for building with zustand-state-management.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "zustand",
+  "state",
+  "management"
+]
+}

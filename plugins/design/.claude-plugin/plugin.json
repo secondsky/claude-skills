@@ -1,0 +1,12 @@
+{
+  "name": "design",
+  "description": "Design systems and UX: frontend design, design review, system creation, interaction design, KPI dashboards, responsive design, and mobile-first design. Use for UI/UX design, design systems, and user experience.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["design", "ux", "ui", "design-systems", "interaction-design", "responsive-design", "mobile-first", "kpi-dashboards"]
+}

@@ -1,0 +1,16 @@
+name = "my-content-site"
+compatibility_date = "2025-11-07"
+
+# Cloudflare Workers Static Assets
+# Content Collections generates static files in dist/
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+# Optional: Custom 404 page
+# html_handling = "force-trailing-slashes"
+
+# Build command (run before deploy)
+# npm run build executes:
+# 1. content-collections build (if using CLI)
+# 2. vite build

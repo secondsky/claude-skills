@@ -1,0 +1,21 @@
+{
+  "name": "google-gemini-embeddings",
+  "description": "Google Gemini embeddings API (gemini-embedding-001) for RAG and semantic search. Use for vector search, Vectorize integration, or encountering dimension mismatches, rate limits, text truncation.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "google-gemini-embeddings",
+    "google",
+    "gemini",
+    "embeddings",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "rag"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "github-project-automation",
+  "description": "GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "github-project-automation",
+    "github",
+    "project",
+    "automation",
+    "tooling",
+    "workflow",
+    "yaml",
+    "codeql"
+  ]
+}

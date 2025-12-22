@@ -1,0 +1,47 @@
+// lint-staged configuration for Ultracite
+// Can be used as .lintstagedrc.js or .lintstagedrc.cjs
+
+module.exports = {
+  // JavaScript/TypeScript files
+  '*.{js,jsx,ts,tsx}': [
+    'npx ultracite fix',
+  ],
+
+  // JSON files
+  '*.{json,jsonc}': [
+    'npx ultracite fix',
+  ],
+
+  // CSS files
+  '*.{css,scss}': [
+    'npx ultracite fix',
+  ],
+
+  // Markdown files (formatting only, no linting)
+  '*.{md,mdx}': [
+    'npx ultracite fix',
+  ],
+
+  // Optional: Run type check on TypeScript files
+  // '*.{ts,tsx}': [
+  //   'npx ultracite fix',
+  //   () => 'tsc --noEmit',
+  // ],
+};
+
+// ESM version (.lintstagedrc.mjs):
+// export default {
+//   '*.{js,jsx,ts,tsx,json,jsonc,css}': ['npx ultracite fix'],
+// };
+
+// JSON version (.lintstagedrc.json):
+// {
+//   "*.{js,jsx,ts,tsx,json,jsonc,css}": ["npx ultracite fix"]
+// }
+
+// package.json version:
+// {
+//   "lint-staged": {
+//     "*.{js,jsx,ts,tsx,json,jsonc,css}": ["npx ultracite fix"]
+//   }
+// }

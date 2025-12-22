@@ -1,0 +1,15 @@
+{
+  "name": "hono-routing",
+  "description": "Production-ready hono-routing development. Use for building with hono-routing.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "hono",
+  "routing"
+]
+}

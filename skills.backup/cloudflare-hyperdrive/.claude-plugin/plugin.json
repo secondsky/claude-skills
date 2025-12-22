@@ -1,0 +1,23 @@
+{
+  "name": "cloudflare-hyperdrive",
+  "description": "Cloudflare Hyperdrive for Workers-to-database connections with pooling and caching. Use for PostgreSQL/MySQL, Drizzle/Prisma, or encountering pool errors, TLS issues, connection refused.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-hyperdrive",
+    "cloudflare",
+    "hyperdrive",
+    "workers",
+    "edge",
+    "wrangler",
+    "tls",
+    "mysql",
+    "postgresql",
+    "caching"
+  ]
+}

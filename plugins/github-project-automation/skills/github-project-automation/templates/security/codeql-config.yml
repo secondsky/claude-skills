@@ -1,0 +1,73 @@
+# CodeQL Configuration
+# Advanced CodeQL setup with custom queries and filters
+
+name: "CodeQL Config"
+
+# Paths to include in analysis
+paths:
+  - src/
+  - lib/
+  - app/
+
+# Paths to exclude from analysis
+paths-ignore:
+  - node_modules/
+  - dist/
+  - build/
+  - coverage/
+  - "**/*.test.js"
+  - "**/*.test.ts"
+  - "**/*.spec.js"
+  - "**/*.spec.ts"
+  - "**/__tests__/**"
+  - "**/__mocks__/**"
+
+# Additional queries to run
+queries:
+  - uses: security-extended  # Run extended security queries
+  - uses: security-and-quality  # Run both security and quality queries
+
+# Custom query filters
+query-filters:
+  # Exclude specific rules
+  - exclude:
+      id: js/unused-local-variable  # Example: Allow unused variables
+
+  # Include only high-severity findings
+  - include:
+      severity: high,critical
+
+# Build configuration (for compiled languages)
+# Uncomment and customize for Java, C++, C#, etc.
+#
+# For Java/Maven:
+# build:
+#   - run: |
+#       ./mvnw clean install -DskipTests
+#
+# For C#/.NET:
+# build:
+#   - run: |
+#       dotnet build
+#
+# For C++:
+# build:
+#   - run: |
+#       cmake .
+#       make
+
+# Language-specific configuration
+# languages:
+#   - javascript-typescript:
+#       # Enable experimental features
+#       experimental: true
+#
+#   - python:
+#       # Python version
+#       version: "3.12"
+
+# Disable specific queries
+disable-default-queries: false
+
+# Scan frequency (in workflow, not here)
+# Recommended: On every PR + weekly scheduled scan

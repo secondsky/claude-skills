@@ -1,0 +1,69 @@
+# Dependabot Configuration
+# Prevents Error #16 (development dependencies ignored), #17 (alert limit)
+#
+# Updates: npm, GitHub Actions
+# Frequency: Weekly
+# Limits: Max 10 open PRs per ecosystem (GitHub limit)
+
+version: 2
+updates:
+  # npm dependencies (including devDependencies)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "secondsky"  # Replace with your GitHub username
+    labels:
+      - "dependencies"
+      - "npm"
+    # Include both prod and dev dependencies
+    ignore:
+      # Ignore major version updates for stable packages (optional)
+      # - dependency-name: "*"
+      #   update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Australia/Sydney"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "secondsky"  # Replace with your GitHub username
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Add additional ecosystems as needed:
+  # Python (pip)
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+
+  # Docker
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+
+  # Composer (PHP)
+  # - package-ecosystem: "composer"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"

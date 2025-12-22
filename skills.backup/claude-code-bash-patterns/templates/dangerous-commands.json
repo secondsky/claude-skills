@@ -1,0 +1,101 @@
+{
+  "dangerous_patterns": [
+    {
+      "pattern": "rm\\s+-rf\\s+/",
+      "description": "Delete root directory",
+      "severity": "critical",
+      "example": "rm -rf /"
+    },
+    {
+      "pattern": "rm\\s+-rf\\s+~/",
+      "description": "Delete home directory",
+      "severity": "critical",
+      "example": "rm -rf ~/"
+    },
+    {
+      "pattern": "rm\\s+-rf\\s+\\*",
+      "description": "Recursive delete with wildcard",
+      "severity": "high",
+      "example": "rm -rf *"
+    },
+    {
+      "pattern": "dd\\s+if=",
+      "description": "Direct disk write operation",
+      "severity": "critical",
+      "example": "dd if=/dev/zero of=/dev/sda"
+    },
+    {
+      "pattern": "mkfs\\.",
+      "description": "Format filesystem",
+      "severity": "critical",
+      "example": "mkfs.ext4 /dev/sda1"
+    },
+    {
+      "pattern": ":\\(\\)\\s*\\{\\s*:\\|\\:&\\s*\\}\\s*;\\s*:",
+      "description": "Fork bomb",
+      "severity": "critical",
+      "example": ":(){ :|:& };:"
+    },
+    {
+      "pattern": "sudo\\s+rm\\s+-rf",
+      "description": "Sudo recursive delete",
+      "severity": "critical",
+      "example": "sudo rm -rf /"
+    },
+    {
+      "pattern": "sudo\\s+dd",
+      "description": "Sudo disk operation",
+      "severity": "critical",
+      "example": "sudo dd if=/dev/zero of=/dev/sda"
+    },
+    {
+      "pattern": "git\\s+push\\s+.*--force.*(main|master)",
+      "description": "Force push to main/master branch",
+      "severity": "high",
+      "example": "git push --force origin main"
+    },
+    {
+      "pattern": "git\\s+push\\s+.*-f\\s+.*(main|master)",
+      "description": "Force push to main/master branch (short flag)",
+      "severity": "high",
+      "example": "git push -f origin master"
+    },
+    {
+      "pattern": ">\\s*/etc/passwd",
+      "description": "Overwrite /etc/passwd",
+      "severity": "critical",
+      "example": "echo 'malicious' > /etc/passwd"
+    },
+    {
+      "pattern": ">\\s*/etc/shadow",
+      "description": "Overwrite /etc/shadow",
+      "severity": "critical",
+      "example": "echo 'malicious' > /etc/shadow"
+    },
+    {
+      "pattern": ">\\s*/boot/",
+      "description": "Overwrite boot files",
+      "severity": "critical",
+      "example": "echo 'malicious' > /boot/grub.cfg"
+    },
+    {
+      "pattern": "chmod\\s+-R\\s+777\\s+/",
+      "description": "Chmod 777 on root",
+      "severity": "critical",
+      "example": "chmod -R 777 /"
+    },
+    {
+      "pattern": "chmod\\s+777\\s+/etc",
+      "description": "Chmod 777 on /etc",
+      "severity": "high",
+      "example": "chmod 777 /etc"
+    }
+  ],
+  "usage": "These patterns are used by dangerous-command-guard.py to block unsafe bash commands. Each pattern is a regex that matches dangerous command structures.",
+  "severity_levels": {
+    "critical": "Immediate system damage or data loss",
+    "high": "Potential for significant damage",
+    "medium": "Security risk or data integrity issue",
+    "low": "Best practice violation"
+  }
+}

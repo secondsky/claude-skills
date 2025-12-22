@@ -1,0 +1,77 @@
+name: Deploy ElevenLabs Agent
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'agent_configs/**'
+      - 'tool_configs/**'
+      - 'test_configs/**'
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install ElevenLabs CLI
+        run: npm install -g @elevenlabs/cli
+
+      - name: Dry Run (Preview Changes)
+        run: elevenlabs agents push --env staging --dry-run
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY_STAGING }}
+
+      - name: Push to Staging
+        if: github.event_name == 'pull_request'
+        run: elevenlabs agents push --env staging
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY_STAGING }}
+
+      - name: Run Tests
+        if: github.event_name == 'pull_request'
+        run: |
+          elevenlabs tests push --env staging
+          elevenlabs agents test "Support Agent"
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY_STAGING }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install ElevenLabs CLI
+        run: npm install -g @elevenlabs/cli
+
+      - name: Deploy to Production
+        run: elevenlabs agents push --env prod
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY_PROD }}
+
+      - name: Verify Deployment
+        run: elevenlabs agents status
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY_PROD }}
+
+      - name: Notify on Success
+        if: success()
+        run: echo "✅ Agent deployed to production successfully"
+
+      - name: Notify on Failure
+        if: failure()
+        run: echo "❌ Deployment failed"

@@ -1,0 +1,54 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "extends": ["ultracite/core", "ultracite/vue"],
+
+  // HTML support for .vue files
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true,
+      "indentScriptAndStyle": true,
+      "indentWidth": 2,
+      "lineWidth": 80
+    }
+  },
+
+  // Optional: Customize formatter
+  "formatter": {
+    "enabled": true,
+    "indentWidth": 2
+  },
+
+  // Optional: Customize linter
+  "linter": {
+    "enabled": true,
+    "rules": {
+      // Vue-specific rules are already configured
+      // Add custom overrides here
+    }
+  },
+
+  // Optional: Exclude files
+  "files": {
+    "ignore": [
+      "dist",
+      ".nuxt",
+      ".output",
+      "coverage",
+      "node_modules",
+      "**/*.generated.ts"
+    ]
+  },
+
+  // Optional: Overrides for .vue files (already handled by preset)
+  "overrides": [
+    {
+      "include": ["*.vue"],
+      "linter": {
+        "rules": {
+          // Additional .vue specific customizations
+        }
+      }
+    }
+  ]
+}

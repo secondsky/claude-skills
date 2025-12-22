@@ -1,0 +1,70 @@
+# Code Owners
+#
+# This file defines who should review PRs that modify specific files/directories.
+# GitHub automatically requests reviews from code owners when a PR touches their files.
+#
+# Format: path/to/file @username @team-name
+# More specific patterns take precedence over less specific ones.
+#
+# Documentation: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+# These owners will be requested for review unless a more specific rule below applies
+* @secondsky
+
+# Documentation
+*.md @secondsky
+/docs/ @secondsky
+
+# Configuration files
+*.yml @secondsky
+*.yaml @secondsky
+*.json @secondsky
+*.toml @secondsky
+wrangler.jsonc @secondsky
+package.json @secondsky
+tsconfig.json @secondsky
+
+# GitHub workflows
+/.github/ @secondsky
+
+# Source code
+/src/ @secondsky
+
+# Tests
+/test/ @secondsky
+/tests/ @secondsky
+/**/*.test.ts @secondsky
+/**/*.spec.ts @secondsky
+
+# Build configuration
+vite.config.ts @secondsky
+webpack.config.js @secondsky
+rollup.config.js @secondsky
+
+# Security-sensitive files
+SECURITY.md @secondsky
+/scripts/ @secondsky
+
+# Database migrations (require extra scrutiny)
+/migrations/ @secondsky
+/prisma/ @secondsky
+/drizzle/ @secondsky
+
+# Dependencies (notify when packages change)
+package-lock.json @secondsky
+pnpm-lock.yaml @secondsky
+yarn.lock @secondsky
+requirements.txt @secondsky
+Gemfile.lock @secondsky
+
+# CI/CD
+/.github/workflows/ @secondsky
+/scripts/deploy.sh @secondsky
+
+# Examples (multiple owners can review)
+# /frontend/ @frontend-team @secondsky
+# /backend/ @backend-team @secondsky
+# /api/ @api-team @backend-team
+# *.css @design-team
+# *.scss @design-team

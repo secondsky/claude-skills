@@ -1,0 +1,16 @@
+{
+  "name": "wordpress-plugin-core",
+  "description": "Production-ready wordpress-plugin-core development. Use for building with wordpress-plugin-core.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "wordpress",
+  "plugin",
+  "core"
+]
+}

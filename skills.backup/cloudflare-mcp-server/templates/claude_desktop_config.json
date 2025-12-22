@@ -1,0 +1,22 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/client-config.json",
+  "mcpServers": {
+    "my-mcp-server-local": {
+      "comment": "Local MCP server (development)",
+      "url": "http://localhost:8788/sse"
+    },
+    "my-mcp-server-remote": {
+      "comment": "Remote MCP server (production)",
+      "url": "https://my-mcp-server.your-account.workers.dev/sse"
+    },
+    "my-mcp-oauth-server": {
+      "comment": "MCP server with OAuth authentication",
+      "url": "https://my-mcp-oauth.your-account.workers.dev/sse",
+      "auth": {
+        "type": "oauth",
+        "authorizationUrl": "https://my-mcp-oauth.your-account.workers.dev/authorize",
+        "tokenUrl": "https://my-mcp-oauth.your-account.workers.dev/token"
+      }
+    }
+  }
+}

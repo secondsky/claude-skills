@@ -1,0 +1,16 @@
+{
+  "name": "github-project-automation",
+  "description": "Production-ready github-project-automation development. Use for building with github-project-automation.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "github",
+  "project",
+  "automation"
+]
+}

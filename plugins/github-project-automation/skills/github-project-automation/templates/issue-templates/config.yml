@@ -1,0 +1,17 @@
+# Issue Template Configuration
+# Controls the issue template chooser interface
+
+blank_issues_enabled: true  # Allow blank issues
+
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/your-username/your-repo/discussions
+    about: Ask questions and discuss ideas with the community
+
+  - name: 📖 Documentation
+    url: https://your-docs-site.com
+    about: Read the official documentation
+
+  - name: 🔒 Security Issues
+    url: https://github.com/your-username/your-repo/security/advisories/new
+    about: Report security vulnerabilities privately

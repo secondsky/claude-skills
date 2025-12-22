@@ -1,0 +1,12 @@
+{
+  "name": "vercel",
+  "description": "Vercel platform services: KV for edge key-value storage, Blob for file storage, and Neon Postgres integration. Use for Vercel deployments, edge data storage, file uploads, and serverless databases.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["vercel", "vercel-kv", "vercel-blob", "neon", "postgres", "edge-storage", "serverless", "deployment"]
+}

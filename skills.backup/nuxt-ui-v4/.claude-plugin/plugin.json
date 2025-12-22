@@ -1,0 +1,17 @@
+{
+  "name": "nuxt-ui-v4",
+  "description": "Nuxt UI v4 component library with 100+ accessible components, Tailwind v4, Reka UI. Use for design systems, forms, overlays, AI chat integration, or encountering theming, composable, TypeScript errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nuxt-ui-v4",
+    "nuxt",
+    "frontend",
+    "components"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "app-store-deployment",
+  "description": "Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "app-store-deployment",
+    "app",
+    "store",
+    "mobile",
+    "native"
+  ]
+}

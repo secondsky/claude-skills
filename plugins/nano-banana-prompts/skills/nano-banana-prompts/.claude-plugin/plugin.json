@@ -1,0 +1,19 @@
+{
+  "name": "nano-banana-prompts",
+  "description": "Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nano-banana-prompts",
+    "nano",
+    "banana",
+    "prompts",
+    "tooling",
+    "workflow"
+  ]
+}

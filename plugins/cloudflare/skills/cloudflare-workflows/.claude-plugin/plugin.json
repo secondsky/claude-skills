@@ -1,0 +1,20 @@
+{
+  "name": "cloudflare-workflows",
+  "description": "Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-workflows",
+    "cloudflare",
+    "workflows",
+    "workers",
+    "edge",
+    "wrangler",
+    "nonretryableerror"
+  ]
+}

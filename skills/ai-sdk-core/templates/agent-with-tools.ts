@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 // Create agent with tools
 const weatherAgent = new Agent({
-  model: anthropic('claude-3-5-sonnet-20241022'),
+  model: anthropic('claude-sonnet-4-5-20250929'),
   system: 'You are a weather assistant. Always provide temperature in the user\'s preferred unit.',
   tools: {
     getWeather: tool({

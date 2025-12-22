@@ -1,0 +1,12 @@
+{
+  "name": "database",
+  "description": "Database development: Drizzle ORM with D1, schema design, sharding strategies, and query optimization. Use for database modeling, migrations, performance tuning, and distributed databases.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": ["database", "drizzle-orm", "d1", "schema-design", "sharding", "query-optimization", "sql", "orm"]
+}

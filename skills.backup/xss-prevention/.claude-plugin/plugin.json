@@ -1,0 +1,40 @@
+{
+  "name": "xss-prevention",
+  "description": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "xss-prevention",
+    "xss",
+    "prevention",
+    "sanitization",
+    "html-encoding",
+    "dompurify",
+    "csp",
+    "content-security-policy",
+    "rich-text-editor",
+    "user-input",
+    "escaping",
+    "innerhtml",
+    "dom-manipulation",
+    "stored-xss",
+    "reflected-xss",
+    "input-validation",
+    "output-encoding",
+    "trusted-types",
+    "xss-attacks",
+    "web-security",
+    "user-generated-content",
+    "secure-coding",
+    "script-injection",
+    "dom-based-xss",
+    "dom",
+    "html",
+    "validation"
+  ]
+}

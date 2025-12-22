@@ -1,0 +1,20 @@
+{
+  "name": "openai-assistants",
+  "description": "OpenAI Assistants API v2 for stateful chatbots with Code Interpreter, File Search, RAG. Use for threads, vector stores, or encountering active run errors, indexing delays. ⚠️ Sunset August 26, 2026.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "openai-assistants",
+    "openai",
+    "assistants",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "rag"
+  ]
+}

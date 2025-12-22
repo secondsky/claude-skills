@@ -1,0 +1,23 @@
+{
+  "name": "api-reference-documentation",
+  "description": "Creates professional API documentation using OpenAPI specifications with endpoints, authentication, and interactive examples. Use when documenting REST APIs, creating SDK references, or building developer portals.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-reference-documentation",
+    "api",
+    "reference",
+    "documentation",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "openapi",
+    "authentication"
+  ]
+}

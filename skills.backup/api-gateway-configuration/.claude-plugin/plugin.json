@@ -1,0 +1,23 @@
+{
+  "name": "api-gateway-configuration",
+  "description": "Configures API gateways for routing, authentication, rate limiting, and request transformation in microservice architectures. Use when setting up Kong, Nginx, AWS API Gateway, or Traefik for centralized API management.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-gateway-configuration",
+    "api",
+    "gateway",
+    "configuration",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "aws",
+    "authentication"
+  ]
+}

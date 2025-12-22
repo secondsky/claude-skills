@@ -1,0 +1,15 @@
+{
+  "name": "shadcn-vue",
+  "description": "Production-ready shadcn-vue development. Use for building with shadcn-vue.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "shadcn",
+  "vue"
+]
+}

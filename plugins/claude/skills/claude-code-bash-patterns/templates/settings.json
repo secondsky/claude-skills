@@ -1,0 +1,82 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/dangerous-command-guard.py",
+            "description": "Block dangerous bash commands (rm -rf /, git push --force main, etc.)"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/bash-audit-logger.sh",
+            "description": "Log all bash commands to ~/.claude/bash-audit.log"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/package-manager-enforcer.sh",
+            "description": "Enforce package manager consistency (pnpm/yarn/npm)"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.tool_input.file_path // empty'); if echo \"$FILE\" | grep -qE '(^|\\/)(production\\.env|\\.env\\.production|prod\\.config)$'; then echo 'ERROR: Cannot modify production config files' >&2; exit 2; fi",
+            "description": "Prevent modification of production config files"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.tool_input.file_path'); [ -f \"$FILE\" ] && prettier --write \"$FILE\" > /dev/null 2>&1 || true",
+            "description": "Auto-format files after editing (if prettier is available)"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -f .envrc ] && source .envrc || true; env > $CLAUDE_ENV_FILE",
+            "description": "Load project environment from .envrc (if exists)"
+          }
+        ]
+      }
+    ]
+  },
+  "allowedTools": [
+    "Read",
+    "Write",
+    "Edit",
+    "Glob",
+    "Grep",
+    "Bash(git *)",
+    "Bash(gh *)",
+    "Bash(npm *)",
+    "Bash(pnpm *)",
+    "Bash(npx *)",
+    "Bash(node *)",
+    "Bash(python*)",
+    "Bash(wrangler *)",
+    "Bash(ls *)",
+    "Bash(cat *)",
+    "Bash(echo *)",
+    "Bash(which *)",
+    "Bash(chmod *)",
+    "Bash(mkdir *)",
+    "Bash(touch *)"
+  ]
+}

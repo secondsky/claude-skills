@@ -1,0 +1,21 @@
+{
+  "name": "seo-keyword-cluster-builder",
+  "description": "Groups related keywords into topic clusters and creates content hub architecture recommendations with internal linking strategies. Use when planning content strategy, organizing keyword research, or building pillar page structures.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "seo-keyword-cluster-builder",
+    "seo",
+    "keyword",
+    "cluster",
+    "builder",
+    "search",
+    "keywords",
+    "ranking"
+  ]
+}

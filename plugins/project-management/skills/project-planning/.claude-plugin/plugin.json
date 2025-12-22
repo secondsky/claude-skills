@@ -1,0 +1,20 @@
+{
+  "name": "project-planning",
+  "description": "Generate planning docs (IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md) for web projects. Use for new projects, major features, or phased development with Cloudflare Workers + Vite + React.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "project-planning",
+    "project",
+    "planning",
+    "tooling",
+    "workflow",
+    "architecture",
+    "implementation"
+  ]
+}

@@ -1,0 +1,183 @@
+/**
+ * Cloudflare Workers Configuration
+ *
+ * Complete example with all common bindings for full-stack integration.
+ *
+ * IMPORTANT: This uses the NEW wrangler.jsonc format (not wrangler.toml).
+ * JSON with comments is easier to read and maintain.
+ *
+ * Reference: https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "name": "your-app-name",
+  "compatibility_date": "2025-10-23",
+  "main": "./backend/src/index.ts",
+
+  /**
+   * Static Assets Configuration
+   *
+   * Serves your React frontend alongside the Worker API.
+   * @cloudflare/vite-plugin builds these automatically.
+   */
+  "assets": {
+    /**
+     * How to handle 404s for static files
+     *
+     * "single-page-application" - Returns index.html for client-side routing
+     * "404-page" - Returns custom 404 page
+     * "none" - Returns Worker's 404 response
+     */
+    "not_found_handling": "single-page-application",
+
+    /**
+     * Routes that should go to the Worker FIRST before checking static files
+     *
+     * Use this for API routes so they don't conflict with static assets.
+     */
+    "run_worker_first": [
+      "/api/*"
+    ]
+  },
+
+  /**
+   * D1 Database Bindings
+   *
+   * Access in code: env.DB
+   *
+   * Create database:
+   *   npx wrangler d1 create your-database-name
+   *
+   * Run migrations locally:
+   *   npx wrangler d1 execute your-database-name --local --file=./schema.sql
+   *
+   * Run migrations in production:
+   *   npx wrangler d1 execute your-database-name --remote --file=./schema.sql
+   */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "your-database-name",
+      "database_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    }
+  ],
+
+  /**
+   * KV Namespace Bindings
+   *
+   * Access in code: env.KV
+   *
+   * Create namespace:
+   *   npx wrangler kv namespace create "your-kv-name"
+   *
+   * Use for: Session storage, cache, feature flags
+   */
+  "kv_namespaces": [
+    {
+      "binding": "KV",
+      "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  ],
+
+  /**
+   * R2 Bucket Bindings
+   *
+   * Access in code: env.BUCKET
+   *
+   * Create bucket:
+   *   npx wrangler r2 bucket create your-bucket-name
+   *
+   * Use for: File uploads, images, user-generated content
+   */
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "your-bucket-name"
+    }
+  ],
+
+  /**
+   * Environment Variables (Non-Secret)
+   *
+   * These are safe to commit to git.
+   * For secrets (API keys, passwords), use wrangler secrets or .dev.vars
+   */
+  "vars": {
+    "ENVIRONMENT": "production",
+    "API_VERSION": "v1"
+  },
+
+  /**
+   * Secrets (Development Only)
+   *
+   * For local development, create a .dev.vars file (gitignored):
+   *
+   *   CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+   *   CLERK_SECRET_KEY=sk_test_xxxxx
+   *
+   * For production, use wrangler secrets:
+   *
+   *   npx wrangler secret put CLERK_SECRET_KEY
+   *
+   * Access in code: env.CLERK_SECRET_KEY
+   */
+
+  /**
+   * Multiple Environments
+   *
+   * Define different configs for dev, staging, production
+   */
+  "env": {
+    "staging": {
+      "name": "your-app-name-staging",
+      "vars": {
+        "ENVIRONMENT": "staging"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "your-database-staging",
+          "database_id": "staging-database-id"
+        }
+      ]
+    },
+    "production": {
+      "name": "your-app-name-production",
+      "vars": {
+        "ENVIRONMENT": "production"
+      },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "your-database-production",
+          "database_id": "production-database-id"
+        }
+      ]
+    }
+  },
+
+  /**
+   * Build Configuration
+   *
+   * Wrangler automatically detects your build tool (Vite, webpack, etc.)
+   * Usually you don't need to configure this.
+   */
+  "build": {
+    "command": "npm run build"
+  },
+
+  /**
+   * Node.js Compatibility
+   *
+   * Enable if you need Node.js APIs in your Worker
+   */
+  "node_compat": false,
+
+  /**
+   * Observability
+   *
+   * Configure tail workers for logging
+   */
+  "observability": {
+    "enabled": true
+  }
+}

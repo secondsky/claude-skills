@@ -1,0 +1,16 @@
+{
+  "name": "nano-banana-prompts",
+  "description": "Production-ready nano-banana-prompts development. Use for building with nano-banana-prompts.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "nano",
+  "banana",
+  "prompts"
+]
+}

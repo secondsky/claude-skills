@@ -1,0 +1,20 @@
+{
+  "name": "typescript-mcp",
+  "description": "MCP servers with TypeScript on Cloudflare Workers using @modelcontextprotocol/sdk. Use for API integrations, stateless tools, edge deployments, or encountering export syntax, schema validation, memory leak, CORS, auth errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "typescript-mcp",
+    "mcp",
+    "tooling",
+    "workflow",
+    "cors",
+    "validation",
+    "edge"
+  ]
+}

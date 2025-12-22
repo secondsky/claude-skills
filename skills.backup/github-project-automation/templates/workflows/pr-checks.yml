@@ -1,0 +1,138 @@
+# Pull Request Checks Workflow
+# Runs checks on all pull requests
+#
+# Triggers on: pull_request
+# Checks: Size, labels, commit conventions, branch naming
+
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  pr-size:
+    name: Check PR Size
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check PR size
+        run: |
+          # Get number of changed lines
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+
+          CHANGES=$(git diff --shortstat $BASE_SHA..$HEAD_SHA)
+          ADDED=$(echo $CHANGES | awk '{print $4}')
+          DELETED=$(echo $CHANGES | awk '{print $6}')
+          TOTAL=$((ADDED + DELETED))
+
+          echo "Lines changed: $TOTAL"
+          echo "Added: $ADDED"
+          echo "Deleted: $DELETED"
+
+          # Warn if PR is large (>800 lines)
+          if [ $TOTAL -gt 800 ]; then
+            echo "⚠️  Large PR detected ($TOTAL lines changed)"
+            echo "Consider splitting into smaller PRs for easier review"
+            exit 1
+          elif [ $TOTAL -gt 400 ]; then
+            echo "⚠️  Medium-sized PR ($TOTAL lines changed)"
+            echo "This is acceptable but consider splitting if possible"
+          else
+            echo "✅ PR size looks good ($TOTAL lines changed)"
+          fi
+
+  commit-format:
+    name: Check Commit Messages
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        run: |
+          # Check if commits follow conventional commits format
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+
+          echo "Checking commit messages..."
+          git log --format=%s $BASE_SHA..$HEAD_SHA | while read -r msg; do
+            if ! echo "$msg" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?: .+'; then
+              echo "❌ Invalid commit message: $msg"
+              echo "Must follow format: type(scope): description"
+              echo "Example: feat(auth): add OAuth support"
+              exit 1
+            else
+              echo "✅ Valid: $msg"
+            fi
+          done
+
+  branch-naming:
+    name: Check Branch Name
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          echo "Branch name: $BRANCH"
+
+          # Check if branch follows naming convention
+          # Allowed: feature/, fix/, docs/, refactor/, test/, chore/
+          if ! echo "$BRANCH" | grep -qE '^(feature|fix|docs|refactor|test|chore)/[a-z0-9-]+$'; then
+            echo "❌ Invalid branch name: $BRANCH"
+            echo "Must follow format: type/description-in-kebab-case"
+            echo "Examples: feature/add-oauth, fix/login-bug"
+            exit 1
+          else
+            echo "✅ Branch name follows conventions"
+          fi
+
+  required-labels:
+    name: Check Required Labels
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Check for labels
+        run: |
+          # Get PR labels
+          LABELS=$(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name' | tr '\n' ',')
+          echo "PR labels: $LABELS"
+
+          # Check if PR has at least one type label
+          if ! echo "$LABELS" | grep -qE 'bug|feature|enhancement|documentation|refactor'; then
+            echo "⚠️  PR is missing a type label"
+            echo "Add one of: bug, feature, enhancement, documentation, refactor"
+            exit 1
+          else
+            echo "✅ PR has required labels"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  conflict-check:
+    name: Check for Merge Conflicts
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+
+      - name: Check for conflicts
+        run: |
+          if [ "${{ github.event.pull_request.mergeable }}" = "false" ]; then
+            echo "❌ PR has merge conflicts"
+            echo "Please resolve conflicts before merging"
+            exit 1
+          else
+            echo "✅ No merge conflicts detected"
+          fi

@@ -1,0 +1,18 @@
+{
+  "name": "systematic-debugging",
+  "description": "Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "systematic-debugging",
+    "systematic",
+    "debugging",
+    "tooling",
+    "workflow"
+  ]
+}

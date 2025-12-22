@@ -1,0 +1,31 @@
+# Lefthook configuration for Ultracite
+# https://github.com/evilmartians/lefthook
+
+# Pre-commit hook
+pre-commit:
+  parallel: true
+  commands:
+    # Run Ultracite on staged files
+    ultracite:
+      glob: "*.{js,jsx,ts,tsx,json,jsonc,css}"
+      run: npx ultracite fix {staged_files}
+      stage_fixed: true  # Automatically stage fixed files
+
+    # Optional: Type check
+    # typecheck:
+    #   glob: "*.{ts,tsx}"
+    #   run: tsc --noEmit
+
+# Pre-push hook (optional)
+# pre-push:
+#   commands:
+#     lint:
+#       run: npx ultracite check
+#     test:
+#       run: npm test
+
+# Commit message hook (optional)
+# commit-msg:
+#   commands:
+#     commitlint:
+#       run: npx commitlint --edit {1}

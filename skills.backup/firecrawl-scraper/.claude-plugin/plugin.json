@@ -1,0 +1,20 @@
+{
+  "name": "firecrawl-scraper",
+  "description": "Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "firecrawl-scraper",
+    "firecrawl",
+    "scraper",
+    "web",
+    "performance",
+    "pwa",
+    "llm"
+  ]
+}

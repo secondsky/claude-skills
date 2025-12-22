@@ -530,4 +530,4 @@ See `references/` for:
 ---
 
 **Production Tested**: WordPress Auditor (https://wordpress-auditor.webfonts.workers.dev)
-**Last Updated**: 2025-10-22
+**Last Updated**: 2025-12-10

@@ -1,0 +1,111 @@
+{
+  "name": "Support Agent",
+  "conversation_config": {
+    "agent": {
+      "prompt": {
+        "prompt": "You are a helpful customer support agent...",
+        "llm": "gpt-4o-mini",
+        "temperature": 0.7,
+        "max_tokens": 500,
+        "tool_ids": ["tool_123"],
+        "knowledge_base": ["doc_456"],
+        "custom_llm": {
+          "endpoint": "https://api.openai.com/v1/chat/completions",
+          "api_key": "{{secret__openai_api_key}}",
+          "model": "gpt-4"
+        }
+      },
+      "first_message": "Hello! How can I help you today?",
+      "language": "en"
+    },
+    "tts": {
+      "model_id": "eleven_turbo_v2_5",
+      "voice_id": "your_voice_id",
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "speed": 1.0,
+      "output_format": "pcm_22050"
+    },
+    "asr": {
+      "quality": "high",
+      "provider": "deepgram",
+      "keywords": ["product_name", "company_name"]
+    },
+    "turn": {
+      "mode": "normal",
+      "turn_timeout": 5000
+    },
+    "conversation": {
+      "max_duration_seconds": 600
+    },
+    "language_presets": [
+      {
+        "language": "en",
+        "voice_id": "en_voice_id",
+        "first_message": "Hello! How can I help you?"
+      },
+      {
+        "language": "es",
+        "voice_id": "es_voice_id",
+        "first_message": "¡Hola! ¿Cómo puedo ayudarte?"
+      }
+    ]
+  },
+  "workflow": {
+    "nodes": [
+      {
+        "id": "node_1",
+        "type": "subagent",
+        "config": {
+          "system_prompt": "You are now handling technical support...",
+          "turn_eagerness": "patient",
+          "voice_id": "tech_voice_id"
+        }
+      },
+      {
+        "id": "node_2",
+        "type": "tool",
+        "tool_name": "transfer_to_human"
+      }
+    ],
+    "edges": [
+      {
+        "from": "node_1",
+        "to": "node_2",
+        "condition": "user_requests_escalation"
+      }
+    ]
+  },
+  "platform_settings": {
+    "widget": {
+      "theme": {
+        "primaryColor": "#3B82F6",
+        "backgroundColor": "#1F2937",
+        "textColor": "#F9FAFB"
+      },
+      "position": "bottom-right"
+    },
+    "authentication": {
+      "type": "signed_url",
+      "session_duration": 3600
+    },
+    "privacy": {
+      "transcripts": {
+        "retention_days": 730
+      },
+      "audio": {
+        "retention_days": 2190
+      },
+      "zero_retention": false
+    }
+  },
+  "webhooks": {
+    "post_call": {
+      "url": "https://api.example.com/webhook",
+      "headers": {
+        "Authorization": "Bearer {{secret__webhook_auth_token}}"
+      }
+    }
+  },
+  "tags": ["customer-support", "production"]
+}

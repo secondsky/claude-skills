@@ -1,0 +1,44 @@
+/**
+ * Basic MCP Server Configuration (No Authentication)
+ *
+ * This configuration supports a simple MCP server without:
+ * - Authentication
+ * - Durable Objects
+ * - External bindings
+ *
+ * Perfect for: Internal tools, development, public APIs
+ */
+{
+  "name": "my-mcp-server",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  /**
+   * Account ID (required for deployment)
+   * Get your account ID: npx wrangler whoami
+   */
+  "account_id": "YOUR_ACCOUNT_ID_HERE",
+
+  /**
+   * Environment variables
+   * Use .dev.vars for local secrets
+   */
+  "vars": {
+    "ENVIRONMENT": "production"
+  },
+
+  /**
+   * Node.js compatibility
+   * Required for @modelcontextprotocol/sdk
+   */
+  "node_compat": true,
+
+  /**
+   * Custom domains (optional)
+   * Replace with your domain
+   */
+  // "routes": [
+  //   { "pattern": "mcp.example.com", "custom_domain": true }
+  // ]
+}

@@ -1,0 +1,70 @@
+{{ define "main" }}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>{{ .Site.Params.hero.title }}</h1>
+            <p class="subtitle">{{ .Site.Params.hero.subtitle }}</p>
+            <div class="cta-buttons">
+                <a href="{{ .Site.Params.hero.ctaLink }}" class="btn btn-primary">{{ .Site.Params.hero.ctaText }}</a>
+                <a href="{{ .Site.Params.hero.secondaryCtaLink }}" class="btn btn-secondary">{{ .Site.Params.hero.secondaryCtaText }}</a>
+            </div>
+        </div>
+        {{ if .Site.Params.hero.image }}
+        <div class="hero-image">
+            <img src="{{ .Site.Params.hero.image }}" alt="Hero">
+        </div>
+        {{ end }}
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features">
+    <div class="container">
+        <h2>Features</h2>
+        <div class="features-grid">
+            {{ range .Site.Params.features }}
+            <div class="feature-card">
+                <div class="feature-icon">{{ .icon }}</div>
+                <h3>{{ .title }}</h3>
+                <p>{{ .description }}</p>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials">
+    <div class="container">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonials-grid">
+            {{ range .Site.Params.testimonials }}
+            <div class="testimonial-card">
+                <p class="quote">"{{ .quote }}"</p>
+                <div class="author">
+                    {{ if .image }}
+                    <img src="{{ .image }}" alt="{{ .author }}">
+                    {{ end }}
+                    <div class="author-info">
+                        <p class="author-name">{{ .author }}</p>
+                        <p class="author-role">{{ .role }}</p>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section id="contact" class="cta">
+    <div class="container">
+        <h2>{{ .Site.Params.cta.title }}</h2>
+        <p>{{ .Site.Params.cta.description }}</p>
+        <a href="{{ .Site.Params.cta.buttonLink }}" class="btn btn-primary btn-large">{{ .Site.Params.cta.buttonText }}</a>
+    </div>
+</section>
+
+{{ end }}

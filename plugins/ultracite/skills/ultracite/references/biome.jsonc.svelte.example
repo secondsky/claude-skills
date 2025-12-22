@@ -1,0 +1,58 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "extends": ["ultracite/core", "ultracite/svelte"],
+
+  // HTML support for .svelte files
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true,
+      "indentScriptAndStyle": true,
+      "indentWidth": 2
+    }
+  },
+
+  // Optional: Customize formatter
+  "formatter": {
+    "enabled": true,
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+
+  // Optional: Customize linter
+  "linter": {
+    "enabled": true,
+    "rules": {
+      // Svelte-specific customizations
+      "suspicious": {
+        // Prevent React-specific props in Svelte (default: error)
+        "noReactSpecificProps": "error"
+      }
+    }
+  },
+
+  // Optional: Exclude files
+  "files": {
+    "ignore": [
+      ".svelte-kit",
+      "build",
+      "dist",
+      "coverage",
+      "node_modules",
+      "**/*.generated.ts"
+    ]
+  },
+
+  // Overrides for .svelte files (already handled by preset)
+  "overrides": [
+    {
+      "include": ["*.svelte"],
+      "linter": {
+        "rules": {
+          // Additional .svelte specific customizations
+          // Note: Preset already relaxes rules for SFC structure
+        }
+      }
+    }
+  ]
+}

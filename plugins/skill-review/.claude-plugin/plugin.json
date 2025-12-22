@@ -1,0 +1,15 @@
+{
+  "name": "skill-review",
+  "description": "Production-ready skill-review development. Use for building with skill-review.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+  "skill",
+  "review"
+]
+}
