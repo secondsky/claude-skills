@@ -12,10 +12,14 @@
     "session-management",
     "session",
     "management",
-    "web",
-    "performance",
-    "pwa",
     "jwt",
-    "authentication"
+    "authentication",
+    "redis",
+    "tokens",
+    "refresh",
+    "cookie",
+    "security",
+    "logout",
+    "auth"
   ]
 }

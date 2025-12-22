@@ -40,69 +40,10 @@ if [ -f "$MARKETPLACE_JSON" ]; then
   echo ""
 fi
 
-# Function to categorize skill (for category field)
-categorize_skill() {
-  local skill_name="$1"
+# Load shared categorization library
+source "$SCRIPT_DIR/lib/categorize.sh"
 
-  # Cloudflare skills
-  if [[ "$skill_name" =~ ^cloudflare- ]]; then
-    echo "cloudflare"
-  # Mobile skills (check BEFORE frontend to catch react-native-app)
-  elif [[ "$skill_name" =~ ^(app-store-deployment|mobile-|react-native-app|swift-) ]]; then
-    echo "mobile"
-  # Claude Code tooling (check BEFORE ai-skills to avoid claude- prefix match)
-  elif [[ "$skill_name" =~ ^(claude-code-|claude-hook-) ]]; then
-    echo "tooling"
-  # AI/ML skills
-  elif [[ "$skill_name" =~ ^(ai-|openai-|claude-|google-gemini-|gemini-|elevenlabs-|thesys-|multi-ai-consultant|tanstack-ai|ml-|model-deployment) ]]; then
-    echo "ai"
-  # Frontend framework skills
-  elif [[ "$skill_name" =~ ^(nextjs|nuxt-|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then
-    echo "frontend"
-  # Auth skills
-  elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation|api-authentication|session-management) ]]; then
-    echo "auth"
-  # CMS skills
-  elif [[ "$skill_name" =~ ^(content-collections|hugo|nuxt-content|sveltia-cms|wordpress-plugin-core) ]]; then
-    echo "cms"
-  # Database skills
-  elif [[ "$skill_name" =~ ^(database-|drizzle-|neon-|vercel-blob|vercel-kv) ]]; then
-    echo "database"
-  # API skills
-  elif [[ "$skill_name" =~ ^(api-|graphql-|rest-api-design|websocket-implementation) ]]; then
-    echo "api"
-  # Testing skills
-  elif [[ "$skill_name" =~ ^(jest-generator|mutation-testing|playwright-testing|test-quality-analysis|vitest-testing) ]]; then
-    echo "testing"
-  # Security skills
-  elif [[ "$skill_name" =~ ^(access-control-rbac|csrf-protection|defense-in-depth-validation|security-headers-configuration|vulnerability-scanning|xss-prevention) ]]; then
-    echo "security"
-  # WooCommerce skills
-  elif [[ "$skill_name" =~ ^woocommerce- ]]; then
-    echo "woocommerce"
-  # Web development skills
-  elif [[ "$skill_name" =~ ^(firecrawl-scraper|hono-routing|image-optimization|internationalization-i18n|payment-gateway-integration|progressive-web-app|push-notification-setup|responsive-web-design|session-management|web-performance-) ]]; then
-    echo "web"
-  # SEO skills
-  elif [[ "$skill_name" =~ ^seo- ]]; then
-    echo "seo"
-  # Design skills
-  elif [[ "$skill_name" =~ ^(design-|interaction-design|kpi-dashboard-design|mobile-first-design) ]]; then
-    echo "design"
-  # Data/recommendation skills
-  elif [[ "$skill_name" =~ ^(recommendation-|sql-query-optimization) ]]; then
-    echo "data"
-  # Documentation skills
-  elif [[ "$skill_name" =~ ^technical-specification ]]; then
-    echo "documentation"
-  # Architecture skills
-  elif [[ "$skill_name" =~ ^(architecture-patterns|health-check-endpoints|microservices-patterns) ]]; then
-    echo "architecture"
-  # Default to tooling
-  else
-    echo "tooling"
-  fi
-}
+# categorize_skill() function is now loaded from lib/categorize.sh
 
 # Counter for tracking progress
 count=0
@@ -190,53 +131,53 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
       continue
     fi
 
-  # Read description from plugin.json (escape for JSON)
-  description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
-  if [ -z "$description" ]; then
-    printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
-    skipped=$((skipped + 1))
-    continue
-  fi
+    # Read description from plugin.json (escape for JSON)
+    description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
+    if [ -z "$description" ]; then
+      printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
+      skipped=$((skipped + 1))
+      continue
+    fi
 
-  # Read keywords from plugin.json (as JSON array)
-  keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
-  if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
-    keywords="[]"
-  fi
+    # Read keywords from plugin.json (as JSON array)
+    keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
+    if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
+      keywords="[]"
+    fi
 
-  # Read version from plugin.json
-  version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
-  if [ -z "$version" ] || [ "$version" = "null" ]; then
-    version="3.0.0"
-  fi
+    # Read version from plugin.json
+    version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
+    if [ -z "$version" ] || [ "$version" = "null" ]; then
+      version="3.0.0"
+    fi
 
-  # Get category
-  category=$(categorize_skill "$skill_name")
+    # Get category
+    category=$(categorize_skill "$skill_name")
 
-  # Track category count (bash 3.2 compatible using temp files)
-  echo "$skill_name" >> "$TEMP_DIR/$category"
+    # Track category count (bash 3.2 compatible using temp files)
+    echo "$skill_name" >> "$TEMP_DIR/$category"
 
-  # Add comma before each entry except the first
-  if [ "$first" = true ]; then
-    first=false
-  else
-    echo "," >> "$MARKETPLACE_JSON"
-  fi
+    # Add comma before each entry except the first
+    if [ "$first" = true ]; then
+      first=false
+    else
+      echo "," >> "$MARKETPLACE_JSON"
+    fi
 
-  # Escape description for JSON (handle quotes and newlines)
-  description_escaped=$(echo "$description" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | tr '\n' ' ')
+    # Escape description for JSON (handle quotes and newlines)
+    description_escaped=$(echo "$description" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | tr '\n' ' ')
 
-  # Determine source path
-  # Standalone plugins: ./plugins/[name] (e.g., ./plugins/tanstack-query)
-  # Multi-skill container skills: ./plugins/[container]/skills/[skill] (e.g., ./plugins/cloudflare/skills/cloudflare-d1)
-  if [ "$skill_name" = "$plugin_container" ] && [ -f "$plugin_dir/.claude-plugin/plugin.json" ]; then
-    source_path="./plugins/$skill_name"
-  else
-    source_path="./plugins/$plugin_container/skills/$skill_name"
-  fi
+    # Determine source path
+    # Standalone plugins: ./plugins/[name] (e.g., ./plugins/tanstack-query)
+    # Multi-skill container skills: ./plugins/[container]/skills/[skill] (e.g., ./plugins/cloudflare/skills/cloudflare-d1)
+    if [ "$skill_name" = "$plugin_container" ] && [ -f "$plugin_dir/.claude-plugin/plugin.json" ]; then
+      source_path="./plugins/$skill_name"
+    else
+      source_path="./plugins/$plugin_container/skills/$skill_name"
+    fi
 
-  # Write individual plugin entry
-  cat >> "$MARKETPLACE_JSON" << EOF
+    # Write individual plugin entry
+    cat >> "$MARKETPLACE_JSON" << EOF
     {
       "name": "$skill_name",
       "source": "$source_path",
@@ -247,7 +188,7 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
     }
 EOF
 
-  printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
+    printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
   done
 done
 
