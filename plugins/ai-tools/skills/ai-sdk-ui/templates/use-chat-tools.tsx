@@ -76,9 +76,9 @@ export default function ChatWithTools() {
             {message.toolInvocations && message.toolInvocations.length > 0 && (
               <div className="flex justify-start">
                 <div className="max-w-[85%] space-y-2">
-                  {message.toolInvocations.map((tool, idx) => (
+                  {message.toolInvocations.map((tool) => (
                     <div
-                      key={idx}
+                      key={tool.toolCallId}
                       className="border border-blue-200 bg-blue-50 p-3 rounded-lg"
                     >
                       {/* Tool name */}
@@ -148,7 +148,11 @@ export default function ChatWithTools() {
       {/* Input */}
       <form onSubmit={handleSubmit} className="p-4 border-t">
         <div className="flex space-x-2">
+          <label htmlFor="chat-input" className="sr-only">
+            Message input
+          </label>
           <input
+            id="chat-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Try: 'What's the weather in San Francisco?'"

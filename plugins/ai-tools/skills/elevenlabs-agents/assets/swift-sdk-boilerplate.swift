@@ -1,10 +1,17 @@
 import SwiftUI
 import ElevenLabs
 
+// Identifiable transcript entry for stable SwiftUI rendering
+struct TranscriptEntry: Identifiable {
+    let id = UUID()
+    let role: String
+    let text: String
+}
+
 struct VoiceAgentView: View {
     @State private var isConnected = false
-    @State private var transcript: [(role: String, text: String)] = []
-    
+    @State private var transcript: [TranscriptEntry] = []
+
     private let agentID = "your-agent-id"
     private let apiKey = "your-api-key" // Use environment variable in production
     
@@ -31,8 +38,7 @@ struct VoiceAgentView: View {
                 .padding()
             
             ScrollView {
-                ForEach(transcript.indices, id: \.self) { index in
-                    let message = transcript[index]
+                ForEach(transcript) { message in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(message.role == "user" ? "You" : "Agent")
@@ -52,12 +58,22 @@ struct VoiceAgentView: View {
     }
     
     private func startConversation() {
-        // Initialize ElevenLabs conversation
-        // Implementation would use the ElevenLabs Swift SDK
+        // TODO: Initialize ElevenLabs SDK with API key from environment
+        // Example: let client = ElevenLabsClient(apiKey: ProcessInfo.processInfo.environment["ELEVENLABS_API_KEY"]!)
+
+        // TODO: Implement error handling for network failures
+        // Consider using Result<Success, Error> pattern for robust error handling
+
+        // TODO: Add transcript update logic
+        // Use @Published property wrapper or Combine to trigger SwiftUI updates
+        // Example: transcript.append(TranscriptEntry(role: "user", text: "Hello"))
+
         isConnected = true
     }
-    
+
     private func stopConversation() {
+        // TODO: Clean up ElevenLabs connection
+        // Release resources, close WebSocket connections
         isConnected = false
     }
 }

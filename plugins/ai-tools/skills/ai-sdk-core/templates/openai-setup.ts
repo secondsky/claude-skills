@@ -48,15 +48,21 @@ async function main() {
       prompt: 'Hello',
     });
     console.log('Success:', result2.text);
-  } catch (error: any) {
-    if (error.statusCode === 401) {
-      console.error('Error: Invalid API key');
-    } else if (error.statusCode === 429) {
-      console.error('Error: Rate limit exceeded');
-    } else if (error.statusCode >= 500) {
-      console.error('Error: OpenAI server issue');
+  } catch (error) {
+    // Type-safe error handling
+    if (error && typeof error === 'object' && 'statusCode' in error) {
+      const apiError = error as { statusCode?: number; message?: string };
+      if (apiError.statusCode === 401) {
+        console.error('Error: Invalid API key');
+      } else if (apiError.statusCode === 429) {
+        console.error('Error: Rate limit exceeded');
+      } else if (apiError.statusCode && apiError.statusCode >= 500) {
+        console.error('Error: OpenAI server issue');
+      } else {
+        console.error('Error:', apiError.message || 'Unknown API error');
+      }
     } else {
-      console.error('Error:', error.message);
+      console.error('Unexpected error:', error);
     }
   }
 

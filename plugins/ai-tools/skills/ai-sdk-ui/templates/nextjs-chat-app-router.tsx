@@ -140,8 +140,8 @@ export default function ChatPage() {
                       : 'bg-white border shadow-sm'
                   }`}
                 >
-                  {/* Role label (only for assistant on first message) */}
-                  {message.role === 'assistant' && idx === 1 && (
+                  {/* Role label (only for first assistant message) */}
+                  {message.role === 'assistant' && idx === messages.findIndex(m => m.role === 'assistant') && (
                     <div className="text-xs font-semibold text-gray-500 mb-2">
                       AI Assistant
                     </div>

@@ -32,12 +32,19 @@ import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 // Custom message renderer component
 function MessageRenderer({ message }: { message: Message }) {
-  const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  // ✅ FIX: Track copied state per code block to prevent shared state
+  const [copiedBlocks, setCopiedBlocks] = useState<Set<string>>(new Set());
 
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code);
-    setCopiedCode(code);
-    setTimeout(() => setCopiedCode(null), 2000);
+    setCopiedBlocks((prev) => new Set(prev).add(code));
+    setTimeout(() => {
+      setCopiedBlocks((prev) => {
+        const next = new Set(prev);
+        next.delete(code);
+        return next;
+      });
+    }, 2000);
   };
 
   return (
@@ -97,7 +104,7 @@ function MessageRenderer({ message }: { message: Message }) {
                       onClick={() => copyCode(codeString)}
                       className="absolute top-2 right-2 px-2 py-1 text-xs bg-gray-700 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      {copiedCode === codeString ? 'Copied!' : 'Copy'}
+                      {copiedBlocks.has(codeString) ? 'Copied!' : 'Copy'}
                     </button>
                   </div>
                 ) : (
@@ -240,7 +247,17 @@ export default function ChatWithCustomRenderer() {
 // ============================================================================
 
 /*
-// Simple markdown parsing without external dependencies
+// ⚠️ SECURITY WARNING: DO NOT USE IN PRODUCTION WITHOUT SANITIZATION
+// This code contains an XSS vulnerability via dangerouslySetInnerHTML without
+// proper HTML sanitization. If you must parse markdown manually, use a library
+// like DOMPurify to sanitize HTML before rendering, or use a safe library like
+// react-markdown (recommended).
+//
+// Example of safe usage:
+// import DOMPurify from 'dompurify';
+// <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parseMarkdown(content)) }} />
+
+// Simple markdown parsing without external dependencies (UNSAFE - XSS RISK)
 function SimpleMarkdownRenderer({ content }: { content: string }) {
   // Basic markdown parsing
   const parseMarkdown = (text: string) => {

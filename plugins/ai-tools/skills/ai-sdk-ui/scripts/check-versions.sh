@@ -2,11 +2,20 @@
 # Check installed AI SDK UI package versions against latest
 # Usage: ./scripts/check-versions.sh
 
+# Source common version checking functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/../../../scripts/check-versions-common.sh"
+
+# Detect package manager
+detect_package_manager
+
 echo "==================================="
 echo " AI SDK UI - Version Checker"
+echo " Using: $PKG_MGR"
 echo "==================================="
 echo ""
 
+# Define packages to check
 packages=(
   "ai"
   "@ai-sdk/openai"
@@ -18,59 +27,22 @@ packages=(
   "zod"
 )
 
-echo "Checking package versions..."
-echo ""
+# Check versions
+check_package_versions "${packages[@]}"
 
-for package in "${packages[@]}"; do
-  echo "📦 $package"
+# Show recommended versions
+recommended_versions=(
+  "ai: ^5.0.76"
+  "@ai-sdk/openai: ^2.0.53"
+  "@ai-sdk/anthropic: ^2.0.0"
+  "@ai-sdk/google: ^2.0.0"
+  "react: ^18.2.0"
+  "react-dom: ^18.2.0"
+  "next: ^14.0.0"
+  "zod: ^3.23.8"
+)
 
-  # Get installed version
-  installed=$(npm list "$package" --depth=0 2>/dev/null | grep "$package" | sed 's/.*@\([0-9]\)/\1/')
+show_recommended_versions "Recommended Versions (AI SDK v5)" "${recommended_versions[@]}"
 
-  if [ -z "$installed" ]; then
-    echo "   ❌ Not installed"
-  else
-    echo "   ✅ Installed: $installed"
-  fi
-
-  # Get latest version
-  latest=$(npm view "$package" version 2>/dev/null)
-
-  if [ -z "$latest" ]; then
-    echo "   ⚠️  Could not fetch latest version"
-  else
-    echo "   📌 Latest:    $latest"
-
-    # Compare versions
-    if [ "$installed" = "$latest" ]; then
-      echo "   ✨ Up to date!"
-    elif [ -n "$installed" ]; then
-      # Use sort -V for semantic version comparison
-      newer=$(printf '%s\n%s\n' "$installed" "$latest" | sort -V | tail -n1)
-      if [ "$newer" = "$installed" ]; then
-        echo "   ℹ️  Installed version ($installed) is newer than registry ($latest)"
-      else
-        echo "   ⬆️  Update available: $installed → $latest"
-      fi
-    fi
-  fi
-
-  echo ""
-done
-
-echo "==================================="
-echo " Recommended Versions (AI SDK v5)"
-echo "==================================="
-echo ""
-echo "ai: ^5.0.76"
-echo "@ai-sdk/openai: ^2.0.53"
-echo "@ai-sdk/anthropic: ^2.0.0"
-echo "@ai-sdk/google: ^2.0.0"
-echo "react: ^18.2.0"
-echo "react-dom: ^18.2.0"
-echo "next: ^14.0.0"
-echo "zod: ^3.23.8"
-echo ""
-echo "To update all packages:"
-echo "npm install ai@latest @ai-sdk/openai@latest @ai-sdk/anthropic@latest @ai-sdk/google@latest react@latest react-dom@latest next@latest zod@latest"
-echo ""
+# Show install command
+show_install_command "${packages[@]}"

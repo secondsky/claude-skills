@@ -79,7 +79,8 @@ export default function ChatWithAttachments() {
     });
 
     // Now that message is sent, revoke URLs and clean up
-    previewUrls.forEach((url) => URL.revokeObjectURL(url));
+    // ✅ FIX: Revoke from ref (source of truth) not state to prevent memory leak
+    createdUrls.current.forEach((url) => URL.revokeObjectURL(url));
     createdUrls.current = [];
 
     // Clear state
@@ -106,6 +107,12 @@ export default function ChatWithAttachments() {
     // Update preview URLs
     URL.revokeObjectURL(previewUrls[index]);
     setPreviewUrls(previewUrls.filter((_, i) => i !== index));
+
+    // ✅ FIX: Sync createdUrls.current ref to prevent memory leak
+    // Remove the URL from the ref to keep it in sync with previewUrls state
+    if (createdUrls.current && createdUrls.current[index]) {
+      createdUrls.current = createdUrls.current.filter((_, i) => i !== index);
+    }
   };
 
   // Cleanup on unmount

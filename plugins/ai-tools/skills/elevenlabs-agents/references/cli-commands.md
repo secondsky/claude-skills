@@ -2,10 +2,19 @@
 
 ## Installation
 
+**Bun (Recommended)**:
+```bash
+bun add -g @elevenlabs/cli
+```
+
+**npm**:
 ```bash
 npm install -g @elevenlabs/cli
-# or
-pnpm install -g @elevenlabs/cli
+```
+
+**pnpm**:
+```bash
+pnpm add -g @elevenlabs/cli
 ```
 
 ---

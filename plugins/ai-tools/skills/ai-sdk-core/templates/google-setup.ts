@@ -1,8 +1,9 @@
 // Google provider configuration
 // AI SDK Core - Google (Gemini) setup and usage
 
-import { generateText } from 'ai';
+import { generateText, generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
+import { z } from 'zod';
 
 async function main() {
   console.log('=== Google (Gemini) Provider Setup ===\n');
@@ -40,9 +41,6 @@ async function main() {
 
   // Example: Structured output with Gemini
   console.log('\n=== Structured Output Example ===\n');
-
-  const { generateObject } = await import('ai');
-  const { z } = await import('zod');
 
   const structuredResult = await generateObject({
     model: models.pro,

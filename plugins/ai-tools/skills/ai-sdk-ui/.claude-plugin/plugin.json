@@ -1,6 +1,6 @@
 {
   "name": "ai-sdk-ui",
-  "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat interfaces. Use for React/Next.js AI apps or encountering parse stream errors, no response, streaming issues.",
+  "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat UIs. Use for React/Next.js apps or stream/parse errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

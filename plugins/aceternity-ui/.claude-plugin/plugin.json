@@ -9,7 +9,15 @@
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
-  "aceternity",
-  "ui"
-]
+    "aceternity",
+    "ui",
+    "framer-motion",
+    "animations",
+    "3d-effects",
+    "components",
+    "ui-library",
+    "modern-ui",
+    "motion",
+    "react"
+  ]
 }

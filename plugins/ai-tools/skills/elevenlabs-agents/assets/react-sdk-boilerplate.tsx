@@ -6,6 +6,15 @@ export default function VoiceAgent() {
   const [transcript, setTranscript] = useState<Array<{ role: 'user' | 'agent'; text: string }>>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Validate required environment variables
+  const agentId = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
+  if (!agentId) {
+    throw new Error(
+      'Missing NEXT_PUBLIC_ELEVENLABS_AGENT_ID environment variable. ' +
+      'Add to your .env.local file.'
+    );
+  }
+
   const {
     startConversation,
     stopConversation,
@@ -13,7 +22,7 @@ export default function VoiceAgent() {
     isSpeaking
   } = useConversation({
     // Agent Configuration
-    agentId: process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID!,
+    agentId,
 
     // Authentication (choose one)
     // Option 1: API key (for private agents, less secure)
@@ -97,7 +106,7 @@ export default function VoiceAgent() {
       setError(error.message);
     },
 
-    // Regional compliance (for GDPR)
+    // Regional compliance (use 'eu-residency' for GDPR, 'in-residency' for India)
     serverLocation: 'us' // 'us' | 'global' | 'eu-residency' | 'in-residency'
   });
 

@@ -4,9 +4,11 @@
   "type": "module",
   "description": "AI SDK Core examples - Backend AI with generateText, streamText, generateObject, and tools",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "bun --watch src/index.ts",
+    "dev:tsx": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "bun run dist/index.js",
+    "start:node": "node dist/index.js",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -37,6 +39,10 @@
     "structured-output",
     "zod"
   ],
-  "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  },
+  "packageManager": "bun@1.0.0"
 }

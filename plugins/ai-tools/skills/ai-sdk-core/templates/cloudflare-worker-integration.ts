@@ -4,64 +4,97 @@
 import { Hono } from 'hono';
 import { generateText, streamText } from 'ai';
 import { createWorkersAI } from 'workers-ai-provider';
+import { z } from 'zod';
 
 // Environment interface for Workers AI binding
 interface Env {
   AI: Ai;
 }
 
+// Request validation schemas
+const ChatRequestSchema = z.object({
+  message: z.string().min(1, 'Message is required'),
+});
+
+const ExtractRequestSchema = z.object({
+  text: z.string().min(1, 'Text is required'),
+});
+
 const app = new Hono<{ Bindings: Env }>();
 
 // Example 1: Basic text generation
 app.post('/chat', async (c) => {
-  // IMPORTANT: Create provider inside handler to avoid startup overhead
-  const workersai = createWorkersAI({ binding: c.env.AI });
+  try {
+    // IMPORTANT: Create provider inside handler to avoid startup overhead
+    const workersai = createWorkersAI({ binding: c.env.AI });
 
-  const { message } = await c.req.json();
+    const body = await c.req.json();
+    const { message } = ChatRequestSchema.parse(body);
 
-  const result = await generateText({
+    const result = await generateText({
     model: workersai('@cf/meta/llama-3.1-8b-instruct'),
     prompt: message,
-    maxOutputTokens: 500,
-  });
+      maxOutputTokens: 500,
+    });
 
-  return c.json({ response: result.text });
+    return c.json({ response: result.text });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return c.json({ error: 'Invalid request', details: error.errors }, 400);
+    }
+    throw error;
+  }
 });
 
 // Example 2: Streaming response
 app.post('/chat/stream', async (c) => {
-  const workersai = createWorkersAI({ binding: c.env.AI });
+  try {
+    const workersai = createWorkersAI({ binding: c.env.AI });
 
-  const { message } = await c.req.json();
+    const body = await c.req.json();
+    const { message } = ChatRequestSchema.parse(body);
 
-  const stream = streamText({
+    const stream = streamText({
     model: workersai('@cf/meta/llama-3.1-8b-instruct'),
-    prompt: message,
-  });
+      prompt: message,
+    });
 
-  // Return stream to client
-  return stream.toDataStreamResponse();
+    // Return stream to client
+    return stream.toDataStreamResponse();
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return c.json({ error: 'Invalid request', details: error.errors }, 400);
+    }
+    throw error;
+  }
 });
 
 // Example 3: Structured output
 app.post('/extract', async (c) => {
-  const workersai = createWorkersAI({ binding: c.env.AI });
+  try {
+    const workersai = createWorkersAI({ binding: c.env.AI });
 
-  const { generateObject } = await import('ai');
-  const { z } = await import('zod');
+    const { generateObject } = await import('ai');
 
-  const { text } = await c.req.json();
+    const body = await c.req.json();
+    const { text } = ExtractRequestSchema.parse(body);
 
-  const result = await generateObject({
+    const result = await generateObject({
     model: workersai('@cf/meta/llama-3.1-8b-instruct'),
     schema: z.object({
       summary: z.string(),
       keyPoints: z.array(z.string()),
     }),
-    prompt: `Extract key information from: ${text}`,
-  });
+      prompt: `Extract key information from: ${text}`,
+    });
 
-  return c.json(result.object);
+    return c.json(result.object);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return c.json({ error: 'Invalid request', details: error.errors }, 400);
+    }
+    throw error;
+  }
 });
 
 // Example 4: Health check
@@ -109,11 +142,21 @@ export default app;
  *    - See: cloudflare-workers-ai skill
  *
  * 5. Testing:
+ *    # Bun (recommended)
+ *    bun wrangler dev
+ *
+ *    # Or with npx
  *    npx wrangler dev
+ *
+ *    # Test endpoint
  *    curl -X POST http://localhost:8787/chat \
  *      -H "Content-Type: application/json" \
  *      -d '{"message": "Hello!"}'
  *
  * 6. Deployment:
+ *    # Bun (recommended)
+ *    bun wrangler deploy
+ *
+ *    # Or with npx
  *    npx wrangler deploy
  */

@@ -58,17 +58,6 @@ const clearMessages = (chatId: string) => {
   }
 };
 
-const listChats = (): string[] => {
-  const chats: string[] = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key?.startsWith(STORAGE_KEY_PREFIX)) {
-      chats.push(key.replace(STORAGE_KEY_PREFIX, ''));
-    }
-  }
-  return chats;
-};
-
 export default function PersistentChat() {
   // Generate or use existing chat ID
   const [chatId, setChatId] = useState<string>('');

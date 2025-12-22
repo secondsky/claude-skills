@@ -129,7 +129,11 @@ export default function ChatPage() {
         {/* Input */}
         <form onSubmit={handleSubmit} className="p-4 border-t bg-white">
           <div className="flex space-x-2">
+            <label htmlFor="chat-input" className="sr-only">
+              Chat message
+            </label>
             <input
+              id="chat-input"
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}

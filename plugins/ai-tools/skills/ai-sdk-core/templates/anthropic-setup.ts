@@ -7,6 +7,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 async function main() {
   console.log('=== Anthropic (Claude) Provider Setup ===\n');
 
+  // Example model initializations (for demonstration - use models object below in production)
   // Method 1: Use environment variable (recommended)
   // ANTHROPIC_API_KEY=sk-ant-...
   const model1 = anthropic('claude-sonnet-4-5-20250929');
@@ -15,6 +16,8 @@ async function main() {
   const model2 = anthropic('claude-sonnet-4-5-20250929', {
     apiKey: process.env.ANTHROPIC_API_KEY,
   });
+
+  // Use model1 or model2 in your generateText/streamText calls
 
   // Available models (Claude 4.x)
   const models = {
