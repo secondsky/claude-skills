@@ -15,6 +15,5 @@
     "mcp",
     "dynamodb",
     "async"
-  ],
-  "category": "tooling"
+  ]
 }

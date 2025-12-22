@@ -28,7 +28,6 @@
     "repo-aware",
     "validation"
   ],
-  "category": "ai",
   "commands": [
     "./commands/consult-ai.md",
     "./commands/consult-claude.md",

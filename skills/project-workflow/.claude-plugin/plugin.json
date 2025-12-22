@@ -21,7 +21,6 @@
     "implementation phases",
     "implementation"
   ],
-  "category": "tooling",
   "commands": [
     "./commands/continue-session.md",
     "./commands/explore-idea.md",

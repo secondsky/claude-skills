@@ -27,6 +27,5 @@
     "ssr",
     "migration",
     "edge"
-  ],
-  "category": "frontend"
+  ]
 }

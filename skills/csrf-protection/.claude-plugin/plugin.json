@@ -17,6 +17,5 @@
     "xss",
     "samesite",
     "authentication"
-  ],
-  "category": "security"
+  ]
 }

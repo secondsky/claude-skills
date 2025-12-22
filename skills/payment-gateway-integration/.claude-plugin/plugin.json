@@ -17,6 +17,5 @@
     "pci",
     "paypal",
     "webhooks"
-  ],
-  "category": "web"
+  ]
 }

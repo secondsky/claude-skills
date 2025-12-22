@@ -21,6 +21,5 @@
     "mysql",
     "postgresql",
     "migration"
-  ],
-  "category": "database"
+  ]
 }

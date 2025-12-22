@@ -20,6 +20,5 @@
     "cors",
     "authentication",
     "validation"
-  ],
-  "category": "api"
+  ]
 }

@@ -18,6 +18,5 @@
     "edge",
     "wrangler",
     "cors"
-  ],
-  "category": "cloudflare"
+  ]
 }

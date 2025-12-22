@@ -569,8 +569,7 @@ for skill_dir in $(find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); d
   "author": $current_author,
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": $keywords_json,
-  "category": "$category"
+  "keywords": $keywords_json
 EOF
 
     # Add agents if present

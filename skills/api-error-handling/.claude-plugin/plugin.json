@@ -17,6 +17,5 @@
     "graphql",
     "endpoints",
     "http"
-  ],
-  "category": "api"
+  ]
 }

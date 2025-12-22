@@ -16,6 +16,5 @@
     "endpoints",
     "http",
     "real-time"
-  ],
-  "category": "api"
+  ]
 }

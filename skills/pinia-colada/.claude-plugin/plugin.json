@@ -18,6 +18,5 @@
     "tanstack",
     "migration",
     "async"
-  ],
-  "category": "frontend"
+  ]
 }

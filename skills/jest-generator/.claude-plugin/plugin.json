@@ -16,6 +16,5 @@
     "tests",
     "unit-tests",
     "quality"
-  ],
-  "category": "testing"
+  ]
 }

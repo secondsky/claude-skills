@@ -16,6 +16,5 @@
     "cors",
     "validation",
     "edge"
-  ],
-  "category": "tooling"
+  ]
 }

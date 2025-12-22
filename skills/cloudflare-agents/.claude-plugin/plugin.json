@@ -17,6 +17,5 @@
     "wrangler",
     "llm",
     "mcp"
-  ],
-  "category": "cloudflare"
+  ]
 }

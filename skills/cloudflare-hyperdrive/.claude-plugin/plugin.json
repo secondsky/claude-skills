@@ -19,6 +19,5 @@
     "mysql",
     "postgresql",
     "caching"
-  ],
-  "category": "cloudflare"
+  ]
 }

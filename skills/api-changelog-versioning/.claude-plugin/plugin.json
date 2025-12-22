@@ -18,6 +18,5 @@
     "endpoints",
     "http",
     "migration"
-  ],
-  "category": "api"
+  ]
 }

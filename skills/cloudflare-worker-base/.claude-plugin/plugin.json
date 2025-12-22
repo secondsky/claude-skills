@@ -17,6 +17,5 @@
     "edge",
     "wrangler",
     "hmr"
-  ],
-  "category": "cloudflare"
+  ]
 }

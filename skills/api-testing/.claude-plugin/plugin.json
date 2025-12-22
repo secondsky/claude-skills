@@ -18,6 +18,5 @@
     "http",
     "authentication",
     "validation"
-  ],
-  "category": "api"
+  ]
 }

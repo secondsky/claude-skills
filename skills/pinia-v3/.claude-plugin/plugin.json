@@ -15,6 +15,5 @@
     "components",
     "ssr",
     "migration"
-  ],
-  "category": "frontend"
+  ]
 }

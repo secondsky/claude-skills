@@ -16,6 +16,5 @@
     "unit-tests",
     "quality",
     "e2e"
-  ],
-  "category": "testing"
+  ]
 }

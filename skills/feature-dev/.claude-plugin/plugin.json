@@ -15,7 +15,6 @@
     "tooling",
     "workflow"
   ],
-  "category": "tooling",
   "agents": [
     "./agents/code-architect.md",
     "./agents/code-explorer.md",

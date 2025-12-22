@@ -15,6 +15,5 @@
     "edge",
     "wrangler",
     "gpu"
-  ],
-  "category": "cloudflare"
+  ]
 }

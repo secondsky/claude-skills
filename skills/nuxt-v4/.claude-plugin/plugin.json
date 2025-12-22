@@ -60,6 +60,5 @@
     "useruntimeconfig",
     "app.vue",
     "api"
-  ],
-  "category": "frontend"
+  ]
 }

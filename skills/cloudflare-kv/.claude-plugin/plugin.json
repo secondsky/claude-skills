@@ -16,6 +16,5 @@
     "wrangler",
     "ttl",
     "caching"
-  ],
-  "category": "cloudflare"
+  ]
 }

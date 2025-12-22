@@ -17,6 +17,5 @@
     "endpoints",
     "http",
     "jwt"
-  ],
-  "category": "api"
+  ]
 }

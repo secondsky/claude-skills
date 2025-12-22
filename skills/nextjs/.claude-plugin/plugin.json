@@ -15,6 +15,5 @@
     "ssr",
     "migration",
     "async"
-  ],
-  "category": "frontend"
+  ]
 }

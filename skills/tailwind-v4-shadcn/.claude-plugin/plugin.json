@@ -33,6 +33,5 @@
     "@tailwindcss/forms",
     "css",
     "themeprovider"
-  ],
-  "category": "frontend"
+  ]
 }

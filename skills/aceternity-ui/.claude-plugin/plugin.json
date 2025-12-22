@@ -39,6 +39,5 @@
     "npm",
     "pnpm",
     "cli"
-  ],
-  "category": "frontend"
+  ]
 }

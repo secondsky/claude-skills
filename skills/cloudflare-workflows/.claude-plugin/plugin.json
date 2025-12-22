@@ -16,6 +16,5 @@
     "edge",
     "wrangler",
     "nonretryableerror"
-  ],
-  "category": "cloudflare"
+  ]
 }

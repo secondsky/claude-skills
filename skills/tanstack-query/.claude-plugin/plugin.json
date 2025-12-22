@@ -16,6 +16,5 @@
     "components",
     "migration",
     "caching"
-  ],
-  "category": "frontend"
+  ]
 }

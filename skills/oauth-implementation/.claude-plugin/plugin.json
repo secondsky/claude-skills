@@ -20,6 +20,5 @@
     "pkce",
     "sso",
     "openid"
-  ],
-  "category": "auth"
+  ]
 }

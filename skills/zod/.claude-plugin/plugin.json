@@ -70,6 +70,5 @@
     "openapi",
     "integration",
     "async"
-  ],
-  "category": "tooling"
+  ]
 }

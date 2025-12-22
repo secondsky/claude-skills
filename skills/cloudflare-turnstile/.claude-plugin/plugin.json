@@ -18,6 +18,5 @@
     "captcha",
     "csp",
     "validation"
-  ],
-  "category": "cloudflare"
+  ]
 }

@@ -49,6 +49,5 @@
     "sql",
     "transaction",
     "migration"
-  ],
-  "category": "database"
+  ]
 }

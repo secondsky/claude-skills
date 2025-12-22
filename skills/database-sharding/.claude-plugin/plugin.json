@@ -18,6 +18,5 @@
     "migrations",
     "mysql",
     "postgresql"
-  ],
-  "category": "database"
+  ]
 }

@@ -21,6 +21,5 @@
     "jwt",
     "authentication",
     "validation"
-  ],
-  "category": "cloudflare"
+  ]
 }

@@ -20,6 +20,5 @@
     "cors",
     "orm",
     "rbac"
-  ],
-  "category": "auth"
+  ]
 }

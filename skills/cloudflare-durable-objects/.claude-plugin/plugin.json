@@ -19,6 +19,5 @@
     "websocket",
     "migration",
     "real-time"
-  ],
-  "category": "cloudflare"
+  ]
 }

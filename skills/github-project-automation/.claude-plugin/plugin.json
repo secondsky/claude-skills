@@ -17,6 +17,5 @@
     "workflow",
     "yaml",
     "codeql"
-  ],
-  "category": "tooling"
+  ]
 }

@@ -15,6 +15,5 @@
     "workers",
     "edge",
     "wrangler"
-  ],
-  "category": "cloudflare"
+  ]
 }
