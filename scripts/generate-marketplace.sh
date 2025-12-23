@@ -114,8 +114,6 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
     continue
   fi
 
-  parent_count=$((parent_count + 1))
-
   # Read metadata from parent plugin.json
   description=$(jq -r '.description // ""' "$parent_json" 2>/dev/null)
   if [ -z "$description" ]; then
@@ -146,8 +144,11 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
     echo "," >> "$MARKETPLACE_JSON"
   fi
 
-  # Escape description for JSON
-  description_escaped=$(echo "$description" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | tr '\n' ' ')
+  # Escape description for JSON (handles all control characters)
+  description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
+
+  # Increment parent count only after all validation passes
+  parent_count=$((parent_count + 1))
 
   # Write parent plugin entry (bundle)
   cat >> "$MARKETPLACE_JSON" << EOF
@@ -255,8 +256,8 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
       echo "," >> "$MARKETPLACE_JSON"
     fi
 
-    # Escape description for JSON (handle quotes and newlines)
-    description_escaped=$(echo "$description" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | tr '\n' ' ')
+    # Escape description for JSON (handles all control characters)
+    description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
 
     # Determine source path
     # Standalone plugins: ./plugins/[name] (e.g., ./plugins/tanstack-query)
