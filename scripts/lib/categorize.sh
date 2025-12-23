@@ -5,8 +5,8 @@
 categorize_skill() {
   local skill_name="$1"
 
-  # Cloudflare skills
-  if [[ "$skill_name" =~ ^cloudflare- ]]; then
+  # Cloudflare skills (matches both "cloudflare" parent and "cloudflare-*" children)
+  if [[ "$skill_name" =~ ^cloudflare(-|$) ]]; then
     echo "cloudflare"
   # Mobile skills (check BEFORE frontend to catch react-native-app)
   elif [[ "$skill_name" =~ ^(app-store-deployment|mobile-|react-native-app|swift-) ]]; then
@@ -17,8 +17,8 @@ categorize_skill() {
   # AI/ML skills
   elif [[ "$skill_name" =~ ^(ai-|openai-|claude-|google-gemini-|gemini-|elevenlabs-|thesys-|multi-ai-consultant|tanstack-ai|ml-|model-deployment) ]]; then
     echo "ai"
-  # Frontend framework skills
-  elif [[ "$skill_name" =~ ^(nextjs|nuxt-|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then
+  # Frontend framework skills (nuxt(-|$) matches both "nuxt" parent and "nuxt-*" children)
+  elif [[ "$skill_name" =~ ^(nextjs|nuxt(-|$)|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then
     echo "frontend"
   # Auth skills
   elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation|api-authentication|session-management) ]]; then
@@ -38,8 +38,8 @@ categorize_skill() {
   # Security skills
   elif [[ "$skill_name" =~ ^(access-control-rbac|csrf-protection|defense-in-depth-validation|security-headers-configuration|vulnerability-scanning|xss-prevention) ]]; then
     echo "security"
-  # WooCommerce skills
-  elif [[ "$skill_name" =~ ^woocommerce- ]]; then
+  # WooCommerce skills (matches both "woocommerce" parent and "woocommerce-*" children)
+  elif [[ "$skill_name" =~ ^woocommerce(-|$) ]]; then
     echo "woocommerce"
   # Web development skills
   elif [[ "$skill_name" =~ ^(firecrawl-scraper|hono-routing|image-optimization|internationalization-i18n|payment-gateway-integration|progressive-web-app|push-notification-setup|responsive-web-design|web-performance-) ]]; then
