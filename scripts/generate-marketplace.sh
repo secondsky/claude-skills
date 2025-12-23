@@ -170,9 +170,7 @@ while IFS= read -r plugin_dir; do
       "version": "$version",
       "description": "$description_escaped",
       "keywords": $keywords,
-      "category": "$category",
-      "type": "bundle",
-      "skillCount": $skill_count
+      "category": "$category"
     }
 EOF
 
