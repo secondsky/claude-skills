@@ -114,6 +114,16 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
     continue
   fi
 
+  # Skip standalone plugins (skillCount=1 and skill name matches parent name)
+  # These will be added by Loop 2 as individual skills only
+  if [ "$skill_count" -eq 1 ]; then
+    single_skill_name=$(basename "$(find "$plugin_dir/skills" -mindepth 1 -maxdepth 1 -type d)")
+    if [ "$single_skill_name" = "$plugin_name" ]; then
+      printf "[PARENT] %-30s ⚠️  SKIP (standalone plugin, will be added as individual)\n" "$plugin_name"
+      continue
+    fi
+  fi
+
   # Read metadata from parent plugin.json
   description=$(jq -r '.description // ""' "$parent_json" 2>/dev/null)
   if [ -z "$description" ]; then
