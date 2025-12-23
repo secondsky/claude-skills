@@ -90,7 +90,9 @@ first=true
 echo "Processing parent plugin bundles..."
 parent_count=0
 
-for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+# Use while read loop to handle directory names with spaces safely
+# Process substitution avoids subshell, so variables (parent_count, first) persist
+while IFS= read -r plugin_dir; do
   if [ ! -d "$plugin_dir" ]; then
     continue
   fi
@@ -175,7 +177,7 @@ for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort);
 EOF
 
   printf "[PARENT] %-30s → %s (%d skills)\n" "$plugin_name" "$category" "$skill_count"
-done
+done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 echo ""
 echo "Processed $parent_count parent plugin bundles"
@@ -185,7 +187,9 @@ echo "Processing individual skills..."
 # ============================================
 # LOOP 2: Process child skills (existing logic)
 # ============================================
-for plugin_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+# Use while read loop to handle directory names with spaces safely
+# Process substitution avoids subshell, so variables (count, skipped, first) persist
+while IFS= read -r plugin_dir; do
   if [ ! -d "$plugin_dir" ]; then
     continue
   fi
@@ -292,7 +296,7 @@ EOF
 
     printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
   done
-done
+done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 # Close JSON
 cat >> "$MARKETPLACE_JSON" << 'EOF_FOOTER'
