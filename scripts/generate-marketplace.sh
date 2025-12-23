@@ -86,100 +86,101 @@ first=true
 
 # ============================================
 # LOOP 1: Process parent plugins (bundles)
+# REMOVED in v3.1.0 - Marketplace now contains individual skills only
 # ============================================
-echo "Processing parent plugin bundles..."
-parent_count=0
-
-# Use while read loop to handle directory names with spaces safely
-# Process substitution avoids subshell, so variables (parent_count, first) persist
-while IFS= read -r plugin_dir; do
-  if [ ! -d "$plugin_dir" ]; then
-    continue
-  fi
-
-  plugin_name=$(basename "$plugin_dir")
-  parent_json="$plugin_dir/.claude-plugin/plugin.json"
-
-  # Skip if no parent plugin.json
-  if [ ! -f "$parent_json" ]; then
-    continue
-  fi
-
-  # Check if this is a multi-skill plugin (has skills/ subdirectory with at least 1 skill)
-  if [ ! -d "$plugin_dir/skills" ]; then
-    continue
-  fi
-
-  # Count skills in this bundle
-  skill_count=$(find "$plugin_dir/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-  if [ "$skill_count" -eq 0 ]; then
-    continue
-  fi
-
-  # Skip standalone plugins (skillCount=1 and skill name matches parent name)
-  # These will be added by Loop 2 as individual skills only
-  if [ "$skill_count" -eq 1 ]; then
-    single_skill_name=$(basename "$(find "$plugin_dir/skills" -mindepth 1 -maxdepth 1 -type d)")
-    if [ "$single_skill_name" = "$plugin_name" ]; then
-      printf "[PARENT] %-30s ⚠️  SKIP (standalone plugin, will be added as individual)\n" "$plugin_name"
-      continue
-    fi
-  fi
-
-  # Read metadata from parent plugin.json
-  description=$(jq -r '.description // ""' "$parent_json" 2>/dev/null)
-  if [ -z "$description" ]; then
-    printf "[PARENT] %-30s ⚠️  SKIP (no description)\n" "$plugin_name"
-    continue
-  fi
-
-  keywords=$(jq -c '.keywords // []' "$parent_json" 2>/dev/null)
-  if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
-    keywords="[]"
-  fi
-
-  version=$(jq -r '.version // "3.0.0"' "$parent_json" 2>/dev/null)
-  if [ -z "$version" ] || [ "$version" = "null" ]; then
-    version="3.0.0"
-  fi
-
-  # Get category for parent plugin
-  category=$(categorize_skill "$plugin_name")
-
-  # Track category count (bash 3.2 compatible using temp files)
-  echo "$plugin_name" >> "$TEMP_DIR/$category"
-
-  # Add comma before each entry except the first
-  if [ "$first" = true ]; then
-    first=false
-  else
-    echo "," >> "$MARKETPLACE_JSON"
-  fi
-
-  # Escape description for JSON (handles all control characters)
-  description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
-
-  # Increment parent count only after all validation passes
-  parent_count=$((parent_count + 1))
-
-  # Write parent plugin entry (bundle)
-  cat >> "$MARKETPLACE_JSON" << EOF
-    {
-      "name": "$plugin_name",
-      "source": "./plugins/$plugin_name",
-      "version": "$version",
-      "description": "$description_escaped",
-      "keywords": $keywords,
-      "category": "$category"
-    }
-EOF
-
-  printf "[PARENT] %-30s → %s (%d skills)\n" "$plugin_name" "$category" "$skill_count"
-done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
-
-echo ""
-echo "Processed $parent_count parent plugin bundles"
-echo ""
+# echo "Processing parent plugin bundles..."
+# parent_count=0
+#
+# # Use while read loop to handle directory names with spaces safely
+# # Process substitution avoids subshell, so variables (parent_count, first) persist
+# while IFS= read -r plugin_dir; do
+#   if [ ! -d "$plugin_dir" ]; then
+#     continue
+#   fi
+#
+#   plugin_name=$(basename "$plugin_dir")
+#   parent_json="$plugin_dir/.claude-plugin/plugin.json"
+#
+#   # Skip if no parent plugin.json
+#   if [ ! -f "$parent_json" ]; then
+#     continue
+#   fi
+#
+#   # Check if this is a multi-skill plugin (has skills/ subdirectory with at least 1 skill)
+#   if [ ! -d "$plugin_dir/skills" ]; then
+#     continue
+#   fi
+#
+#   # Count skills in this bundle
+#   skill_count=$(find "$plugin_dir/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+#   if [ "$skill_count" -eq 0 ]; then
+#     continue
+#   fi
+#
+#   # Skip standalone plugins (skillCount=1 and skill name matches parent name)
+#   # These will be added by Loop 2 as individual skills only
+#   if [ "$skill_count" -eq 1 ]; then
+#     single_skill_name=$(basename "$(find "$plugin_dir/skills" -mindepth 1 -maxdepth 1 -type d)")
+#     if [ "$single_skill_name" = "$plugin_name" ]; then
+#       printf "[PARENT] %-30s ⚠️  SKIP (standalone plugin, will be added as individual)\n" "$plugin_name"
+#       continue
+#     fi
+#   fi
+#
+#   # Read metadata from parent plugin.json
+#   description=$(jq -r '.description // ""' "$parent_json" 2>/dev/null)
+#   if [ -z "$description" ]; then
+#     printf "[PARENT] %-30s ⚠️  SKIP (no description)\n" "$plugin_name"
+#     continue
+#   fi
+#
+#   keywords=$(jq -c '.keywords // []' "$parent_json" 2>/dev/null)
+#   if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
+#     keywords="[]"
+#   fi
+#
+#   version=$(jq -r '.version // "3.0.0"' "$parent_json" 2>/dev/null)
+#   if [ -z "$version" ] || [ "$version" = "null" ]; then
+#     version="3.0.0"
+#   fi
+#
+#   # Get category for parent plugin
+#   category=$(categorize_skill "$plugin_name")
+#
+#   # Track category count (bash 3.2 compatible using temp files)
+#   echo "$plugin_name" >> "$TEMP_DIR/$category"
+#
+#   # Add comma before each entry except the first
+#   if [ "$first" = true ]; then
+#     first=false
+#   else
+#     echo "," >> "$MARKETPLACE_JSON"
+#   fi
+#
+#   # Escape description for JSON (handles all control characters)
+#   description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
+#
+#   # Increment parent count only after all validation passes
+#   parent_count=$((parent_count + 1))
+#
+#   # Write parent plugin entry (bundle)
+#   cat >> "$MARKETPLACE_JSON" << EOF
+#     {
+#       "name": "$plugin_name",
+#       "source": "./plugins/$plugin_name",
+#       "version": "$version",
+#       "description": "$description_escaped",
+#       "keywords": $keywords,
+#       "category": "$category"
+#     }
+# EOF
+#
+#   printf "[PARENT] %-30s → %s (%d skills)\n" "$plugin_name" "$category" "$skill_count"
+# done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
+#
+# echo ""
+# echo "Processed $parent_count parent plugin bundles"
+# echo ""
 echo "Processing individual skills..."
 
 # ============================================
@@ -345,10 +346,8 @@ echo "✅ Marketplace generation complete!"
 echo "============================================"
 echo ""
 echo "Output: $MARKETPLACE_JSON"
-echo "Format: Hybrid (parent bundles + individual skills)"
-echo "Parent plugin bundles: $parent_count"
-echo "Individual skills: $((count - skipped))"
-echo "Total marketplace entries: $((parent_count + count - skipped))"
+echo "Format: Individual skills only"
+echo "Total skills: $((count - skipped))"
 echo ""
 echo "Key fix applied:"
 echo "  - Old: source: \"./\" → copied entire repo to cache (18× duplication)"
