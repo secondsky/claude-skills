@@ -12,10 +12,14 @@
     "session-management",
     "session",
     "management",
+    "jwt",
     "authentication",
-    "authorization",
-    "login",
+    "redis",
+    "tokens",
+    "refresh",
+    "cookie",
     "security",
-    "jwt"
+    "logout",
+    "auth"
   ]
 }

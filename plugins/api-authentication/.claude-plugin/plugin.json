@@ -12,10 +12,10 @@
     "api-authentication",
     "api",
     "authentication",
-    "authorization",
-    "login",
-    "security",
-    "session",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
     "jwt"
   ]
 }
