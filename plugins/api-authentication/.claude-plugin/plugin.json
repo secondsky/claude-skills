@@ -16,6 +16,12 @@
     "login",
     "security",
     "session",
-    "jwt"
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "jwt",
+    "oauth",
+    "tokens"
   ]
 }

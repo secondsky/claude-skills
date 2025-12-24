@@ -427,142 +427,117 @@ scan_commands() {
 }
 
 # -----------------------------------------------------------------------------
-# Main processing loop
+# Main processing loop (flat structure)
 # -----------------------------------------------------------------------------
 count=0
 updated=0
 skipped=0
-# Count total individual skills (not plugin containers)
-total=$(find "$PLUGINS_DIR" -mindepth 3 -maxdepth 3 -type f -name "SKILL.md" | wc -l | tr -d ' ')
+# Count total individual skills at plugins/* level
+total=$(find "$PLUGINS_DIR" -mindepth 2 -maxdepth 2 -type f -name "SKILL.md" | wc -l | tr -d ' ')
 
 echo "Processing skills from all plugins..."
 echo ""
 
-# Outer loop: iterate through plugin containers
-for plugin_container_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
-  if [ ! -d "$plugin_container_dir" ]; then
+# Loop: iterate through plugin directories (flat structure)
+for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+  if [ ! -d "$plugin_dir_path" ]; then
     continue
   fi
 
-  plugin_container=$(basename "$plugin_container_dir")
+  skill_name=$(basename "$plugin_dir_path")
+  skill_md="$plugin_dir_path/SKILL.md"
+  plugin_dir="$plugin_dir_path/.claude-plugin"
+  plugin_json="$plugin_dir/plugin.json"
+  plugin_base_dir="$plugin_dir_path"
 
-  # Check if skills/ subdirectory exists
-  if [ ! -d "$plugin_container_dir/skills" ]; then
+  count=$((count + 1))
+
+  # Skip if no SKILL.md
+  if [ ! -f "$skill_md" ]; then
+    printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
+    skipped=$((skipped + 1))
     continue
   fi
 
-  # Inner loop: iterate through all skills within this plugin container
-  for skill_dir in "$plugin_container_dir/skills"/*; do
-    if [ ! -d "$skill_dir" ]; then
-      continue
+  # Create .claude-plugin directory if needed
+  if [ ! -d "$plugin_dir" ]; then
+    if [ "$DRY_RUN" = false ]; then
+      mkdir -p "$plugin_dir"
     fi
+  fi
 
-    skill_name=$(basename "$skill_dir")
-    skill_md="$skill_dir/SKILL.md"
+  # Get current values or defaults
+  if [ -f "$plugin_json" ]; then
+    current_author=$(jq -c '.author // {"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}' "$plugin_json" 2>/dev/null)
+  else
+    current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
+  fi
 
-    # Determine plugin.json location
-    # Standalone plugins: use plugin-level manifest (e.g., nextjs/skills/nextjs/)
-    # Multi-skill plugins: use skill-level manifest (e.g., cloudflare/skills/cloudflare-d1/)
-    if [ -f "$plugin_container_dir/.claude-plugin/plugin.json" ] && [ "$skill_name" = "$plugin_container" ]; then
-      # Standalone plugin
-      plugin_dir="$plugin_container_dir/.claude-plugin"
-      plugin_json="$plugin_dir/plugin.json"
-      plugin_base_dir="$plugin_container_dir"
-    else
-      # Multi-skill plugin
-      plugin_dir="$skill_dir/.claude-plugin"
-      plugin_json="$plugin_dir/plugin.json"
-      plugin_base_dir="$skill_dir"
-    fi
-
-    count=$((count + 1))
-
-    # Skip if no SKILL.md
-    if [ ! -f "$skill_md" ]; then
-      printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
-
-    # Create .claude-plugin directory if needed
-    if [ ! -d "$plugin_dir" ]; then
-      if [ "$DRY_RUN" = false ]; then
-        mkdir -p "$plugin_dir"
-      fi
-    fi
-
-    # Get current values or defaults
-    if [ -f "$plugin_json" ]; then
-      current_author=$(jq -c '.author // {"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}' "$plugin_json" 2>/dev/null)
-    else
-      current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
-    fi
-
-    # ALWAYS extract description from SKILL.md (source of truth)
+  # ALWAYS extract description from SKILL.md (source of truth)
   # Only search within first YAML frontmatter block (between first two --- delimiters)
   current_desc=$(awk '
-    BEGIN {in_frontmatter=0; found_desc=0}
+  BEGIN {in_frontmatter=0; found_desc=0}
+  /^---$/ {
+    frontmatter_count++
+    if (frontmatter_count==1) {in_frontmatter=1; next}
+    if (frontmatter_count==2) {exit}
+  }
+  in_frontmatter && /^description:/ {
+    if ($0 !~ /[\|>]$/) {
+      gsub(/^description: */, "")
+      print
+      exit
+    }
+  }
+  ' "$skill_md")
+  if [ -z "$current_desc" ]; then
+  current_desc=$(awk '
+    BEGIN {in_frontmatter=0}
     /^---$/ {
       frontmatter_count++
       if (frontmatter_count==1) {in_frontmatter=1; next}
       if (frontmatter_count==2) {exit}
     }
-    in_frontmatter && /^description:/ {
-      if ($0 !~ /[\|>]$/) {
-        gsub(/^description: */, "")
-        print
-        exit
-      }
-    }
+    in_frontmatter && /^description: [\|>]/{flag=1; next}
+    in_frontmatter && /^[a-z-]+:/{flag=0}
+    flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
+    END{gsub(/ $/, "", line); print line}
   ' "$skill_md")
-  if [ -z "$current_desc" ]; then
-    current_desc=$(awk '
-      BEGIN {in_frontmatter=0}
-      /^---$/ {
-        frontmatter_count++
-        if (frontmatter_count==1) {in_frontmatter=1; next}
-        if (frontmatter_count==2) {exit}
-      }
-      in_frontmatter && /^description: [\|>]/{flag=1; next}
-      in_frontmatter && /^[a-z-]+:/{flag=0}
-      flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
-      END{gsub(/ $/, "", line); print line}
-    ' "$skill_md")
   fi
   if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
-      current_desc="Production-ready skill for $skill_name"
-    fi
+    current_desc="Production-ready skill for $skill_name"
+  fi
 
-    # Get category
-    category=$(categorize_skill "$skill_name")
+  # Get category
+  category=$(categorize_skill "$skill_name")
 
-    # Generate keywords (uses full description with Keywords line for extraction)
-    keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+  # Generate keywords (uses full description with Keywords line for extraction)
+  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
 
-    # Remove "Keywords: ..." line from description for plugin.json output
-    clean_desc=$(remove_keywords_line "$current_desc")
+  # Remove "Keywords: ..." line from description for plugin.json output
+  clean_desc=$(remove_keywords_line "$current_desc")
 
-    # Validate description length
-    desc_length=${#clean_desc}
-    if [ "$desc_length" -gt 250 ]; then
-      echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
-      echo "  Description: $clean_desc" >&2
-      echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
-      continue  # Skip this skill
-    elif [ "$desc_length" -gt 150 ]; then
-      echo "  ⚠️  Warning: $skill_name description is $desc_length chars (recommend <150 for brevity)" >&2
-    fi
+  # Validate description length
+  desc_length=${#clean_desc}
+  if [ "$desc_length" -gt 250 ]; then
+    echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
+    echo "  Description: $clean_desc" >&2
+    echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
+    continue  # Skip this skill
+  elif [ "$desc_length" -gt 150 ]; then
+    echo "  ⚠️  Warning: $skill_name description is $desc_length chars (recommend <150 for brevity)" >&2
+  fi
 
-    # Scan for agents and commands
-    agents_json=$(scan_agents "$plugin_base_dir")
-    commands_json=$(scan_commands "$plugin_base_dir")
+  # Scan for agents and commands
+  agents_json=$(scan_agents "$plugin_base_dir")
+  commands_json=$(scan_commands "$plugin_base_dir")
 
-    # Build the updated plugin.json
-    if [ "$DRY_RUN" = false ]; then
-      # Create temp file with updated content
-      # Use jq to convert to JSON string and trim trailing whitespace/newlines
-      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
-      cat > "$plugin_json.tmp" << EOF
+  # Build the updated plugin.json
+  if [ "$DRY_RUN" = false ]; then
+    # Create temp file with updated content
+    # Use jq to convert to JSON string and trim trailing whitespace/newlines
+    desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+    cat > "$plugin_json.tmp" << EOF
 {
   "name": "$skill_name",
   "description": $desc_json,
@@ -573,48 +548,47 @@ for plugin_container_dir in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type 
   "keywords": $keywords_json
 EOF
 
-      # Add agents if present
-      if [ "$agents_json" != "null" ]; then
-        echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
-      fi
-
-      # Add commands if present
-      if [ "$commands_json" != "null" ]; then
-        echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
-      fi
-
-      echo "}" >> "$plugin_json.tmp"
-
-      # Validate and format JSON
-      if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
-        jq '.' "$plugin_json.tmp" > "$plugin_json"
-        rm "$plugin_json.tmp"
-      else
-        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
-        rm "$plugin_json.tmp"
-        continue
-      fi
-    fi
-
-    # Output status
-    extras=""
+    # Add agents if present
     if [ "$agents_json" != "null" ]; then
-      agent_count=$(echo "$agents_json" | jq 'length')
-      extras="$extras +${agent_count}agents"
+      echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
     fi
+
+    # Add commands if present
     if [ "$commands_json" != "null" ]; then
-      cmd_count=$(echo "$commands_json" | jq 'length')
-      extras="$extras +${cmd_count}cmds"
+      echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
     fi
 
-    if [ "$DRY_RUN" = true ]; then
-      printf "[%3d/%d] %-40s → %s%s (dry run)\n" "$count" "$total" "$skill_name" "$category" "$extras"
+    echo "}" >> "$plugin_json.tmp"
+
+    # Validate and format JSON
+    if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
+      jq '.' "$plugin_json.tmp" > "$plugin_json"
+      rm "$plugin_json.tmp"
     else
-      printf "[%3d/%d] %-40s → %s%s\n" "$count" "$total" "$skill_name" "$category" "$extras"
+      echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+      rm "$plugin_json.tmp"
+      continue
     fi
+  fi
 
-    updated=$((updated + 1))
-  done
+  # Output status
+  extras=""
+  if [ "$agents_json" != "null" ]; then
+    agent_count=$(echo "$agents_json" | jq 'length')
+    extras="$extras +${agent_count}agents"
+  fi
+  if [ "$commands_json" != "null" ]; then
+    cmd_count=$(echo "$commands_json" | jq 'length')
+    extras="$extras +${cmd_count}cmds"
+  fi
+
+  if [ "$DRY_RUN" = true ]; then
+    printf "[%3d/%d] %-40s → %s%s (dry run)\n" "$count" "$total" "$skill_name" "$category" "$extras"
+  else
+    printf "[%3d/%d] %-40s → %s%s\n" "$count" "$total" "$skill_name" "$category" "$extras"
+  fi
+
+  updated=$((updated + 1))
 done
 
 echo ""

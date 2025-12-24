@@ -48,10 +48,10 @@ source "$SCRIPT_DIR/lib/categorize.sh"
 # Counter for tracking progress
 count=0
 skipped=0
-# Count total skills across all plugins (not just plugin containers)
+# Count total skills (now all plugins are at root level)
 total=0
-for pd in "$PLUGINS_DIR"/*/skills/*; do
-  if [ -d "$pd" ]; then
+for pd in "$PLUGINS_DIR"/*; do
+  if [ -d "$pd" ] && [ -f "$pd/SKILL.md" ]; then
     total=$((total + 1))
   fi
 done
@@ -94,8 +94,9 @@ first=true
 echo "Processing individual skills..."
 
 # ============================================
-# LOOP 2: Process child skills (existing logic)
+# LOOP 2: Process individual skills (flat structure)
 # ============================================
+# All skills are now at plugins/* level (no more nested skills/ directories)
 # Use while read loop to handle directory names with spaces safely
 # Process substitution avoids subshell, so variables (count, skipped, first) persist
 while IFS= read -r plugin_dir; do
@@ -103,93 +104,64 @@ while IFS= read -r plugin_dir; do
     continue
   fi
 
-  plugin_container=$(basename "$plugin_dir")
+  skill_name=$(basename "$plugin_dir")
+  skill_md="$plugin_dir/SKILL.md"
+  plugin_json="$plugin_dir/.claude-plugin/plugin.json"
 
-  # Check if skills/ subdirectory exists
-  if [ ! -d "$plugin_dir/skills" ]; then
-    count=$((count + 1))
-    printf "[%3d/%d] %-40s ⚠️  SKIP (no skills/ directory)\n" "$count" "$total" "$plugin_container"
+  count=$((count + 1))
+
+  # Check if SKILL.md exists
+  if [ ! -f "$skill_md" ]; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
     skipped=$((skipped + 1))
     continue
   fi
 
-  # Iterate through all skills within this plugin
-  for skill_dir in "$plugin_dir/skills"/*; do
-    if [ ! -d "$skill_dir" ]; then
-      continue
-    fi
+  # Check if plugin.json exists
+  if [ ! -f "$plugin_json" ]; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$skill_name"
+    skipped=$((skipped + 1))
+    continue
+  fi
 
-    skill_name=$(basename "$skill_dir")
-    skill_md="$skill_dir/SKILL.md"
-    # Look for plugin.json at plugin level (for standalone) or skill level (for multi-skill containers)
-    if [ -f "$plugin_dir/.claude-plugin/plugin.json" ] && [ "$skill_name" = "$plugin_container" ]; then
-      # Standalone plugin: use plugin-level manifest
-      plugin_json="$plugin_dir/.claude-plugin/plugin.json"
-    else
-      # Multi-skill container: use skill-level manifest
-      plugin_json="$skill_dir/.claude-plugin/plugin.json"
-    fi
+  # Read description from plugin.json (escape for JSON)
+  description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
+  if [ -z "$description" ]; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
+    skipped=$((skipped + 1))
+    continue
+  fi
 
-    count=$((count + 1))
+  # Read keywords from plugin.json (as JSON array)
+  keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
+  if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
+    keywords="[]"
+  fi
 
-    # Check if SKILL.md exists
-    if [ ! -f "$skill_md" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
+  # Read version from plugin.json
+  version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
+  if [ -z "$version" ] || [ "$version" = "null" ]; then
+    version="3.0.0"
+  fi
 
-    # Check if plugin.json exists
-    if [ ! -f "$plugin_json" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
+  # Get category
+  category=$(categorize_skill "$skill_name")
 
-    # Read description from plugin.json (escape for JSON)
-    description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
-    if [ -z "$description" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
+  # Track category count (bash 3.2 compatible using temp files)
+  echo "$skill_name" >> "$TEMP_DIR/$category"
 
-    # Read keywords from plugin.json (as JSON array)
-    keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
-    if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
-      keywords="[]"
-    fi
+  # Add comma before each entry except the first
+  if [ "$first" = true ]; then
+    first=false
+  else
+    echo "," >> "$MARKETPLACE_JSON"
+  fi
 
-    # Read version from plugin.json
-    version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
-    if [ -z "$version" ] || [ "$version" = "null" ]; then
-      version="3.0.0"
-    fi
+  # Escape description for JSON (handles all control characters)
+  description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
 
-    # Get category
-    category=$(categorize_skill "$skill_name")
-
-    # Track category count (bash 3.2 compatible using temp files)
-    echo "$skill_name" >> "$TEMP_DIR/$category"
-
-    # Add comma before each entry except the first
-    if [ "$first" = true ]; then
-      first=false
-    else
-      echo "," >> "$MARKETPLACE_JSON"
-    fi
-
-    # Escape description for JSON (handles all control characters)
-    description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
-
-    # Determine source path
-    # Standalone plugins: ./plugins/[name] (e.g., ./plugins/tanstack-query)
-    # Multi-skill container skills: ./plugins/[container]/skills/[skill] (e.g., ./plugins/cloudflare/skills/cloudflare-d1)
-    if [ "$skill_name" = "$plugin_container" ] && [ -f "$plugin_dir/.claude-plugin/plugin.json" ]; then
-      source_path="./plugins/$skill_name"
-    else
-      source_path="./plugins/$plugin_container/skills/$skill_name"
-    fi
+  # Source path for flat structure: ./plugins/[name]
+  source_path="./plugins/$skill_name"
 
     # Write individual plugin entry
     cat >> "$MARKETPLACE_JSON" << EOF
@@ -203,8 +175,7 @@ while IFS= read -r plugin_dir; do
     }
 EOF
 
-    printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
-  done
+  printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
 done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 # Close JSON
