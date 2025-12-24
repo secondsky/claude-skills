@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **What Changed**:
 - Marketplace.json simplified from hybrid format (197 entries) → individual skills only (169 entries)
-- Removed 66 parent bundle entries that were causing confusion
+- Removed 28 parent bundle entries (14.2% of marketplace) that were causing confusion
 - Each of the 169 skills is now individually installable
 - Cleaner marketplace structure with no duplication
 
@@ -49,7 +49,7 @@ cd claude-skills
 
 ### Removed
 
-- Parent bundle plugin entries (66 removed from marketplace.json)
+- Parent bundle plugin entries (28 removed from marketplace.json)
 - Suite plugin groupings from marketplace
 
 ### Updated
