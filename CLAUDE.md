@@ -209,20 +209,23 @@ claude-skills/
 │   ├── audit-keywords.sh        # Keyword auditing
 │   ├── baseline-audit-all.sh    # Baseline validation
 │   └── ... (7 more scripts)
-├── skills/                       # ⭐ 169 production skills (18.2MB)
-│   ├── cloudflare-*/            # 23 Cloudflare skills
+├── plugins/                      # ⭐ 169 production plugins (18.2MB)
+│   ├── cloudflare-*/            # 23 Cloudflare plugins
 │   │   ├── .claude-plugin/      # Plugin manifest
-│   │   ├── references/          # Extended docs
-│   │   ├── templates/           # Code templates
-│   │   ├── scripts/             # Helper scripts
-│   │   ├── assets/              # Images, data
-│   │   ├── SKILL.md             # Main skill file
-│   │   └── README.md            # Public documentation
-│   ├── ai-*/                    # 20 AI/ML skills
-│   ├── api-*/                   # 17 API skills
-│   ├── mobile-*/                # 8 Mobile skills
-│   ├── *-testing/               # 5 Testing skills
-│   └── ... (96 more skills)     # Run: ls skills/
+│   │   │   └── plugin.json
+│   │   ├── README.md            # Public documentation
+│   │   └── skills/              # Skill subdirectory
+│   │       └── cloudflare-*/    # Skill name matches plugin
+│   │           ├── SKILL.md     # Main skill file
+│   │           ├── references/  # Extended docs
+│   │           ├── templates/   # Code templates
+│   │           ├── scripts/     # Helper scripts
+│   │           └── assets/      # Images, data
+│   ├── ai-*/                    # 20 AI/ML plugins
+│   ├── api-*/                   # 17 API plugins
+│   ├── mobile-*/                # 8 Mobile plugins
+│   ├── *-testing/               # 5 Testing plugins
+│   └── ... (96 more plugins)    # Run: ls plugins/
 ├── skills-review/                # Review documentation
 │   └── ... (11 comprehensive reports)
 ├── templates/                    # ⭐ Skill templates
@@ -246,26 +249,30 @@ claude-skills/
     └── LICENSE                  # MIT License
 ```
 
-**Skill Directory Structure** (standard for all skills):
+**Plugin Directory Structure** (standard for all plugins):
 ```
-skills/<skill-name>/
+plugins/<plugin-name>/
 ├── .claude-plugin/
-│   └── plugin.json              # Auto-generated manifest
-├── SKILL.md                     # ⭐ Main skill content
+│   └── plugin.json              # Plugin manifest
 ├── README.md                    # Public documentation
-├── references/                  # Extended docs (loaded as needed)
-│   ├── command-<name>.md
-│   ├── troubleshooting.md
-│   └── advanced-usage.md
-├── templates/                   # Code templates
-│   ├── basic-setup.ts
-│   └── advanced-example.tsx
-├── scripts/                     # Helper scripts
-│   ├── setup.sh
-│   └── validate.sh
-└── assets/                      # Images, data
-    └── diagram.png
+└── skills/                      # Skills subdirectory (required)
+    └── <plugin-name>/           # Skill name matches plugin name
+        ├── SKILL.md             # ⭐ Main skill content
+        ├── references/          # Extended docs (loaded as needed)
+        │   ├── command-<name>.md
+        │   ├── troubleshooting.md
+        │   └── advanced-usage.md
+        ├── templates/           # Code templates
+        │   ├── basic-setup.ts
+        │   └── advanced-example.tsx
+        ├── scripts/             # Helper scripts
+        │   ├── setup.sh
+        │   └── validate.sh
+        └── assets/              # Images, data
+            └── diagram.png
 ```
+
+**Important**: Per official Claude Code plugin structure, SKILL.md files **MUST** be in a `skills/<skill-name>/` subdirectory for auto-discovery to work.
 
 ---
 
@@ -530,14 +537,6 @@ The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.
 - **SKILL.md body**: Loaded when skill triggers (<5k words)
 - **Bundled resources**: Loaded as needed by Claude
 
-**⚠️ CRITICAL - System Prompt Limits:**
-- Claude Code has a **15,000 character budget** for all skill descriptions in the system prompt
-- When exceeded, **some skills are silently omitted** without warnings (not all skills are hidden, but partial set will be invisible)
-- With 169 skills, concise descriptions are essential to maximize how many skills remain visible
-- **Workaround**: Set `SLASH_COMMAND_TOOL_CHAR_BUDGET=30000` environment variable
-- **Best Practice**: Keep descriptions under 100 characters when possible to fit more skills in budget
-- Source: [Skills Not Triggering](https://blog.fsck.com/2025/12/17/claude-code-skills-not-triggering/)
-
 ---
 
 ## Commands & Scripts
@@ -606,7 +605,7 @@ Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) to verify:
 
 - [ ] YAML frontmatter valid (name + description)
 - [ ] Description includes "Use when" scenarios
-- [ ] **Description is concise** (<100 chars ideal, <200 chars max to avoid system prompt budget issues)
+- [ ] **Description is concise** (<100 chars ideal, <200 chars max)
 - [ ] Keywords comprehensive (technologies, use cases, errors)
 - [ ] Third-person description style
 - [ ] Instructions in imperative form
@@ -653,7 +652,7 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 - ❌ Non-standard frontmatter fields (use only name, description, license, allowed-tools, metadata)
 - ❌ Second-person descriptions ("You should..." instead of "This skill should be used when...")
 - ❌ Vague descriptions (no "Use when" scenarios)
-- ❌ **Verbose descriptions** (exceeds system prompt budget → skill omitted silently)
+- ❌ **Verbose descriptions** (keep concise for better discoverability)
 - ❌ Missing keywords (reduces discoverability)
 - ❌ Outdated package versions
 - ❌ Untested templates

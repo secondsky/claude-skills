@@ -61,7 +61,7 @@
       "source": "./plugins/api-authentication",
       "version": "3.0.0",
       "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.",
-      "keywords": ["api-authentication","api","authentication","rest","graphql","endpoints","http","jwt"],
+      "keywords": ["api-authentication","api","authentication","authorization","login","security","session","rest","graphql","endpoints","http","jwt","oauth","tokens"],
       "category": "auth"
     }
 ,
