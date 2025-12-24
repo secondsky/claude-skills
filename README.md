@@ -1,6 +1,6 @@
 # Claude Code Skills Collection
 
-**58 plugins containing 169 production-ready skills for Claude Code CLI**
+**169 production-ready skills for Claude Code CLI**
 
 Version 3.0.0 | Last Updated: 2025-12-19
 
@@ -16,22 +16,22 @@ A curated collection of battle-tested skills for building modern web application
 # Add the marketplace
 /plugin marketplace add https://github.com/secondsky/claude-skills
 
-# Install suite plugins
-/plugin install cloudflare-skills@claude-skills   # 23 Cloudflare skills
-/plugin install ai-skills@claude-skills           # 20 AI/ML skills
-/plugin install frontend-skills@claude-skills     # 21 UI framework skills
+# Install individual skills as needed
+/plugin install cloudflare-worker-base@claude-skills
+/plugin install tailwind-v4-shadcn@claude-skills
+/plugin install ai-sdk-core@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for all 58 suite plugins and complete installation guide.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 169 skills.
 
-### Direct Installation (Contributors)
+### Bulk Installation (Contributors)
 
 ```bash
 # Clone the repository
 git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
-# Install all skills
+# Install all 169 skills at once
 ./scripts/install-all.sh
 
 # Or install individual skills
@@ -42,26 +42,23 @@ cd claude-skills
 
 ## Repository Structure
 
-### Two-Tier Architecture
+This repository contains **169 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
-**58 Plugins** (Marketplace Categories)
-- Logical groupings that organize skills by domain
-- Examples: `cloudflare`, `ai-tools`, `frontend`, `testing`
-- Listed in `.claude-plugin/marketplace.json`
-- Installed via: `/plugin install <plugin-name>@claude-skills`
+**Individual Skills**: Each skill is a standalone unit with:
+- `SKILL.md` - Core knowledge and guidance
+- Templates - Working code examples
+- References - Extended documentation
+- Scripts - Helper utilities
 
-**169 Skills** (Individual Capabilities)
-- Actual knowledge units that Claude Code loads
-- Each skill: one directory in `/skills/` with `SKILL.md`, templates, references
-- Auto-discovered by Claude when relevant to tasks
-
-**Example**: The `cloudflare` plugin contains 23 skills (cloudflare-worker-base, cloudflare-d1, cloudflare-r2, etc.)
+**Installation Options**:
+1. **Individual** - Install only the skills you need via marketplace
+2. **Bulk** - Install all 169 skills using `./scripts/install-all.sh`
 
 ---
 
-## Available Skills (169 skills across 58 plugins)
+## Available Skills (169 Individual Skills)
 
-Plugins group related skills by domain. Install a plugin to get all its skills.
+Each skill is individually installable. Install only the skills you need.
 
 **Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for detailed listings.
 

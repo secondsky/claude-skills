@@ -9,6 +9,57 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2025-12-24
+
+### Changed
+
+#### Simplified Marketplace to Individual Skills Only
+
+**What Changed**:
+- Marketplace.json simplified from hybrid format (197 entries) → individual skills only (169 entries)
+- Removed 28 parent bundle entries (14.2% of marketplace) that were causing confusion
+- Each of the 169 skills is now individually installable
+- Cleaner marketplace structure with no duplication
+
+**Why This Change**:
+- Hybrid approach created confusion: 197 entries for 169 actual skills
+- Individual skill installation is clearer and more intuitive
+- Users install exactly what they need
+- Reduces marketplace complexity and improves discoverability
+
+**Migration**:
+
+Both installation methods are now supported:
+
+**Individual Skills** (Recommended):
+```bash
+/plugin install cloudflare-worker-base@claude-skills  # Individual skill
+/plugin install ai-sdk-core@claude-skills              # Individual skill
+/plugin install tailwind-v4-shadcn@claude-skills       # Individual skill
+```
+
+**Bulk Installation** (Install all 169 skills):
+```bash
+git clone https://github.com/secondsky/claude-skills.git
+cd claude-skills
+./scripts/install-all.sh  # Installs all 169 skills at once
+```
+
+**Note**: If you previously installed suite plugins (e.g., `cloudflare@claude-skills`), they will continue to work but are no longer listed in the marketplace. We recommend switching to individual skill installation for better control.
+
+### Removed
+
+- Parent bundle plugin entries (28 removed from marketplace.json)
+- Suite plugin groupings from marketplace
+
+### Updated
+
+- README documentation for individual skill installation approach
+- Marketplace now lists 169 individual skills only
+- Installation examples updated to show both individual and bulk methods
+
+---
+
 ## [3.0.0] - 2025-12-18
 
 ### 🚨 BREAKING CHANGE: Marketplace Restructure to Suite Plugins
