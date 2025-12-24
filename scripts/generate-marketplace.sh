@@ -48,11 +48,14 @@ source "$SCRIPT_DIR/lib/categorize.sh"
 # Counter for tracking progress
 count=0
 skipped=0
-# Count total skills (now all plugins are at root level)
+# Count total skills (now in skills/ subdirectories)
 total=0
 for pd in "$PLUGINS_DIR"/*; do
-  if [ -d "$pd" ] && [ -f "$pd/SKILL.md" ]; then
-    total=$((total + 1))
+  if [ -d "$pd" ]; then
+    plugin_name=$(basename "$pd")
+    if [ -f "$pd/skills/$plugin_name/SKILL.md" ]; then
+      total=$((total + 1))
+    fi
   fi
 done
 
@@ -105,7 +108,7 @@ while IFS= read -r plugin_dir; do
   fi
 
   skill_name=$(basename "$plugin_dir")
-  skill_md="$plugin_dir/SKILL.md"
+  skill_md="$plugin_dir/skills/$skill_name/SKILL.md"
   plugin_json="$plugin_dir/.claude-plugin/plugin.json"
 
   count=$((count + 1))
