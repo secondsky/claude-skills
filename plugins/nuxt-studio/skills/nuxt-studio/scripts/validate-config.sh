@@ -3,8 +3,6 @@
 # Nuxt Studio Configuration Validator
 # Validates nuxt.config.ts for correct Studio setup
 
-set -e
-
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -55,11 +53,11 @@ echo ""
 # Check modules array
 echo "Checking modules configuration..."
 
-if grep -q "modules:" $CONFIG_FILE; then
+if grep -q "modules:" "$CONFIG_FILE"; then
     success "modules array found"
 
     # Check @nuxt/content
-    if grep -A 20 "modules:" $CONFIG_FILE | grep -q "@nuxt/content"; then
+    if grep -A 20 "modules:" "$CONFIG_FILE" | grep -q "@nuxt/content"; then
         success "@nuxt/content in modules"
     else
         error "@nuxt/content not in modules array"
@@ -67,7 +65,7 @@ if grep -q "modules:" $CONFIG_FILE; then
     fi
 
     # Check @nuxt/studio
-    if grep -A 20 "modules:" $CONFIG_FILE | grep -q "@nuxt/studio"; then
+    if grep -A 20 "modules:" "$CONFIG_FILE" | grep -q "@nuxt/studio"; then
         success "@nuxt/studio in modules"
     else
         warning "@nuxt/studio not in modules array"
@@ -75,8 +73,8 @@ if grep -q "modules:" $CONFIG_FILE; then
     fi
 
     # Check module order (content should come before studio)
-    CONTENT_LINE=$(grep -n "@nuxt/content" $CONFIG_FILE | head -1 | cut -d':' -f1)
-    STUDIO_LINE=$(grep -n "@nuxt/studio" $CONFIG_FILE | head -1 | cut -d':' -f1)
+    CONTENT_LINE=$(grep -n "@nuxt/content" "$CONFIG_FILE" | head -1 | cut -d':' -f1)
+    STUDIO_LINE=$(grep -n "@nuxt/studio" "$CONFIG_FILE" | head -1 | cut -d':' -f1)
 
     if [ ! -z "$CONTENT_LINE" ] && [ ! -z "$STUDIO_LINE" ]; then
         if [ $CONTENT_LINE -lt $STUDIO_LINE ]; then
@@ -95,11 +93,11 @@ echo ""
 # Check Nitro preset for Cloudflare
 echo "Checking Nitro configuration..."
 
-if grep -q "nitro:" $CONFIG_FILE; then
+if grep -q "nitro:" "$CONFIG_FILE"; then
     success "nitro configuration found"
 
-    if grep -A 10 "nitro:" $CONFIG_FILE | grep -q "preset:"; then
-        PRESET=$(grep -A 10 "nitro:" $CONFIG_FILE | grep "preset:" | sed "s/.*preset:[  '\"]*//;s/['\",].*//")
+    if grep -A 10 "nitro:" "$CONFIG_FILE" | grep -q "preset:"; then
+        PRESET=$(grep -A 10 "nitro:" "$CONFIG_FILE" | grep "preset:" | sed "s/.*preset:[  '\"]*//;s/['\",].*//")
 
         if [ "$PRESET" = "cloudflare-pages" ] || [ "$PRESET" = "cloudflare" ]; then
             success "Cloudflare preset configured: $PRESET"
@@ -121,11 +119,11 @@ echo ""
 # Check content configuration
 echo "Checking content configuration..."
 
-if grep -q "content:" $CONFIG_FILE; then
+if grep -q "content:" "$CONFIG_FILE"; then
     success "content configuration found"
 
     # Check for experimental.clientDB (recommended for Studio)
-    if grep -A 20 "content:" $CONFIG_FILE | grep -q "clientDB"; then
+    if grep -A 20 "content:" "$CONFIG_FILE" | grep -q "clientDB"; then
         success "experimental.clientDB configured (recommended for Studio)"
     else
         warning "experimental.clientDB not configured"
@@ -141,16 +139,16 @@ echo ""
 # Check studio configuration
 echo "Checking studio configuration..."
 
-if grep -q "studio:" $CONFIG_FILE; then
+if grep -q "studio:" "$CONFIG_FILE"; then
     success "studio configuration found"
 
     # Check editor config
-    if grep -A 20 "studio:" $CONFIG_FILE | grep -q "editor:"; then
+    if grep -A 20 "studio:" "$CONFIG_FILE" | grep -q "editor:"; then
         success "editor configuration found"
 
         # Check default editor
-        if grep -A 30 "studio:" $CONFIG_FILE | grep -q "default:"; then
-            DEFAULT_EDITOR=$(grep -A 30 "studio:" $CONFIG_FILE | grep "default:" | sed "s/.*default:[  '\"]*//;s/['\",].*//")
+        if grep -A 30 "studio:" "$CONFIG_FILE" | grep -q "default:"; then
+            DEFAULT_EDITOR=$(grep -A 30 "studio:" "$CONFIG_FILE" | grep "default:" | sed "s/.*default:[  '\"]*//;s/['\",].*//")
 
             if [ "$DEFAULT_EDITOR" = "tiptap" ] || [ "$DEFAULT_EDITOR" = "monaco" ] || [ "$DEFAULT_EDITOR" = "form" ]; then
                 success "Valid default editor: $DEFAULT_EDITOR"
@@ -166,7 +164,7 @@ if grep -q "studio:" $CONFIG_FILE; then
     fi
 
     # Check Git config
-    if grep -A 20 "studio:" $CONFIG_FILE | grep -q "git:"; then
+    if grep -A 20 "studio:" "$CONFIG_FILE" | grep -q "git:"; then
         success "git configuration found"
     else
         info "No git configuration (Studio will use defaults)"
@@ -181,25 +179,25 @@ echo ""
 # Check runtime config for OAuth
 echo "Checking runtime configuration..."
 
-if grep -q "runtimeConfig:" $CONFIG_FILE; then
+if grep -q "runtimeConfig:" "$CONFIG_FILE"; then
     success "runtimeConfig found"
 
     # Check for OAuth config
-    if grep -A 30 "runtimeConfig:" $CONFIG_FILE | grep -q "oauth:"; then
+    if grep -A 30 "runtimeConfig:" "$CONFIG_FILE" | grep -q "oauth:"; then
         success "oauth configuration found"
 
         # Check for GitHub
-        if grep -A 40 "runtimeConfig:" $CONFIG_FILE | grep -q "github:"; then
+        if grep -A 40 "runtimeConfig:" "$CONFIG_FILE" | grep -q "github:"; then
             success "GitHub OAuth configured"
         fi
 
         # Check for GitLab
-        if grep -A 40 "runtimeConfig:" $CONFIG_FILE | grep -q "gitlab:"; then
+        if grep -A 40 "runtimeConfig:" "$CONFIG_FILE" | grep -q "gitlab:"; then
             success "GitLab OAuth configured"
         fi
 
         # Check for Google
-        if grep -A 40 "runtimeConfig:" $CONFIG_FILE | grep -q "google:"; then
+        if grep -A 40 "runtimeConfig:" "$CONFIG_FILE" | grep -q "google:"; then
             success "Google OAuth configured"
         fi
     else
@@ -208,7 +206,7 @@ if grep -q "runtimeConfig:" $CONFIG_FILE; then
     fi
 
     # Check for public.studioUrl
-    if grep -A 30 "runtimeConfig:" $CONFIG_FILE | grep -q "studioUrl"; then
+    if grep -A 30 "runtimeConfig:" "$CONFIG_FILE" | grep -q "studioUrl"; then
         success "public.studioUrl configured"
     else
         warning "public.studioUrl not configured"
@@ -224,8 +222,8 @@ echo ""
 # Check TypeScript strict mode (recommended)
 echo "Checking TypeScript configuration..."
 
-if grep -q "typescript:" $CONFIG_FILE; then
-    if grep -A 5 "typescript:" $CONFIG_FILE | grep -q "strict: true"; then
+if grep -q "typescript:" "$CONFIG_FILE"; then
+    if grep -A 5 "typescript:" "$CONFIG_FILE" | grep -q "strict: true"; then
         success "TypeScript strict mode enabled (recommended)"
     else
         info "TypeScript strict mode not enabled"

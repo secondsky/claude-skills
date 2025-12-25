@@ -3,7 +3,7 @@
 # Nuxt Studio Prerequisites Checker
 # Verifies system requirements and dependencies for Nuxt Studio setup
 
-set -e
+set -u -o pipefail
 
 # Colors for output
 RED='\033[0;31m'

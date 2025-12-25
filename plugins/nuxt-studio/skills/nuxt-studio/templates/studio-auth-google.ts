@@ -27,7 +27,7 @@
 // MANUAL CONFIGURATION (Advanced)
 // ============================================
 
-import type { OAuthConfig } from '@nuxt/studio'
+import type { OAuthConfig } from 'nuxt-auth-utils'
 
 export const googleOAuthConfig: OAuthConfig = {
   // Provider name

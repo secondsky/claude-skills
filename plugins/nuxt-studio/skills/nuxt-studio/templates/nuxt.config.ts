@@ -110,6 +110,13 @@ export default defineNuxtConfig({
       // Use 'cloudflare-r2' for Cloudflare deployments (required for Pages)
       storage: 'cloudflare-r2',
 
+      // Cloudflare R2 configuration (required when using cloudflare-r2 storage)
+      r2: {
+        accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
+        bucketName: process.env.R2_BUCKET_NAME!,
+        publicUrl: process.env.R2_PUBLIC_URL!
+      },
+
       // Supported file formats
       formats: ['jpeg', 'png', 'gif', 'webp', 'avif', 'svg'],
 

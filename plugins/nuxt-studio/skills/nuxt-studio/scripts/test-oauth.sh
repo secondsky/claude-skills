@@ -3,8 +3,6 @@
 # Nuxt Studio OAuth Configuration Tester
 # Tests OAuth environment variables setup
 
-set -e
-
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -54,10 +52,15 @@ else
     success "Found $ENV_FILE"
     echo ""
 
-    # Source the env file
-    set -a
-    source $ENV_FILE
-    set +a
+    # Source the env file with error handling
+    if [ -f "$ENV_FILE" ]; then
+        set -a
+        source "$ENV_FILE" || {
+            error "Failed to source $ENV_FILE"
+            exit 1
+        }
+        set +a
+    fi
 fi
 
 # Function to test OAuth provider

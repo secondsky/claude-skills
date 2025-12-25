@@ -349,7 +349,7 @@ NPM_VERSION = 10
 
 For Bun:
 ```
-BUN_VERSION = 1.1
+BUN_VERSION = 1.3.5
 ```
 
 ---

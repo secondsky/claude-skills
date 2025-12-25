@@ -25,7 +25,7 @@
 // MANUAL CONFIGURATION (Advanced Use Cases)
 // ============================================
 
-import type { OAuthConfig } from '@nuxt/studio'
+import type { OAuthConfig } from 'nuxt-auth-utils'
 
 export const githubOAuthConfig: OAuthConfig = {
   // Provider name
