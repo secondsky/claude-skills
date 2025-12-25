@@ -26,13 +26,13 @@ Comprehensive error catalog and solutions for common Nuxt Studio issues.
 **Solution**:
 ```bash
 # Install using nuxi (recommended)
-npx nuxi@latest module add studio
+npx nuxi module add nuxt-studio@beta
 
 # Or manually
-npm install -D @nuxthq/studio
+npm install -D nuxt-studio@beta
 
 # Verify in package.json
-grep "@nuxthq/studio" package.json
+grep "nuxt-studio" package.json
 ```
 
 **Verify** `nuxt.config.ts` includes:

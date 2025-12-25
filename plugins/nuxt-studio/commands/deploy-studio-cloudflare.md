@@ -297,10 +297,10 @@ Get domain from user, then create wrangler.toml:
 ```toml
 name = "studio-cms"
 main = "./.output/server/index.mjs"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-12-25"
 
-[site]
-bucket = "./.output/public"
+[assets]
+directory = "./.output/public"
 
 routes = [
   { pattern = "studio.yourdomain.com/*", zone_name = "yourdomain.com" }

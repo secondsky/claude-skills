@@ -58,16 +58,16 @@ Use the AskUserQuestion tool to ask the user:
 
 ### 3. Install Studio Module
 
-Check if @nuxthq/studio is already installed:
+Check if nuxt-studio is already installed:
 
 ```bash
-grep "@nuxthq/studio" package.json
+grep "nuxt-studio" package.json
 ```
 
 If not installed, install it:
 
 ```bash
-npx nuxi@latest module add studio
+npx nuxi module add nuxt-studio@beta
 ```
 
 Confirm installation succeeded.
@@ -86,7 +86,7 @@ Ensure modules array has correct order:
 ```typescript
 modules: [
   '@nuxt/content',  // Must be first
-  '@nuxthq/studio'
+  'nuxt-studio'
 ]
 ```
 
@@ -239,7 +239,7 @@ Files Modified:
 - nuxt.config.ts (Studio configuration added)
 - .env.local (OAuth template created)
 - .gitignore (environment files added)
-- package.json (@nuxthq/studio installed)
+- package.json (nuxt-studio@beta installed)
 
 For help: Load references/troubleshooting.md
 ```

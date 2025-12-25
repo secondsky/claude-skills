@@ -54,13 +54,13 @@ Verify >= 18.x:
 
 ### 2. Studio Module Validation
 
-**Check @nuxt/studio installed:**
+**Check nuxt-studio installed:**
 ```bash
-grep "@nuxt/studio" package.json
+grep "nuxt-studio" package.json
 ```
 
 If not found:
-- Error: "@nuxt/studio module not installed"
+- Error: "nuxt-studio module not installed"
 - Fix: Offer to install via `npx nuxi module add nuxt-studio@beta`
 
 **Check module order in nuxt.config.ts:**
@@ -69,7 +69,7 @@ If not found:
 ```
 
 Verify modules array has:
-1. '@nuxt/content' BEFORE '@nuxt/studio'
+1. '@nuxt/content' BEFORE 'nuxt-studio'
 2. Both modules present
 
 If wrong order:
@@ -253,7 +253,7 @@ Prerequisites:
 ⚠ Node version 16.x (18+ recommended)
 
 Studio Configuration:
-✓ @nuxt/studio module installed
+✓ nuxt-studio module installed
 ✓ Modules in correct order
 ✗ Cloudflare preset not configured
 
@@ -316,7 +316,7 @@ Make error messages:
 Validation succeeds when:
 - Nuxt Content >= 2.x installed
 - Nuxt >= 3.x installed
-- @nuxt/studio module installed
+- nuxt-studio module installed
 - Modules in correct order
 - (Optional) OAuth configured
 - (Optional) Cloudflare preset configured
