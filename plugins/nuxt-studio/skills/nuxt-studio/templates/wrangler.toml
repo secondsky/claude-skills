@@ -1,0 +1,172 @@
+# Wrangler Configuration for Nuxt Studio on Cloudflare Workers
+# Copy and customize for your Studio deployment
+
+# Worker name (appears in Cloudflare dashboard)
+name = "studio-cms"
+
+# Entry point for the Worker
+main = "./.output/server/index.mjs"
+
+# Compatibility date - use latest stable
+compatibility_date = "2025-12-25"
+
+# Static assets configuration
+[assets]
+directory = "./.output/public"
+
+# Custom subdomain routing
+# Uncomment and customize for your domain
+routes = [
+  { pattern = "studio.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+# Alternative: Wildcard routing for preview branches
+# routes = [
+#   { pattern = "*.studio.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# Environment variables (non-sensitive only)
+# Sensitive values should be set via `wrangler secret put` or Cloudflare dashboard
+[vars]
+NUXT_PUBLIC_STUDIO_URL = "https://studio.yourdomain.com"
+
+# Example: Set Node.js compatibility flag if needed
+# NODE_VERSION = "18"
+
+# Production environment configuration
+[env.production]
+name = "studio-cms-production"
+routes = [
+  { pattern = "studio.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+[env.production.vars]
+NUXT_PUBLIC_STUDIO_URL = "https://studio.yourdomain.com"
+
+# Staging environment configuration
+[env.staging]
+name = "studio-cms-staging"
+routes = [
+  { pattern = "studio-staging.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+[env.staging.vars]
+NUXT_PUBLIC_STUDIO_URL = "https://studio-staging.yourdomain.com"
+
+# Development environment configuration
+[env.development]
+name = "studio-cms-dev"
+routes = [
+  { pattern = "studio-dev.yourdomain.com/*", zone_name = "yourdomain.com" }
+]
+
+[env.development.vars]
+NUXT_PUBLIC_STUDIO_URL = "https://studio-dev.yourdomain.com"
+
+# Durable Objects (if needed for advanced features)
+# [[durable_objects.bindings]]
+# name = "STUDIO_DO"
+# class_name = "StudioDurableObject"
+# script_name = "studio-cms"
+
+# KV Namespaces (if needed for caching or session storage)
+# [[kv_namespaces]]
+# binding = "STUDIO_CACHE"
+# id = "your_kv_namespace_id"
+# preview_id = "your_preview_kv_namespace_id"
+
+# R2 Buckets (if using R2 for media storage)
+# [[r2_buckets]]
+# binding = "STUDIO_MEDIA"
+# bucket_name = "studio-media"
+# preview_bucket_name = "studio-media-preview"
+
+# D1 Databases (if needed for advanced Studio features)
+# [[d1_databases]]
+# binding = "STUDIO_DB"
+# database_name = "studio-database"
+# database_id = "your_database_id"
+
+# Analytics Engine (for Studio usage analytics)
+# [[analytics_engine_datasets]]
+# binding = "STUDIO_ANALYTICS"
+
+# Build configuration
+[build]
+# Build command (runs before deployment)
+command = "npm run build"
+
+# Watch paths for auto-rebuilding (development)
+# watch_dirs = ["content/", "pages/", "components/"]
+
+# Observability (optional - for monitoring)
+# [observability]
+# enabled = true
+
+# Deployment configuration
+[deploy]
+# Compatibility flags (if needed for specific Workers features)
+# compatibility_flags = []
+
+# Limits (optional - adjust based on your needs)
+# [limits]
+# cpu_ms = 50
+# memory_mb = 128
+
+# Triggers (for scheduled tasks - if needed)
+# [[triggers.crons]]
+# cron = "0 0 * * *"  # Daily at midnight
+# name = "daily-cleanup"
+
+# ====================================
+# DEPLOYMENT INSTRUCTIONS
+# ====================================
+#
+# 1. Install wrangler:
+#    npm install -g wrangler
+#    (or use bun: bun add -g wrangler)
+#
+# 2. Login to Cloudflare:
+#    wrangler login
+#
+# 3. Build your Nuxt app:
+#    npm run build
+#
+# 4. Set OAuth secrets (NEVER commit these):
+#    wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_ID
+#    wrangler secret put NUXT_OAUTH_GITHUB_CLIENT_SECRET
+#    (repeat for GitLab/Google if using)
+#
+# 5. Deploy to production:
+#    wrangler deploy
+#
+# 6. Deploy to specific environment:
+#    wrangler deploy --env staging
+#    wrangler deploy --env development
+#
+# 7. View logs:
+#    wrangler tail
+#
+# 8. Test locally:
+#    wrangler dev
+#
+# ====================================
+# SECURITY NOTES
+# ====================================
+#
+# - NEVER commit OAuth secrets to Git
+# - Use `wrangler secret` for all sensitive values
+# - Keep this file in version control (safe without secrets)
+# - Rotate secrets regularly
+# - Use different OAuth apps for each environment
+#
+# ====================================
+# CUSTOMIZATION
+# ====================================
+#
+# Replace all instances of:
+# - "yourdomain.com" with your actual domain
+# - "studio-cms" with your preferred worker name
+# - "studio.yourdomain.com" with your subdomain
+#
+# ====================================
