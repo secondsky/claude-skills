@@ -1095,7 +1095,7 @@
       "name": "project-workflow",
       "source": "./plugins/project-workflow",
       "version": "3.0.0",
-      "description": "Project lifecycle automation with 7 slash commands. Use for idea exploration, project planning, session management, safe releases, or encountering /explore-idea, /plan-project, /plan-feature, /continue-session, /wrap-session, /release, /workflow command errors.",
+      "description": "Project lifecycle automation with 7 slash commands: /explore-idea, /plan-project, /plan-feature, /continue-session, /wrap-session, /release, /workflow. Use for idea exploration, project planning, session management, and safe releases.",
       "keywords": ["project-workflow","project","workflow","project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases","implementation"],
       "category": "tooling"
     }
