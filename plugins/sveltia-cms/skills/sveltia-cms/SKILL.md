@@ -1,20 +1,6 @@
 ---
 name: sveltia-cms
-description: |
-  Complete Sveltia CMS skill for lightweight, Git-backed content management.
-  Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB),
-  faster GraphQL-based performance, and solves 260+ predecessor issues.
-
-  Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll,
-  11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing
-  sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class
-  i18n support and mobile-friendly editing interface.
-
-  Prevents 8+ common errors including OAuth authentication failures, TOML formatting
-  issues, YAML parse errors, CORS/COOP policy problems, content not listing, script
-  loading errors, image upload failures, and deployment problems. Includes complete
-  setup guides, configuration examples, and Cloudflare Workers OAuth proxy deployment
-  documentation.
+description: Sveltia CMS Git-backed content management (Decap/Netlify CMS successor). 5x smaller bundle (300 KB), GraphQL performance, solves 260+ issues. Use for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, Next.js), blogs, docs, i18n, or encountering OAuth errors, TOML/YAML issues, CORS problems, content listing errors.
 license: MIT
 allowed-tools: ['Read', 'Write', 'Edit', 'Bash', 'Glob', 'Grep']
 metadata:

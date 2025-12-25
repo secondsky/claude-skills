@@ -1,6 +1,6 @@
 {
   "name": "tanstack-ai",
-  "description": "TanStack AI (alpha): provider-agnostic AI chat with streaming, tools, and adapters. Use for OpenAI, Anthropic, Gemini, or Ollama chat APIs.",
+  "description": "TanStack AI (alpha) provider-agnostic type-safe chat with streaming for OpenAI, Anthropic, Gemini, Ollama. Use for chat APIs, React/Solid frontends with useChat/ChatClient, isomorphic tools, tool approval flows, agent loops, multimodal inputs, or troubleshooting streaming and tool definitions.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

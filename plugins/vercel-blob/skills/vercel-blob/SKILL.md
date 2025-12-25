@@ -1,16 +1,6 @@
 ---
 name: vercel-blob
-description: |
-  This skill provides comprehensive knowledge for integrating Vercel Blob object storage into Vercel applications. It should be used when setting up file uploads, managing images and documents, implementing CDN-delivered assets, or handling large files in Next.js serverless and edge functions.
-
-  Use this skill when:
-  - Setting up file uploads for Next.js applications (images, PDFs, videos)
-  - Implementing client-side uploads with presigned URLs
-  - Managing user-generated content (avatars, attachments, media)
-  - Building file management features (list, download, delete)
-  - Migrating from Cloudflare R2 to Vercel Blob
-  - Encountering errors like "BLOB_READ_WRITE_TOKEN not set", "file size limit exceeded", or "client upload token errors"
-  - Need simple object storage with automatic CDN distribution
+description: Vercel Blob object storage with CDN for Next.js. Use for file uploads (images, PDFs, videos), presigned URLs, user-generated content, file management, or encountering BLOB_READ_WRITE_TOKEN errors, file size limits, client upload token errors.
 
   Keywords: vercel blob, @vercel/blob, vercel storage, vercel file upload, vercel cdn, blob storage vercel, client upload vercel, presigned url vercel, file upload nextjs, image upload vercel, pdf upload, video upload, user uploads, multipart upload, streaming upload, blob cdn, vercel assets, file download
 license: MIT

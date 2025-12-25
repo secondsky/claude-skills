@@ -106,6 +106,8 @@ User: "Yes"
 Result: Production-ready setup, zero errors, ~65% token savings
 ```
 
+**Note**: Due to token limits, not all skills may be visible at once. See [⚠️ Important: Token Limits](#-important-token-limits) below.
+
 ### Skill Structure
 
 Each skill includes:
@@ -119,6 +121,46 @@ skills/[skill-name]/
 ├── scripts/              # Automation scripts
 └── references/           # Extended documentation
 ```
+
+---
+
+## ⚠️ Important: Token Limits
+
+### Skill Visibility Constraint
+
+Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
+
+**What this means:**
+- Not all 169 skills may be visible in Claude's context at once
+- Skills are loaded based on relevance and available token budget
+- You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
+
+### Checking Visible Skills
+
+To verify which skills are currently loaded:
+
+```bash
+# Ask Claude Code directly
+"Check what skills/plugins you see in your system prompt"
+```
+
+Claude will report something like: "79 of 96 skills visible due to token limits"
+
+### Workaround: Increase Token Budget
+
+You can double the headroom for skill descriptions by setting an environment variable:
+
+```bash
+# Increase limit to 30,000 characters
+export SLASH_COMMAND_TOOL_CHAR_BUDGET=30000
+
+# Then launch Claude Code
+claude
+```
+
+This gives you approximately **2x more skill visibility** in the system prompt.
+
+**Note**: This is a temporary workaround. The Claude Code team is working on better solutions for skill discovery and loading.
 
 ---
 
