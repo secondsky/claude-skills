@@ -957,6 +957,15 @@
     }
 ,
     {
+      "name": "nuxt-studio",
+      "source": "./plugins/nuxt-studio",
+      "version": "1.0.0",
+      "description": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up Nuxt Studio, configuring OAuth authentication, deploying to Cloudflare Pages/Workers with subdomain routing, or troubleshooting Studio integration.",
+      "keywords": ["nuxt","nuxt-studio","nuxt-content","cms","visual-editor","cloudflare","cloudflare-pages","cloudflare-workers","oauth","github-auth","gitlab-auth","google-auth","subdomain","content-management","tiptap","monaco","deployment"],
+      "category": "frontend"
+    }
+,
+    {
       "name": "nuxt-ui-v4",
       "source": "./plugins/nuxt-ui-v4",
       "version": "3.0.0",
