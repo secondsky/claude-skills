@@ -294,7 +294,7 @@
       "name": "clerk-auth",
       "source": "./plugins/clerk-auth",
       "version": "3.0.0",
-      "description": "Clerk auth for React, Next.js, Cloudflare Workers. JWT templates, protected routes, RBAC. Use when implementing authentication or troubleshooting Clerk errors.",
+      "description": "Clerk authentication for React, Next.js, Cloudflare Workers. Use for auth setup, protected routes, JWT verification/templates, clerkMiddleware, shadcn/ui integration, testing flows, or encountering secret key errors, JWKS cache issues, JWT size limits, CSRF vulnerabilities.",
       "keywords": ["clerk-auth","clerk","auth","clerk auth","clerk authentication","@clerk/nextjs","@clerk/backend","@clerk/clerk-react","clerkmiddleware","createroutematcher","verifytoken","useuser","useauth","useclerk","jwt template","jwt claims","jwt shortcodes","custom jwt","session claims","gettoken template","user.public_metadata","org_id","org_slug","org_role","customjwtsessionclaims","sessionclaims metadata","clerk webhook","clerk secret key","clerk publishable key","protected routes","cloudflare workers auth","next.js auth","shadcn/ui auth","@hono/clerk-auth","missing clerk secret key","cannot be used as a jsx component","jwks error","authorizedparties","clerk middleware","clerkprovider","userbutton","signin","signup","clerk testing","test emails","test phone numbers","+clerk_test","424242 otp","session token","testing token","@clerk/testing","playwright testing","e2e testing","clerk test mode","bot detection","generate session token","test users","api","csrf","e2e","jsx","jwks","jwt","otp","rbac","authentication","migration","async"],
       "category": "auth"
     }
@@ -519,7 +519,7 @@
       "name": "content-collections",
       "source": "./plugins/content-collections",
       "version": "3.0.0",
-      "description": "Production-tested setup for Content Collections - a TypeScript-first build tool that transforms local content files (Markdown/MDX) into type-safe data collections with automatic validation. Use when: building blogs, documentation sites, or content-heavy applications with Vite + React, setting up MDX content with React components, implementing type-safe content schemas with Zod, migrating from Contentlayer, or encountering TypeScript import errors with content collections. Covers: Vite plugin setup, tsconfig path aliases, collection schemas with Zod validation, MDX compilation with compileMDX, transform functions for computed properties, rehype/remark plugins, React component integration with MDXContent, Cloudflare Workers deployment, and production build optimization.",
+      "description": "Content Collections TypeScript-first build tool for Markdown/MDX content. Use for blogs, docs, content sites with Vite + React, MDX components, type-safe Zod schemas, Contentlayer migration, or encountering TypeScript import errors, path alias issues, collection validation errors.",
       "keywords": ["content-collections","content","collections","@content-collections/core","@content-collections/vite","@content-collections/mdx","mdx","markdown","zod schema validation","type-safe content","frontmatter","compilemdx","definecollection","defineconfig","vite plugin","tsconfig paths",".content-collections/generated","mdxcontent component","rehype plugins","remark plugins","content schema","document transform","allposts import","static site generation","blog setup","documentation","cloudflare workers static assets","content validation errors","module not found content-collections","path alias not working","mdx type errors","transform function async","collection not updating","validation","integration","async"],
       "category": "cms"
     }
@@ -924,7 +924,7 @@
       "name": "neon-vercel-postgres",
       "source": "./plugins/neon-vercel-postgres",
       "version": "3.0.0",
-      "description": "This skill provides comprehensive knowledge for integrating Neon serverless Postgres and Vercel Postgres (which is built on Neon infrastructure) into web applications. It should be used when setting up serverless Postgres databases, configuring connection pooling for edge and serverless environments, implementing database branching workflows, or troubleshooting Postgres connection issues in Cloudflare Workers, Vercel Edge Functions, or Node.js serverless functions. Use this skill when: - Setting up Neon Postgres for Cloudflare Workers, Vercel Edge, or serverless environments - Configuring Vercel Postgres for Next.js applications - Implementing database branching workflows (git-like database branches) - Integrating Drizzle ORM or Prisma with Neon/Vercel Postgres - Debugging connection pool errors, transaction timeouts, or SSL configuration issues - Migrating from D1/SQLite to Postgres or from traditional Postgres to serverless Postgres - Setting up point-in-time restore (PITR) or database backups - Encountering errors like \"connection pool exhausted\", \"TCP connections not supported in serverless\", or \"sslmode required\"",
+      "description": "Neon + Vercel serverless Postgres for edge and serverless environments. Use for Cloudflare Workers, Vercel Edge, Next.js apps with HTTP/WebSocket connections, database branching (git-like), Drizzle/Prisma ORM integration, migrations, PITR backups, or encountering connection pool exhausted errors, TCP connection issues, SSL config problems.",
       "keywords": ["neon-vercel-postgres","neon","vercel","postgres","neon postgres","@neondatabase/serverless","@vercel/postgres","serverless postgres","postgres edge","neon branching","vercel database","http postgres","websocket postgres","pooled connection","drizzle neon","prisma neon","postgres cloudflare","postgres vercel edge","sql template tag","neonctl","database branches","point in time restore","postgres migrations","serverless sql","edge database","neon api","vercel sql","orm","pitr","ssl","tcp","migration","edge"],
       "category": "database"
     }
@@ -942,7 +942,7 @@
       "name": "nuxt-content",
       "source": "./plugins/nuxt-content",
       "version": "3.0.0",
-      "description": "This skill provides comprehensive knowledge for building content-driven sites with Nuxt Content v3, a Git-based CMS for Nuxt projects. Use this skill when creating blogs, documentation sites, or content-heavy applications with Markdown/MDC syntax, content collections with type-safe queries, schema validation using Zod or Valibot, navigation utilities, full-text search, and deploying to Cloudflare (Pages/Workers with D1) or Vercel. This skill covers Nuxt Studio integration for self-hosted production content editing with GitHub sync, SQL-based storage for optimal performance, automatic TypeScript type generation, MDC components (Markdown Components), Prose component customization, and query builders with SQL-like operations. Use when: implementing Git-based content workflows, setting up type-safe content queries, deploying Nuxt Content to Cloudflare D1 or Vercel, configuring Nuxt Studio for production content editing, building searchable content with queryCollectionSearchSections, creating auto-generated navigation from content structure, validating content schemas with Zod/Valibot, or troubleshooting content collection errors.",
+      "description": "Nuxt Content v3 Git-backed CMS for Markdown/MDC content sites. Use for blogs, docs, content-driven apps with type-safe queries, schema validation (Zod/Valibot), full-text search, navigation utilities. Supports Nuxt Studio production editing, Cloudflare D1/Pages deployment, Vercel deployment, SQL storage, MDC components, content collections.",
       "keywords": ["nuxt-content","nuxt","content","nuxt content","@nuxt/content","content collections","git-based cms","markdown cms","mdc syntax","nuxt studio","content editing","querycollection","cloudflare d1 deployment","vercel deployment","markdown components","prose components","content navigation","full-text search","type-safe queries","sql storage","content schema validation","zod validation","valibot","remote repositories","content queries","querycollectionnavigation","querycollectionsearchsections","contentrenderer component","cms","mdc","sql","contentrenderer","github","validation","integration"],
       "category": "frontend"
     }
@@ -1095,7 +1095,7 @@
       "name": "project-workflow",
       "source": "./plugins/project-workflow",
       "version": "3.0.0",
-      "description": "Automate complete project lifecycle from idea exploration to safe deployment with 7 integrated slash commands. Use when starting projects, planning features, managing development sessions, or ensuring safe releases. Includes /explore-idea, /plan-project, /add-feature, /start-session, /end-session, /safe-merge, /prepare-release commands. Saves 35-55 minutes per project by automating repetitive tasks and enforcing best practices for context management, planning documentation, and release safety checks.",
+      "description": "Project lifecycle automation with 7 slash commands. Use for idea exploration, project planning, session management, safe releases, or encountering /explore-idea, /plan-project, /plan-feature, /continue-session, /wrap-session, /release, /workflow command errors.",
       "keywords": ["project-workflow","project","workflow","project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases","implementation"],
       "category": "tooling"
     }
@@ -1248,7 +1248,7 @@
       "name": "sveltia-cms",
       "source": "./plugins/sveltia-cms",
       "version": "3.0.0",
-      "description": "Complete Sveltia CMS skill for lightweight, Git-backed content management. Sveltia is the modern successor to Decap/Netlify CMS with 5x smaller bundle (300 KB), faster GraphQL-based performance, and solves 260+ predecessor issues. Use this skill when setting up Git-based CMS for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, SvelteKit, Next.js), blogs, documentation sites, marketing sites, or migrating from Decap/Netlify CMS. Framework-agnostic with first-class i18n support and mobile-friendly editing interface. Prevents 8+ common errors including OAuth authentication failures, TOML formatting issues, YAML parse errors, CORS/COOP policy problems, content not listing, script loading errors, image upload failures, and deployment problems. Includes complete setup guides, configuration examples, and Cloudflare Workers OAuth proxy deployment documentation.",
+      "description": "Sveltia CMS Git-backed content management (Decap/Netlify CMS successor). 5x smaller bundle (300 KB), GraphQL performance, solves 260+ issues. Use for static sites (Hugo, Jekyll, 11ty, Gatsby, Astro, Next.js), blogs, docs, i18n, or encountering OAuth errors, TOML/YAML issues, CORS problems, content listing errors.",
       "keywords": ["sveltia-cms","sveltia","cms","content","management","publishing","coop","cors","toml","yaml","graphql","sveltekit","authentication"],
       "category": "cms"
     }
@@ -1266,7 +1266,7 @@
       "name": "swift-settingskit",
       "source": "./plugins/swift-settingskit",
       "version": "3.0.0",
-      "description": "This skill provides comprehensive knowledge for building settings interfaces in SwiftUI using SettingsKit, a declarative framework for iOS, macOS, watchOS, tvOS, and visionOS apps. It should be used when creating settings screens, implementing searchable preferences, building nested navigation hierarchies, or encountering issues with settings UI state management. Use when: Building settings/preferences screens, implementing search in settings, creating nested settings navigation, customizing settings appearance, working with @Observable/@Bindable state in settings, encountering \"settings not updating\" errors, dealing with navigation state issues in settings, or migrating from traditional settings implementations.",
+      "description": "SettingsKit for SwiftUI settings interfaces (iOS, macOS, watchOS, tvOS, visionOS). Use for settings/preferences screens, searchable settings, nested navigation, @Observable/@Bindable state, or encountering settings update errors, navigation state issues.",
       "keywords": ["swift-settingskit","swift","settingskit","swiftui settings","settings interface","preferences ui","searchable settings","settings navigation","settingscontainer","settingsgroup","settingsitem","customsettingsgroup","settings tags","settings search","observable settings","bindable settings","ios 17","macos 14","swift 6","settings style","sidebar settings","declarative settings","settings hierarchy","swiftui","implementation"],
       "category": "mobile"
     }
@@ -1293,7 +1293,7 @@
       "name": "tanstack-ai",
       "source": "./plugins/tanstack-ai",
       "version": "3.0.0",
-      "description": "TanStack AI (alpha): provider-agnostic AI chat with streaming, tools, and adapters. Use for OpenAI, Anthropic, Gemini, or Ollama chat APIs.",
+      "description": "TanStack AI (alpha) provider-agnostic type-safe chat with streaming for OpenAI, Anthropic, Gemini, Ollama. Use for chat APIs, React/Solid frontends with useChat/ChatClient, isomorphic tools, tool approval flows, agent loops, multimodal inputs, or troubleshooting streaming and tool definitions.",
       "keywords": ["tanstack-ai","tanstack","tanstack ai","@tanstack/ai","@tanstack/ai-react","@tanstack/ai-client","@tanstack/ai-solid","@tanstack/ai-openai","@tanstack/ai-anthropic","@tanstack/ai-gemini","@tanstack/ai-ollama","tooldefinition","client tools","server tools","tool approval","agent loop","streaming","sse","connection adapters","multimodal","type-safe models","tanstack start","next.js api","tostreamresponse","fetchserversentevents","chat","usechat","chatclient","needsapproval","api","openai"],
       "category": "ai"
     }
@@ -1392,7 +1392,7 @@
       "name": "vercel-blob",
       "source": "./plugins/vercel-blob",
       "version": "3.0.0",
-      "description": "This skill provides comprehensive knowledge for integrating Vercel Blob object storage into Vercel applications. It should be used when setting up file uploads, managing images and documents, implementing CDN-delivered assets, or handling large files in Next.js serverless and edge functions. Use this skill when: - Setting up file uploads for Next.js applications (images, PDFs, videos) - Implementing client-side uploads with presigned URLs - Managing user-generated content (avatars, attachments, media) - Building file management features (list, download, delete) - Migrating from Cloudflare R2 to Vercel Blob - Encountering errors like \"BLOB_READ_WRITE_TOKEN not set\", \"file size limit exceeded\", or \"client upload token errors\" - Need simple object storage with automatic CDN distribution",
+      "description": "Vercel Blob object storage with CDN for Next.js. Use for file uploads (images, PDFs, videos), presigned URLs, user-generated content, file management, or encountering BLOB_READ_WRITE_TOKEN errors, file size limits, client upload token errors.",
       "keywords": ["vercel-blob","vercel","blob","vercel blob","@vercel/blob","vercel storage","vercel file upload","vercel cdn","blob storage vercel","client upload vercel","presigned url vercel","file upload nextjs","image upload vercel","pdf upload","video upload","user uploads","multipart upload","streaming upload","blob cdn","vercel assets","file download","cdn","edge","streaming"],
       "category": "database"
     }
@@ -1401,7 +1401,7 @@
       "name": "vercel-kv",
       "source": "./plugins/vercel-kv",
       "version": "3.0.0",
-      "description": "This skill provides comprehensive knowledge for integrating Vercel KV (Redis-compatible key-value storage powered by Upstash) into Vercel applications. It should be used when setting up Vercel KV for Next.js applications, implementing caching patterns, managing sessions, or handling rate limiting in edge and serverless functions. Use this skill when: - Setting up Vercel KV for Next.js applications - Implementing caching strategies (page cache, API cache, data cache) - Managing user sessions or authentication tokens in serverless environments - Building rate limiting for APIs or features - Storing temporary data with TTL (time-to-live) - Migrating from Cloudflare KV to Vercel KV - Encountering errors like \"KV_REST_API_URL not set\", \"rate limit exceeded\", or \"JSON serialization errors\" - Need Redis-compatible API with strong consistency (vs eventual consistency)",
+      "description": "Vercel KV (Redis-compatible key-value storage via Upstash). Use for Next.js caching, sessions, rate limiting, TTL data storage, or encountering KV_REST_API_URL errors, rate limit issues, JSON serialization errors. Provides strong consistency vs eventual consistency.",
       "keywords": ["vercel-kv","vercel","vercel kv","@vercel/kv","vercel redis","upstash vercel","kv vercel","redis vercel edge","key-value vercel","vercel cache","vercel sessions","vercel rate limit","redis upstash","kv storage","edge kv","serverless redis","vercel ttl","vercel expire","kv typescript","next.js kv","server actions kv","edge runtime kv","api","json","ttl","authentication","edge","caching"],
       "category": "database"
     }
@@ -1518,7 +1518,7 @@
       "name": "zod",
       "source": "./plugins/zod",
       "version": "3.0.0",
-      "description": "TypeScript-first schema validation and type inference library. Use when: validating API requests/responses, form data, environment variables, or configuration; defining type-safe data schemas with runtime validation; transforming and refining data with custom logic; generating JSON Schema for OpenAPI or AI structured outputs; ensuring data integrity with zero dependencies (2kb gzipped); working with tRPC, React Hook Form, Prisma, or other ecosystem integrations. Prevents errors: missing validation leading to runtime crashes, incorrect type inference, unhandled validation errors, improper error message formatting, using outdated patterns, inefficient schema composition, missing refinements for business logic, incorrect async validation setup.",
+      "description": "TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).",
       "keywords": ["zod","validation","schema","type-safety","runtime-validation","type-inference","data-validation","form-validation","api-validation","json-schema","refinement","transformation","error-handling","parse","safeparse","z.object","z.string","z.number","z.array","z.union","z.discriminatedunion","z.refine","z.transform","z.infer","z.coerce","z.enum","z.literal","z.tuple","z.record","z.intersection","z.codec","z.tojsonschema","z.treeifyerror","z.flattenerror","z.prettifyerror","z.registry","z.globalregistry",".register",".meta","error-customization","localization","i18n","migration","v3-to-v4","breaking-changes","trpc","prisma-zod","react-hook-form","environment-variables","env-validation","config-validation","dto","type-guard","runtime-type-checking","react-hook-form-zod","typescript-mcp","api","json","openapi","integration","async"],
       "category": "tooling"
     }
@@ -1527,7 +1527,7 @@
       "name": "zustand-state-management",
       "source": "./plugins/zustand-state-management",
       "version": "3.0.0",
-      "description": "Production-tested setup for Zustand state management in React applications with TypeScript. This skill provides comprehensive patterns for building scalable, type-safe global state. Use when: setting up global state in React, migrating from Redux or Context API, implementing state persistence with localStorage, configuring TypeScript with Zustand, using slices pattern for modular stores, adding devtools middleware for debugging, handling Next.js SSR hydration, or encountering hydration errors, TypeScript inference issues, or persist middleware problems. Prevents 5 documented issues: Next.js hydration mismatches, TypeScript double parentheses syntax errors, persist middleware export errors, infinite render loops, and slices pattern type inference failures.",
+      "description": "Zustand state management for React with TypeScript. Use for global state, Redux/Context API migration, localStorage persistence, slices pattern, devtools, Next.js SSR, or encountering hydration errors, TypeScript inference issues, persist middleware problems, infinite render loops.",
       "keywords": ["zustand-state-management","zustand","state","management","state management","react state","typescript state","persist middleware","devtools","slices pattern","global state","react hooks","create store","useboundstore","statecreator","hydration error","text content mismatch","infinite render","localstorage","sessionstorage","immer middleware","shallow equality","selector pattern","zustand v5","api","ssr","scalable"],
       "category": "frontend"
     }

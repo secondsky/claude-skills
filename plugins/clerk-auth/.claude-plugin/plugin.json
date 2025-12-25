@@ -1,6 +1,6 @@
 {
   "name": "clerk-auth",
-  "description": "Clerk auth for React, Next.js, Cloudflare Workers. JWT templates, protected routes, RBAC. Use when implementing authentication or troubleshooting Clerk errors.",
+  "description": "Clerk authentication for React, Next.js, Cloudflare Workers. Use for auth setup, protected routes, JWT verification/templates, clerkMiddleware, shadcn/ui integration, testing flows, or encountering secret key errors, JWKS cache issues, JWT size limits, CSRF vulnerabilities.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

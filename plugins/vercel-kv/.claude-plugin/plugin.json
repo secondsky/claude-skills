@@ -1,6 +1,6 @@
 {
   "name": "vercel-kv",
-  "description": "This skill provides comprehensive knowledge for integrating Vercel KV (Redis-compatible key-value storage powered by Upstash) into Vercel applications. It should be used when setting up Vercel KV for Next.js applications, implementing caching patterns, managing sessions, or handling rate limiting in edge and serverless functions. Use this skill when: - Setting up Vercel KV for Next.js applications - Implementing caching strategies (page cache, API cache, data cache) - Managing user sessions or authentication tokens in serverless environments - Building rate limiting for APIs or features - Storing temporary data with TTL (time-to-live) - Migrating from Cloudflare KV to Vercel KV - Encountering errors like \"KV_REST_API_URL not set\", \"rate limit exceeded\", or \"JSON serialization errors\" - Need Redis-compatible API with strong consistency (vs eventual consistency)",
+  "description": "Vercel KV (Redis-compatible key-value storage via Upstash). Use for Next.js caching, sessions, rate limiting, TTL data storage, or encountering KV_REST_API_URL errors, rate limit issues, JSON serialization errors. Provides strong consistency vs eventual consistency.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",

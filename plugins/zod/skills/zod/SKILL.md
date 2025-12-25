@@ -1,16 +1,6 @@
 ---
 name: zod
-description: >
-  TypeScript-first schema validation and type inference library.
-  Use when: validating API requests/responses, form data, environment variables, or configuration;
-  defining type-safe data schemas with runtime validation;
-  transforming and refining data with custom logic;
-  generating JSON Schema for OpenAPI or AI structured outputs;
-  ensuring data integrity with zero dependencies (2kb gzipped);
-  working with tRPC, React Hook Form, Prisma, or other ecosystem integrations.
-  Prevents errors: missing validation leading to runtime crashes, incorrect type inference,
-  unhandled validation errors, improper error message formatting, using outdated patterns,
-  inefficient schema composition, missing refinements for business logic, incorrect async validation setup.
+description: TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).
 license: MIT
 metadata:
   version: 2.0.0
