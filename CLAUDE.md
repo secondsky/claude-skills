@@ -9,16 +9,30 @@
 
 ---
 
-## ⚠️ CRITICAL: Repository Policy
+## ⚠️ CRITICAL: Repository Policy - NEVER TOUCH JEZWEB REPO
+
+**🚨 ABSOLUTE RULE: The `jezweb/claude-skills` repository must NEVER be modified under ANY circumstances! 🚨**
 
 **ONLY work in the official repository: https://github.com/secondsky/claude-skills**
 
-- ❌ NEVER push, create PRs, or make changes to the `jezweb/claude-skills` fork
-- ❌ NEVER create branches or commits targeting the fork
-- ✅ ALWAYS use `origin` pointing to `secondsky/claude-skills`
-- ✅ If asked to create a PR, ensure it targets `secondsky/claude-skills`
+### ❌ FORBIDDEN ACTIONS (jezweb repo):
+- ❌ NEVER push commits to `jezweb` remote
+- ❌ NEVER create PRs to `jezweb/claude-skills`
+- ❌ NEVER create branches targeting `jezweb`
+- ❌ NEVER make ANY changes to `jezweb` repository
+- ❌ NEVER use `git push jezweb` or `git push upstream` (both point to jezweb)
+- ❌ NEVER use `gh pr create` without explicitly specifying `--repo secondsky/claude-skills`
 
-The `jezweb` repository is a fork used only when explicitly requested by the user.
+### ✅ REQUIRED ACTIONS (secondsky repo):
+- ✅ ALWAYS use `origin` remote pointing to `secondsky/claude-skills`
+- ✅ ALWAYS push to: `git push origin <branch>`
+- ✅ ALWAYS create PRs to: `secondsky/claude-skills` via `gh pr create --repo secondsky/claude-skills`
+- ✅ ALWAYS verify remote before pushing: `git remote -v` (check origin = secondsky)
+
+### Why This Matters:
+The `jezweb/claude-skills` is a PERSONAL FORK that must remain untouched. All development happens in `secondsky/claude-skills`. Pushing to jezweb would corrupt the fork and cause serious issues.
+
+**If user says "push" or "create PR" without specifying repo, ALWAYS default to secondsky/claude-skills.**
 
 ---
 
