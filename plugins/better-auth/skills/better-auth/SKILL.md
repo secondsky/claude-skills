@@ -1,22 +1,22 @@
 ---
 name: better-auth
-description: better-auth authentication for TypeScript with Cloudflare D1 via Drizzle ORM/Kysely. Use for self-hosted auth, social providers, 2FA, passkeys, RBAC, or encountering D1 adapter, schema generation, session, CORS, OAuth flow errors.
-keywords: better-auth, authentication, cloudflare d1 auth, drizzle orm auth, kysely auth, self-hosted auth, typescript auth, clerk alternative, auth.js alternative, social login, oauth providers, session management, jwt tokens, 2fa, two-factor, passkeys, webauthn, multi-tenant auth, organizations, teams, rbac, role-based access, google auth, github auth, microsoft auth, apple auth, magic links, email password, better-auth setup, drizzle d1, kysely d1, session serialization error, cors auth, d1 adapter
+description: better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.
+keywords: better-auth, authentication, cloudflare d1 auth, drizzle orm auth, kysely auth, self-hosted auth, typescript auth, clerk alternative, auth.js alternative, social login, oauth providers, session management, jwt tokens, 2fa, two-factor, passkeys, webauthn, multi-tenant auth, organizations, teams, rbac, role-based access, google auth, github auth, microsoft auth, apple auth, magic links, email password, better-auth setup, drizzle d1, kysely d1, session serialization error, cors auth, d1 adapter, nextjs auth, nuxt auth, remix auth, sveltekit auth, expo auth, react native auth, postgresql auth, mongodb auth, mysql auth, stripe auth, api keys, sso, saml, scim, admin dashboard, background tasks, oauth 2.1, cli
 license: MIT
 metadata:
-  version: "2.1.0"
-  package_version: "1.4.3"
-  last_verified: "2025-11-27"
+  version: "2.2.0"
+  package_version: "1.4.8"
+  last_verified: "2025-12-26"
   errors_prevented: 15
   templates_included: 4
-  references_included: 10
+  references_included: 23
 ---
 
 # better-auth
 
 **Status**: Production Ready
-**Last Updated**: 2025-11-27
-**Package**: `better-auth@1.4.3` (ESM-only)
+**Last Updated**: 2025-12-26
+**Package**: `better-auth@1.4.8` (ESM-only)
 **Dependencies**: Drizzle ORM or Kysely (required for D1)
 
 ---
@@ -178,6 +178,20 @@ sendVerificationEmail: async ({ user, url, ctx }) => {}
 
 **Load `references/migration-guide-1.4.0.md` when upgrading from <1.4.0**
 
+### New in v1.4.4-1.4.8
+
+**Key additions since v1.4.3**:
+
+- **Background Tasks** (v1.4.8): Global `backgroundTasks` config to defer email sending
+- **New OAuth Providers**: Patreon (v1.4.8), Vercel (v1.4.3), Kick (v1.4.6) with refresh tokens
+- **OAuth 2.1 Plugin** (v1.4.8): Standards-compliant OAuth implementation
+- **CLI Tool** (v1.4.4): `better-auth` CLI with project scaffolding
+- **SAML/SSO**: Clock skew validation (v1.4.7), InResponseTo, OIDC discovery
+- **Admin Permissions** (v1.4.7): Admin role with granular user update permissions
+- **ctx.isTrustedDomain** (v1.4.6): Helper for domain verification
+
+**Load `references/v1.4-features.md` for detailed implementation guides.**
+
 ---
 
 ## Top 5 Errors (See references/error-catalog.md for all 15)
@@ -226,8 +240,9 @@ emailAndPassword: {
 ```
 **Load**: `references/setup-guide.md` → Step 5
 
-### Use Case 2: Social Authentication (Google, GitHub)
+### Use Case 2: Social Authentication (45+ Providers)
 **When**: Allow users to sign in with social accounts
+**Supported**: Google, GitHub, Microsoft, Apple, Discord, TikTok, Twitch, Spotify, LinkedIn, Slack, Reddit, Facebook, Twitter/X, Patreon, Vercel, Kick, and 30+ more.
 **Quick Pattern**:
 ```typescript
 // Client
@@ -335,6 +350,73 @@ app.get("/api/protected", async (c) => {
 - User asks about breaking changes or migration steps
 - User needs to migrate callback functions or API endpoints
 
+**Load `references/v1.4-features.md` when**:
+- User asks about background tasks or deferred email sending
+- User needs Patreon, Vercel, or Kick OAuth provider setup
+- User asks about OAuth 2.1 compliance
+- User needs SAML/SSO with clock skew or OIDC discovery
+- User asks about the better-auth CLI tool
+- User needs admin role permissions configuration
+- User asks about ctx.isTrustedDomain or domain verification
+
+### Framework-Specific Setup
+
+**Load `references/frameworks/nextjs.md` when**:
+- User building with Next.js (App Router or Pages Router)
+- User needs middleware, Server Components, or API routes
+
+**Load `references/frameworks/nuxt.md` when**:
+- User building with Nuxt 3
+- User needs H3 handlers, composables, or server routes
+
+**Load `references/frameworks/remix.md` when**:
+- User building with Remix
+- User needs loader/action patterns or session handling
+
+**Load `references/frameworks/sveltekit.md` when**:
+- User building with SvelteKit
+- User needs hooks, load functions, or stores
+
+**Load `references/frameworks/api-frameworks.md` when**:
+- User building with Express, Fastify, NestJS, or Hono (non-Cloudflare)
+- User needs middleware or route configuration
+
+**Load `references/frameworks/expo-mobile.md` when**:
+- User building React Native or Expo app
+- User needs SecureStore, deep linking, or mobile auth
+
+### Database Adapters
+
+**Load `references/databases/postgresql.md` when**:
+- User using PostgreSQL with Drizzle or Prisma
+- User needs Neon, Supabase, or connection pooling setup
+
+**Load `references/databases/mongodb.md` when**:
+- User using MongoDB
+- User needs Atlas setup or indexes
+
+**Load `references/databases/mysql.md` when**:
+- User using MySQL or PlanetScale
+- User needs Vitess compatibility guidance
+
+### Plugin Guides
+
+**Load `references/plugins/authentication.md` when**:
+- User needs 2FA, passkeys, magic links, email OTP, or anonymous users
+- User asks about enhanced authentication methods
+
+**Load `references/plugins/enterprise.md` when**:
+- User needs organizations, SSO/SAML, SCIM, or admin dashboard
+- User building multi-tenant or enterprise application
+
+**Load `references/plugins/api-tokens.md` when**:
+- User needs API keys, bearer tokens, JWT, or OIDC provider
+- User building API authentication for third parties
+
+**Load `references/plugins/payments.md` when**:
+- User needs Stripe or Polar integration
+- User building subscription or payment features
+
 ---
 
 ## Configuration Reference
@@ -367,6 +449,26 @@ export const auth = betterAuth({
 - **cloudflare-worker-kysely.ts** - Complete Worker with Kysely auth
 - **database-schema.ts** - Complete better-auth Drizzle schema
 - **react-client-hooks.tsx** - React components with auth hooks
+- **v1.4-features.md** - Background tasks, new OAuth providers, SAML/SSO, CLI
+
+### Framework References (references/frameworks/)
+- **nextjs.md** - Next.js App/Pages Router integration
+- **nuxt.md** - Nuxt 3 with H3 and composables
+- **remix.md** - Remix loaders, actions, sessions
+- **sveltekit.md** - SvelteKit hooks and stores
+- **api-frameworks.md** - Express, Fastify, NestJS, Hono
+- **expo-mobile.md** - React Native and Expo
+
+### Database References (references/databases/)
+- **postgresql.md** - PostgreSQL with Drizzle/Prisma, Neon/Supabase
+- **mongodb.md** - MongoDB adapter and Atlas
+- **mysql.md** - MySQL and PlanetScale
+
+### Plugin References (references/plugins/)
+- **authentication.md** - 2FA, passkeys, magic links, email OTP, anonymous
+- **enterprise.md** - Organizations, SSO, SCIM, admin
+- **api-tokens.md** - API keys, bearer tokens, JWT, OIDC
+- **payments.md** - Stripe, Polar integrations
 
 ### Client Integration
 
@@ -403,7 +505,7 @@ export function UserProfile() {
 ## Dependencies
 
 **Required**:
-- `better-auth@^1.4.3` - Core authentication framework (ESM-only)
+- `better-auth@^1.4.8` - Core authentication framework (ESM-only)
 
 **Choose ONE adapter**:
 - `drizzle-orm@^0.44.7` + `drizzle-kit@^0.31.7` (recommended)
@@ -414,6 +516,20 @@ export function UserProfile() {
 - `hono@^4.0.0` - Web framework for routing
 - `@better-auth/passkey` - Passkey plugin (v1.4.0+, separate package)
 - `@better-auth/api-key` - API key auth (v1.4.0+)
+
+---
+
+## Beyond Cloudflare D1
+
+This skill focuses on **Cloudflare Workers + D1**. better-auth also supports:
+
+**Frameworks** (18 total): Next.js, Nuxt, Remix, SvelteKit, Astro, Express, NestJS, Fastify, Elysia, Expo, and more.
+
+**Databases** (9 adapters): PostgreSQL, MongoDB, MySQL, Prisma, MS SQL, and others.
+
+**Additional Plugins**: Anonymous auth, Email OTP, JWT, Multi-Session, OIDC Provider, payment integrations (Stripe, Polar).
+
+**For non-Cloudflare setups**, load the appropriate framework or database reference file, or consult the official docs: https://better-auth.com/docs
 
 ---
 
@@ -454,7 +570,7 @@ export function UserProfile() {
 ## Complete Setup Checklist
 
 - [ ] Verified ESM support (`"type": "module"` in package.json) - v1.4.0+ required
-- [ ] Installed better-auth@1.4.3+ + Drizzle OR Kysely
+- [ ] Installed better-auth@1.4.8+ + Drizzle OR Kysely
 - [ ] Created D1 database with wrangler
 - [ ] Defined database schema with required tables (user, session, account, verification)
 - [ ] Generated and applied migrations to D1
