@@ -221,9 +221,9 @@
     {
       "name": "better-auth",
       "source": "./plugins/better-auth",
-      "version": "3.0.0",
-      "description": "better-auth authentication for TypeScript with Cloudflare D1 via Drizzle ORM/Kysely. Use for self-hosted auth, social providers, 2FA, passkeys, RBAC, or encountering D1 adapter, schema generation, session, CORS, OAuth flow errors.",
-      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac"],
+      "version": "3.1.0",
+      "description": "better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.",
+      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac","cloudflare","d1","drizzle","kysely","oauth","2fa","passkeys","organizations","nextjs","nuxt","remix","sveltekit","expo","postgresql","mongodb","mysql","stripe","sso","saml","scim"],
       "category": "auth"
     }
 ,
