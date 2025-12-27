@@ -64,6 +64,9 @@ This skill provides complete Cloudflare Queues knowledge including:
 - ✅ **Queue Creation** - Create, configure, and manage queues with wrangler
 - ✅ **Producer Patterns** - send(), sendBatch() with delays
 - ✅ **Consumer Patterns** - Basic, explicit ack, DLQ, retry strategies
+- ✅ **Pull-Based Consumers** - Consume from non-Workers environments via HTTP polling
+- ✅ **HTTP Publishing** - Publish messages from external systems via REST API
+- ✅ **R2 Event Integration** - Trigger queue messages on R2 object events
 - ✅ **Batching Configuration** - max_batch_size, max_batch_timeout
 - ✅ **Retry Strategies** - Implicit, explicit, with exponential backoff
 - ✅ **Dead Letter Queues** - Handle permanently failed messages
@@ -71,8 +74,18 @@ This skill provides complete Cloudflare Queues knowledge including:
 - ✅ **Message Delays** - Delay delivery up to 12 hours
 - ✅ **Consumer Concurrency** - Auto-scaling up to 250 concurrent invocations
 - ✅ **Error Handling** - Timeouts, retries, rate limits
-- ✅ **Pull Consumers** - HTTP-based consumers (not just Workers)
 - ✅ **Performance Optimization** - Batching, concurrency, cost reduction
+
+### Agents & Commands
+
+**Autonomous Agents**:
+- **queue-debugger** - 9-phase diagnostic analysis for systematic troubleshooting
+- **queue-optimizer** - Performance tuning and cost optimization recommendations
+
+**Interactive Commands**:
+- **/queue-setup** - Interactive wizard for complete queue setup
+- **/queue-troubleshoot** - Quick diagnostic for common issues
+- **/queue-monitor** - Real-time metrics and status display
 
 ---
 

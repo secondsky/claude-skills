@@ -1,24 +1,26 @@
 ---
 name: cloudflare-queues
-description: Cloudflare Queues for async processing and background jobs. Use for message queues, batch processing, retries, or encountering timeout, retry, throughput errors.
+description: This skill should be used when the user asks to "set up Cloudflare Queues", "create a message queue", "implement queue consumer", "process background jobs", "configure queue retry logic", "publish messages to queue", "implement dead letter queue", or encountering "queue timeout", "message retry", "throughput exceeded", "queue backlog" errors.
 
   Keywords: cloudflare queues, queues workers, message queue, queue bindings, async processing,
   background jobs, queue consumer, queue producer, batch processing, dead letter queue, dlq,
   message retry, queue ack, consumer concurrency, queue backlog, wrangler queues
 license: MIT
 metadata:
-  version: "2.1.0"
+  version: "3.0.0"
   wrangler_version: "4.50.0"
   workers_types_version: "4.20251126.0"
-  last_verified: "2025-11-26"
+  last_verified: "2025-12-27"
   errors_prevented: 10
   templates_included: 6
-  references_included: 8
+  references_included: 11
+  agents_included: 2
+  commands_included: 3
 ---
 
 # Cloudflare Queues
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+**Status**: Production Ready ✅ | **Last Verified**: 2025-12-27
 
 **Dependencies**: cloudflare-worker-base (for Worker setup)
 
@@ -365,6 +367,37 @@ export default {
 - Setting up monitoring, DLQ, or error handling
 - Planning load testing or security review
 
+**Load `references/pull-consumers.md` when**:
+- Need to consume messages from non-Workers environments
+- Integrating with existing backend services (Node.js, Python, Go)
+- Implementing pull-based polling instead of push-based consumption
+- Working with containerized or legacy applications
+
+**Load `references/http-publishing.md` when**:
+- Publishing messages from external systems via HTTP
+- Integrating webhooks from third-party services
+- Need to send messages without deploying Workers
+- Implementing CI/CD pipeline notifications
+
+**Load `references/r2-event-integration.md` when**:
+- Triggering queue messages on R2 bucket events
+- Implementing automated image/document processing
+- Setting up event-driven data pipelines
+- Need R2 object upload/delete notifications
+
+---
+
+## Agents & Commands
+
+**Available Agents**:
+- **queue-debugger** - 9-phase diagnostic analysis for queue issues (systematic troubleshooting)
+- **queue-optimizer** - Performance tuning and cost optimization (batch size, concurrency, retries)
+
+**Available Commands**:
+- **/queue-setup** - Interactive wizard for complete queue setup
+- **/queue-troubleshoot** - Quick diagnostic for common issues
+- **/queue-monitor** - Real-time metrics and status display
+
 ---
 
 ## Limits & Quotas
@@ -404,6 +437,11 @@ export default {
 - **consumer-api.md** - Complete consumer API (ack, retry, batch processing)
 - **best-practices.md** - Performance, monitoring, security, reliability patterns
 - **wrangler-commands.md** - CLI reference (create, delete, list, pause, resume)
+- **typescript-types.md** - Complete TypeScript type definitions for Queue, MessageBatch, Message
+- **production-checklist.md** - Pre-deployment verification and best practices
+- **pull-consumers.md** - Pull-based consumers for non-Workers environments (HTTP polling)
+- **http-publishing.md** - Publishing messages via HTTP API from external systems
+- **r2-event-integration.md** - R2 event notifications triggering queue messages
 
 ### Templates (templates/)
 
