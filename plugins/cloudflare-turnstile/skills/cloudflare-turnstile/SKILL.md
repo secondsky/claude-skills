@@ -1,6 +1,6 @@
 ---
 name: cloudflare-turnstile
-description: Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.
+description: This skill should be used when the user asks to "add turnstile", "implement bot protection", "validate turnstile token", "fix turnstile error", "setup captcha alternative", or encounters error codes 100*/300*/600*, CSP errors, or token validation failures. Provides CAPTCHA-alternative protection for Cloudflare Workers, React, Next.js, and Hono.
 
   Keywords: turnstile, captcha, bot protection, cloudflare challenge, siteverify, recaptcha alternative, spam prevention, form protection, cf-turnstile, turnstile widget, token validation, managed challenge, invisible challenge, @marsidev/react-turnstile, hono turnstile, workers turnstile
 license: MIT
@@ -288,6 +288,7 @@ if (!result.success) {
 ✅ **Validate action/hostname** - Check additional fields when specified
 ✅ **Rotate keys periodically** - Use dashboard or API to rotate secrets
 ✅ **Monitor analytics** - Track solve rates and failures
+✅ **Validate token AFTER form submission** - Verify tokens after user completes form, not before. Premature validation creates security vulnerabilities where attackers obtain valid tokens then bypass protection
 
 ### Never Do
 
@@ -422,6 +423,12 @@ This skill prevents **12** documented issues:
 **`references/advanced-topics.md`**: Implementing pre-clearance for SPAs, custom actions/cdata, retry strategies, or multi-widget pages.
 
 **`references/setup-checklist.md`**: Preparing for deployment, verifying complete setup, or ensuring production readiness (14-point checklist).
+
+**`references/migration-guide.md`**: Migrating from reCAPTCHA (v2) or hCaptcha to Turnstile, including compat mode, API differences, and POST-only Siteverify requirement.
+
+**`references/browser-support.md`**: Browser compatibility matrix, Safari 18 "Hide IP" workaround, Brave shields issues, and browser-specific fallbacks.
+
+**`references/mobile-implementation.md`**: WebView integration for iOS, Android, React Native, and Flutter, including User Agent consistency and storage persistence requirements.
 
 **`templates/`**: **wrangler-turnstile-config.jsonc** (Workers env), **turnstile-widget-implicit.html** (static forms), **turnstile-widget-explicit.ts** (SPA rendering), **turnstile-server-validation.ts** (Siteverify API), **turnstile-react-component.tsx** (React integration), **turnstile-hono-route.ts** (Hono validation), **turnstile-test-config.ts** (testing setup)
 
