@@ -24,6 +24,10 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - cloudflare stateful
 - do sql storage
 - sqlite durable objects
+- rpctarget
+- durable objects testing
+- vitest durable objects
+- gradual deployment do
 
 ### Secondary Triggers (Patterns & Use Cases)
 - real-time cloudflare
@@ -57,6 +61,10 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - blockConcurrencyWhile
 - serializeAttachment
 - deserializeAttachment
+- RpcTarget
+- runInDurableObject
+- runDurableObjectAlarm
+- listDurableObjectIds
 
 ### Configuration Keywords
 - durable_objects bindings
@@ -68,6 +76,29 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - transferred_classes
 - location hints
 - jurisdiction do
+
+### Testing & Development (2024-2025)
+- @cloudflare/vitest-pool-workers
+- test durable objects
+- vitest do
+- unit test do
+- integration test do
+- test do state
+- test websocket hibernation
+- test alarms
+- isolated storage testing
+- rpc metadata pattern
+- gradual deployment
+- traffic split workers
+- canary deployment do
+- rollout strategy
+- version affinity
+- ttl cleanup pattern
+- do performance optimization
+- monitoring durable objects
+- debugging do
+- data modeling do
+- schema design do
 
 ### Error-Based Triggers
 - "do class export"
@@ -85,6 +116,26 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - "hibernation failed"
 - "alarm retry"
 
+### Commands (Interactive Workflows)
+- /do-setup - Initialize new DO project
+- /do-migrate - Migration assistant
+- /do-debug - Debugging workflow
+- setup durable objects
+- create durable object
+- initialize do
+- migrate durable objects
+- debug do
+- fix durable object errors
+
+### Agents (Autonomous Assistants)
+- do-debugger - Autonomous error detection
+- do-setup-assistant - Project scaffolding
+- do-pattern-implementer - Production patterns
+- autonomous debugging
+- auto-fix do
+- implement patterns
+- production ready do
+
 ---
 
 ## What This Skill Does
@@ -98,7 +149,13 @@ Claude will automatically suggest this skill when you mention any of these keywo
 - ✅ Handles DO routing with location hints
 - ✅ Implements coordination patterns (rate limiting, sessions, multiplayer)
 - ✅ Manages DO migrations (new, rename, delete, transfer)
+- ✅ Tests DOs with Vitest (@cloudflare/vitest-pool-workers)
+- ✅ Uses RpcTarget pattern for DO metadata handling
+- ✅ Implements gradual deployments with traffic splitting
+- ✅ Optimizes performance and monitors production DOs
 - ✅ Prevents 15+ documented errors and misconfigurations
+- ✅ Provides interactive commands for setup, migration, and debugging
+- ✅ Autonomous agents for error fixing and pattern implementation
 
 ---
 
