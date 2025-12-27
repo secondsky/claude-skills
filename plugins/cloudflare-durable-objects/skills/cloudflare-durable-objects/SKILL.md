@@ -115,6 +115,18 @@ Use these interactive commands for guided workflows:
   - Provides specific fixes with code examples
   - Guides local testing and production verification
 
+- **`/do-patterns`** - Pattern selection wizard
+  - Recommends DO pattern based on use case
+  - Supports WebSocket, Rate Limiting, Sessions, Analytics, Leader Election
+  - Generates complete pattern implementation
+  - Provides best practices and optimization tips
+
+- **`/do-optimize`** - Performance optimization assistant
+  - Analyzes existing DO code for bottlenecks
+  - Provides targeted optimization recommendations
+  - Covers constructor, queries, WebSocket, memory, alarms
+  - Measures performance improvements
+
 ## Autonomous Agents
 
 These agents work autonomously without user interaction:
@@ -149,20 +161,27 @@ These agents work autonomously without user interaction:
 - **`rpc-metadata.md`** → "RpcTarget", "metadata", "DO name", "idFromName access"
 - **`stubs-routing.md`** → "stubs", "idFromName", "newUniqueId", "location hints", "jurisdiction"
 - **`migrations-guide.md`** → "migrations", "rename", "delete", "transfer", "schema changes"
+- **`migration-cheatsheet.md`** → "migration quick reference", "migration types", "common migrations"
 - **`common-patterns.md`** → "patterns", "examples", "rate limiting", "sessions", "leader election"
 - **`vitest-testing.md`** → "test", "testing", "vitest", "unit test", "@cloudflare/vitest-pool-workers"
 - **`gradual-deployments.md`** → "gradual", "deployment", "traffic split", "rollout", "canary"
 - **`typescript-config.md`** → "TypeScript", "types", "tsconfig", "wrangler.jsonc", "bindings"
+- **`advanced-sql-patterns.md`** → "CTE", "window functions", "FTS5", "full-text search", "JSON functions", "complex SQL"
+- **`security-best-practices.md`** → "security", "authentication", "authorization", "SQL injection", "CORS", "encryption", "rate limiting"
+- **`error-codes.md`** → "error codes", "error catalog", "specific error", "E001", "troubleshooting"
 - **`top-errors.md`** → errors, "not working", debugging, "binding not found"
 
 **Load proactively when:**
 - Building new feature → Load relevant pattern from `common-patterns.md`
-- Debugging issue → Load `top-errors.md` first
+- Debugging issue → Load `error-codes.md` for specific errors, then `top-errors.md`
 - Implementing WebSocket → Load `websocket-hibernation.md` before coding
 - Setting up storage → Load `state-api-reference.md` for SQL/KV APIs
+- Complex SQL queries → Load `advanced-sql-patterns.md` for CTEs, window functions, FTS5
+- Security review → Load `security-best-practices.md` for authentication, authorization, SQL injection prevention
 - Creating first DO → Load `stubs-routing.md` for ID methods
 - Writing tests → Load `vitest-testing.md` for testing patterns
 - Planning deployment → Load `gradual-deployments.md` for rollout strategy
+- Migration needed → Load `migration-cheatsheet.md` for quick reference
 - Using DO name inside DO → Load `rpc-metadata.md` for RpcTarget pattern
 - TypeScript configuration → Load `typescript-config.md` for setup
 
