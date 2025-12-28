@@ -9,6 +9,36 @@ Thank you for your interest in contributing! This guide will help you create hig
 
 ---
 
+## ⚠️ Prerequisites (REQUIRED)
+
+**Before creating plugins or skills**, install the official plugin development toolkit:
+
+```bash
+/plugin install plugin-dev@claude-code-marketplace
+```
+
+**This provides**:
+- `/plugin-dev:create-plugin` - 8-phase guided plugin creation workflow
+- 7 comprehensive skills: hook-development, mcp-integration, plugin-structure, agent-development, command-development, skill-development, plugin-settings
+- 3 specialized agents: agent-creator, plugin-validator, skill-reviewer
+- 10 utility scripts and validation tools
+
+**Why install this first?**
+- ✅ Learn official plugin structure and best practices
+- ✅ Access automated validation and scaffolding tools
+- ✅ Get step-by-step guidance for complex components (hooks, MCP, agents)
+- ✅ Ensure compliance with Anthropic plugin specification
+
+**Our documentation complements official plugin-dev with**:
+- Repository-specific workflows (marketplace management, batch operations)
+- System prompt budget optimization (15k character limit)
+- Quality assurance at scale (169 skills)
+- Production insights and lessons learned
+
+See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
+
+---
+
 ## 🎯 Skill Development Guidelines
 
 ### What Makes a Good Skill?
@@ -20,7 +50,6 @@ A good skill should:
 ✅ **Include working templates** - Ready-to-copy files
 ✅ **Prevent known errors** - Document common pitfalls
 ✅ **Be production-tested** - Actually used in real projects
-✅ **Save significant tokens** - 50%+ reduction vs manual setup
 
 ---
 
@@ -115,15 +144,6 @@ skills/[skill-name]/
 
 [Step-by-step quick start]
 
----
-
-## Token Efficiency
-
-| Approach | Tokens Used | Errors |
-|----------|------------|--------|
-| Manual | XX,XXX | X-X |
-| With skill | XX,XXX | 0 |
-| **Savings** | **XX%** | **100%** |
 ```
 
 ### 2. SKILL.md
@@ -205,10 +225,6 @@ Before submitting, verify:
    - All common errors are documented
    - Examples work
 
-4. **Token efficiency**
-   - Measure tokens used with vs without skill
-   - Aim for 50%+ reduction
-
 ---
 
 ## 🚀 Submission Process
@@ -249,7 +265,6 @@ Add your skill to `planning/skills-roadmap.md`:
 **Status**: Ready for review
 **Priority**: [High/Medium/Low]
 **Dependencies**: [Other skills needed]
-**Token savings**: ~XX%
 ```
 
 ### 4. Submit Pull Request
@@ -283,29 +298,6 @@ Before submitting, ensure:
 - [ ] Skill tested in ~/.claude/skills/
 - [ ] planning/skills-roadmap.md updated
 - [ ] Examples work (if provided)
-
----
-
-## 📊 Token Efficiency Metrics
-
-Measure token usage:
-
-**Manual Setup** (no skill):
-1. Start fresh chat
-2. Ask Claude to set up [technology]
-3. Note total tokens used
-4. Count errors encountered
-
-**With Skill**:
-1. Start fresh chat
-2. Ensure skill is installed
-3. Ask Claude to set up [technology]
-4. Note total tokens used
-5. Count errors encountered
-
-**Calculate**:
-- Token savings = ((Manual - Skill) / Manual) × 100%
-- Error reduction = Manual errors - Skill errors
 
 ---
 

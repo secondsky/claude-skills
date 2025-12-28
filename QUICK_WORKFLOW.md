@@ -82,6 +82,40 @@ Ask Claude Code to use the skill:
 
 ---
 
+## Alternative: Use Official Plugin-Dev Toolkit
+
+**Recommended for first-time plugin creators**: Use the official `/plugin-dev:create-plugin` command for guided plugin creation:
+
+```bash
+# 1. Install official plugin-dev (if not already installed)
+/plugin install plugin-dev@claude-code-marketplace
+
+# 2. Use guided creation workflow
+/plugin-dev:create-plugin
+```
+
+**What you get**:
+- 8-phase guided workflow with validation at each step
+- Automatic component scaffolding (SKILL.md, plugin.json, README.md)
+- Built-in validation and quality checks
+- Access to official skills for hooks, MCP, agents, commands
+
+**When to use this instead of manual workflow**:
+- ✅ First time creating a plugin
+- ✅ Need help with plugin structure
+- ✅ Want to add hooks, MCP servers, or agents
+- ✅ Prefer step-by-step guidance
+
+**When to use manual workflow below**:
+- ✅ Building 2nd+ skill for this repository
+- ✅ Need repository-specific marketplace integration
+- ✅ Already familiar with plugin structure
+- ✅ Fast iteration on simple skills
+
+See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for integration guidance.
+
+---
+
 ## Detailed Workflow (For First-Time Builders)
 
 ### Phase 1: Research (30-60 minutes)
@@ -191,7 +225,6 @@ Ask Claude Code to use the skill:
    git commit -m "Add my-skill-name for [use case]
 
    - Provides [feature]
-   - Token savings: ~XX%
    - Errors prevented: X
 
    Production tested: [evidence]"

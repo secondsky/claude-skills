@@ -4,11 +4,43 @@
 
 ---
 
+## 0️⃣ Prerequisites (REQUIRED)
+
+**Install official plugin development tools first**:
+
+```bash
+/plugin install plugin-dev@claude-code-marketplace
+```
+
+This provides foundational knowledge for hooks, MCP, structure, agents, commands, and skills.
+
+**Then proceed to**:
+- [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) - Repository workflows
+- [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) - 5-minute skill creation
+
+---
+
 ## What Do You Want To Do?
 
 ### 🆕 Build a New Skill
 
-**Quick Start** (5 minutes):
+**Option 1: Official Plugin-Dev Workflow** (Recommended for first-timers):
+```bash
+# Use guided creation workflow (8 phases with validation)
+/plugin-dev:create-plugin
+```
+
+**What you get**:
+- Step-by-step guidance through plugin creation
+- Automatic scaffolding (SKILL.md, plugin.json, README.md)
+- Built-in validation and quality checks
+- Access to official skills for hooks, MCP, agents
+
+**When to use**: First time, need structure guidance, want hooks/MCP/agents
+
+---
+
+**Option 2: Manual Repository Workflow** (5 minutes for experienced users):
 1. Copy the template: `cp -r templates/skill-skeleton/ skills/my-skill-name/`
 2. Fill in the TODOs in `SKILL.md` and `README.md`
 3. Add your resources (scripts, references, assets)
@@ -16,7 +48,9 @@
 5. Test by mentioning it to Claude Code
 6. Verify with [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
 
-**Detailed Workflow**: See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md)
+**When to use**: Building 2nd+ skill, fast iteration, repository-specific needs
+
+**Detailed Workflow**: See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) | [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md)
 
 ---
 

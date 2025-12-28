@@ -36,6 +36,32 @@ The `jezweb/claude-skills` is a PERSONAL FORK that must remain untouched. All de
 
 ---
 
+## ⚠️ CRITICAL: Plugin Development Prerequisites
+
+### Install Official Plugin-Dev Toolkit (REQUIRED)
+
+```bash
+/plugin install plugin-dev@claude-code-marketplace
+```
+
+**What it provides**:
+- Hook development → `hook-development` skill
+- MCP integration → `mcp-integration` skill
+- Plugin structure → `plugin-structure` skill
+- Agent creation → `agent-creator` agent
+- Command creation → `command-development` skill
+- Skill creation → `skill-development` skill
+
+**What our documentation provides**:
+- Marketplace management (unique to this repository)
+- System prompt budget optimization (production issue, 15k char limit)
+- Batch operations for 169 skills
+- Repository-specific workflows
+
+See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
+
+---
+
 ## What This Repository Is
 
 This is a curated collection of **production-tested Claude Code skills** for building modern web applications. Skills are modular capabilities that extend Claude's knowledge in specific domains, enabling faster development with fewer errors.
@@ -400,6 +426,29 @@ All 169 skills are production-ready and organized by domain:
 
 ## Development Workflow
 
+### Official Plugin-Dev Workflow (Recommended for First-Timers)
+
+**Use the official `/plugin-dev:create-plugin` command for guided plugin creation**:
+
+```bash
+# Already installed if you followed prerequisites above
+/plugin-dev:create-plugin
+```
+
+**Provides**:
+- 8-phase guided workflow with validation
+- Automatic scaffolding (SKILL.md, plugin.json, README.md)
+- Access to official skills for hooks, MCP, agents, commands
+- Built-in quality checks
+
+**When to use**: First time creating plugins, need structure guidance, want to add hooks/MCP/agents
+
+**When to use manual workflow below**: Building 2nd+ skill, fast iteration, repository-specific needs
+
+See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for integration.
+
+---
+
 ### Standard Workflow (From Scratch)
 
 ```
@@ -537,7 +586,6 @@ The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.
 - All skills must be **tested in production**
 - Package versions must be **current** (verified regularly)
 - Known issues must be **documented with sources** (GitHub issues, etc.)
-- Token efficiency must be **measured** (≥50% savings)
 
 ### 3. Official Standards Compliance
 - YAML frontmatter: `name` and `description` (required)
@@ -600,7 +648,6 @@ git add skills/new-skill/
 git commit -m "Add new-skill for [use case]
 
 - Description of what it does
-- Token savings: ~XX%
 - Errors prevented: X
 
 Production tested: [evidence]"
@@ -630,7 +677,6 @@ Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) to verify:
 - [ ] LICENSE field present (MIT)
 - [ ] README.md has auto-trigger keywords
 - [ ] Tested in ~/.claude/skills/
-- [ ] Token efficiency measured (≥50%)
 
 ### Compliance Verification
 
@@ -639,21 +685,6 @@ Compare against:
 2. [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md) - Official vs ours
 3. [CLOUDFLARE_SKILLS_AUDIT.md](CLOUDFLARE_SKILLS_AUDIT.md) - Example audit
 4. https://github.com/anthropics/skills - Official reference
-
----
-
-## Token Efficiency Metrics
-
-**Why This Matters**: Skills save massive amounts of tokens by preventing trial-and-error.
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Setup Tailwind v4 + shadcn | ~15k tokens, 2-3 errors | ~5k tokens, 0 errors | ~67% |
-| Cloudflare Worker setup | ~12k tokens, 1-2 errors | ~4k tokens, 0 errors | ~67% |
-| D1 Database integration | ~10k tokens, 2 errors | ~4k tokens, 0 errors | ~60% |
-| **Average** | **~12k tokens** | **~4.5k tokens** | **~62%** |
-
-**Errors Prevented**: All 6-8 documented errors per skill = 100% error prevention
 
 ---
 

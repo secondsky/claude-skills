@@ -8,6 +8,28 @@ A curated collection of battle-tested skills for building modern web application
 
 ---
 
+## Prerequisites (REQUIRED)
+
+**Install official plugin development toolkit**:
+
+```bash
+/plugin install plugin-dev@claude-code-marketplace
+```
+
+This provides:
+- `/plugin-dev:create-plugin` command (8-phase guided workflow)
+- 7 comprehensive skills (hooks, MCP, structure, agents, commands, skills)
+- 3 specialized agents (agent-creator, plugin-validator, skill-reviewer)
+
+**Our documentation focuses on**:
+- Marketplace management (169 skills, 58 plugins)
+- System prompt budget optimization (15k char limit)
+- Batch operations and quality workflows
+
+See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for details.
+
+---
+
 ## Quick Start
 
 ### Marketplace Installation (Recommended)
@@ -191,10 +213,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 | Document | Purpose |
 |----------|---------|
-| [MARKETPLACE.md](MARKETPLACE.md) | Full skill catalog, installation, maintainer guide |
-| [CLAUDE.md](CLAUDE.md) | Project context and standards |
+| [START_HERE.md](START_HERE.md) | **Start here!** Quick navigation guide |
+| [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
+| [MARKETPLACE.md](MARKETPLACE.md) | Full skill catalog and installation guide |
+| [MARKETPLACE_MANAGEMENT.md](MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
+| [CLAUDE.md](CLAUDE.md) | Project context and development standards |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
-| [START_HERE.md](START_HERE.md) | Quick navigation guide |
 
 ---
 
