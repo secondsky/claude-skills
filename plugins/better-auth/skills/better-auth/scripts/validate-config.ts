@@ -16,6 +16,16 @@ const COMMON_MISTAKES = [
   { pattern: /require\s*\(/i, message: "CommonJS require() detected - better-auth v1.4.0+ is ESM-only" },
 ];
 
+function validateRequiredFields(content: string): string[] {
+  const errors: string[] = [];
+  for (const field of REQUIRED_FIELDS) {
+    if (!content.includes(field)) {
+      errors.push(`Missing required field: '${field}'`);
+    }
+  }
+  return errors;
+}
+
 function validateConfig(filePath: string): { valid: boolean; errors: string[]; warnings: string[] } {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -25,6 +35,9 @@ function validateConfig(filePath: string): { valid: boolean; errors: string[]; w
   }
 
   const content = readFileSync(filePath, "utf-8");
+
+  // Validate required fields
+  errors.push(...validateRequiredFields(content));
 
   // Check for common mistakes
   for (const { pattern, message } of COMMON_MISTAKES) {
@@ -41,11 +54,6 @@ function validateConfig(filePath: string): { valid: boolean; errors: string[]; w
   // Check for database adapter
   if (!content.includes("drizzleAdapter") && !content.includes("prismaAdapter") && !content.includes("mongoAdapter")) {
     warnings.push("No database adapter detected - ensure you're using drizzleAdapter, prismaAdapter, or mongoAdapter");
-  }
-
-  // Check for secret configuration
-  if (!content.includes("secret")) {
-    errors.push("Missing 'secret' configuration - required for session security");
   }
 
   // Check for baseURL in production

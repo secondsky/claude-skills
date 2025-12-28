@@ -216,7 +216,7 @@ sendVerificationEmail: async ({ user, url, ctx }) => {}
 **Problem**: Social sign-in fails with "redirect_uri_mismatch"
 **Solution**: Ensure exact match: `https://yourdomain.com/api/auth/callback/google`
 
-**Load `references/error-catalog.md` for all 12 errors with detailed solutions.**
+**Load `references/error-catalog.md` for all 15 errors with detailed solutions.**
 
 ---
 
@@ -588,7 +588,7 @@ This skill focuses on **Cloudflare Workers + D1**. better-auth also supports:
 
 **Questions? Issues?**
 
-1. Check `references/error-catalog.md` for all 12 errors and solutions
+1. Check `references/error-catalog.md` for all 15 errors and solutions
 2. Review `references/setup-guide.md` for complete 8-step setup
 3. See `references/advanced-features.md` for 2FA, organizations, and more
 4. Check official docs: https://better-auth.com

@@ -235,10 +235,10 @@ bun add pg drizzle-orm  # preferred
 ## Version Info
 
 - **Skill Version**: 2.2.0 (Comprehensive framework/database/plugin coverage)
-- **Package Version**: better-auth@1.4.8
-- **Drizzle ORM**: drizzle-orm@0.44.7, drizzle-kit@0.31.7
-- **Kysely**: kysely@0.28.8, @noxharmonium/kysely-d1@0.4.0
-- **Last Verified**: 2025-12-26
+- **Package Version**: better-auth@1.4.9
+- **Drizzle ORM**: drizzle-orm@0.45.1, drizzle-kit@0.31.8
+- **Kysely**: kysely@0.28.9, @noxharmonium/kysely-d1@0.4.0
+- **Last Verified**: 2025-12-28
 - **Compatibility**: Node.js 18+, Bun 1.0+, Cloudflare Workers
 
 ---
