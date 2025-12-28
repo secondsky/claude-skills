@@ -338,7 +338,7 @@
     {
       "name": "cloudflare-durable-objects",
       "source": "./plugins/cloudflare-durable-objects",
-      "version": "3.1.0",
+      "version": "3.2.0",
       "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
       "keywords": ["cloudflare-durable-objects","cloudflare","durable","objects","workers","edge","wrangler","websocket","migration","real-time","vitest","testing","rpc","rpctarget","metadata","gradual-deployment","state-api","sql","sqlite","hibernation","alarms","coordination","stateful"],
       "category": "cloudflare"
@@ -493,7 +493,7 @@
       "source": "./plugins/cloudflare-workflows",
       "version": "3.0.0",
       "description": "Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors.",
-      "keywords": ["cloudflare-workflows","cloudflare","workflows","workers","edge","wrangler","nonretryableerror"],
+      "keywords": ["cloudflare-workflows","cloudflare","workflows","workers","edge","wrangler","nonretryableerror","durable-execution","workflow-step","workflowentrypoint","step-do","step-sleep","workflow-retries","workflow-state","workflow-events","long-running-tasks","workflow-debugging","workflow-optimization"],
       "category": "cloudflare"
     }
 ,

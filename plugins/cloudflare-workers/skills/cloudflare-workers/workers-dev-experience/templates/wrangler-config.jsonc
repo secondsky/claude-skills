@@ -1,0 +1,322 @@
+{
+  // JSON Schema for IDE support (autocompletion, validation)
+  "$schema": "node_modules/wrangler/config-schema.json",
+
+  // ============================================
+  // BASIC CONFIGURATION
+  // ============================================
+
+  // Worker name (used in deployment URL: <name>.<subdomain>.workers.dev)
+  "name": "my-worker",
+
+  // Entry point (TypeScript supported out of box)
+  "main": "src/index.ts",
+
+  // Controls runtime behavior - update quarterly
+  // See: https://developers.cloudflare.com/workers/configuration/compatibility-dates/
+  "compatibility_date": "2024-12-01",
+
+  // Enable Node.js compatibility (Buffer, crypto, etc.)
+  "compatibility_flags": ["nodejs_compat"],
+
+  // ============================================
+  // DEVELOPMENT SETTINGS
+  // ============================================
+
+  "dev": {
+    // Local dev server port
+    "port": 8787,
+
+    // Protocol (http for local, https if testing TLS)
+    "local_protocol": "http",
+
+    // Bind to IP (localhost by default, 0.0.0.0 for network access)
+    "ip": "127.0.0.1"
+  },
+
+  // ============================================
+  // ENVIRONMENT VARIABLES (Non-Secret)
+  // ============================================
+
+  // These are NOT secrets - visible in dashboard and logs
+  // Use `wrangler secret put SECRET_NAME` for secrets
+  "vars": {
+    "ENVIRONMENT": "development",
+    "LOG_LEVEL": "debug",
+    "API_VERSION": "v1"
+  },
+
+  // ============================================
+  // KV NAMESPACES
+  // ============================================
+
+  // Key-value storage for caching, session data, etc.
+  // Create: bunx wrangler kv:namespace create "CACHE"
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",           // Access as env.CACHE
+      "id": "your-kv-id",           // Production namespace ID
+      "preview_id": "your-preview-kv-id"  // Local dev namespace ID
+    }
+  ],
+
+  // ============================================
+  // D1 DATABASES
+  // ============================================
+
+  // Serverless SQLite database
+  // Create: bunx wrangler d1 create my-database
+  "d1_databases": [
+    {
+      "binding": "DB",              // Access as env.DB
+      "database_id": "your-database-id",
+      "database_name": "my-database",
+      "migrations_dir": "migrations"  // Default: migrations/
+    }
+  ],
+
+  // ============================================
+  // R2 BUCKETS
+  // ============================================
+
+  // Object storage (S3-compatible)
+  // Create: bunx wrangler r2 bucket create my-bucket
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS",          // Access as env.UPLOADS
+      "bucket_name": "my-bucket",
+      "preview_bucket_name": "my-bucket-preview",  // For local dev
+      "jurisdiction": "eu"           // Optional: data residency
+    }
+  ],
+
+  // ============================================
+  // DURABLE OBJECTS
+  // ============================================
+
+  // Stateful objects for real-time coordination
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",             // Access as env.ROOMS
+        "class_name": "ChatRoom"     // Export class from your code
+      }
+    ]
+  },
+
+  // Required for new Durable Object classes
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["ChatRoom"]
+    }
+  ],
+
+  // ============================================
+  // QUEUES
+  // ============================================
+
+  // Message queues for async processing
+  // Create: bunx wrangler queues create my-queue
+  "queues": {
+    "producers": [
+      {
+        "binding": "TASKS",          // Access as env.TASKS
+        "queue": "task-queue"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "task-queue",
+        "max_batch_size": 10,        // Messages per batch (1-100)
+        "max_batch_timeout": 5,      // Seconds to wait for batch
+        "max_retries": 3,            // Retry failed messages
+        "dead_letter_queue": "task-dlq"  // Failed messages destination
+      }
+    ]
+  },
+
+  // ============================================
+  // WORKERS AI
+  // ============================================
+
+  // Access AI models
+  "ai": {
+    "binding": "AI"                  // Access as env.AI
+  },
+
+  // ============================================
+  // VECTORIZE
+  // ============================================
+
+  // Vector database for embeddings
+  // Create: bunx wrangler vectorize create my-index --dimensions=1536 --metric=cosine
+  "vectorize": [
+    {
+      "binding": "VECTORS",          // Access as env.VECTORS
+      "index_name": "my-index"
+    }
+  ],
+
+  // ============================================
+  // HYPERDRIVE
+  // ============================================
+
+  // Connection pooling for PostgreSQL
+  // Create: bunx wrangler hyperdrive create my-config --connection-string="..."
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",       // Access as env.HYPERDRIVE
+      "id": "your-hyperdrive-config-id"
+    }
+  ],
+
+  // ============================================
+  // SERVICE BINDINGS
+  // ============================================
+
+  // Call other workers directly (no HTTP overhead)
+  "services": [
+    {
+      "binding": "AUTH",             // Access as env.AUTH
+      "service": "auth-worker",      // Target worker name
+      "environment": "production"    // Target environment
+    }
+  ],
+
+  // ============================================
+  // ANALYTICS ENGINE
+  // ============================================
+
+  // Custom metrics and analytics
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",        // Access as env.ANALYTICS
+      "dataset": "worker_metrics"
+    }
+  ],
+
+  // ============================================
+  // STATIC ASSETS
+  // ============================================
+
+  // Serve static files (HTML, CSS, JS, images)
+  "assets": {
+    "directory": "./public",         // Static files directory
+    "binding": "ASSETS"              // Optional: access programmatically
+  },
+
+  // ============================================
+  // ROUTES AND TRIGGERS
+  // ============================================
+
+  // HTTP routes (requires zone ownership)
+  "routes": [
+    {
+      "pattern": "api.example.com/*",
+      "zone_name": "example.com"
+    },
+    {
+      "pattern": "example.com/api/*",
+      "zone_id": "your-zone-id"
+    }
+  ],
+
+  // Cron triggers for scheduled tasks
+  "triggers": {
+    "crons": [
+      "0 * * * *",                   // Every hour
+      "0 0 * * *",                   // Daily at midnight UTC
+      "*/5 * * * *"                  // Every 5 minutes
+    ]
+  },
+
+  // ============================================
+  // OBSERVABILITY
+  // ============================================
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1          // 0-1 (1 = 100% of requests)
+  },
+
+  // Send logs to another worker
+  "tail_consumers": [
+    {
+      "service": "log-aggregator",
+      "environment": "production"
+    }
+  ],
+
+  // ============================================
+  // BUILD CONFIGURATION
+  // ============================================
+
+  // Custom build command (optional)
+  "build": {
+    "command": "bun run build",
+    "cwd": ".",
+    "watch_dir": "src"
+  },
+
+  // Module type rules
+  "rules": [
+    {
+      "type": "Text",
+      "globs": ["**/*.txt", "**/*.html", "**/*.sql"]
+    },
+    {
+      "type": "Data",
+      "globs": ["**/*.bin", "**/*.wasm"]
+    }
+  ],
+
+  // ============================================
+  // LIMITS
+  // ============================================
+
+  "limits": {
+    "cpu_ms": 50                     // Max CPU time per request
+  },
+
+  // ============================================
+  // ENVIRONMENT OVERRIDES
+  // ============================================
+
+  // Override settings per environment
+  // Deploy: bunx wrangler deploy --env production
+  "env": {
+    "staging": {
+      "name": "my-worker-staging",
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "LOG_LEVEL": "info"
+      },
+      "kv_namespaces": [
+        {
+          "binding": "CACHE",
+          "id": "staging-kv-id"
+        }
+      ]
+    },
+    "production": {
+      "name": "my-worker-production",
+      "vars": {
+        "ENVIRONMENT": "production",
+        "LOG_LEVEL": "warn"
+      },
+      "kv_namespaces": [
+        {
+          "binding": "CACHE",
+          "id": "production-kv-id"
+        }
+      ],
+      "routes": [
+        {
+          "pattern": "api.example.com/*",
+          "zone_name": "example.com"
+        }
+      ]
+    }
+  }
+}

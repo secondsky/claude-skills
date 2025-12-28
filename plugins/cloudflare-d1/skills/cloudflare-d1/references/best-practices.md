@@ -531,6 +531,196 @@ try {
 
 ---
 
+## Automatic Query Retries (2025)
+
+**Status**: Generally Available (September 2025)
+**Official Docs**: https://developers.cloudflare.com/d1/best-practices/automatic-retries/
+
+### What It Is
+
+D1 automatically retries **read-only queries** (SELECT) up to 2 times on transient failures like network timeouts, connection resets, or temporary database unavailability. This feature improves reliability without requiring application-level retry logic.
+
+**Scope**: Read queries only (SELECT statements)
+**Retry Count**: Up to 2 automatic retries
+**Backoff**: Exponential backoff (1s, 2s)
+**No Action Required**: Enabled automatically for all D1 databases
+
+### How It Works
+
+```typescript
+// This query automatically retries on transient failures
+const user = await env.DB.prepare('SELECT * FROM users WHERE user_id = ?')
+  .bind(userId)
+  .first();
+
+// If first attempt fails with transient error:
+// - Retry #1 after 1 second
+// - Retry #2 after 2 seconds
+// - Throw error if all 3 attempts fail
+```
+
+**Retryable Errors**:
+- Network connection lost
+- Database temporarily unavailable
+- Connection reset by peer
+- Timeout errors (execution > 30 seconds)
+
+**Non-Retryable Errors** (fail immediately):
+- SQL syntax errors
+- Constraint violations (UNIQUE, FOREIGN KEY)
+- Permission errors
+- Query limit exceeded (50 queries/invocation on free tier)
+
+### Write Operations (Manual Retry Required)
+
+Write operations (INSERT, UPDATE, DELETE) do **NOT** automatically retry. Implement application-level retry logic for write queries:
+
+```typescript
+async function writeWithRetry<T>(
+  queryFn: () => Promise<T>,
+  maxRetries = 3
+): Promise<T> {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await queryFn();
+    } catch (error: any) {
+      const message = error.message;
+
+      // Check if error is retryable
+      const isRetryable =
+        message.includes('Network connection lost') ||
+        message.includes('storage caused object to be reset') ||
+        message.includes('reset because its code was updated') ||
+        message.includes('timeout');
+
+      // Don't retry on final attempt or non-retryable errors
+      if (!isRetryable || attempt === maxRetries - 1) {
+        throw error;
+      }
+
+      // Exponential backoff: 1s, 2s, 4s
+      const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
+      await new Promise(resolve => setTimeout(resolve, delay));
+
+      console.log(`Retrying write operation (attempt ${attempt + 2}/${maxRetries})`);
+    }
+  }
+
+  throw new Error('Max retries exceeded');
+}
+
+// Usage
+const result = await writeWithRetry(() =>
+  env.DB.prepare('UPDATE users SET credits = credits - ? WHERE user_id = ?')
+    .bind(amount, userId)
+    .run()
+);
+```
+
+### Idempotency Best Practices
+
+When implementing manual retry logic for writes, ensure operations are **idempotent** (safe to execute multiple times):
+
+```typescript
+// ❌ NOT Idempotent: Repeated retries would deduct credits multiple times
+await env.DB.prepare('UPDATE users SET credits = credits - 100 WHERE user_id = ?')
+  .bind(userId)
+  .run();
+
+// ✅ Idempotent: Check current balance first, only deduct if sufficient
+const user = await env.DB.prepare('SELECT credits FROM users WHERE user_id = ?')
+  .bind(userId)
+  .first();
+
+if (user.credits >= 100) {
+  await env.DB.prepare('UPDATE users SET credits = ? WHERE user_id = ?')
+    .bind(user.credits - 100, userId)
+    .run();
+}
+```
+
+**Idempotency Patterns**:
+
+1. **Check-Then-Set**:
+   ```typescript
+   // Verify state before writing
+   const existing = await env.DB.prepare('SELECT * FROM orders WHERE order_id = ?')
+     .bind(orderId)
+     .first();
+
+   if (!existing) {
+     await env.DB.prepare('INSERT INTO orders (order_id, status) VALUES (?, ?)')
+       .bind(orderId, 'pending')
+       .run();
+   }
+   ```
+
+2. **Unique Constraint**:
+   ```sql
+   CREATE TABLE orders (
+     order_id TEXT PRIMARY KEY,  -- Unique constraint prevents duplicates
+     status TEXT NOT NULL,
+     created_at INTEGER DEFAULT (unixepoch())
+   );
+   ```
+
+   ```typescript
+   try {
+     await env.DB.prepare('INSERT INTO orders (order_id, status) VALUES (?, ?)')
+       .bind(orderId, 'pending')
+       .run();
+   } catch (error: any) {
+     if (error.message.includes('UNIQUE constraint failed')) {
+       // Order already exists, safe to continue
+       console.log('Order already created');
+     } else {
+       throw error;
+     }
+   }
+   ```
+
+3. **Upsert Instead of Insert**:
+   ```typescript
+   // INSERT or UPDATE - safe to retry
+   await env.DB.prepare(`
+     INSERT INTO user_settings (user_id, theme)
+     VALUES (?, ?)
+     ON CONFLICT(user_id) DO UPDATE SET theme = excluded.theme
+   `).bind(userId, theme).run();
+   ```
+
+### Monitoring Retry Behavior
+
+Track retry frequency to identify underlying issues:
+
+```typescript
+let retryCount = 0;
+
+app.use('*', async (c, next) => {
+  const start = Date.now();
+
+  try {
+    await next();
+  } catch (error: any) {
+    retryCount++;
+    console.warn({
+      retryCount,
+      error: error.message,
+      duration: Date.now() - start,
+      endpoint: c.req.path
+    });
+    throw error;
+  }
+});
+
+// Alert if retry rate exceeds threshold
+if (retryCount > 10) {
+  console.error('High retry rate detected - investigate database health');
+}
+```
+
+---
+
 ## Data Modeling
 
 ### Use Appropriate Data Types
@@ -763,6 +953,234 @@ npx wrangler d1 time-travel restore my-database --timestamp "2025-10-21T10:00:00
 ```
 
 **Note**: Time Travel available for last 30 days.
+
+---
+
+## Data Localization (2025)
+
+**Status**: Generally Available (November 2025)
+**Official Docs**: https://developers.cloudflare.com/d1/configuration/data-location/
+
+### What It Is
+
+Data localization allows you to specify which geographic region stores your D1 database's primary instance. This ensures compliance with data sovereignty regulations like GDPR (EU), HIPAA (US), or industry-specific requirements (financial services).
+
+**Available Jurisdictions**:
+- **GLOBAL** (default): Cloudflare selects optimal location based on first write location
+- **EU**: European Union (GDPR compliant)
+- **US**: United States
+
+**Cost**: Free feature included with D1
+
+### Configuration
+
+#### Method 1: Wrangler CLI (Database Creation)
+
+```bash
+# Create database with EU jurisdiction
+wrangler d1 create my-database --jurisdiction EU
+
+# Create database with US jurisdiction
+wrangler d1 create my-database --jurisdiction US
+
+# Create database with default (GLOBAL) jurisdiction
+wrangler d1 create my-database
+```
+
+#### Method 2: wrangler.jsonc (Existing Database)
+
+```jsonc
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "my-database",
+      "database_id": "abc123-def456-...",
+      "jurisdiction": "EU"  // or "US" or "GLOBAL"
+    }
+  ]
+}
+```
+
+**Note**: Jurisdiction can only be set during database creation. Cannot be changed after creation.
+
+### Use Cases
+
+#### GDPR Compliance (EU Jurisdiction)
+
+```jsonc
+// Healthcare app serving EU users
+{
+  "d1_databases": [
+    {
+      "binding": "PATIENT_DB",
+      "database_name": "patient-records",
+      "database_id": "...",
+      "jurisdiction": "EU"  // Ensures data stays in EU
+    }
+  ]
+}
+```
+
+**Benefits**:
+- ✅ GDPR Article 44-50 compliance (data transfers)
+- ✅ Data residency guarantee (EU only)
+- ✅ Simplified regulatory audits
+
+#### HIPAA Compliance (US Jurisdiction)
+
+```jsonc
+// Healthcare app serving US patients
+{
+  "d1_databases": [
+    {
+      "binding": "MEDICAL_DB",
+      "database_name": "medical-records",
+      "database_id": "...",
+      "jurisdiction": "US"  // HIPAA requires US storage
+    }
+  ]
+}
+```
+
+**Benefits**:
+- ✅ HIPAA compliance (US data storage requirement)
+- ✅ Meets state-level healthcare regulations
+- ✅ Reduced cross-border data transfer concerns
+
+#### Financial Services
+
+```jsonc
+// Banking app with regulatory requirements
+{
+  "d1_databases": [
+    {
+      "binding": "TRANSACTION_DB",
+      "database_name": "transactions",
+      "database_id": "...",
+      "jurisdiction": "US"  // SOX, GLBA compliance
+    }
+  ]
+}
+```
+
+**Regulations Addressed**:
+- SOX (Sarbanes-Oxley Act)
+- GLBA (Gramm-Leach-Bliley Act)
+- PCI DSS (Payment Card Industry Data Security Standard)
+
+### Performance Impact
+
+**Latency Outside Jurisdiction** (~10-30ms):
+
+| User Location | DB Jurisdiction | Expected P50 Latency | Impact |
+|---------------|-----------------|---------------------|---------|
+| Europe | EU | ~15ms | ✅ Optimal |
+| Europe | US | ~40ms | ⚠️ +25ms penalty |
+| Europe | GLOBAL | ~15ms | ✅ Optimal (auto-selected EU) |
+| US East | US | ~12ms | ✅ Optimal |
+| US East | EU | ~35ms | ⚠️ +23ms penalty |
+| US East | GLOBAL | ~12ms | ✅ Optimal (auto-selected US) |
+
+**Best Practice**: Use GLOBAL jurisdiction unless regulatory requirements mandate specific region.
+
+### When to Use Each Jurisdiction
+
+#### Use GLOBAL When:
+- ✅ No regulatory data residency requirements
+- ✅ Users are globally distributed
+- ✅ Performance is top priority
+- ✅ Want Cloudflare to auto-optimize location
+
+#### Use EU When:
+- ✅ GDPR compliance required
+- ✅ Majority of users in Europe
+- ✅ Industry regulations mandate EU storage (healthcare, finance)
+- ✅ Data processing agreements require EU residency
+
+#### Use US When:
+- ✅ HIPAA compliance required
+- ✅ Majority of users in United States
+- ✅ State-level regulations mandate US storage
+- ✅ SOX, GLBA, or similar US regulations apply
+
+### Verification
+
+Check database jurisdiction via wrangler:
+
+```bash
+wrangler d1 info my-database
+```
+
+Output includes jurisdiction:
+```
+Database: my-database
+UUID: abc123-def456-...
+Location: EU  ← Jurisdiction
+Version: ...
+```
+
+### Migration Considerations
+
+**Cannot Change Jurisdiction After Creation**:
+
+If jurisdiction needs to change, you must:
+1. Create new database with desired jurisdiction
+2. Export data from old database
+3. Import data into new database
+4. Update Worker bindings
+5. Deploy updated Worker
+6. Delete old database
+
+```bash
+# 1. Create new database with correct jurisdiction
+wrangler d1 create my-database-eu --jurisdiction EU
+
+# 2. Export data from old database
+wrangler d1 export my-database --output=backup.sql
+
+# 3. Import into new database
+wrangler d1 execute my-database-eu --file=backup.sql
+
+# 4. Update wrangler.jsonc with new database_id
+# 5. Deploy Worker with new binding
+wrangler deploy
+
+# 6. After verifying, delete old database
+wrangler d1 delete my-database
+```
+
+### Read Replication Interaction
+
+Data localization works seamlessly with read replication:
+
+- **Primary instance**: Stored in specified jurisdiction (EU/US/GLOBAL)
+- **Read replicas**: Distributed globally across all 6 regions
+- **Writes**: Always route to primary (in jurisdiction)
+- **Reads**: Can route to nearest replica (regardless of jurisdiction)
+
+**Example Configuration**:
+
+```jsonc
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "my-database",
+      "database_id": "...",
+      "jurisdiction": "EU",            // Primary in EU
+      "replicate": {
+        "enabled": true                // Replicas in all 6 regions
+      }
+    }
+  ]
+}
+```
+
+**Result**:
+- Writes stored in EU (compliant)
+- Reads served from nearest replica globally (fast)
+- Best of both: compliance + performance
 
 ---
 

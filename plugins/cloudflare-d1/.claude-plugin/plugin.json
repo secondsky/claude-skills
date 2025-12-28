@@ -15,5 +15,13 @@
     "edge",
     "wrangler",
     "migration"
+  ],
+  "agents": [
+    "./agents/d1-debugger.md",
+    "./agents/d1-query-optimizer.md"
+  ],
+  "commands": [
+    "./commands/d1-setup.md",
+    "./commands/d1-create-migration.md"
   ]
 }

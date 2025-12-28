@@ -1,7 +1,8 @@
 # Cloudflare Workflows Skill
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-10-22
+**Version**: 3.0.0
+**Last Updated**: 2025-12-27
 **Production Tested**: Yes
 
 ---
@@ -116,17 +117,43 @@ This skill prevents **5 documented errors** with sources:
 - Wrangler commands
 - Production checklist
 
-### Templates (6 Files)
+### Commands (4 Interactive Commands)
+1. **workflow-setup** - Complete wizard for new workflow projects
+2. **workflow-create** - Quick scaffolding for workflow classes
+3. **workflow-debug** - Interactive debugging with error patterns
+4. **workflow-test** - Test workflows locally and remotely
+
+### Agents (3 Autonomous Agents)
+1. **workflow-debugger** - Auto-detects and fixes configuration/runtime errors
+2. **workflow-optimizer** - Analyzes performance, cost, and reliability
+3. **workflow-setup-assistant** - Autonomous project scaffolding
+
+### Scripts (5 Automation Scripts)
+1. **validate-workflow-config.sh** - Validate wrangler.jsonc configuration
+2. **test-workflow.sh** - Create and test workflow instances
+3. **benchmark-workflow.sh** - Measure performance and cost
+4. **generate-workflow.sh** - Scaffold new workflows from templates
+5. **check-workflow-limits.sh** - Validate against Cloudflare limits
+
+### Templates (8 Files)
 1. **basic-workflow.ts** - Simple 3-step workflow with retries
 2. **workflow-with-retries.ts** - Advanced retry config with exponential/linear/constant backoff
 3. **scheduled-workflow.ts** - Daily/weekly/monthly scheduled workflows
 4. **workflow-with-events.ts** - Event-driven approval flow with timeout
 5. **worker-trigger.ts** - Worker that creates, queries, and manages workflows
 6. **wrangler-workflows-config.jsonc** - Complete configuration example
+7. **parallel-execution-workflow.ts** - Batched parallel processing with concurrency control
+8. **circuit-breaker-workflow.ts** - Resilient external service calls with circuit breaker pattern
 
-### References
+### References (8 Files)
 1. **common-issues.md** - 5 documented errors with sources and solutions
 2. **workflow-patterns.md** - Production patterns (idempotency, error handling, long-running, human-in-loop, chaining, testing, monitoring)
+3. **wrangler-commands.md** - Complete CLI reference for workflow management
+4. **production-checklist.md** - Pre-deployment verification checklist
+5. **limits-quotas.md** - Complete limits reference with workarounds
+6. **2025-features.md** - Recent features and updates
+7. **metrics-analytics.md** - Monitoring and analytics guide
+8. **troubleshooting.md** - Advanced debugging techniques
 
 ---
 
@@ -192,13 +219,13 @@ const status = await instance.status();
 
 ---
 
-## Latest Versions (Verified 2025-10-22)
+## Latest Versions (Verified 2025-12-27)
 
 ```json
 {
   "devDependencies": {
-    "wrangler": "^4.44.0",
-    "@cloudflare/workers-types": "^4.20251014.0",
+    "wrangler": "^4.50.0",
+    "@cloudflare/workers-types": "^4.20251126.0",
     "typescript": "^5.9.0"
   }
 }
@@ -229,10 +256,13 @@ const status = await instance.status();
 
 **Questions? Issues?**
 
-1. Check `references/common-issues.md` for known errors
-2. Review `references/workflow-patterns.md` for production patterns
-3. Use templates in `templates/` directory
-4. Consult official docs: https://developers.cloudflare.com/workflows/
+1. Use `/workflow-debug` command for interactive troubleshooting
+2. Check `references/common-issues.md` for known errors
+3. Use `references/troubleshooting.md` for systematic diagnosis
+4. Review `references/workflow-patterns.md` for production patterns
+5. Use templates in `templates/` directory
+6. Run `./scripts/validate-workflow-config.sh` to check configuration
+7. Consult official docs: https://developers.cloudflare.com/workflows/
 
 ---
 

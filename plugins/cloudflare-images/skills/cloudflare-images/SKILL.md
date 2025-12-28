@@ -1,25 +1,30 @@
 ---
 name: cloudflare-images
-description: Cloudflare Images for upload/storage and transformations. Use for image uploads, resizing, WebP/AVIF optimization, or encountering CORS errors, transformation errors 9401-9413.
+description: This skill should be used when the user asks to "upload images to Cloudflare", "implement direct creator upload", "configure image transformations", "optimize WebP/AVIF", "create image variants", "generate signed URLs", "add image watermarks", "integrate with Next.js/Remix", "configure webhooks", "debug CORS errors", "troubleshoot error 5408/9401-9413", or "build responsive images with Cloudflare Images API".
 
-  Keywords: cloudflare images, image upload cloudflare, imagedelivery.net, cloudflare image transformations, /cdn-cgi/image/, direct creator upload, image variants, cf.image workers, signed urls images, flexible variants, webp avif conversion, responsive images cloudflare, error 5408, error 9401, error 9403, CORS direct upload, multipart/form-data, image optimization cloudflare
+  Keywords: cloudflare images, image upload cloudflare, imagedelivery.net, cloudflare image transformations, /cdn-cgi/image/, direct creator upload, image variants, cf.image workers, signed urls images, flexible variants, webp avif conversion, responsive images cloudflare, error 5408, error 9401, error 9403, CORS direct upload, multipart/form-data, image optimization cloudflare, image watermarks, webhooks images, nextjs cloudflare images, remix cloudflare images, custom domains images, content credentials, c2pa
 license: MIT
 metadata:
-  version: "2.0.0"
-  last_verified: "2025-11-26"
-  workers_types_version: "4.20250906.0"
+  version: "3.0.0"
+  last_verified: "2025-12-27"
+  workers_types_version: "4.20250110.0"
   typescript_version: "5.7.2"
-  wrangler_version: "3.109.0"
+  wrangler_version: "3.91.0"
   production_tested: true
-  token_savings: "~60%"
+  token_savings: "~65%"
   errors_prevented: 10
-  templates_included: 12
-  references_included: 9
+  templates_included: 16
+  references_included: 16
+  agents_included: 3
+  commands_included: 3
+  examples_included: 3
+  diagrams_included: 3
+  scripts_included: 5
 ---
 
 # Cloudflare Images
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+**Status**: Production Ready ✅ | **Version**: 3.0.0 | **Last Verified**: 2025-12-27
 
 ---
 
@@ -164,36 +169,33 @@ Predefined transformations (up to 100).
 
 ---
 
-## Top 5 Use Cases
+## Top 2 Use Cases
 
 ### Use Case 1: User Profile Pictures
+
+Direct creator upload pattern for user-uploaded images:
 
 ```typescript
 // Backend: Generate upload URL
 const response = await fetch(
   `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v2/direct_upload`,
-  {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${API_TOKEN}` }
-  }
+  { method: 'POST', headers: { 'Authorization': `Bearer ${API_TOKEN}` } }
 );
-
 const { result } = await response.json();
 return Response.json({ uploadURL: result.uploadURL });
 
 // Frontend: Upload file
 const formData = new FormData();
 formData.append('file', file);
-
-await fetch(uploadURL, {
-  method: 'POST',
-  body: formData
-});
+await fetch(uploadURL, { method: 'POST', body: formData });
 ```
 
 **Load `templates/direct-creator-upload-backend.ts` for complete example.**
+**See `examples/basic-upload/` for complete working project.**
 
 ### Use Case 2: Responsive Images
+
+Responsive images with srcset for optimal performance:
 
 ```html
 <img
@@ -208,110 +210,33 @@ await fetch(uploadURL, {
 ```
 
 **Load `templates/responsive-images-srcset.html` for complete example.**
+**See `examples/responsive-gallery/` for complete working project.**
 
-### Use Case 3: Transform Existing Images
-
-```html
-<!-- Original image on your server -->
-<img src="/uploads/photo.jpg" />
-
-<!-- Transformed via URL -->
-<img src="/cdn-cgi/image/width=800,quality=85,format=auto/uploads/photo.jpg" />
-```
-
-**Load `references/transformation-options.md` for all options.**
-
-### Use Case 4: Private Images with Signed URLs
-
-```typescript
-// Generate signed URL (backend)
-const expiryTimestamp = Math.floor(Date.now() / 1000) + 3600;  // 1 hour
-
-const message = `/${imageId}/${variant}/${expiryTimestamp}`;
-const encoder = new TextEncoder();
-const data = encoder.encode(message);
-const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-const signature = btoa(String.fromCharCode(...new Uint8Array(hashBuffer)));
-
-const signedURL = `https://imagedelivery.net/${ACCOUNT_HASH}/${imageId}/${variant}?exp=${expiryTimestamp}&sig=${signature}`;
-```
-
-**Load `references/signed-urls-guide.md` for complete implementation.**
-
-### Use Case 5: Batch Upload
-
-```typescript
-const files = ['img1.jpg', 'img2.jpg', 'img3.jpg'];
-
-const uploadPromises = files.map(file =>
-  fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${API_TOKEN}` },
-    body: createFormData(file)
-  })
-);
-
-const results = await Promise.all(uploadPromises);
-```
-
-**Load `templates/batch-upload.ts` for complete example.**
+**Additional Use Cases:**
+- **Transform Existing Images**: Load `references/transformation-options.md`
+- **Private Images**: Load `references/signed-urls-guide.md` or see `examples/private-images/`
+- **Batch Upload**: Load `templates/batch-upload.ts`
+- **Framework Integration**: Load `references/framework-integration.md` for Next.js, Remix, Astro
+- **Watermarking**: Load `references/overlays-watermarks.md` and `templates/overlay-watermark.ts`
+- **Custom Domains**: Load `references/custom-domains.md`
+- **Webhooks**: Load `references/webhooks-guide.md` and `templates/webhook-handler.ts`
 
 ---
 
-## Common Transformations
-
-### Resize
-
-```
-/cdn-cgi/image/width=800,height=600,fit=cover/image.jpg
-```
-
-**fit options:**
-- `scale-down`: Never enlarge
-- `contain`: Fit within dimensions
-- `cover`: Fill dimensions, crop excess
-- `crop`: Crop to exact size
-- `pad`: Add padding
-
-### Optimize
-
-```
-/cdn-cgi/image/quality=85,format=auto/image.jpg
-```
-
-**format options:**
-- `auto`: WebP/AVIF for supporting browsers
-- `webp`: Force WebP
-- `avif`: Force AVIF
-- `jpeg`, `png`: Force format
-
-### Effects
-
-```
-/cdn-cgi/image/blur=10,sharpen=3,brightness=1.1/image.jpg
-```
-
-**Load `references/transformation-options.md` for complete reference.**
-
----
-
-## Top 5 Errors Prevented
+## Top 2 Errors Prevented
 
 ### Error 1: CORS Issues with Direct Upload
 
-**Problem:** Browser blocks direct upload
+**Problem:** Browser blocks direct upload from your domain.
 
-**Solution:** Configure CORS headers
+**Solution:** Configure CORS headers when generating upload URL:
 
 ```typescript
 const response = await fetch(
   `https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v2/direct_upload`,
   {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${API_TOKEN}`,
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Authorization': `Bearer ${API_TOKEN}` },
     body: JSON.stringify({
       requireSignedURLs: false,
       metadata: { source: 'user-upload' }
@@ -320,152 +245,175 @@ const response = await fetch(
 );
 ```
 
-**Load `references/top-errors.md` for all 10 errors.**
-
 ### Error 2: Multipart Form Data Encoding
 
-**Problem:** JSON encoding fails for file uploads
+**Problem:** JSON encoding fails for file uploads (must use multipart/form-data).
 
-**Solution:** Use multipart/form-data
+**Solution:**
 
 ```typescript
 // ✅ CORRECT
 const formData = new FormData();
 formData.append('file', file);
+await fetch(uploadURL, { method: 'POST', body: formData });
 
 // ❌ WRONG
 const json = JSON.stringify({ file: base64File });
 ```
 
-### Error 3: Transformation Error 9401
+**Additional Common Errors:**
+- **Error 9401** (Transformations not enabled): Load `references/top-errors.md`
+- **Error 9403** (Invalid transformation): Load `references/top-errors.md`
+- **Error 9413** (Variant limit exceeded): Load `references/top-errors.md`
+- **Error 5408** (Upload timeout): Load `references/top-errors.md`
+- **Missing requireSignedURLs**: Load `references/signed-urls-guide.md`
 
-**Problem:** Transformations not enabled for zone
-
-**Solution:** Enable in dashboard
-
-Dashboard → **Images** → **Transformations** → **Enable for zone**
-
-### Error 4: Variant Limit (100)
-
-**Problem:** Trying to create >100 variants
-
-**Solution:** Use flexible variants or combine similar sizes
-
-```typescript
-// Instead of: thumbnail-100, thumbnail-150, thumbnail-200...
-// Use: thumbnail (configurable in URL)
-
-<img src="https://imagedelivery.net/abc/xyz/thumbnail?width=150" />
-```
-
-### Error 5: Missing requireSignedURLs Configuration
-
-**Problem:** Private images accessible without signature
-
-**Solution:** Enable signed URLs
-
-```typescript
-await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/images/v1/${imageId}`, {
-  method: 'PATCH',
-  headers: {
-    'Authorization': `Bearer ${API_TOKEN}`,
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    requireSignedURLs: true
-  })
-});
-```
-
-**Load `references/top-errors.md` for all 10 errors with solutions.**
+**Load `references/top-errors.md` for all 10 errors with complete solutions.**
 
 ---
 
 ## When to Load References
 
-### Load `references/setup-guide.md` when:
+### Core References
+
+**Load `references/setup-guide.md` when:**
 - First-time Cloudflare Images setup
 - Need step-by-step walkthrough
-- Setting up direct creator upload
-- Enabling transformations
 
-### Load `references/direct-upload-complete-workflow.md` when:
+**Load `references/api-reference.md` when:**
+- Need complete API documentation
+- All endpoints and parameters
+
+**Load `references/top-errors.md` when:**
+- Encountering any error code (5408, 9401-9413)
+- Troubleshooting upload/transformation issues
+
+### Upload References
+
+**Load `references/direct-upload-complete-workflow.md` when:**
 - Implementing user uploads
 - Need frontend + backend example
 - Configuring CORS
-- Handling upload callbacks
 
-### Load `references/transformation-options.md` when:
+**Load `references/signed-urls-guide.md` when:**
+- Implementing private images with access control
+- Need HMAC-SHA256 signature generation
+
+**Load `references/webhooks-guide.md` when:**
+- Processing upload completion events
+- Implementing webhook handlers with signature verification
+
+### Transformation References
+
+**Load `references/transformation-options.md` when:**
 - Need complete transformation reference
 - Exploring all fit/format/effect options
-- Optimizing image delivery
-- Building custom transformation URLs
 
-### Load `references/variants-guide.md` when:
-- Creating/managing variants
-- Need flexible variants
-- Variant best practices
-- Troubleshooting variant issues
-
-### Load `references/signed-urls-guide.md` when:
-- Implementing private images
-- Need signature generation
-- Setting expiry times
-- Securing image access
-
-### Load `references/top-errors.md` when:
-- Encountering any error code
-- Troubleshooting upload/transformation issues
-- Prevention checklist needed
-
-### Load `references/responsive-images-patterns.md` when:
-- Building responsive images
-- Need srcset examples
-- Implementing picture element
-- Art direction use cases
-
-### Load `references/format-optimization.md` when:
-- Optimizing format selection
-- WebP/AVIF conversion
+**Load `references/format-optimization.md` when:**
+- Optimizing format selection (WebP/AVIF)
 - Quality vs size tradeoffs
-- Browser compatibility concerns
 
-### Load `references/api-reference.md` when:
-- Need complete API documentation
-- All endpoints and parameters
-- Rate limits and quotas
-- Authentication details
+**Load `references/polish-compression.md` when:**
+- Need details on Lossless/Lossy/WebP compression modes
+- Metadata handling (EXIF removal)
+
+**Load `references/overlays-watermarks.md` when:**
+- Adding text or logo watermarks
+- Implementing branding/copyright protection
+
+### Advanced Features
+
+**Load `references/variants-guide.md` when:**
+- Creating/managing variants (up to 100 max)
+- Need flexible variants vs named variants
+
+**Load `references/responsive-images-patterns.md` when:**
+- Building responsive images with srcset
+- Implementing picture element for art direction
+
+**Load `references/framework-integration.md` when:**
+- Integrating with Next.js, Remix, Astro, SvelteKit
+- Need framework-specific patterns and loaders
+
+**Load `references/custom-domains.md` when:**
+- Serving images from branded domains
+- CNAME configuration and SSL setup
+
+**Load `references/content-credentials.md` when:**
+- Preserving EXIF/IPTC metadata
+- Implementing C2PA Content Credentials for authenticity
+
+**Load `references/sourcing-kit.md` when:**
+- Migrating from Cloudinary, Imgix, or S3
+- Bulk import from external CDNs
 
 ---
 
 ## Using Bundled Resources
 
-### References (references/)
+### References (16 reference files)
 
-- **setup-guide.md** - Complete setup walkthrough
-- **api-reference.md** - Complete API documentation
-- **direct-upload-complete-workflow.md** - User upload implementation
-- **transformation-options.md** - All transformation options
-- **variants-guide.md** - Variants management
-- **signed-urls-guide.md** - Private images with signatures
-- **responsive-images-patterns.md** - Responsive image patterns
-- **format-optimization.md** - Format selection and optimization
-- **top-errors.md** - All 10 common errors with solutions
+**Core**: setup-guide.md, api-reference.md, top-errors.md
 
-### Templates (templates/)
+**Upload**: direct-upload-complete-workflow.md, signed-urls-guide.md, webhooks-guide.md
 
-- **upload-api-basic.ts** - Basic file upload
-- **upload-via-url.ts** - Upload from external URL
-- **direct-creator-upload-backend.ts** - Backend for user uploads
-- **direct-creator-upload-frontend.html** - Frontend for user uploads
-- **transform-via-url.ts** - URL transformation examples
-- **transform-via-workers.ts** - Workers transformation examples
-- **variants-management.ts** - Create/update variants
-- **signed-urls-generation.ts** - Generate signed URLs
-- **batch-upload.ts** - Batch upload implementation
-- **responsive-images-srcset.html** - Responsive images with srcset
-- **wrangler-images-binding.jsonc** - Workers binding configuration
-- **package.json** - Dependencies
+**Transform**: transformation-options.md, format-optimization.md, polish-compression.md, overlays-watermarks.md
+
+**Advanced**: variants-guide.md, responsive-images-patterns.md, framework-integration.md, custom-domains.md, content-credentials.md, sourcing-kit.md
+
+### Templates (16 template files)
+
+**Upload**: upload-api-basic.ts, upload-via-url.ts, direct-creator-upload-backend.ts, direct-creator-upload-frontend.html, batch-upload.ts
+
+**Transform**: transform-via-url.ts, transform-via-workers.ts, overlay-watermark.ts
+
+**Variants**: variants-management.ts, signed-urls-generation.ts, responsive-images-srcset.html
+
+**Integration**: nextjs-integration.tsx, remix-integration.tsx, webhook-handler.ts
+
+**Config**: wrangler-images-binding.jsonc, package.json
+
+### Agents (3 autonomous agents)
+
+- **troubleshooting-agent** - Diagnose upload/transformation errors (5408, 9401-9413)
+- **upload-workflow-agent** - Guide complete upload implementation (frontend + backend)
+- **optimization-agent** - Recommend image optimization strategies
+
+Use: `/agent <agent-name>` or let Claude auto-detect when relevant
+
+### Commands (3 slash commands)
+
+- **/check-images** - Quick API health check and configuration validation
+- **/validate-config** - Validate wrangler.jsonc bindings and configuration
+- **/generate-variant** - Interactive variant generator
+
+Use: `/<command-name>`
+
+### Examples (3 complete working projects)
+
+- **basic-upload/** - Minimal upload implementation with Hono + Workers
+- **responsive-gallery/** - Responsive image gallery with srcset and lazy loading
+- **private-images/** - Signed URLs with time-based expiry and access control
+
+Clone and run: `cd examples/<example-name> && npm install && npm run dev`
+
+### Architecture Diagrams (3 diagrams)
+
+- **direct-upload-workflow.md** - Sequence diagram of direct creator upload flow
+- **transformation-pipeline.md** - Flowchart showing transformation processing
+- **variants-structure.md** - Named vs flexible variants comparison
+
+View in: `assets/diagrams/`
+
+### Utility Scripts (5 scripts)
+
+- **test-upload.sh** - Test API connectivity with sample image upload
+- **generate-signed-url.sh** - CLI tool to generate signed URLs with expiry
+- **validate-variants.sh** - List all variants and check variant count (max 100)
+- **analyze-usage.sh** - Query API for storage usage and estimated costs
+- **check-versions.sh** - Verify package versions are current
+
+Run: `./scripts/<script-name>.sh` (requires CF_ACCOUNT_ID and CF_API_TOKEN in .env)
 
 ---
 

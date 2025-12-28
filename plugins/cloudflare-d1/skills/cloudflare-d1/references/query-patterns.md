@@ -547,6 +547,299 @@ const results = await env.DB.batch(queries);
 
 ---
 
+## Query Efficiency Analysis (2025)
+
+**Available**: Post-January 2025 Performance Update
+**Status**: Experimental (`wrangler d1 insights` command)
+
+### What Is Query Efficiency?
+
+Query efficiency measures how effectively your queries use database resources. It's calculated as the ratio of rows returned to rows scanned:
+
+```
+efficiency = rows_returned / rows_read
+```
+
+**Efficiency Values**:
+- **1.0 (100%)** = Perfect - every row scanned is returned
+- **0.5 (50%)** = Good - half the scanned rows are useful
+- **0.1 (10%)** = Poor - reading 10x more data than needed
+- **< 0.01 (1%)** = Critical - needs immediate index optimization
+
+### Measuring Query Efficiency
+
+Every D1 query returns metadata with `rows_read` and results count:
+
+```typescript
+const result = await env.DB.prepare('SELECT * FROM posts WHERE user_id = ?')
+  .bind(userId)
+  .all();
+
+const efficiency = result.results.length / result.meta.rows_read;
+
+console.log({
+  rowsReturned: result.results.length,  // 50 posts
+  rowsRead: result.meta.rows_read,      // 100,000 (full table scan!)
+  efficiency: efficiency.toFixed(4),     // 0.0005 (0.05% - CRITICAL)
+  duration: result.meta.duration         // 450ms (slow!)
+});
+```
+
+**Red Flags**:
+- Efficiency < 0.1 (10%) → Add index immediately
+- Efficiency < 0.01 (1%) → Critical performance issue
+- `rows_read` >> `rows_returned` → Missing or unused index
+
+### Using wrangler d1 insights (Experimental)
+
+**Command**:
+```bash
+wrangler d1 insights my-database
+```
+
+**What It Shows**:
+- Slow queries (P95 latency > 200ms)
+- Inefficient queries (efficiency < 0.1)
+- Query frequency (executions/day)
+- Suggested indexes
+
+**Example Output**:
+```
+Top 5 Slow Queries (by P95 latency):
+
+1. SELECT * FROM orders WHERE user_id = ?
+   Executions: 850/day
+   P50: 180ms | P95: 450ms | P99: 850ms
+   Efficiency: 0.05 (5%)
+   Rows Read: 100,000 | Rows Returned: ~50
+   ⚠️ SUGGESTION: CREATE INDEX idx_orders_user_id ON orders(user_id);
+
+2. SELECT COUNT(*) FROM users WHERE status = 'active'
+   Executions: 600/day
+   P50: 90ms | P95: 180ms | P99: 350ms
+   Efficiency: 0.0001 (<0.01%)
+   Rows Read: 120,000 | Rows Returned: 1
+   ⚠️ SUGGESTION: CREATE INDEX idx_users_status ON users(status);
+```
+
+**Flags Available**:
+```bash
+# Show only slow queries (P95 > 200ms)
+wrangler d1 insights my-database --slow
+
+# Show queries with low efficiency (< 0.1)
+wrangler d1 insights my-database --inefficient
+
+# Limit results
+wrangler d1 insights my-database --limit 10
+```
+
+### EXPLAIN QUERY PLAN Analysis
+
+Use EXPLAIN to understand WHY a query is inefficient:
+
+```sql
+EXPLAIN QUERY PLAN SELECT * FROM posts WHERE user_id = 123;
+```
+
+**Without Index** (Inefficient):
+```
+SCAN TABLE posts
+```
+- Scans entire table (all rows)
+- Efficiency: rows_returned / total_rows (typically < 0.01)
+
+**With Index** (Efficient):
+```
+SEARCH TABLE posts USING INDEX idx_posts_user_id (user_id=?)
+```
+- Uses index to find matching rows
+- Efficiency: ~1.0 (only scans matching rows)
+
+### Before/After Index Optimization
+
+#### Before Index (Inefficient)
+
+```typescript
+// Query without index
+const result = await env.DB.prepare('SELECT * FROM orders WHERE user_id = ?')
+  .bind(userId)
+  .all();
+
+console.log({
+  rowsReturned: 50,
+  rowsRead: 100000,      // Full table scan
+  efficiency: 0.0005,     // 0.05% - CRITICAL
+  duration: 450          // 450ms - SLOW
+});
+```
+
+**EXPLAIN QUERY PLAN**:
+```sql
+EXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = ?;
+-- Output: SCAN TABLE orders
+```
+
+#### After Index (Efficient)
+
+```sql
+-- Create index
+CREATE INDEX idx_orders_user_id ON orders(user_id);
+PRAGMA optimize;
+```
+
+```typescript
+// Same query, now using index
+const result = await env.DB.prepare('SELECT * FROM orders WHERE user_id = ?')
+  .bind(userId)
+  .all();
+
+console.log({
+  rowsReturned: 50,
+  rowsRead: 50,          // Index seek (exact match)
+  efficiency: 1.0,        // 100% - PERFECT
+  duration: 15           // 15ms - FAST (97% improvement!)
+});
+```
+
+**EXPLAIN QUERY PLAN**:
+```sql
+EXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = ?;
+-- Output: SEARCH TABLE orders USING INDEX idx_orders_user_id (user_id=?)
+```
+
+### Efficiency Optimization Workflow
+
+**Step 1: Identify Inefficient Queries**
+
+```typescript
+// Monitor all queries
+app.use('*', async (c, next) => {
+  const start = Date.now();
+  await next();
+
+  // Log slow or inefficient queries
+  if (c.get('queryMeta')) {
+    const meta = c.get('queryMeta');
+    const efficiency = meta.rowsReturned / meta.rows_read;
+
+    if (efficiency < 0.1 || meta.duration > 100) {
+      console.warn({
+        endpoint: c.req.path,
+        efficiency: efficiency.toFixed(4),
+        duration: meta.duration,
+        rowsRead: meta.rows_read,
+        rowsReturned: meta.rowsReturned
+      });
+    }
+  }
+});
+```
+
+**Step 2: Run EXPLAIN QUERY PLAN**
+
+```bash
+# Check if index is being used
+wrangler d1 execute my-database --command \
+  "EXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = 123"
+```
+
+**Step 3: Create Index**
+
+```bash
+# Add missing index
+wrangler d1 execute my-database --command \
+  "CREATE INDEX idx_orders_user_id ON orders(user_id); PRAGMA optimize;"
+```
+
+**Step 4: Verify Improvement**
+
+```bash
+# Re-run EXPLAIN to confirm index usage
+wrangler d1 execute my-database --command \
+  "EXPLAIN QUERY PLAN SELECT * FROM orders WHERE user_id = 123"
+
+# Should now show: SEARCH TABLE orders USING INDEX idx_orders_user_id
+```
+
+### Composite Index Optimization
+
+For queries with multiple filters or ORDER BY:
+
+```typescript
+// Query with WHERE + ORDER BY
+const posts = await env.DB.prepare(
+  'SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC LIMIT 10'
+).bind(userId).all();
+
+// Without composite index:
+// Efficiency: 0.08 (8%), Duration: 220ms
+// rows_read: 50,000, rows_returned: 10
+```
+
+**Create Composite Index**:
+```sql
+-- Index covers both WHERE and ORDER BY
+CREATE INDEX idx_posts_user_created
+  ON posts(user_id, created_at DESC);
+
+PRAGMA optimize;
+```
+
+**EXPLAIN Analysis**:
+```sql
+EXPLAIN QUERY PLAN
+SELECT * FROM posts
+WHERE user_id = ?
+ORDER BY created_at DESC
+LIMIT 10;
+
+-- Before: SCAN TABLE posts
+--         USING TEMP B-TREE FOR ORDER BY
+
+-- After:  SEARCH TABLE posts USING INDEX idx_posts_user_created (user_id=?)
+```
+
+**Result**:
+```typescript
+// With composite index:
+// Efficiency: 1.0 (100%), Duration: 12ms
+// rows_read: 10, rows_returned: 10
+// 95% faster!
+```
+
+### Efficiency Best Practices
+
+✅ **DO**:
+- Monitor query efficiency in production
+- Use `wrangler d1 insights` to find slow queries
+- Run EXPLAIN QUERY PLAN before adding indexes
+- Create indexes on WHERE, JOIN, and ORDER BY columns
+- Use composite indexes for multi-column queries
+- Run `PRAGMA optimize` after creating indexes
+
+❌ **DON'T**:
+- Ignore queries with efficiency < 0.1
+- Add indexes without measuring impact
+- Create too many indexes (slows writes)
+- Use SELECT * without LIMIT
+- Skip EXPLAIN QUERY PLAN analysis
+
+### Efficiency Targets (Post-2025 Baselines)
+
+Based on Cloudflare's January 2025 performance update:
+
+| Query Type | Target Efficiency | Target P95 Latency |
+|------------|-------------------|-------------------|
+| Primary key lookup | > 0.95 | < 20ms |
+| Indexed WHERE | > 0.80 | < 40ms |
+| Indexed JOIN | > 0.50 | < 80ms |
+| Aggregation (COUNT, SUM) | N/A | < 100ms |
+
+If queries fall below these targets, investigate with EXPLAIN QUERY PLAN.
+
+---
+
 ## Meta Object Reference
 
 Every D1 query returns a `meta` object with execution details:

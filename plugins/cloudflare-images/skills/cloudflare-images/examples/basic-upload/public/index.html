@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare Images - Basic Upload Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .upload-form {
+            margin-bottom: 30px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:hover {
+            border-color: #667eea;
+        }
+
+        .upload-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s;
+        }
+
+        .upload-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .upload-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c33;
+            display: none;
+        }
+
+        .success {
+            background: #efe;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3c3;
+            display: none;
+        }
+
+        .uploaded-image-container {
+            display: none;
+            text-align: center;
+        }
+
+        .uploaded-image-container h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .image-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .image-details div {
+            margin: 5px 0;
+        }
+
+        .image-details strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Cloudflare Images Upload</h1>
+        <p class="subtitle">Basic Upload Example - Direct Creator Upload Pattern</p>
+
+        <div class="error" id="error"></div>
+        <div class="success" id="success"></div>
+
+        <form class="upload-form" id="upload-form">
+            <div class="file-input-wrapper">
+                <input
+                    type="file"
+                    id="file-input"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    required
+                />
+            </div>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Uploading... 0%</div>
+            </div>
+
+            <button type="submit" class="upload-button" id="upload-button">
+                Upload Image
+            </button>
+        </form>
+
+        <div class="uploaded-image-container" id="uploaded-image-container">
+            <h2>✅ Upload Successful!</h2>
+            <img class="uploaded-image" id="uploaded-image" alt="Uploaded image">
+            <div class="image-details" id="image-details"></div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:8787'; // Change to your Worker URL in production
+        const ACCOUNT_HASH = 'your_account_hash_here'; // Replace with your actual account hash
+
+        // DOM elements
+        const form = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file-input');
+        const uploadButton = document.getElementById('upload-button');
+        const progressContainer = document.getElementById('progress-container');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+        const uploadedImageContainer = document.getElementById('uploaded-image-container');
+        const uploadedImage = document.getElementById('uploaded-image');
+        const imageDetails = document.getElementById('image-details');
+
+        // Form submit handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await uploadImage();
+        });
+
+        async function uploadImage() {
+            // Get selected file
+            const file = fileInput.files[0];
+            if (!file) {
+                showError('Please select a file');
+                return;
+            }
+
+            // Validate file size (max 10MB)
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                showError(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum size is 10MB.`);
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                showError('Invalid file type. Please upload JPEG, PNG, WebP, or GIF.');
+                return;
+            }
+
+            try {
+                // Reset UI
+                hideError();
+                hideSuccess();
+                uploadedImageContainer.style.display = 'none';
+
+                // Disable form
+                uploadButton.disabled = true;
+                fileInput.disabled = true;
+
+                // Show progress
+                showProgress(10);
+
+                // Step 1: Get one-time upload URL from our Worker
+                console.log('Requesting upload URL from Worker...');
+                const urlResponse = await fetch(`${API_URL}/api/upload-url`, {
+                    method: 'POST'
+                });
+
+                if (!urlResponse.ok) {
+                    throw new Error(`Failed to get upload URL: ${urlResponse.statusText}`);
+                }
+
+                const { uploadURL, imageId } = await urlResponse.json();
+                console.log('Got upload URL. Image ID:', imageId);
+
+                showProgress(30);
+
+                // Step 2: Upload file directly to Cloudflare Images
+                console.log('Uploading file to Cloudflare...');
+                const uploadFormData = new FormData();
+                uploadFormData.append('file', file);
+
+                const xhr = new XMLHttpRequest();
+
+                // Track upload progress
+                xhr.upload.addEventListener('progress', (e) => {
+                    if (e.lengthComputable) {
+                        const percentComplete = 30 + Math.round((e.loaded / e.total) * 60);
+                        showProgress(percentComplete);
+                    }
+                });
+
+                // Handle upload completion
+                const uploadPromise = new Promise((resolve, reject) => {
+                    xhr.addEventListener('load', () => {
+                        if (xhr.status === 200) {
+                            resolve();
+                        } else {
+                            reject(new Error(`Upload failed: ${xhr.statusText}`));
+                        }
+                    });
+
+                    xhr.addEventListener('error', () => {
+                        reject(new Error('Network error during upload'));
+                    });
+                });
+
+                xhr.open('POST', uploadURL);
+                xhr.send(uploadFormData);
+
+                await uploadPromise;
+                showProgress(100);
+
+                console.log('Upload successful!');
+
+                // Step 3: Display uploaded image
+                const imageUrl = `https://imagedelivery.net/${ACCOUNT_HASH}/${imageId}/public`;
+                uploadedImage.src = imageUrl;
+
+                imageDetails.innerHTML = `
+                    <div><strong>Image ID:</strong> ${imageId}</div>
+                    <div><strong>Filename:</strong> ${file.name}</div>
+                    <div><strong>Size:</strong> ${(file.size / 1024).toFixed(1)} KB</div>
+                    <div><strong>Type:</strong> ${file.type}</div>
+                    <div><strong>URL:</strong> <a href="${imageUrl}" target="_blank">${imageUrl}</a></div>
+                `;
+
+                uploadedImageContainer.style.display = 'block';
+                showSuccess('Image uploaded successfully!');
+
+                // Reset form
+                form.reset();
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showError(error.message);
+            } finally {
+                // Re-enable form
+                uploadButton.disabled = false;
+                fileInput.disabled = false;
+                hideProgress();
+            }
+        }
+
+        // UI helper functions
+        function showProgress(percent) {
+            progressContainer.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = `Uploading... ${percent}%`;
+        }
+
+        function hideProgress() {
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressFill.style.width = '0%';
+            }, 500);
+        }
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            errorDiv.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function hideSuccess() {
+            successDiv.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -8,22 +8,25 @@ description: Cloudflare Workflows for durable long-running execution. Use for mu
   step.waitForEvent, workflow bindings
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "3.0.0"
   wrangler_version: "4.50.0"
   workers_types_version: "4.20251126.0"
-  last_verified: "2025-11-26"
+  last_verified: "2025-12-27"
   errors_prevented: 5
-  templates_included: 6
-  references_included: 4
+  templates_included: 8
+  references_included: 8
+  agents_included: 3
+  commands_included: 4
+  scripts_included: 5
 ---
 
 # Cloudflare Workflows
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+**Status**: Production Ready ✅ | **Last Verified**: 2025-12-27 | **Version**: 3.0.0
 
 **Dependencies**: cloudflare-worker-base (for Worker setup)
 
-**Contents**: [Quick Start](#quick-start-10-minutes) • [Core Concepts](#core-concepts) • [Critical Rules](#critical-rules) • [Top Errors](#top-5-errors-critical) • [Common Patterns](#common-patterns) • [When to Load References](#when-to-load-references) • [Limits](#limits--pricing)
+**Contents**: [Quick Start](#quick-start-10-minutes) • [Commands](#commands) • [Agents](#agents) • [Core Concepts](#core-concepts) • [Critical Rules](#critical-rules) • [Top Errors](#top-5-errors-critical) • [Common Patterns](#common-patterns) • [When to Load References](#when-to-load-references) • [Limits](#limits--pricing)
 
 ---
 
@@ -120,6 +123,67 @@ export default {
 
 ```bash
 npm run deploy
+```
+
+---
+
+## Commands
+
+Interactive slash commands for workflow development:
+
+| Command | Description | Use When |
+|---------|-------------|----------|
+| `/workflow-setup` | Complete wizard for new workflow projects | Starting new project, need full setup |
+| `/workflow-create` | Quick scaffolding for workflow classes | Adding workflow to existing project |
+| `/workflow-debug` | Interactive debugging with error patterns | Troubleshooting workflow issues |
+| `/workflow-test` | Test workflows locally and remotely | Validating workflow behavior |
+
+**Example Usage**:
+```
+/workflow-setup   # Full guided setup wizard
+/workflow-create  # Quick workflow scaffolding
+/workflow-debug   # Debug workflow issues
+/workflow-test    # Test workflow execution
+```
+
+---
+
+## Agents
+
+Autonomous agents for complex workflow tasks:
+
+| Agent | Description | Triggers |
+|-------|-------------|----------|
+| `workflow-debugger` | Auto-detects and fixes configuration/runtime errors | "debug workflow", "fix workflow errors" |
+| `workflow-optimizer` | Analyzes performance, cost, and reliability | "optimize workflow", "improve performance" |
+| `workflow-setup-assistant` | Autonomous project scaffolding | "setup workflow", "create first workflow" |
+
+**Key Capabilities**:
+- **Debugger**: 6-phase analysis, auto-fix for I/O context, serialization, export issues
+- **Optimizer**: Cost analysis, reliability scoring, actionable recommendations
+- **Setup Assistant**: Project detection, automatic scaffolding, validation
+
+---
+
+## Scripts
+
+Automation scripts in `scripts/` directory:
+
+| Script | Purpose |
+|--------|---------|
+| `validate-workflow-config.sh` | Validate wrangler.jsonc configuration |
+| `test-workflow.sh` | Create and test workflow instances |
+| `benchmark-workflow.sh` | Measure performance and cost |
+| `generate-workflow.sh` | Scaffold new workflows from templates |
+| `check-workflow-limits.sh` | Validate against Cloudflare limits |
+
+**Usage**:
+```bash
+./scripts/validate-workflow-config.sh           # Check config
+./scripts/test-workflow.sh my-workflow          # Test workflow
+./scripts/benchmark-workflow.sh my-workflow 10  # Benchmark 10 runs
+./scripts/generate-workflow.sh MyWorkflow       # Generate scaffold
+./scripts/check-workflow-limits.sh src/workflows/my-workflow.ts
 ```
 
 ---
@@ -387,7 +451,15 @@ const data = await step.do('fetch', async () => {
 
 **`references/production-checklist.md`**: Preparing for deployment, need pre-deployment verification, setting up monitoring/error handling.
 
-**`templates/`**: **basic-workflow.ts** (sequential), **scheduled-workflow.ts** (delays/sleep), **workflow-with-events.ts** (waitForEvent), **workflow-with-retries.ts** (custom retry), **worker-trigger.ts** (Worker triggers), **wrangler-workflows-config.jsonc** (Wrangler config)
+**`references/limits-quotas.md`**: Hitting instance/step/payload limits, optimizing for cost, designing high-volume workflows.
+
+**`references/2025-features.md`**: Using events system, enhanced retries, instance lifecycle control, or latest Workflows features.
+
+**`references/metrics-analytics.md`**: Setting up monitoring, custom metrics, external logging integration, or workflow dashboards.
+
+**`references/troubleshooting.md`**: Complex debugging scenarios, stuck instances, systematic diagnosis, performance issues.
+
+**`templates/`**: **basic-workflow.ts** (sequential), **scheduled-workflow.ts** (delays/sleep), **workflow-with-events.ts** (waitForEvent), **workflow-with-retries.ts** (custom retry), **worker-trigger.ts** (Worker triggers), **wrangler-workflows-config.jsonc** (Wrangler config), **parallel-execution-workflow.ts** (batched parallel processing), **circuit-breaker-workflow.ts** (resilient external calls)
 
 ---
 

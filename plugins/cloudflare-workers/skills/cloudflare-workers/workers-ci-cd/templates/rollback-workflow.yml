@@ -1,0 +1,298 @@
+# Rollback Workflow for Cloudflare Workers
+#
+# Purpose: Safely rollback Workers deployments to previous versions
+# Features:
+# - Manual rollback trigger with version/commit selection
+# - Automatic rollback on deployment verification failure
+# - Support for environment-specific rollbacks
+# - Health check verification after rollback
+# - Slack/Discord notifications
+#
+# Usage:
+# 1. Copy to .github/workflows/rollback.yml
+# 2. Add secrets: CLOUDFLARE_API_TOKEN, SLACK_WEBHOOK (optional)
+# 3. Update WORKER_NAME
+# 4. Configure GitHub environments with protection rules
+
+name: Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to rollback'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+      version:
+        description: 'Git commit SHA or tag to rollback to'
+        required: true
+        type: string
+      reason:
+        description: 'Reason for rollback'
+        required: false
+        type: string
+
+env:
+  WORKER_NAME: my-worker
+
+jobs:
+  # =====================
+  # Validate Rollback Request
+  # =====================
+  validate:
+    name: Validate Rollback
+    runs-on: ubuntu-latest
+    outputs:
+      commit-exists: ${{ steps.check.outputs.exists }}
+      commit-sha: ${{ steps.check.outputs.sha }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history
+
+      - name: Validate Commit
+        id: check
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+
+          # Check if version is a valid commit SHA or tag
+          if git rev-parse --verify "$VERSION" >/dev/null 2>&1; then
+            COMMIT_SHA=$(git rev-parse "$VERSION")
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
+            echo "✅ Valid commit/tag: $VERSION ($COMMIT_SHA)"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "❌ Invalid commit/tag: $VERSION"
+            exit 1
+          fi
+
+      - name: Get Commit Info
+        run: |
+          git log -1 --format="%h - %s (%an, %ar)" ${{ steps.check.outputs.sha }}
+
+  # =====================
+  # Rollback Deployment
+  # =====================
+  rollback:
+    name: Rollback ${{ github.event.inputs.environment }}
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}-rollback
+      url: https://${{ env.WORKER_NAME }}${{ github.event.inputs.environment == 'staging' && '-staging' || '' }}.workers.dev
+
+    steps:
+      - name: Checkout Target Version
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.validate.outputs.commit-sha }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+        continue-on-error: true
+
+      - name: Deploy Rollback
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env ${{ github.event.inputs.environment }}
+
+      - name: Verify Rollback
+        id: verify
+        run: |
+          ENV="${{ github.event.inputs.environment }}"
+          if [ "$ENV" = "staging" ]; then
+            WORKER_URL="https://${{ env.WORKER_NAME }}-staging.workers.dev"
+          else
+            WORKER_URL="https://${{ env.WORKER_NAME }}.workers.dev"
+          fi
+
+          echo "Verifying rollback at $WORKER_URL..."
+          sleep 5
+
+          MAX_RETRIES=3
+          for i in $(seq 1 $MAX_RETRIES); do
+            if curl -f "$WORKER_URL/health"; then
+              echo "✅ Rollback verified"
+              exit 0
+            fi
+            echo "Attempt $i/$MAX_RETRIES failed, retrying..."
+            sleep 5
+          done
+
+          echo "❌ Rollback verification failed"
+          exit 1
+
+      - name: Create Rollback Annotation
+        if: success()
+        run: |
+          git tag -a "rollback-${{ github.event.inputs.environment }}-$(date +%Y%m%d-%H%M%S)" \
+            -m "Rollback to ${{ needs.validate.outputs.commit-sha }}" \
+            -m "Environment: ${{ github.event.inputs.environment }}" \
+            -m "Reason: ${{ github.event.inputs.reason }}" \
+            ${{ needs.validate.outputs.commit-sha }}
+
+      - name: Notify Success
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ Rollback successful",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Rollback Successful*\n\n*Environment:* ${{ github.event.inputs.environment }}\n*Version:* `${{ needs.validate.outputs.commit-sha }}`\n*Triggered by:* ${{ github.actor }}\n*Reason:* ${{ github.event.inputs.reason }}"
+                  }
+                }
+              ]
+            }
+
+      - name: Notify Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "❌ Rollback failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Rollback Failed*\n\n*Environment:* ${{ github.event.inputs.environment }}\n*Version:* `${{ needs.validate.outputs.commit-sha }}`\n*Triggered by:* ${{ github.actor }}"
+                  }
+                }
+              ]
+            }
+
+  # =====================
+  # Automatic Rollback on Failure
+  # =====================
+  auto-rollback:
+    name: Auto Rollback
+    if: false  # Disabled by default - enable per environment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get Previous Commit
+        id: previous
+        run: |
+          PREVIOUS_SHA=$(git rev-parse HEAD~1)
+          echo "sha=$PREVIOUS_SHA" >> $GITHUB_OUTPUT
+          echo "Previous commit: $PREVIOUS_SHA"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Deploy Previous Version
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env production
+
+      - name: Verify Auto Rollback
+        run: |
+          sleep 5
+          curl -f https://${{ env.WORKER_NAME }}.workers.dev/health || exit 1
+
+# =====================
+# Rollback with Version Selection from History
+# =====================
+# This can be triggered to show recent deployments and select one
+---
+name: Interactive Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  list-versions:
+    name: List Recent Deployments
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: List Recent Commits
+        run: |
+          echo "## Recent Deployments (Last 10 commits)"
+          git log -10 --oneline --decorate
+          echo ""
+          echo "To rollback, run the 'Rollback Deployment' workflow with one of these commit SHAs"
+
+# =====================
+# Blue-Green Rollback (switch traffic)
+# =====================
+# For blue-green deployments, rollback by switching route
+---
+name: Blue-Green Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Target environment (blue/green)'
+        required: true
+        type: choice
+        options:
+          - blue
+          - green
+
+jobs:
+  switch-traffic:
+    name: Switch to ${{ github.event.inputs.target }}
+    runs-on: ubuntu-latest
+    environment:
+      name: production-rollback
+
+    steps:
+      - name: Switch Route to ${{ github.event.inputs.target }}
+        run: |
+          curl -X PATCH "https://api.cloudflare.com/client/v4/zones/${{ secrets.ZONE_ID }}/workers/routes/${{ secrets.ROUTE_ID }}" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data "{\"script\":\"${{ env.WORKER_NAME }}-${{ github.event.inputs.target }}\"}"
+
+      - name: Verify Traffic Switch
+        run: |
+          sleep 10
+          curl -f https://${{ env.WORKER_NAME }}.workers.dev/health || exit 1
+          echo "✅ Traffic switched to ${{ github.event.inputs.target }}"

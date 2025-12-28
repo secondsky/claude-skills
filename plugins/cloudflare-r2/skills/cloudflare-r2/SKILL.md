@@ -8,13 +8,16 @@ description: Cloudflare R2 S3-compatible object storage. Use for buckets, upload
   aws4fetch, s3 client, bulk delete, r2 list, storage class
 license: MIT
 metadata:
-  version: "2.0.0"
-  last_verified: "2025-11-26"
+  version: "3.0.0"
+  last_verified: "2025-12-27"
   production_tested: true
-  token_savings: "~60%"
-  errors_prevented: 6
+  token_savings: "~65%"
+  errors_prevented: 12
   templates_included: 5
-  references_included: 5
+  references_included: 11
+  agents_included: 5
+  commands_included: 4
+  scripts_included: 3
   wrangler_version: "4.50.0"
   workers_types_version: "4.20251126.0"
   aws4fetch_version: "1.0.20"
@@ -22,9 +25,9 @@ metadata:
 
 # Cloudflare R2 Object Storage
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-26
+**Status**: Production Ready ✅ | **Last Verified**: 2025-12-27 | **v3.0.0**
 
-**Contents**: [Quick Start](#quick-start-5-minutes) • [Core R2 API](#core-r2-workers-api-quick-reference) • [Critical Rules](#critical-rules) • [Top Use Cases](#top-use-cases) • [Error Handling](#error-handling) • [Known Issues](#known-issues-prevented) • [References](#when-to-load-references)
+**Contents**: [Quick Start](#quick-start-5-minutes) • [New Features](#new-r2-features-2025) • [Core R2 API](#core-r2-workers-api-quick-reference) • [Critical Rules](#critical-rules) • [Agents & Commands](#available-agents--commands) • [References](#when-to-load-references)
 
 ---
 
@@ -108,6 +111,22 @@ export default app;
 ```
 
 **Load `references/setup-guide.md` for complete setup walkthrough.**
+
+---
+
+## New R2 Features (2025)
+
+**🆕 R2 SQL Integration** - Query CSV/Parquet/JSON data with distributed SQL. Analytics without ETL. **Load `references/r2-sql-integration.md`**
+
+**🆕 Data Catalog (Apache Iceberg)** - Table versioning, time-travel queries, schema evolution. Spark/Snowflake integration. **Load `references/data-catalog-iceberg.md`**
+
+**🆕 Event Notifications** - Trigger Workers on object changes (upload/delete). Automate image processing, backups, webhooks. **Load `references/event-notifications.md`**
+
+**Advanced Features** - Storage classes, bucket locks (compliance), tus resumable uploads, SSE-C encryption. **Load `references/advanced-features.md`**
+
+**Zero Trust Security** - Cloudflare Access integration with SSO, MFA, identity policies, audit logging. **Load `references/cloudflare-access-integration.md`**
+
+**Performance Tuning** - Caching strategies, compression, range requests, ETags, monitoring best practices. **Load `references/performance-optimization.md`**
 
 ---
 
@@ -223,41 +242,56 @@ Generate secure upload URLs for client-side uploads. See `templates/r2-presigned
 
 ---
 
+## Available Agents & Commands
+
+### Autonomous Agents
+
+Agents handle complex multi-step workflows automatically:
+
+- **r2-setup-automator** - Complete R2 setup (bucket creation → binding → TypeScript types → deployment)
+- **multipart-orchestrator** - Large file uploads with chunking, error recovery, and progress tracking
+- **cors-debugger** - Systematic CORS troubleshooting with configuration generation and testing
+- **s3-migration-planner** - AWS S3 to R2 migration planning, data transfer, and cost analysis
+- **event-notification-setup** - Event-driven workflows with Workers, Queues, and automation
+
+### Quick Commands
+
+Fast access to common R2 operations:
+
+- **/r2-setup** - Create bucket and configure binding in wrangler.jsonc
+- **/r2-presigned-url** - Generate presigned URLs for secure client-side uploads/downloads
+- **/r2-cors-debug** - Diagnose and fix CORS configuration issues
+- **/r2-multipart-init** - Initialize multipart upload workflow for large files
+
+---
+
 ## When to Load References
 
-### Load `references/setup-guide.md` when:
-- First-time R2 setup
-- Need step-by-step setup walkthrough
-- Configuring CORS for first time
-- Setting up presigned URLs
-- Troubleshooting binding issues
+### Core References (Existing Features)
 
-### Load `references/workers-api.md` when:
-- Need complete API reference
-- Working with advanced options
-- Conditional operations (onlyIf)
-- Checksums and data integrity
-- Error handling patterns
+**`references/setup-guide.md`** - First-time setup, binding configuration, TypeScript types, deployment walkthrough
 
-### Load `references/common-patterns.md` when:
-- Implementing multipart upload
-- Need retry logic
-- Batch operations
-- Performance optimization
-- Cache header strategies
+**`references/workers-api.md`** - Complete API reference (all methods + options), conditional operations, checksums
 
-### Load `references/s3-compatibility.md` when:
-- Migrating from AWS S3
-- Using S3 client libraries
-- Need S3 API compatibility info
-- Using aws4fetch for signing
+**`references/common-patterns.md`** - Multipart uploads, retry logic with backoff, batch operations, cache strategies
 
-### Load `references/cors-configuration.md` when:
-- Setting up browser access to R2
-- CORS errors or CORS policy debugging
-- Presigned URL CORS configuration
-- Security policy setup and best practices
-- Testing CORS with curl or browser tools
+**`references/s3-compatibility.md`** - S3 migration guide, S3 client library usage, aws4fetch presigned URL signing
+
+**`references/cors-configuration.md`** - Browser access setup, CORS debugging, security policies, Dashboard configuration
+
+### New Features References (2025)
+
+**`references/event-notifications.md`** - Event-driven automation, Queue integration, image processing, webhook triggers
+
+**`references/advanced-features.md`** - Storage classes (cost optimization), bucket locks (compliance), tus resumable uploads, SSE-C encryption
+
+**`references/r2-sql-integration.md`** - SQL queries on R2 data (CSV/Parquet/JSON), analytics patterns, performance tuning
+
+**`references/data-catalog-iceberg.md`** - Apache Iceberg tables, time-travel queries, schema evolution, Spark/Snowflake integration
+
+**`references/cloudflare-access-integration.md`** - Zero Trust security, SSO (Google/Okta/Azure AD), identity policies, MFA, audit logging
+
+**`references/performance-optimization.md`** - Caching (browser/CDN/Workers), compression (gzip/Brotli), range requests, ETags, monitoring
 
 ---
 

@@ -1,0 +1,60 @@
+{
+  "name": "cloudflare-workers",
+  "version": "1.0.0",
+  "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-workers",
+    "workers",
+    "cloudflare",
+    "edge",
+    "wrangler",
+    "vitest-workers",
+    "workers-testing",
+    "miniflare",
+    "ci-cd-workers",
+    "github-actions-workers",
+    "workers-observability",
+    "wrangler-tail",
+    "runtime-apis",
+    "fetch-api",
+    "streaming",
+    "websockets",
+    "formdata",
+    "workers-performance",
+    "caching",
+    "bundle-optimization",
+    "workers-security",
+    "cors",
+    "csrf",
+    "rate-limiting",
+    "framework-integration",
+    "nextjs-workers",
+    "astro-workers",
+    "sveltekit",
+    "python-workers",
+    "rust-workers",
+    "wasm",
+    "migration",
+    "lambda-to-workers",
+    "vercel-to-workers",
+    "netlify-to-workers"
+  ],
+  "commands": [
+    "./commands/workers-test-setup.md",
+    "./commands/workers-deploy.md",
+    "./commands/workers-debug.md",
+    "./commands/workers-optimize.md",
+    "./commands/workers-migrate.md"
+  ],
+  "agents": [
+    "./agents/workers-test-generator.md",
+    "./agents/workers-performance-analyzer.md",
+    "./agents/workers-security-auditor.md"
+  ]
+}

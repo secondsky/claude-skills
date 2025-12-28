@@ -1,0 +1,32 @@
+{
+  "name": "cloudflare-images-private-images",
+  "version": "1.0.0",
+  "description": "Complete implementation of signed URLs for private image access control using Cloudflare Images",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "cloudflare",
+    "images",
+    "workers",
+    "signed-urls",
+    "private-images",
+    "access-control",
+    "hmac",
+    "security"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.7.10",
+    "@tsndr/cloudflare-worker-jwt": "^2.5.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250110.0",
+    "wrangler": "^3.91.0",
+    "typescript": "^5.7.2"
+  }
+}
