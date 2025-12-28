@@ -472,7 +472,7 @@ With 169 skills, quality assurance requires systematic batch workflows, not indi
 # For batch reviews:
 # 1. Review Tier 1 skills first (most critical)
 # 2. Then Tier 2, Tier 3, etc.
-# 3. Document findings in planning/ directory
+# 3. Document research findings
 ```
 
 **Time estimates**:
@@ -688,13 +688,13 @@ Production tested: [evidence]"
 
 ### Research Protocol
 
-**Before building a new skill** (see planning/research-protocol.md):
+**Before building a new skill** (see [research-protocol.md](../reference/research-protocol.md)):
 
 1. **Check existing skills** - Is this already covered?
 2. **Find official docs** - Use Context7 MCP to resolve library docs
 3. **Verify package versions** - Check npm for latest stable versions
 4. **Build working example** - Start from scratch, document errors
-5. **Create research log** - Document sources, versions, issues in planning/research-logs/
+5. **Document research findings** - Document sources, versions, issues
 
 ---
 
@@ -722,8 +722,8 @@ Production tested: [evidence]"
 **Verify against official standards**:
 
 1. **Anthropic Agent Skills Spec**: https://github.com/anthropics/skills/blob/main/agent_skills_spec.md
-2. **Our Standards Doc**: planning/claude-code-skill-standards.md
-3. **Comparison**: planning/STANDARDS_COMPARISON.md
+2. **Our Standards Doc**: [claude-code-skill-standards.md](../reference/claude-code-skill-standards.md)
+3. **Comparison**: [STANDARDS_COMPARISON.md](../reference/STANDARDS_COMPARISON.md)
 
 **Key requirements**:
 - YAML frontmatter: `name` and `description` (required)
@@ -734,7 +734,7 @@ Production tested: [evidence]"
 
 ### Common Pitfalls
 
-**See planning/COMMON_MISTAKES.md for comprehensive list.**
+**See [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md) for comprehensive list.**
 
 **Quick list**:
 - ❌ Missing YAML frontmatter (skill invisible)
@@ -825,7 +825,7 @@ gh pr create --repo secondsky/claude-skills
 | **Install locally** | Repository: `./scripts/install-skill.sh` |
 | **Sync versions** | Repository: `./scripts/sync-plugins.sh` |
 | **Check compliance** | Repository: [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) |
-| **Research protocol** | Repository: `planning/research-protocol.md` |
+| **Research protocol** | Repository: [research-protocol.md](../reference/research-protocol.md) |
 
 ### Responsibility Matrix
 
@@ -872,8 +872,8 @@ gh pr create --repo secondsky/claude-skills
 - **Plugin fundamentals**: Use official plugin-dev skills/agents
 - **Marketplace issues**: See [MARKETPLACE_MANAGEMENT.md](MARKETPLACE_MANAGEMENT.md)
 - **Quality standards**: Check [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
-- **Common mistakes**: Review `planning/COMMON_MISTAKES.md`
-- **Research**: Follow `planning/research-protocol.md`
+- **Common mistakes**: Review [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md)
+- **Research**: Follow [research-protocol.md](../reference/research-protocol.md)
 
 ---
 

@@ -145,7 +145,7 @@ See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for i
 
 5. **Create research log**
    ```bash
-   touch planning/research-logs/my-skill.md
+   # Document research findings
    # Document: sources, versions, issues found
    ```
 
@@ -231,7 +231,7 @@ See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for i
    ```
 
 3. **Update roadmap**
-   - Edit `planning/skills-roadmap.md`
+   - Update roadmap documentation if needed
    - Mark skill as complete
 
 4. **Update marketplace**
@@ -284,7 +284,7 @@ ls -la ~/.claude/skills/my-skill-name
 npm view <package> version
 
 # Create research log
-touch planning/research-logs/my-skill.md
+# Document research findings
 
 # Commit
 git add skills/my-skill-name/
@@ -400,7 +400,7 @@ Everything else can be improved later.
 
 After building your first skill:
 
-1. Read [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md)
+1. Read [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md)
 2. Review [CLOUDFLARE_SKILLS_AUDIT.md](CLOUDFLARE_SKILLS_AUDIT.md)
 3. Study working skills in `skills/` directory
 4. Build second skill (will be much faster!)

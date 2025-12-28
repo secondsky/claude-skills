@@ -522,7 +522,7 @@ git commit -m "Done!"
 
 ✅ **CORRECT**:
 ```bash
-# Verify against ONE_PAGE_CHECKLIST.md
+# Verify against ../getting-started/ONE_PAGE_CHECKLIST.md
 # Ensure all boxes checked
 # THEN commit
 ```
@@ -612,7 +612,7 @@ Before committing, verify you DIDN'T make these mistakes:
 - [ ] ✅ "Last Updated" date present
 - [ ] ✅ All links work
 - [ ] ✅ Research log created
-- [ ] ✅ Checked ONE_PAGE_CHECKLIST.md
+- [ ] ✅ Checked ../getting-started/ONE_PAGE_CHECKLIST.md
 
 **All boxes checked** = Ready to commit! ✅
 
@@ -620,9 +620,9 @@ Before committing, verify you DIDN'T make these mistakes:
 
 ## Learn More
 
-- [START_HERE.md](../START_HERE.md) - Workflow overview
-- [ONE_PAGE_CHECKLIST.md](../ONE_PAGE_CHECKLIST.md) - Verification checklist
-- [planning/STANDARDS_COMPARISON.md](STANDARDS_COMPARISON.md) - Official standards
+- [START_HERE.md](../getting-started/START_HERE.md) - Workflow overview
+- [ONE_PAGE_CHECKLIST.md](../getting-started/ONE_PAGE_CHECKLIST.md) - Verification checklist
+- [STANDARDS_COMPARISON.md](STANDARDS_COMPARISON.md) - Official standards
 - [CLOUDFLARE_SKILLS_AUDIT.md](../CLOUDFLARE_SKILLS_AUDIT.md) - Example audit
 
 ---

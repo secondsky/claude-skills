@@ -26,7 +26,7 @@ This provides:
 - System prompt budget optimization (15k char limit)
 - Batch operations and quality workflows
 
-See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for details.
+See [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) for details.
 
 ---
 
@@ -205,7 +205,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 3. Run `./scripts/sync-plugins.sh`
 4. Submit pull request
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
@@ -213,12 +213,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 | Document | Purpose |
 |----------|---------|
-| [START_HERE.md](START_HERE.md) | **Start here!** Quick navigation guide |
-| [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
+| [START_HERE.md](docs/getting-started/START_HERE.md) | **Start here!** Quick navigation guide |
+| [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
 | [MARKETPLACE.md](MARKETPLACE.md) | Full skill catalog and installation guide |
-| [MARKETPLACE_MANAGEMENT.md](MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
+| [MARKETPLACE_MANAGEMENT.md](docs/guides/MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
 | [CLAUDE.md](CLAUDE.md) | Project context and development standards |
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
+| [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) | Contribution guidelines |
 
 ---
 

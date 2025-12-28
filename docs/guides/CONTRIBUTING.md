@@ -5,7 +5,7 @@ Thank you for your interest in contributing! This guide will help you create hig
 **🚀 Quick Start**: Use our templates! Copy `templates/skill-skeleton/` to get started in minutes.
 **📋 Checklist**: Verify your work with [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
 **📖 Workflow**: See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) for step-by-step process
-**⚠️ Avoid Mistakes**: Read [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md)
+**⚠️ Avoid Mistakes**: Read [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md)
 
 ---
 
@@ -257,7 +257,7 @@ touch skills/my-skill/SKILL.md
 
 ### 3. Update Planning Doc
 
-Add your skill to `planning/skills-roadmap.md`:
+Update roadmap documentation if needed:
 
 ```markdown
 ## my-skill
@@ -296,7 +296,7 @@ Before submitting, ensure:
 - [ ] Known issues are listed with fixes
 - [ ] Token efficiency is measured
 - [ ] Skill tested in ~/.claude/skills/
-- [ ] planning/skills-roadmap.md updated
+- [ ] Roadmap documentation updated if needed
 - [ ] Examples work (if provided)
 
 ---

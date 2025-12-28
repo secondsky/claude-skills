@@ -58,7 +58,7 @@ The `jezweb/claude-skills` is a PERSONAL FORK that must remain untouched. All de
 - Batch operations for 169 skills
 - Repository-specific workflows
 
-See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
+See [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
 
 ---
 
@@ -74,9 +74,9 @@ This is a curated collection of **production-tested Claude Code skills** for bui
 
 ## Quick Navigation
 
-**👋 First Time Here?** → Read [START_HERE.md](START_HERE.md)
-**🔨 Building a Skill?** → See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md)
-**✅ Verifying Work?** → Check [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
+**👋 First Time Here?** → Read [START_HERE.md](docs/getting-started/START_HERE.md)
+**🔨 Building a Skill?** → See [QUICK_WORKFLOW.md](docs/getting-started/QUICK_WORKFLOW.md)
+**✅ Verifying Work?** → Check [ONE_PAGE_CHECKLIST.md](docs/getting-started/ONE_PAGE_CHECKLIST.md)
 **📂 Need Project Structure?** → See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
 ---
@@ -194,8 +194,8 @@ This repo aligns with **official Anthropic standards**:
 - **Official Skills Repo**: https://github.com/anthropics/skills
 - **Agent Skills Spec**: [agent_skills_spec.md](https://github.com/anthropics/skills/blob/main/agent_skills_spec.md)
 - **Skill Creator Guide**: [skill-creator/SKILL.md](https://github.com/anthropics/skills/blob/main/skill-creator/SKILL.md)
-- **Our Standards Doc**: [planning/claude-code-skill-standards.md](planning/claude-code-skill-standards.md)
-- **Comparison**: [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
+- **Our Standards Doc**: [docs/reference/claude-code-skill-standards.md](docs/reference/claude-code-skill-standards.md)
+- **Comparison**: [docs/reference/STANDARDS_COMPARISON.md](docs/reference/STANDARDS_COMPARISON.md)
 
 **Last Verified**: 2025-10-29
 
@@ -230,7 +230,7 @@ claude-skills/
 │       ├── src/                 # Source code
 │       ├── test/                # Tests
 │       └── wrangler.jsonc       # Cloudflare config
-├── planning/                     # Planning & research (13 files)
+├── docs/                         # Documentation (consolidated)
 │   ├── COMMON_MISTAKES.md       # Learn from failures
 │   ├── STANDARDS_COMPARISON.md  # Official vs our standards
 │   ├── claude-code-skill-standards.md
@@ -279,12 +279,8 @@ claude-skills/
 │       ├── references/
 │       └── assets/
 └── *.md                          # Root documentation
-    ├── START_HERE.md            # ← Read this first!
     ├── CLAUDE.md                # ← You are here
-    ├── ONE_PAGE_CHECKLIST.md    # Quick verification
-    ├── QUICK_WORKFLOW.md        # 5-minute skill creation
     ├── README.md                # Public overview
-    ├── CONTRIBUTING.md          # Contribution guide
     ├── CHANGELOG.md             # Version history
     └── LICENSE                  # MIT License
 ```
@@ -412,7 +408,7 @@ All 169 skills are production-ready and organized by domain:
 - Automated validation: 169/169 skills passed
 - Issues found: 0 Critical, 0 High, 0 Medium
 - Next reviews: Tier 1 foundation skills (manual verification)
-- Full report: `planning/COMPREHENSIVE_REVIEW_SUMMARY.md`
+- Full report: `docs/archive/COMPREHENSIVE_REVIEW_SUMMARY.md` (if exists)
 
 **Recent Optimizations:**
 - **Tier 7 Optimization** (2025-12-17): 11 Tooling & Planning skills optimized
@@ -420,7 +416,7 @@ All 169 skills are production-ready and organized by domain:
   - Progressive disclosure implemented across all 11 skills
   - "When to Load References" sections added for better discovery
   - Skills optimized: better-chatbot, project-planning, claude-hook-writer, github-project-automation, turborepo, typescript-mcp, design-review, skill-review, multi-ai-consultant, better-chatbot-patterns, open-source-contributions
-  - Full summary: `planning/TIER_7_OPTIMIZATION_SUMMARY.md`
+  - Full summary: `docs/archive/TIER_7_OPTIMIZATION_SUMMARY.md` (if exists)
 
 ---
 
@@ -445,7 +441,7 @@ All 169 skills are production-ready and organized by domain:
 
 **When to use manual workflow below**: Building 2nd+ skill, fast iteration, repository-specific needs
 
-See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for integration.
+See [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for integration.
 
 ---
 
@@ -453,10 +449,10 @@ See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for i
 
 ```
 1. RESEARCH
-   • Read planning/research-protocol.md
+   • Read docs/reference/research-protocol.md
    • Check Context7 MCP for library docs
    • Verify latest package versions (npm view)
-   • Document in planning/research-logs/
+   • Document research findings
 
 2. TEMPLATE
    • Copy: cp -r templates/skill-skeleton/ skills/new-skill/
@@ -470,14 +466,14 @@ See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 7 for i
    • Build example project to verify templates work
 
 4. VERIFY
-   • Check ONE_PAGE_CHECKLIST.md
-   • Compare with planning/claude-code-skill-standards.md
+   • Check docs/getting-started/ONE_PAGE_CHECKLIST.md
+   • Compare with docs/reference/claude-code-skill-standards.md
    • Run check-versions.sh if applicable
 
 5. COMMIT
    • git add skills/new-skill
    • git commit -m "Add new-skill for [use case]"
-   • Update planning/skills-roadmap.md
+   • Update roadmap documentation if needed
    • git push
 
 6. MARKETPLACE
@@ -588,7 +584,7 @@ All plugin management has been consolidated into `sync-plugins.sh`. The `scripts
 - Optional fields: `license`, `allowed-tools`, `metadata`
 - Directory structure: `scripts/`, `references/`, `assets/` (official)
 - Writing style: Imperative/infinitive form, third-person descriptions
-- See [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
+- See [docs/reference/STANDARDS_COMPARISON.md](docs/reference/STANDARDS_COMPARISON.md)
 
 ### 4. Progressive Disclosure
 - **Metadata** (name + description): Always in context (~100 words)
@@ -658,7 +654,7 @@ git push origin add-new-skill
 
 ### Before Committing (Checklist)
 
-Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) to verify:
+Use [ONE_PAGE_CHECKLIST.md](docs/getting-started/ONE_PAGE_CHECKLIST.md) to verify:
 
 - [ ] YAML frontmatter valid (name + description)
 - [ ] Description includes "Use when" scenarios
@@ -677,8 +673,8 @@ Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) to verify:
 ### Compliance Verification
 
 Compare against:
-1. [planning/claude-code-skill-standards.md](planning/claude-code-skill-standards.md) - Our standards
-2. [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md) - Official vs ours
+1. [docs/reference/claude-code-skill-standards.md](docs/reference/claude-code-skill-standards.md) - Our standards
+2. [docs/reference/STANDARDS_COMPARISON.md](docs/reference/STANDARDS_COMPARISON.md) - Official vs ours
 3. [CLOUDFLARE_SKILLS_AUDIT.md](CLOUDFLARE_SKILLS_AUDIT.md) - Example audit
 4. https://github.com/anthropics/skills - Official reference
 
@@ -686,7 +682,7 @@ Compare against:
 
 ## Common Pitfalls to Avoid
 
-See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed examples.
+See [docs/reference/COMMON_MISTAKES.md](docs/reference/COMMON_MISTAKES.md) for detailed examples.
 
 **Quick List**:
 - ❌ Missing YAML frontmatter (skill invisible to Claude)
@@ -738,8 +734,8 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 
 **When Standards Change**:
 - Review official Anthropic skills repo
-- Update planning/claude-code-skill-standards.md
-- Update planning/STANDARDS_COMPARISON.md
+- Update docs/reference/claude-code-skill-standards.md
+- Update docs/reference/STANDARDS_COMPARISON.md
 - Audit existing skills for compliance
 
 ---
@@ -747,9 +743,9 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 ## Getting Help
 
 **Documentation Issues?**
-- Check [START_HERE.md](START_HERE.md) for navigation
-- Read [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md)
-- Review working examples in `skills/` directory
+- Check [START_HERE.md](docs/getting-started/START_HERE.md) for navigation
+- Read [COMMON_MISTAKES.md](docs/reference/COMMON_MISTAKES.md)
+- Review working examples in `plugins/` directory
 
 **Technical Issues?**
 - Open issue: https://github.com/secondsky/claude-skills/issues
@@ -757,10 +753,10 @@ See [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for detailed exam
 - Check official Claude Code docs
 
 **Want to Contribute?**
-- Read [CONTRIBUTING.md](CONTRIBUTING.md)
+- Read [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md)
 - Use templates in `templates/`
-- Follow [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md)
-- Verify with [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md)
+- Follow [QUICK_WORKFLOW.md](docs/getting-started/QUICK_WORKFLOW.md)
+- Verify with [ONE_PAGE_CHECKLIST.md](docs/getting-started/ONE_PAGE_CHECKLIST.md)
 
 ---
 

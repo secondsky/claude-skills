@@ -9,7 +9,7 @@
 Before starting a new skill, verify:
 
 - [ ] Read [START_HERE.md](START_HERE.md) for workflow overview
-- [ ] Read [planning/research-protocol.md](planning/research-protocol.md)
+- [ ] Read [research-protocol.md](../reference/research-protocol.md)
 - [ ] Copied template: `cp -r templates/skill-skeleton/ skills/my-skill/`
 - [ ] Checked skill doesn't already exist in this repo
 - [ ] Checked official Anthropic skills: https://github.com/anthropics/skills
@@ -28,7 +28,7 @@ Research completed before building:
 - [ ] Searched GitHub issues for common problems
 - [ ] Built working example project from scratch
 - [ ] Documented all errors encountered and fixes
-- [ ] Created research log in `planning/research-logs/[skill-name].md`
+- [ ] Documented research findings
 
 ---
 
@@ -136,9 +136,9 @@ Skill works in practice:
 Skill meets official standards:
 
 - [ ] Compared against https://github.com/anthropics/skills/blob/main/agent_skills_spec.md
-- [ ] Compared against [planning/claude-code-skill-standards.md](planning/claude-code-skill-standards.md)
-- [ ] Reviewed [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
-- [ ] Checked [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md)
+- [ ] Compared against [claude-code-skill-standards.md](../reference/claude-code-skill-standards.md)
+- [ ] Reviewed [STANDARDS_COMPARISON.md](../reference/STANDARDS_COMPARISON.md)
+- [ ] Checked [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md)
 - [ ] Referenced working example (tailwind-v4-shadcn or Cloudflare skills)
 - [ ] No deprecated patterns used
 - [ ] No non-standard frontmatter fields (except allowed-tools, metadata)
@@ -153,7 +153,7 @@ All required documentation present:
 - [ ] SKILL.md complete
 - [ ] README.md complete
 - [ ] LICENSE field in frontmatter
-- [ ] Research log in planning/research-logs/
+- [ ] Research findings documented
 - [ ] Templates tested and documented
 - [ ] Scripts documented with usage examples
 - [ ] References accurate and current
@@ -186,7 +186,7 @@ Ready to commit:
 
 - [ ] Working in feature branch (not main)
 - [ ] Added skill files: `git add skills/my-skill/`
-- [ ] Updated planning/skills-roadmap.md
+- [ ] Updated roadmap documentation if needed
 - [ ] Commit message descriptive with:
   - [ ] What the skill does
   - [ ] Errors prevented count
@@ -204,7 +204,7 @@ git commit -m "Add my-skill for [use case]
 - Package versions: [key-package]@X.Y.Z
 
 Production tested: [evidence/link]
-Research log: planning/research-logs/my-skill.md"
+Research documented"
 ```
 
 ---
@@ -249,7 +249,7 @@ For maintaining skill quality over time:
 - [ ] Update "Last Verified" date in metadata after review
 - [ ] Create research log if significant research performed
 
-**Review Process**: See `planning/SKILL_REVIEW_PROCESS.md` for complete guide
+**Review Process**: Use the skill-review skill for complete guide
 
 ---
 
@@ -281,5 +281,5 @@ I certify that:
 **Quick Links**:
 - [START_HERE.md](START_HERE.md) - Navigation
 - [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) - Step-by-step process
-- [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) - What to avoid
+- [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md) - What to avoid
 - [CLOUDFLARE_SKILLS_AUDIT.md](CLOUDFLARE_SKILLS_AUDIT.md) - Example audit

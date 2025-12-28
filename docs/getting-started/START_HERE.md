@@ -59,7 +59,7 @@ This provides foundational knowledge for hooks, MCP, structure, agents, commands
 **Compliance Check**:
 - Use [ONE_PAGE_CHECKLIST.md](ONE_PAGE_CHECKLIST.md) for quick verification
 - See [CLOUDFLARE_SKILLS_AUDIT.md](CLOUDFLARE_SKILLS_AUDIT.md) for example audit
-- Check against [planning/claude-code-skill-standards.md](planning/claude-code-skill-standards.md)
+- Check against [claude-code-skill-standards.md](../reference/claude-code-skill-standards.md)
 
 ---
 
@@ -79,8 +79,8 @@ This provides foundational knowledge for hooks, MCP, structure, agents, commands
 **Official Documentation**:
 - Anthropic Skills Repo: https://github.com/anthropics/skills
 - Agent Skills Spec: [anthropics/skills/agent_skills_spec.md](https://github.com/anthropics/skills/blob/main/agent_skills_spec.md)
-- Our Standards Doc: [planning/claude-code-skill-standards.md](planning/claude-code-skill-standards.md)
-- Comparison: [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
+- Our Standards Doc: [claude-code-skill-standards.md](../reference/claude-code-skill-standards.md)
+- Comparison: [STANDARDS_COMPARISON.md](../reference/STANDARDS_COMPARISON.md)
 
 ---
 
@@ -172,17 +172,17 @@ This provides foundational knowledge for hooks, MCP, structure, agents, commands
 | **ONE_PAGE_CHECKLIST.md** | Quick verification | Before committing |
 | **QUICK_WORKFLOW.md** | 5-minute process | Building new skill |
 | **templates/SKILL-TEMPLATE.md** | Copy-paste starter | Building new skill |
-| **planning/claude-code-skill-standards.md** | Official standards | Understanding requirements |
-| **planning/research-protocol.md** | Research process | Before building skill |
+| **[claude-code-skill-standards.md](../reference/claude-code-skill-standards.md)** | Official standards | Understanding requirements |
+| **[research-protocol.md](../reference/research-protocol.md)** | Research process | Before building skill |
 | **CLOUDFLARE_SKILLS_AUDIT.md** | Example audit | Learning compliance |
 
 ---
 
-## Project Status (2025-10-29)
+## Project Status (2025-11-20)
 
-### ✅ Completed (50 skills) - All Production-Ready!
+### ✅ Completed (169 skills) - All Production-Ready!
 
-All 50 skills are complete, tested, and available. View full list:
+All 169 skills are complete, tested, and available. View full list:
 - **README.md** - Complete skill listing with descriptions
 - **CLAUDE.md** - Organized by category (26 Cloudflare, 10 AI, 7 Frontend, etc.)
 - **skills/** directory - Run `ls skills/` to see all
@@ -220,15 +220,15 @@ A: `templates/skill-skeleton/` - copy this entire directory to start a new skill
 A: See [QUICK_WORKFLOW.md](QUICK_WORKFLOW.md) for step-by-step instructions.
 
 **Q: How do I verify against official Anthropic standards?**
-A: See [planning/STANDARDS_COMPARISON.md](planning/STANDARDS_COMPARISON.md)
+A: See [STANDARDS_COMPARISON.md](../reference/STANDARDS_COMPARISON.md)
 
 ---
 
 ## Need Help?
 
-1. Check [planning/COMMON_MISTAKES.md](planning/COMMON_MISTAKES.md) for what NOT to do
+1. Check [COMMON_MISTAKES.md](../reference/COMMON_MISTAKES.md) for what NOT to do
 2. Look at existing skills in `skills/` directory for working examples
-3. Review [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines
+3. Review [CONTRIBUTING.md](../guides/CONTRIBUTING.md) for contribution guidelines
 4. Open an issue: https://github.com/secondsky/claude-skills/issues
 
 ---
