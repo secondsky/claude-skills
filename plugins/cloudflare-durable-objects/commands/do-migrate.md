@@ -57,7 +57,7 @@ Determine project state:
 
 Show user the current configuration:
 
-```
+```plaintext
 Current Durable Objects Configuration:
 
 Bindings:
@@ -111,7 +111,7 @@ Gather class name(s) based on migration type:
 **Prompt**: "Enter the name of the new Durable Object class to add:"
 
 Show existing class names for reference:
-```
+```plaintext
 Existing classes:
   - MyDurableObject
   - ChatRoom
@@ -129,7 +129,7 @@ Validation:
 **Prompt 1**: "Enter the current class name to rename:"
 
 Show dropdown/autocomplete of existing class names:
-```
+```plaintext
 Select class to rename:
   > MyDurableObject
     ChatRoom
@@ -148,7 +148,7 @@ Validation:
 
 Show dropdown of existing classes with WARNING:
 
-```
+```plaintext
 ⚠️  WARNING: Deleting a class permanently destroys all DO instances and data!
 
 Select class to delete:

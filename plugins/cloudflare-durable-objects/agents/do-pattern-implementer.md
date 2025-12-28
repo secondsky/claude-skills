@@ -22,7 +22,7 @@ This agent should be used when:
 - User mentions "optimize my DO", "add TTL cleanup", "implement gradual deployment"
 - User asks about best practices or production readiness
 - User needs to improve DO performance, reliability, or maintainability
-- User wants to implement specific patterns (RPC metadata, WebSocket optimization, etc.)
+- User requests implementation of specific patterns (RPC metadata, WebSocket optimization, etc.)
 
 **Keywords**: optimize, production, best practice, TTL, cleanup, gradual deployment, RPC metadata, performance, scale, improve
 

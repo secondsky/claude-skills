@@ -1193,37 +1193,63 @@ Next steps:
 
 ## File Changes Summary
 
-### New Files Created (24 files)
+### New Files Created (46 files)
 
-**Commands** (3 files, 1,800 lines):
-- `commands/do-setup.md` - Interactive project initialization (570 lines)
-- `commands/do-migrate.md` - Migration assistant (620 lines)
-- `commands/do-debug.md` - Debugging workflow (610 lines)
+**Commands** (5 files):
+- `plugins/cloudflare-durable-objects/commands/do-setup.md` - Interactive project initialization
+- `plugins/cloudflare-durable-objects/commands/do-migrate.md` - Migration assistant
+- `plugins/cloudflare-durable-objects/commands/do-debug.md` - Debugging workflow
+- `plugins/cloudflare-durable-objects/commands/do-patterns.md` - Pattern selection guide
+- `plugins/cloudflare-durable-objects/commands/do-optimize.md` - Optimization workflow
 
-**Agents** (3 files, 1,950 lines):
-- `agents/do-debugger.md` - Autonomous error detection (650 lines)
-- `agents/do-setup-assistant.md` - Project scaffolding (650 lines)
-- `agents/do-pattern-implementer.md` - Pattern implementation (650 lines)
+**Agents** (3 files):
+- `plugins/cloudflare-durable-objects/agents/do-debugger.md` - Autonomous error detection
+- `plugins/cloudflare-durable-objects/agents/do-setup-assistant.md` - Project scaffolding
+- `plugins/cloudflare-durable-objects/agents/do-pattern-implementer.md` - Pattern implementation
 
-**References** (7 files, 2,555 lines):
-- `skills/cloudflare-durable-objects/references/vitest-testing.md` (425 lines)
-- `skills/cloudflare-durable-objects/references/rpc-metadata.md` (380 lines)
-- `skills/cloudflare-durable-objects/references/gradual-deployments.md` (420 lines)
-- `skills/cloudflare-durable-objects/references/typescript-config.md` (230 lines)
-- `skills/cloudflare-durable-objects/references/monitoring-debugging.md` (350 lines)
-- `skills/cloudflare-durable-objects/references/data-modeling.md` (400 lines)
-- `skills/cloudflare-durable-objects/references/performance-optimization.md` (350 lines)
+**References** (21 files):
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/vitest-testing.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/rpc-metadata.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/gradual-deployments.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/typescript-config.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/monitoring-debugging.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/data-modeling.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/performance-optimization.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/advanced-sql-patterns.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/alarms-api.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/best-practices.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/common-patterns.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/error-codes.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/migration-cheatsheet.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/migrations-guide.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/rpc-patterns.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/security-best-practices.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/state-api-reference.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/stubs-routing.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/top-errors.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/websocket-hibernation.md`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/references/wrangler-commands.md`
 
-**Templates** (4 files, 3,100+ lines):
-- `skills/cloudflare-durable-objects/templates/vitest-do-test.ts` (350 lines)
-- `skills/cloudflare-durable-objects/templates/rpc-metadata-do.ts` (330 lines)
-- `skills/cloudflare-durable-objects/templates/gradual-deployment-config.jsonc` (420 lines)
-- `skills/cloudflare-durable-objects/templates/ttl-cleanup-do.ts` (400 lines)
+**Templates** (13 files):
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/vitest-do-test.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/rpc-metadata-do.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/gradual-deployment-config.jsonc`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/ttl-cleanup-do.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/alarms-api-do.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/basic-do.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/location-hints.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/multi-do-coordination.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/package.json`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/rpc-vs-fetch.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/state-api-patterns.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/websocket-hibernation-do.ts`
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/templates/wrangler-do-config.jsonc`
 
-**Scripts** (3 files, 600+ lines):
-- `skills/cloudflare-durable-objects/scripts/validate-do-config.sh` (230 lines, executable)
-- `skills/cloudflare-durable-objects/scripts/setup-vitest-do.sh` (220 lines, executable)
-- `skills/cloudflare-durable-objects/scripts/migration-generator.sh` (250 lines, executable)
+**Scripts** (4 files):
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/scripts/validate-do-config.sh` (executable)
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/scripts/setup-vitest-do.sh` (executable)
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/scripts/migration-generator.sh` (executable)
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/scripts/check-versions.sh` (executable)
 
 ### Modified Files (3 files)
 

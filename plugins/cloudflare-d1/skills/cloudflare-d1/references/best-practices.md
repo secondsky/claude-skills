@@ -542,7 +542,7 @@ D1 automatically retries **read-only queries** (SELECT) up to 2 times on transie
 
 **Scope**: Read queries only (SELECT statements)
 **Retry Count**: Up to 2 automatic retries
-**Backoff**: Exponential backoff (1s, 2s)
+**Backoff**: Exponential backoff (specific timing not published by Cloudflare)
 **No Action Required**: Enabled automatically for all D1 databases
 
 ### How It Works
@@ -554,9 +554,9 @@ const user = await env.DB.prepare('SELECT * FROM users WHERE user_id = ?')
   .first();
 
 // If first attempt fails with transient error:
-// - Retry #1 after 1 second
-// - Retry #2 after 2 seconds
-// - Throw error if all 3 attempts fail
+// - D1 automatically retries with exponential backoff
+// - Up to 2 additional attempts (3 total)
+// - Throws error if all attempts fail
 ```
 
 **Retryable Errors**:
@@ -583,22 +583,38 @@ async function writeWithRetry<T>(
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       return await queryFn();
-    } catch (error: any) {
-      const message = error.message;
+    } catch (error: unknown) {
+      // D1 errors are Error objects, but validate to be safe
+      if (!(error instanceof Error)) {
+        throw error;
+      }
 
-      // Check if error is retryable
+      // Note: D1 does not publish specific error codes for transient errors.
+      // We check error.message as recommended by Cloudflare documentation.
+      // See: https://developers.cloudflare.com/d1/observability/debug-d1/
+      const message = error.message || '';
+
+      // Check if error is retryable (transient network/connection issues)
       const isRetryable =
         message.includes('Network connection lost') ||
         message.includes('storage caused object to be reset') ||
         message.includes('reset because its code was updated') ||
-        message.includes('timeout');
+        message.includes('timeout') ||
+        message.includes('D1_ERROR');
 
       // Don't retry on final attempt or non-retryable errors
       if (!isRetryable || attempt === maxRetries - 1) {
+        // Log full error details before throwing
+        console.error('D1 write failed:', {
+          message: error.message,
+          name: error.name,
+          attempt: attempt + 1,
+          retryable: isRetryable
+        });
         throw error;
       }
 
-      // Exponential backoff: 1s, 2s, 4s
+      // Exponential backoff: 1s, 2s, 4s (application-level)
       const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
       await new Promise(resolve => setTimeout(resolve, delay));
 
@@ -963,14 +979,19 @@ npx wrangler d1 time-travel restore my-database --timestamp "2025-10-21T10:00:00
 
 ### What It Is
 
-Data localization allows you to specify which geographic region stores your D1 database's primary instance. This ensures compliance with data sovereignty regulations like GDPR (EU), HIPAA (US), or industry-specific requirements (financial services).
+Data localization allows you to specify which geographic region stores your D1 database's primary instance. This ensures compliance with data sovereignty regulations like GDPR (EU) or industry-specific requirements (financial services, government).
 
 **Available Jurisdictions**:
-- **GLOBAL** (default): Cloudflare selects optimal location based on first write location
-- **EU**: European Union (GDPR compliant)
-- **US**: United States
+- **eu**: European Union (GDPR compliant)
+- **fedramp**: FedRAMP-compliant data centers (requires Enterprise plan)
 
-**Cost**: Free feature included with D1
+**Important Notes**:
+- Jurisdictions are **immutable** and can only be set at database creation
+- Cannot be changed after the database is created
+- If no jurisdiction is specified, D1 uses location hints for optimal placement
+- For US placement without compliance requirements, use location hints (wnam/enam) instead of jurisdiction
+
+**Cost**: Free feature (fedramp jurisdiction requires Enterprise plan)
 
 ### Configuration
 
@@ -978,12 +999,12 @@ Data localization allows you to specify which geographic region stores your D1 d
 
 ```bash
 # Create database with EU jurisdiction
-wrangler d1 create my-database --jurisdiction EU
+wrangler d1 create my-database --jurisdiction eu
 
-# Create database with US jurisdiction
-wrangler d1 create my-database --jurisdiction US
+# Create database with FedRAMP jurisdiction (requires Enterprise plan)
+wrangler d1 create my-database --jurisdiction fedramp
 
-# Create database with default (GLOBAL) jurisdiction
+# Create database without jurisdiction (uses location hints for optimal placement)
 wrangler d1 create my-database
 ```
 
@@ -996,13 +1017,13 @@ wrangler d1 create my-database
       "binding": "DB",
       "database_name": "my-database",
       "database_id": "abc123-def456-...",
-      "jurisdiction": "EU"  // or "US" or "GLOBAL"
+      "jurisdiction": "eu"  // or "fedramp" (Enterprise only)
     }
   ]
 }
 ```
 
-**Note**: Jurisdiction can only be set during database creation. Cannot be changed after creation.
+**Critical**: Jurisdiction can only be set during database creation via CLI. Cannot be changed or added after creation. The wrangler.jsonc jurisdiction field is for reference only; it must match the jurisdiction set during `wrangler d1 create`.
 
 ### Use Cases
 
@@ -1016,7 +1037,7 @@ wrangler d1 create my-database
       "binding": "PATIENT_DB",
       "database_name": "patient-records",
       "database_id": "...",
-      "jurisdiction": "EU"  // Ensures data stays in EU
+      "jurisdiction": "eu"  // Ensures data stays in EU (GDPR compliant)
     }
   ]
 }
@@ -1027,28 +1048,46 @@ wrangler d1 create my-database
 - ✅ Data residency guarantee (EU only)
 - ✅ Simplified regulatory audits
 
-#### HIPAA Compliance (US Jurisdiction)
+#### US-Based Compliance (HIPAA, GLBA, SOX)
+
+**Important**: There is no "US" jurisdiction in Cloudflare D1. For US-based compliance:
+- Use **location hints** (wnam/enam) for US regional placement (not a compliance guarantee)
+- Use **fedramp** jurisdiction (Enterprise plan) for federal/government compliance requirements
+- Consult legal counsel for specific compliance requirements
 
 ```jsonc
-// Healthcare app serving US patients
+// Healthcare app serving US patients (using location hints)
 {
   "d1_databases": [
     {
       "binding": "MEDICAL_DB",
       "database_name": "medical-records",
       "database_id": "...",
-      "jurisdiction": "US"  // HIPAA requires US storage
+      // No jurisdiction - use location hints for US placement
+      "location_hint": "wnam"  // Western North America
     }
   ]
 }
 ```
 
-**Benefits**:
-- ✅ HIPAA compliance (US data storage requirement)
-- ✅ Meets state-level healthcare regulations
-- ✅ Reduced cross-border data transfer concerns
+**For FedRAMP Compliance (Enterprise Only)**:
+```bash
+wrangler d1 create medical-records --jurisdiction fedramp
+```
+
+**Benefits of Location Hints**:
+- ✅ US regional placement (wnam/enam)
+- ✅ Reduced latency for US users
+- ⚠️ Not a compliance guarantee (consult legal counsel)
+
+**Benefits of FedRAMP Jurisdiction** (Enterprise):
+- ✅ Federal compliance certification
+- ✅ Government-grade data security
+- ✅ Strict data residency guarantees
 
 #### Financial Services
+
+**Note**: Use location hints for regional placement or fedramp for federal compliance.
 
 ```jsonc
 // Banking app with regulatory requirements
@@ -1058,10 +1097,15 @@ wrangler d1 create my-database
       "binding": "TRANSACTION_DB",
       "database_name": "transactions",
       "database_id": "...",
-      "jurisdiction": "US"  // SOX, GLBA compliance
+      "location_hint": "wnam"  // US placement (not jurisdiction)
     }
   ]
 }
+```
+
+**For federal financial compliance**:
+```bash
+wrangler d1 create transactions --jurisdiction fedramp  # Enterprise only
 ```
 
 **Regulations Addressed**:
@@ -1075,34 +1119,39 @@ wrangler d1 create my-database
 
 | User Location | DB Jurisdiction | Expected P50 Latency | Impact |
 |---------------|-----------------|---------------------|---------|
-| Europe | EU | ~15ms | ✅ Optimal |
-| Europe | US | ~40ms | ⚠️ +25ms penalty |
-| Europe | GLOBAL | ~15ms | ✅ Optimal (auto-selected EU) |
-| US East | US | ~12ms | ✅ Optimal |
-| US East | EU | ~35ms | ⚠️ +23ms penalty |
-| US East | GLOBAL | ~12ms | ✅ Optimal (auto-selected US) |
+| Europe | eu | ~15ms | ✅ Optimal |
+| Europe | (wnam hint) | ~40ms | ⚠️ +25ms cross-region |
+| Europe | (no jurisdiction) | ~15ms | ✅ Optimal (location hints) |
+| US East | (enam hint) | ~12ms | ✅ Optimal |
+| US East | eu | ~35ms | ⚠️ +23ms cross-region |
+| US East | (no jurisdiction) | ~12ms | ✅ Optimal (location hints) |
 
-**Best Practice**: Use GLOBAL jurisdiction unless regulatory requirements mandate specific region.
+**Best Practice**: Use location hints (default) unless regulatory requirements mandate eu or fedramp jurisdiction.
 
 ### When to Use Each Jurisdiction
 
-#### Use GLOBAL When:
+#### Use Location Hints (Default) When:
 - ✅ No regulatory data residency requirements
 - ✅ Users are globally distributed
 - ✅ Performance is top priority
-- ✅ Want Cloudflare to auto-optimize location
+- ✅ Want Cloudflare to auto-optimize location based on traffic patterns
 
-#### Use EU When:
-- ✅ GDPR compliance required
+#### Use eu Jurisdiction When:
+- ✅ GDPR compliance required (mandatory EU data residency)
 - ✅ Majority of users in Europe
 - ✅ Industry regulations mandate EU storage (healthcare, finance)
-- ✅ Data processing agreements require EU residency
+- ✅ Data processing agreements require EU residency guarantees
 
-#### Use US When:
-- ✅ HIPAA compliance required
-- ✅ Majority of users in United States
-- ✅ State-level regulations mandate US storage
-- ✅ SOX, GLBA, or similar US regulations apply
+#### Use fedramp Jurisdiction When (Enterprise Only):
+- ✅ Federal/government compliance required
+- ✅ FedRAMP certification needed
+- ✅ Serving US government agencies
+- ✅ Strict federal data security requirements
+
+#### For US Regional Placement (Without Jurisdiction):
+- ✅ Use location hints: wnam (Western North America) or enam (Eastern North America)
+- ⚠️ Not a compliance guarantee - consult legal counsel for HIPAA, SOX, GLBA
+- ✅ Provides lower latency for US users without jurisdiction restrictions
 
 ### Verification
 
@@ -1113,7 +1162,7 @@ wrangler d1 info my-database
 ```
 
 Output includes jurisdiction:
-```
+```plaintext
 Database: my-database
 UUID: abc123-def456-...
 Location: EU  ← Jurisdiction
@@ -1134,7 +1183,7 @@ If jurisdiction needs to change, you must:
 
 ```bash
 # 1. Create new database with correct jurisdiction
-wrangler d1 create my-database-eu --jurisdiction EU
+wrangler d1 create my-database-eu --jurisdiction eu
 
 # 2. Export data from old database
 wrangler d1 export my-database --output=backup.sql
@@ -1154,7 +1203,7 @@ wrangler d1 delete my-database
 
 Data localization works seamlessly with read replication:
 
-- **Primary instance**: Stored in specified jurisdiction (EU/US/GLOBAL)
+- **Primary instance**: Stored in specified jurisdiction (eu/fedramp) or optimal location (if no jurisdiction set)
 - **Read replicas**: Distributed globally across all 6 regions
 - **Writes**: Always route to primary (in jurisdiction)
 - **Reads**: Can route to nearest replica (regardless of jurisdiction)
