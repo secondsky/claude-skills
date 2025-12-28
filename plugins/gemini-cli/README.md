@@ -163,12 +163,6 @@ gemini -p "What is 2+2?"
 5. **Refactoring Plans**: Large-scale changes (5+ files)
 6. **Performance Optimization**: Bottleneck identification
 
-### Token Efficiency
-
-- **~60-70% token savings** vs manual consultation
-- **6+ common errors prevented** (see SKILL.md)
-- **Automated synthesis** of both AI perspectives
-
 ---
 
 ## Usage Patterns

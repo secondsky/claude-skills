@@ -181,26 +181,6 @@ Claude will automatically suggest this skill when you mention any of these keywo
 
 ---
 
-## Token Efficiency
-
-### Manual Durable Objects Setup (Without Skill):
-- Understand DO concepts: 1,500 tokens
-- Configure bindings + migrations: 1,200 tokens
-- Implement WebSocket hibernation: 3,000 tokens
-- Learn State API (SQL + KV): 2,500 tokens
-- Setup Alarms API: 1,500 tokens
-- Debug errors: 2,000 tokens
-- **Total: ~11,700 tokens**
-
-### With cloudflare-durable-objects Skill:
-- Reference skill templates: 2,000 tokens
-- Customize for your use case: 2,000 tokens
-- **Total: ~4,000 tokens**
-
-**Savings: ~66% token reduction** (7,700 tokens saved)
-
----
-
 ## When to Use This Skill
 
 ### ✅ Use When:

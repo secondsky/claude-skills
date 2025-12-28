@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+#### Token Efficiency Measurement Requirement
+
+**What Changed**:
+- Removed token efficiency measurement requirement from all guidelines, templates, and README files
+- Removed "## Token Efficiency" or "## Token Efficiency Metrics" sections from 94 plugin README.md files
+- Removed token efficiency checklist items from ONE_PAGE_CHECKLIST.md
+- Removed ≥50% savings requirement from quality standards in CLAUDE.md and CONTRIBUTING.md
+- Removed token savings metrics from commit message templates
+
+**Why This Change**:
+- Token efficiency was a quality metric, not a functional requirement
+- Skills remain valuable for error prevention and setup guidance regardless of token counts
+- Simplifies skill creation workflow
+- Focuses documentation on practical value rather than quantitative measurements
+
+**Impact**:
+- Existing skills remain valid - token efficiency was documentation only
+- New skill creation process is simpler without measurement requirement
+- Templates (README-TEMPLATE.md, skill-skeleton/) updated to reflect change
+
 ## [3.1.0] - 2025-12-24
 
 ### Changed

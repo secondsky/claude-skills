@@ -122,16 +122,6 @@ When Claude detects trigger keywords, it should:
 
 ---
 
-## Token Efficiency
-
-| Approach | Tokens Used | Errors |
-|----------|------------|--------|
-| Manual setup (no skill) | ~65,000 | 2-3 common errors |
-| With this skill | ~20,000 | 0 (prevented) |
-| **Savings** | **~70%** | **100% reduction** |
-
----
-
 ## Dependencies Installed
 
 ```json

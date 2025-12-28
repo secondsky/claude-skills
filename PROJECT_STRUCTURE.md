@@ -374,7 +374,7 @@ claude-skills/
 ├── MIGRATION_SUMMARY.md            # Migration tracking
 ├── CLAUDE_SKILLS_DOCUMENTATION.md  # Comprehensive documentation
 ├── MARKETPLACE.md                  # Marketplace overview
-├── MARKETPLACE_skill.md            # Marketplace skill details
+├── MARKETPLACE_MANAGEMENT.md       # Marketplace management details
 ├── LICENSE                         # MIT License
 ├── migra.md                        # Migration notes
 └── plan.md                         # Planning notes

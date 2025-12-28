@@ -217,21 +217,6 @@ Skill:
 
 ---
 
-## Token Efficiency
-
-**Without this skill**:
-- ~12,000 tokens to manually reconstruct project state
-- Reading multiple planning docs
-- Checking git history
-- Figuring out where you were
-
-**With this skill**:
-- ~500-800 tokens to read SESSION.md
-- Instant resume from "Next Action"
-- **85-93% token savings**
-
----
-
 ## Production Validation
 
 This protocol has been tested across:

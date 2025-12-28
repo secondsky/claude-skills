@@ -115,16 +115,6 @@ export const updateProfile = validatedActionWithUser(
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~14,000 | 3-4 | ~40 min |
-| **With This Skill** | ~4,900 | 0 ✅ | ~14 min |
-| **Savings** | **~65%** | **100%** | **~65%** |
-
----
-
 ## Package Versions (Verified 2025-10-29)
 
 | Package | Version | Status |

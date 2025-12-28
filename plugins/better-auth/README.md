@@ -10,7 +10,7 @@ Provides complete patterns for implementing authentication with **better-auth**,
 
 **⚠️ v2.0.0 Breaking Change**: Previous skill version incorrectly documented a non-existent `d1Adapter()`. This version corrects all patterns to use Drizzle ORM or Kysely as required by better-auth.
 
-**🆕 v2.2.0**: Updated to better-auth@1.4.8 with comprehensive framework, database, and plugin references.
+**🆕 v2.2.0**: Updated to better-auth@1.4.9 with comprehensive framework, database, and plugin references.
 
 ---
 
@@ -203,7 +203,7 @@ bun add better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono  # pr
 
 - **Docs**: https://better-auth.com
 - **GitHub**: https://github.com/better-auth/better-auth (22.4k ⭐)
-- **Package**: `better-auth@1.4.8`
+- **Package**: `better-auth@1.4.9`
 - **Examples**: https://github.com/better-auth/better-auth/tree/main/examples
 - **Changelog**: https://www.better-auth.com/changelogs
 

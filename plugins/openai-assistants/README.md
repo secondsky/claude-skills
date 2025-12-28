@@ -185,20 +185,6 @@ openai-assistants/
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- Manual API documentation lookup: ~8,000 tokens
-- Trial and error with errors: ~4,000 tokens
-- Understanding thread lifecycle: ~2,000 tokens
-- **Total**: ~14,000 tokens + 2-3 errors
-
-**With this skill:**
-- Skill activation: ~6,000 tokens
-- Zero errors (documented solutions)
-- **Savings**: ~57% tokens + 100% error prevention
-
----
 
 ## Dependencies
 

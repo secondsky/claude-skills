@@ -204,14 +204,6 @@ export default {
 
 ---
 
-## Token Efficiency
-
-- **Manual Setup**: 8,000-12,000 tokens
-- **With This Skill**: 3,500-5,500 tokens
-- **Savings**: ~50-55%
-
----
-
 ## Files Included
 
 - `SKILL.md` - Complete Queues knowledge domain

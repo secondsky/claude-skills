@@ -11,7 +11,7 @@ import { resolve } from "path";
 
 const REQUIRED_FIELDS = ["secret", "database"];
 const COMMON_MISTAKES = [
-  { pattern: /d1Adapter/i, message: "d1Adapter doesn't exist - use drizzleAdapter or kysely" },
+  { pattern: /d1Adapter/i, message: "d1Adapter doesn't exist - use drizzleAdapter(db) for Drizzle or new Kysely({ dialect: new D1Dialect() }) for Kysely" },
   { pattern: /forgetPassword/i, message: "forgetPassword is deprecated - use requestPasswordReset (v1.4.0+)" },
   { pattern: /require\s*\(/i, message: "CommonJS require() detected - better-auth v1.4.0+ is ESM-only" },
 ];
@@ -52,8 +52,8 @@ function validateConfig(filePath: string): { valid: boolean; errors: string[]; w
   }
 
   // Check for database adapter
-  if (!content.includes("drizzleAdapter") && !content.includes("prismaAdapter") && !content.includes("mongoAdapter")) {
-    warnings.push("No database adapter detected - ensure you're using drizzleAdapter, prismaAdapter, or mongoAdapter");
+  if (!content.includes("drizzleAdapter") && !content.includes("prismaAdapter") && !content.includes("mongoAdapter") && !content.includes("new Kysely(")) {
+    warnings.push("No database adapter detected - ensure you're using drizzleAdapter, prismaAdapter, mongoAdapter, or new Kysely()");
   }
 
   // Check for baseURL in production

@@ -182,21 +182,6 @@ Each skill documents **5-8 common errors** with:
 
 **Total Errors Prevented**: 50+ across all skills
 
-### Token Efficiency
-
-**Without Plugin**: ~14,500 tokens
-- Search documentation
-- Read multiple guides
-- Trial-and-error debugging
-- Learning from errors
-
-**With Plugin**: ~1,000 tokens
-- Auto-triggered skill provides exact guidance
-- Working templates ready to use
-- Common errors already prevented
-
-**Savings**: 93% token reduction
-
 ## Usage Examples
 
 ### Example 1: Setting Up Testing

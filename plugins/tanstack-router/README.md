@@ -65,14 +65,6 @@ export const Route = createFileRoute('/posts/$postId')({
 6. Middleware undefined errors
 7. API route errors after restart
 
-## Token Efficiency
-
-| Metric | Without | With | Savings |
-|--------|---------|------|---------|
-| Tokens | 10k | 4k | **60%** |
-| Time | 40-50min | 15-20min | **65%** |
-| Errors | 3-4 | 0 | **100%** |
-
 ## Installation
 
 ```bash

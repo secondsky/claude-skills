@@ -243,16 +243,6 @@ Production-ready setup for Motion (formerly Framer Motion) - the industry-standa
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~30,000 | 3-5 (AnimatePresence, Next.js, performance) | ~2-3 hours |
-| **With This Skill** | ~5,000 | 0 ✅ | ~20-30 min |
-| **Savings** | **~83%** | **100%** | **~85%** |
-
----
-
 ## Package Versions (Verified 2025-11-07)
 
 | Package | Version | Status |

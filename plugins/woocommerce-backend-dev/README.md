@@ -32,12 +32,6 @@ Production-ready skill for WooCommerce backend PHP development.
 - **Data Safety**: Validation and security best practices
 - **Testing**: PHPUnit conventions with `$sut` pattern
 
-## Token Efficiency
-
-- Estimated savings: ~65% vs manual research
-- Errors prevented: WordPress coding violations, data integrity issues
-- Coverage: Complete WooCommerce backend development workflow
-
 ## Source
 
 Adapted from [WooCommerce official skills](https://github.com/woocommerce/woocommerce/tree/trunk/.ai/skills/woocommerce-backend-dev)

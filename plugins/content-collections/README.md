@@ -150,16 +150,6 @@ pnpm add -D @content-collections/core @content-collections/vite zod
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors | Time |
-|----------|------------|--------|------|
-| **Manual Setup** | ~10,000 | 3-4 | ~20 min |
-| **With This Skill** | ~3,500 | 0 ✅ | ~5 min |
-| **Savings** | **~65%** | **100%** | **~75%** |
-
----
-
 ## Package Versions (Verified 2025-11-07)
 
 | Package | Version | Status |

@@ -265,19 +265,6 @@ console.log(data.choices[0].message.content);
 
 ---
 
-## Token Efficiency
-
-### Without Skill
-- Research all APIs: ~21,000 tokens
-- Implementation + debugging: Hours of trial and error
-
-### With Skill
-- Skill discovery + templates: ~8,500 tokens
-- Copy-paste ready code: Minutes to working implementation
-
-**Savings: ~59% (12,500 tokens)**
-
----
 
 ## What You Get
 

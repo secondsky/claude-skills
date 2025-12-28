@@ -153,18 +153,6 @@ bun run deploy  # preferred
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~38,000 | 3-5 | ~60 min |
-| **With This Skill** | ~8,000 | 0 ✅ | ~15 min |
-| **Savings** | **~79%** | **100%** | **~75%** |
-
-*Based on setting up sandbox with code execution, sessions, persistence patterns, and error handling*
-
----
-
 ## Package Versions (Verified 2025-10-29)
 
 | Package | Version | Status |

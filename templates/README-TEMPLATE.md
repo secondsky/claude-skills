@@ -85,16 +85,6 @@ Claude Code automatically discovers this skill when you mention:
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | [TODO: ~XX,XXX] | [TODO: X-X] | [TODO: ~XX min] |
-| **With This Skill** | [TODO: ~X,XXX] | 0 ✅ | [TODO: ~X min] |
-| **Savings** | **[TODO: ~XX%]** | **100%** | **[TODO: ~XX%]** |
-
----
-
 ## Package Versions (Verified [TODO: YYYY-MM-DD])
 
 | Package | Version | Status |
@@ -161,7 +151,6 @@ MIT License - See main repo LICENSE file
 ---
 
 **Production Tested**: [TODO: Evidence of production usage]
-**Token Savings**: ~[TODO: XX]%
 **Error Prevention**: 100%
 **Ready to use!** See [SKILL.md](SKILL.md) for complete setup.
 
@@ -177,7 +166,6 @@ MIT License - See main repo LICENSE file
 **Tips**:
 - Auto-trigger keywords are CRITICAL - be comprehensive
 - Error-based keywords help discovery when users are stuck
-- Token metrics prove value - measure them!
 - Link to SKILL.md for details - keep README scannable
 
 **Good Keywords Example**:

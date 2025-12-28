@@ -116,14 +116,6 @@ Visit [inspira-ui.com/components](https://inspira-ui.com/components), copy what 
 - ✅ **Dark Mode** - Built-in support with CSS variables
 - ✅ **Production-Ready** - Battle-tested components
 
-## Token Efficiency
-
-**Average Token Savings**: ~65%
-- Without skill: ~15k tokens (trial-and-error with setup)
-- With skill: ~5k tokens (direct implementation)
-
-**SKILL.md Optimization**: Reduced from 797 lines to ~300 lines (62% reduction) by using progressive disclosure with reference files.
-
 ## Errors Prevented
 
 This skill prevents **13+ common mistakes**:

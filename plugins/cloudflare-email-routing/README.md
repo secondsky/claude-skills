@@ -178,14 +178,6 @@ No manual invocation needed—Claude discovers this skill via keywords in the de
 
 ---
 
-## Token Efficiency
-
-**Without Skill**: ~12,000 tokens + 2-3 errors
-**With Skill**: ~4,200 tokens + 0 errors
-**Savings**: ~65% tokens, 100% error prevention
-
----
-
 ## Official Documentation
 
 - **Email Routing**: https://developers.cloudflare.com/email-routing/

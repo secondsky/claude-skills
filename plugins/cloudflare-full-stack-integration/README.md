@@ -229,17 +229,6 @@ For those cases, check other skills or refer to official docs.
 
 ---
 
-## Token Efficiency
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|--------------|------------|---------|
-| Setup integration | ~12k tokens | ~4k tokens | 67% |
-| Debug CORS | ~3k tokens | 0 tokens | 100% |
-| Fix auth errors | ~4k tokens | 0 tokens | 100% |
-| **Total** | **~19k tokens** | **~4k tokens** | **~79%** |
-
----
-
 ## Directory Structure
 
 ```

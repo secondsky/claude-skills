@@ -29,7 +29,6 @@ Research completed before building:
 - [ ] Built working example project from scratch
 - [ ] Documented all errors encountered and fixes
 - [ ] Created research log in `planning/research-logs/[skill-name].md`
-- [ ] Identified token savings vs manual setup (≥50%)
 
 ---
 
@@ -147,26 +146,6 @@ Skill meets official standards:
 
 ---
 
-## TOKEN EFFICIENCY CHECKLIST
-
-Skill provides measurable value:
-
-- [ ] Manual setup tokens measured (before skill)
-- [ ] With-skill tokens measured (using skill)
-- [ ] Token savings ≥ 50%
-- [ ] Errors encountered documented (manual vs skill)
-- [ ] Error prevention = 100% (all known errors prevented)
-- [ ] Metrics documented in README.md
-
-**Typical Metrics**:
-```
-Manual:  ~12,000 tokens, 2-3 errors
-Skill:   ~4,500 tokens, 0 errors
-Savings: ~62%, 100% error prevention
-```
-
----
-
 ## DOCUMENTATION CHECKLIST
 
 All required documentation present:
@@ -210,7 +189,6 @@ Ready to commit:
 - [ ] Updated planning/skills-roadmap.md
 - [ ] Commit message descriptive with:
   - [ ] What the skill does
-  - [ ] Token savings metric
   - [ ] Errors prevented count
   - [ ] Production testing evidence
 - [ ] Checked git diff before committing
@@ -222,7 +200,6 @@ Ready to commit:
 git commit -m "Add my-skill for [use case]
 
 - Provides [what it does]
-- Token savings: ~XX%
 - Errors prevented: X
 - Package versions: [key-package]@X.Y.Z
 
@@ -257,7 +234,6 @@ Quarterly (every 3 months):
 - [ ] Update "Last Verified" date if still current
 - [ ] Update package versions if needed
 - [ ] Document breaking changes (if any)
-- [ ] Re-measure token efficiency
 - [ ] Check official Anthropic skills for new patterns
 
 ---

@@ -179,23 +179,6 @@ struct MyApp: App {
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~8,000 | 3-5 | ~45 min |
-| **With This Skill** | ~3,000 | 0 ✅ | ~10 min |
-| **Savings** | **~62%** | **100%** | **~78%** |
-
-**Common errors prevented:**
-1. @Observable/@Bindable confusion (1000+ tokens debugging)
-2. Environment injection missing (800+ tokens)
-3. Navigation state conflicts (1200+ tokens)
-4. Search not working (600+ tokens)
-5. Platform-specific crashes (1000+ tokens)
-
----
-
 ## Package Versions (Verified 2025-11-23)
 
 | Package | Version | Status |

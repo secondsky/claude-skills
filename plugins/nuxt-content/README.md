@@ -138,16 +138,6 @@ bun add @nuxt/content better-sqlite3
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~15,000 | 3-5 | ~45 min |
-| **With This Skill** | ~5,000 | 0 ✅ | ~15 min |
-| **Savings** | **~67%** | **100%** | **~67%** |
-
----
-
 ## Package Versions (Verified 2025-01-10)
 
 | Package | Version | Status |

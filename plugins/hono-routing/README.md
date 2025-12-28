@@ -126,16 +126,6 @@ export type AppType = typeof app
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~8,000 | 3-5 | ~2-3 hours |
-| **With This Skill** | ~3,500 | 0 ✅ | ~15 minutes |
-| **Savings** | **~56%** | **100%** | **~85%** |
-
----
-
 ## Package Versions (Verified 2025-10-22)
 
 | Package | Version | Status |

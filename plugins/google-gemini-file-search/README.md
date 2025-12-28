@@ -174,20 +174,6 @@ console.log('Sources:', grounding.groundingChunks)
 - **API Key**: Create at https://aistudio.google.com/apikey
 - **Package**: `npm install @google/genai` (v0.21.0+)
 
-## Token Efficiency
-
-**Without Skill:**
-- ~15,000 tokens (trial-and-error setup)
-- 3-5 errors encountered (document immutability, storage quota, chunking issues)
-- Multiple iterations to get working
-
-**With Skill:**
-- ~5,000 tokens (guided setup with working templates)
-- 0 errors (all 8 common errors documented and prevented)
-- First-try success
-
-**Savings: ~65% tokens**
-
 ## Supported File Formats
 
 **Documents:** PDF, Word (.docx), Excel (.xlsx), PowerPoint (.pptx), Text (.txt), Markdown (.md), RTF

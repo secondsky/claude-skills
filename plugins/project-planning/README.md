@@ -171,16 +171,6 @@ The skill uses standardized templates for common web app patterns:
 - Dependencies between files
 - Security and performance considerations
 
-### Token Efficiency Gains
-
-**Example: "Implement task CRUD endpoints"**
-
-| Approach | Token Usage | Corrections Needed | Time |
-|----------|-------------|-------------------|------|
-| Without file maps | ~15k tokens | 2-3 corrections | ~10 min |
-| With file maps | ~3.5k tokens | 0 corrections | ~3 min |
-| **Savings** | **~77% reduction** | **No corrections** | **~70% faster** |
-
 ### Enhanced Phase Structure
 
 Each phase now includes (when applicable):

@@ -128,25 +128,6 @@ ls -la ~/.claude/skills/mcp-dynamic-orchestrator
 
 ---
 
-## Token Efficiency Metrics
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Discovery (16 MCPs) | ~48,000 tokens | ~5,000 tokens | ~90% |
-| Single MCP inspection | ~500 tokens | ~500 tokens | 0% (same) |
-| Multi-MCP workflow | ~50,000 tokens | ~8,000 tokens | ~84% |
-| **Average** | **~49,000 tokens** | **~6,500 tokens** | **~87%** |
-
-**Errors Prevented**:
-- ❌ Context overflow from too many tools
-- ❌ Slow responses due to context bloat
-- ❌ Confusion between similar tool names from different MCPs
-- ❌ Accidentally calling wrong MCP's tool
-
-**Total errors prevented**: 4 major issues
-
----
-
 ## Known Limitations
 
 ### 🔴 CRITICAL: Sandbox Security

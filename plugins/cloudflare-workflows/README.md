@@ -87,23 +87,6 @@ This skill prevents **5 documented errors** with sources:
 
 ---
 
-## Token Efficiency
-
-| Metric | Manual Setup | With Skill | Savings |
-|--------|--------------|------------|---------|
-| **Tokens** | ~15,000 | ~5,000 | **~67%** |
-| **Errors** | 2-3 common issues | 0 (all prevented) | **100%** |
-| **Build Time** | 3-4 hours (trial & error) | 30-45 minutes | **~75%** |
-
-**Why the savings:**
-- Complete API reference (no searching docs)
-- 6 working templates (copy-paste ready)
-- All known issues documented with fixes
-- Production patterns included
-- Retry configuration examples
-
----
-
 ## What's Included
 
 ### SKILL.md (Comprehensive Guide)

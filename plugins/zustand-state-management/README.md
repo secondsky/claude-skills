@@ -144,18 +144,6 @@ EOF
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~10,000 | 2-3 (hydration, TypeScript, infinite renders) | ~15 min |
-| **With This Skill** | ~3,500 | 0 ✅ | ~3 min |
-| **Savings** | **~65%** | **100%** | **~80%** |
-
-**Measured by**: Setting up TypeScript store with persist middleware and Next.js hydration handling
-
----
-
 ## Package Versions (Verified 2025-10-24)
 
 | Package | Version | Status |

@@ -186,18 +186,6 @@ EOF
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~12,000 | 3-4 (transaction, migration, TypeScript issues) | ~30 min |
-| **With This Skill** | ~4,800 | 0 ✅ | ~8 min |
-| **Savings** | **~60%** | **100%** | **~73%** |
-
-**Measured by**: Setting up schema, migrations, relations, and Worker integration with Drizzle + D1
-
----
-
 ## Package Versions (Verified 2025-10-24)
 
 | Package | Version | Status |

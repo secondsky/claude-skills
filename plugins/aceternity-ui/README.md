@@ -455,15 +455,6 @@ Ensure `app/globals.css` has:
 
 **Total: ~90 minutes saved per project**
 
-### Token Efficiency
-- **Component Discovery**: ~3k tokens saved
-- **Setup Instructions**: ~2k tokens saved
-- **Usage Examples**: ~2k tokens saved
-- **Error Prevention**: ~2k tokens saved
-- **Customization Guidance**: ~1k tokens saved
-
-**Total: ~10k tokens saved (65-70% reduction)**
-
 ### Error Prevention
 1. Missing Framer Motion dependency
 2. Incorrect shadcn CLI initialization

@@ -80,13 +80,6 @@ This skill should automatically trigger when you mention:
 - `claude_desktop_config.json`, `mcp configuration`
 - `expose tools to claude`, `claude tools`
 
-## Token Efficiency
-
-- **Without skill**: ~31-47k tokens, 4-8 errors
-- **With skill**: ~3-5k tokens, 0 errors
-- **Savings**: 85-90% token reduction
-
-This is the highest token savings in the skills collection!
 
 ## Errors Prevented
 

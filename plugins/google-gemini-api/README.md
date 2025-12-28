@@ -327,22 +327,6 @@ for await (const chunk of response) {
 
 ---
 
-## Token Efficiency
-
-### Without Skill
-- Research APIs + SDK: ~22,000 tokens
-- Fall into deprecated SDK trap: +5,000 tokens (debugging)
-- Context window confusion: +3,000 tokens (debugging)
-- **Total: ~30,000 tokens**
-
-### With Skill
-- Skill discovery + implementation: ~10,500 tokens
-- Zero debugging (all errors prevented)
-- **Total: ~10,500 tokens**
-
-**Savings: ~65% (19,500 tokens)**
-
----
 
 ## What You Get
 

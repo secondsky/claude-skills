@@ -169,22 +169,6 @@ Use this skill when:
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- ~8,000 tokens: Manual documentation lookup
-- ~2,000 tokens: Trial-and-error with handler format
-- ~1,500 tokens: Debugging UTC timezone issues
-- ~1,000 tokens: Fixing propagation timing
-- **Total: ~12,500 tokens + 6 potential errors**
-
-**With this skill:**
-- ~5,000 tokens: Direct, accurate implementation
-- 0 errors (all known issues documented)
-- **Savings: ~60% tokens + 100% error prevention**
-
----
-
 ## Official Documentation
 
 - **Cloudflare Docs**: https://developers.cloudflare.com/workers/configuration/cron-triggers/

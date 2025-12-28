@@ -141,16 +141,6 @@ bun run dev
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~15,000 | 3-5 | ~45 min |
-| **With This Skill** | ~5,000 | 0 ✅ | ~10 min |
-| **Savings** | **~67%** | **100%** | **~78%** |
-
----
-
 ## Package Versions (Verified 2025-11-10)
 
 | Package | Version | Status |

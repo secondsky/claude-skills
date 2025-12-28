@@ -155,16 +155,6 @@ git push origin feat/my-feature
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~12,000 | 2-3 | ~30 min |
-| **With This Skill** | ~4,800 | 0 ✅ | ~12 min |
-| **Savings** | **~60%** | **100%** | **~60%** |
-
----
-
 ## Package Versions (Verified 2025-10-29)
 
 | Package | Version | Status |

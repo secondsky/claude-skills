@@ -297,16 +297,6 @@ This skill documents and prevents these common mistakes:
 
 ---
 
-## Token Efficiency
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Basic setup + debugging | ~40k tokens | ~5k tokens | **87%** |
-| Errors encountered | 15 errors | 0 errors | **100%** |
-| Time to production | 4-6 hours | 30 minutes | **88%** |
-
----
-
 ## Production Tested
 
 Based on **Cloudflare's official MCP servers**:

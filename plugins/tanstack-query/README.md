@@ -130,16 +130,6 @@ bun add @tanstack/react-query@latest @tanstack/react-query-devtools@latest
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~10,000 | 2-3 (v5 migration errors) | ~30 min |
-| **With This Skill** | ~3,500 | 0 ✅ | ~10 min |
-| **Savings** | **~65%** | **100%** | **~67%** |
-
----
-
 ## Package Versions (Verified 2025-12-09)
 
 | Package | Version | Status |

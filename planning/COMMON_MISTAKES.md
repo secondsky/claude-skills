@@ -415,7 +415,6 @@ git commit -m "Add skill"
 git commit -m "Add cloudflare-d1 skill for D1 database
 
 - Provides D1 setup with wrangler + migrations
-- Token savings: ~58%
 - Errors prevented: 6
 - Package versions: wrangler@4.43.0
 

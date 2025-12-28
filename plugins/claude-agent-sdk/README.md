@@ -186,23 +186,6 @@ This skill automatically activates when you mention:
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- ~15,000 tokens to explain Agent SDK
-- 3-4 errors during implementation
-- 3-4 hours of development time
-
-**With this skill:**
-- ~5,000-6,000 tokens (direct to solution)
-- 0 errors (all documented issues prevented)
-- 30 minutes to working agent
-
-**Token Savings: ~65%**
-**Error Prevention: 100%** (all 12 documented errors)
-
----
-
 ## File Structure
 
 ```

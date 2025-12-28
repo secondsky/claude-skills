@@ -171,18 +171,6 @@ export default app;
 
 ---
 
-## Token Efficiency
-
-- **Manual Setup**: 9,000-13,000 tokens
-- **With This Skill (Core)**: 3,500-5,000 tokens (~60% savings)
-- **With Scripts**: 2,500-4,000 tokens (~70% savings)
-- **With Commands**: 1,500-3,000 tokens (~75% savings)
-- **With Agents**: Autonomous assistance (minimal token usage)
-
-**Overall Savings**: Up to 75% reduction in setup and debugging time
-
----
-
 ## Files Included
 
 ### Core Documentation

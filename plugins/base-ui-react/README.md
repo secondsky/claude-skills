@@ -207,16 +207,6 @@ import { Popover } from "@base-ui-components/react/popover";
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors | Time |
-|----------|------------|--------|---------|
-| **Manual Setup** | ~12,000 | 4-5 | ~25 min |
-| **With This Skill** | ~4,500 | 0 ✅ | ~6 min |
-| **Savings** | **~62%** | **100%** | **~76%** |
-
----
-
 ## Package Versions (Verified 2025-11-07)
 
 | Package | Version | Status |
