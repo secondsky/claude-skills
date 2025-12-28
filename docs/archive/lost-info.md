@@ -196,7 +196,7 @@
 **Recommended Restoration Plan**:
 
 1. **Create `references/quick-start.md`** with 4-step setup section
-2. **Create `references/value-proposition.md`** with workflow and benefits
+2. **Create `references/value-proposition.md`** with workflow and production evidence
 3. **Restore Error #5-8 details** to `references/common-errors.md`
 4. **Enhance "When to Load References"** section to include new reference files
 5. **Verify extraction quality**: Target >90% content preservation

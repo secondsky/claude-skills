@@ -38,7 +38,8 @@ Research completed before building:
 
 - [ ] **name**: Present, lowercase hyphen-case (e.g., `my-skill-name`)
 - [ ] **name**: Matches directory name exactly
-- [ ] **description**: Present and comprehensive (3+ sentences)
+- [ ] **description**: Present and concise (under 150 chars, ideally under 100)
+- [ ] **description**: Optimized for system prompt budget (15k chars TOTAL for all 169 skills)
 - [ ] **description**: Uses third-person ("This skill should be used when..." not "Use this skill when...")
 - [ ] **description**: Includes "Use when" scenarios
 - [ ] **description**: Includes keywords (technologies, use cases, error messages)
@@ -50,11 +51,8 @@ Research completed before building:
 ```yaml
 ---
 name: my-skill-name
-description: |
-  This skill provides comprehensive knowledge for [technology]. It should be used when
-  building projects with [use case], configuring [feature], or encountering [error].
-
-  Keywords: technology, use-case, error-message, related-tech
+description: "Provides [technology] knowledge. Use for [use case], [feature], [error]. Keywords: tech, use-case, error"
+# Character count: ~100 chars (under 150 target)
 license: MIT
 ---
 ```

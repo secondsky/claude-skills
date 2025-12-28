@@ -11,31 +11,45 @@ Thank you for your interest in contributing! This guide will help you create hig
 
 ## ⚠️ Prerequisites (REQUIRED)
 
-**Before creating plugins or skills**, install the official plugin development toolkit:
+### 1. Install Official Plugin-Dev Toolkit
+
+**BEFORE creating any plugins or skills**:
 
 ```bash
 /plugin install plugin-dev@claude-code-marketplace
 ```
 
-**This provides**:
-- `/plugin-dev:create-plugin` - 8-phase guided plugin creation workflow
-- 7 comprehensive skills: hook-development, mcp-integration, plugin-structure, agent-development, command-development, skill-development, plugin-settings
-- 3 specialized agents: agent-creator, plugin-validator, skill-reviewer
-- 10 utility scripts and validation tools
+This provides the 8-phase guided workflow, 7 skills, and 3 agents for plugin fundamentals.
 
-**Why install this first?**
-- ✅ Learn official plugin structure and best practices
-- ✅ Access automated validation and scaffolding tools
-- ✅ Get step-by-step guidance for complex components (hooks, MCP, agents)
-- ✅ Ensure compliance with Anthropic plugin specification
+### 2. 🚨 CRITICAL: Read System Prompt Budget Documentation
 
-**Our documentation complements official plugin-dev with**:
-- Repository-specific workflows (marketplace management, batch operations)
-- System prompt budget optimization (15k character limit)
-- Quality assurance at scale (169 skills)
-- Production insights and lessons learned
+**⚠️ REQUIRED READING**: [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) Section 4
 
-See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
+**Why this is critical**:
+- Claude Code has a **15,000 character TOTAL budget** for ALL skill descriptions combined
+- When exceeded, skills are **silently omitted** from the system prompt (no warnings)
+- With 169 skills: 15,000 ÷ 169 = ~88 characters average per description
+- **Your skill will be invisible to Claude if descriptions are too long**
+
+**Optimization requirements**:
+- ✅ **Ideal**: Under 100 characters
+- ⚠️ **Maximum**: 150 characters
+- ❌ **Danger**: 200+ characters (WILL cause silent omissions)
+
+**Example** (from Section 4):
+```yaml
+# ❌ 143 chars - Too verbose (causes omission with 169 skills)
+description: This skill helps you process and analyze Excel spreadsheets with advanced formatting and data validation capabilities for business reports
+
+# ✅ 87 chars - Optimized (works reliably)
+description: Processes Excel files with formatting and validation. Use for business reports.
+```
+
+**See [PLUGIN_DEV_BEST_PRACTICES.md](PLUGIN_DEV_BEST_PRACTICES.md) for**:
+- Complete system prompt budget documentation (Section 4)
+- Detection and monitoring techniques
+- Progressive disclosure optimization
+- Repository-specific workflows (marketplace, installation, versioning)
 
 ---
 
