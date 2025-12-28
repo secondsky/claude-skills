@@ -5,18 +5,18 @@ keywords: better-auth, authentication, cloudflare d1 auth, drizzle orm auth, kys
 license: MIT
 metadata:
   version: "2.2.0"
-  package_version: "1.4.8"
+  package_version: "1.4.9"
   last_verified: "2025-12-26"
   errors_prevented: 15
   templates_included: 4
-  references_included: 23
+  references_included: 26
 ---
 
 # better-auth
 
 **Status**: Production Ready
 **Last Updated**: 2025-12-26
-**Package**: `better-auth@1.4.8` (ESM-only)
+**Package**: `better-auth@1.4.9` (ESM-only)
 **Dependencies**: Drizzle ORM or Kysely (required for D1)
 
 ---
@@ -359,6 +359,16 @@ app.get("/api/protected", async (c) => {
 - User needs admin role permissions configuration
 - User asks about ctx.isTrustedDomain or domain verification
 
+**Load `references/nextjs/README.md` when**:
+- User building Next.js app with PostgreSQL (not Cloudflare D1)
+- User needs organizations and 2FA example
+- User asks about Next.js-specific implementation
+
+**Load `references/nextjs/postgres-example.ts` when**:
+- User needs complete Next.js API route implementation
+- User wants to see organizations + 2FA in practice
+- User asks for PostgreSQL setup with Drizzle
+
 ### Framework-Specific Setup
 
 **Load `references/frameworks/nextjs.md` when**:
@@ -445,6 +455,9 @@ export const auth = betterAuth({
 - **setup-guide.md** - Complete 8-step setup (D1 → Drizzle → Deploy)
 - **error-catalog.md** - All 12 errors with solutions and prevention checklist
 - **advanced-features.md** - 2FA, organizations, rate limiting, passkeys, magic links, migrations
+- **configuration-guide.md** - Production config, environment variables, CORS, rate limiting
+- **framework-comparison.md** - better-auth vs Clerk vs Auth.js, migration paths, TCO
+- **migration-guide-1.4.0.md** - Upgrading from v1.3.x to v1.4.0+ (ESM, API changes)
 - **cloudflare-worker-drizzle.ts** - Complete Worker with Drizzle auth
 - **cloudflare-worker-kysely.ts** - Complete Worker with Kysely auth
 - **database-schema.ts** - Complete better-auth Drizzle schema
@@ -469,6 +482,10 @@ export const auth = betterAuth({
 - **enterprise.md** - Organizations, SSO, SCIM, admin
 - **api-tokens.md** - API keys, bearer tokens, JWT, OIDC
 - **payments.md** - Stripe, Polar integrations
+
+### Next.js Examples (references/nextjs/)
+- **README.md** - Next.js + PostgreSQL setup guide (not D1)
+- **postgres-example.ts** - Complete API route with organizations, 2FA, email verification
 
 ### Client Integration
 
@@ -505,7 +522,7 @@ export function UserProfile() {
 ## Dependencies
 
 **Required**:
-- `better-auth@^1.4.8` - Core authentication framework (ESM-only)
+- `better-auth@^1.4.9` - Core authentication framework (ESM-only)
 
 **Choose ONE adapter**:
 - `drizzle-orm@^0.44.7` + `drizzle-kit@^0.31.7` (recommended)
@@ -570,7 +587,7 @@ This skill focuses on **Cloudflare Workers + D1**. better-auth also supports:
 ## Complete Setup Checklist
 
 - [ ] Verified ESM support (`"type": "module"` in package.json) - v1.4.0+ required
-- [ ] Installed better-auth@1.4.8+ + Drizzle OR Kysely
+- [ ] Installed better-auth@1.4.9+ + Drizzle OR Kysely
 - [ ] Created D1 database with wrangler
 - [ ] Defined database schema with required tables (user, session, account, verification)
 - [ ] Generated and applied migrations to D1
