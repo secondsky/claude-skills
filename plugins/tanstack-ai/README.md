@@ -87,16 +87,6 @@ pnpm dev
 
 ---
 
-## Token Efficiency Metrics (alpha)
-
-| Approach | Tokens Used | Errors | Time |
-|----------|------------|--------|------|
-| Manual setup | ~12,000 | 3-5 | ~45 min |
-| With this skill | ~3,500 | 0 | ~12 min |
-| Savings | **~70%** | **100% fewer** | **~73% faster** |
-
----
-
 ## Package Versions (Verified 2025-12-09)
 
 | Package | Version | Status |

@@ -7,18 +7,18 @@ description: Cloudflare Workers KV global key-value storage. Use for namespaces,
   eventually consistent, wrangler kv, kv operations, key value storage
 license: MIT
 metadata:
-  version: "2.0.0"
-  last_verified: "2025-11-18"
+  version: "3.0.0"
+  last_verified: "2025-12-27"
   production_tested: true
   token_savings: "~60%"
   errors_prevented: 5
-  templates_included: 0
-  references_included: 1
+  templates_included: 5
+  references_included: 7
 ---
 
 # Cloudflare Workers KV
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-21
+**Status**: Production Ready ✅ | **Last Verified**: 2025-12-27
 
 ---
 
@@ -259,23 +259,19 @@ export default {
 
 ---
 
-## Limits
+## Limits (Summary)
 
-**Storage:**
-- Max key size: 512 bytes
-- Max value size: 25 MB
-- Max metadata size: 1024 bytes
-- Max keys per namespace: Unlimited
+**Key Limits:**
+- Key size: 512 bytes max
+- Value size: 25 MB max
+- Metadata: 1024 bytes max
 
-**Operations:**
-- Read: Unlimited
-- Write: 1000/second per key
-- Delete: 1000/second per key
-- List: 100/second
+**Rate Limits:**
+- Writes: 1000/sec per key
+- List: 100/sec per namespace
+- Reads: Unlimited
 
-**Pricing:**
-- Free tier: 100,000 reads/day, 1,000 writes/day
-- Paid: $0.50/1M reads, $5/1M writes
+**For detailed limits, pricing, and optimization strategies, load `references/limits-quotas.md`**
 
 ---
 
@@ -298,17 +294,70 @@ const value = await env.MY_NAMESPACE.get('key');  // Might be null
 
 ---
 
+## When to Load References
+
+Load specific reference files based on task context:
+
+**For Setup & Configuration:**
+- Load `references/setup-guide.md` when creating namespaces or configuring bindings
+
+**For Performance Optimization:**
+- Load `references/best-practices.md` when implementing caching or optimizing performance
+- Load `references/performance-tuning.md` for advanced optimization scenarios, cacheTtl strategies, or benchmarking
+
+**For API Usage:**
+- Load `references/workers-api.md` when implementing KV operations or need method signatures
+
+**For Troubleshooting:**
+- Load `references/troubleshooting.md` when debugging errors or consistency issues
+
+**For Limits & Quotas:**
+- Load `references/limits-quotas.md` when planning capacity or encountering quota errors
+
+**For Migration:**
+- Load `references/migration-guide.md` when migrating from localStorage, Redis, D1, R2, or other storage solutions
+
+---
+
 ## Resources
 
 **References** (`references/`):
 - `best-practices.md` - Production patterns, caching strategies, rate limit handling, error recovery
 - `setup-guide.md` - Complete setup with Wrangler CLI commands, namespace creation, bindings configuration
 - `workers-api.md` - Complete API reference, consistency model (eventual consistency), limits & quotas, performance optimization
+- `troubleshooting.md` - Comprehensive error catalog with solutions
+- `limits-quotas.md` - Detailed limits, quotas, pricing, and optimization tips
+- `migration-guide.md` - Complete migration guides from localStorage, Redis, D1, R2, and other storage solutions
+- `performance-tuning.md` - Advanced cacheTtl strategies, bulk operations, key design, benchmarking techniques
 
 **Templates** (`templates/`):
-- `basic-kv-worker.ts` - Basic KV operations (get, put, delete, list)
-- `cache-pattern.ts` - HTTP caching with KV
-- `session-store.ts` - Session management example
+- `kv-basic-operations.ts` - Basic KV operations (get, put, delete, list)
+- `kv-caching-pattern.ts` - HTTP caching with KV
+- `kv-list-pagination.ts` - List with cursor pagination
+- `kv-metadata-pattern.ts` - Metadata usage patterns
+- `wrangler-kv-config.jsonc` - KV namespace bindings
+
+**Scripts** (`scripts/`):
+- `check-versions.sh` - Validate KV API endpoints and package versions
+- `test-kv-connection.sh` - Test KV namespace connection and operations
+- `setup-kv-namespace.sh` - Interactive namespace setup wizard
+- `validate-kv-config.sh` - Validate wrangler.jsonc configuration
+- `analyze-kv-usage.sh` - Analyze code for KV usage patterns and optimizations
+
+**Commands:**
+- `/setup-kv` - Interactive KV namespace setup wizard
+- `/test-kv` - Test KV operations and connection
+- `/optimize-kv` - Analyze and optimize KV usage
+
+**Agents:**
+- `kv-optimizer` - Analyzes KV usage and suggests performance optimizations
+- `kv-debugger` - Helps debug KV errors and consistency issues
+
+**Examples** (`examples/`):
+- `rate-limiting/` - Complete rate limiting implementation (fixed window, sliding window, token bucket, multi-tier)
+- `session-management/` - Production session store with TTL expiration, metadata tracking, and admin controls
+- `api-caching/` - HTTP response caching patterns (cache-aside, stale-while-revalidate, conditional caching, ETag)
+- `config-management/` - Feature flags, A/B testing, environment configs, version tracking, hot-reload
 
 ---
 

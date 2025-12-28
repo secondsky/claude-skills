@@ -186,13 +186,6 @@ This skill prevents and solves 20+ common errors:
 19. TypeScript component types not generated
 20. Theme variants not applying correctly
 
-## Token Efficiency
-
-- **Without skill**: ~30,000 tokens (reading docs + trial-and-error + debugging)
-- **With skill**: ~9,000 tokens (templates + targeted guidance)
-- **Savings**: ~70% reduction (~21,000 tokens)
-- **Errors prevented**: 20+ common mistakes (100% prevention rate)
-
 ## Version Requirements
 
 | Package | Version | Required |

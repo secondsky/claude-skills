@@ -154,14 +154,6 @@ export default app;
 
 ---
 
-## Token Efficiency
-
-- **Manual Setup**: 10,000-14,000 tokens
-- **With This Skill**: 4,000-5,000 tokens
-- **Savings**: ~60%
-
----
-
 ## Files Included
 
 - `SKILL.md` - Complete R2 knowledge domain

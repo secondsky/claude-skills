@@ -1,0 +1,248 @@
+# Complete Production-Ready GitLab CI Pipeline for Cloudflare Workers
+#
+# Features:
+# - Multi-environment deployments (staging, production)
+# - Review apps (preview deployments for merge requests)
+# - Automated testing with coverage
+# - Deployment verification
+# - Manual approval for production
+#
+# Usage:
+# 1. Copy to .gitlab-ci.yml at repository root
+# 2. Add CI/CD variables: CLOUDFLARE_API_TOKEN, DATABASE_URL
+# 3. Update worker name and URLs
+# 4. Configure GitLab environments (staging, production)
+
+image: oven/bun:latest
+
+stages:
+  - test
+  - deploy
+  - cleanup
+
+variables:
+  FF_USE_FASTZIP: "true"
+  WORKER_NAME: my-worker
+
+cache:
+  key:
+    files:
+      - bun.lockb
+  paths:
+    - node_modules/
+    - .bun/
+
+# =====================
+# Testing
+# =====================
+
+test:
+  stage: test
+  script:
+    - bun install
+    - bun run lint
+    - bun run type-check
+    - bun test --coverage
+  coverage: '/Lines\s*:\s*(\d+\.?\d*)%/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    expire_in: 1 week
+
+# =====================
+# Staging Deployment
+# =====================
+
+deploy-staging:
+  stage: deploy
+  script:
+    - bun install
+    - bunx wrangler deploy --env staging
+  environment:
+    name: staging
+    url: https://$WORKER_NAME-staging.workers.dev
+    on_stop: stop-staging
+  only:
+    - develop
+  dependencies:
+    - test
+
+.set-staging-secrets: &set-staging-secrets
+  - echo "$DATABASE_URL_STAGING" | bunx wrangler secret put DATABASE_URL --env staging
+  - echo "$STRIPE_SECRET_KEY_STAGING" | bunx wrangler secret put STRIPE_SECRET_KEY --env staging
+
+deploy-staging-with-secrets:
+  stage: deploy
+  script:
+    - bun install
+    - *set-staging-secrets
+    - bunx wrangler deploy --env staging
+  environment:
+    name: staging
+    url: https://$WORKER_NAME-staging.workers.dev
+  only:
+    - develop
+  dependencies:
+    - test
+  after_script:
+    - sleep 5
+    - curl -f https://$WORKER_NAME-staging.workers.dev/health || exit 1
+
+# =====================
+# Production Deployment
+# =====================
+
+deploy-production:
+  stage: deploy
+  script:
+    - bun install
+    - bun run build
+    - bunx wrangler deploy --env production
+  environment:
+    name: production
+    url: https://$WORKER_NAME.workers.dev
+  only:
+    - main
+  when: manual  # Requires manual trigger
+  dependencies:
+    - test
+
+.set-production-secrets: &set-production-secrets
+  - echo "$DATABASE_URL_PRODUCTION" | bunx wrangler secret put DATABASE_URL --env production
+  - echo "$STRIPE_SECRET_KEY_PRODUCTION" | bunx wrangler secret put STRIPE_SECRET_KEY --env production
+
+deploy-production-with-secrets:
+  stage: deploy
+  script:
+    - bun install
+    - bun run build
+    - *set-production-secrets
+    - bunx wrangler deploy --env production
+  environment:
+    name: production
+    url: https://$WORKER_NAME.workers.dev
+  only:
+    - main
+  when: manual
+  dependencies:
+    - test
+  after_script:
+    - sleep 5
+    - curl -f https://$WORKER_NAME.workers.dev/health || exit 1
+
+# =====================
+# Review Apps (Preview Deployments)
+# =====================
+
+review:
+  stage: deploy
+  script:
+    - bun install
+    - bunx wrangler deploy --env review-$CI_MERGE_REQUEST_IID
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    url: https://$WORKER_NAME-review-$CI_MERGE_REQUEST_IID.workers.dev
+    on_stop: stop-review
+  only:
+    - merge_requests
+  dependencies:
+    - test
+
+stop-review:
+  stage: cleanup
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - bunx wrangler delete --name $WORKER_NAME-review-$CI_MERGE_REQUEST_IID
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG
+    action: stop
+  when: manual
+  only:
+    - merge_requests
+
+# =====================
+# Conditional Deployment
+# =====================
+
+deploy-on-changes:
+  stage: deploy
+  script:
+    - bun install
+    - bunx wrangler deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: always
+    - if: '$CI_COMMIT_TAG'
+      when: never
+    - changes:
+        - src/**/*
+        - wrangler.jsonc
+      when: on_success
+
+# =====================
+# Multi-Worker Deployment
+# =====================
+
+deploy-api:
+  stage: deploy
+  script:
+    - cd workers/api
+    - bun install
+    - bunx wrangler deploy
+  only:
+    - main
+
+deploy-frontend:
+  stage: deploy
+  script:
+    - cd workers/frontend
+    - bun install
+    - bunx wrangler deploy
+  only:
+    - main
+
+# =====================
+# Verification
+# =====================
+
+verify-staging:
+  stage: deploy
+  needs: ["deploy-staging"]
+  script:
+    - |
+      echo "Verifying staging deployment..."
+      MAX_RETRIES=5
+      RETRY_DELAY=5
+
+      for i in $(seq 1 $MAX_RETRIES); do
+        echo "Health check attempt $i/$MAX_RETRIES..."
+        if curl -f "https://$WORKER_NAME-staging.workers.dev/health"; then
+          echo "✅ Health check passed"
+          exit 0
+        fi
+
+        if [ $i -lt $MAX_RETRIES ]; then
+          echo "❌ Health check failed, retrying in ${RETRY_DELAY}s..."
+          sleep $RETRY_DELAY
+        fi
+      done
+
+      echo "❌ Health check failed after $MAX_RETRIES attempts"
+      exit 1
+  only:
+    - develop
+
+verify-production:
+  stage: deploy
+  needs: ["deploy-production"]
+  script:
+    - |
+      echo "Verifying production deployment..."
+      sleep 10
+      curl -f "https://$WORKER_NAME.workers.dev/health" || exit 1
+      echo "✅ Production deployment verified"
+  only:
+    - main

@@ -221,9 +221,9 @@
     {
       "name": "better-auth",
       "source": "./plugins/better-auth",
-      "version": "3.0.0",
-      "description": "better-auth authentication for TypeScript with Cloudflare D1 via Drizzle ORM/Kysely. Use for self-hosted auth, social providers, 2FA, passkeys, RBAC, or encountering D1 adapter, schema generation, session, CORS, OAuth flow errors.",
-      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac"],
+      "version": "3.1.0",
+      "description": "better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.",
+      "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac","cloudflare","d1","drizzle","kysely","oauth","2fa","passkeys","organizations","nextjs","nuxt","remix","sveltekit","expo","postgresql","mongodb","mysql","stripe","sso","saml","scim"],
       "category": "auth"
     }
 ,
@@ -338,9 +338,9 @@
     {
       "name": "cloudflare-durable-objects",
       "source": "./plugins/cloudflare-durable-objects",
-      "version": "3.0.0",
+      "version": "3.2.0",
       "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
-      "keywords": ["cloudflare-durable-objects","cloudflare","durable","objects","workers","edge","wrangler","websocket","migration","real-time"],
+      "keywords": ["cloudflare-durable-objects","cloudflare","durable","objects","workers","edge","wrangler","websocket","migration","real-time","vitest","testing","rpc","rpctarget","metadata","gradual-deployment","state-api","sql","sqlite","hibernation","alarms","coordination","stateful"],
       "category": "cloudflare"
     }
 ,
@@ -384,8 +384,8 @@
       "name": "cloudflare-images",
       "source": "./plugins/cloudflare-images",
       "version": "3.0.0",
-      "description": "Cloudflare Images for upload/storage and transformations. Use for image uploads, resizing, WebP/AVIF optimization, or encountering CORS errors, transformation errors 9401-9413.",
-      "keywords": ["cloudflare-images","cloudflare","images","workers","edge","wrangler","avif","cors","webp"],
+      "description": "This skill should be used when the user asks to \"upload images to Cloudflare\", \"implement direct creator upload\", \"configure image transformations\", \"optimize WebP/AVIF\", \"create image variants\", \"generate signed URLs\", \"add image watermarks\", \"integrate with Next.js/Remix\", \"configure webhooks\", \"debug CORS errors\", \"troubleshoot error 5408/9401-9413\", or \"build responsive images with Cloudflare Images API\".",
+      "keywords": ["cloudflare-images","cloudflare","images","workers","edge","wrangler","avif","cors","webp","image-upload","image-optimization","direct-creator-upload","signed-urls","image-variants","responsive-images","imagedelivery","cdn-cgi-image","transformation-errors","error-9401","error-5408","watermarks","webhooks","nextjs-images","remix-images","custom-domains","content-credentials","c2pa","image-sourcing"],
       "category": "cloudflare"
     }
 ,
@@ -394,7 +394,7 @@
       "source": "./plugins/cloudflare-kv",
       "version": "3.0.0",
       "description": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.",
-      "keywords": ["cloudflare-kv","cloudflare","workers","edge","wrangler","ttl","caching"],
+      "keywords": ["cloudflare-kv","cloudflare","workers","edge","wrangler","ttl","caching","key-value"],
       "category": "cloudflare"
     }
 ,
@@ -429,8 +429,8 @@
       "name": "cloudflare-queues",
       "source": "./plugins/cloudflare-queues",
       "version": "3.0.0",
-      "description": "Cloudflare Queues for async processing and background jobs. Use for message queues, batch processing, retries, or encountering timeout, retry, throughput errors.",
-      "keywords": ["cloudflare-queues","cloudflare","queues","workers","edge","wrangler","async"],
+      "description": "This skill should be used when the user asks to \"set up Cloudflare Queues\", \"create a message queue\", \"implement queue consumer\", \"process background jobs\", \"configure queue retry logic\", \"publish messages to queue\", \"implement dead letter queue\", or encountering \"queue timeout\", \"message retry\", \"throughput exceeded\", \"queue backlog\" errors.",
+      "keywords": ["cloudflare-queues","cloudflare","queues","workers","edge","wrangler","async","message-queue","background-jobs","dead-letter-queue","dlq","retry","consumer","producer","batch-processing","throughput","backlog","pull-consumer","http-publish","r2-events"],
       "category": "cloudflare"
     }
 ,
@@ -438,8 +438,8 @@
       "name": "cloudflare-r2",
       "source": "./plugins/cloudflare-r2",
       "version": "3.0.0",
-      "description": "Cloudflare R2 S3-compatible object storage. Use for buckets, uploads, CORS, presigned URLs, or encountering R2_ERROR, CORS failures, multipart issues.",
-      "keywords": ["cloudflare-r2","cloudflare","workers","edge","wrangler","cors"],
+      "description": "Cloudflare R2 S3-compatible object storage with SQL, Iceberg, event notifications, and automation. Use for buckets, uploads, CORS, presigned URLs, large files, S3 migration, analytics, or encountering R2_ERROR, CORS failures, multipart issues.",
+      "keywords": ["cloudflare-r2","r2-storage","r2-bucket","r2-upload","r2-download","object-storage","s3-compatible","r2-cors","presigned-urls","multipart-upload","r2-sql","apache-iceberg","data-catalog","event-notifications","storage-classes","bucket-locks","cloudflare-access","sse-c","tus-protocol","r2-workers","r2-api","r2-binding","wrangler-r2","aws-s3-migration","file-upload","asset-storage","image-storage","R2_ERROR","R2Bucket","r2-metadata","aws4fetch","cloudflare","workers","edge"],
       "category": "cloudflare"
     }
 ,
@@ -457,7 +457,7 @@
       "source": "./plugins/cloudflare-turnstile",
       "version": "3.0.0",
       "description": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.",
-      "keywords": ["cloudflare-turnstile","cloudflare","turnstile","workers","edge","wrangler","captcha","csp","validation"],
+      "keywords": ["cloudflare-turnstile","cloudflare","turnstile","workers","edge","wrangler","captcha","csp","validation","bot-protection","form-protection","token-validation","siteverify","turnstile-widget","managed-challenge","react-turnstile","marsidev-react-turnstile","next-js-turnstile","hono-turnstile","recaptcha-alternative","hcaptcha-alternative","error-110200","error-300030","error-600010","turnstile-testing","dummy-keys","turnstile-csp"],
       "category": "cloudflare"
     }
 ,
@@ -493,7 +493,7 @@
       "source": "./plugins/cloudflare-workflows",
       "version": "3.0.0",
       "description": "Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors.",
-      "keywords": ["cloudflare-workflows","cloudflare","workflows","workers","edge","wrangler","nonretryableerror"],
+      "keywords": ["cloudflare-workflows","cloudflare","workflows","workers","edge","wrangler","nonretryableerror","durable-execution","workflow-step","workflowentrypoint","step-do","step-sleep","workflow-retries","workflow-state","workflow-events","long-running-tasks","workflow-debugging","workflow-optimization"],
       "category": "cloudflare"
     }
 ,

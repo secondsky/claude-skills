@@ -1,0 +1,170 @@
+# Complete Production-Ready GitHub Actions Workflow for Cloudflare Workers
+#
+# Features:
+# - Multi-environment deployments (staging, production)
+# - Preview deployments for PRs
+# - Automated testing with coverage
+# - Deployment verification
+# - Manual approval gates for production
+# - Slack notifications
+#
+# Usage:
+# 1. Copy to .github/workflows/deploy.yml
+# 2. Add secrets: CLOUDFLARE_API_TOKEN, DATABASE_URL, SLACK_WEBHOOK
+# 3. Update worker name and URLs
+# 4. Configure GitHub environments (staging, production)
+
+name: Deploy Workers
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  WORKER_NAME: my-worker
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Run Linter
+        run: bun run lint
+
+      - name: Type Check
+        run: bun run type-check
+
+      - name: Run Tests
+        run: bun test --coverage
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage/lcov.info
+
+  deploy-staging:
+    name: Deploy to Staging
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://${{ env.WORKER_NAME }}-staging.workers.dev
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+
+      - name: Deploy to Staging
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env staging
+
+      - name: Set Secrets
+        run: |
+          echo "${{ secrets.DATABASE_URL_STAGING }}" | \
+            bunx wrangler secret put DATABASE_URL --env staging
+
+      - name: Verify Deployment
+        run: |
+          sleep 5
+          curl -f https://${{ env.WORKER_NAME }}-staging.workers.dev/health || exit 1
+
+  deploy-production:
+    name: Deploy to Production
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production # Requires manual approval
+      url: https://${{ env.WORKER_NAME }}.workers.dev
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun run build
+
+      - name: Deploy to Production
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env production
+
+      - name: Set Secrets
+        run: |
+          echo "${{ secrets.DATABASE_URL_PRODUCTION }}" | \
+            bunx wrangler secret put DATABASE_URL --env production
+
+      - name: Verify Deployment
+        id: verify
+        run: |
+          sleep 5
+          curl -f https://${{ env.WORKER_NAME }}.workers.dev/health || exit 1
+
+      - name: Notify Success
+        if: success()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ Production deployment successful: ${{ github.sha }}"
+            }
+
+      - name: Notify Failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "❌ Production deployment failed: ${{ github.sha }}"
+            }
+
+  preview:
+    name: Preview Deployment
+    needs: test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+
+      - name: Deploy Preview
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env preview-${{ github.event.number }}
+
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = `https://${{ env.WORKER_NAME }}-preview-${{ github.event.number }}.workers.dev`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ **Preview Deployed**\\n\\n🔗 ${previewUrl}\\n\\nCommit: ${context.sha.substring(0, 7)}`
+            });

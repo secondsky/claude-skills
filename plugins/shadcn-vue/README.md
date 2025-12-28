@@ -184,16 +184,6 @@ import { Button } from '@/components/ui/button'
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~50,000 | 3-5 | ~10 min |
-| **With This Skill** | ~15,000 | 0 ✅ | ~3 min |
-| **Savings** | **~70%** | **100%** | **~70%** |
-
----
-
 ## Package Versions (Verified 2025-11-10)
 
 | Package | Version | Status |

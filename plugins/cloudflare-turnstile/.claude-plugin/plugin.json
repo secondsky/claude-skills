@@ -2,6 +2,7 @@
   "name": "cloudflare-turnstile",
   "description": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.",
   "version": "3.0.0",
+  "category": "cloudflare",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -17,6 +18,31 @@
     "wrangler",
     "captcha",
     "csp",
-    "validation"
+    "validation",
+    "bot-protection",
+    "form-protection",
+    "token-validation",
+    "siteverify",
+    "turnstile-widget",
+    "managed-challenge",
+    "react-turnstile",
+    "marsidev-react-turnstile",
+    "next-js-turnstile",
+    "hono-turnstile",
+    "recaptcha-alternative",
+    "hcaptcha-alternative",
+    "error-110200",
+    "error-300030",
+    "error-600010",
+    "turnstile-testing",
+    "dummy-keys",
+    "turnstile-csp"
+  ],
+  "agents": [
+    "./agents/troubleshooting-agent.md",
+    "./agents/csp-debugger.md"
+  ],
+  "commands": [
+    "./commands/setup-wizard.md"
   ]
 }

@@ -122,21 +122,6 @@ export default app;
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- 15-20 documentation lookups for model selection
-- 10+ searches for rate limits and pricing
-- 8-12 examples for different task types
-- ~8,000 tokens of repetitive context
-
-**With this skill:**
-- 1 skill invocation with complete knowledge
-- ~3,200 tokens of focused, battle-tested patterns
-- **~60% token savings**
-
----
-
 ## Coverage
 
 ### Models Catalog

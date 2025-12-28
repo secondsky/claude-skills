@@ -92,6 +92,65 @@ bunx wrangler deploy
 
 ---
 
+## Available Commands
+
+Use these interactive commands for guided workflows:
+
+- **`/do-setup`** - Initialize new DO project with interactive setup wizard
+  - Choose storage backend (SQL, KV, both)
+  - Select use case pattern (WebSocket, Sessions, Rate Limiting, etc.)
+  - Optional Vitest testing setup
+  - Generates complete DO implementation
+
+- **`/do-migrate`** - Interactive migration assistant
+  - New class creation (new_sqlite_classes, new_classes)
+  - Rename existing classes (renamed_classes)
+  - Delete classes with safety confirmations (deleted_classes)
+  - Transfer classes between scripts (transferred_classes)
+  - Auto-increments migration tags (v1, v2, v3...)
+
+- **`/do-debug`** - Step-by-step debugging workflow
+  - Detects error categories (deployment, runtime, performance, etc.)
+  - Runs diagnostic checks on configuration and code
+  - Provides specific fixes with code examples
+  - Guides local testing and production verification
+
+- **`/do-patterns`** - Pattern selection wizard
+  - Recommends DO pattern based on use case
+  - Supports WebSocket, Rate Limiting, Sessions, Analytics, Leader Election
+  - Generates complete pattern implementation
+  - Provides best practices and optimization tips
+
+- **`/do-optimize`** - Performance optimization assistant
+  - Analyzes existing DO code for bottlenecks
+  - Provides targeted optimization recommendations
+  - Covers constructor, queries, WebSocket, memory, alarms
+  - Measures performance improvements
+
+## Autonomous Agents
+
+These agents work autonomously without user interaction:
+
+- **`do-debugger`** - Automatic error detection and fixing
+  - Validates wrangler.jsonc configuration
+  - Detects 16+ common DO errors
+  - Applies fixes automatically with backups
+  - Tests fixes before reporting
+
+- **`do-setup-assistant`** - Automatic project scaffolding
+  - Analyzes user requirements from natural language
+  - Generates complete DO implementation
+  - Creates tests, documentation, validation
+  - Supports all use case patterns
+
+- **`do-pattern-implementer`** - Production pattern implementation
+  - Analyzes existing DO code
+  - Recommends patterns by priority
+  - Implements TTL cleanup, RPC metadata, SQL indexes, etc.
+  - Generates pattern-specific tests
+
+---
+
 ## When to Load References
 
 **Load immediately when user mentions:**
@@ -99,17 +158,32 @@ bunx wrangler deploy
 - **`websocket-hibernation.md`** → "websocket", "real-time", "chat", "hibernation", "serializeAttachment"
 - **`alarms-api.md`** → "alarms", "scheduled tasks", "cron", "periodic", "batch processing"
 - **`rpc-patterns.md`** → "RPC", "fetch", "HTTP", "methods", "routing"
+- **`rpc-metadata.md`** → "RpcTarget", "metadata", "DO name", "idFromName access"
 - **`stubs-routing.md`** → "stubs", "idFromName", "newUniqueId", "location hints", "jurisdiction"
 - **`migrations-guide.md`** → "migrations", "rename", "delete", "transfer", "schema changes"
+- **`migration-cheatsheet.md`** → "migration quick reference", "migration types", "common migrations"
 - **`common-patterns.md`** → "patterns", "examples", "rate limiting", "sessions", "leader election"
+- **`vitest-testing.md`** → "test", "testing", "vitest", "unit test", "@cloudflare/vitest-pool-workers"
+- **`gradual-deployments.md`** → "gradual", "deployment", "traffic split", "rollout", "canary"
+- **`typescript-config.md`** → "TypeScript", "types", "tsconfig", "wrangler.jsonc", "bindings"
+- **`advanced-sql-patterns.md`** → "CTE", "window functions", "FTS5", "full-text search", "JSON functions", "complex SQL"
+- **`security-best-practices.md`** → "security", "authentication", "authorization", "SQL injection", "CORS", "encryption", "rate limiting"
+- **`error-codes.md`** → "error codes", "error catalog", "specific error", "E001", "troubleshooting"
 - **`top-errors.md`** → errors, "not working", debugging, "binding not found"
 
 **Load proactively when:**
 - Building new feature → Load relevant pattern from `common-patterns.md`
-- Debugging issue → Load `top-errors.md` first
+- Debugging issue → Load `error-codes.md` for specific errors, then `top-errors.md`
 - Implementing WebSocket → Load `websocket-hibernation.md` before coding
 - Setting up storage → Load `state-api-reference.md` for SQL/KV APIs
+- Complex SQL queries → Load `advanced-sql-patterns.md` for CTEs, window functions, FTS5
+- Security review → Load `security-best-practices.md` for authentication, authorization, SQL injection prevention
 - Creating first DO → Load `stubs-routing.md` for ID methods
+- Writing tests → Load `vitest-testing.md` for testing patterns
+- Planning deployment → Load `gradual-deployments.md` for rollout strategy
+- Migration needed → Load `migration-cheatsheet.md` for quick reference
+- Using DO name inside DO → Load `rpc-metadata.md` for RpcTarget pattern
+- TypeScript configuration → Load `typescript-config.md` for setup
 
 ---
 
@@ -457,36 +531,9 @@ This skill prevents **15+ documented issues**. Top 3 most critical:
 
 ## Configuration & TypeScript
 
-**wrangler.jsonc structure:**
+Configure wrangler.jsonc with DO bindings and migrations, set up TypeScript types with proper exports.
 
-```jsonc
-{
-  "durable_objects": {
-    "bindings": [
-      { "name": "COUNTER", "class_name": "Counter" }  // Binding name must match code
-    ]
-  },
-  "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["Counter"] }  // Required for new DOs
-  ]
-}
-```
-
-**TypeScript types:**
-
-```typescript
-import { DurableObject, DurableObjectState, DurableObjectNamespace } from 'cloudflare:workers';
-
-interface Env {
-  MY_DO: DurableObjectNamespace<MyDurableObject>;
-}
-
-export class MyDurableObject extends DurableObject<Env> {
-  constructor(ctx: DurableObjectState, env: Env) {
-    super(ctx, env);
-  }
-}
-```
+**Load `references/typescript-config.md` for**: wrangler.jsonc structure, TypeScript types, Env interface, tsconfig.json, common type issues
 
 ---
 

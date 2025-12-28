@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare Images - Private Images with Signed URLs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .security-badge {
+            display: inline-block;
+            background: #3c3;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .upload-form {
+            margin-bottom: 30px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="file"]:hover {
+            border-color: #667eea;
+        }
+
+        .expiry-selector {
+            margin-bottom: 20px;
+        }
+
+        .expiry-selector label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .expiry-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .expiry-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .upload-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s;
+        }
+
+        .upload-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .upload-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c33;
+            display: none;
+        }
+
+        .success {
+            background: #efe;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3c3;
+            display: none;
+        }
+
+        .uploaded-image-container {
+            display: none;
+        }
+
+        .uploaded-image-container h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .expiry-info {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .expiry-info strong {
+            color: #333;
+        }
+
+        .countdown {
+            font-weight: 600;
+            color: #c33;
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+        }
+
+        .image-details {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .image-details div {
+            margin: 5px 0;
+        }
+
+        .image-details strong {
+            color: #333;
+        }
+
+        .refresh-button {
+            width: 100%;
+            padding: 12px;
+            background: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .refresh-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-section p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-section ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .info-section li {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Private Images <span class="security-badge">Secure</span></h1>
+        <p class="subtitle">Signed URLs with Time-Based Expiry</p>
+
+        <div class="error" id="error"></div>
+        <div class="success" id="success"></div>
+
+        <form class="upload-form" id="upload-form">
+            <div class="file-input-wrapper">
+                <input
+                    type="file"
+                    id="file-input"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    required
+                />
+            </div>
+
+            <div class="expiry-selector">
+                <label for="expiry-select">URL Expiry Time:</label>
+                <select id="expiry-select">
+                    <option value="300">5 minutes (Highly Sensitive)</option>
+                    <option value="900">15 minutes (Sensitive)</option>
+                    <option value="3600" selected>1 hour (Default)</option>
+                    <option value="14400">4 hours (Extended)</option>
+                    <option value="86400">24 hours (Public Sharing)</option>
+                </select>
+            </div>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">Uploading... 0%</div>
+            </div>
+
+            <button type="submit" class="upload-button" id="upload-button">
+                Upload Private Image
+            </button>
+        </form>
+
+        <div class="uploaded-image-container" id="uploaded-image-container">
+            <h2>✅ Private Image Uploaded!</h2>
+
+            <div class="expiry-info" id="expiry-info">
+                <strong>URL Expires:</strong> <span id="expiry-time"></span><br>
+                <strong>Time Remaining:</strong> <span class="countdown" id="countdown"></span>
+            </div>
+
+            <img class="uploaded-image" id="uploaded-image" alt="Private image">
+
+            <div class="image-details" id="image-details"></div>
+
+            <button class="refresh-button" id="refresh-button">
+                🔄 Refresh Signed URL (Extend Access)
+            </button>
+        </div>
+
+        <div class="info-section">
+            <h3>🛡️ How Signed URLs Work</h3>
+            <p>
+                This example demonstrates <strong>signed URLs</strong> for private image access control.
+                The image can only be accessed with a cryptographically signed URL that expires after a set time.
+            </p>
+            <ul>
+                <li><strong>HMAC-SHA256 Signatures:</strong> URLs are signed using your secret key</li>
+                <li><strong>Time-Based Expiry:</strong> URLs automatically expire after the selected duration</li>
+                <li><strong>Access Control:</strong> No access without a valid signature</li>
+                <li><strong>Perfect For:</strong> User uploads, premium content, temporary sharing, HIPAA/GDPR compliance</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_URL = 'http://localhost:8787'; // Change to your Worker URL in production
+
+        // DOM elements
+        const form = document.getElementById('upload-form');
+        const fileInput = document.getElementById('file-input');
+        const expirySelect = document.getElementById('expiry-select');
+        const uploadButton = document.getElementById('upload-button');
+        const progressContainer = document.getElementById('progress-container');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+        const errorDiv = document.getElementById('error');
+        const successDiv = document.getElementById('success');
+        const uploadedImageContainer = document.getElementById('uploaded-image-container');
+        const uploadedImage = document.getElementById('uploaded-image');
+        const imageDetails = document.getElementById('image-details');
+        const expiryInfo = document.getElementById('expiry-info');
+        const expiryTime = document.getElementById('expiry-time');
+        const countdown = document.getElementById('countdown');
+        const refreshButton = document.getElementById('refresh-button');
+
+        let currentImageId = null;
+        let countdownInterval = null;
+
+        // Form submit handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await uploadPrivateImage();
+        });
+
+        // Refresh button handler
+        refreshButton.addEventListener('click', async () => {
+            if (currentImageId) {
+                await generateSignedUrl(currentImageId);
+            }
+        });
+
+        async function uploadPrivateImage() {
+            // Get selected file
+            const file = fileInput.files[0];
+            if (!file) {
+                showError('Please select a file');
+                return;
+            }
+
+            // Validate file size (max 10MB)
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                showError(`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum size is 10MB.`);
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                showError('Invalid file type. Please upload JPEG, PNG, WebP, or GIF.');
+                return;
+            }
+
+            try {
+                // Reset UI
+                hideError();
+                hideSuccess();
+                uploadedImageContainer.style.display = 'none';
+
+                // Disable form
+                uploadButton.disabled = true;
+                fileInput.disabled = true;
+                expirySelect.disabled = true;
+
+                // Show progress
+                showProgress(10);
+
+                // Step 1: Upload private image
+                console.log('Uploading private image...');
+                const uploadFormData = new FormData();
+                uploadFormData.append('file', file);
+
+                const uploadResponse = await fetch(`${API_URL}/api/upload-private`, {
+                    method: 'POST',
+                    body: uploadFormData
+                });
+
+                if (!uploadResponse.ok) {
+                    throw new Error(`Upload failed: ${uploadResponse.statusText}`);
+                }
+
+                const uploadResult = await uploadResponse.json();
+                console.log('Private image uploaded. Image ID:', uploadResult.imageId);
+
+                currentImageId = uploadResult.imageId;
+                showProgress(50);
+
+                // Step 2: Generate signed URL
+                await generateSignedUrl(uploadResult.imageId);
+
+                showProgress(100);
+                showSuccess('Private image uploaded successfully!');
+
+                // Reset form
+                form.reset();
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                showError(error.message);
+            } finally {
+                // Re-enable form
+                uploadButton.disabled = false;
+                fileInput.disabled = false;
+                expirySelect.disabled = false;
+                hideProgress();
+            }
+        }
+
+        async function generateSignedUrl(imageId) {
+            try {
+                const expirySeconds = parseInt(expirySelect.value);
+
+                console.log('Generating signed URL...', { imageId, expirySeconds });
+
+                const signResponse = await fetch(`${API_URL}/api/sign-url`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        imageId,
+                        variant: 'public',
+                        expirySeconds
+                    })
+                });
+
+                if (!signResponse.ok) {
+                    throw new Error(`Signing failed: ${signResponse.statusText}`);
+                }
+
+                const signResult = await signResponse.json();
+                console.log('Signed URL generated:', signResult);
+
+                // Display image
+                uploadedImage.src = signResult.signedUrl;
+
+                // Show expiry info
+                const expiresAt = new Date(signResult.expiresAt);
+                expiryTime.textContent = expiresAt.toLocaleString();
+
+                // Start countdown
+                startCountdown(expiresAt);
+
+                // Show image details
+                imageDetails.innerHTML = `
+                    <div><strong>Image ID:</strong> ${imageId}</div>
+                    <div><strong>Signed URL:</strong> <code style="font-size: 11px; word-break: break-all;">${signResult.signedUrl}</code></div>
+                    <div><strong>Expiry:</strong> ${expirySeconds} seconds (${formatDuration(expirySeconds)})</div>
+                    <div><strong>Security:</strong> HMAC-SHA256 signed</div>
+                `;
+
+                uploadedImageContainer.style.display = 'block';
+
+            } catch (error) {
+                console.error('Signing error:', error);
+                showError(error.message);
+            }
+        }
+
+        function startCountdown(expiresAt) {
+            // Clear existing interval
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+
+            // Update countdown every second
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const remaining = Math.max(0, expiresAt - now);
+
+                if (remaining === 0) {
+                    clearInterval(countdownInterval);
+                    countdown.textContent = 'EXPIRED';
+                    expiryInfo.style.background = '#fee';
+                    expiryInfo.style.borderColor = '#c33';
+                    expiryInfo.style.color = '#c33';
+                } else {
+                    countdown.textContent = formatDuration(Math.floor(remaining / 1000));
+                }
+            }, 1000);
+        }
+
+        function formatDuration(seconds) {
+            if (seconds >= 86400) {
+                return `${Math.floor(seconds / 86400)} days`;
+            } else if (seconds >= 3600) {
+                return `${Math.floor(seconds / 3600)} hours`;
+            } else if (seconds >= 60) {
+                return `${Math.floor(seconds / 60)} minutes`;
+            } else {
+                return `${seconds} seconds`;
+            }
+        }
+
+        // UI helper functions
+        function showProgress(percent) {
+            progressContainer.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = `Uploading... ${percent}%`;
+        }
+
+        function hideProgress() {
+            setTimeout(() => {
+                progressContainer.style.display = 'none';
+                progressFill.style.width = '0%';
+            }, 500);
+        }
+
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            errorDiv.style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function hideSuccess() {
+            successDiv.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

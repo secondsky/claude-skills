@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-images",
-  "description": "Cloudflare Images for upload/storage and transformations. Use for image uploads, resizing, WebP/AVIF optimization, or encountering CORS errors, transformation errors 9401-9413.",
+  "description": "This skill should be used when the user asks to \"upload images to Cloudflare\", \"implement direct creator upload\", \"configure image transformations\", \"optimize WebP/AVIF\", \"create image variants\", \"generate signed URLs\", \"add image watermarks\", \"integrate with Next.js/Remix\", \"configure webhooks\", \"debug CORS errors\", \"troubleshoot error 5408/9401-9413\", or \"build responsive images with Cloudflare Images API\".",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -8,6 +8,16 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
+  "agents": [
+    "./agents/troubleshooting-agent.md",
+    "./agents/upload-workflow-agent.md",
+    "./agents/optimization-agent.md"
+  ],
+  "commands": [
+    "./commands/check-images.md",
+    "./commands/validate-config.md",
+    "./commands/generate-variant.md"
+  ],
   "keywords": [
     "cloudflare-images",
     "cloudflare",
@@ -17,6 +27,25 @@
     "wrangler",
     "avif",
     "cors",
-    "webp"
+    "webp",
+    "image-upload",
+    "image-optimization",
+    "direct-creator-upload",
+    "signed-urls",
+    "image-variants",
+    "responsive-images",
+    "imagedelivery",
+    "cdn-cgi-image",
+    "transformation-errors",
+    "error-9401",
+    "error-5408",
+    "watermarks",
+    "webhooks",
+    "nextjs-images",
+    "remix-images",
+    "custom-domains",
+    "content-credentials",
+    "c2pa",
+    "image-sourcing"
   ]
 }

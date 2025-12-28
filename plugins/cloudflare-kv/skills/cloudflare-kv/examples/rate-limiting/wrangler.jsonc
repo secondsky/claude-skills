@@ -1,0 +1,48 @@
+{
+  "name": "kv-rate-limiting-example",
+  "main": "index.ts",
+  "compatibility_date": "2025-10-11",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // KV namespace for rate limiting
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT",
+      "id": "YOUR_PRODUCTION_NAMESPACE_ID",
+      "preview_id": "YOUR_PREVIEW_NAMESPACE_ID"
+    }
+  ],
+
+  // Development settings
+  "dev": {
+    "port": 8787,
+    "inspector_port": 9229
+  }
+}
+
+/*
+ * Setup Instructions:
+ *
+ * 1. Create KV namespaces:
+ *    bunx wrangler kv namespace create RATE_LIMIT
+ *    bunx wrangler kv namespace create RATE_LIMIT --preview
+ *
+ * 2. Update IDs above with output from step 1
+ *
+ * 3. Install dependencies:
+ *    bun add hono
+ *    bun add -D @cloudflare/workers-types
+ *
+ * 4. Run locally:
+ *    bunx wrangler dev
+ *
+ * 5. Deploy:
+ *    bunx wrangler deploy
+ *
+ * 6. Test endpoints:
+ *    - https://your-worker.your-subdomain.workers.dev/api/fixed-window
+ *    - https://your-worker.your-subdomain.workers.dev/api/sliding-window
+ *    - https://your-worker.your-subdomain.workers.dev/api/token-bucket
+ *    - https://your-worker.your-subdomain.workers.dev/api/multi-tier
+ *    - https://your-worker.your-subdomain.workers.dev/api/status
+ */

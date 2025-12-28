@@ -33,12 +33,6 @@ Production-ready skill for WooCommerce testing, linting, and development workflo
 - **Troubleshooting**: Common problems and solutions
 - **Best Practices**: Pre-commit checklist and workflow
 
-## Token Efficiency
-
-- Estimated savings: ~70% vs documentation research
-- Errors prevented: Test failures, linting violations, workflow mistakes
-- Coverage: Complete development cycle from code to commit
-
 ## Source
 
 Adapted from [WooCommerce official skills](https://github.com/woocommerce/woocommerce/tree/trunk/.ai/skills/woocommerce-dev-cycle)

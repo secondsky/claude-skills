@@ -1,0 +1,311 @@
+---
+/**
+ * Astro Page Template for Cloudflare Workers
+ *
+ * Production-ready patterns for:
+ * - SSR with Cloudflare bindings
+ * - Dynamic routes
+ * - API endpoints
+ * - Islands architecture
+ *
+ * Usage:
+ * 1. Copy to src/pages/
+ * 2. Configure astro.config.mjs with cloudflare adapter
+ * 3. Set up wrangler.jsonc
+ * 4. Run: bun run dev
+ */
+
+// ============================================
+// TYPES
+// ============================================
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  created_at: string;
+}
+
+interface Props {
+  user?: User;
+  users?: User[];
+  error?: string;
+}
+
+// ============================================
+// DATA FETCHING
+// ============================================
+
+export const prerender = false; // SSR mode
+
+const runtime = Astro.locals.runtime;
+const { DB } = runtime.env;
+
+// Get user ID from URL params (for dynamic routes like [id].astro)
+const { id } = Astro.params;
+
+let user: User | null = null;
+let users: User[] = [];
+let error: string | null = null;
+
+try {
+  if (id) {
+    // Single user page
+    user = await DB.prepare('SELECT * FROM users WHERE id = ?')
+      .bind(id)
+      .first<User>();
+
+    if (!user) {
+      return Astro.redirect('/404');
+    }
+  } else {
+    // User list page
+    const { results } = await DB.prepare(
+      'SELECT * FROM users ORDER BY created_at DESC LIMIT 50'
+    ).all<User>();
+    users = results;
+  }
+} catch (e) {
+  console.error('Database error:', e);
+  error = 'Failed to load data';
+}
+
+// Handle form submission
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData();
+  const intent = formData.get('intent');
+
+  if (intent === 'create') {
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+
+    if (name && email) {
+      try {
+        await DB.prepare('INSERT INTO users (name, email) VALUES (?, ?)')
+          .bind(name.trim(), email.trim())
+          .run();
+        return Astro.redirect('/users');
+      } catch (e) {
+        error = 'Failed to create user';
+      }
+    }
+  }
+
+  if (intent === 'update' && id) {
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+
+    if (name && email) {
+      try {
+        await DB.prepare('UPDATE users SET name = ?, email = ? WHERE id = ?')
+          .bind(name.trim(), email.trim(), id)
+          .run();
+        return Astro.redirect(`/users/${id}`);
+      } catch (e) {
+        error = 'Failed to update user';
+      }
+    }
+  }
+
+  if (intent === 'delete' && id) {
+    try {
+      await DB.prepare('DELETE FROM users WHERE id = ?').bind(id).run();
+      return Astro.redirect('/users');
+    } catch (e) {
+      error = 'Failed to delete user';
+    }
+  }
+}
+
+// Set caching headers
+Astro.response.headers.set(
+  'Cache-Control',
+  'private, max-age=60, stale-while-revalidate=300'
+);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{user ? user.name : 'Users'} | My App</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; }
+    .error { background: #fee; border: 1px solid #f00; padding: 1rem; margin-bottom: 1rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.25rem; font-weight: 500; }
+    input { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-primary { background: #0066cc; color: white; }
+    .btn-danger { background: #cc0000; color: white; }
+    .user-list { list-style: none; padding: 0; }
+    .user-item { padding: 1rem; border-bottom: 1px solid #eee; }
+    .user-item a { text-decoration: none; color: inherit; }
+    .user-item:hover { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a> |
+    <a href="/users">Users</a>
+  </nav>
+
+  <main>
+    {error && <div class="error">{error}</div>}
+
+    {user ? (
+      <!-- Single User View -->
+      <div>
+        <h1>{user.name}</h1>
+        <p>{user.email}</p>
+        <p><small>Created: {new Date(user.created_at).toLocaleDateString()}</small></p>
+
+        <h2>Edit User</h2>
+        <form method="POST">
+          <input type="hidden" name="intent" value="update" />
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value={user.name} required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value={user.email} required />
+          </div>
+
+          <button type="submit" class="btn-primary">Update</button>
+        </form>
+
+        <hr />
+
+        <form method="POST" onsubmit="return confirm('Are you sure?')">
+          <input type="hidden" name="intent" value="delete" />
+          <button type="submit" class="btn-danger">Delete User</button>
+        </form>
+      </div>
+    ) : (
+      <!-- User List View -->
+      <div>
+        <h1>Users</h1>
+
+        <h2>Add New User</h2>
+        <form method="POST">
+          <input type="hidden" name="intent" value="create" />
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Create User</button>
+        </form>
+
+        <hr />
+
+        <h2>All Users ({users.length})</h2>
+        <ul class="user-list">
+          {users.map((u) => (
+            <li class="user-item">
+              <a href={`/users/${u.id}`}>
+                <strong>{u.name}</strong>
+                <br />
+                <small>{u.email}</small>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {users.length === 0 && <p>No users found.</p>}
+      </div>
+    )}
+  </main>
+</body>
+</html>
+
+<!--
+============================================
+API ENDPOINT (src/pages/api/users.ts)
+============================================
+
+import type { APIRoute } from 'astro';
+
+export const GET: APIRoute = async ({ locals }) => {
+  const { DB } = locals.runtime.env;
+
+  const { results } = await DB.prepare(
+    'SELECT * FROM users ORDER BY created_at DESC'
+  ).all();
+
+  return new Response(JSON.stringify(results), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+export const POST: APIRoute = async ({ request, locals }) => {
+  const { DB } = locals.runtime.env;
+  const data = await request.json();
+
+  if (!data.name || !data.email) {
+    return new Response(
+      JSON.stringify({ error: 'Name and email required' }),
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  const result = await DB.prepare(
+    'INSERT INTO users (name, email) VALUES (?, ?) RETURNING *'
+  )
+    .bind(data.name, data.email)
+    .first();
+
+  return new Response(JSON.stringify(result), {
+    status: 201,
+    headers: { 'Content-Type': 'application/json' },
+  });
+};
+
+============================================
+ENV.D.TS TYPES
+============================================
+
+/// <reference types="astro/client" />
+
+interface Env {
+  DB: D1Database;
+  KV: KVNamespace;
+  R2: R2Bucket;
+  ENVIRONMENT: string;
+}
+
+type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
+
+declare namespace App {
+  interface Locals extends Runtime {}
+}
+
+============================================
+ASTRO.CONFIG.MJS
+============================================
+
+import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
+
+export default defineConfig({
+  output: 'server',
+  adapter: cloudflare({
+    imageService: 'cloudflare',
+    platformProxy: {
+      enabled: true,
+    },
+  }),
+});
+-->

@@ -143,15 +143,6 @@ pnpm dlx ai-elements@latest add message conversation response prompt-input
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~25,000 | 6-8 | ~3 hours |
-| **With This Skill** | ~8,000 | 0 ✅ | ~15 min |
-| **Savings** | **~68%** | **100%** | **~92%** |
-
----
 
 ## Package Versions (Verified 2025-11-07)
 

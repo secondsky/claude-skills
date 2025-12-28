@@ -1,0 +1,27 @@
+{
+  "name": "kv-config-management-example",
+  "main": "index.ts",
+  "compatibility_date": "2025-10-11",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "kv_namespaces": [
+    {
+      "binding": "CONFIG",
+      "id": "YOUR_PRODUCTION_NAMESPACE_ID",
+      "preview_id": "YOUR_PREVIEW_NAMESPACE_ID"
+    }
+  ],
+
+  "dev": {
+    "port": 8787
+  }
+}
+
+/*
+ * Setup:
+ * 1. bunx wrangler kv namespace create CONFIG
+ * 2. bunx wrangler kv namespace create CONFIG --preview
+ * 3. Update IDs above
+ * 4. bun add hono && bun add -D @cloudflare/workers-types
+ * 5. bunx wrangler dev
+ */

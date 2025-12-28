@@ -195,24 +195,6 @@ npm install react-hook-form@7.65.0 zod@4.1.12 @hookform/resolvers@5.2.2
 
 ---
 
-## Token Efficiency
-
-**Manual Setup** (without skill):
-- Initial implementation: ~6,000 tokens
-- Debugging validation errors: ~3,000 tokens
-- Adding advanced features: ~2,000 tokens
-- **Total**: ~10,000 tokens
-
-**With Skill**:
-- Direct implementation: ~3,000 tokens
-- Minimal debugging: ~500 tokens
-- Advanced features: ~500 tokens
-- **Total**: ~4,000 tokens
-
-**Savings**: ~60% (6,000 tokens saved)
-
----
-
 ## Templates Included
 
 1. **basic-form.tsx** - Simple login/signup form

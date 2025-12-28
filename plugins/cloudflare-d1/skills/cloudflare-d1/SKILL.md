@@ -10,8 +10,8 @@ description: Cloudflare D1 serverless SQLite on edge. Use for databases, migrati
   bookmarks, sequential consistency
 license: MIT
 metadata:
-  version: "2.0.0"
-  last_verified: "2025-11-25"
+  version: "3.0.0"
+  last_verified: "2025-01-15"
   production_tested: true
   token_savings: "~58%"
   errors_prevented: 8
@@ -24,7 +24,7 @@ metadata:
 
 # Cloudflare D1 Database
 
-**Status**: Production Ready ✅ | **Last Verified**: 2025-11-25
+**Status**: Production Ready ✅ | **Last Verified**: 2025-01-15
 
 ## Table of Contents
 1. [What Is D1?](#what-is-d1)
@@ -47,6 +47,37 @@ Cloudflare D1 is **serverless SQLite** on the edge:
 - Zero cold starts
 - Standard SQLite syntax
 - Read replication for global performance
+
+---
+
+## 🆕 New in 2025
+
+D1 received major updates throughout 2025:
+
+### Performance (January 2025)
+- **40-60% latency reduction** globally (P50 query times)
+- Optimized SQLite engine for edge execution
+- Reduced cold start impact for databases <100 MB
+
+### Reliability (September 2025)
+- **Automatic query retries**: Read queries retry up to 2x on transient failures
+- Transparent to application code (logged in `wrangler tail`)
+
+### Scalability (April 2025)
+- **Read Replication (Public Beta)**: Deploy read replicas globally
+- Up to 2x read throughput for read-heavy workloads
+- Sessions API for read-write separation
+
+### Compliance (November 2025)
+- **Data Localization**: Specify EU/US jurisdiction for GDPR/data sovereignty
+- Configure via `--jurisdiction` flag or wrangler.jsonc
+
+### ⚠️ Breaking Change (February 10, 2025)
+- **Free tier hard limits enforced**: 10 DBs, 500 MB each, 50 queries/invocation
+- Exceeding limits = 429 errors (previously warnings only)
+- **Action**: Review usage with `wrangler d1 list` and upgrade if needed
+
+**Full details**: Load `references/2025-features.md`
 
 ---
 
@@ -434,6 +465,34 @@ PRAGMA optimize;
 - Schema design decisions
 - Index strategies
 - Production deployment checklist
+
+### Load `references/limits.md` when:
+- Encountering 429 errors or quota warnings
+- Planning capacity for free vs paid tiers
+- Understanding database/query limits
+- Migrating to paid plan
+
+### Load `references/metrics-analytics.md` when:
+- Investigating performance issues
+- Setting up monitoring and alerts
+- Using `wrangler d1 insights` command
+- Analyzing query efficiency
+
+### Load `references/2025-features.md` when:
+- Upgrading from v2.x to v3.x
+- Enabling new features (auto-retry, jurisdiction, replication)
+- Understanding breaking changes (Feb 10, 2025 enforcement)
+- Migrating before deadlines
+
+### Interactive Tools
+
+**Agents** (Autonomous diagnostics):
+- **`agents/d1-debugger.md`**: 9-phase diagnostic (config, migrations, queries, bindings, errors, limits, performance, Time Travel)
+- **`agents/d1-query-optimizer.md`**: Performance analysis (slow queries, missing indexes, optimization recommendations)
+
+**Commands** (Interactive wizards):
+- **`commands/d1-setup.md`**: Interactive first-time setup wizard
+- **`commands/d1-create-migration.md`**: Guided migration creation with validation
 
 ---
 

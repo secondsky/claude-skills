@@ -188,25 +188,6 @@ return fetch('https://example.com/image.jpg', {
 
 ---
 
-## Token Efficiency
-
-**Manual Setup** (estimated):
-- Trial-and-error with CORS: ~2,000 tokens
-- Learning transformation options: ~3,000 tokens
-- Implementing direct upload: ~2,500 tokens
-- Debugging error codes: ~2,500 tokens
-- **Total**: ~10,000 tokens, 3-4 errors
-
-**With This Skill**:
-- Guided setup: ~2,000 tokens
-- Template usage: ~1,500 tokens
-- Reference lookups: ~500 tokens
-- **Total**: ~4,000 tokens, 0 errors
-
-**Savings**: ~60% (6,000 tokens saved, 100% error prevention)
-
----
-
 ## What's Included
 
 ### Templates (11 files)

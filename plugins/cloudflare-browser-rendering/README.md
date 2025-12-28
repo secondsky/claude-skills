@@ -113,25 +113,6 @@ Claude will automatically suggest this skill when you mention any of these keywo
 
 ---
 
-## Token Efficiency
-
-### Manual Browser Rendering Setup (Without Skill):
-- Configure browser binding: 600 tokens
-- Learn Puppeteer API: 2,000 tokens
-- Implement screenshots: 1,200 tokens
-- Implement scraping: 1,500 tokens
-- Add session management: 2,000 tokens
-- Handle errors: 1,000 tokens
-- Debug XPath issues: 800 tokens
-- **Total: ~9,100 tokens**
-
-### With cloudflare-browser-rendering Skill:
-- Reference skill templates: 2,000 tokens
-- Customize for your use case: 1,500 tokens
-- **Total: ~3,500 tokens**
-
-**Savings: ~62% token reduction** (5,600 tokens saved)
-
 ---
 
 ## When to Use This Skill

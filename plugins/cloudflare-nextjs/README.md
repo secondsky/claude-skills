@@ -204,18 +204,6 @@ npm run deploy   # Deploy
 }
 ```
 
-## Token Efficiency
-
-**Estimated Token Savings**: ~59%
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| New project setup | ~15k tokens | ~6k tokens | ~60% |
-| Existing migration | ~18k tokens | ~7k tokens | ~61% |
-| Troubleshooting | ~10k tokens | ~3k tokens | ~70% |
-
-**Errors Prevented**: 10+ documented issues with sources and solutions
-
 ## Version Information
 
 **Package Versions** (verified 2025-10-21):

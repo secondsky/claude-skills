@@ -148,16 +148,6 @@ bun add @pinia/nuxt @pinia/colada-nuxt
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~12,000 | 3-5 | ~30 min |
-| **With This Skill** | ~4,200 | 0 ✅ | ~5 min |
-| **Savings** | **~65%** | **100%** | **~83%** |
-
----
-
 ## Package Versions (Verified 2025-11-11)
 
 | Package | Version | Status |

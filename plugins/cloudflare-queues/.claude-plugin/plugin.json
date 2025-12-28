@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-queues",
-  "description": "Cloudflare Queues for async processing and background jobs. Use for message queues, batch processing, retries, or encountering timeout, retry, throughput errors.",
+  "description": "This skill should be used when the user asks to \"set up Cloudflare Queues\", \"create a message queue\", \"implement queue consumer\", \"process background jobs\", \"configure queue retry logic\", \"publish messages to queue\", \"implement dead letter queue\", or encountering \"queue timeout\", \"message retry\", \"throughput exceeded\", \"queue backlog\" errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -15,6 +15,28 @@
     "workers",
     "edge",
     "wrangler",
-    "async"
+    "async",
+    "message-queue",
+    "background-jobs",
+    "dead-letter-queue",
+    "dlq",
+    "retry",
+    "consumer",
+    "producer",
+    "batch-processing",
+    "throughput",
+    "backlog",
+    "pull-consumer",
+    "http-publish",
+    "r2-events"
+  ],
+  "agents": [
+    "./agents/queue-debugger.md",
+    "./agents/queue-optimizer.md"
+  ],
+  "commands": [
+    "./commands/queue-setup.md",
+    "./commands/queue-troubleshoot.md",
+    "./commands/queue-monitor.md"
   ]
 }

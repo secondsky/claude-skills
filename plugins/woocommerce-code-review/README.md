@@ -34,12 +34,6 @@ This skill references other WooCommerce skills:
 - `woocommerce-copy-guidelines` - UI text standards
 - `woocommerce-dev-cycle` - Testing and linting standards
 
-## Token Efficiency
-
-- Estimated savings: ~70% vs manual review guidelines research
-- Errors prevented: Inconsistent reviews, missed violations
-- Coverage: Complete code review workflow
-
 ## Source
 
 Adapted from [WooCommerce official skills](https://github.com/woocommerce/woocommerce/tree/trunk/.ai/skills/woocommerce-code-review)

@@ -1,14 +1,14 @@
 # Claude Skills - Project Structure
 
-**Generated**: 2025-12-22
+**Generated**: 2025-12-28
 **Repository**: https://github.com/secondsky/claude-skills
 
 ---
 
 ## Repository Overview
 
-**Total Size**: 19.8MB | **Files**: 2,588
-**Top File Types**: `.md` (1,156), `.ts` (337), `.json` (299), `.html` (127), `.sh` (124)
+**Total Size**: 21.8MB | **Files**: 2,797
+**Top File Types**: `.md` (1,332), `.ts` (378), `.json` (241), `.sh` (160), `.html` (128)
 
 This document provides a comprehensive overview of the claude-skills repository structure, generated using [codemap](https://github.com/JordanCoin/codemap).
 
@@ -34,14 +34,13 @@ claude-skills/
 
 ## Directory Details
 
-### `.claude-plugin/` (181.3KB, 2 files)
+### `.claude-plugin/` (95.8KB, 1 file)
 
 Plugin marketplace configuration for Claude Code.
 
 ```
 .claude-plugin/
-├── marketplace.json         # Main marketplace manifest (255KB)
-└── marketplace.json.backup  # Backup of marketplace
+└── marketplace.json         # Main marketplace manifest
 ```
 
 **Purpose**: Defines 58 plugins containing 169 skills for Claude Code's plugin marketplace.
@@ -99,25 +98,27 @@ examples/
 
 ---
 
-### `planning/` (183.7KB, 13 files)
+### `planning/` (233.2KB, 14 files)
 
 Planning documents, research protocols, and standards.
 
 ```
 planning/
+├── archive/                          # Archived/historical documents
+│   ├── COMPLETED_REVIEWS.md          # Completed skill reviews log
+│   ├── MIGRATION_GUIDE.md            # Migration documentation
+│   ├── SKILLS_REVIEW_PROGRESS.md     # Review progress tracking
+│   ├── SKILL_REVIEW_PROCESS.md       # Review workflow
+│   ├── skills_workflow.md            # Skill workflow (archived)
+│   ├── subagent-workflow.md          # Subagent usage patterns
+│   └── verification-checklist.md     # Quality verification checklist
 ├── COMMON_MISTAKES.md                # Learn from past failures
-├── COMPLETED_REVIEWS.md              # Completed skill reviews log
-├── MIGRATION_GUIDE.md                # Migration documentation
 ├── SKILL_CATEGORIZATION.md           # Skill organization system
 ├── SKILL_COUNT_RECONCILIATION.md     # Plugin/skill count tracking
-├── SKILL_REVIEW_PROCESS.md           # Review workflow
-├── SKILLS_REVIEW_PROGRESS.md         # Review progress tracking
 ├── STANDARDS_COMPARISON.md           # Official vs our standards
 ├── claude-code-skill-standards.md    # Our skill standards
 ├── lost-info.md                      # Information recovery tracking
-├── research-protocol.md              # Research methodology
-├── subagent-workflow.md              # Subagent usage patterns
-└── verification-checklist.md         # Quality verification checklist
+└── research-protocol.md              # Research methodology
 ```
 
 **Key Documents**:
@@ -127,7 +128,7 @@ planning/
 
 ---
 
-### `plugins/` (18.2MB, 2,498 files)
+### `plugins/` (21.0MB, 2,737 files)
 
 **58 plugins** organizing **169 individual skills** by domain.
 
@@ -287,9 +288,7 @@ Automation and utility scripts for managing skills and plugins.
 ```
 scripts/
 ├── sync-plugins.sh                # ⭐ Main entry point - syncs all plugin data
-├── generate-marketplace.sh        # Generate marketplace.json
-├── generate-plugin-manifests.sh   # [DEPRECATED] Use sync-plugins.sh
-├── populate-keywords.sh           # [DEPRECATED] Use sync-plugins.sh
+├── generate-marketplace.sh        # Generate marketplace.json (used by sync-plugins.sh)
 ├── install-skill.sh               # Install single skill to ~/.claude/skills/
 ├── install-all.sh                 # Install all skills
 ├── check-versions.sh              # Verify package versions are current
@@ -374,7 +373,7 @@ claude-skills/
 ├── MIGRATION_SUMMARY.md            # Migration tracking
 ├── CLAUDE_SKILLS_DOCUMENTATION.md  # Comprehensive documentation
 ├── MARKETPLACE.md                  # Marketplace overview
-├── MARKETPLACE_skill.md            # Marketplace skill details
+├── MARKETPLACE_MANAGEMENT.md       # Marketplace management details
 ├── LICENSE                         # MIT License
 ├── migra.md                        # Migration notes
 └── plan.md                         # Planning notes
@@ -447,18 +446,18 @@ Every skill follows this canonical structure:
 
 ## File Type Distribution
 
-**Total**: 2,588 files across 19.8MB
+**Total**: 2,797 files across 21.8MB
 
 | Extension | Count | Purpose |
 |-----------|-------|---------|
-| `.md` | 1,156 | Documentation (SKILL.md, README.md, references/) |
-| `.ts` | 337 | TypeScript templates and examples |
-| `.json` | 299 | Config files (plugin.json, package.json, wrangler.jsonc) |
-| `.html` | 127 | HTML templates and examples |
-| `.sh` | 124 | Shell scripts for automation |
+| `.md` | 1,332 | Documentation (SKILL.md, README.md, references/) |
+| `.ts` | 378 | TypeScript templates and examples |
+| `.json` | 241 | Config files (plugin.json, package.json, wrangler.jsonc) |
+| `.sh` | 160 | Shell scripts for automation |
+| `.html` | 128 | HTML templates and examples |
 | `.tsx` | ~200 | React/Vue component templates |
 | `.js` | ~150 | JavaScript examples and helpers |
-| Other | ~195 | CSS, Python, Swift, config files |
+| Other | ~208 | CSS, Python, Swift, config files |
 
 ---
 
@@ -630,17 +629,17 @@ tree scripts/
 ## Statistics Summary
 
 **Repository**:
-- Total Size: 19.8MB
-- Total Files: 2,588
+- Total Size: 21.8MB
+- Total Files: 2,797
 - Total Plugins: 58
 - Total Skills: 169
 
 **File Types**:
-- Markdown: 1,156 files (documentation)
-- TypeScript: 337 files (templates)
-- JSON: 299 files (config)
-- HTML: 127 files (templates)
-- Shell: 124 files (automation)
+- Markdown: 1,332 files (documentation)
+- TypeScript: 378 files (templates)
+- JSON: 241 files (config)
+- Shell: 160 files (automation)
+- HTML: 128 files (templates)
 
 **Skills by Category**:
 - Cloudflare: 23 skills
@@ -664,6 +663,6 @@ tree scripts/
 
 ---
 
-**Last Updated**: 2025-12-22
+**Last Updated**: 2025-12-28
 **Generated with**: [codemap](https://github.com/JordanCoin/codemap)
 **Maintained by**: Claude Skills Team

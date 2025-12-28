@@ -1,0 +1,228 @@
+# Preview Deployment Workflow for Cloudflare Workers
+#
+# Purpose: Deploy Workers preview environments for pull requests
+# Features:
+# - Automatic preview deployment on PR open/update
+# - PR comment with preview URL
+# - Automatic cleanup on PR close
+# - Deployment status checks
+#
+# Usage:
+# 1. Copy to .github/workflows/preview.yml
+# 2. Add secret: CLOUDFLARE_API_TOKEN
+# 3. Update WORKER_NAME
+# 4. Ensure GitHub App has permissions: contents: read, pull-requests: write, deployments: write
+
+name: Preview Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+env:
+  WORKER_NAME: my-worker
+
+jobs:
+  # =====================
+  # Deploy Preview
+  # =====================
+  deploy-preview:
+    name: Deploy Preview
+    if: github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Run Tests
+        run: bun test
+
+      - name: Deploy Preview
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env preview-${{ github.event.number }}
+
+      - name: Get Preview URL
+        id: preview-url
+        run: |
+          PREVIEW_URL="https://${{ env.WORKER_NAME }}-preview-${{ github.event.number }}.workers.dev"
+          echo "url=$PREVIEW_URL" >> $GITHUB_OUTPUT
+
+      - name: Verify Preview Deployment
+        run: |
+          sleep 5
+          curl -f ${{ steps.preview-url.outputs.url }}/health || echo "Warning: Health check failed"
+
+      - name: Comment PR with Preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const previewUrl = '${{ steps.preview-url.outputs.url }}';
+            const commitSha = context.sha.substring(0, 7);
+            const prNumber = context.issue.number;
+
+            // Find existing preview comment
+            const comments = await github.rest.issues.listComments({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+
+            const botComment = comments.data.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Preview Deployment')
+            );
+
+            const body = `## ✅ Preview Deployment
+
+🔗 **Preview URL**: ${previewUrl}
+
+📦 **Commit**: \`${commitSha}\`
+⏰ **Deployed**: ${new Date().toUTCString()}
+
+---
+<sub>This preview will be automatically cleaned up when the PR is closed.</sub>`;
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                comment_id: botComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body,
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                issue_number: prNumber,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body,
+              });
+            }
+
+      - name: Create Deployment Status
+        uses: actions/github-script@v7
+        if: always()
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'preview-${{ github.event.number }}',
+              auto_merge: false,
+              required_contexts: [],
+            });
+
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: deployment.data.id,
+              state: '${{ job.status }}' === 'success' ? 'success' : 'failure',
+              environment_url: '${{ steps.preview-url.outputs.url }}',
+            });
+
+  # =====================
+  # Cleanup Preview
+  # =====================
+  cleanup-preview:
+    name: Cleanup Preview
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Delete Preview Worker
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: delete --name ${{ env.WORKER_NAME }}-preview-${{ github.event.number }}
+        continue-on-error: true
+
+      - name: Comment PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🧹 Preview deployment cleaned up.',
+            });
+
+  # =====================
+  # Advanced: Multi-Region Preview
+  # =====================
+  deploy-preview-multi-region:
+    name: Deploy Preview (Multi-Region)
+    if: github.event.action != 'closed' && false  # Disabled by default
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        region: [us, eu, apac]
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install Dependencies
+        run: bun install
+
+      - name: Deploy Preview to ${{ matrix.region }}
+        uses: cloudflare/wrangler-action@v4
+        with:
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          command: deploy --env preview-${{ github.event.number }}-${{ matrix.region }}
+
+      - name: Get Regional Preview URL
+        id: preview-url
+        run: |
+          echo "url=https://${{ env.WORKER_NAME }}-preview-${{ github.event.number }}-${{ matrix.region }}.workers.dev" >> $GITHUB_OUTPUT
+
+      - name: Comment Regional Preview URL
+        uses: actions/github-script@v7
+        if: matrix.region == 'us'  # Only comment once
+        with:
+          script: |
+            const regions = ['us', 'eu', 'apac'];
+            const prNumber = context.issue.number;
+            const workerName = '${{ env.WORKER_NAME }}';
+
+            const urls = regions.map(region =>
+              `- **${region.toUpperCase()}**: https://${workerName}-preview-${prNumber}-${region}.workers.dev`
+            ).join('\n');
+
+            github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ✅ Multi-Region Preview Deployment\n\n${urls}\n\n📦 **Commit**: \`${context.sha.substring(0, 7)}\``,
+            });

@@ -186,21 +186,6 @@ Claude: [Executes the workflow automatically]
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Setup |
-|----------|------------|-------------------|---------------|
-| **Manual Setup** | ~8,500 | 2-3 | ~15 min |
-| **With This Skill** | ~3,800 | 0 ✅ | ~5 min |
-| **Savings** | **~55%** ⬇️ | **100%** ✅ | **~67%** ⬇️ |
-
-**Evidence**:
-- Manual approach: Trial-and-error with bash commands, debugging pipes, figuring out hooks syntax
-- With skill: Load metadata + reference patterns + apply directly
-- Measured across multiple production projects
-
----
-
 ## Package Versions (Verified 2025-11-07)
 
 | Package/Tool | Version | Status |

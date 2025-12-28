@@ -178,22 +178,6 @@ export default MyAgent;
 
 ---
 
-## Token Efficiency
-
-**Manual Setup (without skill):**
-- ~15,000-20,000 tokens
-- 4-6 errors encountered
-- 2-4 hours debugging
-
-**With This Skill:**
-- ~5,000-7,000 tokens
-- 0 errors (known issues prevented)
-- 15-30 minutes setup
-
-**Savings: ~65-70% tokens, 100% error prevention**
-
----
-
 ## What's Included
 
 ### SKILL.md (1300+ lines)

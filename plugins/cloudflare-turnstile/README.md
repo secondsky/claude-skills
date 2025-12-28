@@ -163,16 +163,6 @@ export default {
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~10-12k | 2-4 | ~25-30 min |
-| **With This Skill** | ~3-4k | 0 ✅ | ~10 min |
-| **Savings** | **~65-70%** | **100%** | **~60-70%** |
-
----
-
 ## Package Versions (Verified 2025-10-22)
 
 | Package | Version | Status |

@@ -1,0 +1,16 @@
+{
+  "name": "cloudflare-images-private-images",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-01-15",
+  "account_id": "YOUR_ACCOUNT_ID",
+
+  // Environment variables (for local development)
+  "vars": {
+    "CF_ACCOUNT_HASH": "your_account_hash"
+  }
+
+  // For production, use secrets instead:
+  // wrangler secret put CF_ACCOUNT_ID
+  // wrangler secret put CF_API_TOKEN
+  // wrangler secret put CF_IMAGES_SIGNING_KEY
+}

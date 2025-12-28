@@ -1,14 +1,16 @@
 # better-auth Skill
 
-**Production-ready authentication for TypeScript with Cloudflare D1 support**
+**Production-ready authentication for TypeScript with Cloudflare D1 support + 18 frameworks**
 
 ---
 
 ## What This Skill Does
 
-Provides complete patterns for implementing authentication with **better-auth**, a comprehensive TypeScript auth framework. Includes support for Cloudflare Workers + D1 via **Drizzle ORM** or **Kysely** (no direct D1 adapter exists), making it an excellent self-hosted alternative to Clerk or Auth.js.
+Provides complete patterns for implementing authentication with **better-auth**, a comprehensive TypeScript auth framework. Primary focus on Cloudflare Workers + D1 via **Drizzle ORM** or **Kysely**, with additional reference files for Next.js, Nuxt, Remix, SvelteKit, Express, and more.
 
 **⚠️ v2.0.0 Breaking Change**: Previous skill version incorrectly documented a non-existent `d1Adapter()`. This version corrects all patterns to use Drizzle ORM or Kysely as required by better-auth.
+
+**🆕 v2.2.0**: Updated to better-auth@1.4.9 with comprehensive framework, database, and plugin references.
 
 ---
 
@@ -30,6 +32,12 @@ This skill should be automatically invoked when you mention:
 - **"2FA authentication"** - Two-factor auth setup
 - **"passkeys"** - Passwordless auth
 - **"magic link auth"** - Email-based passwordless
+- **"better-auth CLI"** - CLI tool usage
+- **"SAML authentication"** - SAML/SSO setup
+- **"OAuth 2.1"** - Standards compliance
+- **"better-auth Next.js"** - Next.js integration
+- **"better-auth Nuxt"** - Nuxt 3 integration
+- **"better-auth Stripe"** - Payment integration
 
 ---
 
@@ -56,14 +64,14 @@ This skill should be automatically invoked when you mention:
 
 ### Patterns Included
 
-1. **Cloudflare Workers + D1** - Complete Worker setup with D1 adapter
-2. **Next.js API Routes** - Traditional server setup with PostgreSQL
-3. **React Client Integration** - Hooks and components for auth state
-4. **Protected Routes** - Middleware patterns for session verification
-5. **Social Providers** - Google, GitHub, Microsoft OAuth setup
-6. **Advanced Features** - 2FA, organizations, multi-tenant, rate limiting
-7. **Migration Guides** - From Clerk and Auth.js
-8. **Database Setup** - D1 and PostgreSQL schema patterns
+1. **Cloudflare Workers + D1** - Complete Worker setup with Drizzle/Kysely
+2. **18 Frameworks** - Next.js, Nuxt, Remix, SvelteKit, Express, Fastify, NestJS, Hono, Expo
+3. **9 Database Adapters** - PostgreSQL, MongoDB, MySQL, D1, SQLite, Prisma, and more
+4. **30+ Plugins** - 2FA, passkeys, organizations, SSO/SAML, SCIM, Stripe, API keys
+5. **45+ OAuth Providers** - Google, GitHub, Microsoft, Apple, Discord, Patreon, Vercel
+6. **Migration Guides** - From Clerk, Auth.js, Auth0, Supabase, WorkOS
+7. **Interactive Commands** - `/better-auth-setup`, `/better-auth-add-plugin`
+8. **Debugging Agent** - Autonomous auth issue diagnosis
 
 ### Errors Prevented (12 Common Issues)
 
@@ -80,14 +88,27 @@ This skill should be automatically invoked when you mention:
 - ✅ Multi-tenant data leakage
 - ✅ Rate limit false positives
 
-### Reference Files
+### Reference Files (23 total)
 
-- **`scripts/setup-d1.sh`** - Automated D1 database setup
-- **`references/cloudflare-worker-example.ts`** - Complete Worker implementation
-- **`references/nextjs-api-route.ts`** - Next.js patterns
-- **`references/react-client-hooks.tsx`** - React components
-- **`references/drizzle-schema.ts`** - Database schema
-- **`assets/auth-flow-diagram.md`** - Visual flow diagrams
+**Core**:
+- **`references/setup-guide.md`** - 8-step D1 setup walkthrough
+- **`references/error-catalog.md`** - 15 errors with solutions
+- **`references/advanced-features.md`** - 2FA, organizations, migrations
+- **`references/v1.4-features.md`** - Background tasks, new OAuth, CLI
+
+**Frameworks** (`references/frameworks/`):
+- **nextjs.md**, **nuxt.md**, **remix.md**, **sveltekit.md**, **api-frameworks.md**, **expo-mobile.md**
+
+**Databases** (`references/databases/`):
+- **postgresql.md**, **mongodb.md**, **mysql.md**
+
+**Plugins** (`references/plugins/`):
+- **authentication.md** (2FA, passkeys), **enterprise.md** (SSO, SCIM), **api-tokens.md** (JWT, OIDC), **payments.md** (Stripe)
+
+**Scripts**:
+- **`scripts/generate-secret.sh`** - Generate BETTER_AUTH_SECRET
+- **`scripts/validate-config.ts`** - Validate auth configuration
+- **`scripts/test-auth-health.sh`** - Test auth endpoints
 
 ---
 
@@ -182,8 +203,9 @@ bun add better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono  # pr
 
 - **Docs**: https://better-auth.com
 - **GitHub**: https://github.com/better-auth/better-auth (22.4k ⭐)
-- **Package**: `better-auth@1.3.34`
+- **Package**: `better-auth@1.4.9`
 - **Examples**: https://github.com/better-auth/better-auth/tree/main/examples
+- **Changelog**: https://www.better-auth.com/changelogs
 
 ---
 
@@ -212,11 +234,11 @@ bun add pg drizzle-orm  # preferred
 
 ## Version Info
 
-- **Skill Version**: 2.0.0 (Breaking Change - Corrected D1 adapter patterns)
-- **Package Version**: better-auth@1.3.34
-- **Drizzle ORM**: drizzle-orm@0.36.0, drizzle-kit@0.28.0
-- **Kysely**: kysely@0.27.0, @noxharmonium/kysely-d1@2.3.0
-- **Last Verified**: 2025-11-08
+- **Skill Version**: 2.2.0 (Comprehensive framework/database/plugin coverage)
+- **Package Version**: better-auth@1.4.9
+- **Drizzle ORM**: drizzle-orm@0.45.1, drizzle-kit@0.31.8
+- **Kysely**: kysely@0.28.9, @noxharmonium/kysely-d1@0.4.0
+- **Last Verified**: 2025-12-28
 - **Compatibility**: Node.js 18+, Bun 1.0+, Cloudflare Workers
 
 ---

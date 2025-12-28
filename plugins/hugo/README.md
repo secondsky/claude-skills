@@ -143,16 +143,6 @@ npx wrangler deploy
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~13,000-16,000 | 3-5 typical | ~45-60 min |
-| **With This Skill** | ~5,000-6,000 | 0 ✅ | ~5-10 min |
-| **Savings** | **~60-65%** | **100%** | **~85%** |
-
----
-
 ## Package Versions (Verified 2025-11-04)
 
 | Package | Version | Status |

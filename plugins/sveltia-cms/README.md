@@ -210,17 +210,6 @@ This skill prevents 100% of common Sveltia CMS errors:
 
 ---
 
-## Token Efficiency
-
-**Estimated Savings**: 60-65% (~9,000 tokens saved)
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Setup & Configuration | ~14,000 tokens | ~5,000 tokens | **~64%** |
-| Error Resolution | Trial & error | Prevented | **100%** |
-
----
-
 ## Quick Examples
 
 ### Example 1: Hugo Blog with Cloudflare OAuth

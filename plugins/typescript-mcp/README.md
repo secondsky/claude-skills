@@ -143,15 +143,6 @@ npm run deploy
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~10,000-15,000 | 3-5 | ~60-90 min |
-| **With This Skill** | ~3,000-5,000 | 0 ✅ | ~15-20 min |
-| **Savings** | **~70%** | **100%** | **~75%** |
-
----
 
 ## Package Versions (Verified 2025-10-28)
 

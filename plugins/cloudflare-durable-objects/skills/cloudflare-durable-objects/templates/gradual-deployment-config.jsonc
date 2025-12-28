@@ -1,0 +1,327 @@
+/**
+ * Gradual Deployment Configuration for Cloudflare Workers
+ *
+ * Enables:
+ * - Traffic splitting between versions (canary deployments)
+ * - Version-specific Durable Object routing
+ * - Safe rollout strategies
+ * - Quick rollback capability
+ *
+ * Critical Notes:
+ * ⚠️ Durable Objects: Only ONE version runs per DO instance
+ * ⚠️ Migrations: CANNOT be uploaded as versions
+ * ⚠️ Version Affinity: Use ctx.id.name patterns to prevent version skew
+ *
+ * See: references/gradual-deployments.md for complete guide
+ */
+
+{
+  // ============================================================================
+  // Example 1: Basic Canary Deployment (10% Traffic to New Version)
+  // ============================================================================
+
+  "name": "my-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-10-01",
+
+  /**
+   * Upload new version without traffic:
+   * wrangler versions upload --tag v2 --message "New feature"
+   *
+   * Deploy with 10% traffic:
+   * wrangler versions deploy v2@10% --message "Canary deployment"
+   *
+   * Result:
+   * - 90% of requests go to previous version
+   * - 10% of requests go to v2 (canary)
+   * - Monitor metrics for errors/performance
+   */
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "COUNTER",
+        "class_name": "Counter",
+        "script_name": "my-worker"
+        // No version specified: All versions share DO instances
+      }
+    ]
+  },
+
+  // ============================================================================
+  // Example 2: Progressive Rollout Strategy
+  // ============================================================================
+
+  /**
+   * Phase 1: Upload new version
+   * wrangler versions upload --tag v3.0.0 --message "Major feature release"
+   *
+   * Phase 2: Canary (5% traffic)
+   * wrangler versions deploy v3.0.0@5% --message "Canary testing"
+   * - Monitor for 1 hour
+   * - Check error rates, latency, DO behavior
+   *
+   * Phase 3: Expand (25% traffic)
+   * wrangler versions deploy v3.0.0@25% --message "Expand rollout"
+   * - Monitor for 4 hours
+   * - Verify DO coordination patterns work
+   *
+   * Phase 4: Majority (75% traffic)
+   * wrangler versions deploy v3.0.0@75% --message "Majority rollout"
+   * - Monitor for 12 hours
+   * - Final checks before full rollout
+   *
+   * Phase 5: Full Deployment (100% traffic)
+   * wrangler versions deploy v3.0.0@100% --message "Full rollout"
+   * - All traffic on new version
+   * - Old version still available for quick rollback
+   *
+   * Rollback (if issues detected):
+   * wrangler versions deploy v2.5.0@100% --message "Rollback to stable"
+   */
+
+  // ============================================================================
+  // Example 3: Version Affinity Pattern for Durable Objects
+  // ============================================================================
+
+  /**
+   * Problem: DO instance sees requests from multiple versions
+   * Solution: Use version affinity to route specific DOs to specific versions
+   *
+   * Implementation: Hash DO name to determine version
+   */
+
+  // In your Worker code:
+  /*
+  export default {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      const url = new URL(request.url);
+      const doName = url.searchParams.get("doName");
+
+      // Version affinity: Route based on DO name hash
+      const hash = await hashString(doName);
+      const useNewVersion = hash % 100 < 10; // 10% of DOs on new version
+
+      if (useNewVersion) {
+        // Route to new version explicitly
+        // This requires version-specific bindings
+        const id = env.COUNTER_V2.idFromName(doName);
+        const stub = env.COUNTER_V2.get(id);
+        return stub.fetch(request);
+      } else {
+        // Route to stable version
+        const id = env.COUNTER.idFromName(doName);
+        const stub = env.COUNTER.get(id);
+        return stub.fetch(request);
+      }
+    }
+  };
+
+  async function hashString(str: string): Promise<number> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray[0]; // Use first byte
+  }
+  */
+
+  // Configuration for version-specific bindings:
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "COUNTER",
+        "class_name": "Counter",
+        "script_name": "my-worker"
+        // Stable version binding
+      },
+      {
+        "name": "COUNTER_V2",
+        "class_name": "CounterV2",
+        "script_name": "my-worker"
+        // New version binding (separate class name required)
+      }
+    ]
+  },
+
+  // ============================================================================
+  // Example 4: Dashboard-Based Gradual Deployment
+  // ============================================================================
+
+  /**
+   * Alternative: Use Cloudflare Dashboard for visual traffic splitting
+   *
+   * Steps:
+   * 1. Navigate to Workers & Pages > your-worker > Deployments
+   * 2. Click "Create Deployment"
+   * 3. Upload new version
+   * 4. Use traffic slider to split traffic:
+   *    - Drag to 10% for canary
+   *    - Drag to 50% for A/B testing
+   *    - Drag to 100% for full rollout
+   * 5. Click "Save" to apply changes
+   *
+   * Benefits:
+   * - Visual interface (easier than CLI)
+   * - Real-time metrics in dashboard
+   * - Quick rollback with one click
+   *
+   * Drawbacks:
+   * - Less reproducible than wrangler CLI
+   * - No version control for traffic splits
+   * - Manual process (not CI/CD friendly)
+   */
+
+  // ============================================================================
+  // Example 5: Feature Flags with Gradual Deployment
+  // ============================================================================
+
+  /**
+   * Combine gradual deployment with feature flags for fine-grained control
+   */
+
+  // In your Worker code:
+  /*
+  export default {
+    async fetch(request: Request, env: Env): Promise<Response> {
+      const url = new URL(request.url);
+      const userId = url.searchParams.get("userId");
+
+      // Feature flag: Enable new chat feature for 10% of users
+      const enableNewChat = await shouldEnableFeature(userId, "new-chat", 10);
+
+      if (enableNewChat) {
+        // Use new chat implementation
+        const id = env.CHAT_ROOM_V2.idFromName(`room-${userId}`);
+        const stub = env.CHAT_ROOM_V2.get(id);
+        return stub.fetch(request);
+      } else {
+        // Use stable chat implementation
+        const id = env.CHAT_ROOM.idFromName(`room-${userId}`);
+        const stub = env.CHAT_ROOM.get(id);
+        return stub.fetch(request);
+      }
+    }
+  };
+
+  async function shouldEnableFeature(
+    userId: string,
+    featureName: string,
+    percentage: number
+  ): Promise<boolean> {
+    const key = `${userId}:${featureName}`;
+    const hash = await hashString(key);
+    return (hash % 100) < percentage;
+  }
+  */
+
+  // ============================================================================
+  // Example 6: Monitoring Configuration for Gradual Deployments
+  // ============================================================================
+
+  /**
+   * Use wrangler tail to monitor version-specific traffic
+   */
+
+  /**
+   * Terminal 1: Monitor stable version
+   * wrangler tail --version-id <stable-version-id>
+   *
+   * Terminal 2: Monitor canary version
+   * wrangler tail --version-id <canary-version-id>
+   *
+   * Compare:
+   * - Error rates between versions
+   * - Latency (p50, p95, p99)
+   * - DO creation rate
+   * - WebSocket connection count
+   */
+
+  // Add structured logging for version tracking:
+  /*
+  console.log(JSON.stringify({
+    version: env.VERSION, // Set via environment variable
+    event: "do-created",
+    doName: id.toString(),
+    timestamp: Date.now()
+  }));
+  */
+
+  // ============================================================================
+  // Example 7: Rollback Strategy
+  // ============================================================================
+
+  /**
+   * Automated Rollback Criteria:
+   *
+   * 1. Error Rate Spike:
+   *    - Canary error rate > 2x stable error rate
+   *    - Action: Immediate rollback
+   *    - Command: wrangler versions deploy <stable-version>@100%
+   *
+   * 2. Latency Degradation:
+   *    - p95 latency > 2x stable version
+   *    - Action: Reduce canary traffic or rollback
+   *    - Command: wrangler versions deploy <canary-version>@5%
+   *
+   * 3. DO Creation Failures:
+   *    - New version fails to create DOs
+   *    - Action: Immediate rollback
+   *    - Reason: Likely migration or binding issue
+   *
+   * 4. WebSocket Errors:
+   *    - WebSocket hibernation failures
+   *    - Action: Rollback and investigate
+   *    - Check: alarm handlers, setTimeout/setInterval usage
+   *
+   * Manual Rollback (Emergency):
+   * wrangler versions deploy <previous-stable>@100% --message "Emergency rollback"
+   */
+
+  // ============================================================================
+  // Best Practices Summary
+  // ============================================================================
+
+  /**
+   * ✅ DO:
+   * - Upload versions before deploying traffic
+   * - Start with 5-10% canary traffic
+   * - Monitor for 1+ hour before expanding
+   * - Use version affinity for DO routing
+   * - Keep stable version available for quick rollback
+   * - Log version info in all requests
+   * - Test DO coordination patterns in canary
+   *
+   * ❌ DON'T:
+   * - Deploy migrations as versions (use separate wrangler deploy)
+   * - Split traffic to versions with incompatible schemas
+   * - Roll out to 100% without testing at lower percentages
+   * - Mix versions for same DO instance without affinity
+   * - Forget to monitor error rates during rollout
+   * - Deploy breaking changes without version affinity
+   * - Use gradual deployments for urgent hotfixes (use wrangler deploy)
+   */
+
+  // ============================================================================
+  // Wrangler Commands Reference
+  // ============================================================================
+
+  /**
+   * Upload version (no traffic):
+   * wrangler versions upload --tag <version-tag> --message "<description>"
+   *
+   * Deploy with traffic split:
+   * wrangler versions deploy <version-tag>@<percentage> --message "<reason>"
+   *
+   * List versions:
+   * wrangler versions list
+   *
+   * View version details:
+   * wrangler versions view <version-id>
+   *
+   * Rollback to previous version:
+   * wrangler versions deploy <previous-version>@100% --message "Rollback"
+   *
+   * Monitor version traffic:
+   * wrangler tail --version-id <version-id>
+   */
+}

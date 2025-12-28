@@ -169,16 +169,6 @@ return (
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~12,000 | 2-3 (SSR errors, flexbox issues) | ~15 min |
-| **With This Skill** | ~4,500 | 0 ✅ | ~2 min |
-| **Savings** | **~62%** | **100%** | **~87%** |
-
----
-
 ## Package Versions (Verified 2025-11-07)
 
 | Package | Version | Status |

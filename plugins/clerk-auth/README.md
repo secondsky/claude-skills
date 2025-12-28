@@ -150,13 +150,6 @@ This skill includes **comprehensive testing documentation**:
 
 ---
 
-## Token Efficiency: ~67% Savings
-
-**Manual**: ~18,000 tokens, 2-3 errors
-**With Skill**: ~6,000 tokens, 0 errors
-
----
-
 ## Package Versions (Verified 2025-10-22)
 
 - @clerk/nextjs@6.33.3

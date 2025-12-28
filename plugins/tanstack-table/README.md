@@ -154,14 +154,6 @@ Cloudflare D1 Database         ← cloudflare-d1 skill
 - Need opinionated UI - Consider AG Grid (commercial)
 - Building spreadsheet/Excel clone - Consider Handsontable
 
-## Token Efficiency
-
-| Metric | Without Skill | With Skill | Savings |
-|--------|--------------|------------|---------|
-| **Tokens** | ~8,000 | ~3,500 | **55%** |
-| **Time** | 30-45 min | 10-15 min | **67%** |
-| **Errors** | 3-4 | 0 | **100%** |
-
 ## Installation
 
 ```bash

@@ -115,21 +115,6 @@ console.log(response2.output_text);
 
 ---
 
-## Token Efficiency
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Basic setup | ~15,000 tokens | ~5,250 tokens | **~65%** |
-| Trial and error | 3-5 errors | 0 errors | **100%** |
-| Time to working code | 2-3 hours | 15-30 minutes | **~85%** |
-
-**Why?**
-- New API (March 2025) - limited examples online
-- Comprehensive error prevention (8 documented issues)
-- Working templates for all major patterns
-- Clear migration guide from Chat Completions
-
----
 
 ## Known Issues Prevented
 

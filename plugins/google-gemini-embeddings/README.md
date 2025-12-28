@@ -149,16 +149,6 @@ const embedding = response.embedding.values; // [0.012, -0.034, ...]
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~15,000 | 2-3 | ~45 min |
-| **With This Skill** | ~6,000 | 0 ✅ | ~15 min |
-| **Savings** | **~60%** | **100%** | **~67%** |
-
----
-
 ## Package Versions (Verified 2025-10-25)
 
 | Package | Version | Status |

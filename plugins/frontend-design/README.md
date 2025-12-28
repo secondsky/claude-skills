@@ -138,18 +138,6 @@ This skill emphasizes **intentionality over intensity**. Both bold maximalism an
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Design Iterations | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Exploration** | ~20,000 | 4-5 iterations | ~60 min |
-| **With This Skill** | ~8,000 | 1-2 iterations | ~20 min |
-| **Savings** | **~60%** | **~70%** | **~67%** |
-
-*Estimated based on typical frontend design workflows*
-
----
-
 ## Package Versions
 
 **N/A** - This is a pure guidance skill with no external dependencies.

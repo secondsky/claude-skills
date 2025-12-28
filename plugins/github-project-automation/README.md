@@ -162,16 +162,6 @@ git push
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~26,500 | 2-5 | ~2-4 hours |
-| **With This Skill** | ~7,000 | 0 ✅ | ~15 minutes |
-| **Savings** | **~70%** | **100%** | **~85%** |
-
----
-
 ## Package Versions (Verified 2025-11-06)
 
 | Action | SHA | Version |

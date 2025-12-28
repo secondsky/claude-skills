@@ -134,25 +134,6 @@ This skill prevents **15 documented errors**:
 
 ---
 
-## Token Efficiency
-
-**Estimated Token Savings**: ~65% vs manual setup
-**Time to Implement**: 5-10 minutes (vs 30-60 minutes without skill)
-
-### Without This Skill:
-- ~15,000 tokens to research connection pooling issues
-- ~8,000 tokens debugging SQL injection vulnerabilities
-- ~5,000 tokens figuring out Drizzle vs Prisma edge compatibility
-- ~4,000 tokens troubleshooting connection string formats
-- **Total**: ~32,000 tokens, 2-3 errors encountered
-
-### With This Skill:
-- ~11,000 tokens (skill loaded on-demand)
-- 0 errors (all documented issues prevented)
-- **Savings**: ~65% tokens, 100% error prevention
-
----
-
 ## Quick Start (From README)
 
 ### 1. Install Package

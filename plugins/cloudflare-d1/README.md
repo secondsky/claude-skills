@@ -86,26 +86,6 @@ Claude will automatically suggest this skill when you mention any of these keywo
 
 ---
 
-## Token Efficiency
-
-### Manual D1 Setup (Without Skill):
-- Create database: 800 tokens
-- Configure bindings: 600 tokens
-- Write migrations: 1,200 tokens
-- Implement queries: 2,000 tokens
-- Add error handling: 800 tokens
-- Create indexes: 600 tokens
-- **Total: ~6,000 tokens**
-
-### With cloudflare-d1 Skill:
-- Reference skill templates: 1,500 tokens
-- Customize for your use case: 1,000 tokens
-- **Total: ~2,500 tokens**
-
-**Savings: ~58% token reduction** (3,500 tokens saved)
-
----
-
 ## When to Use This Skill
 
 ### ✅ Use When:

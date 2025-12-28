@@ -305,25 +305,6 @@ Detailed guides:
 
 ---
 
-## Token Efficiency
-
-**Without Skill** (manual setup):
-- Read Next.js 16 docs: ~5k tokens
-- Read App Router docs: ~8k tokens
-- Read Server Actions docs: ~4k tokens
-- Read Metadata API docs: ~3k tokens
-- Trial-and-error fixes: ~8k tokens
-- **Total**: ~28k tokens
-
-**With Skill**:
-- Load skill: ~8k tokens
-- Use templates: ~2k tokens
-- **Total**: ~10k tokens
-
-**Savings**: ~18k tokens (~64%)
-
----
-
 ## Errors Prevented
 
 This skill prevents **18+ common mistakes**:

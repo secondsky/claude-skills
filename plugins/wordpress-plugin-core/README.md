@@ -156,15 +156,6 @@ wp plugin activate my-plugin
 
 ---
 
-## Token Efficiency Metrics
-
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~15,000 | 2-4 | ~30 min |
-| **With This Skill** | ~5,000 | 0 ✅ | ~10 min |
-| **Savings** | **~67%** | **100%** | **~67%** |
-
----
 
 ## Package Versions (Verified 2025-11-06)
 

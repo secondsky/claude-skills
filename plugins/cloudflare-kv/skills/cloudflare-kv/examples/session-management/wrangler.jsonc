@@ -1,0 +1,60 @@
+{
+  "name": "kv-session-management-example",
+  "main": "index.ts",
+  "compatibility_date": "2025-10-11",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // KV namespace for sessions
+  "kv_namespaces": [
+    {
+      "binding": "SESSIONS",
+      "id": "YOUR_PRODUCTION_NAMESPACE_ID",
+      "preview_id": "YOUR_PREVIEW_NAMESPACE_ID"
+    }
+  ],
+
+  // Development settings
+  "dev": {
+    "port": 8787,
+    "inspector_port": 9229
+  }
+}
+
+/*
+ * Setup Instructions:
+ *
+ * 1. Create KV namespaces:
+ *    bunx wrangler kv namespace create SESSIONS
+ *    bunx wrangler kv namespace create SESSIONS --preview
+ *
+ * 2. Update IDs above with output from step 1
+ *
+ * 3. Install dependencies:
+ *    bun add hono
+ *    bun add -D @cloudflare/workers-types
+ *
+ * 4. Run locally:
+ *    bunx wrangler dev
+ *
+ * 5. Deploy:
+ *    bunx wrangler deploy
+ *
+ * 6. Test with curl:
+ *    # Login
+ *    curl -X POST https://your-worker.workers.dev/auth/login \
+ *      -H "Content-Type: application/json" \
+ *      -d '{"username": "test", "password": "demo123"}' \
+ *      -c cookies.txt
+ *
+ *    # Check status (uses cookie from login)
+ *    curl https://your-worker.workers.dev/auth/status \
+ *      -b cookies.txt
+ *
+ *    # Access protected dashboard
+ *    curl https://your-worker.workers.dev/dashboard \
+ *      -b cookies.txt
+ *
+ *    # Logout
+ *    curl -X POST https://your-worker.workers.dev/auth/logout \
+ *      -b cookies.txt
+ */

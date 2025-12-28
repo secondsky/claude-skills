@@ -198,35 +198,6 @@ Result: Detailed accessibility audit with specific WCAG violations and remediati
 
 ---
 
-## Token Efficiency Metrics
-
-| Scenario | Manual Review | With Skill | Savings |
-|----------|---------------|------------|---------|
-| **PR review** (3 components, full 7-phase) | ~25k tokens | ~8k tokens | **68%** |
-| **Accessibility audit** (focused Phase 4) | ~15k tokens | ~5k tokens | **67%** |
-| **Responsive check** (Phase 2 only) | ~10k tokens | ~3.5k tokens | **65%** |
-| **Quick visual QA** (Phases 2-3-7) | ~12k tokens | ~4.5k tokens | **63%** |
-
-### Why the savings?
-
-**Without skill (manual):**
-- ❌ Trial-and-error testing
-- ❌ Forgotten checklist items
-- ❌ Repeated corrections
-- ❌ Unclear methodology
-- ❌ Missing edge cases
-
-**With skill (systematic):**
-- ✅ Guided 7-phase process
-- ✅ Comprehensive checklist
-- ✅ First-time correctness
-- ✅ Clear structure
-- ✅ 100% coverage
-
-**Average savings: 68% tokens | 100% coverage improvement**
-
----
-
 ## The 7-Phase Methodology (Summary)
 
 | Phase | Focus | Key Activities | Output |

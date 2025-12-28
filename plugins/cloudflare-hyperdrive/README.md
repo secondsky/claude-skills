@@ -158,21 +158,6 @@ npx wrangler hyperdrive create my-database \
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- 15-20 searches for connection pooling patterns
-- 10+ lookups for driver configuration
-- 8-12 troubleshooting attempts for common errors
-- ~12,000 tokens of repetitive research
-
-**With this skill:**
-- 1 skill invocation with complete knowledge
-- ~5,000 tokens of focused, production-ready patterns
-- **~58% token savings**
-
----
-
 ## Coverage
 
 ### Database Providers

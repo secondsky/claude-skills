@@ -173,23 +173,6 @@ This skill automatically activates when you mention:
 
 ---
 
-## Token Efficiency
-
-**Without this skill:**
-- ~12,000 tokens to explain API integration
-- 2-3 errors during implementation
-- 2+ hours of development time
-
-**With this skill:**
-- ~4,500 tokens (direct to solution)
-- 0 errors (all documented issues prevented)
-- 15-30 minutes to working integration
-
-**Token Savings: ~62%**
-**Error Prevention: 100%** (all 12 documented errors)
-
----
-
 ## File Structure
 
 ```

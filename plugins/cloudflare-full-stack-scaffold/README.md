@@ -256,20 +256,6 @@ scaffold/
 
 ---
 
-## Token Efficiency
-
-| Task | Manual | With Scaffold | Savings |
-|------|--------|---------------|---------|
-| Initial setup | ~20k tokens | ~3k tokens | 85% |
-| Service config | ~10k tokens | 0 tokens | 100% |
-| Frontend-backend connection | ~7k tokens | 0 tokens | 100% |
-| AI SDK setup | ~6k tokens | 0 tokens | 100% |
-| Auth integration | ~8k tokens | ~500 tokens | 94% |
-| Planning docs | ~5k tokens | 0 tokens | 100% |
-| **Total** | **~56k tokens** | **~3.5k tokens** | **~94%** |
-
----
-
 ## Known Issues This Skill Prevents
 
 1. ✅ **Service binding configuration errors** - All bindings pre-configured

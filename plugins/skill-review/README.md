@@ -207,24 +207,6 @@ Claude recognizes these phrases and may suggest review:
 
 ---
 
-## Token Efficiency
-
-**Without skill**: ~25,000 tokens
-- Trial-and-error verification
-- Repeated doc lookups
-- Inconsistent fixes
-- Missing evidence
-
-**With skill**: ~5,000 tokens
-- Systematic process
-- Clear decision trees
-- Evidence-based fixes
-- Comprehensive audit
-
-**Savings**: ~80% (20,000 tokens)
-
----
-
 ## Common Issues Prevented
 
 | Issue Category | Examples | Severity |

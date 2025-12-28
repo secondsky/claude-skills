@@ -44,12 +44,6 @@ Production-ready skill for writing secure, reliable, and performant Claude Code 
 - Logging to stdout instead of stderr
 - Assuming tools exist
 
-## Token Efficiency
-
-- Estimated savings: ~75% vs researching hook patterns
-- Errors prevented: Security vulnerabilities, reliability issues, performance problems
-- Coverage: Complete hook lifecycle from design to publishing
-
 ## Source
 
 Adapted from [PRPM claude-hook-writer](https://github.com/pr-pm/prpm/blob/main/.claude/skills/claude-hook-writer/SKILL.md)

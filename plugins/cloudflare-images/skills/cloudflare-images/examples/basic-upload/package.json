@@ -1,0 +1,26 @@
+{
+  "name": "cloudflare-images-basic-upload",
+  "version": "1.0.0",
+  "description": "Minimal example of uploading to Cloudflare Images",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "keywords": [
+    "cloudflare",
+    "images",
+    "upload",
+    "workers"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250110.0",
+    "wrangler": "^3.91.0"
+  },
+  "dependencies": {
+    "hono": "^4.7.10"
+  }
+}

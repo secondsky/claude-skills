@@ -529,6 +529,45 @@ await authClient.session.revokeOthers();
 
 ---
 
+### From Auth0
+
+For detailed Auth0 migration instructions:
+https://better-auth.com/docs/guides/migrations/auth0
+
+**Key points**:
+- Export users via Auth0 Management API
+- Map Auth0 user metadata to better-auth fields
+- Recreate social connections as better-auth providers
+- Update application callback URLs
+
+---
+
+### From Supabase Auth
+
+For detailed Supabase Auth migration instructions:
+https://better-auth.com/docs/guides/migrations/supabase
+
+**Key points**:
+- Export users from Supabase auth.users table
+- Migrate to better-auth schema (user, session, account)
+- Update client from @supabase/auth-helpers to better-auth client
+- Reconfigure OAuth providers
+
+---
+
+### From WorkOS
+
+For detailed WorkOS migration instructions:
+https://better-auth.com/docs/guides/migrations/workos
+
+**Key points**:
+- Export organization and user data
+- Map WorkOS organizations to better-auth organizations plugin
+- Recreate SSO connections as better-auth SSO providers
+- Update directory sync to SCIM plugin
+
+---
+
 ## Security Best Practices
 
 ### 1. Always use HTTPS in production

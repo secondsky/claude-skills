@@ -205,18 +205,6 @@ Different Access configurations per tenant/organization.
 
 ---
 
-## Token Efficiency
-
-| Scenario | Without Skill | With Skill | Savings |
-|----------|---------------|------------|---------|
-| Basic setup | 3,000 tokens | 1,000 tokens | 67% |
-| Service tokens | 5,000 tokens | 1,500 tokens | 70% |
-| CORS troubleshooting | 3,000 tokens | 1,000 tokens | 67% |
-| Multi-tenant | 7,000 tokens | 2,100 tokens | 70% |
-| **Average** | **5,550 tokens** | **2,300 tokens** | **~58%** |
-
----
-
 ## Package Information
 
 - **@hono/cloudflare-access**: 0.3.1 (actively maintained)
