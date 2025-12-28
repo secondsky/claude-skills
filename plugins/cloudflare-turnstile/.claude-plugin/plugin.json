@@ -2,7 +2,6 @@
   "name": "cloudflare-turnstile",
   "description": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.",
   "version": "3.0.0",
-  "category": "cloudflare",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

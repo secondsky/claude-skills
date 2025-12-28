@@ -41,7 +41,6 @@
     "saml",
     "scim"
   ],
-  "category": "auth",
   "commands": [
     "./commands/better-auth-setup.md",
     "./commands/better-auth-add-plugin.md"

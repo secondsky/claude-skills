@@ -1,0 +1,50 @@
+{
+  "name": "bun",
+  "version": "1.0.0",
+  "description": "Comprehensive Bun runtime toolkit covering runtime, package manager, bundler, testing, HTTP servers, WebSockets, databases, framework integrations (Hono, Next.js, Nuxt, TanStack Start, SvelteKit), deployment, and Node.js compatibility.",
+  "author": {
+    "name": "Claude Skills",
+    "email": "maintainers@example.com"
+  },
+  "homepage": "https://github.com/secondsky/claude-skills",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "license": "MIT",
+  "keywords": [
+    "bun",
+    "runtime",
+    "javascript",
+    "typescript",
+    "bundler",
+    "package-manager",
+    "testing",
+    "bun-test",
+    "http-server",
+    "websocket",
+    "sqlite",
+    "drizzle",
+    "hono",
+    "nextjs",
+    "nuxt",
+    "sveltekit",
+    "tanstack-start",
+    "ssr",
+    "cloudflare-workers",
+    "deployment",
+    "nodejs-compatibility",
+    "migration",
+    "jest-migration"
+  ],
+  "commands": [
+    "./commands/bun-init.md",
+    "./commands/bun-migrate.md",
+    "./commands/bun-debug.md",
+    "./commands/bun-optimize.md",
+    "./commands/bun-deploy.md",
+    "./commands/bun-upgrade.md"
+  ],
+  "agents": [
+    "./agents/bun-troubleshooter.md",
+    "./agents/bun-performance-analyzer.md",
+    "./agents/bun-migration-assistant.md"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ui-v4",
-  "description": "Nuxt UI v4 component library with 100+ accessible components, Tailwind v4, Reka UI. Use for design systems, forms, overlays, AI chat integration, or encountering theming, composable, TypeScript errors.",
+  "description": "Nuxt UI v4 with 125+ accessible components, Tailwind v4, Reka UI, AI chat integration. Use for dashboards, forms, overlays, editors, page layouts, or encountering theming, composable, TypeScript errors.",
   "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -10,8 +10,30 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "nuxt-ui-v4",
+    "nuxt-ui",
     "nuxt",
-    "frontend",
-    "components"
-  ]
+    "vue",
+    "tailwind-v4",
+    "reka-ui",
+    "components",
+    "dashboard",
+    "chat",
+    "editor",
+    "forms",
+    "ai-sdk",
+    "accessible",
+    "design-system"
+  ],
+  "agents": [
+    "./agents/nuxt-ui-component-selector.md",
+    "./agents/nuxt-ui-migration-assistant.md",
+    "./agents/nuxt-ui-troubleshooter.md"
+  ],
+  "commands": [
+    "./commands/setup.md",
+    "./commands/migrate.md",
+    "./commands/theme.md",
+    "./commands/component.md"
+  ],
+  "mcpServers": "./.mcp.json"
 }
