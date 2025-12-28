@@ -8,13 +8,128 @@
 
 ## Table of Contents
 
-1. [Prerequisites (CRITICAL)](#prerequisites-critical)
-2. [Marketplace Management](#marketplace-management)
-3. [System Prompt Budget Optimization](#system-prompt-budget-optimization)
-4. [Quality Assurance at Scale](#quality-assurance-at-scale)
-5. [Repository-Specific Workflows](#repository-specific-workflows)
-6. [Production Quality Standards](#production-quality-standards)
-7. [Integration with Official Plugin-Dev](#integration-with-official-plugin-dev)
+1. [Background & Rationale](#background--rationale)
+2. [Prerequisites (CRITICAL)](#prerequisites-critical)
+3. [Marketplace Management](#marketplace-management)
+4. [System Prompt Budget Optimization](#system-prompt-budget-optimization)
+5. [Quality Assurance at Scale](#quality-assurance-at-scale)
+6. [Repository-Specific Workflows](#repository-specific-workflows)
+7. [Production Quality Standards](#production-quality-standards)
+8. [Integration with Official Plugin-Dev](#integration-with-official-plugin-dev)
+
+---
+
+## Background & Rationale
+
+### Why This Document Exists
+
+After analyzing the official Anthropic `plugin-dev` plugin and our repository's documentation needs, we identified a clear division of responsibilities:
+
+✅ **Official plugin-dev provides**: Comprehensive plugin fundamentals (7 skills, 3 agents, 21k+ words)
+✅ **This document provides**: Repository-specific gaps not covered by official plugin-dev
+
+**Recommendation**: Install official `plugin-dev@claude-code-marketplace` as your primary resource, then use this document for claude-skills repository-specific workflows.
+
+---
+
+### What Official Plugin-Dev Covers
+
+The official plugin provides **7 comprehensive skills** with ~21,000+ words of production-tested guidance:
+
+| Skill | Coverage | When to Use |
+|-------|----------|-------------|
+| **hook-development** | Prompt-based hooks, command hooks, all events, validation | Creating PreToolUse/PostToolUse hooks, blocking dangerous operations |
+| **mcp-integration** | Server types (stdio/SSE/HTTP/WS), auth, env vars, tool usage | Adding MCP servers, OAuth configuration, WebSocket connections |
+| **plugin-structure** | Directory layout, plugin.json, auto-discovery, components | Organizing plugins, configuring manifests, file naming |
+| **plugin-settings** | .local.md pattern, YAML frontmatter parsing, flag files | User-configurable plugins, per-project settings |
+| **command-development** | Slash commands, frontmatter, arguments, bash execution | Creating /custom-command with arguments and file references |
+| **agent-development** | Agent structure, frontmatter, system prompts, AI-assisted generation | Creating autonomous agents with triggers and tools |
+| **skill-development** | SKILL.md structure, progressive disclosure, trigger descriptions | Writing skills with strong auto-discovery |
+
+**Plus**:
+- `/plugin-dev:create-plugin` command (8-phase guided workflow)
+- 3 agents: agent-creator, plugin-validator, skill-reviewer
+- 10 utility scripts for validation
+- 21 reference docs (~11k words)
+- 9 working examples
+
+**Total**: ~21,000+ words of comprehensive, production-tested guidance
+
+---
+
+### What We Document (Repository-Specific Gaps)
+
+This repository has **5 critical gaps** not covered by official plugin-dev:
+
+| Gap | Why It's Unique to Us | Where Documented |
+|-----|----------------------|------------------|
+| **1. Marketplace Management** | Managing 169 skills across 58 plugins with automated category detection and keyword generation | [Section 3](#marketplace-management), [MARKETPLACE_MANAGEMENT.md](MARKETPLACE_MANAGEMENT.md) |
+| **2. System Prompt Budget** | Critical 15k char limit causing silent skill omission (production issue) | [Section 4](#system-prompt-budget-optimization) |
+| **3. Batch Operations** | Quality workflows for large skill collections (169 skills) | [Section 5](#quality-assurance-at-scale) |
+| **4. Repository Workflows** | Installation scripts, version sync, git standards for claude-skills | [Section 6](#repository-specific-workflows) |
+| **5. Production Quality at Scale** | Testing evidence requirements, package verification for 169 skills | [Section 7](#production-quality-standards) |
+
+---
+
+### Official vs Repository: Responsibility Matrix
+
+| Area | Official Plugin-Dev | This Document |
+|------|-------------------|---------------|
+| **Plugin fundamentals** (structure, manifest) | ✅ PRIMARY | Reference only |
+| **Hooks** (PreToolUse, PostToolUse, events) | ✅ PRIMARY | Reference only |
+| **MCP integration** (stdio, SSE, OAuth) | ✅ PRIMARY | Reference only |
+| **Agents** (creation, triggers, tools) | ✅ PRIMARY | Reference only |
+| **Commands** (slash commands, arguments) | ✅ PRIMARY | Reference only |
+| **Skills** (writing, triggers, discovery) | ✅ PRIMARY | Reference only |
+| | | |
+| **Marketplace management** (169 skills) | ❌ | ✅ PRIMARY |
+| **System prompt budget** (15k char limit) | ❌ | ✅ PRIMARY |
+| **Batch operations** (quality workflows) | ❌ | ✅ PRIMARY |
+| **Repository workflows** (install, sync) | ❌ | ✅ PRIMARY |
+| **Description optimization** (token limits) | ❌ | ✅ PRIMARY |
+
+---
+
+### Critical Knowledge We Preserve
+
+**MUST document in our best practices** (not in official plugin-dev):
+
+1. ✅ System prompt budget (15,000 char limit)
+2. ✅ Silent skill omission issue (no warnings when exceeded)
+3. ✅ Description optimization (under 100 chars ideal)
+4. ✅ Marketplace.json generation and structure
+5. ✅ Category system (18 categories with auto-detection)
+6. ✅ Keyword generation (3 sources: name, category, description)
+7. ✅ Version synchronization (`sync-plugins.sh` for 169 skills)
+8. ✅ Batch skill operations and quality workflows
+9. ✅ Progressive disclosure optimization workflow
+10. ✅ Repository-specific git workflow (secondsky vs jezweb)
+
+**NOT needed** (covered by official plugin-dev):
+
+1. ❌ Hook development basics
+2. ❌ MCP integration basics
+3. ❌ Agent creation basics
+4. ❌ Command development basics
+5. ❌ Plugin manifest basics
+6. ❌ Skill structure basics
+7. ❌ YAML frontmatter basics
+
+---
+
+### Key Principle: Don't Duplicate What Anthropic Maintains
+
+**Our value-add is**:
+- Repository-specific workflows (marketplace, installation, versioning)
+- Production insights (system prompt budget, silent omission)
+- Scale management (169 skills, batch operations, quality workflows)
+
+**We defer to official plugin-dev for**:
+- Plugin fundamentals (structure, manifest, components)
+- Advanced features (hooks, MCP, agents, commands)
+- Core skill writing guidance (triggers, discovery, progressive disclosure)
+
+**Rule**: If plugin-dev covers it, use plugin-dev. If it's repository-specific to claude-skills, use this doc.
 
 ---
 
