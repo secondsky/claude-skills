@@ -480,6 +480,96 @@
     }
 ,
     {
+      "name": "workers-ci-cd",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-dev-experience",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-frameworks",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-migration",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-multi-lang",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-observability",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-performance",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-runtime-apis",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-security",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "workers-testing",
+      "source": "./plugins/cloudflare-workers",
+      "version": "1.0.0",
+      "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+      "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "cloudflare-workers-ai",
       "source": "./plugins/cloudflare-workers-ai",
       "version": "3.0.0",
