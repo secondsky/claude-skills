@@ -287,9 +287,7 @@ Automation and utility scripts for managing skills and plugins.
 ```
 scripts/
 ├── sync-plugins.sh                # ⭐ Main entry point - syncs all plugin data
-├── generate-marketplace.sh        # Generate marketplace.json
-├── generate-plugin-manifests.sh   # [DEPRECATED] Use sync-plugins.sh
-├── populate-keywords.sh           # [DEPRECATED] Use sync-plugins.sh
+├── generate-marketplace.sh        # Generate marketplace.json (used by sync-plugins.sh)
 ├── install-skill.sh               # Install single skill to ~/.claude/skills/
 ├── install-all.sh                 # Install all skills
 ├── check-versions.sh              # Verify package versions are current

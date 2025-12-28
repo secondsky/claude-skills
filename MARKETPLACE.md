@@ -503,9 +503,7 @@ Each skill has a `plugin.json` following the Anthropic specification:
 3. Regenerates `marketplace.json` with all updated data
 
 **Other Scripts:**
-- `generate-marketplace.sh` - Regenerates marketplace.json only
-- `generate-plugin-manifests.sh` - **DEPRECATED** (use sync-plugins.sh)
-- `populate-keywords.sh` - **DEPRECATED** (use sync-plugins.sh)
+- `generate-marketplace.sh` - Regenerates marketplace.json only (used internally by sync-plugins.sh)
 
 ### Issues Encountered & Fixes
 

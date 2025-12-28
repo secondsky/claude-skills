@@ -189,10 +189,7 @@ Generates `marketplace.json` from all `plugin.json` files.
 
 These scripts are kept for reference but should not be used:
 
-| Script | Replacement |
-|--------|-------------|
-| `generate-plugin-manifests.sh` | Use `sync-plugins.sh` |
-| `populate-keywords.sh` | Use `sync-plugins.sh` |
+**Note**: All plugin management has been consolidated into `sync-plugins.sh`.
 
 ---
 
@@ -312,10 +309,10 @@ commands_json=$(scan_commands "$skill_dir")
 
 ### Issue 5: Multiple Scripts Confusion
 
-**Problem**: Three separate scripts managed plugin data:
-1. `generate-plugin-manifests.sh` - Created plugin.json from SKILL.md
-2. `populate-keywords.sh` - Generated keywords
-3. `generate-marketplace.sh` - Created marketplace.json
+**Previous Approach**: Three separate scripts managed plugin data (now consolidated):
+1. Created plugin.json from SKILL.md
+2. Generated keywords
+3. Created marketplace.json
 
 **Fix**: Consolidated into single `sync-plugins.sh` that does everything:
 - Version sync
@@ -582,9 +579,7 @@ jq -r '.category' skills/*/.claude-plugin/plugin.json | sort | uniq -c | sort -r
 ```
 scripts/
 ├── sync-plugins.sh              ← Primary (single entry point)
-├── generate-marketplace.sh      ← Marketplace generation
-├── generate-plugin-manifests.sh ← DEPRECATED
-├── populate-keywords.sh         ← DEPRECATED
+├── generate-marketplace.sh      ← Marketplace generation (used by sync-plugins.sh)
 ├── install-skill.sh             ← Install skill to ~/.claude/skills/
 └── install-all.sh               ← Install all skills
 ```

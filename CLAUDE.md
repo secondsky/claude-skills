@@ -564,13 +564,9 @@ Each skill's plugin.json follows the Anthropic plugin schema:
 }
 ```
 
-### Deprecated Scripts
+### Note on Script Consolidation
 
-The following scripts are **deprecated** (kept for reference):
-- `scripts/generate-plugin-manifests.sh` → use `sync-plugins.sh`
-- `scripts/populate-keywords.sh` → use `sync-plugins.sh`
-
-The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.sh`.
+All plugin management has been consolidated into `sync-plugins.sh`. The `scripts/generate-marketplace.sh` is still used internally by `sync-plugins.sh`.
 
 ---
 
