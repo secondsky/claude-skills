@@ -1,9 +1,9 @@
 <script setup lang="ts">
-// ✅ Nuxt 3: No imports needed - auto-imported!
-// ref, computed, watch - auto-imported from Vue
-// useFormValidator, useToast - auto-imported from Maz-UI
-// pipe, string, email, minLength, object - auto-imported from Valibot
-// InferOutput - auto-imported from Valibot
+import { pipe, string, email, minLength, object } from 'valibot'
+import type { InferOutput } from 'valibot'
+
+// ✅ Nuxt 3 auto-imports: ref, useFormValidator, useToast
+// Valibot: Explicitly imported above for clarity and reliability
 
 // ✅ FIXED: Wrap schema with object() for type inference
 const schema = object({

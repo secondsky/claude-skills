@@ -831,10 +831,17 @@ Respect user's motion preferences:
 
 ```vue
 <script setup>
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+import { ref, computed, onMounted } from 'vue'
+
+const prefersReducedMotion = ref(false)
+
+// ✅ Client-only: Access window after mount
+onMounted(() => {
+  prefersReducedMotion.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
 
 const animationDuration = computed(() =>
-  prefersReducedMotion ? 0 : 600
+  prefersReducedMotion.value ? 0 : 600
 )
 </script>
 

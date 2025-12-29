@@ -232,6 +232,7 @@ const tabs = [
 ```vue
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
 
 const router = useRouter()
 const route = useRoute()

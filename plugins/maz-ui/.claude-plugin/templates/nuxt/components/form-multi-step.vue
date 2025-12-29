@@ -1,6 +1,8 @@
 <script setup lang="ts">
-// ✅ Nuxt 3: No imports needed - auto-imported!
-// ref, useFormValidator, useToast, pipe, string, email, minLength all auto-imported
+import { pipe, string, email, minLength } from 'valibot'
+
+// ✅ Nuxt 3 auto-imports: ref, useFormValidator, useToast
+// Valibot: Explicitly imported above for clarity and reliability
 
 // Current step tracker
 const currentStep = ref(1)

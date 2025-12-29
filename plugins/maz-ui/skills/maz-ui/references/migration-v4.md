@@ -10,7 +10,7 @@ Maz-UI v4.0.0 is a **complete rebuild** designed for flexibility, performance, a
 - 60-90% bundle size reduction
 - Modular package architecture
 - Runtime theme switching
-- 9 languages with custom translation support
+- 8 languages with custom translation support
 - Better TypeScript support
 - No external dependencies (dropzone removed)
 

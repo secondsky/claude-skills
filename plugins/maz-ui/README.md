@@ -11,7 +11,7 @@ Maz-UI is a production-ready Vue/Nuxt component library featuring:
 - **5 Directives**: Tooltips, click-outside, lazy-loading, image zoom/fullscreen
 - **4 Plugins**: Toast, Dialog, AOS (animations), Wait (loading states)
 - **4 Theme Presets**: maz-ui, ocean, pristine, obsidian + custom themes
-- **i18n Support**: 27 languages built-in
+- **i18n Support**: 8 languages built-in
 - **840+ Icons**: Optimized SVG icon library (@maz-ui/icons)
 - **TypeScript-First**: Full type safety out of the box
 - **SSR/SSG Ready**: Perfect for Nuxt 3 with auto-imports
