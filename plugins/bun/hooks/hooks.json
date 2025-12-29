@@ -1,26 +1,29 @@
 {
-  "PreToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-bun-command.sh",
-          "timeout": 5
-        }
-      ]
-    }
-  ],
-  "PostToolUse": [
-    {
-      "matcher": "Bash",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/bun-suggestions.sh",
-          "timeout": 5
-        }
-      ]
-    }
-  ]
+  "description": "Validates bun command usage and provides suggestions",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-bun-command.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/bun-suggestions.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
 }
