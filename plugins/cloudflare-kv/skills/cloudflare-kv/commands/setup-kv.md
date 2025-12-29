@@ -3,7 +3,7 @@ name: cloudflare-kv:setup
 description: Interactive KV namespace setup wizard - creates namespaces, configures bindings, and generates Worker code
 ---
 
-# /setup-kv - Interactive KV Namespace Setup
+# /cloudflare-kv:setup - Interactive KV Namespace Setup
 
 This command guides through the complete setup process for Cloudflare Workers KV namespaces.
 
@@ -35,7 +35,7 @@ This command guides through the complete setup process for Cloudflare Workers KV
 Run the command and follow prompts:
 
 ```
-/setup-kv
+/cloudflare-kv:setup
 ```
 
 The command will:
@@ -50,7 +50,7 @@ The command will:
 Provide namespace name upfront:
 
 ```
-/setup-kv MY_NAMESPACE
+/cloudflare-kv:setup MY_NAMESPACE
 ```
 
 ## Implementation
@@ -144,7 +144,7 @@ Once setup completes:
 
 2. **Test Connection**
    ```
-   /test-kv MY_KV_NAMESPACE
+   /cloudflare-kv:test MY_KV_NAMESPACE
    ```
 
 3. **Start Developing**
@@ -187,8 +187,8 @@ The script won't overwrite existing configs. You'll need to manually add the KV 
 
 ## Related Commands
 
-- `/test-kv` - Test KV operations and connection
-- `/optimize-kv` - Analyze KV usage patterns
+- `/cloudflare-kv:test` - Test KV operations and connection
+- `/cloudflare-kv:optimize` - Analyze KV usage patterns
 
 ## References
 

@@ -3,7 +3,7 @@ name: cloudflare-kv:test
 description: Test KV namespace connection and operations - validates configuration, performs CRUD tests, and reports diagnostics
 ---
 
-# /test-kv - Test KV Namespace Connection
+# /cloudflare-kv:test - Test KV Namespace Connection
 
 This command validates KV namespace configuration and tests basic operations to ensure everything is working correctly.
 
@@ -32,7 +32,7 @@ This command validates KV namespace configuration and tests basic operations to 
 Test a specific namespace binding:
 
 ```
-/test-kv MY_NAMESPACE
+/cloudflare-kv:test MY_NAMESPACE
 ```
 
 Replace `MY_NAMESPACE` with your actual binding name from wrangler.jsonc.
@@ -45,7 +45,7 @@ If no namespace provided, the command will:
 3. Run comprehensive tests
 
 ```
-/test-kv
+/cloudflare-kv:test
 ```
 
 ## Implementation
@@ -160,7 +160,7 @@ For comprehensive testing, see `references/troubleshooting.md`.
 **Cause:** Missing or incorrect configuration
 
 **Solution:**
-1. Run `/setup-kv` to create namespace
+1. Run `/cloudflare-kv:setup` to create namespace
 2. Or manually add to wrangler.jsonc:
    ```json
    "kv_namespaces": [{
@@ -209,7 +209,7 @@ If tests pass:
 
 2. **Optimize Usage**
    ```
-   /optimize-kv src/index.ts
+   /cloudflare-kv:optimize src/index.ts
    ```
 
 3. **Deploy to Production**
@@ -234,8 +234,8 @@ If tests fail:
 
 ## Related Commands
 
-- `/setup-kv` - Create and configure new namespace
-- `/optimize-kv` - Analyze KV usage patterns
+- `/cloudflare-kv:setup` - Create and configure new namespace
+- `/cloudflare-kv:optimize` - Analyze KV usage patterns
 
 ## References
 

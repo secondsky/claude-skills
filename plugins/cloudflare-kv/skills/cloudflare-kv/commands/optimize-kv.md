@@ -3,7 +3,7 @@ name: cloudflare-kv:optimize
 description: Analyze KV usage patterns and suggest optimizations - identifies missing TTLs, cacheTtl opportunities, bulk operations, and cost savings
 ---
 
-# /optimize-kv - Analyze and Optimize KV Usage
+# /cloudflare-kv:optimize - Analyze and Optimize KV Usage
 
 This command analyzes Worker code for KV usage patterns and provides actionable optimization recommendations to improve performance and reduce costs.
 
@@ -33,7 +33,7 @@ This command analyzes Worker code for KV usage patterns and provides actionable 
 ### Analyze Single File
 
 ```
-/optimize-kv src/index.ts
+/cloudflare-kv:optimize src/index.ts
 ```
 
 ### Analyze Multiple Files
@@ -41,9 +41,9 @@ This command analyzes Worker code for KV usage patterns and provides actionable 
 Run multiple times for different files:
 
 ```
-/optimize-kv src/index.ts
-/optimize-kv src/api/routes.ts
-/optimize-kv src/lib/kv-utils.ts
+/cloudflare-kv:optimize src/index.ts
+/cloudflare-kv:optimize src/api/routes.ts
+/cloudflare-kv:optimize src/lib/kv-utils.ts
 ```
 
 ### Interactive Mode
@@ -54,7 +54,7 @@ If no file specified, command will:
 3. Ask which to analyze
 
 ```
-/optimize-kv
+/cloudflare-kv:optimize
 ```
 
 ## Implementation
@@ -319,8 +319,8 @@ The agent will:
 
 ## Related Commands
 
-- `/test-kv` - Test KV operations after optimization
-- `/setup-kv` - Configure new namespaces
+- `/cloudflare-kv:test` - Test KV operations after optimization
+- `/cloudflare-kv:setup` - Configure new namespaces
 
 ## References
 
