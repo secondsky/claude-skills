@@ -23,7 +23,6 @@
     "./commands/validate-sitemap.md",
     "./commands/check-schema.md"
   ],
-  "hooks": "./hooks/hooks.json",
   "keywords": [
     "nuxt-seo",
     "nuxt",

@@ -246,6 +246,249 @@
     }
 ,
     {
+      "name": "bun-bundler",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user asks about \"bun build\", \"Bun.build\", \"bundling with Bun\", \"code splitting\", \"tree shaking\", \"minification\", \"sourcemaps\", \"bundle optimization\", \"esbuild alternative\", \"building for production\", \"bundling TypeScript\", \"bundling for browser\", \"bundling for Node\", or JavaScript/TypeScript bundling with Bun.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-cloudflare-workers",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user asks about \"Cloudflare Workers with Bun\", \"deploying Bun to Workers\", \"wrangler with Bun\", \"edge deployment\", \"Bun to Cloudflare\", or building and deploying applications to Cloudflare Workers using Bun.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-docker",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for Docker with Bun, Dockerfiles, oven/bun image, containerization, and deployments.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-drizzle-integration",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when integrating Drizzle ORM with Bun's SQLite driver for type-safe schema definitions and migrations.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-ffi",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user asks about \"bun:ffi\", \"foreign function interface\", \"calling C from Bun\", \"native libraries\", \"dlopen\", \"shared libraries\", \"calling native code\", or integrating C/C++ libraries with Bun.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-file-io",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for Bun file I/O: Bun.file, Bun.write, streams, directories, glob patterns, metadata.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-hono-integration",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when building APIs with Hono framework on Bun, including routing, middleware, REST APIs, context handling, or web framework features.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-hot-reloading",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when implementing hot reloading with Bun (--hot, --watch), HMR, or automatic code reloading during development. Covers watch mode, hot mode, and HTTP server reload.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-http-server",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when building HTTP servers with Bun.serve, handling requests/responses, implementing routing, creating REST APIs, or configuring fetch handlers.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-jest-migration",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when migrating from Jest to Bun's test runner, import compatibility, mocks, and config.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-macros",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Evaluate JavaScript at bundle time and inline results. Use when optimizing compile-time code generation, embedding files, inlining environment variables, or executing code during the bundling process.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-nextjs",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user asks about \"Next.js with Bun\", \"Bun and Next\", \"running Next.js on Bun\", \"Next.js development with Bun\", \"create-next-app with Bun\", or building Next.js applications using Bun as the runtime.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-nuxt",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when running Nuxt 3 with Bun runtime, building Vue/Nuxt apps with Bun, or configuring Nuxt projects to use Bun for development and production.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-package-manager",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Bun package manager commands (install, add, remove, update), workspaces, lockfiles, npm/yarn/pnpm migration. Use for dependency management with Bun.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-react-ssr",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when building server-rendered React with Bun, including streaming SSR, hydration, renderToString, or custom SSR without a framework.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-redis",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when working with Redis in Bun (ioredis, Upstash), caching, pub/sub, session storage, or key-value operations.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-runtime",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for Bun runtime, bunfig.toml, watch/hot modes, env vars, CLI flags, and module resolution.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-shell",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Bun shell scripting with Bun.$, Bun.spawn, subprocess management. Use for shell commands, template literals, or command execution.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-sqlite",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for bun:sqlite, SQLite operations, prepared statements, transactions, and queries.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-sveltekit",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use when building or running SvelteKit apps on Bun, including SSR, adapters, and Bun-specific APIs",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-tanstack-start",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "TanStack Start full-stack React framework with Bun runtime. Use for TanStack Router, server functions, vinxi, or encountering SSR, build, preset errors.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-test-basics",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for bun:test syntax, assertions, describe/it, test.skip/only/each, and basic patterns.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-test-coverage",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for test coverage with Bun, --coverage flag, lcov reports, thresholds, and CI integration.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-test-lifecycle",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for test lifecycle hooks: beforeAll, afterAll, beforeEach, afterEach, fixtures, preload.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-test-mocking",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for mock functions in Bun tests, spyOn, mock.module, implementations, and test doubles.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-websocket-server",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user asks about \"WebSocket in Bun\", \"real-time communication\", \"Bun.serve websocket\", \"ws server\", \"socket connections\", \"pub/sub\", \"broadcasting messages\", \"WebSocket upgrade\", or building real-time applications with Bun.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "bun-workers",
+      "source": "./plugins/bun",
+      "version": "1.0.0",
+      "description": "Use for Web Workers in Bun, worker_threads, parallel processing, and background tasks.",
+      "keywords": ["bun","runtime","javascript","typescript","bundler","package-manager","testing","bun-test","http-server","websocket","sqlite","drizzle","hono","nextjs","nuxt","sveltekit","tanstack-start","ssr","cloudflare-workers","deployment","nodejs-compatibility","migration","jest-migration"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "chrome-devtools",
       "source": "./plugins/chrome-devtools",
       "version": "3.0.0",
@@ -480,93 +723,93 @@
     }
 ,
     {
-      "name": "workers-ci-cd",
+      "name": "cloudflare-workers-ci-cd",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Complete CI/CD guide for Cloudflare Workers using GitHub Actions and GitLab CI. Use for automated testing, deployment pipelines, preview environments, secrets management, or encountering deployment failures, workflow errors, environment configuration issues.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-dev-experience",
+      "name": "cloudflare-workers-dev-experience",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Cloudflare Workers local development with Wrangler, Miniflare, hot reload, debugging. Use for project setup, wrangler.jsonc configuration, or encountering local dev, HMR, binding simulation errors.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-frameworks",
+      "name": "cloudflare-workers-frameworks",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Framework integration for Cloudflare Workers. Use when building with Hono, Remix, Next.js, Astro, SvelteKit, Qwik, or Nuxt on Workers. Covers routing, SSR, static assets, and edge deployment.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-migration",
+      "name": "cloudflare-workers-migration",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Migrate to Cloudflare Workers from AWS Lambda, Vercel, Express, and Node.js. Use when porting existing applications to the edge, adapting serverless functions, or resolving Node.js API compatibility issues.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-multi-lang",
+      "name": "cloudflare-workers-multi-lang",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Multi-language Workers development with Rust, Python, and WebAssembly. Use when building Workers in languages other than JavaScript/TypeScript, or when integrating WASM modules for performance-critical code.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-observability",
+      "name": "cloudflare-workers-observability",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Cloudflare Workers observability with logging, Analytics Engine, Tail Workers, metrics, and alerting. Use for monitoring, debugging, tracing, or encountering log parsing, metric aggregation, alert configuration errors.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-performance",
+      "name": "cloudflare-workers-performance",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Cloudflare Workers performance optimization with CPU, memory, caching, bundle size. Use for slow workers, high latency, cold starts, or encountering CPU limits, memory issues, timeout errors.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-runtime-apis",
+      "name": "cloudflare-workers-runtime-apis",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Cloudflare Workers Runtime APIs including Fetch, Streams, Crypto, Cache, WebSockets, and Encoding. Use for HTTP requests, streaming, encryption, caching, real-time connections, or encountering API compatibility, response handling, stream processing errors.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-security",
+      "name": "cloudflare-workers-security",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Cloudflare Workers security with authentication, CORS, rate limiting, input validation. Use for securing APIs, JWT/API keys, or encountering auth failures, CORS errors, XSS/injection vulnerabilities.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
-      "name": "workers-testing",
+      "name": "cloudflare-workers-testing",
       "source": "./plugins/cloudflare-workers",
       "version": "1.0.0",
       "description": "Comprehensive testing guide for Cloudflare Workers using Vitest and @cloudflare/vitest-pool-workers. Use for test setup, binding mocks (D1/KV/R2/DO), integration tests, or encountering test failures, mock errors, coverage issues.",
       "keywords": ["cloudflare-workers","workers","cloudflare","edge","wrangler","vitest-workers","workers-testing","miniflare","ci-cd-workers","github-actions-workers","workers-observability","wrangler-tail","runtime-apis","fetch-api","streaming","websockets","formdata","workers-performance","caching","bundle-optimization","workers-security","cors","csrf","rate-limiting","framework-integration","nextjs-workers","astro-workers","sveltekit","python-workers","rust-workers","wasm","migration","lambda-to-workers","vercel-to-workers","netlify-to-workers"],
-      "category": "tooling"
+      "category": "cloudflare"
     }
 ,
     {
@@ -1070,6 +1313,42 @@
       "version": "3.0.0",
       "description": "Nuxt UI v4 with 125+ accessible components, Tailwind v4, Reka UI, AI chat integration. Use for dashboards, forms, overlays, editors, page layouts, or encountering theming, composable, TypeScript errors.",
       "keywords": ["nuxt-ui-v4","nuxt-ui","nuxt","vue","tailwind-v4","reka-ui","components","dashboard","chat","editor","forms","ai-sdk","accessible","design-system"],
+      "category": "frontend"
+    }
+,
+    {
+      "name": "nuxt-core",
+      "source": "./plugins/nuxt-v4",
+      "version": "4.0.0",
+      "description": "|   Nuxt 4 core framework fundamentals: project setup, configuration, routing,   SEO, error handling, and directory structure.    Use when: creating new Nuxt 4 projects, configuring nuxt.config.ts,   setting up routing and middleware, implementing SEO with useHead/useSeoMeta,   handling errors with error.vue and NuxtErrorBoundary, or understanding   Nuxt 4 directory structure.    Keywords: Nuxt 4, nuxt.config.ts, file-based routing, pages directory,   definePageMeta, useHead, useSeoMeta, error.vue, NuxtErrorBoundary,   middleware, navigateTo, NuxtLink, app directory, runtime config",
+      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","server routes","api routes","hydration","hydration mismatch","file-based routing","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","vercel","netlify","workers assets","durable objects","vitest","testing","nuxt performance","lazy loading","lazy hydration","code splitting","prerendering","nuxt layers","nuxt modules","nuxt plugins","vite","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","api","migration","nuxt 3 to nuxt 4","upgrade nuxt","performance analyzer","core web vitals","bundle size","debugger","diagnostic"],
+      "category": "frontend"
+    }
+,
+    {
+      "name": "nuxt-data",
+      "source": "./plugins/nuxt-v4",
+      "version": "4.0.0",
+      "description": "|   Nuxt 4 data management: composables, data fetching with useFetch/useAsyncData,   and state management with useState and Pinia.    Use when: creating custom composables, fetching data with useFetch or useAsyncData,   managing global state with useState, integrating Pinia, debugging reactive data issues,   or implementing SSR-safe state patterns.    Keywords: useFetch, useAsyncData, $fetch, useState, composables, Pinia,   data fetching, state management, reactive, shallow reactivity, reactive keys,   transform, pending, error, refresh, dedupe, caching",
+      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","server routes","api routes","hydration","hydration mismatch","file-based routing","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","vercel","netlify","workers assets","durable objects","vitest","testing","nuxt performance","lazy loading","lazy hydration","code splitting","prerendering","nuxt layers","nuxt modules","nuxt plugins","vite","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","api","migration","nuxt 3 to nuxt 4","upgrade nuxt","performance analyzer","core web vitals","bundle size","debugger","diagnostic"],
+      "category": "frontend"
+    }
+,
+    {
+      "name": "nuxt-production",
+      "source": "./plugins/nuxt-v4",
+      "version": "4.0.0",
+      "description": "|   Nuxt 4 production optimization: hydration, performance, testing with Vitest,   deployment to Cloudflare/Vercel/Netlify, and v4 migration.    Use when: debugging hydration mismatches, optimizing performance and Core Web Vitals,   writing tests with Vitest, deploying to Cloudflare Pages/Workers/Vercel/Netlify,   or migrating from Nuxt 3 to Nuxt 4.    Keywords: hydration, hydration mismatch, ClientOnly, SSR, performance,   lazy loading, lazy hydration, Vitest, testing, deployment, Cloudflare Pages,   Cloudflare Workers, Vercel, Netlify, NuxtHub, migration, Nuxt 3 to Nuxt 4",
+      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","server routes","api routes","hydration","hydration mismatch","file-based routing","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","vercel","netlify","workers assets","durable objects","vitest","testing","nuxt performance","lazy loading","lazy hydration","code splitting","prerendering","nuxt layers","nuxt modules","nuxt plugins","vite","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","api","migration","nuxt 3 to nuxt 4","upgrade nuxt","performance analyzer","core web vitals","bundle size","debugger","diagnostic"],
+      "category": "frontend"
+    }
+,
+    {
+      "name": "nuxt-server",
+      "source": "./plugins/nuxt-v4",
+      "version": "4.0.0",
+      "description": "|   Nuxt 4 server-side development with Nitro: API routes, server middleware,   database integration, and backend patterns.    Use when: creating server API routes, implementing server middleware,   integrating databases (D1, PostgreSQL, Drizzle), handling file uploads,   implementing WebSockets, or building backend logic with Nitro.    Keywords: server routes, API routes, Nitro, defineEventHandler,   getRouterParam, getQuery, readBody, setCookie, createError,   server middleware, D1, Drizzle, PostgreSQL, WebSocket, file upload",
+      "keywords": ["nuxt-v4","nuxt","nuxt 4","nuxt v4","ssr","universal rendering","nitro","vue 3","usestate","usefetch","useasyncdata","$fetch","composables","auto-imports","server routes","api routes","hydration","hydration mismatch","file-based routing","seo","meta tags","usehead","useseometa","transitions","error handling","runtime config","cloudflare pages","cloudflare workers","nuxthub","vercel","netlify","workers assets","durable objects","vitest","testing","nuxt performance","lazy loading","lazy hydration","code splitting","prerendering","nuxt layers","nuxt modules","nuxt plugins","vite","shallow reactivity","reactive keys","singleton pattern","definenuxtconfig","defineeventhandler","navigateto","definepagemeta","useruntimeconfig","app.vue","api","migration","nuxt 3 to nuxt 4","upgrade nuxt","performance analyzer","core web vitals","bundle size","debugger","diagnostic"],
       "category": "frontend"
     }
 ,

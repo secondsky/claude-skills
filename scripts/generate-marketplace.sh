@@ -191,8 +191,8 @@ EOF
   fi
 
   # CASE 2: Multi-skill pattern (scan for nested skills)
-  # Note: Using mindepth 3 to handle structure like skills/[plugin-name]/[skill-name]/SKILL.md
-  skill_mds=$(find "$plugin_dir/skills" -mindepth 3 -maxdepth 3 -name "SKILL.md" 2>/dev/null | sort)
+  # Note: Supports both depth-2 (skills/[skill-name]/) and depth-3 (skills/[plugin]/[skill-name]/)
+  skill_mds=$(find "$plugin_dir/skills" -mindepth 2 -maxdepth 3 -name "SKILL.md" 2>/dev/null | sort)
 
   if [ -z "$skill_mds" ]; then
     # No skills found at all - skip this plugin
