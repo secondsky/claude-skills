@@ -502,5 +502,5 @@ npm list maz-ui @maz-ui/nuxt @maz-ui/themes
 pnpm update maz-ui @maz-ui/nuxt @maz-ui/themes @maz-ui/translations @maz-ui/icons
 
 # Or install specific version
-pnpm add maz-ui@4.3.2
+pnpm add maz-ui@4.3.3
 ```

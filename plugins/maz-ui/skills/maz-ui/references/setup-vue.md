@@ -450,9 +450,30 @@ function handleClickOutside() {
 | `MazDirectivesResolver` | Directives (v-click-outside, v-tooltip, etc.) | `'maz-ui/resolvers'` |
 | `MazModulesResolver` | Composables & utilities (useToast, debounce, etc.) | `'maz-ui/resolvers'` |
 
+### Resolver Options
+
+Each resolver supports advanced configuration:
+
+```typescript
+MazComponentsResolver({
+  prefix: '',         // Component prefix (default: '')
+  exclude: [],        // Exclude specific components
+  include: [],        // Only include specific components
+})
+
+MazDirectivesResolver({
+  prefix: 'Maz',      // Directive prefix (default: '')
+})
+
+MazModulesResolver({
+  prefix: 'Maz',      // Composable/util prefix (default: '')
+  exclude: [],        // Exclude specific modules
+})
+```
+
 ### Avoiding Naming Conflicts
 
-Use the `prefix` option:
+Use the `prefix` option to prevent conflicts with other libraries:
 
 ```typescript
 export default defineConfig({
@@ -471,6 +492,62 @@ export default defineConfig({
   ],
 })
 ```
+
+### Advanced Resolver Configuration
+
+#### Include/Exclude Specific Components
+
+```typescript
+Components({
+  resolvers: [
+    MazComponentsResolver({
+      // Only auto-import form components
+      include: ['MazInput', 'MazSelect', 'MazTextarea', 'MazCheckbox']
+    }),
+
+    // Or exclude heavy components
+    MazComponentsResolver({
+      exclude: ['MazCarousel', 'MazGallery', 'MazTable']
+    })
+  ]
+})
+```
+
+#### Multiple Resolvers for Different Namespaces
+
+```typescript
+Components({
+  resolvers: [
+    // Maz-UI components
+    MazComponentsResolver(),
+
+    // Other UI library
+    ElementPlusResolver(),
+  ]
+})
+```
+
+#### Webpack Configuration
+
+```javascript
+// webpack.config.js
+const Components = require('unplugin-vue-components/webpack')
+const AutoImport = require('unplugin-auto-import/webpack')
+const { MazComponentsResolver, MazModulesResolver } = require('maz-ui/resolvers')
+
+module.exports = {
+  plugins: [
+    Components({
+      resolvers: [MazComponentsResolver()],
+    }),
+    AutoImport({
+      resolvers: [MazModulesResolver()],
+    }),
+  ],
+}
+```
+
+**For complete resolver documentation** including Rollup, esbuild configurations, and troubleshooting, load `references/resolvers.md`.
 
 ## Using Plugins
 
@@ -721,6 +798,225 @@ const toastOptions: ToastOptions = {
   persistent: false
 }
 ```
+
+## Performance Optimization
+
+### Bundle Size Optimization
+
+Maz-UI v4 achieves **60-90% bundle size reduction** through optimal tree-shaking and modular architecture.
+
+#### Auto-Import with Resolvers (Recommended)
+
+Using resolvers provides the best bundle optimization:
+
+```typescript
+// vite.config.ts
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
+import { MazComponentsResolver, MazModulesResolver } from 'maz-ui/resolvers'
+
+export default defineConfig({
+  plugins: [
+    Components({
+      resolvers: [MazComponentsResolver()],
+      dts: true
+    }),
+    AutoImport({
+      resolvers: [MazModulesResolver()],
+      dts: true
+    })
+  ]
+})
+```
+
+**Result**: Only imports components you actually use
+
+```vue
+<template>
+  <!-- Only MazBtn and MazInput are bundled -->
+  <MazBtn>Click</MazBtn>
+  <MazInput v-model="name" />
+</template>
+```
+
+**Bundle size**: ~15KB (vs ~300KB without tree-shaking)
+
+---
+
+#### Manual Import Optimization
+
+If not using auto-imports, prefer individual imports:
+
+```typescript
+// ✅ BEST: Individual imports
+import MazBtn from 'maz-ui/components/MazBtn'
+import MazInput from 'maz-ui/components/MazInput'
+import { useToast } from 'maz-ui/composables/useToast'
+
+// ✅ GOOD: Batch imports (still tree-shakable)
+import { MazBtn, MazInput } from 'maz-ui/components'
+
+// ❌ AVOID: Imports everything
+import * as MazUI from 'maz-ui'
+```
+
+---
+
+### Lazy Loading Components
+
+Defer loading heavy components until needed:
+
+```vue
+<script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
+
+// Lazy load heavy components
+const MazCarousel = defineAsyncComponent(() =>
+  import('maz-ui/components/MazCarousel')
+)
+
+const MazGallery = defineAsyncComponent(() =>
+  import('maz-ui/components/MazGallery')
+)
+</script>
+
+<template>
+  <Suspense>
+    <template #default>
+      <MazCarousel :images="images" />
+    </template>
+    <template #fallback>
+      <MazCircularProgressBar />
+    </template>
+  </Suspense>
+</template>
+```
+
+---
+
+### Code Splitting
+
+Configure Vite for optimal code splitting:
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'maz-ui-core': [
+            'maz-ui/components/MazBtn',
+            'maz-ui/components/MazInput'
+          ],
+          'maz-ui-forms': [
+            'maz-ui/components/MazSelect',
+            'maz-ui/components/MazTextarea',
+            'maz-ui/components/MazCheckbox'
+          ]
+        }
+      }
+    }
+  }
+})
+```
+
+---
+
+### Theme Optimization
+
+Load only the theme you need:
+
+```typescript
+import { MazUi } from 'maz-ui/plugins/maz-ui'
+import { mazUi } from '@maz-ui/themes/presets'
+
+app.use(MazUi, {
+  theme: {
+    preset: mazUi // ~5KB
+    // Don't load other presets unless needed
+  }
+})
+```
+
+---
+
+### Translation Optimization
+
+Lazy load translations:
+
+```typescript
+app.use(MazUi, {
+  translations: {
+    locale: 'en',
+    messages: {
+      // Load French only when needed
+      fr: () => import('@maz-ui/translations/locales/fr'),
+      es: () => import('@maz-ui/translations/locales/es')
+    }
+  }
+})
+```
+
+---
+
+### Icon Optimization
+
+Use individual icon imports:
+
+```bash
+npm install @maz-ui/icons
+```
+
+```typescript
+// ✅ OPTIMAL: Import specific icons
+import { IconHome, IconUser } from '@maz-ui/icons'
+```
+
+```vue
+<template>
+  <MazIcon :src="IconHome" />
+</template>
+```
+
+**Bundle**: ~1KB per icon (vs ~50KB for all icons)
+
+---
+
+### Production Build Optimization
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console.log
+      }
+    },
+    cssCodeSplit: true, // Split CSS per component
+  }
+})
+```
+
+---
+
+### Performance Checklist
+
+- [ ] **Auto-import resolvers** configured
+- [ ] **Tree-shaking** verified (only used components bundled)
+- [ ] **Lazy loading** for heavy components (MazCarousel, MazGallery, MazTable)
+- [ ] **Code splitting** configured
+- [ ] **Theme** loaded selectively (one preset)
+- [ ] **Translations** lazy loaded
+- [ ] **Icons** imported individually (@maz-ui/icons)
+- [ ] **Production build** minified and optimized
+- [ ] **Bundle size** <250KB for full app
+
+**For comprehensive performance optimization**, load `references/performance.md`.
+
+---
 
 ## Common Setup Issues
 

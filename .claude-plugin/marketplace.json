@@ -887,9 +887,9 @@
     {
       "name": "maz-ui",
       "source": "./plugins/maz-ui",
-      "version": "1.0.0",
-      "description": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support",
-      "keywords": ["maz-ui","vue","vue3","nuxt","nuxt3","components","ui-library","design-system","forms","inputs","dialogs","buttons","themes","dark-mode","i18n","ssr","typescript","composables","directives","phone-input","date-picker","tables","charts","animations","responsive","accessibility","aria"],
+      "version": "2.0.0",
+      "description": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support. Includes autonomous agents for scaffolding components, generating forms, and customizing themes.",
+      "keywords": ["maz-ui","vue","vue3","nuxt","nuxt3","components","ui-library","design-system","forms","inputs","dialogs","buttons","themes","dark-mode","i18n","ssr","typescript","composables","directives","phone-input","date-picker","tables","charts","animations","responsive","accessibility","aria","valibot","validation","form-generator","component-scaffolder","theme-customizer"],
       "category": "tooling"
     }
 ,

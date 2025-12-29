@@ -7,7 +7,7 @@ description: Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone
 
 Maz-UI is a comprehensive, standalone component library for Vue 3 and Nuxt 3 applications, offering 50+ production-ready components, powerful theming, internationalization, and exceptional developer experience.
 
-**Latest Version**: 4.3.2 (as of 2025-12-14)
+**Latest Version**: 4.3.3 (as of 2025-12-29)
 **Package**: `maz-ui` | `@maz-ui/nuxt` | `@maz-ui/themes` | `@maz-ui/translations` | `@maz-ui/icons`
 
 ## Quick Start
@@ -206,29 +206,84 @@ const inputValue = ref('')
 ✅ **i18n** - Multi-language support with @maz-ui/translations
 ✅ **840+ Icons** - Optimized SVG icon library (@maz-ui/icons)
 
+## Template Structure
+
+Maz-UI provides **two sets of production-ready templates** organized by framework:
+
+### Vue 3 + Vite Templates (`templates/vue/`)
+- ✅ Pure Vue 3 with Vite
+- ✅ Uses standard `fetch()` API
+- ✅ Explicit imports for all dependencies
+- ✅ No framework-specific dependencies
+- ✅ Optimized for SPA development
+
+**Use when**: Building Vue 3 applications with Vite
+
+**Available templates**:
+- `setup/vite.config.ts` - Vite configuration with auto-imports
+- `components/form-basic.vue` - Basic form validation
+- `components/form-multi-step.vue` - Multi-step form with stepper
+- `components/dialog-confirm.vue` - Dialog confirmation patterns
+- `components/data-table.vue` - Data table with pagination, search, sort
+
+### Nuxt 3 Templates (`templates/nuxt/`)
+- ✅ Nuxt 3 optimized
+- ✅ Uses `$fetch` (Nuxt's ofetch wrapper)
+- ✅ Leverages auto-imports for components and composables
+- ✅ Showcases SSR patterns and server routes
+- ✅ Optimized for full-stack Nuxt development
+
+**Use when**: Building Nuxt 3 applications
+
+**Available templates**:
+- `setup/nuxt.config.ts` - Nuxt configuration with Maz-UI module
+- `components/form-basic.vue` - Basic form validation (auto-imports)
+- `components/form-multi-step.vue` - Multi-step form (auto-imports)
+- `components/dialog-confirm.vue` - Dialog patterns (auto-imports)
+- `components/data-table.vue` - Data table with reactive data loading
+
+Both template sets:
+- ✅ Fix all validation, type inference, and pagination issues
+- ✅ Follow framework best practices
+- ✅ Are production-ready and fully tested
+- ✅ Include setup configs and component examples
+
 ## When to Load References
 
-Load reference files based on what you're implementing:
+Load reference files based on what you're implementing. All 21 reference files are grouped by purpose for quick discovery:
 
-### Components
-- **`references/components-forms.md`** - When building forms, inputs, validation, phone numbers, dates, file uploads
-- **`references/components-feedback.md`** - When adding toasts, dialogs, loading states, progress indicators
-- **`references/components-navigation.md`** - When implementing tabs, steppers, pagination, breadcrumbs
-- **`references/components-layout.md`** - When working with cards, grids, containers, spacing
+### Components (4 files)
+- **`components-forms.md`** - Building forms, inputs, validation, phone numbers, dates, file uploads, MazInput, MazSelect, MazCheckbox, MazDatePicker
+- **`components-feedback.md`** - Adding loaders, progress bars, animations, toasts, MazFullscreenLoader, MazCircularProgressBar, MazAnimatedText, MazCardSpotlight
+- **`components-navigation.md`** - Implementing tabs, steppers, pagination, MazTabs, MazStepper, MazPagination
+- **`components-layout.md`** - Working with cards, drawers, carousels, galleries, MazCard, MazAccordion, MazDrawer, MazCarousel, MazGallery
 
-### Setup & Configuration
-- **`references/setup-vue.md`** - When setting up Maz-UI in Vue 3 project (with/without auto-imports)
-- **`references/setup-nuxt.md`** - When integrating with Nuxt 3, configuring module options
-- **`references/theming.md`** - When customizing themes, dark mode, color schemes, CSS variables
-- **`references/translations.md`** - When implementing multi-language support, custom locales
+### Setup & Configuration (2 files)
+- **`setup-vue.md`** - Setting up Maz-UI in Vue 3 project, auto-imports with resolvers, Vite/Webpack configuration, performance optimization
+- **`setup-nuxt.md`** - Integrating with Nuxt 3, module configuration, theme strategies (hybrid/buildtime/runtime), SSR/SSG considerations
 
-### Advanced Features
-- **`references/composables.md`** - When using composable APIs (useToast, useTheme, useBreakpoints, etc.)
-- **`references/directives.md`** - When adding directives (tooltip, click-outside, lazy-img)
-- **`references/plugins.md`** - When enabling plugins (AOS, dialog, toast, wait)
-- **`references/icons.md`** - When using @maz-ui/icons package
-- **`references/migration-v4.md`** - When upgrading from Maz-UI v3 to v4
-- **`references/troubleshooting.md`** - When encountering errors, debugging issues
+### Core Features (5 files)
+- **`composables.md`** - Using all 14 composables: useToast, useTheme, useBreakpoints, useFormValidator, useTimer, useDialog, useTranslations, etc.
+- **`directives.md`** - Adding directives: v-tooltip, v-click-outside, v-lazy-img, v-zoom-img, v-fullscreen-img
+- **`plugins.md`** - Enabling plugins: AOS (animations on scroll), Dialog, Toast, Wait (loading states)
+- **`resolvers.md`** - **CRITICAL**: Auto-import configuration with MazComponentsResolver, MazDirectivesResolver, MazModulesResolver for optimal tree-shaking
+- **`translations.md`** - Implementing multi-language support (8 built-in languages), custom locales, lazy loading, SSR hydration
+
+### Tools & Integrations (3 files)
+- **`icons.md`** - Using @maz-ui/icons package (840+ icons), MazIcon component, icon sizing, colors, animations
+- **`cli.md`** - Using @maz-ui/cli (legacy v3), theme configuration, migration to v4 themes system
+- **`mcp.md`** - Setting up Model Context Protocol server for AI assistant integration (Claude Code, Claude Desktop, Cursor, Windsurf)
+
+### Advanced Topics (5 files)
+- **`theming.md`** - Customizing themes, dark mode, color schemes, CSS variables, 4 built-in presets (mazUi, ocean, pristine, obsidian)
+- **`performance.md`** - Bundle optimization, tree-shaking, lazy loading, code splitting, reducing bundle size from ~300KB to ~15KB
+- **`ssr-ssg.md`** - **Comprehensive SSR/SSG guide**: theme strategies, critical CSS, hydration prevention, dark mode without flash, static site generation
+- **`accessibility.md`** - WCAG 2.1 AA compliance, keyboard navigation, screen reader support, ARIA attributes, color contrast
+- **`form-validation.md`** - useFormValidator deep dive, Valibot integration, 5 validation modes (lazy, aggressive, eager, blur, progressive), TypeScript type inference
+
+### Troubleshooting (2 files)
+- **`migration-v4.md`** - Upgrading from Maz-UI v3 to v4, breaking changes, API changes, component renames, TypeScript updates
+- **`troubleshooting.md`** - Debugging errors, common issues, configuration problems, SSR hydration, bundle size issues
 
 ## Top 6 Common Errors
 
@@ -420,6 +475,28 @@ import { useToast, useTheme } from 'maz-ui/composables'
 // ❌ Imports everything
 import * as MazUI from 'maz-ui'
 ```
+
+## Advanced Topics
+
+### Performance Optimization
+
+Maz-UI can be optimized from ~300KB to ~15KB through strategic imports and tree-shaking. Use auto-import resolvers (`MazComponentsResolver`, `MazDirectivesResolver`, `MazModulesResolver`) for optimal bundle size, lazy load components with dynamic imports, and split code by feature. Load **`performance.md`** for comprehensive bundle optimization strategies.
+
+### SSR & SSG
+
+Full server-side rendering and static site generation support with three theme strategies: **hybrid** (critical CSS injection, no FOUC), **buildtime** (smallest bundle, static themes), and **runtime** (full theme switching, larger bundle). Prevent hydration mismatches by wrapping client-only components in `<ClientOnly>`. Load **`ssr-ssg.md`** for critical CSS patterns, dark mode without flash, and SSR/SSG checklist.
+
+### Accessibility
+
+All Maz-UI components are WCAG 2.1 AA compliant with proper ARIA attributes, keyboard navigation, focus management, and screen reader support. Components include semantic HTML, color contrast ratios >4.5:1, and accessible form validation. Load **`accessibility.md`** for keyboard shortcuts, focus trap patterns, and accessibility testing checklist.
+
+### Form Validation
+
+The `useFormValidator()` composable integrates with Valibot for type-safe schema validation with full TypeScript inference. Supports 5 validation modes (lazy, aggressive, eager, blur, progressive), async validation, custom validators, and real-time error messages. Load **`form-validation.md`** for comprehensive validation patterns and real-world examples.
+
+### Auto-Import Resolvers
+
+**Critical for tree-shaking**: Use `unplugin-vue-components` and `unplugin-auto-import` with Maz-UI resolvers to import only what you use. Reduces bundle size by 60-90% compared to global imports. Configure prefix handling to avoid naming conflicts with other libraries. Load **`resolvers.md`** for complete resolver configuration and troubleshooting.
 
 ## Progressive Disclosure Summary
 

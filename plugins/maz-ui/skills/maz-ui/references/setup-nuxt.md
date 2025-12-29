@@ -165,59 +165,318 @@ export default defineNuxtConfig({
 
 ## Theme Strategies
 
-### Hybrid (Recommended)
+Maz-UI offers three theme strategies optimized for different use cases:
 
-Best performance with zero FOUC (Flash of Unstyled Content):
+### Hybrid Strategy (Recommended)
+
+**Best for**: SSR/SSG applications with runtime theme switching
 
 ```typescript
 export default defineNuxtConfig({
   mazUi: {
     theme: {
-      strategy: 'hybrid', // ✅ Recommended
-      preset: 'maz-ui'
+      preset: 'maz-ui',
+      strategy: 'hybrid', // ✅ OPTIMAL for SSR/SSG
+      darkModeStrategy: 'class' // or 'media'
     }
   }
 })
 ```
 
 **How it works**:
-- Critical CSS injected immediately (server-side if SSR enabled)
-- Full CSS loaded asynchronously via `requestIdleCallback` (100ms timeout)
-- Zero visual flash, optimal performance
+1. **Server**: Generates critical CSS based on user preferences (cookie)
+2. **Client**: Injects critical CSS in `<head>` (instant theme)
+3. **Hydration**: No flash, theme persists across page loads
+4. **Runtime**: Full theme switching without page reload
 
-### Runtime
+**Critical CSS injection**:
+```html
+<!-- Server-rendered -->
+<head>
+  <style data-maz-ui-critical>
+    :root {
+      --maz-color-primary: 220 100% 50%;
+      --maz-color-secondary: 220 14% 96%;
+      /* ... critical theme variables */
+    }
+  </style>
+</head>
+```
 
-Immediate CSS injection:
+**Benefits**:
+- ✅ Instant theme on server render
+- ✅ No flash of unstyled content (FOUC)
+- ✅ Runtime theme switching
+- ✅ Dark mode toggle works instantly
+- ✅ User preference persistence (cookie)
+
+**Bundle Impact**: ~15KB runtime theme logic + critical CSS
+
+---
+
+### Build-time Strategy
+
+**Best for**: Static sites with no runtime theme switching
 
 ```typescript
 export default defineNuxtConfig({
   mazUi: {
     theme: {
-      strategy: 'runtime', // Use when you need immediate full styling
-      preset: 'maz-ui'
+      preset: 'maz-ui',
+      strategy: 'buildtime', // ✅ SMALLEST bundle
     }
   }
 })
 ```
 
-**When to use**: Dynamic themes that change frequently
+**How it works**:
+1. **Build**: All CSS variables pre-generated at build time
+2. **Server/Client**: Static CSS loaded (no runtime logic)
+3. **Theme switching**: NOT possible (requires full rebuild)
 
-### Buildtime
+**Benefits**:
+- ✅ Smallest bundle size (~5KB smaller than hybrid)
+- ✅ Fastest initial load
+- ✅ Perfect for static themes
+- ❌ No runtime theme switching
+- ❌ No dark mode toggle
 
-Build-time CSS generation (manual inclusion required):
+**Use cases**:
+- Marketing sites with fixed branding
+- Documentation sites
+- Landing pages
+
+---
+
+### Runtime Strategy
+
+**Best for**: Apps with multiple theme presets and user preference
 
 ```typescript
 export default defineNuxtConfig({
   mazUi: {
     theme: {
-      strategy: 'buildtime', // Static sites with predefined themes
-      preset: 'maz-ui'
+      preset: 'maz-ui',
+      strategy: 'runtime', // ⚠️ LARGER bundle
+      darkModeStrategy: 'class'
     }
   }
 })
 ```
 
-**When to use**: Static sites without theme switching
+**How it works**:
+1. **Server**: Minimal CSS (base styles only)
+2. **Client**: Full theme logic loaded
+3. **Runtime**: Complete theme switching (all presets available)
+
+**Benefits**:
+- ✅ Full runtime theme switching
+- ✅ All theme presets available
+- ✅ User preference persistence
+- ⚠️ Larger initial bundle (~20KB)
+- ⚠️ Possible FOUC on slow connections
+
+**Use cases**:
+- Apps with theme marketplace
+- Multi-tenant applications
+- User-customizable themes
+
+---
+
+### Dark Mode Strategies
+
+#### Class Strategy (Recommended)
+
+Uses `class="dark"` on `<html>` element:
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    theme: {
+      darkModeStrategy: 'class' // ✅ RECOMMENDED
+    }
+  }
+})
+```
+
+**How it works**:
+```html
+<!-- Light mode -->
+<html>
+  <body>...</body>
+</html>
+
+<!-- Dark mode -->
+<html class="dark">
+  <body>...</body>
+</html>
+```
+
+**Benefits**:
+- ✅ Full control over dark mode
+- ✅ Works with JavaScript disabled
+- ✅ Persists across page loads (cookie)
+- ✅ No flash on page load
+
+---
+
+#### Media Strategy
+
+Uses `prefers-color-scheme` media query:
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    theme: {
+      darkModeStrategy: 'media'
+    }
+  }
+})
+```
+
+**Benefits**:
+- ✅ Automatic based on system preferences
+- ✅ No JavaScript required
+- ❌ Cannot be toggled by user
+- ❌ Follows system preference only
+
+---
+
+### Theme Strategy Comparison
+
+| Feature | Hybrid | Build-time | Runtime |
+|---------|--------|------------|---------|
+| **Bundle Size** | ~15KB | ~10KB | ~25KB |
+| **Critical CSS** | ✅ Yes | ✅ Yes | ❌ No |
+| **Theme Switching** | ✅ Yes | ❌ No | ✅ Yes |
+| **Dark Mode Toggle** | ✅ Yes | ❌ No | ✅ Yes |
+| **FOUC Prevention** | ✅ Yes | ✅ Yes | ⚠️ Partial |
+| **SSR Performance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **SSG Performance** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **Use Case** | SSR/SSG apps | Static sites | Multi-theme apps |
+
+**For detailed theme documentation**, load `references/theming.md`.
+
+---
+
+## SSR & SSG Considerations
+
+Maz-UI v4 is fully compatible with Nuxt 3's Server-Side Rendering (SSR) and Static Site Generation (SSG), but requires proper configuration to avoid common pitfalls.
+
+### Critical CSS for Instant Theming
+
+The **hybrid strategy** (recommended) prevents Flash of Unstyled Content (FOUC) by injecting critical CSS during server rendering:
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  mazUi: {
+    theme: {
+      strategy: 'hybrid', // ✅ Injects critical CSS on server
+      darkModeStrategy: 'class'
+    }
+  }
+})
+```
+
+**How it works**:
+1. Server reads user preference from cookie (`maz-ui-dark-mode`)
+2. Generates critical CSS with correct theme variables
+3. Injects `<style data-maz-ui-critical>` in `<head>`
+4. User sees correct theme instantly (no flash)
+
+### Preventing Hydration Mismatches
+
+Some Maz-UI components use browser APIs and must only render on the client:
+
+```vue
+<template>
+  <!-- ✅ CORRECT: Wrap client-only components -->
+  <ClientOnly>
+    <MazDialogConfirm />
+    <MazToast />
+    <MazWaitOverlay />
+  </ClientOnly>
+
+  <!-- ❌ WRONG: Dialog/Toast on server causes hydration errors -->
+  <MazDialogConfirm />
+</template>
+```
+
+**Why?** Dialog, Toast, and Wait plugins use `window`, `document` APIs not available during SSR.
+
+### Dark Mode Without Flash
+
+To prevent dark mode flash on page load, use **hybrid strategy** with **class dark mode**:
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    theme: {
+      strategy: 'hybrid', // Server reads cookie
+      darkModeStrategy: 'class' // class="dark" on <html>
+    }
+  }
+})
+```
+
+Server checks `maz-ui-dark-mode` cookie → applies correct theme → no flash on hydration.
+
+### Translation Hydration Issues
+
+**CRITICAL**: Always provide initial locale immediately (not as async function) to prevent hydration mismatches:
+
+```typescript
+import { fr } from '@maz-ui/translations'
+
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      messages: {
+        // ✅ CORRECT: Immediate import
+        fr,
+
+        // ✅ Other languages can be lazy
+        en: () => import('@maz-ui/translations/locales/en')
+      }
+    }
+  }
+})
+```
+
+### Static Site Generation (SSG)
+
+For SSG, use **buildtime strategy** for smallest bundle:
+
+```typescript
+export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      routes: ['/', '/about', '/contact']
+    }
+  },
+
+  mazUi: {
+    theme: {
+      strategy: 'buildtime' // ✅ Smallest bundle for static sites
+    }
+  }
+})
+```
+
+**Trade-off**: No runtime theme switching, but optimal performance for static content.
+
+### Common SSR/SSG Pitfalls
+
+1. **Hydration mismatch**: Using `window`/`document` in SSR → Use `<ClientOnly>` or `onMounted()`
+2. **FOUC (Flash of Unstyled Content)**: Wrong theme strategy → Use `hybrid` strategy
+3. **Dark mode flash**: Server/client theme mismatch → Use `hybrid` + `class` dark mode
+4. **Translation errors**: Async locale in SSR → Import initial locale immediately
+
+**For comprehensive SSR/SSG patterns, troubleshooting, and advanced configurations**, load `references/ssr-ssg.md`.
+
+---
 
 ## Custom Theme Creation
 
