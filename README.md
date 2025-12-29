@@ -8,28 +8,6 @@ A curated collection of battle-tested skills for building modern web application
 
 ---
 
-## Prerequisites (REQUIRED)
-
-**Install official plugin development toolkit**:
-
-```bash
-/plugin install plugin-dev@claude-code-marketplace
-```
-
-This provides:
-- `/plugin-dev:create-plugin` command (8-phase guided workflow)
-- 7 comprehensive skills (hooks, MCP, structure, agents, commands, skills)
-- 3 specialized agents (agent-creator, plugin-validator, skill-reviewer)
-
-**Our documentation focuses on**:
-- Marketplace management (169 skills, 58 plugins)
-- System prompt budget optimization (15k char limit)
-- Batch operations and quality workflows
-
-See [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) for details.
-
----
-
 ## Quick Start
 
 ### Marketplace Installation (Recommended)
@@ -200,12 +178,27 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 
 ## Contributing
 
-1. Create skill directory in `skills/`
+### Prerequisites for Contributors
+
+Install the official plugin development toolkit:
+
+```bash
+/plugin install plugin-dev@claude-code-marketplace
+```
+
+This provides:
+- `/plugin-dev:create-plugin` command (8-phase guided workflow)
+- 7 comprehensive skills (hooks, MCP, structure, agents, commands, skills)
+- 3 specialized agents (agent-creator, plugin-validator, skill-reviewer)
+
+### Quick Steps
+
+1. Create skill directory in `plugins/`
 2. Add `SKILL.md` with YAML frontmatter
 3. Run `./scripts/sync-plugins.sh`
 4. Submit pull request
 
-See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) for detailed guidelines.
+See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) and [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) for detailed guidelines.
 
 ---
 

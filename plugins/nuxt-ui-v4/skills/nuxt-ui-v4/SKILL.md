@@ -1,42 +1,26 @@
 ---
 name: nuxt-ui-v4
-description: Nuxt UI v4 component library with 100+ accessible components, Tailwind v4, Reka UI. Use for design systems, forms, overlays, AI chat integration, or encountering theming, composable, TypeScript errors.
-
-  Keywords: Nuxt v4, Nuxt 4, Nuxt UI v4, Nuxt UI 4, @nuxt/ui, Tailwind v4, Tailwind CSS 4, Reka UI, semantic colors, design system, accessible components, ARIA, WAI-ARIA, dark mode, color mode, theming, component library, form validation, Input, InputDate, InputTime, date picker, time picker, @internationalized/date, Select, Checkbox, Radio, Textarea, Table, Card, Container, Avatar, Badge, Button, Tabs, Breadcrumb, CommandPalette, Pagination, Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip, Sheet, Alert, Toast, Notification, Progress, Skeleton, Empty, empty state, Carousel, useToast, useNotification, useColorMode, defineShortcuts, UApp wrapper, Tailwind Variants, Tailwind prefix, component customization, component detection, virtualization, tree-shaking, responsive design, mobile patterns, AI SDK v5, chat interface, Zod validation, nested forms, file uploads, keyboard navigation, focus management, CSS variables, Embla carousel, Fuse.js search, template refs, $el accessor, v4.2 migration
+description: Nuxt UI v4 component library for building Nuxt v4 applications. 125+ accessible components with Tailwind v4, Reka UI, dark mode, theming. Use for dashboards, forms, overlays, editors, page layouts, pricing pages, or encountering component, theming, or TypeScript errors.
 license: MIT
-metadata:
-  version: 1.1.0
-  last_verified: 2025-12-15
-  nuxt_ui_version: 4.2.1
-  nuxt_version: 4.0.0
-  vue_version: 3.5.0
-  tailwind_version: 4.0.0
-  ai_sdk_version: 5.0.0
-  author: Claude Skills Maintainers
-  repository: https://github.com/secondsky/claude-skills
-  production_tested: true
-  token_savings: 70%
-  errors_prevented: 21+
-  component_count: 55
-  template_count: 25
-  reference_count: 28
 allowed-tools: ["Read", "Write", "Edit", "Bash", "Glob", "Grep"]
 ---
 
-# Nuxt UI v4 - Production Component Library for Nuxt v4
+# Nuxt UI v4 - Production Component Library
 
-**Version**: Nuxt UI v4.2.1 | Nuxt v4.0.0
-**Last Verified**: 2025-12-15
+**Version**: Nuxt UI v4.2.1 | Nuxt v4.0.0 | **125+ Components**
+**Last Verified**: 2025-12-28
 
-A comprehensive production-ready component library combining 100+ accessible components with Nuxt v4's latest features, Tailwind CSS v4's performance, and Reka UI's accessibility foundation.
+A comprehensive production-ready component library with 125+ accessible components, Tailwind CSS v4, Reka UI accessibility, and first-class AI integration.
+
+**MCP Integration**: This plugin includes the official Nuxt UI MCP server for live component data.
 
 ---
 
 ## When to Use / NOT Use
 
-**Use when**: Setting up Nuxt v4 projects, building design systems with semantic colors, creating accessible forms/data displays, implementing navigation/overlays/feedback UI, integrating AI chat (AI SDK v5), customizing component themes, debugging Nuxt UI issues
+**Use when**: Building Nuxt v4 dashboards, AI chat interfaces, landing pages, forms, admin panels, pricing pages, blogs, documentation sites, or any UI with Nuxt UI components
 
-**DON'T use**: Vue-only projects (no Nuxt), React projects, Nuxt 3 or earlier, Tailwind CSS v3, need headless-only components
+**DON'T use**: Vue-only projects (no Nuxt), React projects, Nuxt 3 or earlier, Tailwind CSS v3
 
 ---
 
@@ -61,281 +45,50 @@ export default defineNuxtConfig({ modules: ['@nuxt/ui'] })
 </style>
 ```
 
-Done! 100+ components ready: `<UButton>`, `<UCard>`, `<UModal>`, etc.
+**Commands available**: `/nuxt-ui:setup`, `/nuxt-ui:migrate`, `/nuxt-ui:theme`, `/nuxt-ui:component`
 
 ---
 
-## What's New in v4
+## Component Categories (125+ Total)
 
-### Nuxt UI v4 Unified Release
-
-**Major Changes:**
-- **Unified Package**: Combines Nuxt UI (OSS) + Nuxt UI Pro into single `@nuxt/ui` package
-- **100+ Components**: Massive expansion from v3's limited set
-- **Reka UI Foundation**: Built on Reka UI (replaces Headless UI from v3)
-- **Tailwind v4 Required**: CSS-first configuration, 5x faster builds
-- **Enhanced Theming**: Tailwind Variants system for powerful customization
-- **Better Accessibility**: WAI-ARIA compliant out of the box
-
-**Performance Improvements:**
-- Tailwind v4 delivers 5x faster build times
-- CSS-first configuration reduces JavaScript overhead
-- Optimized component rendering
-- Better tree-shaking for smaller bundles
-
-**Breaking Changes from v3:**
-
-1. **Component Renames:**
-   - `ButtonGroup` → `FieldGroup`
-   - `PageMarquee` → `Marquee`
-   - `PageAccordion` removed (use `Accordion` with `unmount-on-hide="false"`)
-
-2. **Model Modifiers:**
-   - `nullify` modifier renamed to `nullable`
-   - New `optional` modifier added
-
-3. **Form Changes:**
-   - Transformations now apply only to submit data (not internal state)
-   - Nested forms require explicit `nested` prop
-
-4. **Content Utilities:**
-   - Removed from Nuxt UI (use `@nuxt/content` directly)
-
-### New in v4.2.x (November 2024)
-
-**New Components:**
-- **InputDate** - Date picker with calendar UI and range selection (requires `@internationalized/date`)
-- **InputTime** - Time picker with 12/24-hour format support (requires `@internationalized/date`)
-- **Empty** - Empty state display component with icon, title, description, and actions
-
-**New Features:**
-- **Tailwind CSS Prefix** (v4.2+) - Configure utility class prefixing to avoid conflicts → `references/tailwind-prefix-guide.md`
-- **Component Virtualization** (v4.1+) - Render only visible items for large datasets (95% faster for 10k+ items) → `references/performance-optimization.md`
-- **Experimental Component Detection** (v4.1+) - Auto tree-shaking for 70%+ CSS bundle size reduction → `references/performance-optimization.md`
-
-**Breaking Changes (v4.2.0):**
-- **Template Refs**: InputMenu, InputNumber, SelectMenu now return HTML elements directly (not component instances)
-  - **Before**: `inputRef.value.$el.focus()` ❌
-  - **After**: `inputRef.value?.focus()` ✅
-- **Composable Imports**: No longer require `.js` extension
-  - **Before**: `import { useToast } from '#ui/composables/useToast.js'` ❌
-  - **After**: `import { useToast } from '#ui/composables/useToast'` ✅
-
-**Migration Guide**: See `references/nuxt-v4-features.md` for complete v4.2.x migration steps
-
-### Nuxt v4 Integration
-
-This skill targets **Nuxt v4** with:
-- Latest Nuxt v4 features and patterns
-- Optimized for Nuxt v4's improved performance
-- Compatible with Nuxt v4's module system
-- TypeScript support with Nuxt v4's type generation
-
----
-
-## Component Categories Overview
-
-Nuxt UI v4 includes **55 components** across 7 categories:
-
-### Forms (17 components)
-Input, **InputDate (v4.2+)**, **InputTime (v4.2+)**, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Toggle, Slider, Range, Calendar, ColorPicker, PinInput, InputMenu
-
-### Navigation (7 components)
-Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu
-
-### Overlays (7 components)
-Modal, Drawer, Dialog, Popover, DropdownMenu, ContextMenu, Sheet, Tooltip
-
-### Feedback (7 components)
-Alert, Toast, Notification, Progress, Skeleton, **Empty (v4.2+)**
-
-### Layout (4 components)
-Card, Container, Divider
-
-### Data (1 component)
-Table
-
-### General (12 components)
-Button, ButtonGroup (FieldGroup), Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Collapsible, Icon, Kbd
-
-**Template Coverage**: This skill provides 15 copy-paste templates covering 30+ of the most commonly used components.
-
----
-
-## Semantic Color System
-
-Nuxt UI v4 uses **7 semantic color aliases**: `primary`, `secondary`, `success`, `info`, `warning`, `error`, `neutral`.
-
-Configure in `app.config.ts`:
-```typescript
-export default defineAppConfig({
-  ui: {
-    theme: {
-      colors: { primary: 'violet', success: 'emerald' }
-    }
-  }
-})
-```
-
-**CSS Utilities**: `text-default/dimmed/muted/inverse`, `bg-default/elevated/sunken/overlay`, `border-default/dimmed`
-
-**Full details**: Load `references/semantic-color-system.md` for complete color configuration, CSS variables, and utility classes
-
----
-
-## Component Theming & Customization
-
-**Tailwind Variants** system with 3 levels: (1) Global Config (`app.config.ts`), (2) Component `:ui` prop, (3) Slot `class` prop.
+### Dashboard (11 components) - NEW
+Complete admin interface system:
+- **DashboardGroup** - Fixed layout wrapper with sidebar state management
+- **DashboardSidebar** - Resizable, collapsible sidebar
+- **DashboardPanel** - Main content panel with header/body/footer slots
+- **DashboardNavbar** - Top navigation bar
+- **DashboardToolbar** - Secondary toolbar under navbar
+- **DashboardSearch** - CommandPalette for dashboard search
+- **DashboardSearchButton** - Button to trigger search
+- **DashboardSidebarCollapse** - Collapse button for desktop
+- **DashboardSidebarToggle** - Toggle button for mobile
+- **DashboardResizeHandle** - Resize handle for sidebar/panels
 
 ```vue
-<UButton :ui="{ base: 'font-bold rounded-full' }">Themed Button</UButton>
+<template>
+  <UDashboardGroup>
+    <UDashboardSidebar>
+      <UNavigationMenu :items="menuItems" />
+    </UDashboardSidebar>
+    <UDashboardPanel>
+      <template #header><UDashboardNavbar /></template>
+      <template #body><NuxtPage /></template>
+    </UDashboardPanel>
+  </UDashboardGroup>
+</template>
 ```
 
-**Advanced theming**: Load `references/component-theming-guide.md` for compound variants, global themes, and customization patterns
+**Details**: Load `references/dashboard-components.md` for complete dashboard patterns
 
 ---
 
-## Form Components
-
-**17 components**: Input, InputDate (v4.2+), InputTime (v4.2+), Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Toggle, Slider, Range, Calendar, ColorPicker, PinInput, InputMenu
-
-**Quick Example** (Zod validation):
-```vue
-<UForm :state="state" :schema="schema" @submit="onSubmit">
-  <UFormField name="email" label="Email">
-    <UInput v-model="state.email" type="email" />
-  </UFormField>
-  <UButton type="submit">Submit</UButton>
-</UForm>
-
-<script setup lang="ts">
-const schema = z.object({
-  email: z.string().email('Invalid email')
-})
-</script>
-```
-
-**New in v4.2**: `InputDate`, `InputTime` (require `@internationalized/date`)
-```vue
-<UInputDate v-model="date" range />
-<UInputTime v-model="time" :hour-cycle="12" />
-```
-
-**Details**: Load `references/form-components-reference.md` for all 17 components, props, slots, and events
-**Validation**: Load `references/form-validation-patterns.md` for Zod schemas, nested forms, and date/time validation
-**Templates**: `templates/components/ui-form-example.vue`, `ui-input-date.vue`, `ui-input-time.vue`
-
----
-
-## Data Display Components
-
-**Table** with sorting, filtering, pagination:
-```vue
-<UTable :rows="rows" :columns="columns" :loading="loading" />
-```
-
-**Card** with header/footer slots, **Avatar**, **Badge** for status indicators.
-
-**Details**: Load `references/data-display-components.md` for Table virtualization (v4.1+), Card layouts, Avatar groups, Badge variants
-**Templates**: `templates/components/ui-data-table.vue`, `ui-card-layouts.vue`
-
----
-
-## Navigation Components
-
-**7 components**: Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu
-
-**Quick Examples**:
-```vue
-<UTabs v-model="selected" :items="items" />
-<UCommandPalette :groups="groups" placeholder="Search..." />
-```
-
-**Details**: Load `references/navigation-components-reference.md` for all navigation patterns, CommandPalette with Fuse.js, keyboard shortcuts
-**Templates**: `templates/components/ui-navigation-tabs.vue`, `ui-command-palette.vue`
-
----
-
-## Overlay Components
-
-**7 components**: Modal, Drawer, Dialog, Popover, DropdownMenu, ContextMenu, Sheet, Tooltip
-
-**Quick Examples**:
-```vue
-<UModal v-model="isOpen"><UCard>...</UCard></UModal>
-<UDrawer v-model="isOpen" side="right">...</UDrawer>
-<UDropdownMenu><UButton>Actions</UButton>...</UDropdownMenu>
-<UTooltip text="Help"><UButton>Hover</UButton></UTooltip>
-```
-
-**Details**: Load `references/overlay-components.md` for all 7 overlay types, positioning, animations, accessibility
-**Templates**: `templates/components/ui-modal-dialog.vue`, `ui-drawer-mobile.vue`, `ui-dropdown-menu.vue`
-
----
-
-## Feedback Components
-
-**7 components**: Alert, Toast, Notification, Progress, Skeleton, **Empty (v4.2+)**
-
-**Quick Examples**:
-```vue
-<!-- Toast (via composable) -->
-<script setup>
-const { add } = useToast()
-add({ title: 'Success!', color: 'success' })
-</script>
-
-<!-- Alert, Progress, Skeleton -->
-<UAlert color="warning" title="Warning" />
-<UProgress :value="60" :max="100" />
-<USkeleton class="h-8 w-48" />
-
-<!-- Empty state (v4.2+) -->
-<UEmpty icon="i-heroicons-inbox" title="No messages" :actions="[...]" />
-```
-
-**Details**: Load `references/feedback-components-reference.md` for all 7 components, Empty state patterns, Toast/Notification API
-**Templates**: `templates/components/ui-feedback-states.vue`, `ui-empty-state.vue`, `ui-toast-notifications.vue`
-
----
-
-## Layout Components
-
-**4 components**: Card, Container, Divider, with **Avatar** & **Badge** for UI elements.
-
-```vue
-<UContainer><div>...</div></UContainer>
-<UAvatar src="/avatar.jpg" size="lg" />
-<UBadge color="success">Online</UBadge>
-```
-
-**Details**: Load `references/layout-components-reference.md` for Container max-widths, Card slots, Avatar groups, Badge variants
-**Templates**: `templates/components/ui-avatar-badge.vue`
-
----
-
-## Composables
-
-**Key composables**: `useToast`, `useNotification`, `useColorMode`, `defineShortcuts`
-
-```typescript
-const { add } = useToast()
-add({ title: 'Success', color: 'success' })
-
-const colorMode = useColorMode()
-colorMode.preference = 'dark'
-
-defineShortcuts({ 'meta_k': () => openCommandPalette() })
-```
-
-**Details**: Load `references/composables-guide.md` for all composable APIs, keyboard shortcuts, dark mode patterns
-**Templates**: `templates/components/ui-dark-mode-toggle.vue`
-
----
-
-## AI SDK v5 Integration
-
-Build AI chat interfaces with Nuxt UI + AI SDK v5:
+### Chat / AI (5 components) - NEW
+Purpose-built for AI chatbots with AI SDK v5:
+- **ChatMessage** - Single message with icon, avatar, actions
+- **ChatMessages** - Message list with auto-scroll, status indicator
+- **ChatPalette** - Chat interface inside an overlay
+- **ChatPrompt** - Enhanced Textarea for AI prompts
+- **ChatPromptSubmit** - Submit button with status handling
 
 ```vue
 <script setup>
@@ -344,95 +97,258 @@ const chat = new Chat({ api: '/api/chat' })
 </script>
 
 <template>
-  <div v-for="msg in chat.messages">
-    <UCard><UAvatar />{{ msg.content }}</UCard>
-  </div>
-  <UInput v-model="input" @submit="chat.append({ role: 'user', content: input })" />
+  <UChatMessages :messages="chat.messages" :status="chat.status">
+    <template #content="{ message }">{{ message.content }}</template>
+  </UChatMessages>
+  <UChatPrompt v-model="input" @submit="chat.sendMessage({ text: input })">
+    <UChatPromptSubmit :status="chat.status" />
+  </UChatPrompt>
 </template>
 ```
 
-**Details**: Load `references/ai-sdk-v5-integration.md` for streaming chat, tool calling, embeddings, error handling
-**Templates**: `templates/components/ui-chat-interface.vue`
+**Details**: Load `references/chat-components.md` for AI SDK integration, streaming, error handling
 
 ---
 
-## Dark Mode
+### Editor (6 components) - NEW
+Rich text editing with TipTap:
+- **Editor** - TipTap-based editor with markdown/HTML/JSON support
+- **EditorToolbar** - Fixed, bubble, or floating toolbar
+- **EditorDragHandle** - Drag handle for reordering blocks
+- **EditorMentionMenu** - @ mention suggestions
+- **EditorEmojiMenu** - : emoji picker
+- **EditorSuggestionMenu** - / command menu
 
-**Enable** (default: true):
-```typescript
-// nuxt.config.ts
-export default defineNuxtConfig({ ui: { colorMode: true } })
+```vue
+<template>
+  <UEditor v-model="content" :extensions="extensions">
+    <template #toolbar>
+      <UEditorToolbar />
+    </template>
+  </UEditor>
+</template>
 ```
 
-**Toggle**: `<UColorModeSwitch />` (built-in) or `useColorMode()` composable
-
-**Details**: Load `references/dark-mode-guide.md` for auto-detection, localStorage persistence, CSS variables, theme switching
+**Details**: Load `references/editor-components.md` for TipTap setup, extensions, toolbar customization
 
 ---
 
-## TypeScript
+### Page Layout (16 components) - NEW
+Landing pages and content layouts:
+- **Page** - Grid layout with left/right columns
+- **PageHeader** - Responsive page header
+- **PageHero** - Hero section with title, description, CTAs
+- **PageSection** - Content section container
+- **PageGrid** - Responsive grid system
+- **PageColumns** - Multi-column layout
+- **PageFeature** - Feature showcase component
+- **PageCTA** - Call-to-action section
+- **PageCard** - Pre-styled card with title, description, link
+- **PageList** - Vertical list layout
+- **PageLogos** - Logo showcase
+- **PageAnchors** - Anchor link list
+- **PageAside** - Sticky sidebar
+- **PageBody** - Main content area
+- **PageLinks** - Link list
 
-Generate types: `bunx nuxt prepare`
-
-```typescript
-import type { Button } from '#ui/types'
-const schema = z.object({ email: z.string().email() })
-type FormData = z.infer<typeof schema>
+```vue
+<template>
+  <UPage>
+    <UPageHero title="Welcome" description="Get started today" :links="heroLinks" />
+    <UPageSection>
+      <UPageGrid>
+        <UPageFeature v-for="f in features" v-bind="f" />
+      </UPageGrid>
+    </UPageSection>
+    <UPageCTA title="Ready?" :links="ctaLinks" />
+  </UPage>
+</template>
 ```
 
-**Details**: Load `references/typescript-setup.md` for type-safe props, Zod inference, tsconfig setup
+**Details**: Load `references/page-layout-components.md` for landing page patterns
 
 ---
 
-## Common Errors (Top 3)
+### Content (7 components) - NEW
+Documentation and blog content:
+- **BlogPost** - Article display component
+- **BlogPosts** - Blog grid layout
+- **ChangelogVersion** - Version entry display
+- **ChangelogVersions** - Changelog timeline
+- **ContentNavigation** - Accordion-style nav for docs
+- **ContentSearch** - Documentation search CommandPalette
+- **ContentSearchButton** - Button to open search
+- **ContentSurround** - Prev/next navigation
+- **ContentToc** - Sticky table of contents
 
-This skill prevents **21+ errors** (see `references/COMMON_ERRORS_DETAILED.md` for all 21).
+```vue
+<template>
+  <UBlogPosts>
+    <UBlogPost v-for="post in posts" v-bind="post" />
+  </UBlogPosts>
+</template>
+```
 
-**Top 3 Critical Errors**:
+**Details**: Load `references/content-components.md` for blog and documentation patterns
 
-**1. Missing UApp Wrapper**
-- **Symptom**: Components render without styles, dark mode broken
-- **Fix**: Wrap app with `<UApp>` in app.vue:
-  ```vue
-  <template><UApp><NuxtPage /></UApp></template>
-  ```
+---
 
-**2. CSS Import Order Wrong**
-- **Symptom**: Styles not applying, themes broken
-- **Fix**: Import tailwindcss FIRST, then @nuxt/ui:
-  ```vue
-  <style>
-  @import "tailwindcss";  /* FIRST */
-  @import "@nuxt/ui";     /* SECOND */
-  </style>
-  ```
+### Pricing (3 components) - NEW
+SaaS pricing pages:
+- **PricingPlan** - Individual plan card
+- **PricingPlans** - Responsive plan grid
+- **PricingTable** - Feature comparison table
 
-**3. Template Refs Changed (v4.2+)**
-- **Symptom**: `Cannot read property 'focus' of undefined` after upgrading to v4.2
-- **Fix**: Remove `.$el` accessor on InputMenu, InputNumber, SelectMenu:
-  ```typescript
-  // Before: inputRef.value.$el.focus()
-  // After:  inputRef.value?.focus()
-  ```
+```vue
+<template>
+  <UPricingPlans>
+    <UPricingPlan
+      v-for="plan in plans"
+      :title="plan.title"
+      :price="plan.price"
+      :features="plan.features"
+    />
+  </UPricingPlans>
+</template>
+```
 
-**All 21 errors**: Load `references/COMMON_ERRORS_DETAILED.md` for complete solutions with symptoms, causes, and fixes
+**Details**: Load `references/pricing-components.md` for pricing page patterns
+
+---
+
+### Forms (20 components)
+Input, InputDate, InputTime, InputNumber, InputTags, InputMenu, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Slider, Calendar, ColorPicker, PinInput, Form, FormField, FileUpload, AuthForm
+
+```vue
+<UForm :state="state" :schema="schema" @submit="onSubmit">
+  <UFormField name="email" label="Email">
+    <UInput v-model="state.email" type="email" />
+  </UFormField>
+  <UButton type="submit">Submit</UButton>
+</UForm>
+```
+
+**Details**: Load `references/form-components-reference.md` for validation, nested forms, file uploads
+
+---
+
+### Navigation (8 components)
+Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu, Stepper, Tree
+
+```vue
+<UTabs v-model="tab" :items="items" />
+<UCommandPalette :groups="groups" placeholder="Search..." />
+<UStepper v-model="step" :items="steps" />
+```
+
+**Details**: Load `references/navigation-components-reference.md` for patterns
+
+---
+
+### Overlays (8 components)
+Modal, Drawer, Slideover, Dialog, Popover, DropdownMenu, ContextMenu, Tooltip
+
+```vue
+<UModal v-model="isOpen"><UCard>Content</UCard></UModal>
+<UDrawer v-model="isOpen" side="right">...</UDrawer>
+```
+
+**Details**: Load `references/overlay-decision-guide.md` for when to use each
+
+---
+
+### Feedback (7 components)
+Alert, Toast, Progress, Skeleton, Empty, Error, Banner
+
+```vue
+<UAlert color="warning" title="Warning message" />
+<UEmpty icon="i-heroicons-inbox" title="No items" />
+<UBanner title="Important announcement" />
+```
+
+**Details**: Load `references/feedback-components-reference.md`
+
+---
+
+### Layout (6 components)
+Card, Container, Main, Header, Footer, FooterColumns, Separator
+
+---
+
+### Data (2 components)
+Table (with virtualization), ScrollArea
+
+---
+
+### General (15 components)
+Button, FieldGroup, Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Collapsible, Icon, Kbd, Marquee, Timeline, User, App
+
+---
+
+### Color Mode (6 components)
+ColorModeAvatar, ColorModeButton, ColorModeImage, ColorModeSelect, ColorModeSwitch, LocaleSelect
+
+---
+
+## Composables
+
+**Core**: `useToast`, `useOverlay`, `useColorMode`, `useFormField`
+**Utilities**: `defineShortcuts`, `defineLocale`, `extendLocale`, `extractShortcuts`
+
+```typescript
+const { add } = useToast()
+add({ title: 'Success', color: 'success' })
+
+defineShortcuts({ 'meta_k': () => openSearch() })
+```
+
+**Details**: Load `references/composables-guide.md`
+
+---
+
+## Common Errors (Top 5)
+
+**1. Missing UApp Wrapper** → Wrap app with `<UApp>`
+**2. CSS Import Order** → `@import "tailwindcss"` FIRST, then `@import "@nuxt/ui"`
+**3. Template Refs (v4.2+)** → Use `ref.value?.focus()` not `ref.value.$el.focus()`
+**4. Module Not Found** → Add `'@nuxt/ui'` to `modules` in nuxt.config.ts
+**5. Dark Mode Not Working** → Set `ui: { colorMode: true }` in nuxt.config.ts
+
+**Full list**: Load `references/COMMON_ERRORS_DETAILED.md` for 25+ error solutions
 
 ---
 
 ## When to Load References
 
-**28 reference files** organized by task. Load only when needed to optimize tokens.
+**Dashboard/Admin**: `dashboard-components.md`
+**AI Chat**: `chat-components.md`, `ai-sdk-v5-integration.md`
+**Rich Text**: `editor-components.md`
+**Landing Pages**: `page-layout-components.md`
+**Pricing/SaaS**: `pricing-components.md`
+**Blog/Docs**: `content-components.md`
+**Forms**: `form-components-reference.md`, `form-validation-patterns.md`
+**Theming**: `semantic-color-system.md`, `component-theming-guide.md`
+**Troubleshooting**: `COMMON_ERRORS_DETAILED.md`
 
-**Core Setup** (new projects, themes):
-- `nuxt-v4-features.md`, `semantic-color-system.md`, `component-theming-guide.md`
+---
 
-**Components** (building UI):
-- `form-components-reference.md`, `data-display-components.md`, `navigation-components-reference.md`, `overlay-components.md`, `feedback-components-reference.md`, `layout-components-reference.md`
+## Available Commands
 
-**Features** (specific capabilities):
-- `form-validation-patterns.md`, `dark-mode-guide.md`, `composables-guide.md`, `ai-sdk-v5-integration.md`, `tailwind-prefix-guide.md`, `performance-optimization.md`, `typescript-setup.md`
+- `/nuxt-ui:setup` - Initialize Nuxt UI in project
+- `/nuxt-ui:migrate` - Migrate from v2/v3 to v4
+- `/nuxt-ui:theme` - Generate theme configuration
+- `/nuxt-ui:component` - Scaffold component with Nuxt UI patterns
 
-**Troubleshooting** (errors/debugging):
-- `COMMON_ERRORS_DETAILED.md` (21 errors), `loading-feedback-patterns.md`
+## Available Agents
 
-**Pro Tip**: Load references progressively as you encounter specific tasks to save tokens
+- **nuxt-ui-component-selector** - Recommends best components for use cases
+- **nuxt-ui-migration-assistant** - Guides v2/v3 → v4 migration
+- **nuxt-ui-troubleshooter** - Diagnoses and fixes common issues
+
+## MCP Integration
+
+This plugin includes the official Nuxt UI MCP server (`https://ui.nuxt.com/mcp`) providing:
+- Component listing and metadata
+- Documentation access
+- Migration guides
+- Template discovery

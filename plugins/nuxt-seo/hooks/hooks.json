@@ -1,0 +1,53 @@
+{
+  "description": "SEO validation hooks for Nuxt projects using @nuxtjs/seo",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the file being modified is a Nuxt SEO-related file (nuxt.config.ts, pages/*.vue, components/OgImage/*.vue, server/api/__sitemap__/*.ts). If so, validate:\n\n1. **nuxt.config.ts**: Ensure site.url is set, modules include @nuxtjs/seo or individual modules, schemaOrg.identity is configured\n2. **Pages with useSeoMeta**: Check title, description, ogImage are defined\n3. **OgImage components**: Verify Satori-compatible CSS (flex only, no grid/block)\n4. **Sitemap endpoints**: Ensure defineSitemapEventHandler is used with valid SitemapUrl objects\n\nIf issues found, return suggestions. Otherwise approve silently.",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/check-seo-config.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "If this session involved Nuxt SEO configuration, verify before stopping:\n\n1. **site.url** is set in nuxt.config.ts (required for sitemaps/OG images)\n2. **useSeoMeta** or defineOgImage used in pages that need SEO\n3. **Schema.org** identity configured for the project type\n4. No obvious SEO issues (missing titles, descriptions)\n\nIf SEO work was done but validation checks weren't run, suggest running /validate-sitemap or /check-schema before completing. Otherwise approve stopping.",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/detect-nuxt-seo.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

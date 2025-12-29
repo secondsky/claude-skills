@@ -1,63 +1,156 @@
-# Nuxt UI v4 Skill
+# Nuxt UI v4 Plugin
 
-Production-ready **Nuxt UI v4** component library skill for **Nuxt v4** projects with 52 accessible components, Tailwind CSS v4 integration, and comprehensive templates.
+Production-ready **Nuxt UI v4** plugin for **Nuxt v4** projects with **125+ accessible components**, 3 specialized agents, 4 commands, MCP integration, and comprehensive templates.
 
-## What This Skill Does
+## What This Plugin Provides
 
-This skill provides everything needed to build modern web applications with Nuxt v4 and Nuxt UI v4:
-
-- **52 Components**: Complete UI component library with forms, data display, navigation, overlays, feedback, and layout components
-- **19 Templates**: Copy-paste component examples (16 components + 3 composables) covering 30+ most common use cases
-- **19 Reference Docs**: Deep-dive guides for advanced patterns and best practices
+### Core Features
+- **125+ Components**: Complete UI component library covering all application needs
+- **3 Specialized Agents**: Component selection, migration assistance, troubleshooting
+- **4 Slash Commands**: Setup, migrate, theme configuration, component scaffolding
+- **MCP Integration**: Official Nuxt UI MCP server for real-time component discovery
+- **23 Vue Templates**: Production-ready component examples
+- **34 Reference Docs**: Deep-dive guides organized by component category
 - **Semantic Color System**: 7 color aliases with dark mode support
 - **Accessibility**: WAI-ARIA compliant components built on Reka UI
-- **AI Integration**: AI SDK v5 chat interface patterns
-- **TypeScript**: Full type safety with generated types
+- **AI Integration**: AI SDK v5 chat components (ChatMessages, ChatPrompt, etc.)
+- **Dashboard System**: 11 dashboard components for admin interfaces
+- **Page Layout**: 16 page layout components for landing pages and marketing sites
 
 ## When to Use
 
-Use this skill when working with:
+Use this plugin when working with:
 
-- Nuxt v4 projects
-- Nuxt UI v4 component library
-- @nuxt/ui module
-- Tailwind CSS v4
-- Dark mode and color theming
-- Accessible form components (Input, Select, Checkbox, Radio, Textarea, etc.)
-- Data tables with sorting and pagination
-- Navigation components (Tabs, Breadcrumb, CommandPalette, Pagination)
-- Overlay components (Modal, Drawer, Dialog, Popover, DropdownMenu, Tooltip)
-- Feedback components (Toast, Alert, Skeleton, Progress, Notification)
-- Layout components (Card, Container, Avatar, Badge, Divider)
-- Responsive design patterns
-- Mobile-first UI
-- AI chat interfaces
-- Keyboard shortcuts and navigation
-- Form validation with Zod
-- Design systems with semantic colors
+- Nuxt v4 projects with @nuxt/ui module
+- Building dashboard applications
+- Creating landing pages and marketing sites
+- Implementing AI chat interfaces
+- Building rich text editors
+- Form-heavy applications
+- Data tables with sorting/pagination
+- SaaS pricing pages
+- Documentation sites and blogs
+- Migrating from Nuxt UI v2/v3 to v4
 
-## Component Coverage
+## Component Coverage (125+)
 
-### Forms (15 components)
-Input, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Toggle, Slider, Range, Calendar, ColorPicker, PinInput, InputMenu
+### Dashboard (11 components)
+DashboardGroup, DashboardSidebar, DashboardPanel, DashboardNavbar, DashboardToolbar, DashboardSidebarToggle, DashboardSidebarCollapse, DashboardSearch, DashboardSearchButton, DashboardModal
+
+### Chat/AI (5 components)
+ChatMessage, ChatMessages, ChatPalette, ChatPrompt, ChatPromptSubmit
+
+### Editor (6 components)
+Editor, EditorToolbar, EditorDragHandle, EditorMentionMenu, EditorEmojiMenu, EditorSuggestionMenu
+
+### Page Layout (16 components)
+Page, PageAside, PageBody, PageCard, PageColumns, PageCTA, PageError, PageFeature, PageGrid, PageHeader, PageHero, PageLinks, PageList, PageLogos, PageSection, UApp
+
+### Content (9 components)
+BlogPost, BlogPosts, ChangelogVersion, ChangelogVersions, ContentNavigation, ContentSearch, ContentSearchButton, ContentSurround, ContentToc
+
+### Pricing (3 components)
+PricingPlan, PricingPlans, PricingTable
+
+### Forms (17 components)
+Input, InputNumber, InputDate, InputTime, InputMenu, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Toggle, Slider, Calendar, ColorPicker, PinInput
 
 ### Navigation (7 components)
-Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu
+Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu, Tree
 
-### Overlays (7 components)
+### Overlays (8 components)
 Modal, Drawer, Dialog, Popover, DropdownMenu, ContextMenu, Sheet, Tooltip
 
-### Feedback (6 components)
-Alert, Toast, Notification, Progress, Skeleton
+### Feedback (7 components)
+Alert, Toast, Notification, Progress, Meter, Skeleton, Empty
 
-### Layout (4 components)
-Card, Container, Divider
+### Layout (5 components)
+Card, Container, Divider, Separator, Collapsible
 
 ### Data (1 component)
 Table
 
-### General (12 components)
-Button, ButtonGroup (FieldGroup), Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Collapsible, Icon, Kbd
+### General (13+ components)
+Button, ButtonGroup, Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Icon, Kbd, Stepper, User, more...
+
+## Agents
+
+### nuxt-ui-component-selector
+Recommends the best Nuxt UI components for your use case. Uses MCP tools to search and analyze components.
+
+```
+"I need a user profile card" → Recommends Card, Avatar, Badge with example code
+```
+
+### nuxt-ui-migration-assistant
+Guides v2/v3 to v4 migration with breaking change detection and automated fixes.
+
+```
+"Migrate my Nuxt UI v2 project" → Analyzes code, identifies breaking changes, provides migration steps
+```
+
+### nuxt-ui-troubleshooter
+Diagnoses and fixes 10+ common Nuxt UI issues automatically.
+
+```
+"My modal isn't showing" → Checks UApp wrapper, event handling, provides fix
+```
+
+## Commands
+
+### /nuxt-ui:setup
+Initialize Nuxt UI in a project with optional features:
+```bash
+/nuxt-ui:setup              # Basic setup
+/nuxt-ui:setup --ai         # With AI chat components
+/nuxt-ui:setup --dashboard  # With dashboard layout
+/nuxt-ui:setup --editor     # With rich text editor
+```
+
+### /nuxt-ui:migrate
+Migrate from v2/v3 to v4:
+```bash
+/nuxt-ui:migrate            # Interactive migration
+/nuxt-ui:migrate --dry-run  # Preview changes only
+```
+
+### /nuxt-ui:theme
+Generate custom theme configuration:
+```bash
+/nuxt-ui:theme              # Interactive theme builder
+```
+
+### /nuxt-ui:component
+Scaffold components:
+```bash
+/nuxt-ui:component form       # Form with validation
+/nuxt-ui:component table      # Data table
+/nuxt-ui:component modal      # Modal dialog
+/nuxt-ui:component dashboard  # Dashboard layout
+/nuxt-ui:component chat       # AI chat interface
+/nuxt-ui:component page       # Landing page
+```
+
+## MCP Integration
+
+This plugin integrates with the official Nuxt UI MCP server:
+
+```json
+{
+  "mcpServers": {
+    "nuxt-ui": {
+      "type": "http",
+      "url": "https://ui.nuxt.com/mcp"
+    }
+  }
+}
+```
+
+**Available MCP Tools**:
+- `list_components` - List all 125+ components
+- `get_component` - Get detailed component documentation
+- `get_component_metadata` - Get component metadata
+- `search_components_by_category` - Search by category
 
 ## Quick Start
 
@@ -69,8 +162,10 @@ npm install @nuxt/ui
 export default defineNuxtConfig({
   modules: ['@nuxt/ui']
 })
+```
 
-# Wrap app with UApp in app.vue
+```vue
+<!-- app.vue - REQUIRED: UApp wrapper -->
 <template>
   <UApp>
     <NuxtPage />
@@ -85,106 +180,55 @@ export default defineNuxtConfig({
 
 ## Templates Included
 
-### Config Templates
-- `nuxt.config.ts` - Nuxt v4 + @nuxt/ui configuration
-- `app.config.ts` - Theme and semantic color configuration
-- `app.vue` - UApp wrapper with CSS imports
+### Layout Templates
+- `layouts/dashboard.vue` - Complete dashboard with sidebar, navbar, search
+- `pages/landing.vue` - Marketing landing page with hero, features, pricing, testimonials
 
 ### Component Templates
-1. **ui-form-example.vue** - Form with Input, Select, validation
-2. **ui-data-table.vue** - Table with sorting, pagination, actions
-3. **ui-navigation-tabs.vue** - Tabs with routing integration
-4. **ui-modal-dialog.vue** - Modal with form submission patterns
-5. **ui-dark-mode-toggle.vue** - Color mode switcher
-6. **ui-chat-interface.vue** - AI SDK v5 chat interface
-7. **ui-toast-notifications.vue** - useToast composable patterns
-8. **ui-dropdown-menu.vue** - Dropdown with nested items, keyboard nav
-9. **ui-card-layouts.vue** - Card with header/footer/image slots
-10. **ui-feedback-states.vue** - Alert, Skeleton, Progress patterns
-11. **ui-avatar-badge.vue** - Avatar and Badge components
-12. **ui-drawer-mobile.vue** - Responsive Drawer patterns
-13. **ui-command-palette.vue** - Search with Fuse.js integration
-14. **ui-popover-tooltip.vue** - Popover and Tooltip components
-15. **ui-carousel-gallery.vue** - Carousel with Embla integration
-16. **ui-content-prose.vue** - @nuxt/content Prose component integration
+- `components/ui-chat-full.vue` - Full AI chat with MDC rendering
+- `components/ui-form-example.vue` - Form with validation
+- `components/ui-data-table.vue` - Table with sorting, pagination
+- `components/ui-modal-dialog.vue` - Modal patterns
+- `components/ui-command-palette.vue` - Search with Fuse.js
+- Plus 17 more component templates...
 
-### Composable Templates
-- `useNuxtUITheme.ts` - Theme customization helper
-- `useAIChat.ts` - AI SDK v5 integration wrapper
-- `useI18nForm.ts` - i18n form validation helper
+### Config Templates
+- `nuxt.config.ts` - Nuxt v4 + @nuxt/ui configuration
+- `app.config.ts` - Theme and semantic colors
+- `app.vue` - UApp wrapper with CSS imports
 
 ## Reference Documentation
 
-1. **nuxt-v4-features.md** - Nuxt v4 specific features and breaking changes
-2. **semantic-color-system.md** - 7 semantic colors, CSS variables, theming
-3. **component-theming-guide.md** - Global, component, and slot customization
-4. **form-validation-patterns.md** - Forms, validation, nested forms, file uploads
-5. **form-advanced-patterns.md** - Multi-step forms, file uploads, dynamic fields
-6. **ai-sdk-v5-integration.md** - Chat class, streaming, useChat migration
-7. **common-components.md** - Top 40 components with props and examples
-8. **composables-guide.md** - useToast, useNotification, useColorMode, defineShortcuts
-9. **accessibility-patterns.md** - Reka UI, ARIA, keyboard navigation
-10. **overlay-decision-guide.md** - When to use Modal vs Drawer vs Dialog vs Popover
-11. **responsive-patterns.md** - Mobile/desktop switching, breakpoint patterns
-12. **command-palette-setup.md** - Search configuration with Fuse.js
-13. **loading-feedback-patterns.md** - Skeleton, Progress, Toast coordination
-14. **i18n-integration.md** - Internationalization with @nuxtjs/i18n
-15. **icon-system-guide.md** - Iconify icons, 200k+ icons, naming conventions
-16. **nuxt-content-integration.md** - @nuxt/content setup and Prose components
-17. **css-variables-reference.md** - Complete CSS custom properties reference
-18. **design-system-guide.md** - Building design systems with Nuxt UI
-19. **COMMON_ERRORS_DETAILED.md** - Detailed solutions for 20+ common errors
+### New in v2.0
+- **dashboard-components.md** - 11 dashboard components
+- **chat-components.md** - 5 AI chat components
+- **editor-components.md** - 6 TipTap-based editor components
+- **page-layout-components.md** - 16 page components
+- **pricing-components.md** - 3 pricing components
+- **content-components.md** - Blog, changelog, docs components
 
-## Common Use Cases
-
-### Building Forms
-Input fields, select dropdowns, checkboxes, radio buttons, text areas, date pickers, color pickers with Zod validation and error handling.
-
-### Data Display
-Tables with sorting, pagination, filtering, and row actions. Cards with headers, footers, and images.
-
-### Navigation
-Tabs for content organization, breadcrumbs for hierarchy, pagination for lists, command palette for search.
-
-### Overlays & Dialogs
-Modals for forms and content, drawers for side panels, dialogs for confirmations, popovers for contextual info, dropdown menus for actions.
-
-### User Feedback
-Toast notifications for actions, alerts for warnings/errors, skeleton loaders for loading states, progress bars for operations.
-
-### Layout & Design
-Containers for consistent max-width, cards for content blocks, avatars for users, badges for status indicators.
-
-### Dark Mode
-Color mode switching with system preference support and localStorage persistence.
-
-### AI Features
-Chat interfaces with streaming responses using AI SDK v5.
+### Core References
+- **semantic-color-system.md** - 7 semantic colors, theming
+- **form-validation-patterns.md** - Forms, validation, Zod
+- **ai-sdk-v5-integration.md** - Chat, streaming, AI SDK
+- **accessibility-patterns.md** - Reka UI, ARIA, keyboard nav
+- Plus 28 more reference docs...
 
 ## Common Issues Solved
 
-This skill prevents and solves 20+ common errors:
+This plugin prevents 20+ common errors:
 
 1. Missing UApp wrapper causing render issues
 2. Module not registered in nuxt.config.ts
 3. Incorrect CSS import order (Tailwind before @nuxt/ui)
-4. useToast composable not imported
-5. Toast positioning conflicts
-6. CommandPalette shortcuts not defined
-7. Carousel Embla configuration missing
-8. Drawer responsive breakpoints not working
-9. Modal vs Dialog component confusion
-10. Popover positioning issues
-11. DropdownMenu keyboard navigation broken
-12. Skeleton dimensions not matching content
-13. Card slot usage incorrect
-14. Avatar fallback images missing
-15. Badge positioning wrong on containers
-16. Form nested prop missing for nested forms
-17. Table pagination state not updating
-18. Color mode not persisting across sessions
-19. TypeScript component types not generated
-20. Theme variants not applying correctly
+4. Dashboard components not rendering (missing DashboardGroup)
+5. Chat messages not updating (incorrect AI SDK integration)
+6. Editor toolbar not showing (missing EditorToolbar component)
+7. Page layout breaking (incorrect Page slot usage)
+8. Pricing toggle not working (billing state management)
+9. Content navigation not highlighting (route matching)
+10. Modal vs Drawer vs Dialog confusion
+... and 10+ more documented solutions
 
 ## Version Requirements
 
@@ -195,60 +239,31 @@ This skill prevents and solves 20+ common errors:
 | vue | 3.5+ | Yes |
 | tailwindcss | 4.x | Yes |
 | ai (Vercel AI SDK) | 5.x | For AI features |
+| @tiptap/vue-3 | 2.x | For Editor |
 | fuse.js | 7.x | For CommandPalette |
 | embla-carousel-vue | 8.x | For Carousel |
 | zod | 3.x | For validation |
 
-## Keywords for Discovery
-
-Nuxt v4, Nuxt 4, Nuxt UI v4, Nuxt UI 4, @nuxt/ui, Nuxt UI components, Tailwind v4, Tailwind CSS 4, Reka UI, accessible components, WAI-ARIA, ARIA, semantic colors, design system, dark mode, color mode, theming, component library, UI kit, form validation, Zod, Input component, Select component, Checkbox, Radio, Textarea, Switch, Toggle, Slider, Calendar, ColorPicker, Table component, Card component, Container, Avatar, AvatarGroup, Badge, Button, ButtonGroup, FieldGroup, Tabs, Breadcrumb, CommandPalette, Pagination, NavigationMenu, Modal, Drawer, Dialog, Popover, DropdownMenu, ContextMenu, Sheet, Tooltip, Alert, Toast notification, Notification, Progress bar, Skeleton loader, Carousel, Accordion, Chip, Collapsible, Icon, Kbd, useToast, useNotification, useColorMode, defineShortcuts, UApp wrapper, Tailwind Variants, responsive design, mobile-first, AI SDK v5, chat interface, streaming, keyboard navigation, focus management, accessibility, form errors, validation errors, nested forms, file uploads, multi-step forms, loading states, empty states, error states, success messages, dropdown menus, action menus, context menus, search functionality, command palette, keyboard shortcuts, color themes, CSS variables, component theming, global config, app config, nuxt config, TypeScript types, type safety, type generation
-
-## Production Testing
-
-This skill has been verified with:
-- ✅ Nuxt v4.0.0
-- ✅ @nuxt/ui v4.0.0
-- ✅ Tailwind CSS v4.0.0
-- ✅ All 19 templates tested and working (16 components + 3 composables)
-- ✅ All component categories covered
-- ✅ TypeScript types generated successfully
-- ✅ Dark mode functioning correctly
-- ✅ Responsive patterns verified
-- ✅ Accessibility tested with keyboard navigation
-- ✅ AI SDK v5 integration working
-
-## Auto-Trigger Keywords
-
-This skill automatically activates when you mention:
-
-**Framework**: Nuxt v4, Nuxt 4, Nuxt UI v4, Nuxt UI 4, @nuxt/ui
-
-**Components**: Button, Input, Select, Textarea, Checkbox, Radio, Switch, Toggle, Table, Card, Modal, Drawer, Dialog, Popover, Tooltip, Alert, Toast, Progress, Skeleton, Tabs, Breadcrumb, CommandPalette, Pagination, Avatar, Badge, Carousel, Accordion, Dropdown, DropdownMenu
-
-**Composables**: useToast, useNotification, useColorMode, defineShortcuts
-
-**Features**: dark mode, color mode, theming, semantic colors, form validation, responsive design, accessibility, keyboard navigation, AI chat
-
-**Errors**: UApp wrapper, module not found, CSS import order, toast not working, modal issues, drawer problems, theme not applying, TypeScript errors, validation errors
-
-**Patterns**: form patterns, overlay patterns, navigation patterns, loading states, error states, feedback patterns, layout patterns, responsive patterns
-
 ## Installation
 
-This skill is part of the Claude Skills repository. To install:
-
 ```bash
-# Clone the repository
-git clone https://github.com/secondsky/claude-skills.git
+# Via Claude Code plugin marketplace
+/plugin install nuxt-ui-v4@claude-skills
 
-# Install this skill
+# Or clone and install manually
+git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 ./scripts/install-skill.sh nuxt-ui-v4
 ```
 
+## Keywords for Discovery
+
+Nuxt v4, Nuxt UI v4, @nuxt/ui, Dashboard, DashboardSidebar, DashboardPanel, DashboardNavbar, ChatMessages, ChatPrompt, Editor, EditorToolbar, Page, PageHero, PageSection, PricingPlan, BlogPost, ContentNavigation, Tailwind v4, Reka UI, accessible components, dark mode, theming, form validation, data tables, overlays, modals, drawers, AI chat, rich text editor, landing pages, SaaS pricing, documentation sites
+
 ## Links
 
 - **Nuxt UI Documentation**: https://ui.nuxt.com
+- **Nuxt UI MCP Server**: https://ui.nuxt.com/mcp
 - **Nuxt v4 Documentation**: https://nuxt.com
 - **Reka UI**: https://reka-ui.com
 - **Tailwind CSS v4**: https://tailwindcss.com
@@ -263,5 +278,5 @@ MIT License - See LICENSE file in repository root
 
 Claude Skills Maintainers
 
-**Last Updated**: 2025-11-09
-**Version**: 1.0.0
+**Last Updated**: 2025-12-28
+**Version**: 2.0.0

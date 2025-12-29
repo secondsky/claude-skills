@@ -44,7 +44,6 @@
     "workers",
     "edge"
   ],
-  "category": "cloudflare",
   "agents": [
     "./agents/r2-setup-automator.md",
     "./agents/multipart-orchestrator.md",
