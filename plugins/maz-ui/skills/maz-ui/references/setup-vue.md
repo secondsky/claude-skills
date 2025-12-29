@@ -112,6 +112,255 @@ app.use(MazUi, {
 })
 ```
 
+## Translations & i18n
+
+Maz-UI includes 8 built-in languages (en, fr, es, de, it, pt, ja, zh-CN) with automatic lazy loading.
+
+### Basic Setup
+
+```typescript
+import { MazUi } from 'maz-ui/plugins/maz-ui'
+import { fr } from '@maz-ui/translations'
+import 'maz-ui/styles'
+
+app.use(MazUi, {
+  translations: {
+    locale: 'fr',
+    fallbackLocale: 'en',
+    preloadFallback: true, // Default - preload fallback language
+    messages: {
+      fr // Immediate load to avoid hydration issues
+    }
+  }
+})
+```
+
+### preloadFallback Option
+
+**Default (`preloadFallback: true`)** - Recommended:
+- ✅ No delay - Fallback translations immediately available
+- ✅ Smooth experience - No missing text even if translation doesn't exist
+- ❌ Slightly larger initial bundle
+
+**Disabled (`preloadFallback: false`)** - For bundle size optimization:
+- ✅ Smaller initial bundle
+- ❌ May temporarily show translation keys
+- ❌ Requires loading state management
+
+### Lazy Loading Strategies
+
+#### Method 1: Dynamic Imports (Recommended)
+
+```typescript
+app.use(MazUi, {
+  translations: {
+    locale: 'en',
+    fallbackLocale: 'en',
+    preloadFallback: false,
+    messages: {
+      // Built-in languages load automatically
+      fr: () => import('@maz-ui/translations/locales/fr'),
+      es: () => import('@maz-ui/translations/locales/es'),
+      de: () => import('@maz-ui/translations/locales/de'),
+
+      // Custom language files
+      nl: () => import('./locales/nl.ts').then(m => m.default)
+    }
+  }
+})
+```
+
+#### Method 2: API-Based Loading
+
+```typescript
+app.use(MazUi, {
+  translations: {
+    locale: 'en',
+    messages: {
+      // Load from API
+      fr: async () => {
+        const response = await fetch('/api/translations/fr')
+        return response.json()
+      },
+
+      // Combine multiple sources
+      es: async () => {
+        const [defaultTranslations, customTranslations] = await Promise.all([
+          import('@maz-ui/translations/locales/es').then(m => m.default),
+          fetch('/api/translations/es/custom').then(r => r.json())
+        ])
+        return { ...defaultTranslations, ...customTranslations }
+      }
+    }
+  }
+})
+```
+
+#### Method 3: Mix Immediate and Lazy Loading
+
+```typescript
+import { fr } from '@maz-ui/translations'
+
+app.use(MazUi, {
+  translations: {
+    locale: 'fr',
+    messages: {
+      // French: loaded immediately
+      fr,
+
+      // Others: loaded lazily
+      en: () => import('@maz-ui/translations/locales/en'),
+      es: () => import('@maz-ui/translations/locales/es')
+    }
+  }
+})
+```
+
+### Using Translations in Components
+
+```vue
+<script setup>
+import { useTranslations } from '@maz-ui/translations'
+import { ref } from 'vue'
+
+const { locale, setLocale } = useTranslations()
+const isLoading = ref(false)
+
+// Change language with loading state
+async function switchLanguage(newLocale) {
+  isLoading.value = true
+  try {
+    await setLocale(newLocale) // Loads translations if needed
+    console.log(`Language changed to ${newLocale}`)
+  } catch (error) {
+    console.error('Failed to load translations:', error)
+    // Handle error (show toast, etc.)
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+
+<template>
+  <div>
+    <!-- Language switcher -->
+    <button
+      :disabled="isLoading"
+      @click="switchLanguage('fr')"
+    >
+      🇫🇷 {{ isLoading && locale === 'fr' ? 'Loading...' : 'Français' }}
+    </button>
+    <button
+      :disabled="isLoading"
+      @click="switchLanguage('es')"
+    >
+      🇪🇸 {{ isLoading && locale === 'es' ? 'Cargando...' : 'Español' }}
+    </button>
+
+    <!-- Loading indicator -->
+    <div v-if="isLoading" class="loading-overlay">
+      Loading translations...
+    </div>
+
+    <!-- Current language -->
+    <p>Current: {{ locale }}</p>
+
+    <!-- Components use translations automatically -->
+    <MazInputPhoneNumber />
+  </div>
+</template>
+```
+
+### Error Handling for Async Language Switching
+
+```vue
+<script setup>
+import { useTranslations } from '@maz-ui/translations'
+import { useToast } from 'maz-ui/composables'
+
+const { setLocale } = useTranslations()
+const toast = useToast()
+
+async function switchLanguage(locale) {
+  try {
+    await setLocale(locale)
+    toast.success(`Language changed to ${locale}`)
+  } catch (error) {
+    console.error('Translation loading error:', error)
+    toast.error('Failed to load translations. Please try again.')
+  }
+}
+</script>
+```
+
+### Browser Language Detection
+
+```typescript
+async function detectUserLanguage() {
+  try {
+    const browserLang = navigator.language.split('-')[0]
+    const supportedLanguages = ['en', 'fr', 'es', 'de', 'it', 'pt', 'ja', 'zh']
+
+    if (supportedLanguages.includes(browserLang)) {
+      return browserLang
+    }
+
+    return 'en' // Fallback
+  } catch {
+    return 'en'
+  }
+}
+
+// Use automatic detection
+app.use(MazUi, {
+  translations: {
+    locale: await detectUserLanguage(),
+    messages: {
+      fr: () => import('@maz-ui/translations/locales/fr'),
+      es: () => import('@maz-ui/translations/locales/es')
+    }
+  }
+})
+```
+
+### Custom Translation Files
+
+Create separate files for each language:
+
+```typescript
+// locales/fr.ts
+export default {
+  inputPhoneNumber: {
+    countrySelect: {
+      placeholder: 'Code pays',
+      error: 'Choisir le pays',
+      searchPlaceholder: 'Rechercher le pays'
+    },
+    phoneInput: {
+      placeholder: 'Numéro de téléphone',
+      example: 'Exemple: {example}'
+    }
+  },
+  dropzone: {
+    dragAndDrop: 'Déposez vos fichiers',
+    selectFile: 'sélectionner un fichier',
+    divider: 'ou'
+  }
+  // You can omit translations you don't want to override
+  // Default Maz-UI translations will be used automatically
+}
+```
+
+### Important Notes
+
+1. **8 built-in languages load automatically** - fr, es, de, it, pt, ja, zh-CN don't need to be provided unless you want to override them
+2. **Lazy loading is asynchronous** - `setLocale()` returns a Promise, use `await`
+3. **Translations are cached** - Once loaded, switching back is instant
+4. **Partial translations supported** - Provide only what you want to override
+5. **Variables replaced automatically** - `{example}`, `{count}`, `{page}` handled by Maz-UI
+
+For complete translation keys reference and advanced patterns, load `references/translations.md`.
+
 ## Auto-Import Setup (Recommended)
 
 For optimal DX, use auto-imports to avoid manual component imports.

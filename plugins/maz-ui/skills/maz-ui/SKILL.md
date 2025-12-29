@@ -230,7 +230,7 @@ Load reference files based on what you're implementing:
 - **`references/migration-v4.md`** - When upgrading from Maz-UI v3 to v4
 - **`references/troubleshooting.md`** - When encountering errors, debugging issues
 
-## Top 5 Common Errors
+## Top 6 Common Errors
 
 ### 1. Missing Theme Plugin Error
 **Error**: `"useTheme must be used within MazUi plugin installation"`
@@ -317,6 +317,87 @@ pnpm add libphonenumber-js
 />
 ```
 
+### 6. Translations Not Loading or Showing Raw Keys
+**Error**: Translation keys showing as raw strings like `inputPhoneNumber.phoneInput.example` instead of translated text
+**Causes**:
+- Missing locale import
+- Lazy loading not awaited properly
+- Language file failed to load asynchronously
+- Missing `preloadFallback` configuration
+- SSR hydration mismatch (Nuxt)
+
+**Fix Vue** (Immediate Loading):
+```typescript
+import { fr } from '@maz-ui/translations'
+
+app.use(MazUi, {
+  translations: {
+    locale: 'fr',
+    fallbackLocale: 'en',
+    preloadFallback: true,
+    messages: { fr } // Import immediately
+  }
+})
+```
+
+**Fix Vue** (Lazy Loading):
+```typescript
+app.use(MazUi, {
+  translations: {
+    locale: 'fr',
+    preloadFallback: true, // Ensure fallback is preloaded
+    messages: {
+      fr: () => import('@maz-ui/translations/locales/fr')
+    }
+  }
+})
+
+// In component: ALWAYS use await
+const { setLocale } = useTranslations()
+await setLocale('fr') // Don't forget await!
+```
+
+**Fix Nuxt** (Avoid Hydration):
+```typescript
+import { fr } from '@maz-ui/translations'
+
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      preloadFallback: true,
+      messages: {
+        // CRITICAL: Provide initial locale immediately (not as function)
+        fr, // SSR requires immediate load
+
+        // Other languages can be lazy
+        es: () => import('@maz-ui/translations/locales/es')
+      }
+    }
+  }
+})
+```
+
+**Error Handling**:
+```vue
+<script setup>
+const { setLocale } = useTranslations()
+const toast = useToast()
+
+async function switchLanguage(locale) {
+  try {
+    await setLocale(locale)
+    toast.success(`Language changed to ${locale}`)
+  } catch (error) {
+    console.error('Translation loading error:', error)
+    toast.error('Failed to load translations')
+  }
+}
+</script>
+```
+
+**Learn More**: Load `references/translations.md` for comprehensive i18n setup, lazy loading strategies, and production patterns.
+
 ## Tree-Shaking Best Practices
 
 **Direct Imports** (Most Optimized):
@@ -357,7 +438,7 @@ For detailed implementation:
 - **maz-ui** - Core component library
 - **@maz-ui/nuxt** - Nuxt 3 module with auto-imports
 - **@maz-ui/themes** - Theming system and presets
-- **@maz-ui/translations** - i18n support (27 languages)
+- **@maz-ui/translations** - i18n support (8 built-in languages: en, fr, es, de, it, pt, ja, zh-CN)
 - **@maz-ui/icons** - 840+ optimized SVG icons
 - **@maz-ui/mcp** - AI agent documentation server
 

@@ -272,6 +272,328 @@ export default defineNuxtConfig({
 })
 ```
 
+## Translations & i18n
+
+Maz-UI includes 8 built-in languages (en, fr, es, de, it, pt, ja, zh-CN) with automatic lazy loading.
+
+### Basic Setup
+
+```typescript
+import { fr, es } from '@maz-ui/translations'
+
+export default defineNuxtConfig({
+  modules: ['@maz-ui/nuxt'],
+
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      fallbackLocale: 'en',
+      preloadFallback: true, // Default - preload fallback language
+      messages: {
+        // Import immediately to avoid hydration issues
+        fr,
+        es
+      }
+    }
+  }
+})
+```
+
+### preloadFallback Option
+
+**Default (`preloadFallback: true`)** - Recommended:
+- ✅ No delay - Fallback translations immediately available
+- ✅ Smooth experience - No missing text
+- ✅ Zero hydration issues in SSR
+- ❌ Slightly larger initial bundle
+
+**Disabled (`preloadFallback: false`)** - For bundle size optimization:
+- ✅ Smaller initial bundle
+- ❌ May temporarily show translation keys
+- ❌ Requires loading state management
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      fallbackLocale: 'en',
+      preloadFallback: false, // Optimize bundle size
+      messages: {
+        // Still provide initial locale to avoid hydration issues
+        fr
+      }
+    }
+  }
+})
+```
+
+### Lazy Loading Strategies
+
+#### Method 1: Dynamic Imports (Recommended)
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      preloadFallback: false,
+      messages: {
+        // Built-in languages load automatically
+        fr: () => import('@maz-ui/translations/locales/fr'),
+        es: () => import('@maz-ui/translations/locales/es'),
+        de: () => import('@maz-ui/translations/locales/de'),
+
+        // Custom language files
+        nl: () => import('./locales/nl.ts').then(m => m.default)
+      }
+    }
+  }
+})
+```
+
+#### Method 2: API-Based Loading
+
+```typescript
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'en',
+      messages: {
+        // Load from API
+        fr: async () => {
+          const response = await $fetch('/api/translations/fr')
+          return response
+        },
+
+        // Combine multiple sources
+        es: async () => {
+          const [defaultTranslations, customTranslations] = await Promise.all([
+            import('@maz-ui/translations/locales/es').then(m => m.default),
+            $fetch('/api/translations/es/custom')
+          ])
+          return { ...defaultTranslations, ...customTranslations }
+        }
+      }
+    }
+  }
+})
+```
+
+#### Method 3: Mix Immediate and Lazy Loading
+
+```typescript
+import { fr } from '@maz-ui/translations'
+
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      messages: {
+        // French: loaded immediately (important for SSR)
+        fr,
+
+        // Others: loaded lazily
+        en: () => import('@maz-ui/translations/locales/en'),
+        es: () => import('@maz-ui/translations/locales/es')
+      }
+    }
+  }
+})
+```
+
+### Using Translations in Components
+
+```vue
+<script setup>
+const { locale, setLocale } = useTranslations()
+const isLoading = ref(false)
+
+// Change language with loading state
+async function switchLanguage(newLocale) {
+  isLoading.value = true
+  try {
+    await setLocale(newLocale) // Loads translations if needed
+    console.log(`Language changed to ${newLocale}`)
+  } catch (error) {
+    console.error('Failed to load translations:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+
+<template>
+  <div>
+    <!-- Language switcher -->
+    <MazBtn
+      :disabled="isLoading"
+      @click="switchLanguage('fr')"
+    >
+      🇫🇷 {{ isLoading && locale === 'fr' ? 'Loading...' : 'Français' }}
+    </MazBtn>
+    <MazBtn
+      :disabled="isLoading"
+      @click="switchLanguage('es')"
+    >
+      🇪🇸 {{ isLoading && locale === 'es' ? 'Cargando...' : 'Español' }}
+    </MazBtn>
+
+    <!-- Loading indicator -->
+    <div v-if="isLoading" class="loading-overlay">
+      Loading translations...
+    </div>
+
+    <!-- Current language -->
+    <p>Current: {{ locale }}</p>
+
+    <!-- Components use translations automatically -->
+    <MazInputPhoneNumber />
+  </div>
+</template>
+```
+
+### Error Handling for Async Language Switching
+
+```vue
+<script setup>
+const { setLocale } = useTranslations()
+const toast = useToast()
+
+async function switchLanguage(locale) {
+  try {
+    await setLocale(locale)
+    toast.success(`Language changed to ${locale}`)
+  } catch (error) {
+    console.error('Translation loading error:', error)
+    toast.error('Failed to load translations. Please try again.')
+  }
+}
+</script>
+```
+
+### SSR Considerations
+
+**CRITICAL**: In SSR/SSG, always provide the initial locale in `messages` to avoid hydration mismatches:
+
+```typescript
+import { fr } from '@maz-ui/translations'
+
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      fallbackLocale: 'en',
+      messages: {
+        // ✅ Provide initial locale immediately (not as function)
+        fr,
+
+        // ✅ Other languages can be lazy-loaded
+        en: () => import('@maz-ui/translations/locales/en'),
+        es: () => import('@maz-ui/translations/locales/es')
+      }
+    }
+  }
+})
+```
+
+**Why?** If translations load asynchronously during SSR, the server-rendered HTML won't match client-side rendering, causing hydration warnings.
+
+### Browser Language Detection
+
+```typescript
+// composables/useLanguageDetection.ts
+export function useLanguageDetection() {
+  function detectUserLanguage() {
+    try {
+      const browserLang = navigator.language.split('-')[0]
+      const supportedLanguages = ['en', 'fr', 'es', 'de', 'it', 'pt', 'ja', 'zh']
+
+      if (supportedLanguages.includes(browserLang)) {
+        return browserLang
+      }
+
+      return 'en' // Fallback
+    } catch {
+      return 'en'
+    }
+  }
+
+  return { detectUserLanguage }
+}
+```
+
+Usage in plugin:
+
+```typescript
+// plugins/language-detection.client.ts
+export default defineNuxtPlugin(() => {
+  const { detectUserLanguage } = useLanguageDetection()
+  const { setLocale } = useTranslations()
+
+  // Detect and set language on client side
+  const detectedLang = detectUserLanguage()
+  setLocale(detectedLang)
+})
+```
+
+### Custom Translation Files
+
+Create separate files in your Nuxt project:
+
+```typescript
+// locales/fr.ts
+export default {
+  inputPhoneNumber: {
+    countrySelect: {
+      placeholder: 'Code pays',
+      error: 'Choisir le pays',
+      searchPlaceholder: 'Rechercher le pays'
+    },
+    phoneInput: {
+      placeholder: 'Numéro de téléphone',
+      example: 'Exemple: {example}'
+    }
+  },
+  dropzone: {
+    dragAndDrop: 'Déposez vos fichiers',
+    selectFile: 'sélectionner un fichier',
+    divider: 'ou'
+  }
+  // You can omit translations you don't want to override
+  // Default Maz-UI translations will be used automatically
+}
+```
+
+Then import in config:
+
+```typescript
+import customFr from './locales/fr'
+
+export default defineNuxtConfig({
+  mazUi: {
+    translations: {
+      locale: 'fr',
+      messages: {
+        fr: customFr // Use your custom translations
+      }
+    }
+  }
+})
+```
+
+### Important Notes
+
+1. **8 built-in languages load automatically** - fr, es, de, it, pt, ja, zh-CN don't need to be provided unless you want to override them
+2. **Lazy loading is asynchronous** - `setLocale()` returns a Promise, use `await`
+3. **Translations are cached** - Once loaded, switching back is instant
+4. **SSR requires immediate initial locale** - Provide initial locale as object, not function
+5. **Partial translations supported** - Provide only what you want to override
+6. **Variables replaced automatically** - `{example}`, `{count}`, `{page}` handled by Maz-UI
+
+For complete translation keys reference and advanced patterns, load `references/translations.md`.
+
 ## Using Composables
 
 All composables are auto-imported:
