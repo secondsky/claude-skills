@@ -600,6 +600,8 @@ const isLastPage = computed(() =>
 **With Per-Page Selector**:
 ```vue
 <script setup>
+import { ref, watch } from 'vue'
+
 const currentPage = ref(1)
 const perPage = ref(10)
 const totalItems = ref(500)
@@ -650,6 +652,8 @@ watch(perPage, () => {
 **Server-Side Pagination**:
 ```vue
 <script setup>
+import { ref, watch, onMounted } from 'vue'
+
 const currentPage = ref(1)
 const perPage = ref(20)
 const totalItems = ref(0)
