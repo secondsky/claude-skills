@@ -1,6 +1,6 @@
 ---
 name: multi-ai-consultant:consult-ai
-description: Route AI consultation requests to appropriate AI model
+description: Route consultation to Gemini, Codex, or Claude based on problem type and capabilities. Recommends best AI for web research, code analysis, or fresh perspective needs.
 ---
 
 # Consult AI (Router)

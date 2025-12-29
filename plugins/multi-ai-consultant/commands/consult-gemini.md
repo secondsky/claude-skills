@@ -1,6 +1,9 @@
 ---
 name: multi-ai-consultant:consult-gemini
-description: Consult Google Gemini for a second opinion
+description: Consult Google Gemini 2.5 Pro for second opinion with web research, extended thinking, and grounding. Use when need latest docs, architectural decisions, or security verification.
+allowed-tools:
+  - Bash
+  - Read
 ---
 
 # Consult Gemini 2.5 Pro

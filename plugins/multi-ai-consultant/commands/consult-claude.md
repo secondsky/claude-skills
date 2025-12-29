@@ -1,6 +1,9 @@
 ---
 name: multi-ai-consultant:consult-claude
-description: Consult Claude AI for a second opinion
+description: Consult fresh Claude subagent for unbiased perspective on code problems. Use when stuck in mental rut, need quick second opinion, or want free alternative to external AIs.
+allowed-tools:
+  - Task
+  - Read
 ---
 
 # Consult Fresh Claude

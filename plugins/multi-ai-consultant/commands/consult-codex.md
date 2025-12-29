@@ -1,6 +1,8 @@
 ---
 name: multi-ai-consultant:consult-codex
-description: Consult OpenAI Codex for a second opinion
+description: Consult OpenAI Codex (GPT-4) for repo-aware code analysis and OpenAI reasoning. Use when need general code review, refactoring suggestions, or different AI perspective.
+allowed-tools:
+  - Bash
 ---
 
 # Consult OpenAI Codex
