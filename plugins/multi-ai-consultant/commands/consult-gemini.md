@@ -1,6 +1,14 @@
-# Consult Gemini 2.5 Pro
+---
+name: multi-ai-consultant:consult-gemini
+description: Consult Google Gemini 3 Pro for second opinion with web research, extended thinking, and grounding. Use when need latest docs, architectural decisions, or security verification.
+allowed-tools:
+  - Bash
+  - Read
+---
 
-You are being asked to consult Google Gemini 2.5 Pro for a second opinion on a coding problem or architectural decision.
+# Consult Gemini 3 Pro
+
+You are being asked to consult Google Gemini 3 Pro for a second opinion on a coding problem or architectural decision.
 
 ## Your Task
 
@@ -85,7 +93,7 @@ Context: @path/to/file1.ts @path/to/file2.ts
 
 **Locked Configuration** (always use these flags):
 ```bash
-gemini -m gemini-2.5-pro \
+gemini -m gemini-3-pro \
   --thinking \
   --google-search \
   --grounding \
@@ -100,7 +108,7 @@ EOF
 )
 
 RESPONSE=$(echo "$PROMPT" | gemini \
-  -m gemini-2.5-pro \
+  -m gemini-3-pro \
   --thinking \
   --google-search \
   --grounding \
@@ -181,7 +189,7 @@ You MUST compare Gemini's analysis with your own reasoning. DO NOT just parrot G
 ## Step 7: Log Cost
 
 ```bash
-# Calculate cost (Gemini 2.5 Pro pricing)
+# Calculate cost (Gemini 3 Pro pricing)
 # Input: $0.000015/token, Output: $0.00006/token (example rates, verify current)
 COST=$(echo "scale=4; ($INPUT_TOKENS * 0.000015) + ($OUTPUT_TOKENS * 0.00006)" | bc)
 
@@ -189,7 +197,7 @@ COST=$(echo "scale=4; ($INPUT_TOKENS * 0.000015) + ($OUTPUT_TOKENS * 0.00006)" |
 mkdir -p ~/.claude/ai-consultations
 
 # Log consultation
-echo "$(date -Iseconds),gemini,gemini-2.5-pro,$INPUT_TOKENS,$OUTPUT_TOKENS,$COST,$(pwd)" \
+echo "$(date -Iseconds),gemini,gemini-3-pro,$INPUT_TOKENS,$OUTPUT_TOKENS,$COST,$(pwd)" \
   >> ~/.claude/ai-consultations/consultations.log
 
 # Show cost to user
@@ -263,7 +271,7 @@ Context: @src/auth/session.ts @src/middleware/jwt.ts
 
 ## Remember
 
-- ✅ Always use locked config (gemini-2.5-pro with all flags)
+- ✅ Always use locked config (gemini-3-pro with all flags)
 - ✅ Always synthesize (don't parrot)
 - ✅ Always log cost
 - ✅ Always ask permission before implementing Gemini's suggestions

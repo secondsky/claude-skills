@@ -1,5 +1,5 @@
 ---
-name: setup-studio
+name: nuxt-studio:setup
 description: Interactive first-time setup wizard for Nuxt Studio integration with Nuxt Content sites
 argument-hint: No arguments required - interactive wizard
 allowed-tools: [Read, Write, Edit, Bash, AskUserQuestion]

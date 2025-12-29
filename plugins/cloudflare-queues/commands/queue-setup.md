@@ -1,4 +1,5 @@
 ---
+name: cloudflare-queues:setup
 description: Interactive wizard to set up Cloudflare Queues with queue creation, producer/consumer binding configuration, and Dead Letter Queue setup. Use when user wants to create first queue or add queues to existing Worker.
 ---
 

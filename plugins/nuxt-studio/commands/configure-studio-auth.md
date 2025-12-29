@@ -1,5 +1,5 @@
 ---
-name: configure-studio-auth
+name: nuxt-studio:configure-auth
 description: Step-by-step guide for configuring OAuth authentication (GitHub/GitLab/Google) for Nuxt Studio
 argument-hint: No arguments required - interactive OAuth setup guide
 allowed-tools: [Read, Write, Edit, WebFetch, AskUserQuestion]

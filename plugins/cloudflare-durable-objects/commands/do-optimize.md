@@ -1,5 +1,5 @@
 ---
-name: do-optimize
+name: cloudflare-durable-objects:optimize
 description: Interactive Durable Objects performance optimization assistant. Analyzes existing DO code and provides specific optimization recommendations with implementation guidance.
 ---
 

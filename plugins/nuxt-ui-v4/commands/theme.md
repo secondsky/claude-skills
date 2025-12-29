@@ -1,5 +1,5 @@
 ---
-name: nuxt-ui:theme
+name: nuxt-ui-v4:theme
 description: Generate custom Nuxt UI v4 theme configuration with semantic colors and component customization
 allowed-tools:
   - Read

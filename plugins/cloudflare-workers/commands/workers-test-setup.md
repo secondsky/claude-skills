@@ -1,5 +1,5 @@
 ---
-name: workers-test-setup
+name: cloudflare-workers:test-setup
 description: Interactive Vitest setup wizard for Cloudflare Workers testing. Configures @cloudflare/vitest-pool-workers, mocks bindings, and creates example tests.
 allowed-tools:
   - Read

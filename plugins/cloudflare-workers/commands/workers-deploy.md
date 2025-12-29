@@ -1,5 +1,5 @@
 ---
-name: workers-deploy
+name: cloudflare-workers:deploy
 description: Guided Cloudflare Workers deployment with environment selection, pre-deploy validation, and safety checks. Supports staging, production, and custom environments.
 allowed-tools:
   - Read

@@ -1,5 +1,5 @@
 ---
-name: studio-env-setup
+name: nuxt-studio:env-setup
 description: Helper for setting up OAuth environment variables on Cloudflare dashboard and other platforms
 argument-hint: No arguments required - interactive environment variable setup guide
 allowed-tools: [Read, AskUserQuestion]

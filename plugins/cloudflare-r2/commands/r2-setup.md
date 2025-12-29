@@ -1,5 +1,5 @@
 ---
-name: r2-setup
+name: cloudflare-r2:setup
 description: Quickly create R2 bucket and configure binding in wrangler.jsonc
 ---
 

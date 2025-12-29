@@ -1,5 +1,5 @@
 ---
-name: d1-create-migration
+name: cloudflare-d1:create-migration
 description: Guided migration creation for Cloudflare D1 with schema change validation, SQL generation, and testing workflow. Use when user wants to create migration, modify schema, add tables/indexes, or change database structure.
 ---
 

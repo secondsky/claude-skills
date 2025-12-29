@@ -1,3 +1,8 @@
+---
+name: project-workflow:release
+description: Pre-release safety checks and validation before deployment
+---
+
 # Release
 
 Safely prepare project for public GitHub release by sanitizing files, checking documentation, and validating configuration.

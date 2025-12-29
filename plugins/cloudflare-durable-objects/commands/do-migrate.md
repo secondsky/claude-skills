@@ -1,5 +1,5 @@
 ---
-name: do-migrate
+name: cloudflare-durable-objects:migrate
 description: Interactive Durable Objects migration assistant. Guides through new class creation, renaming, deletion, and transfer migrations with validation.
 ---
 

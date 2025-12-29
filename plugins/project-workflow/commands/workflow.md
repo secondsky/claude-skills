@@ -1,3 +1,8 @@
+---
+name: project-workflow:workflow
+description: Interactive guide to the complete project lifecycle workflow system
+---
+
 # Workflow
 
 Interactive guide to the Jezweb Workflow: 5 commands for complete project lifecycle automation.

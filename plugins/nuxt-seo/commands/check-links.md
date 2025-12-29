@@ -1,5 +1,5 @@
 ---
-name: check-links
+name: nuxt-seo:check-links
 description: Run link checker analysis on the Nuxt project to find broken links
 allowed-tools:
   - Read

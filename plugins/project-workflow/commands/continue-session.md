@@ -1,3 +1,8 @@
+---
+name: project-workflow:continue-session
+description: Continue work from previous session by loading context from SESSION.md
+---
+
 # Continue Session
 
 Quickly continue work by loading context from SESSION.md, showing current state, and continuing from "Next Action".

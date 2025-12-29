@@ -1,5 +1,5 @@
 ---
-name: bun-optimize
+name: bun:optimize
 description: Optimize Bun application performance and bundle size
 arguments:
   - name: target

@@ -1,6 +1,13 @@
+---
+name: multi-ai-consultant:consult-codex
+description: Consult OpenAI Codex (GPT 5.2) for repo-aware code analysis and OpenAI reasoning. Use when need general code review, refactoring suggestions, or different AI perspective.
+allowed-tools:
+  - Bash
+---
+
 # Consult OpenAI Codex
 
-You are being asked to consult OpenAI's GPT-4 via the Codex CLI for a second opinion on a coding problem or architectural decision.
+You are being asked to consult OpenAI's GPT 5.2 via the Codex CLI for a second opinion on a coding problem or architectural decision.
 
 ## Your Task
 
@@ -99,7 +106,7 @@ Current status: [What's happening now]
 - `--yolo` OR `--dangerously-bypass-approvals-and-sandbox` OR `--full-auto`
 - `--output-last-message /tmp/codex-response.txt`
 
-**Recommended model**: `gpt-4-turbo` (balanced) or `gpt-4o` (most powerful)
+**Recommended model**: `gpt-5.2` (latest)
 
 **Full command pattern**:
 ```bash
@@ -113,7 +120,7 @@ RESPONSE_FILE="/tmp/codex-response-$(date +%s).txt"
 
 # Execute Codex (use --yolo to prevent hanging)
 echo "$PROMPT" | codex exec - \
-  -m gpt-4-turbo \
+  -m gpt-5.2 \
   --yolo \
   --output-last-message "$RESPONSE_FILE" \
   --skip-git-repo-check
@@ -199,7 +206,7 @@ You MUST compare Codex's analysis with your own reasoning. DO NOT just parrot Co
 ## Step 7: Log Cost
 
 ```bash
-# Calculate cost (GPT-4 Turbo pricing)
+# Calculate cost (GPT 5.2 pricing)
 # Input: $0.00001/token, Output: $0.00003/token (example rates, verify current)
 COST=$(echo "scale=4; ($INPUT_TOKENS * 0.00001) + ($OUTPUT_TOKENS * 0.00003)" | bc)
 
@@ -207,7 +214,7 @@ COST=$(echo "scale=4; ($INPUT_TOKENS * 0.00001) + ($OUTPUT_TOKENS * 0.00003)" | 
 mkdir -p ~/.claude/ai-consultations
 
 # Log consultation
-echo "$(date -Iseconds),codex,gpt-4-turbo,$INPUT_TOKENS,$OUTPUT_TOKENS,$COST,$(pwd)" \
+echo "$(date -Iseconds),codex,gpt-5.2,$INPUT_TOKENS,$OUTPUT_TOKENS,$COST,$(pwd)" \
   >> ~/.claude/ai-consultations/consultations.log
 
 # Show cost to user

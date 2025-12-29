@@ -1,5 +1,5 @@
 ---
-name: r2-multipart-init
+name: cloudflare-r2:multipart-init
 description: Set up multipart upload for large files (>100MB)
 ---
 

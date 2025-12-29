@@ -1,7 +1,7 @@
 ---
-name: better-auth-add-plugin
+name: better-auth:add-plugin
 description: Add a better-auth plugin to an existing project. Configures server and client plugins with proper imports.
-args: plugin_name
+argument-hint: "<plugin-name>"
 ---
 
 # Add better-auth Plugin

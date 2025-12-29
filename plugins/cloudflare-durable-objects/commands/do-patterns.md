@@ -1,5 +1,5 @@
 ---
-name: do-patterns
+name: cloudflare-durable-objects:patterns
 description: Interactive Durable Objects pattern selection wizard. Helps choose the right DO pattern for your use case and generates implementation code with best practices.
 ---
 

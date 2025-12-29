@@ -1,5 +1,5 @@
 ---
-name: workflow-create
+name: cloudflare-workflows:create
 description: Quick scaffold for new workflow class in existing project. Use when user wants to add another workflow to existing project without full setup wizard.
 ---
 

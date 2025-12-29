@@ -1,5 +1,5 @@
 ---
-name: nuxt-ui:migrate
+name: nuxt-ui-v4:migrate
 description: Migrate project from Nuxt UI v2/v3 to v4 with automated fixes for breaking changes
 allowed-tools:
   - Read

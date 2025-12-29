@@ -1,5 +1,5 @@
 ---
-name: turnstile-setup
+name: cloudflare-turnstile:setup
 description: Interactive wizard for setting up Cloudflare Turnstile. Generates templates, configuration, and provides step-by-step guidance based on framework and environment.
 ---
 

@@ -1,4 +1,5 @@
 ---
+name: cloudflare-queues:monitor
 description: Display real-time Cloudflare Queues metrics and status
 argument-hint: [queue-name]
 ---

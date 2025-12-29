@@ -345,9 +345,9 @@ Load specific reference files based on task context:
 - `analyze-kv-usage.sh` - Analyze code for KV usage patterns and optimizations
 
 **Commands:**
-- `/setup-kv` - Interactive KV namespace setup wizard
-- `/test-kv` - Test KV operations and connection
-- `/optimize-kv` - Analyze and optimize KV usage
+- `/cloudflare-kv:setup` - Interactive KV namespace setup wizard
+- `/cloudflare-kv:test` - Test KV operations and connection
+- `/cloudflare-kv:optimize` - Analyze and optimize KV usage
 
 **Agents:**
 - `kv-optimizer` - Analyzes KV usage and suggests performance optimizations

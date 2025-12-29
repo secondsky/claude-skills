@@ -1,5 +1,5 @@
 ---
-name: workers-debug
+name: cloudflare-workers:debug
 description: Interactive debugging workflow for Cloudflare Workers. Diagnoses deployment errors, runtime issues, and performance problems with step-by-step fixes.
 allowed-tools:
   - Read

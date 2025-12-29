@@ -1,3 +1,8 @@
+---
+name: project-workflow:wrap-session
+description: Checkpoint current session progress and save context
+---
+
 # Wrap Session
 
 Automate end-of-session workflow: update SESSION.md, create git checkpoint, and prepare for context clear.

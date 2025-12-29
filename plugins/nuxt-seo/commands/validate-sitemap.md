@@ -1,5 +1,5 @@
 ---
-name: validate-sitemap
+name: nuxt-seo:validate-sitemap
 description: Validate sitemap configuration and check for common issues
 allowed-tools:
   - Read

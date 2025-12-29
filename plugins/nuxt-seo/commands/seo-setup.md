@@ -1,5 +1,5 @@
 ---
-name: seo-setup
+name: nuxt-seo:setup
 description: Quick setup for Nuxt SEO with best practices
 allowed-tools:
   - Read

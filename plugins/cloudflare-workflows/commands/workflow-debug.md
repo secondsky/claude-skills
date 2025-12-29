@@ -1,5 +1,5 @@
 ---
-name: workflow-debug
+name: cloudflare-workflows:debug
 description: Interactive debugging for failing workflow instances. Use when user reports workflow errors, instances stuck, or deployment failures.
 ---
 
