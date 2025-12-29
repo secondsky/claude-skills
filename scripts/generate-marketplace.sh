@@ -102,16 +102,22 @@ while IFS= read -r plugin_dir; do
   plugin_name=$(basename "$plugin_dir")
   plugin_json="$plugin_dir/.claude-plugin/plugin.json"
 
-  count=$((count + 1))
-
-  # Skip if no plugin.json
+  # Skip if no plugin.json (before counting)
   if [ ! -f "$plugin_json" ]; then
-    printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$plugin_name"
+    continue  # Silent skip, don't increment count
+  fi
+
+  count=$((count + 1))  # Only count valid plugins
+
+  # Validate JSON structure
+  if ! jq empty "$plugin_json" 2>/dev/null; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (invalid JSON in plugin.json)\n" \
+      "$count" "$total" "$plugin_name"
     skipped=$((skipped + 1))
     continue
   fi
 
-  # Read plugin-level metadata from plugin.json
+  # Read plugin-level metadata from plugin.json (safe now, JSON is valid)
   description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
   if [ -z "$description" ]; then
     printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$plugin_name"
