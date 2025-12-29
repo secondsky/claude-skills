@@ -1,3 +1,8 @@
+---
+name: multi-ai-consultant:consult-claude
+description: Consult Claude AI for a second opinion
+---
+
 # Consult Fresh Claude
 
 You are being asked to consult a fresh Claude subagent for a second opinion on a coding problem or architectural decision.

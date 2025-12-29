@@ -1,3 +1,8 @@
+---
+name: multi-ai-consultant:consult-ai
+description: Route AI consultation requests to appropriate AI model
+---
+
 # Consult AI (Router)
 
 You are being asked to consult an AI for a second opinion, but the specific AI hasn't been chosen yet.

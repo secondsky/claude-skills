@@ -1,3 +1,8 @@
+---
+name: multi-ai-consultant:consult-gemini
+description: Consult Google Gemini for a second opinion
+---
+
 # Consult Gemini 2.5 Pro
 
 You are being asked to consult Google Gemini 2.5 Pro for a second opinion on a coding problem or architectural decision.

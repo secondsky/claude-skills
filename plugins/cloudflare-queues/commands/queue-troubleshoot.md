@@ -1,4 +1,5 @@
 ---
+name: cloudflare-queues:troubleshoot
 description: Quick troubleshooting for common Cloudflare Queues issues
 argument-hint: [queue-name]
 ---

@@ -1,3 +1,8 @@
+---
+name: multi-ai-consultant:consult-codex
+description: Consult OpenAI Codex for a second opinion
+---
+
 # Consult OpenAI Codex
 
 You are being asked to consult OpenAI's GPT-4 via the Codex CLI for a second opinion on a coding problem or architectural decision.
