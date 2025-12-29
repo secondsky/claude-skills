@@ -1,5 +1,5 @@
 ---
-name: nuxt-ui:component
+name: nuxt-ui-v4:component
 description: Scaffold a new component using Nuxt UI v4 patterns with proper typing and composition
 allowed-tools:
   - Read

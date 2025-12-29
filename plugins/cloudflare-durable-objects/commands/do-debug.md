@@ -1,5 +1,5 @@
 ---
-name: do-debug
+name: cloudflare-durable-objects:debug
 description: Interactive Durable Objects debugging workflow. Diagnoses common DO errors, configuration issues, and runtime problems with step-by-step troubleshooting.
 ---
 

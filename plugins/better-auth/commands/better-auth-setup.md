@@ -1,5 +1,5 @@
 ---
-name: better-auth-setup
+name: better-auth:setup
 description: Interactive setup wizard for better-auth authentication. Guides through database, framework, OAuth providers, and plugin configuration.
 ---
 

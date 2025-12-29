@@ -1,5 +1,5 @@
 ---
-name: check-images
+name: cloudflare-images:check
 description: Run comprehensive health check and configuration validation for Cloudflare Images. Tests API connectivity, verifies authentication, checks transformations enabled, lists variants, and shows quota usage.
 ---
 

@@ -1,3 +1,8 @@
+---
+name: project-workflow:explore-idea
+description: Research and validate project ideas before planning
+---
+
 # Explore Idea
 
 Collaborative exploration and brainstorming for new project ideas. Validates scope, researches approaches, and creates decision-ready brief.

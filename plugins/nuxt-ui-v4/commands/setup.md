@@ -1,5 +1,5 @@
 ---
-name: nuxt-ui:setup
+name: nuxt-ui-v4:setup
 description: Initialize Nuxt UI v4 in an existing Nuxt project with proper configuration
 allowed-tools:
   - Read

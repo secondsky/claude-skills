@@ -1,5 +1,5 @@
 ---
-name: snippets
+name: maz-ui:snippets
 description: Quick code snippets for common Maz-UI patterns (forms, dialogs, toasts, validation, components)
 ---
 

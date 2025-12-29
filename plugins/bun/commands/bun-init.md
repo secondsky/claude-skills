@@ -1,5 +1,5 @@
 ---
-name: bun-init
+name: bun:init
 description: Initialize a new Bun project with optional framework selection
 arguments:
   - name: project-name

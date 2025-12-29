@@ -1,5 +1,5 @@
 ---
-name: d1-setup
+name: cloudflare-d1:setup
 description: Interactive wizard to set up Cloudflare D1 database with database creation, Worker binding configuration, schema generation, and first migration. Use when user wants to create first D1 database or add D1 to existing Worker.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: bun-deploy
+name: bun:deploy
 description: Deploy Bun applications to various platforms
 arguments:
   - name: platform

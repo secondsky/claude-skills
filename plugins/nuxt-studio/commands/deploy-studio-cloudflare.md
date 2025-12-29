@@ -1,5 +1,5 @@
 ---
-name: deploy-studio-cloudflare
+name: nuxt-studio:deploy-cloudflare
 description: Guide for deploying Nuxt Studio to Cloudflare Pages or Workers with custom subdomain routing
 argument-hint: No arguments required - interactive deployment guide
 allowed-tools: [Read, Write, Edit, Bash, AskUserQuestion]

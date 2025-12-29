@@ -340,12 +340,12 @@ Load specific reference files based on task context:
 **Scripts** (`scripts/`):
 - `check-versions.sh` - Validate KV API endpoints and package versions
 - `test-kv-connection.sh` - Test KV namespace connection and operations
-- `setup-kv-namespace.sh` - Interactive namespace setup wizard
+- `cloudflare-kv:setup-namespace.sh` - Interactive namespace setup wizard
 - `validate-kv-config.sh` - Validate wrangler.jsonc configuration
 - `analyze-kv-usage.sh` - Analyze code for KV usage patterns and optimizations
 
 **Commands:**
-- `/setup-kv` - Interactive KV namespace setup wizard
+- `/cloudflare-kv:setup` - Interactive KV namespace setup wizard
 - `/test-kv` - Test KV operations and connection
 - `/optimize-kv` - Analyze and optimize KV usage
 

@@ -45,7 +45,7 @@ export default defineNuxtConfig({ modules: ['@nuxt/ui'] })
 </style>
 ```
 
-**Commands available**: `/nuxt-ui:setup`, `/nuxt-ui:migrate`, `/nuxt-ui:theme`, `/nuxt-ui:component`
+**Commands available**: `/nuxt-ui-v4:setup`, `/nuxt-ui:migrate`, `/nuxt-ui:theme`, `/nuxt-ui:component`
 
 ---
 
@@ -334,7 +334,7 @@ defineShortcuts({ 'meta_k': () => openSearch() })
 
 ## Available Commands
 
-- `/nuxt-ui:setup` - Initialize Nuxt UI in project
+- `/nuxt-ui-v4:setup` - Initialize Nuxt UI in project
 - `/nuxt-ui:migrate` - Migrate from v2/v3 to v4
 - `/nuxt-ui:theme` - Generate theme configuration
 - `/nuxt-ui:component` - Scaffold component with Nuxt UI patterns

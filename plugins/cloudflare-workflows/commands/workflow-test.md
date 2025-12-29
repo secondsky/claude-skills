@@ -1,5 +1,5 @@
 ---
-name: workflow-test
+name: cloudflare-workflows:test
 description: Test workflow instances locally and remotely with validation and metrics. Use when user wants to test workflow execution, validate behavior, or measure performance.
 ---
 

@@ -1,3 +1,8 @@
+---
+name: project-workflow:plan-feature
+description: Plan new feature implementation for existing projects
+---
+
 # Plan Feature
 
 Add a new feature to an existing project by generating new phases and integrating them into IMPLEMENTATION_PHASES.md and SESSION.md.

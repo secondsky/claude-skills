@@ -1,5 +1,5 @@
 ---
-name: test-kv
+name: cloudflare-kv:test
 description: Test KV namespace connection and operations - validates configuration, performs CRUD tests, and reports diagnostics
 ---
 

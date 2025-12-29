@@ -1,3 +1,8 @@
+---
+name: project-workflow:plan-project
+description: Generate comprehensive planning documents for new projects
+---
+
 # Plan Project
 
 Automate initial project planning: gather requirements, generate planning docs, create SESSION.md, and prepare for Phase 1.

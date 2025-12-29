@@ -1,5 +1,5 @@
 ---
-name: r2-presigned-url
+name: cloudflare-r2:presigned-url
 description: Generate presigned URLs for secure client-side uploads or downloads
 ---
 

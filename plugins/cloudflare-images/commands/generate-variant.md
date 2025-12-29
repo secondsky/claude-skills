@@ -1,5 +1,5 @@
 ---
-name: generate-variant
+name: cloudflare-images:generate-variant
 description: Interactive variant generator for Cloudflare Images. Prompts for variant name, dimensions, fit mode, and quality, then generates API call to create the variant and optionally adds configuration to wrangler.jsonc.
 ---
 

@@ -491,7 +491,7 @@ PRAGMA optimize;
 - **`agents/d1-query-optimizer.md`**: Performance analysis (slow queries, missing indexes, optimization recommendations)
 
 **Commands** (Interactive wizards):
-- **`commands/d1-setup.md`**: Interactive first-time setup wizard
+- **`commands/cloudflare-d1:setup.md`**: Interactive first-time setup wizard
 - **`commands/d1-create-migration.md`**: Guided migration creation with validation
 
 ---
@@ -509,7 +509,7 @@ PRAGMA optimize;
 
 - **schema-example.sql** - Complete schema with indexes
 - **d1-worker-queries.ts** - All query patterns in Workers
-- **d1-setup-migration.sh** - Complete setup script
+- **cloudflare-d1:setup-migration.sh** - Complete setup script
 
 ---
 

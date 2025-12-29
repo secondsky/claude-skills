@@ -1,5 +1,5 @@
 ---
-name: nuxt-setup
+name: nuxt-v4:setup
 description: Interactive wizard to set up a new Nuxt 4 project with database integration, UI framework, authentication, and deployment configuration. Use when user wants to create a new Nuxt project or scaffold a full-stack application.
 ---
 

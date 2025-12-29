@@ -1,5 +1,5 @@
 ---
-name: og-preview
+name: nuxt-seo:og-preview
 description: Preview and debug OG image generation for a specific route or all routes
 allowed-tools:
   - Read

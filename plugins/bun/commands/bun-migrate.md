@@ -1,5 +1,5 @@
 ---
-name: bun-migrate
+name: bun:migrate
 description: Migrate existing Node.js/npm projects to Bun
 arguments:
   - name: source

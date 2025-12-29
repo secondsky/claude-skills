@@ -1,5 +1,5 @@
 ---
-name: seo-audit
+name: nuxt-seo:audit
 description: Run comprehensive SEO audit on current Nuxt project
 allowed-tools:
   - Read

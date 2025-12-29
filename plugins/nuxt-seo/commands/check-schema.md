@@ -1,5 +1,5 @@
 ---
-name: check-schema
+name: nuxt-seo:check-schema
 description: Validate Schema.org structured data implementation in the Nuxt project
 allowed-tools:
   - Read

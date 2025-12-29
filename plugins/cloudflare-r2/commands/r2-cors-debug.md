@@ -1,5 +1,5 @@
 ---
-name: r2-cors-debug
+name: cloudflare-r2:cors-debug
 description: Diagnose and fix CORS configuration errors
 ---
 

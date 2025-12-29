@@ -1,5 +1,5 @@
 ---
-name: workers-optimize
+name: cloudflare-workers:optimize
 description: Analyze and optimize Cloudflare Workers performance. Checks bundle size, caching, memory usage, and provides actionable recommendations.
 allowed-tools:
   - Read

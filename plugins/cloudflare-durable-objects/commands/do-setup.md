@@ -1,5 +1,5 @@
 ---
-name: do-setup
+name: cloudflare-durable-objects:setup
 description: Interactive Durable Objects project initialization. Scaffolds new DO project with proper bindings, migrations, and boilerplate code.
 ---
 

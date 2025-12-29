@@ -1,5 +1,5 @@
 ---
-name: bun-upgrade
+name: bun:upgrade
 description: Upgrade Bun runtime and project dependencies
 arguments:
   - name: target

@@ -1,5 +1,5 @@
 ---
-name: validate-config
+name: cloudflare-images:validate-config
 description: Validate wrangler.jsonc configuration, verify Cloudflare Images bindings, check environment variables, and test Workers integration. Ensures correct setup for using Cloudflare Images with Cloudflare Workers.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: workers-migrate
+name: cloudflare-workers:migrate
 description: Platform migration assistant for moving applications from AWS Lambda, Vercel, Netlify, or Cloudflare Pages to Cloudflare Workers.
 allowed-tools:
   - Read

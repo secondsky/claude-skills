@@ -1,5 +1,5 @@
 ---
-name: setup-kv
+name: cloudflare-kv:setup
 description: Interactive KV namespace setup wizard - creates namespaces, configures bindings, and generates Worker code
 ---
 

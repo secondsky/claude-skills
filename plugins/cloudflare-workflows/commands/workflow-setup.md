@@ -1,5 +1,5 @@
 ---
-name: workflow-setup
+name: cloudflare-workflows:setup
 description: Interactive wizard for complete Cloudflare Workflows setup from scratch. Use when user wants to create first workflow, setup workflow infrastructure, or add workflows to existing Worker project.
 ---
 

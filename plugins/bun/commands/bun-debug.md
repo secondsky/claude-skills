@@ -1,5 +1,5 @@
 ---
-name: bun-debug
+name: bun:debug
 description: Debug Bun applications and diagnose common issues
 arguments:
   - name: issue

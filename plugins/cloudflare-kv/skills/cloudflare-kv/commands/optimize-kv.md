@@ -1,5 +1,5 @@
 ---
-name: optimize-kv
+name: cloudflare-kv:optimize
 description: Analyze KV usage patterns and suggest optimizations - identifies missing TTLs, cacheTtl opportunities, bulk operations, and cost savings
 ---
 
