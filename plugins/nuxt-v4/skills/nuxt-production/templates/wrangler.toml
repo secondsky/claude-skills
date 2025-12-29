@@ -1,0 +1,45 @@
+# Cloudflare Workers configuration
+name = "my-nuxt-app"
+main = ".output/server/index.mjs"
+compatibility_date = "2025-12-19"
+compatibility_flags = ["nodejs_compat"]
+
+# Workers Assets (static files)
+[site]
+bucket = ".output/public"
+
+# Environment variables (public, non-sensitive)
+[vars]
+PUBLIC_API_URL = "https://api.example.com"
+APP_NAME = "My Nuxt App"
+
+# D1 Database
+[[d1_databases]]
+binding = "DB"
+database_name = "my-database"
+database_id = "your-database-id"  # Get from: npx wrangler d1 create my-database
+
+# KV Storage
+[[kv_namespaces]]
+binding = "KV"
+id = "your-kv-id"  # Get from: npx wrangler kv:namespace create MY_KV
+
+# R2 Storage
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "my-bucket"  # Create first: npx wrangler r2 bucket create my-bucket
+
+# Durable Objects (optional)
+# [[durable_objects.bindings]]
+# name = "COUNTER"
+# class_name = "Counter"
+# script_name = "counter-worker"
+
+# Queues (optional)
+# [[queues.producers]]
+# binding = "QUEUE"
+# queue = "my-queue"
+
+# Workers AI (optional)
+# [ai]
+# binding = "AI"

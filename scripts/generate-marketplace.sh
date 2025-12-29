@@ -216,8 +216,21 @@ EOF
     fi
 
     # For multi-skill plugins, read description from SKILL.md frontmatter
-    # First, try to extract from SKILL.md YAML frontmatter
-    skill_description=$(awk '/^---$/,/^---$/{if (!/^---$/) print}' "$skill_md" | grep -E '^description:' | sed 's/^description: *//' | sed 's/^["'"'"']//' | sed 's/["'"'"']$//')
+    # Extract YAML frontmatter and parse with improved awk (handles multi-line descriptions)
+    skill_description=$(awk '
+      /^---$/ { if (++count == 2) exit; next }
+      count == 1 && /^description:/ {
+        sub(/^description: */, "")
+        desc = $0
+        getline
+        while (!/^[a-z_]+:/ && !/^---$/) {
+          desc = desc " " $0
+          if (getline <= 0) break
+        }
+        print desc
+        exit
+      }
+    ' "$skill_md" | sed 's/^["'"'"']//' | sed 's/["'"'"']$//')
 
     # Fallback to plugin.json description if no description in SKILL.md
     if [ -z "$skill_description" ]; then

@@ -1,8 +1,8 @@
 # Nuxt SEO - Complete SEO Toolkit for Nuxt 3/4
 
 **Status**: Production Ready ✅
-**Last Updated**: 2025-11-10
-**Production Tested**: All 8 modules verified with official documentation from https://nuxtseo.com
+**Last Updated**: 2025-12-28
+**Production Tested**: All 8 core modules + 3 Pro modules verified with official documentation from https://nuxtseo.com
 
 ---
 
@@ -49,6 +49,27 @@ Claude Code automatically discovers this skill when you mention:
 - "duplicate meta tags"
 - "canonical url issues"
 - "sitemap index errors"
+
+### Advanced SEO Keywords
+- twitter cards nuxt
+- indexnow nuxt
+- rendering modes nuxt
+- ssr vs ssg
+- isr nuxt
+- rich results nuxt
+- json-ld nuxt
+- useSeoMeta
+- useSchemaOrg
+- defineOgImage
+- url structure seo
+- meta robots nuxt
+
+### Pro Module Keywords
+- nuxt ai ready
+- llms.txt
+- nuxt skew protection
+- seo pro mcp
+- ai optimization nuxt
 
 ---
 
@@ -141,18 +162,28 @@ bun run dev
 
 ---
 
-## Package Versions (Verified 2025-11-10)
+## Package Versions (Verified 2025-12-28)
+
+### Core Modules
 
 | Package | Version | Status |
 |---------|---------|--------|
-| @nuxtjs/seo | 3.2.2 | ✅ Latest stable |
-| nuxt-robots | 5.5.6 | ✅ Latest stable |
-| nuxt-sitemap | 7.4.7 | ✅ Latest stable |
-| nuxt-og-image | 5.1.12 | ✅ Latest stable |
-| nuxt-schema-org | 5.0.9 | ✅ Latest stable |
-| nuxt-link-checker | 4.3.6 | ✅ Latest stable |
-| nuxt-seo-utils | 7.0.18 | ✅ Latest stable |
-| nuxt-site-config | 3.2.11 | ✅ Latest stable |
+| @nuxtjs/seo | 3.3.0 | ✅ Latest stable |
+| nuxt-robots | 5.6.7 | ✅ Latest stable |
+| nuxt-sitemap | 7.5.0 | ✅ Latest stable |
+| nuxt-og-image | 5.1.13 | ✅ Latest stable |
+| nuxt-schema-org | 5.0.10 | ✅ Latest stable |
+| nuxt-link-checker | 4.3.9 | ✅ Latest stable |
+| nuxt-seo-utils | 7.0.19 | ✅ Latest stable |
+| nuxt-site-config | 3.2.14 | ✅ Latest stable |
+
+### Pro Modules
+
+| Module | Purpose |
+|--------|---------|
+| nuxt-ai-ready | Generate llms.txt for AI crawlers |
+| nuxt-skew-protection | Prevent version skew during deployments |
+| Nuxt SEO Pro MCP | AI-powered SEO tools via MCP |
 
 ---
 
@@ -170,18 +201,48 @@ bun run dev
 
 ```
 nuxt-seo/
-├── SKILL.md              # Complete documentation (all 8 modules)
-├── README.md             # This file
-├── scripts/              # Setup automation
-│   └── init-nuxt-seo.sh  # Quick project initialization
-├── references/           # Detailed reference docs
-│   ├── modules-overview.md
-│   ├── installation-guide.md
-│   ├── api-reference.md
-│   └── common-patterns.md
-└── assets/               # Version tracking
-    └── package-versions.json
+├── .claude-plugin/
+│   └── plugin.json           # Plugin manifest with agents/commands
+├── skills/nuxt-seo/
+│   ├── SKILL.md              # Complete documentation (all 8+ modules)
+│   ├── references/           # Detailed reference docs
+│   │   ├── seo-guides.md     # Rendering, JSON-LD, Canonical, IndexNow, etc.
+│   │   ├── pro-modules.md    # AI Ready, Skew Protection, SEO Pro MCP
+│   │   ├── advanced-seo-guides.md  # NEW: I18n, Route Rules, Hydration, 404s
+│   │   ├── modules-overview.md
+│   │   ├── installation-guide.md
+│   │   ├── api-reference.md
+│   │   ├── common-patterns.md
+│   │   ├── module-details.md
+│   │   ├── best-practices.md
+│   │   ├── troubleshooting.md
+│   │   └── advanced-configuration.md
+│   ├── scripts/              # Setup automation
+│   │   └── init-nuxt-seo.sh  # Quick project initialization
+│   └── assets/               # Version tracking
+│       └── package-versions.json
+├── agents/                   # NEW: Autonomous SEO agents
+│   ├── seo-auditor.md        # Comprehensive SEO audit agent
+│   └── schema-generator.md   # Schema.org code generator
+├── commands/                 # NEW: Slash commands
+│   ├── seo-audit.md          # /seo-audit command
+│   └── seo-setup.md          # /seo-setup command
+└── README.md                 # This file
 ```
+
+## Available Agents
+
+| Agent | Purpose |
+|-------|---------|
+| **seo-auditor** | Autonomous SEO audit of Nuxt projects - checks meta tags, structured data, sitemaps, robots.txt |
+| **schema-generator** | Generates type-safe useSchemaOrg() code for articles, products, events, FAQs, etc. |
+
+## Available Commands
+
+| Command | Purpose |
+|---------|---------|
+| **/seo-audit** | Run comprehensive SEO audit on current project |
+| **/seo-setup** | Quick setup for Nuxt SEO with best practices |
 
 ---
 
@@ -219,7 +280,8 @@ MIT License - See main repo LICENSE file
 
 ---
 
-**Production Tested**: All 8 modules verified against official documentation (https://nuxtseo.com/llms.txt)
+**Production Tested**: All 8 core modules + 3 Pro modules verified against official documentation (https://nuxtseo.com/llms.txt)
 **Token Savings**: ~67%
 **Error Prevention**: 100% (prevents 10 common SEO configuration errors)
-**Ready to use!** See [SKILL.md](SKILL.md) for complete setup.
+**New in v2.1.0**: Advanced SEO guides (I18n multilanguage, route rules, enhanced titles, link checker rules, SPA prerendering, hydration, crawler protection, 404 pages)!
+**Ready to use!** See [SKILL.md](skills/nuxt-seo/SKILL.md) for complete setup.

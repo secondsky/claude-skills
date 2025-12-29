@@ -1,186 +1,357 @@
-# Nuxt 4 - Production Framework Patterns
+# Nuxt 4 - Comprehensive Framework Plugin
 
-Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and comprehensive Cloudflare deployment patterns.
+Production-ready Nuxt 4 development with 4 focused skills, 3 diagnostic agents, interactive setup wizard, and official Nuxt MCP integration.
 
-## What This Skill Covers
+## Plugin Overview
 
-This skill provides **comprehensive Nuxt 4 framework patterns** including:
+This plugin provides **complete Nuxt 4 coverage** through:
 
-- **Composables**: useState, useFetch, useAsyncData, custom composables, SSR-safe patterns
-- **Data Fetching**: useFetch vs useAsyncData vs $fetch, reactive keys, shallow reactivity, caching strategies
-- **Server Routes (Nitro)**: File-based routing, event handlers, database integration, authentication
-- **Routing**: File-based pages, dynamic routes, middleware, navigation
-- **SEO & Meta**: useHead, useSeoMeta, Open Graph, Twitter cards
-- **State Management**: useState patterns, Pinia integration, server/client state
-- **Error Handling**: Error pages, boundaries, API errors, validation
-- **Hydration**: SSR patterns, mismatches, client-only rendering, debugging
-- **Performance**: Lazy loading, code splitting, image optimization, caching, prefetching
-- **Testing (Vitest)**: Component, composable, and API testing patterns
-- **Cloudflare Deployment**: Pages, Workers, NuxtHub, bindings (D1, KV, R2, Durable Objects, Queues)
-- **Layers & Prerendering**: Multi-app architecture, static generation, hybrid rendering
+- **4 Focused Skills**: Core, Data, Server, Production
+- **3 Diagnostic Agents**: Debugger, Migration Assistant, Performance Analyzer
+- **1 Interactive Command**: Setup Wizard
+- **MCP Integration**: Official Nuxt MCP server for real-time documentation
 
-## When to Use This Skill
+## Skills
 
-Use this skill when:
+### nuxt-core
+Project setup, configuration, routing, SEO, and error handling.
 
-- **Building Nuxt 4 applications** from scratch or migrating from v3
-- **Implementing SSR patterns** with server-side rendering
-- **Creating composables** for shared logic and state management
-- **Setting up server routes** with Nitro and API endpoints
-- **Implementing data fetching** with useFetch, useAsyncData, or $fetch
-- **Managing state** with useState or Pinia
-- **Debugging hydration issues** and SSR mismatches
-- **Deploying to Cloudflare** Pages or Workers
-- **Optimizing performance** with lazy loading, caching, and code splitting
-- **Setting up testing** with Vitest and @nuxt/test-utils
-- **Integrating Cloudflare bindings** (D1, KV, R2, Durable Objects, Queues, Workers AI)
-- **Implementing WebSocket** real-time features
-- **Creating multilayer applications** with Nuxt layers
+**Use when**: Setting up new projects, configuring `nuxt.config.ts`, implementing file-based routing, adding middleware, using `useHead`/`useSeoMeta`, handling errors with `error.vue`.
 
-## Key Features
+### nuxt-data
+Composables, data fetching, and state management.
 
-### ✨ Nuxt v4 Specific Features
+**Use when**: Creating custom composables, fetching data with `useFetch`/`useAsyncData`, managing global state with `useState`, integrating Pinia, debugging reactive data issues.
 
-- **New directory structure** (`app/` as default srcDir)
-- **Shallow reactivity** by default (v4 change)
-- **Reactive keys** for auto-refetch
-- **Async data handler extraction** (39% smaller bundles in v4.2)
-- **Enhanced chunk stability** with import maps (v4.1)
-- **Lazy hydration** without auto-imports
-- **Abort control** for data fetching (v4.2)
+### nuxt-server
+Server routes, API patterns, and Nitro development.
 
-### 🎯 Production Patterns
+**Use when**: Creating API endpoints, implementing server middleware, integrating databases (D1, PostgreSQL, Drizzle), handling file uploads, building WebSocket features.
 
-- **20+ documented anti-patterns** with solutions
-- **Comprehensive error handling** patterns
-- **SSR-safe composables** with environment guards
-- **Authentication patterns** (session-based, JWT)
-- **Database integration** (D1 + Drizzle, Kysely)
-- **Real-world examples** (auth, blog, e-commerce)
+### nuxt-production
+Hydration, performance, testing, deployment, and migration.
 
-### ☁️ Cloudflare Integration
+**Use when**: Debugging hydration mismatches, optimizing Core Web Vitals, writing Vitest tests, deploying to Cloudflare/Vercel/Netlify, migrating from Nuxt 3 to Nuxt 4.
 
-- **NuxtHub zero-config** bindings
-- **D1 database** patterns with Drizzle ORM
-- **KV storage** for sessions and caching
-- **R2 blob storage** for file uploads
-- **Durable Objects** for stateful coordination
-- **Queues** for background jobs
-- **Workers AI** integration
-- **WebSocket** support
+## Agents
 
-### 🧪 Testing Coverage
+### nuxt-debugger
+**7-phase autonomous diagnostic agent** for troubleshooting Nuxt applications.
 
-- **Component testing** with @vue/test-utils
-- **Composable testing** patterns
-- **API route testing** with @nuxt/test-utils
-- **E2E testing** with Playwright
-- **Mocking patterns** for useFetch, useState, composables
+**Triggers**: Hydration mismatches, SSR errors, routing problems, data fetching issues, server route failures.
 
-## Installation
+**Phases**:
+1. Configuration Validation
+2. Routing Analysis
+3. Data Fetching Review
+4. SSR/Hydration Check
+5. Server Route Validation
+6. Performance Baseline
+7. Generate Diagnostic Report
+
+### nuxt-migration-assistant
+**6-phase autonomous migration agent** for upgrading from Nuxt 3 to Nuxt 4.
+
+**Triggers**: "Migrate to Nuxt 4", "Upgrade from Nuxt 3", v3 compatibility issues.
+
+**Phases**:
+1. Version Detection & Assessment
+2. Breaking Changes Analysis
+3. Auto-Fixable Changes
+4. Manual Fix Guidance
+5. Verification
+6. Migration Report
+
+### nuxt-performance-analyzer
+**6-phase autonomous performance agent** for optimizing Nuxt applications.
+
+**Triggers**: Slow page loads, Core Web Vitals optimization, bundle size reduction.
+
+**Phases**:
+1. Bundle Analysis
+2. Component Optimization
+3. Data Fetching Efficiency
+4. Rendering Strategy Optimization
+5. Asset Optimization
+6. Performance Report
+
+## Commands
+
+### /nuxt-setup
+**Interactive 8-step wizard** for creating new Nuxt 4 projects.
+
+**Questions Asked**:
+1. Project Type (Full-Stack, Marketing Site, API, SPA)
+2. UI Framework (Nuxt UI, Tailwind, shadcn-vue)
+3. Features (Auth, Database, Content, Testing)
+4. Database (D1, NuxtHub, PostgreSQL)
+5. Deployment Target (Cloudflare, Vercel, Netlify)
+6. Package Manager (bun, pnpm, npm)
+
+**Output**: Fully configured project with selected features.
+
+## MCP Integration
+
+This plugin includes the official Nuxt MCP server for real-time documentation access.
+
+**Provides**: Composable signatures, component examples, configuration options, and migration guides directly from Nuxt docs.
+
+### Automatic Setup (Claude Code Plugin)
+
+When you install this plugin, the MCP server is configured automatically via `.mcp.json`.
+
+### Manual Setup by Client
+
+Instructions below are from the [official Nuxt MCP documentation](https://nuxt.com/docs/4.x/guide/ai/mcp).
+
+#### Claude Code (CLI)
+
+Run this command:
 
 ```bash
-# Install this skill
-cd ~/.claude/skills
-git clone https://github.com/secondsky/claude-skills
-ln -s "$(pwd)/claude-skills/skills/nuxt-v4" nuxt-v4
-
-# Or use the install script
-./scripts/install-skill.sh nuxt-v4
+claude mcp add --transport http nuxt https://nuxt.com/mcp
 ```
+
+#### Claude Desktop
+
+Add to your Claude Desktop configuration file:
+
+```json
+{
+  "mcpServers": {
+    "nuxt": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://nuxt.com/mcp"]
+    }
+  }
+}
+```
+
+#### Cursor
+
+Add to `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp"
+    }
+  }
+}
+```
+
+#### Visual Studio Code (GitHub Copilot)
+
+Add to `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp"
+    }
+  }
+}
+```
+
+#### Windsurf
+
+Add to `.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp"
+    }
+  }
+}
+```
+
+#### Zed
+
+Add to your Zed settings:
+
+```json
+{
+  "context_servers": {
+    "nuxt": {
+      "source": "custom",
+      "command": "npx",
+      "args": ["mcp-remote", "https://nuxt.com/mcp"],
+      "env": {}
+    }
+  }
+}
+```
+
+#### Opencode
+
+Add to `opencode.json`:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "nuxt": {
+      "type": "remote",
+      "url": "https://nuxt.com/mcp",
+      "enabled": true
+    }
+  }
+}
+```
+
+#### ChatGPT
+
+Use this URL in ChatGPT's MCP integration:
+
+```
+https://nuxt.com/mcp
+```
+
+#### Le Chat Mistral
+
+Use this URL in Le Chat's MCP settings:
+
+```
+https://nuxt.com/mcp
+```
+
+### Verify MCP Connection
+
+After configuration, verify the MCP server is connected:
+
+```
+"What composables are available in Nuxt?"
+→ Should return live data from Nuxt MCP
+```
+
+### MCP Capabilities
+
+The Nuxt MCP provides:
+- **Composable Documentation**: `useFetch`, `useAsyncData`, `useState`, etc.
+- **Component Examples**: NuxtPage, NuxtLayout, ClientOnly, etc.
+- **Configuration Reference**: `nuxt.config.ts` options
+- **Migration Guides**: Nuxt 3 → 4 breaking changes
+- **Module Documentation**: Official Nuxt modules
+
+## Directory Structure
+
+```
+nuxt-v4/
+├── .claude-plugin/
+│   └── plugin.json
+├── .mcp.json
+├── README.md
+├── agents/
+│   ├── nuxt-debugger.md
+│   ├── nuxt-migration-assistant.md
+│   └── nuxt-performance-analyzer.md
+├── commands/
+│   └── nuxt-setup.md
+└── skills/
+    ├── nuxt-core/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── templates/
+    ├── nuxt-data/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   ├── composables.md
+    │   │   └── data-fetching.md
+    │   └── templates/
+    ├── nuxt-server/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   │   └── server.md
+    │   └── templates/
+    └── nuxt-production/
+        ├── SKILL.md
+        ├── references/
+        │   ├── deployment-cloudflare.md
+        │   ├── hydration.md
+        │   ├── performance.md
+        │   └── testing-vitest.md
+        └── templates/
+```
+
+## When to Use This Plugin
+
+| Scenario | Skill/Agent |
+|----------|-------------|
+| New Nuxt 4 project | `/nuxt-setup` command |
+| Configure nuxt.config.ts | `nuxt-core` skill |
+| Set up routing/middleware | `nuxt-core` skill |
+| Create composables | `nuxt-data` skill |
+| Implement useFetch/useAsyncData | `nuxt-data` skill |
+| Build API routes | `nuxt-server` skill |
+| Integrate D1 database | `nuxt-server` skill |
+| Debug hydration errors | `nuxt-debugger` agent |
+| Fix SSR issues | `nuxt-debugger` agent |
+| Upgrade from Nuxt 3 | `nuxt-migration-assistant` agent |
+| Optimize performance | `nuxt-performance-analyzer` agent |
+| Deploy to Cloudflare | `nuxt-production` skill |
+| Write Vitest tests | `nuxt-production` skill |
 
 ## Quick Start
 
-### Create New Nuxt 4 Project
-
+### Create New Project
 ```bash
-npx nuxi@latest init my-app
-cd my-app
-npm install
-npm run dev
+# Use the setup wizard
+/nuxt-setup
 ```
 
-### Key Nuxt 4 Patterns
+### Debug Issues
+```
+"I'm getting hydration mismatch errors"
+→ nuxt-debugger agent activates automatically
+```
 
-**useState for Shared State:**
+### Migrate from Nuxt 3
+```
+"I want to upgrade my Nuxt 3 project to Nuxt 4"
+→ nuxt-migration-assistant agent activates
+```
+
+### Optimize Performance
+```
+"My Nuxt app is slow, can you analyze performance?"
+→ nuxt-performance-analyzer agent activates
+```
+
+## Key Patterns
+
+### useState for Shared State
 ```typescript
-const user = useState('user', () => null)  // ✅ Shared across components
-const count = ref(0)  // ❌ Local to component only
+// ✅ Shared across components
+const user = useState('user', () => null)
+
+// ❌ Local to component only
+const count = ref(0)
 ```
 
-**Data Fetching:**
+### Data Fetching
 ```typescript
 // Simple API call
 const { data } = await useFetch('/api/users')
 
-// With reactive params (auto-refetch in v4)
+// With reactive params (auto-refetch)
 const page = ref(1)
 const { data } = await useFetch('/api/users', { query: { page } })
-
-// Custom logic
-const { data } = await useAsyncData('users', () => $fetch('/api/users'))
 ```
 
-**Server Routes:**
+### Server Routes
 ```typescript
 // server/api/users.get.ts
 export default defineEventHandler(async (event) => {
-  const users = await db.users.findMany()
-  return users
+  return { users: await db.select().from(users) }
 })
 ```
-
-**Composables:**
-```typescript
-// composables/useAuth.ts
-export const useAuth = () => {
-  const user = useState('auth-user', () => null)
-  const login = async (email, password) => { /* ... */ }
-  return { user, login }
-}
-```
-
-## Auto-Trigger Keywords
-
-This skill automatically triggers when you mention:
-
-**Framework**: Nuxt 4, Nuxt v4, Nuxt, SSR, universal rendering, Nitro
-
-**Composables**: useState, useFetch, useAsyncData, $fetch, useRoute, useRouter, useHead, useSeoMeta, useRuntimeConfig
-
-**Auto-imports**: auto-imports, auto-imported, composables, components
-
-**Data Fetching**: data fetching, fetching data, API calls, useFetch, useAsyncData, reactive keys, shallow reactivity
-
-**Server**: server routes, API routes, Nitro, defineEventHandler, server directory, event handlers
-
-**Routing**: file-based routing, pages directory, dynamic routes, middleware, route middleware, definePageMeta
-
-**Hydration**: hydration, hydration mismatch, SSR rendering, ClientOnly
-
-**State**: state management, shared state, global state, useState, Pinia
-
-**Deployment**: Cloudflare Pages, Cloudflare Workers, NuxtHub, Workers Assets, deploy Nuxt
-
-**Bindings**: D1, KV, R2, Durable Objects, Queues, Workers AI, Cloudflare bindings
-
-**Testing**: Vitest, testing, test Nuxt, @nuxt/test-utils, mountSuspended
-
-**Performance**: lazy loading, code splitting, lazy hydration, performance optimization, bundle size
-
-**Errors**: error handling, error page, error boundary, createError
-
-## Related Skills
-
-- **nuxt-ui-v4**: Nuxt UI component library (52 components, theming, design system)
-- **cloudflare-d1**: D1 database patterns with Drizzle ORM
-- **cloudflare-kv**: KV storage best practices
-- **cloudflare-r2**: R2 object storage patterns
-- **cloudflare-workers-ai**: Workers AI integration
-- **cloudflare-durable-objects**: Stateful coordination patterns
-- **cloudflare-queues**: Background job processing
-- **better-auth**: Authentication with Better Auth
-- **content-collections**: Content management patterns
 
 ## Version Requirements
 
@@ -190,51 +361,26 @@ This skill automatically triggers when you mention:
 | vue | 3.5.0 | 3.5.x |
 | nitro | 2.10.0 | 2.10.x |
 | vite | 6.0.0 | 6.0.x |
-| typescript | 5.0.0 | 5.x |
 
-## Token Savings
+## Related Plugins
 
-**Without this skill**: ~25,000 tokens (reading docs + trial-and-error)
-**With this skill**: ~7,000 tokens (targeted guidance)
-**Savings**: ~72% (~18,000 tokens)
+- **nuxt-ui-v4**: Nuxt UI component library
+- **cloudflare-d1**: D1 database patterns
+- **cloudflare-kv**: KV storage patterns
+- **cloudflare-r2**: R2 object storage
+- **better-auth**: Authentication patterns
+- **pinia-v3**: State management
 
-## Errors Prevented
+## Installation
 
-This skill helps prevent **20+ common errors**:
+```bash
+# From marketplace
+/plugin install nuxt-v4@claude-skills
 
-1. Using `ref` instead of `useState` for shared state
-2. Missing SSR guards for browser APIs
-3. Non-deterministic transform functions
-4. Missing error handling in data fetching
-5. Incorrect server route file naming
-6. Missing `process.client` checks
-7. Hydration mismatches from Date/Math.random()
-8. Accessing `process.env` instead of `runtimeConfig`
-9. Not using auto-imports properly
-10. Missing TypeScript types
-11-20. [And 10 more documented in SKILL.md]
-
-## Resources
-
-### References (in `references/`)
-- `composables.md` - Advanced composable patterns
-- `data-fetching.md` - Complete useFetch/useAsyncData guide
-- `server.md` - Nitro server patterns
-- `hydration.md` - SSR hydration best practices
-- `performance.md` - Optimization strategies
-- `deployment-cloudflare.md` - Comprehensive Cloudflare guide
-- `testing-vitest.md` - Vitest testing patterns
-
-### Templates (in `templates/`)
-- Production `nuxt.config.ts`
-- Authentication flow (login, register, middleware)
-- Blog with API routes (CRUD operations)
-- E-commerce patterns (products, cart)
-- Cloudflare Workers setup (`wrangler.toml`)
-- Vitest test examples
-
-### Scripts (in `scripts/`)
-- `init-nuxt-v4.sh` - Initialize new Nuxt 4 project
+# Or clone manually
+cd ~/.claude/plugins
+git clone https://github.com/secondsky/claude-skills
+```
 
 ## Contributing
 
@@ -246,4 +392,4 @@ MIT
 
 ---
 
-**Version**: 1.0.0 | **Last Updated**: 2025-11-09 | **Maintainer**: Claude Skills Maintainers
+**Version**: 4.0.0 | **Last Updated**: 2025-12-28 | **Maintainer**: Claude Skills Maintainers

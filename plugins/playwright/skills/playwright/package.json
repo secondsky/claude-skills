@@ -1,0 +1,36 @@
+{
+  "name": "playwright-skill",
+  "version": "1.0.0",
+  "description": "Complete browser automation and E2E testing with Playwright",
+  "main": "run.js",
+  "scripts": {
+    "setup": "bun install && bunx playwright install chromium",
+    "setup:npm": "npm install && npx playwright install chromium",
+    "setup:all-browsers": "bun install && bunx playwright install",
+    "install-all-browsers": "bunx playwright install",
+    "test": "bunx playwright test",
+    "test:headed": "bunx playwright test --headed",
+    "test:debug": "bunx playwright test --debug",
+    "test:ui": "bunx playwright test --ui",
+    "codegen": "bunx playwright codegen"
+  },
+  "keywords": [
+    "playwright",
+    "browser-automation",
+    "e2e-testing",
+    "web-testing",
+    "test-automation",
+    "claude-skill"
+  ],
+  "author": "Claude Skills Maintainers",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.55.0",
+    "playwright": "^1.55.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
+  }
+}

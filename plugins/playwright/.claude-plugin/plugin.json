@@ -1,0 +1,26 @@
+{
+  "name": "playwright",
+  "description": "Browser automation and E2E testing with Playwright. Auto-detects dev servers, writes clean test scripts. Test pages, fill forms, take screenshots, check responsive design, validate UX, test login flows, check links, automate any browser task. Use for cross-browser testing, visual regression, API testing, component testing in TypeScript/JavaScript and Python projects.",
+  "version": "4.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "playwright",
+    "browser-automation",
+    "e2e-testing",
+    "web-testing",
+    "test-automation",
+    "cross-browser",
+    "visual-regression",
+    "api-testing",
+    "component-testing",
+    "testing",
+    "automation",
+    "quality"
+  ],
+  "category": "tooling"
+}

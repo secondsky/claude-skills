@@ -1,8 +1,8 @@
 {
-  "verified_date": "2025-11-10",
+  "verified_date": "2025-12-28",
   "modules": {
     "@nuxtjs/seo": {
-      "version": "3.2.2",
+      "version": "3.3.0",
       "downloads": "1.8M",
       "stars": 1296,
       "npm": "https://www.npmjs.com/package/@nuxtjs/seo",
@@ -10,7 +10,7 @@
       "docs": "https://nuxtseo.com/nuxt-seo/getting-started/installation"
     },
     "nuxt-robots": {
-      "version": "5.5.6",
+      "version": "5.6.7",
       "downloads": "7.1M",
       "stars": 497,
       "npm": "https://www.npmjs.com/package/nuxt-robots",
@@ -18,7 +18,7 @@
       "docs": "https://nuxtseo.com/robots/getting-started/installation"
     },
     "nuxt-sitemap": {
-      "version": "7.4.7",
+      "version": "7.5.0",
       "downloads": "8.6M",
       "stars": 398,
       "npm": "https://www.npmjs.com/package/nuxt-sitemap",
@@ -26,7 +26,7 @@
       "docs": "https://nuxtseo.com/sitemap/getting-started/installation"
     },
     "nuxt-og-image": {
-      "version": "5.1.12",
+      "version": "5.1.13",
       "downloads": "2.5M",
       "stars": 481,
       "npm": "https://www.npmjs.com/package/nuxt-og-image",
@@ -34,7 +34,7 @@
       "docs": "https://nuxtseo.com/og-image/getting-started/installation"
     },
     "nuxt-schema-org": {
-      "version": "5.0.9",
+      "version": "5.0.10",
       "downloads": "2.9M",
       "stars": 176,
       "npm": "https://www.npmjs.com/package/nuxt-schema-org",
@@ -42,7 +42,7 @@
       "docs": "https://nuxtseo.com/schema-org/getting-started/installation"
     },
     "nuxt-link-checker": {
-      "version": "4.3.6",
+      "version": "4.3.9",
       "downloads": "2M",
       "stars": 95,
       "npm": "https://www.npmjs.com/package/nuxt-link-checker",
@@ -50,7 +50,7 @@
       "docs": "https://nuxtseo.com/link-checker/getting-started/installation"
     },
     "nuxt-seo-utils": {
-      "version": "7.0.18",
+      "version": "7.0.19",
       "downloads": "1.1M",
       "stars": 113,
       "npm": "https://www.npmjs.com/package/nuxt-seo-utils",
@@ -58,12 +58,26 @@
       "docs": "https://nuxtseo.com/seo-utils/getting-started/installation"
     },
     "nuxt-site-config": {
-      "version": "3.2.11",
+      "version": "3.2.14",
       "downloads": "7.9M",
       "stars": 75,
       "npm": "https://www.npmjs.com/package/nuxt-site-config",
       "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/site-config",
       "docs": "https://nuxtseo.com/site-config/getting-started/installation"
+    }
+  },
+  "pro_modules": {
+    "nuxt-ai-ready": {
+      "description": "Generate llms.txt for AI crawlers and LLM optimization",
+      "docs": "https://nuxtseo.com/ai-ready"
+    },
+    "nuxt-skew-protection": {
+      "description": "Prevent version mismatches during deployments",
+      "docs": "https://nuxtseo.com/skew-protection"
+    },
+    "nuxt-seo-pro-mcp": {
+      "description": "AI-powered SEO tools via Model Context Protocol",
+      "docs": "https://nuxtseo.com/pro"
     }
   },
   "requirements": {

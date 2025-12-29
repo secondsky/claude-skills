@@ -1,22 +1,22 @@
 ---
 name: nuxt-seo
 description: |
-  Comprehensive guide for all 8 Nuxt SEO modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, and nuxt-site-config. Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, or configuring site-wide SEO settings.
+  Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, and Pro modules (AI Ready, Skew Protection, SEO Pro MCP). Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, configuring site-wide SEO settings, or implementing advanced SEO features like rendering modes, canonical URLs, Twitter Cards, and IndexNow.
 
-  Keywords: nuxt-seo, nuxt, seo, nuxt 3, nuxt 4, nuxt seo, vue, vue 3, search engine optimization, @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, robots.txt, sitemap, sitemap.xml, og image, open graph, social sharing, meta tags, schema.org, structured data, json-ld, canonical urls, breadcrumbs, bot detection, crawling, indexing, noindex, nofollow, xml sitemap, multiple sitemaps, sitemap index, dynamic sitemap, og image generation, satori, chromium rendering, vue templates, seo setup, seo configuration, meta management, social media preview, search optimization, link checking, broken links, site config, multi-language seo, i18n seo, sitemap not generated, robots.txt missing, og image not rendering, schema validation errors, duplicate meta tags, canonical url issues, sitemap index errors
+  Keywords: nuxt-seo, nuxt, seo, nuxt 3, nuxt 4, nuxt seo, vue, vue 3, search engine optimization, @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, robots.txt, sitemap, sitemap.xml, og image, open graph, social sharing, meta tags, schema.org, structured data, json-ld, canonical urls, breadcrumbs, bot detection, crawling, indexing, noindex, nofollow, xml sitemap, multiple sitemaps, sitemap index, dynamic sitemap, og image generation, satori, chromium rendering, vue templates, seo setup, seo configuration, meta management, social media preview, search optimization, link checking, broken links, site config, multi-language seo, i18n seo, sitemap not generated, robots.txt missing, og image not rendering, schema validation errors, duplicate meta tags, canonical url issues, sitemap index errors, twitter cards, indexnow, ssr, ssg, isr, rendering modes, rich results, useSeoMeta, useSchemaOrg, defineOgImage, url structure, meta robots, ai ready, llms.txt, skew protection, i18n multilanguage, hreflang, _i18nTransform, _sitemap, route rules, routeRules, enhanced titles, title template, fallback title, link checker rules, prerendering spa, hydration mismatch, crawler protection, getBotDetection, useBotDetection, 404 page, seo-friendly 404, inspection rules, absolute-site-urls, link-text, missing-hash, no-error-response, defineSitemapEventHandler, nitro hooks, sitemap:input, sitemap:resolved, nuxt-og-image:context, asSeoCollection, asSitemapCollection, asSchemaOrgCollection, nuxt content v3, content collections, nuxt ai ready, mcp server, content signals, og image templates, multi-sitemaps, chunked sitemap, image sitemap, video sitemap, zero runtime
 license: MIT
 metadata:
-  version: 1.1.0
-  last_updated: 2025-11-27
+  version: 2.2.0
+  last_updated: 2025-12-28
   module_versions:
-    nuxtjs_seo: 3.2.2
-    nuxt_robots: 5.5.6
-    nuxt_sitemap: 7.4.7
-    nuxt_og_image: 5.1.12
-    nuxt_schema_org: 5.0.9
-    nuxt_link_checker: 4.3.6
-    nuxt_seo_utils: 7.0.18
-    nuxt_site_config: 3.2.11
+    nuxtjs_seo: 3.3.0
+    nuxt_robots: 5.6.7
+    nuxt_sitemap: 7.5.0
+    nuxt_og_image: 5.1.13
+    nuxt_schema_org: 5.0.10
+    nuxt_link_checker: 4.3.9
+    nuxt_seo_utils: 7.0.19
+    nuxt_site_config: 3.2.14
   nuxt_compatibility: ">=3.0.0"
   auto_trigger_scenarios:
     - Setting up SEO in Nuxt project
@@ -26,33 +26,53 @@ metadata:
     - Managing meta tags and social sharing
     - Checking and fixing broken links
     - Implementing site-wide SEO configuration
+    - Implementing Twitter Cards or Open Graph
+    - Setting up canonical URLs
+    - Configuring rendering modes (SSR/SSG/ISR)
+    - Using IndexNow for instant indexing
+    - Implementing rich results with JSON-LD
+    - Setting up multilanguage/i18n SEO
+    - Configuring SEO route rules
+    - Debugging hydration mismatches
+    - Creating SEO-friendly 404 pages
+    - Protecting from malicious crawlers
 ---
 
-# Nuxt SEO - Complete Guide to All 8 SEO Modules
+# Nuxt SEO - Complete Guide to All 8 SEO Modules + Pro Features
 
 **Status**: Production Ready
-**Last Updated**: 2025-11-27
+**Last Updated**: 2025-12-28
 **Dependencies**: Nuxt >=3.0.0
 **Latest Versions**: See module versions table below
 
-Use this skill when building SEO-optimized Nuxt applications with any combination of the 8 official Nuxt SEO modules. This skill covers the complete Nuxt SEO ecosystem maintained by Harlan Wilton.
+Use this skill when building SEO-optimized Nuxt applications with any combination of the 8 official Nuxt SEO modules plus advanced Pro modules. This skill covers the complete Nuxt SEO ecosystem maintained by Harlan Wilton, including comprehensive guides for rendering modes, JSON-LD, Twitter Cards, IndexNow, and more.
 
 ---
 
 ## Nuxt SEO Ecosystem Overview
 
-Nuxt SEO consists of **8 specialized modules** that work together seamlessly:
+Nuxt SEO consists of **8 core modules** plus **3 Pro modules** that work together seamlessly:
 
-| Module | Version | Downloads | Purpose |
-|--------|---------|-----------|---------|
-| **@nuxtjs/seo** | v3.2.2 | 1.8M | Primary SEO module (installs all 8 modules as bundle) |
-| **nuxt-robots** | v5.5.6 | 7.1M | Manages robots.txt and bot detection |
-| **nuxt-sitemap** | v7.4.7 | 8.6M | Generates XML sitemaps with advanced features |
-| **nuxt-og-image** | v5.1.12 | 2.5M | Creates Open Graph images via Vue templates |
-| **nuxt-schema-org** | v5.0.9 | 2.9M | Builds Schema.org structured data graphs |
-| **nuxt-link-checker** | v4.3.6 | 2M | Finds and fixes broken links |
-| **nuxt-seo-utils** | v7.0.18 | 1.1M | SEO utilities for discoverability & shareability |
-| **nuxt-site-config** | v3.2.11 | 7.9M | Centralized site configuration management |
+### Core Modules
+
+| Module | Version | Purpose |
+|--------|---------|---------|
+| **@nuxtjs/seo** | v3.3.0 | Primary SEO module (installs all 8 modules as bundle) |
+| **nuxt-robots** | v5.6.7 | Manages robots.txt and bot detection |
+| **nuxt-sitemap** | v7.5.0 | Generates XML sitemaps with advanced features |
+| **nuxt-og-image** | v5.1.13 | Creates Open Graph images via Vue templates |
+| **nuxt-schema-org** | v5.0.10 | Builds Schema.org structured data graphs |
+| **nuxt-link-checker** | v4.3.9 | Finds and fixes broken links |
+| **nuxt-seo-utils** | v7.0.19 | SEO utilities for discoverability & shareability |
+| **nuxt-site-config** | v3.2.14 | Centralized site configuration management |
+
+### Pro Modules
+
+| Module | Purpose |
+|--------|---------|
+| **nuxt-ai-ready** | Generate llms.txt for AI crawlers and LLM optimization |
+| **nuxt-skew-protection** | Prevent version mismatches during deployments |
+| **Nuxt SEO Pro MCP** | AI-powered SEO tools via Model Context Protocol |
 
 **Requirements**: Nuxt v3 or v4
 
@@ -384,6 +404,35 @@ Automatically:
 
 Load the appropriate reference file based on the user's specific needs:
 
+**Load `references/seo-guides.md` when:**
+- User asks about rendering modes (SSR, SSG, ISR, Hybrid)
+- Need JSON-LD structured data implementation
+- Setting up canonical URLs
+- Implementing Twitter Cards or Open Graph
+- Configuring meta robots tags
+- Using IndexNow for instant indexing
+- URL structure best practices
+- Debugging SEO issues
+- Rich results implementation
+
+**Load `references/pro-modules.md` when:**
+- User asks about AI optimization (llms.txt)
+- Need deployment version skew protection
+- Setting up MCP tools for AI-assisted SEO
+- Advanced Pro module features
+
+**Load `references/advanced-seo-guides.md` when:**
+- User asks about I18n/multilanguage SEO
+- Need hreflang or locale-specific sitemaps
+- Configuring SEO route rules (routeRules)
+- Enhanced title configuration (templates, fallbacks)
+- Deep dive into nuxt-seo-utils features
+- Link checker inspection rules
+- Prerendering Vue SPA for SEO
+- Hydration mismatch debugging
+- Protecting from malicious crawlers/bots
+- Creating SEO-friendly 404 pages
+
 **Load `references/modules-overview.md` when:**
 - User asks "what modules are available?" or "which module should I use?"
 - Need overview of module capabilities and use cases
@@ -408,8 +457,6 @@ Load the appropriate reference file based on the user's specific needs:
 - Integrating with Nuxt Content or other modules
 - Production-ready configuration examples
 
-**New references (to be created in Phase 13):**
-
 **Load `references/module-details.md` when:**
 - User asks about specific module configuration
 - Need detailed documentation for one of the 8 modules
@@ -430,15 +477,99 @@ Load the appropriate reference file based on the user's specific needs:
 - Multi-environment setup (dev/staging/production)
 - Advanced features (multiple sitemaps, custom OG templates)
 
-**Current references:**
-- `references/modules-overview.md` - Detailed overview of all 8 modules
+**Load `references/og-image-guide.md` when:**
+- User asks about OG image generation, Satori vs Chromium
+- Need custom OG image templates or Vue components
+- Configuring fonts, emojis, or caching for OG images
+- Troubleshooting OG image rendering issues
+- Implementing custom props or dynamic OG images
+
+**Load `references/nuxt-content-integration.md` when:**
+- User is using @nuxt/content with SEO modules
+- Need asSeoCollection, asSitemapCollection, asSchemaOrgCollection patterns
+- Content v2 vs v3 integration differences
+- Module load order issues with content
+- Automatic SEO from content frontmatter
+
+**Load `references/sitemap-advanced.md` when:**
+- User needs dynamic sitemap URLs from API/database
+- Implementing multi-sitemaps with chunking
+- Image or video sitemaps
+- I18n sitemap with _i18nTransform
+- Performance optimization (caching, zero runtime)
+- defineSitemapEventHandler patterns
+
+**Load `references/nitro-api-reference.md` when:**
+- User needs server-side SEO hooks
+- Implementing sitemap:input, sitemap:resolved, sitemap:output hooks
+- OG image hooks (nuxt-og-image:context, nuxt-og-image:satori:vnodes)
+- Robots composables (getSiteRobotConfig, getPathRobotConfig)
+- Nitro plugin integration for SEO
+
+**Load `references/ai-seo-tools.md` when:**
+- User asks about llms.txt or AI discoverability
+- Implementing Nuxt AI Ready module
+- MCP server for AI-powered SEO
+- Content signals for AI crawlers
+- LLM optimization techniques
+
+**Available references:**
+- `references/seo-guides.md` - Comprehensive SEO implementation guides (rendering, JSON-LD, canonical URLs, IndexNow, Twitter Cards, Open Graph, meta robots, URL structure)
+- `references/pro-modules.md` - Pro modules (AI Ready, Skew Protection, SEO Pro MCP)
+- `references/advanced-seo-guides.md` - Advanced SEO topics (I18n multilanguage, route rules, enhanced titles, link checker rules, SPA prerendering, hydration, crawler protection, 404 pages)
+- `references/og-image-guide.md` - OG image generation (Satori/Chromium, fonts, emojis, caching, custom templates)
+- `references/nuxt-content-integration.md` - Nuxt Content v2/v3 integration (asSeoCollection, module order, auto-SEO)
+- `references/sitemap-advanced.md` - Advanced sitemap patterns (dynamic URLs, multi-sitemaps, chunking, i18n, performance)
+- `references/nitro-api-reference.md` - Server-side SEO hooks and composables (Nitro plugins, sitemap hooks, robots composables)
+- `references/ai-seo-tools.md` - AI SEO tools (llms.txt, Nuxt AI Ready, MCP, content signals)
+- `references/modules-overview.md` - Detailed overview of all 8 core modules
 - `references/installation-guide.md` - Step-by-step installation patterns
 - `references/api-reference.md` - Complete API documentation for all composables
 - `references/common-patterns.md` - Real-world usage patterns and examples
+- `references/module-details.md` - Detailed module configurations
+- `references/best-practices.md` - Production SEO best practices
+- `references/troubleshooting.md` - Error resolution guides
+- `references/advanced-configuration.md` - Advanced configuration patterns
 
 ### Assets (assets/)
 
 - `assets/package-versions.json` - Current module versions for verification
+
+### Agents (agents/)
+
+Autonomous agents for complex SEO tasks:
+
+| Agent | Purpose |
+|-------|---------|
+| `seo-auditor.md` | Comprehensive SEO audit of Nuxt projects |
+| `schema-generator.md` | Generate Schema.org structured data |
+| `og-image-generator.md` | Create custom OG image Vue templates |
+| `link-checker.md` | Analyze internal/external links |
+| `sitemap-builder.md` | Design optimal sitemap strategies |
+
+### Commands (commands/)
+
+Slash commands for quick SEO tasks:
+
+| Command | Purpose |
+|---------|---------|
+| `/seo-audit` | Run comprehensive SEO audit |
+| `/seo-setup` | Quick Nuxt SEO project setup |
+| `/og-preview` | Preview OG image generation |
+| `/check-links` | Run link checker analysis |
+| `/validate-sitemap` | Validate sitemap configuration |
+| `/check-schema` | Validate Schema.org implementation |
+
+### Hooks (hooks/)
+
+SEO validation hooks that run automatically:
+
+| Hook | Event | Purpose |
+|------|-------|---------|
+| SEO Config Validator | PreToolUse | Validates SEO configuration in file edits |
+| Post-Write Checker | PostToolUse | Checks SEO config after file writes |
+| Completion Validator | Stop | Ensures SEO validation before task completion |
+| Project Detector | SessionStart | Detects Nuxt SEO modules on session start |
 
 ---
 
@@ -496,19 +627,19 @@ Load `references/troubleshooting.md` when you need:
 - Advanced debugging techniques
 - Module-specific error resolution
 - Build and deployment issues
-## Package Versions (Verified 2025-11-10)
+## Package Versions (Verified 2025-12-28)
 
 ```json
 {
   "dependencies": {
-    "@nuxtjs/seo": "^3.2.2",
-    "nuxt-robots": "^5.5.6",
-    "nuxt-sitemap": "^7.4.7",
-    "nuxt-og-image": "^5.1.12",
-    "nuxt-schema-org": "^5.0.9",
-    "nuxt-link-checker": "^4.3.6",
-    "nuxt-seo-utils": "^7.0.18",
-    "nuxt-site-config": "^3.2.11"
+    "@nuxtjs/seo": "^3.3.0",
+    "nuxt-robots": "^5.6.7",
+    "nuxt-sitemap": "^7.5.0",
+    "nuxt-og-image": "^5.1.13",
+    "nuxt-schema-org": "^5.0.10",
+    "nuxt-link-checker": "^4.3.9",
+    "nuxt-seo-utils": "^7.0.19",
+    "nuxt-site-config": "^3.2.14"
   }
 }
 ```
@@ -550,11 +681,75 @@ Use this checklist to verify setup:
 
 ---
 
-**Production Ready**: All patterns based on official documentation from https://nuxtseo.com/llms.txt | Last verified: 2025-11-10
+**Production Ready**: All patterns based on official documentation from https://nuxtseo.com/llms.txt | Last verified: 2025-12-28
 
 ---
 
 ## Version History
+
+**v2.2.0** (2025-12-28)
+- Full expansion with comprehensive coverage of all topics from nuxtseo.com/llms.txt
+- Added 5 new reference files:
+  - `references/og-image-guide.md` - Complete OG image guide (Satori/Chromium, fonts, emojis, caching)
+  - `references/nuxt-content-integration.md` - Nuxt Content v2/v3 integration patterns
+  - `references/sitemap-advanced.md` - Advanced sitemap patterns (dynamic URLs, multi-sitemaps, chunking)
+  - `references/nitro-api-reference.md` - Server-side SEO hooks and composables
+  - `references/ai-seo-tools.md` - Nuxt AI Ready, llms.txt, MCP server, content signals
+- Added 3 new agents:
+  - `agents/og-image-generator.md` - Creates custom OG image Vue templates
+  - `agents/link-checker.md` - Analyzes internal/external links
+  - `agents/sitemap-builder.md` - Designs optimal sitemap strategies
+- Added 4 new commands:
+  - `/og-preview` - Preview OG image generation
+  - `/check-links` - Run link checker analysis
+  - `/validate-sitemap` - Validate sitemap configuration
+  - `/check-schema` - Validate Schema.org implementation
+- Added SEO validation hooks:
+  - PreToolUse hook for SEO config validation
+  - PostToolUse hook for post-write checks
+  - Stop hook for completion validation
+  - SessionStart hook for project detection
+- Enhanced keywords with 20+ new terms for better discoverability
+- Total: 16 reference files, 5 agents, 6 commands, 4 hooks
+
+**v2.1.0** (2025-12-28)
+- Added `references/advanced-seo-guides.md` with 9 advanced topics:
+  - I18n Multilanguage SEO (robots + sitemap integration)
+  - SEO Route Rules (routeRules configuration)
+  - Enhanced Titles (templates, fallbacks)
+  - Nuxt SEO Utils Deep Dive
+  - Nuxt Link Checker Rules (14 inspection rules)
+  - Prerendering Vue SPA for SEO
+  - Hydration Mismatches (causes, fixes, SEO impact)
+  - Protecting from Malicious Crawlers
+  - SEO-Friendly 404 Pages
+- Added 5 new auto-trigger scenarios
+- Enhanced keywords with 25+ new terms
+
+**v2.0.0** (2025-12-28)
+- Major update with comprehensive SEO guides and Pro modules
+- Added `references/seo-guides.md` - Complete SEO implementation guides:
+  - Rendering modes (SSR, SSG, ISR, Hybrid)
+  - JSON-LD Structured Data
+  - Canonical URLs
+  - IndexNow & Indexing APIs
+  - Twitter Cards
+  - Social Sharing & Open Graph
+  - Meta Robots Tags
+  - URL Structure Best Practices
+  - Rich Results
+  - Debugging Vue SEO Issues
+- Added `references/pro-modules.md` - Pro module documentation:
+  - Nuxt AI Ready (llms.txt generation)
+  - Nuxt Skew Protection (deployment version safety)
+  - Nuxt SEO Pro MCP (AI-powered SEO tools)
+- Created `agents/seo-auditor.md` - Autonomous SEO audit agent
+- Created `agents/schema-generator.md` - Schema.org code generator
+- Created `commands/seo-audit.md` - SEO audit slash command
+- Created `commands/seo-setup.md` - Quick SEO setup command
+- Updated all package versions to latest (2025-12-28)
+- Enhanced keywords for better skill discovery
+- Added 5 new auto-trigger scenarios
 
 **v1.1.0** (2025-11-27)
 - Refactored SKILL.md from 1505 to 628 lines (58% reduction)

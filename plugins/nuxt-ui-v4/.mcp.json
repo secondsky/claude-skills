@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "nuxt-ui": {
+      "type": "http",
+      "url": "https://ui.nuxt.com/mcp",
+      "description": "Official Nuxt UI MCP server providing component documentation, metadata, examples, and templates"
+    }
+  }
+}

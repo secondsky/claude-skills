@@ -1,13 +1,22 @@
 {
   "name": "nuxt-v4",
-  "description": "Production-ready Nuxt 4 framework development with SSR, composables, data fetching, server routes, and Cloudflare deployment. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, middleware, data fetching, state management, debugging hydration issues, deploying to Cloudflare, optimizing performance, or setting up testing with Vitest.",
-  "version": "3.0.0",
+  "description": "Comprehensive Nuxt 4 development with 4 focused skills (core, data, server, production), 3 diagnostic agents (debugger, migration, performance), and interactive setup wizard. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, data fetching, state management, debugging hydration issues, migrating from Nuxt 3, optimizing performance, deploying to Cloudflare/Vercel/Netlify, or setting up testing with Vitest.",
+  "version": "4.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
+  "agents": [
+    "./agents/nuxt-debugger.md",
+    "./agents/nuxt-migration-assistant.md",
+    "./agents/nuxt-performance-analyzer.md"
+  ],
+  "commands": [
+    "./commands/nuxt-setup.md"
+  ],
+  "mcpServers": "./.mcp.json",
   "keywords": [
     "nuxt-v4",
     "nuxt",
@@ -26,6 +35,7 @@
     "server routes",
     "api routes",
     "hydration",
+    "hydration mismatch",
     "file-based routing",
     "seo",
     "meta tags",
@@ -37,19 +47,21 @@
     "cloudflare pages",
     "cloudflare workers",
     "nuxthub",
+    "vercel",
+    "netlify",
     "workers assets",
     "durable objects",
     "vitest",
     "testing",
     "nuxt performance",
     "lazy loading",
+    "lazy hydration",
     "code splitting",
     "prerendering",
     "nuxt layers",
     "nuxt modules",
     "nuxt plugins",
     "vite",
-    "hydration mismatch",
     "shallow reactivity",
     "reactive keys",
     "singleton pattern",
@@ -59,6 +71,14 @@
     "definepagemeta",
     "useruntimeconfig",
     "app.vue",
-    "api"
+    "api",
+    "migration",
+    "nuxt 3 to nuxt 4",
+    "upgrade nuxt",
+    "performance analyzer",
+    "core web vitals",
+    "bundle size",
+    "debugger",
+    "diagnostic"
   ]
 }
