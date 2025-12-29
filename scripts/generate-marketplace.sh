@@ -48,26 +48,15 @@ source "$SCRIPT_DIR/lib/categorize.sh"
 # Counter for tracking progress
 count=0
 skipped=0
-# Count total skills (both single-skill and multi-skill patterns)
+# Count total PLUGINS (not skills - skills are auto-discovered)
 total=0
 for pd in "$PLUGINS_DIR"/*; do
-  if [ -d "$pd" ]; then
-    plugin_name=$(basename "$pd")
-    # CASE 1: Single-skill pattern (backward compatible)
-    if [ -f "$pd/skills/$plugin_name/SKILL.md" ]; then
-      total=$((total + 1))
-    else
-      # CASE 2: Multi-skill pattern (count all nested skills)
-      # Note: Using mindepth 3 to handle structure like skills/[plugin-name]/[skill-name]/SKILL.md
-      nested_count=$(find "$pd/skills" -mindepth 3 -maxdepth 3 -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-      if [ "$nested_count" -gt 0 ]; then
-        total=$((total + nested_count))
-      fi
-    fi
+  if [ -d "$pd" ] && [ -f "$pd/.claude-plugin/plugin.json" ]; then
+    total=$((total + 1))
   fi
 done
 
-echo "Processing $total skills across plugins..."
+echo "Processing $total plugins..."
 echo ""
 
 # Start generating JSON header
@@ -96,21 +85,15 @@ trap "rm -rf $TEMP_DIR" EXIT
 first=true
 
 # ============================================
-# LOOP 1: Process parent plugins (bundles)
-# REMOVED in v3.1.0 - Marketplace now contains individual skills only
-# Parent bundle generation was removed to simplify marketplace structure.
-# See git history (commit 677abf8) to restore this functionality if needed.
+# Plugin-First Marketplace Generation
+# ============================================
+# Creates ONE marketplace entry per PLUGIN (not per skill)
+# Skills are auto-discovered from plugin's skills/ directory when installed
 # ============================================
 
-echo "Processing individual skills..."
+echo "Processing plugins..."
 
-# ============================================
-# LOOP 2: Process individual skills (supports both single and multi-skill plugins)
-# ============================================
-# CASE 1: Single-skill plugins: plugins/[name]/skills/[name]/SKILL.md
-# CASE 2: Multi-skill plugins: plugins/[name]/skills/[name]/[skill-name]/SKILL.md
-# Use while read loop to handle directory names with spaces safely
-# Process substitution avoids subshell, so variables (count, skipped, first) persist
+# Loop through each plugin directory
 while IFS= read -r plugin_dir; do
   if [ ! -d "$plugin_dir" ]; then
     continue
@@ -119,164 +102,62 @@ while IFS= read -r plugin_dir; do
   plugin_name=$(basename "$plugin_dir")
   plugin_json="$plugin_dir/.claude-plugin/plugin.json"
 
-  # CASE 1: Single-skill pattern (backward compatible)
-  standard_skill_md="$plugin_dir/skills/$plugin_name/SKILL.md"
-  if [ -f "$standard_skill_md" ]; then
-    # Process as single skill (existing logic)
-    skill_name="$plugin_name"
-    skill_md="$standard_skill_md"
+  count=$((count + 1))
 
-    count=$((count + 1))
-
-    # Check if plugin.json exists
-    if [ ! -f "$plugin_json" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
-
-    # Read description from plugin.json (escape for JSON)
-    description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
-    if [ -z "$description" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
-
-    # Read keywords from plugin.json (as JSON array)
-    keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
-    if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
-      keywords="[]"
-    fi
-
-    # Read version from plugin.json
-    version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
-    if [ -z "$version" ] || [ "$version" = "null" ]; then
-      version="3.0.0"
-    fi
-
-    # Get category
-    category=$(categorize_skill "$skill_name")
-
-    # Track category count (bash 3.2 compatible using temp files)
-    echo "$skill_name" >> "$TEMP_DIR/$category"
-
-    # Add comma before each entry except the first
-    if [ "$first" = true ]; then
-      first=false
-    else
-      echo "," >> "$MARKETPLACE_JSON"
-    fi
-
-    # Escape description for JSON (handles all control characters)
-    description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
-
-    # Source path for flat structure: ./plugins/[name]
-    source_path="./plugins/$skill_name"
-
-    # Write individual plugin entry
-    cat >> "$MARKETPLACE_JSON" << EOF
-    {
-      "name": "$skill_name",
-      "source": "$source_path",
-      "version": "$version",
-      "description": "$description_escaped",
-      "keywords": $keywords,
-      "category": "$category"
-    }
-EOF
-
-    printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$skill_name" "$category"
-    continue  # Move to next plugin
-  fi
-
-  # CASE 2: Multi-skill pattern (scan for nested skills)
-  # Note: Supports both depth-2 (skills/[skill-name]/) and depth-3 (skills/[plugin]/[skill-name]/)
-  skill_mds=$(find "$plugin_dir/skills" -mindepth 2 -maxdepth 3 -name "SKILL.md" 2>/dev/null | sort)
-
-  if [ -z "$skill_mds" ]; then
-    # No skills found at all - skip this plugin
+  # Skip if no plugin.json
+  if [ ! -f "$plugin_json" ]; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$plugin_name"
+    skipped=$((skipped + 1))
     continue
   fi
 
-  # Process each nested skill in the plugin
-  while IFS= read -r skill_md; do
-    # Extract skill name from path
-    # Example: plugins/cloudflare-workers/skills/cloudflare-workers/workers-ci-cd/SKILL.md
-    # → skill_name = "workers-ci-cd"
-    skill_name=$(basename "$(dirname "$skill_md")")
+  # Read plugin-level metadata from plugin.json
+  description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
+  if [ -z "$description" ]; then
+    printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$plugin_name"
+    skipped=$((skipped + 1))
+    continue
+  fi
 
-    count=$((count + 1))
+  # Read keywords from plugin.json (as JSON array)
+  keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
+  if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
+    keywords="[]"
+  fi
 
-    # Check if plugin.json exists (use plugin-level plugin.json)
-    if [ ! -f "$plugin_json" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no plugin.json)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
+  # Read version from plugin.json
+  version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
+  if [ -z "$version" ] || [ "$version" = "null" ]; then
+    version="3.0.0"
+  fi
 
-    # For multi-skill plugins, read description from SKILL.md frontmatter
-    # Extract YAML frontmatter and parse with improved awk (handles multi-line descriptions)
-    skill_description=$(awk '
-      /^---$/ { if (++count == 2) exit; next }
-      count == 1 && /^description:/ {
-        sub(/^description: */, "")
-        desc = $0
-        getline
-        while (!/^[a-z_]+:/ && !/^---$/) {
-          desc = desc " " $0
-          if (getline <= 0) break
-        }
-        print desc
-        exit
-      }
-    ' "$skill_md" | sed 's/^["'"'"']//' | sed 's/["'"'"']$//')
+  # Get category based on plugin name
+  category=$(categorize_skill "$plugin_name")
 
-    # Fallback to plugin.json description if no description in SKILL.md
-    if [ -z "$skill_description" ]; then
-      skill_description=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
-    fi
+  # Track category count
+  echo "$plugin_name" >> "$TEMP_DIR/$category"
 
-    if [ -z "$skill_description" ]; then
-      printf "[%3d/%d] %-40s ⚠️  SKIP (no description)\n" "$count" "$total" "$skill_name"
-      skipped=$((skipped + 1))
-      continue
-    fi
+  # Count skills in this plugin (for info only, not included in marketplace)
+  skill_count=$(find "$plugin_dir/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
 
-    # Use plugin.json for keywords and version
-    keywords=$(jq -c '.keywords // []' "$plugin_json" 2>/dev/null)
-    if [ "$keywords" = "null" ] || [ "$keywords" = "[]" ]; then
-      keywords="[]"
-    fi
+  # Add comma before each entry except the first
+  if [ "$first" = true ]; then
+    first=false
+  else
+    echo "," >> "$MARKETPLACE_JSON"
+  fi
 
-    version=$(jq -r '.version // "3.0.0"' "$plugin_json" 2>/dev/null)
-    if [ -z "$version" ] || [ "$version" = "null" ]; then
-      version="3.0.0"
-    fi
+  # Escape description for JSON (handles all control characters)
+  description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
 
-    # Get category (based on skill name, not plugin name)
-    category=$(categorize_skill "$skill_name")
+  # Source path points to plugin directory
+  source_path="./plugins/$plugin_name"
 
-    # Track category count
-    echo "$skill_name" >> "$TEMP_DIR/$category"
-
-    # Add comma before each entry except the first
-    if [ "$first" = true ]; then
-      first=false
-    else
-      echo "," >> "$MARKETPLACE_JSON"
-    fi
-
-    # Escape description for JSON
-    description_escaped=$(printf '%s' "$skill_description" | jq -Rs . | sed 's/^"//;s/"$//')
-
-    # Source path points to plugin directory (not individual skill)
-    source_path="./plugins/$plugin_name"
-
-    # Write marketplace entry for this skill
-    cat >> "$MARKETPLACE_JSON" << EOF
+  # Write marketplace entry for this PLUGIN
+  # Skills auto-discovered from plugins/$plugin_name/skills/ directory
+  cat >> "$MARKETPLACE_JSON" << EOF
     {
-      "name": "$skill_name",
+      "name": "$plugin_name",
       "source": "$source_path",
       "version": "$version",
       "description": "$description_escaped",
@@ -285,8 +166,12 @@ EOF
     }
 EOF
 
-    printf "[%3d/%d] %-40s → %s (multi-skill from %s)\n" "$count" "$total" "$skill_name" "$category" "$plugin_name"
-  done <<< "$skill_mds"
+  # Show skill count in progress output
+  if [ "$skill_count" -gt 1 ]; then
+    printf "[%3d/%d] %-40s → %s (%d skills)\n" "$count" "$total" "$plugin_name" "$category" "$skill_count"
+  else
+    printf "[%3d/%d] %-40s → %s\n" "$count" "$total" "$plugin_name" "$category"
+  fi
 done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 # Close JSON
