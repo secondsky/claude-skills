@@ -1,0 +1,29 @@
+{
+  "description": "Suggests interview after plan file creation and spec review before session end",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the file just written matches *plan*.md or *-plan.md pattern (but NOT *-spec.md). If it appears to be a project/feature plan document, suggest: 'This looks like a plan file. Would you like me to run `/plan-interview:interview [filepath]` to generate a detailed specification through an interview process?' Be contextually aware - only suggest once per file, and don't suggest if user is clearly doing something else.",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "If a specification file (*-spec.md) was generated during this session and the spec-reviewer agent was NOT already run, offer: 'A specification was generated this session. Would you like me to run a quality review before we wrap up?' Only offer once, respect user's decision.",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
