@@ -1,6 +1,6 @@
 ---
 name: plan-interview:interview
-description: Interview me about the plan to generate a comprehensive specification
+description: Interviews the user about the plan to generate a comprehensive specification
 argument-hint: [plan]
 model: opus
 ---
