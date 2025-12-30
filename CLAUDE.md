@@ -554,11 +554,12 @@ Each skill's plugin.json follows the Anthropic plugin schema:
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": ["feature", "dev", "workflow", ...],
-  "category": "tooling",
   "agents": ["./agents/code-reviewer.md", "./agents/code-explorer.md"],
   "commands": ["./commands/feature-dev.md"]
 }
 ```
+
+**Note**: The `category` field is NOT valid in plugin.json (causes installation errors). Categories are only used in `marketplace.json` for organization purposes.
 
 ### Note on Script Consolidation
 

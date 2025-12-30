@@ -19,7 +19,6 @@
     "quality",
     "project-planning"
   ],
-  "category": "tooling",
   "commands": [
     "./commands/interview.md",
     "./commands/quick.md"
