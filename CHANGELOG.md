@@ -9,6 +9,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### nuxt-studio Plugin (v1.0.0) - 2025-12-25
+- Visual CMS integration for Nuxt Content
+- Nuxt Studio setup assistant agent
+- Live preview and editing capabilities
+- R2 storage configuration
+- Production deployment workflows
+- Category: frontend
+
+#### better-auth Plugin Enhancement (v2.2.0) - 2025-12-27
+- Comprehensive enhancement with 18 framework integrations
+- 30+ authentication plugins support
+- Autonomous debugging capabilities
+- Extended OAuth providers
+- Advanced session management
+- Category: auth
+
+#### maz-ui Plugin (v1.0.0) - 2025-12-29
+- Comprehensive Vue & Nuxt component library
+- 50+ production-ready components
+- Theme customization system
+- Form generation with validation
+- Translation management
+- Component scaffolding
+- Category: frontend
+
+#### plan-interview Plugin (v1.1.0) - 2025-12-30
+- Interview-driven specification generation from plan files
+- Full 6-phase interview command (`/plan-interview:interview`)
+- Quick 3-phase interview command (`/plan-interview:quick`)
+- spec-reviewer agent for autonomous quality analysis
+- Smart hooks for auto-suggesting interviews
+- Category: tooling
+
+### Changed
+
+#### Documentation Updates
+- README.md: Updated total count from 169 to 174 plugins
+- README.md: Updated category counts to reflect new plugins
+- README.md: Updated Last Updated date to 2025-12-30
+- Marketplace: Added plan-interview plugin (173 → 174 plugins)
+
 ### Removed
 
 #### Token Efficiency Measurement Requirement

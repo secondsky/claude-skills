@@ -1,0 +1,30 @@
+{
+  "name": "plan-interview",
+  "description": "Interview-driven spec generation with quality review. Use for plan files, spec generation, or spec quality validation.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "plan-interview",
+    "specification",
+    "planning",
+    "interview",
+    "requirements",
+    "spec-generation",
+    "spec-review",
+    "quality",
+    "project-planning"
+  ],
+  "category": "tooling",
+  "commands": [
+    "./commands/interview.md",
+    "./commands/quick.md"
+  ],
+  "agents": [
+    "./agents/spec-reviewer.md"
+  ]
+}

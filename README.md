@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**169 production-ready skills for Claude Code CLI**
+**174 production-ready skills for Claude Code CLI**
 
-Version 3.0.0 | Last Updated: 2025-12-19
+Version 3.0.0 | Last Updated: 2025-12-30
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, AI integrations, React, Tailwind, and more.
 
@@ -22,7 +22,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install ai-sdk-core@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 169 skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 174 skills.
 
 ### Bulk Installation (Contributors)
 
@@ -31,7 +31,7 @@ See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 169 skills.
 git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
-# Install all 169 skills at once
+# Install all 174 skills at once
 ./scripts/install-all.sh
 
 # Or install individual skills
@@ -42,7 +42,7 @@ cd claude-skills
 
 ## Repository Structure
 
-This repository contains **169 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **174 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -52,11 +52,11 @@ This repository contains **169 production-tested skills** for Claude Code, each 
 
 **Installation Options**:
 1. **Individual** - Install only the skills you need via marketplace
-2. **Bulk** - Install all 169 skills using `./scripts/install-all.sh`
+2. **Bulk** - Install all 174 skills using `./scripts/install-all.sh`
 
 ---
 
-## Available Skills (169 Individual Skills)
+## Available Skills (174 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -66,22 +66,22 @@ Each skill is individually installable. Install only the skills you need.
 
 | Category | Skills | Examples |
 |----------|--------|----------|
-| **tooling** | 28 | project-workflow, skill-review, turborepo |
-| **cloudflare** | 23 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
-| **frontend** | 21 | nuxt-v4, tailwind-v4-shadcn, tanstack-query |
+| **tooling** | 32 | project-workflow, skill-review, turborepo, plan-interview |
+| **cloudflare** | 24 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
+| **frontend** | 22 | nuxt-v4, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui |
 | **ai** | 20 | openai-agents, claude-api, ai-sdk-core |
-| **api** | 17 | api-design-principles, graphql-implementation |
-| **web** | 11 | hono-routing, firecrawl-scraper, web-performance |
+| **api** | 16 | api-design-principles, graphql-implementation |
+| **web** | 10 | hono-routing, firecrawl-scraper, web-performance |
 | **mobile** | 8 | swift-best-practices, react-native-app |
 | **database** | 6 | drizzle-orm-d1, neon-vercel-postgres |
 | **security** | 6 | csrf-protection, access-control-rbac |
-| **testing** | 5 | vitest-testing, playwright-testing |
+| **auth** | 5 | better-auth, clerk-auth |
+| **testing** | 4 | vitest-testing, playwright-testing |
 | **design** | 4 | design-review, design-system-creation |
 | **woocommerce** | 4 | woocommerce-backend-dev |
 | **cms** | 4 | hugo, sveltia-cms, wordpress-plugin-core |
-| **data** | 3 | sql-query-optimization, recommendation-engine |
-| **auth** | 3 | better-auth, clerk-auth |
 | **architecture** | 3 | microservices-patterns, architecture-patterns |
+| **data** | 3 | sql-query-optimization, recommendation-engine |
 | **seo** | 2 | seo-optimizer, seo-keyword-cluster-builder |
 | **documentation** | 1 | technical-specification |
 
