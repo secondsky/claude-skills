@@ -1092,6 +1092,15 @@
     }
 ,
     {
+      "name": "plan-interview",
+      "source": "./plugins/plan-interview",
+      "version": "1.1.0",
+      "description": "Interview-driven spec generation with quality review. Use for plan files, spec generation, or spec quality validation.",
+      "keywords": ["plan-interview","specification","planning","interview","requirements","spec-generation","spec-review","quality","project-planning"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "playwright",
       "source": "./plugins/playwright",
       "version": "4.0.0",
