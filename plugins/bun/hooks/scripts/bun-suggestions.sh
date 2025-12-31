@@ -8,21 +8,21 @@ INPUT=$(cat)
 # Extract command, exit code, and output from JSON
 # Prefer jq for robust parsing, fall back to grep/sed if unavailable
 if command -v jq >/dev/null 2>&1; then
-    COMMAND=$(echo "$INPUT" | jq -r '.command // empty')
-    EXIT_CODE=$(echo "$INPUT" | jq -r '.exitCode // empty')
-    OUTPUT=$(echo "$INPUT" | jq -r '.output // empty')
+    COMMAND=$(echo "$INPUT" | jq -r '.input.command // empty')
+    # PostToolUse may include result data - try multiple possible field paths
+    EXIT_CODE=$(echo "$INPUT" | jq -r '.exit_code // .exitCode // .result.exit_code // empty')
+    OUTPUT=$(echo "$INPUT" | jq -r '.stdout // .output // .result.stdout // empty')
 else
     echo "Warning: jq not found, using fallback parser (may fail on complex JSON)" >&2
-    # Fallback to grep/sed for basic parsing
-    COMMAND=$(echo "$INPUT" | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
-    EXIT_CODE=$(echo "$INPUT" | grep -o '"exitCode"[[:space:]]*:[[:space:]]*[0-9]*' | head -1 | sed 's/.*: *//')
-    OUTPUT=$(echo "$INPUT" | grep -o '"output"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
+    # Fallback to grep/sed for basic parsing - extract from nested input.command
+    COMMAND=$(echo "$INPUT" | grep -o '"input"[[:space:]]*:[[:space:]]*{[^}]*"command"[[:space:]]*:[[:space:]]*"[^"]*"' | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
+    EXIT_CODE=$(echo "$INPUT" | grep -oE '"(exit_code|exitCode)"[[:space:]]*:[[:space:]]*[0-9]+' | head -1 | grep -oE '[0-9]+$')
+    OUTPUT=$(echo "$INPUT" | grep -oE '"(stdout|output)"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
 fi
 
-# Validate required fields
+# Skip if no command found (graceful handling)
 if [ -z "$COMMAND" ]; then
-    echo "Error: Failed to extract 'command' from JSON input" >&2
-    exit 1
+    exit 0
 fi
 
 # Skip if not a bun command

@@ -8,17 +8,16 @@ INPUT=$(cat)
 # Extract command from JSON input
 # Prefer jq for robust parsing, fall back to grep/sed if unavailable
 if command -v jq >/dev/null 2>&1; then
-    COMMAND=$(echo "$INPUT" | jq -r '.command // empty')
+    COMMAND=$(echo "$INPUT" | jq -r '.input.command // empty')
 else
     echo "Warning: jq not found, using fallback parser (may fail on complex JSON)" >&2
-    # Fallback to grep/sed for basic parsing
-    COMMAND=$(echo "$INPUT" | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
+    # Fallback to grep/sed for basic parsing - extract from nested input.command
+    COMMAND=$(echo "$INPUT" | grep -o '"input"[[:space:]]*:[[:space:]]*{[^}]*"command"[[:space:]]*:[[:space:]]*"[^"]*"' | grep -o '"command"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*: *"\(.*\)"/\1/')
 fi
 
-# Validate required field
+# Skip if no command found (graceful handling)
 if [ -z "$COMMAND" ]; then
-    echo "Error: Failed to extract 'command' from JSON input" >&2
-    exit 1
+    exit 0
 fi
 
 # Skip if not a bun-related command
