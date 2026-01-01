@@ -1,7 +1,7 @@
 {
   "name": "plan-interview",
-  "description": "Interview-driven spec generation with quality review. Use for plan files, spec generation, or spec quality validation.",
-  "version": "1.1.0",
+  "description": "Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity.",
+  "version": "2.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -17,11 +17,13 @@
     "spec-generation",
     "spec-review",
     "quality",
-    "project-planning"
+    "project-planning",
+    "adaptive",
+    "stakeholder-analysis",
+    "risk-assessment"
   ],
   "commands": [
-    "./commands/interview.md",
-    "./commands/quick.md"
+    "./commands/interview.md"
   ],
   "agents": [
     "./agents/spec-reviewer.md"
