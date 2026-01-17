@@ -1094,7 +1094,7 @@
     {
       "name": "plan-interview",
       "source": "./plugins/plan-interview",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "description": "Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity.",
       "keywords": ["plan-interview","specification","planning","interview","requirements","spec-generation","spec-review","quality","project-planning","adaptive","stakeholder-analysis","risk-assessment"],
       "category": "tooling"

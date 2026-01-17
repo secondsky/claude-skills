@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Check if the file just written matches *plan*.md or *-plan.md pattern (but NOT *-spec.md). If it appears to be a project/feature plan document, suggest: 'This looks like a plan file. Would you like me to run `/plan-interview:interview [filepath]` to generate a detailed specification through an interview process?' Be contextually aware - only suggest once per file, and don't suggest if user is clearly doing something else.",
+            "prompt": "After a Write operation, silently check if the written file matches the pattern *plan*.md or *-plan.md (excluding *-spec.md). ONLY if the file matches this pattern AND appears to be a project/feature plan document, offer this suggestion: 'This looks like a plan file. Would you like me to run `/plan-interview:interview [filepath]` to generate a detailed specification through an interview process?' IMPORTANT: If the file does NOT match the pattern, or if the user is clearly doing something else, do nothing and allow normal execution to continue. This hook should NEVER block file writes. Only suggest once per plan file.",
             "timeout": 10
           }
         ]
