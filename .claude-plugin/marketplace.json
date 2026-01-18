@@ -1436,9 +1436,9 @@
     {
       "name": "ultracite",
       "source": "./plugins/ultracite",
-      "version": "3.0.0",
-      "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors.",
-      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration"],
+      "version": "4.0.0",
+      "description": "Ultracite multi-provider linting/formatting (Biome, ESLint, Oxlint). Use for v6/v7 setup, provider selection, Git hooks, MCP integration, AI hooks, migrations, or encountering configuration, type-aware linting, monorepo errors.",
+      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration","oxlint","oxfmt","eslint integration","multi-provider","provider selection","mcp server","ai hooks","type-aware linting","ultracite doctor","programmatic usage","v6 upgrade","v7 upgrade","preset migration"],
       "category": "frontend"
     }
 ,
