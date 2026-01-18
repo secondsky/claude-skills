@@ -1,3 +1,11 @@
+---
+title: Oxlint Provider Reference
+description: Oxlint + Oxfmt provider for type-aware linting and maximum performance
+provider: Oxlint
+speed: Fastest
+bestFor: Large TypeScript codebases, type-safety-critical projects, maximum performance
+---
+
 # Oxlint Provider Reference
 
 **Provider**: Oxlint + Oxfmt
@@ -52,7 +60,8 @@ Oxlint's killer feature is **type-aware linting** using TypeScript's type system
 
 ### What Type-Aware Linting Catches
 
-**Example 1: Unnecessary null checks**
+#### Example 1: Unnecessary null checks
+
 ```typescript
 function greet(name: string) {
   // Oxlint detects: 'name' is always defined (type is 'string', not 'string | undefined')
@@ -62,7 +71,8 @@ function greet(name: string) {
 }
 ```
 
-**Example 2: Type mismatches**
+#### Example 2: Type mismatches
+
 ```typescript
 interface User {
   id: number;
@@ -75,7 +85,8 @@ function getUserName(user: User) {
 }
 ```
 
-**Example 3: Promise handling**
+#### Example 3: Promise handling
+
 ```typescript
 async function fetchData(): Promise<string> {
   return "data";
@@ -358,7 +369,7 @@ npx tsc --noEmit
 
 ## Resources
 
-- Oxlint Official Docs: https://oxc-project.github.io/docs/guide/usage/linter
-- Ultracite Oxlint Docs: https://www.ultracite.ai/providers/oxlint
-- Type-Aware Linting Guide: https://www.ultracite.ai/guides/type-aware-linting
-- GitHub: https://github.com/oxc-project/oxc
+- [Oxlint Official Docs](https://oxc-project.github.io/docs/guide/usage/linter)
+- [Ultracite Oxlint Docs](https://www.ultracite.ai/providers/oxlint)
+- [Type-Aware Linting Guide](https://www.ultracite.ai/guides/type-aware-linting)
+- [GitHub](https://github.com/oxc-project/oxc)

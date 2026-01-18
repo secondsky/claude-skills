@@ -1,3 +1,11 @@
+---
+title: MCP Server Integration Reference
+feature: Model Context Protocol (MCP) Server
+version: v7.0+
+purpose: Integrate Ultracite knowledge with AI assistants
+description: Guide for integrating Ultracite with AI assistants via Model Context Protocol
+---
+
 # MCP Server Integration Reference
 
 **Feature**: Model Context Protocol (MCP) Server
@@ -434,8 +442,8 @@ MCP server runs in isolated environment:
 
 ## Resources
 
-- MCP Protocol Spec: https://modelcontextprotocol.io/
-- Ultracite MCP Docs: https://www.ultracite.ai/mcp
-- Claude Desktop MCP Guide: https://docs.anthropic.com/claude/docs/mcp
-- MCP Server GitHub: https://github.com/ultracite/mcp-server
-- Troubleshooting: https://www.ultracite.ai/mcp/troubleshooting
+- [MCP Protocol Spec](https://modelcontextprotocol.io/)
+- [Ultracite MCP Docs](https://www.ultracite.ai/mcp)
+- [Claude Desktop MCP Guide](https://docs.anthropic.com/claude/docs/mcp)
+- [MCP Server GitHub](https://github.com/ultracite/mcp-server)
+- [Troubleshooting](https://www.ultracite.ai/mcp/troubleshooting)

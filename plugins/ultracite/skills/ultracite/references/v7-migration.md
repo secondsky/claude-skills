@@ -1,3 +1,11 @@
+---
+title: Ultracite v7 Migration Guide
+version: v7
+released: 2025-11
+description: Migration guide from Ultracite v6 to v7 with multi-provider architecture and preset path changes
+tags: [migration, v7, multi-provider, breaking-changes]
+---
+
 # Ultracite v7 Migration Guide
 
 **Version**: v6 → v7
@@ -84,7 +92,7 @@ Find all instances of `ultracite/` in `biome.jsonc` and add `/biome/` segment:
 **Before (v6)**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": [
     "ultracite/core",        // ❌ Old path
     "ultracite/react"        // ❌ Old path
@@ -95,7 +103,7 @@ Find all instances of `ultracite/` in `biome.jsonc` and add `/biome/` segment:
 **After (v7)**:
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": [
     "ultracite/biome/core",   // ✅ New path (added /biome/)
     "ultracite/biome/react"   // ✅ New path (added /biome/)
@@ -438,8 +446,8 @@ After migrating to v7:
 
 ## Resources
 
-- v7 Release Notes: https://www.ultracite.ai/blog/v7-release
-- v7 Migration FAQ: https://www.ultracite.ai/faq#v7-migration
-- Multi-Provider Guide: https://www.ultracite.ai/guides/providers
-- Breaking Changes: https://www.ultracite.ai/breaking-changes/v7
-- GitHub Changelog: https://github.com/ultracite/ultracite/releases/tag/v7.0.0
+- [v7 Release Notes](https://www.ultracite.ai/blog/v7-release)
+- [v7 Migration FAQ](https://www.ultracite.ai/faq#v7-migration)
+- [Multi-Provider Guide](https://www.ultracite.ai/guides/providers)
+- [Breaking Changes](https://www.ultracite.ai/breaking-changes/v7)
+- [GitHub Changelog](https://github.com/ultracite/ultracite/releases/tag/v7.0.0)

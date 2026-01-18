@@ -1,3 +1,14 @@
+---
+title: Biome Provider Reference
+description: Rust-based linting and formatting provider for modern TypeScript development
+provider: Biome
+skill: ultracite
+category: reference
+speed: Fastest (10-100x faster than ESLint)
+bestFor: New projects, TypeScript-first development, performance-critical builds
+summary: Rust-based linting and formatting provider
+---
+
 # Biome Provider Reference
 
 **Provider**: Biome (Default)
@@ -24,7 +35,7 @@ Biome uses `biome.jsonc` for configuration:
 
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": [
     "ultracite/biome/core",      // v7 path (required)
     "ultracite/biome/react"      // Framework preset
@@ -251,7 +262,7 @@ code --install-extension biomejs.biome --force
 
 ## Resources
 
-- Biome Official Docs: https://biomejs.dev/
-- Ultracite Biome Docs: https://www.ultracite.ai/providers/biome
-- Rule Reference: https://biomejs.dev/linter/rules/
-- Migration Guide: https://biomejs.dev/guides/migrate-eslint/
+- [Biome Official Docs](https://biomejs.dev/)
+- [Ultracite Biome Docs](https://www.ultracite.ai/providers/biome)
+- [Rule Reference](https://biomejs.dev/linter/rules/)
+- [Migration Guide](https://biomejs.dev/guides/migrate-eslint/)

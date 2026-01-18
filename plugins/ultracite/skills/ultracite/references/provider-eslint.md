@@ -1,3 +1,11 @@
+---
+title: ESLint Provider Reference
+description: ESLint + Prettier + Stylelint provider for maximum compatibility
+provider: ESLint
+speed: Moderate (JavaScript-based)
+bestFor: Maximum compatibility, existing ESLint plugin ecosystem, advanced CSS/SCSS linting
+---
+
 # ESLint Provider Reference
 
 **Provider**: ESLint + Prettier + Stylelint
@@ -304,8 +312,8 @@ npx stylelint "**/*.{css,scss,sass}"
 
 ## Resources
 
-- ESLint Official Docs: https://eslint.org/
-- Prettier Official Docs: https://prettier.io/
-- Stylelint Official Docs: https://stylelint.io/
-- Ultracite ESLint Docs: https://www.ultracite.ai/providers/eslint
-- ESLint Plugin Registry: https://www.npmjs.com/search?q=keywords:eslint-plugin
+- [ESLint Official Docs](https://eslint.org/)
+- [Prettier Official Docs](https://prettier.io/)
+- [Stylelint Official Docs](https://stylelint.io/)
+- [Ultracite ESLint Docs](https://www.ultracite.ai/providers/eslint)
+- [ESLint Plugin Registry](https://www.npmjs.com/search?q=keywords:eslint-plugin)

@@ -289,7 +289,7 @@ Check package.json dependencies for:
 
 ```jsonc
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": [
     "ultracite/biome/core",
     "ultracite/biome/react" // Detected from dependencies

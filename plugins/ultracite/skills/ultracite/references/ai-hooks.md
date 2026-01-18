@@ -11,19 +11,19 @@ AI Hooks automatically format and lint code after AI assistants (Cursor, Claude 
 ## AI Hooks vs AI Rules
 
 **AI Rules** (existing feature):
-- Guide AI to write better code upfront
-- Provide linting guidelines to AI during generation
-- Prevent errors before they occur
+- Guides AI generation toward better code upfront
+- Provides linting guidelines to AI during generation
+- Prevents errors before they occur
 
 **AI Hooks** (new in v7):
-- Run `ultracite fix` AFTER AI edits
-- Auto-format AI-generated code
-- Fix linting issues automatically
-- Apply import organization, spacing, etc.
+- Runs `ultracite fix` after AI edits
+- Automatically formats AI-generated code
+- Fixes linting issues automatically
+- Applies import organization, spacing, etc.
 
-**Use both** for best results:
-1. AI Rules → Guide AI to write clean code
-2. AI Hooks → Auto-fix any formatting issues
+**Recommended workflow** (combine both features):
+1. AI Rules → Guides AI generation toward clean code
+2. AI Hooks → Automatically fixes formatting issues
 
 ## Installation
 
