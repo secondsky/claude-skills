@@ -221,8 +221,8 @@
     {
       "name": "better-auth",
       "source": "./plugins/better-auth",
-      "version": "3.1.0",
-      "description": "better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.",
+      "version": "3.3.0",
+      "description": "Skill for integrating Better Auth - comprehensive TypeScript authentication framework for Cloudflare D1, Next.js, Nuxt, and 15+ frameworks. Use when adding auth, encountering D1 adapter errors, or implementing OAuth/2FA/RBAC features.",
       "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","cors","orm","rbac","cloudflare","d1","drizzle","kysely","oauth","2fa","passkeys","organizations","nextjs","nuxt","remix","sveltekit","expo","postgresql","mongodb","mysql","stripe","sso","saml","scim"],
       "category": "auth"
     }
@@ -1436,9 +1436,9 @@
     {
       "name": "ultracite",
       "source": "./plugins/ultracite",
-      "version": "3.0.0",
-      "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors.",
-      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration"],
+      "version": "4.0.0",
+      "description": "Ultracite multi-provider linting/formatting (Biome, ESLint, Oxlint). Use for v6/v7 setup, provider selection, Git hooks, MCP integration, AI hooks, migrations, or encountering configuration, type-aware linting, monorepo errors.",
+      "keywords": ["ultracite","biome","linting","formatting","code quality","eslint replacement","prettier replacement","typescript strict mode","rust linter","fast formatter","auto-fix","git hooks","pre-commit","husky","lefthook","lint-staged","react linting","nextjs linting","vue linting","svelte linting","monorepo linting","turborepo","ai coding rules","cursor rules","claude code rules","copilot instructions","accessibility linting","security linting","performance linting","jsx linting","hooks linting","migration from eslint","migration from prettier","biome.jsonc","zero config","code formatting","import sorting","unused imports","strict equality","type safety","migration","oxlint","oxfmt","eslint integration","multi-provider","provider selection","mcp server","ai hooks","type-aware linting","ultracite doctor","programmatic usage","v6 upgrade","v7 upgrade","preset migration"],
       "category": "frontend"
     }
 ,

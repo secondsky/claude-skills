@@ -1,7 +1,7 @@
 {
   "name": "ultracite",
-  "description": "Ultracite Rust-based linting/formatting (Biome). Use for project setup, Git hooks, migrations from ESLint/Prettier, or encountering configuration, monorepo, framework integration errors.",
-  "version": "3.0.0",
+  "description": "Ultracite multi-provider linting/formatting (Biome, ESLint, Oxlint). Use for v6/v7 setup, provider selection, Git hooks, MCP integration, AI hooks, migrations, or encountering configuration, type-aware linting, monorepo errors.",
+  "version": "4.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -49,6 +49,27 @@
     "unused imports",
     "strict equality",
     "type safety",
-    "migration"
+    "migration",
+    "oxlint",
+    "oxfmt",
+    "eslint integration",
+    "multi-provider",
+    "provider selection",
+    "mcp server",
+    "ai hooks",
+    "type-aware linting",
+    "ultracite doctor",
+    "programmatic usage",
+    "v6 upgrade",
+    "v7 upgrade",
+    "preset migration"
+  ],
+  "commands": [
+    "./skills/ultracite/commands/doctor.md",
+    "./skills/ultracite/commands/migrate.md"
+  ],
+  "agents": [
+    "./skills/ultracite/agents/config-validator.md",
+    "./skills/ultracite/agents/migration-assistant.md"
   ]
 }

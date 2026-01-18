@@ -1,6 +1,6 @@
 ---
 name: better-auth
-description: better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.
+description: Skill for integrating Better Auth - comprehensive TypeScript authentication framework for Cloudflare D1, Next.js, Nuxt, and 15+ frameworks. Use when adding auth, encountering D1 adapter errors, or implementing OAuth/2FA/RBAC features.
 keywords: better-auth, authentication, cloudflare d1 auth, drizzle orm auth, kysely auth, self-hosted auth, typescript auth, clerk alternative, auth.js alternative, social login, oauth providers, session management, jwt tokens, 2fa, two-factor, passkeys, webauthn, multi-tenant auth, organizations, teams, rbac, role-based access, google auth, github auth, microsoft auth, apple auth, magic links, email password, better-auth setup, drizzle d1, kysely d1, session serialization error, cors auth, d1 adapter, nextjs auth, nuxt auth, remix auth, sveltekit auth, expo auth, react native auth, postgresql auth, mongodb auth, mysql auth, stripe auth, api keys, sso, saml, scim, admin dashboard, background tasks, oauth 2.1, cli
 license: MIT
 metadata:
@@ -135,6 +135,38 @@ wrangler deploy
 
 ---
 
+## Decision Tree
+
+**For code examples and syntax, always consult [better-auth.com/docs](https://better-auth.com/docs).**
+
+```
+Is this a new/empty project?
+├─ YES → New project setup
+│   1. Identify framework (Next.js, Nuxt, Workers, etc.)
+│   2. Choose database (D1, PostgreSQL, MongoDB, MySQL)
+│   3. Install better-auth + Drizzle/Kysely
+│   4. Create auth.ts + auth-client.ts
+│   5. Set up route handler (see Quick Start above)
+│   6. Run migrations (Drizzle Kit for D1)
+│   7. Add features via plugins (2FA, organizations, etc.)
+│
+└─ NO → Does project have existing auth?
+    ├─ YES → Migration/enhancement
+    │   • Audit current auth for gaps
+    │   • Plan incremental migration
+    │   • See references/framework-comparison.md for migration guides
+    │
+    └─ NO → Add auth to existing project
+        1. Analyze project structure
+        2. Install better-auth + adapter
+        3. Create auth config (see Quick Start)
+        4. Add route handler to existing routes
+        5. Run schema migrations
+        6. Integrate into existing pages/components
+```
+
+---
+
 ## Critical Rules
 
 ### MUST DO
@@ -191,6 +223,57 @@ sendVerificationEmail: async ({ user, url, ctx }) => {}
 - **ctx.isTrustedDomain** (v1.4.6): Helper for domain verification
 
 **Load `references/v1.4-features.md` for detailed implementation guides.**
+
+---
+
+## Quick Reference
+
+### Environment Variables
+
+| Variable | Purpose | Example |
+|----------|---------|---------|
+| `BETTER_AUTH_SECRET` | Encryption secret (min 32 chars) | Generate: `openssl rand -base64 32` |
+| `BETTER_AUTH_URL` | Base URL | `https://example.com` or `http://localhost:8787` |
+| `DATABASE_URL` | Database connection (optional for D1) | PostgreSQL/MySQL connection string |
+
+**Note**: Only define `baseURL`/`secret` in config if env vars are NOT set.
+
+### CLI Commands
+
+| Command | Purpose |
+|---------|---------|
+| `npx @better-auth/cli@latest migrate` | Apply schema (built-in Kysely adapter only) |
+| `npx @better-auth/cli@latest generate` | Generate schema for Prisma/Drizzle |
+| `bunx drizzle-kit generate` | **D1: Use this** to generate Drizzle migrations |
+| `wrangler d1 migrations apply DB_NAME` | **D1: Use this** to apply migrations |
+
+**Re-run after adding/changing plugins.**
+
+### Core Config Options
+
+| Option | Notes |
+|--------|-------|
+| `appName` | Optional display name |
+| `baseURL` | Only if `BETTER_AUTH_URL` not set |
+| `basePath` | Default `/api/auth`. Set `/` for root. |
+| `secret` | Only if `BETTER_AUTH_SECRET` not set (min 32 chars) |
+| `database` | **Required** for most features. Use `drizzleAdapter()` or Kysely for D1 |
+| `secondaryStorage` | Redis/KV for sessions & rate limits |
+| `emailAndPassword` | `{ enabled: true }` to activate |
+| `socialProviders` | `{ google: { clientId, clientSecret }, ... }` |
+| `plugins` | Array of plugins (import from dedicated paths) |
+| `trustedOrigins` | CSRF whitelist for cross-origin requests |
+
+### Common Plugins
+
+Import from **dedicated paths** for tree-shaking:
+```typescript
+import { twoFactor } from "better-auth/plugins/two-factor"
+import { organization } from "better-auth/plugins/organization"
+import { passkey } from "@better-auth/passkey"  // Separate package
+```
+
+**NOT** `from "better-auth/plugins"`.
 
 ---
 

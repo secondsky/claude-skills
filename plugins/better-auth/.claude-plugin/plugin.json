@@ -1,7 +1,7 @@
 {
   "name": "better-auth",
-  "description": "better-auth authentication for Cloudflare D1 (primary), Next.js, Nuxt, Express, and 15+ frameworks via Drizzle ORM/Kysely. Covers 45+ OAuth providers, 2FA, passkeys, organizations, RBAC. Use for self-hosted auth or encountering D1 adapter, schema, session, CORS, OAuth errors.",
-  "version": "3.1.0",
+  "description": "Skill for integrating Better Auth - comprehensive TypeScript authentication framework for Cloudflare D1, Next.js, Nuxt, and 15+ frameworks. Use when adding auth, encountering D1 adapter errors, or implementing OAuth/2FA/RBAC features.",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -43,7 +43,9 @@
   ],
   "commands": [
     "./commands/better-auth-setup.md",
-    "./commands/better-auth-add-plugin.md"
+    "./commands/better-auth-add-plugin.md",
+    "./commands/explain-error.md",
+    "./commands/providers.md"
   ],
   "agents": [
     "./agents/better-auth-debugger.md"
