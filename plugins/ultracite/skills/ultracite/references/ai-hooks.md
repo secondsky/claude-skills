@@ -1,3 +1,21 @@
+---
+title: AI Hooks Reference
+description: Automatically format and fix code after AI assistant edits with post-edit hooks
+feature: AI Hooks (Auto-format after AI edits)
+version: v7.0+
+keywords:
+  - ai hooks
+  - post-edit hooks
+  - auto-format
+  - cursor
+  - claude code
+  - copilot
+  - windsurf
+  - ai assistants
+  - automatic linting
+  - ultracite fix
+---
+
 # AI Hooks Reference
 
 **Feature**: AI Hooks (Auto-format after AI edits)
