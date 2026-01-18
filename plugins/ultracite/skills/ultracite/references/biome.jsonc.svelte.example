@@ -1,6 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
-  "extends": ["ultracite/core", "ultracite/svelte"],
+  "extends": ["ultracite/biome/core", "ultracite/biome/svelte"],  // v7 paths
 
   // HTML support for .svelte files
   "html": {

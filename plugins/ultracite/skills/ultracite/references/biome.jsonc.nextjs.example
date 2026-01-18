@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   // Next.js preset includes React preset automatically
-  "extends": ["ultracite/core", "ultracite/next"],
+  "extends": ["ultracite/biome/core", "ultracite/biome/next"],  // v7 paths
 
   // Optional: Customize formatter
   "formatter": {

@@ -4,7 +4,10 @@
 
 ## Overview
 
-This skill provides comprehensive guidance for setting up, configuring, and using Ultracite—a preset configuration built on Biome, the Rust-based linting and formatting toolchain. Ultracite replaces both ESLint and Prettier with a single, blazing-fast tool that operates invisibly in the background.
+This skill provides comprehensive guidance for setting up, configuring, and using Ultracite—a unified linting and formatting solution with **multi-provider support**. Choose from **Biome** (default, fastest), **ESLint+Prettier+Stylelint** (maximum compatibility), or **Oxlint+Oxfmt** (type-aware linting).
+
+**Version 7** introduces multi-provider architecture, preset path migration, MCP server integration, and AI hooks.
+**Version 6** introduced framework-specific presets for React, Next.js, Vue, Svelte, and more.
 
 ## When to Use This Skill
 
@@ -42,6 +45,21 @@ This skill automatically triggers when you mention:
 - remove eslint
 - remove prettier
 - switch to ultracite
+- v6 to v7 migration
+- v7 upgrade
+- preset path migration
+- ultracite migration
+
+### Provider Selection Keywords (v7+)
+- multi-provider linting
+- choose linting provider
+- biome vs eslint
+- biome vs oxlint
+- oxlint type-aware
+- eslint provider
+- oxlint provider
+- provider selection
+- linter flag
 
 ### Git Hooks Keywords
 - ultracite husky
@@ -63,6 +81,11 @@ This skill automatically triggers when you mention:
 - AI coding rules
 - auto-format after AI edit
 - editor hooks ultracite
+- ai hooks ultracite
+- mcp server ultracite
+- model context protocol
+- ultracite mcp integration
+- ai assistant integration
 
 ### Configuration Keywords
 - biome.jsonc
@@ -169,6 +192,11 @@ The skill automatically:
 # Using Bun (recommended)
 bun x ultracite init
 
+# v7: Choose provider explicitly
+bun x ultracite init --linter biome   # Default (fastest)
+bun x ultracite init --linter eslint  # Maximum compatibility
+bun x ultracite init --linter oxlint  # Type-aware linting
+
 # Using npm
 npx ultracite init
 
@@ -180,11 +208,125 @@ yarn dlx ultracite init
 ```
 
 The interactive setup will guide you through:
-1. Framework selection (React, Next.js, Vue, etc.)
-2. Editor integration (VS Code, Cursor, etc.)
-3. AI agent rules (Cursor, Claude Code, Copilot)
-4. Git hooks (Husky, Lefthook, lint-staged)
-5. Migration from existing tools (ESLint, Prettier)
+1. Provider selection (Biome, ESLint, Oxlint) - **v7+ only**
+2. Framework selection (React, Next.js, Vue, etc.)
+3. Editor integration (VS Code, Cursor, etc.)
+4. AI agent rules (Cursor, Claude Code, Copilot)
+5. Git hooks (Husky, Lefthook, lint-staged)
+6. Migration from existing tools (ESLint, Prettier)
+
+## Interactive Features
+
+This skill provides interactive commands and autonomous agents to streamline your Ultracite workflow.
+
+### Commands
+
+#### `/ultracite:doctor`
+Validate your Ultracite project setup and configuration.
+
+**What it checks:**
+- Installation status (ultracite, @biomejs/biome versions)
+- Configuration syntax (biome.jsonc validation)
+- Preset paths (v6 vs v7 detection)
+- Conflicting tools (ESLint, Prettier remnants)
+- Environment compatibility (Node.js version)
+- Performance optimization opportunities
+
+**Example output:**
+```
+✅ Ultracite installed: v7.2.0
+✅ Provider: Biome (optimal for your project size)
+⚠️ Preset paths: Using v6 paths (upgrade to v7)
+  → Run /ultracite:migrate to fix
+✅ No conflicting tools
+✅ Node.js: v20.10.0
+```
+
+**When to use:** After installation, before deployment, when experiencing issues, after version upgrades.
+
+#### `/ultracite:migrate`
+Interactive migration wizard for ESLint/Prettier to Ultracite or v6→v7 preset path upgrades.
+
+**What it does:**
+- Scans existing ESLint/Prettier configurations
+- Maps rules to Biome equivalents (with gap analysis)
+- Generates biome.jsonc with comments for unmapped rules
+- Backs up old configurations to `.backup/`
+- Validates new configuration
+- Provides rollback instructions
+
+**Supports:**
+- ESLint → Ultracite/Biome
+- Prettier → Ultracite/Biome
+- ESLint + Prettier → Ultracite/Biome (combined)
+- Ultracite v6 → v7 (preset path upgrade)
+
+**Example output:**
+```
+✅ Mapped: 38 rules (84%)
+⚠️ No equivalent: 7 rules (16%)
+✅ Generated biome.jsonc
+✅ Backed up old configs to .backup/
+→ Next: npx ultracite check --write .
+```
+
+**When to use:** Migrating from ESLint/Prettier, upgrading from v6 to v7, consolidating tools.
+
+### Agents
+
+#### `config-validator`
+Analyzes biome.jsonc configurations and provides optimization recommendations.
+
+**Triggers on:**
+- "is my ultracite config correct?"
+- "validate my biome configuration"
+- "check my ultracite setup"
+- "optimize my biome config"
+
+**Analysis phases:**
+1. Syntax validation (JSON/JSONC parsing)
+2. Preset path validation (v6 vs v7 detection)
+3. Rule conflict analysis (redundant/incompatible rules)
+4. Performance analysis (file count, ignore patterns)
+5. Compatibility check (Node.js, TypeScript versions)
+
+**Example output:**
+```
+⚠️ Using v6 preset paths (upgrade recommended)
+⚠️ 2 redundant rules detected
+✅ Project size: ~350 files (Biome optimal)
+✅ Compatibility: Node.js v20.10.0
+```
+
+**When to use:** After configuration changes, before production deployment, when troubleshooting.
+
+#### `migration-assistant`
+Guides ESLint/Prettier migrations with comprehensive rule mapping.
+
+**Triggers on:**
+- "migrate from eslint"
+- "switch to ultracite from prettier"
+- "convert eslint config to ultracite"
+- "upgrade ultracite v6 to v7"
+
+**Capabilities:**
+- ESLint rule mapping database (38+ common rules)
+- Prettier formatter option mapping
+- Framework detection (React, Next.js, Vue, Svelte)
+- Gap analysis with workarounds
+- Backup strategy with rollback instructions
+- Validation testing and comparison
+
+**Example output:**
+```
+✅ Mapped: 38 rules (84%)
+❌ No equivalent: @typescript-eslint/no-floating-promises
+   → Use Oxlint provider (type-aware linting)
+✅ Generated biome.jsonc with React preset
+✅ All Prettier options mapped to Biome formatter
+```
+
+**When to use:** Planning migrations, comparing ESLint vs Biome, evaluating migration complexity.
 
 ## Common Use Cases
 
@@ -321,18 +463,37 @@ This skill is production-tested and includes:
 
 ## Version Information
 
-**Skill Version:** 1.0.0
-**Last Updated:** 2025-11-11
-**Ultracite Version:** latest
+**Skill Version:** 2.0.0 (updated for v7)
+**Last Updated:** 2026-01-18
+**Ultracite Version:** v7.0+ (multi-provider support)
 **Biome Version:** >=1.9.0
+**ESLint Version:** >=8.0.0 (when using ESLint provider)
+**Oxlint Version:** >=0.1.0 (when using Oxlint provider)
 **Node.js Required:** v14.18+ (v18+ recommended)
+
+### Version 7 Changes (2025-11)
+- Multi-provider architecture (Biome, ESLint, Oxlint)
+- Preset path migration (`ultracite/core` → `ultracite/biome/core`)
+- MCP server integration for AI assistants
+- AI hooks (auto-format after AI edits)
+- Type-aware linting (Oxlint provider)
+- `ultracite doctor` diagnostic command
+
+### Version 6 Changes (2025-09)
+- Framework-specific presets introduced
+- React, Next.js, Vue, Svelte, Solid, Qwik, Angular, Remix, Astro support
 
 ## Auto-Trigger Keywords Summary
 
 This skill will automatically activate when you mention any of these topics:
-- Ultracite, Biome, linting, formatting setup
+- Ultracite, Biome, Oxlint, ESLint multi-provider linting
+- Provider selection (Biome vs ESLint vs Oxlint)
 - Framework linting (React, Next.js, Vue, Svelte)
 - Migration from ESLint or Prettier
+- v6 to v7 migration, preset path migration
+- MCP server integration, Model Context Protocol
+- AI hooks, auto-format after AI edits
+- Type-aware linting (Oxlint)
 - Git hooks (Husky, Lefthook, lint-staged)
 - AI editor integration (Cursor, Claude Code, Copilot)
 - Monorepo linting (Turborepo)
@@ -341,5 +502,6 @@ This skill will automatically activate when you mention any of these topics:
 - Fast Rust linting
 - Zero-config setup
 - Troubleshooting linting issues
+- `ultracite doctor` diagnostic command
 
 Simply ask about any of these topics, and this skill will provide comprehensive, step-by-step guidance tailored to your project.

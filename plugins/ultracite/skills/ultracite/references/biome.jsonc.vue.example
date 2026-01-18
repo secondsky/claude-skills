@@ -1,6 +1,6 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
-  "extends": ["ultracite/core", "ultracite/vue"],
+  "extends": ["ultracite/biome/core", "ultracite/biome/vue"],  // v7 paths
 
   // HTML support for .vue files
   "html": {
