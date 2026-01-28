@@ -1157,7 +1157,7 @@
     {
       "name": "react-best-practices",
       "source": "./plugins/react-best-practices",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "description": "React and Next.js performance optimization guidelines from Vercel Engineering. Use when writing/reviewing/refactoring React code for optimal performance. Covers async patterns, bundle optimization, server/client components, re-render optimization.",
       "keywords": ["react","react-best-practices","next.js","performance","async-patterns","bundle-optimization","server-components","client-components","re-render-optimization","hydration","suspense","memo","useMemo","useCallback","code-splitting","lazy-loading","tree-shaking","server-actions","streaming","rsc","app-router","hooks","state-management","context","typescript","jsx","vite","webpack","hydration-errors","bundle-size","memory-leaks","stale-closures","unnecessary-renders","waterfalls","lcp","fcp","cls","ttfb","web-vitals","optimization","frontend","spa","ssr","ssg","isr","concurrent-features","react-compiler","use-effect","use-state","use-ref","promises","async-await","vercel","performance-profiling","react-devtools"],
       "category": "frontend"
