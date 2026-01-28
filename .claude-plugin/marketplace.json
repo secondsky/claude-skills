@@ -1164,6 +1164,15 @@
     }
 ,
     {
+      "name": "react-composition-patterns",
+      "source": "./plugins/react-composition-patterns",
+      "version": "1.0.0",
+      "description": "React composition patterns from Vercel Engineering. Use when building scalable components, avoiding boolean prop proliferation, implementing compound components, or managing component state. Covers architecture, state management, and implementation patterns.",
+      "keywords": ["react","composition","compound-components","context","state-management","boolean-props","provider-pattern","children-api","component-variants","react-patterns","component-architecture","state-lifting","render-props","component-design","scalable-components","flexible-components","maintainable-code","composition-over-configuration","explicit-variants","context-interface","decouple-state","frontend","typescript","jsx","vercel"],
+      "category": "frontend"
+    }
+,
+    {
       "name": "react-hook-form-zod",
       "source": "./plugins/react-hook-form-zod",
       "version": "3.0.0",
