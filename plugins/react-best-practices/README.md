@@ -2,22 +2,22 @@
 
 **Status**: ✅ Production Ready
 **Version**: 1.0.0 (Vercel source)
-**Last Updated**: 2026-01-17
+**Last Updated**: 2026-01-28
 
-Comprehensive React and Next.js performance optimization guide from Vercel Engineering, containing 45+ rules across 8 categories.
+Comprehensive React and Next.js performance optimization guide from Vercel Engineering, containing 57 rules across 8 categories.
 
 ## What This Skill Provides
 
 ✅ **Eliminating Waterfalls** (CRITICAL) - 5 rules for async optimization
 ✅ **Bundle Size Optimization** (CRITICAL) - 5 rules for reducing bundle size
-✅ **Server-Side Performance** (HIGH) - 5 rules for SSR optimization
-✅ **Client-Side Data Fetching** (MEDIUM-HIGH) - 4 rules for client optimization
-✅ **Re-render Optimization** (MEDIUM) - 7 rules for preventing unnecessary renders
-✅ **Rendering Performance** (MEDIUM) - 7 rules for efficient rendering
-✅ **JavaScript Performance** (LOW-MEDIUM) - 12 rules for JS optimization
-✅ **Advanced Patterns** (LOW) - 2 rules for advanced techniques
+✅ **Server-Side Performance** (HIGH) - 7 rules for SSR optimization
+✅ **Client-Side Data Fetching** (MEDIUM-HIGH) - 2 rules for client optimization
+✅ **Re-render Optimization** (MEDIUM) - 12 rules for preventing unnecessary renders
+✅ **Rendering Performance** (MEDIUM) - 9 rules for efficient rendering
+✅ **JavaScript Performance** (LOW-MEDIUM) - 14 rules for JS optimization
+✅ **Advanced Patterns** (LOW) - 3 rules for advanced techniques
 
-**Total**: 45+ production-tested rules with incorrect vs correct examples
+**Total**: 57 production-tested rules with incorrect vs correct examples
 
 ## When to Use This Skill
 
@@ -33,7 +33,7 @@ Use this skill when:
 
 - **SKILL.md** - Concise overview with rule categories (~1,500 words)
 - **AGENTS.md** - Full compiled guide with all rules expanded (~40,000 words)
-- **rules/** - 45+ individual rule files for granular reference
+- **rules/** - 57 individual rule files for granular reference
 - **metadata.json** - Version and attribution metadata
 
 ## Attribution
@@ -89,7 +89,7 @@ We are grateful to Vercel for creating and open-sourcing this comprehensive guid
 ## Progressive Disclosure
 
 **SKILL.md** (auto-loaded): Quick reference, rule categories, top errors
-**AGENTS.md** (on request): Full guide with all 45+ rules expanded
+**AGENTS.md** (on request): Full guide with all 57 rules expanded
 **rules/** (on request): Individual rule files for specific topics
 
 Ask Claude to "Load AGENTS.md" for the comprehensive guide.
