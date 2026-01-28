@@ -1,7 +1,7 @@
 {
   "name": "react-best-practices",
   "description": "React and Next.js performance optimization guidelines from Vercel Engineering. Use when writing/reviewing/refactoring React code for optimal performance. Covers async patterns, bundle optimization, server/client components, re-render optimization.",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

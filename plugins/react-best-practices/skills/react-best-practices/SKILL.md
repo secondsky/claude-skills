@@ -9,7 +9,7 @@ metadata:
 
 # Vercel React Best Practices
 
-Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 45 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
+Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 57 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
 
 ## When to Apply
 
@@ -58,6 +58,8 @@ Reference these guidelines when:
 - `server-serialization` - Minimize data passed to client components
 - `server-parallel-fetching` - Restructure components to parallelize fetches
 - `server-after-nonblocking` - Use after() for non-blocking operations
+- `server-auth-actions` - Authenticate server actions like API routes
+- `server-dedup-props` - Avoid duplicate serialization in RSC props
 
 ### 4. Client-Side Data Fetching (MEDIUM-HIGH)
 
@@ -73,6 +75,11 @@ Reference these guidelines when:
 - `rerender-functional-setstate` - Use functional setState for stable callbacks
 - `rerender-lazy-state-init` - Pass function to useState for expensive values
 - `rerender-transitions` - Use startTransition for non-urgent updates
+- `rerender-memo-with-default-value` - Hoist default non-primitive props
+- `rerender-derived-state-no-effect` - Derive state during render, not effects
+- `rerender-simple-expression-in-memo` - Avoid memo for simple primitives
+- `rerender-move-effect-to-event` - Put interaction logic in event handlers
+- `rerender-use-ref-transient-values` - Use refs for transient frequent values
 
 ### 6. Rendering Performance (MEDIUM)
 
@@ -83,6 +90,8 @@ Reference these guidelines when:
 - `rendering-hydration-no-flicker` - Use inline script for client-only data
 - `rendering-activity` - Use Activity component for show/hide
 - `rendering-conditional-render` - Use ternary, not && for conditionals
+- `rendering-hydration-suppress-warning` - Suppress expected mismatches
+- `rendering-usetransition-loading` - Prefer useTransition for loading state
 
 ### 7. JavaScript Performance (LOW-MEDIUM)
 
@@ -103,6 +112,7 @@ Reference these guidelines when:
 
 - `advanced-event-handler-refs` - Store event handlers in refs
 - `advanced-use-latest` - useLatest for stable callback refs
+- `advanced-init-once` - Initialize app once per app load
 
 ## How to Use
 
