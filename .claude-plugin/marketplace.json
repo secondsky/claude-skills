@@ -1182,15 +1182,6 @@
     }
 ,
     {
-      "name": "react-native-app",
-      "source": "./plugins/react-native-app",
-      "version": "3.0.0",
-      "description": "React Native cross-platform mobile apps with navigation, state management, native features. Use for iOS/Android development, mobile prototyping, code sharing, or encountering bridge errors, platform-specific bugs, performance bottlenecks.",
-      "keywords": ["react-native-app","react","native","app","mobile"],
-      "category": "mobile"
-    }
-,
-    {
       "name": "react-native-skills",
       "source": "./plugins/react-native-skills",
       "version": "1.0.0",
