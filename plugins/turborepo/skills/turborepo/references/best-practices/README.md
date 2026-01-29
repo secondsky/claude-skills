@@ -44,7 +44,7 @@ my-monorepo/
   "private": true,
   "dependencies": {
     "@repo/ui": "workspace:*",
-    "next": "latest"
+    "next": "^16"
   }
 }
 ```
@@ -219,8 +219,8 @@ packages/
 // BAD: Root has app dependencies
 {
   "dependencies": {
-    "react": "^18",
-    "next": "^14",
+    "react": "^19",
+    "next": "^16",
     "lodash": "^4"
   }
 }
@@ -228,7 +228,7 @@ packages/
 // GOOD: Root only has repo tools
 {
   "devDependencies": {
-    "turbo": "latest",
+    "turbo": "^2.8",
     "husky": "latest"
   }
 }
