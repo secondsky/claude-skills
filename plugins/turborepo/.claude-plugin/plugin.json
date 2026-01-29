@@ -1,7 +1,7 @@
 {
   "name": "turborepo",
   "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
-  "version": "3.0.0",
+  "version": "2.8.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -12,6 +12,13 @@
     "turborepo",
     "tooling",
     "workflow",
-    "caching"
+    "caching",
+    "monorepo",
+    "build-system",
+    "task-pipeline",
+    "remote-cache"
+  ],
+  "commands": [
+    "./skills/turborepo/command/turborepo.md"
   ]
 }
