@@ -19,6 +19,6 @@
     "remote-cache"
   ],
   "commands": [
-    "./command/turborepo.md"
+    "./skills/turborepo/command/turborepo.md"
   ]
 }

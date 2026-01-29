@@ -28,7 +28,7 @@ packages:
 {
   "name": "my-monorepo",
   "private": true,
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.28.2",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -36,7 +36,7 @@ packages:
     "test": "turbo run test"
   },
   "devDependencies": {
-    "turbo": "latest"
+    "turbo": "2.8.0"
   }
 }
 ```
