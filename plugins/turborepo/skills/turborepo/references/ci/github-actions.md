@@ -17,13 +17,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: npm ci
@@ -37,13 +37,13 @@ jobs:
 ### pnpm
 
 ```yaml
-- uses: pnpm/action-setup@v3
+- uses: pnpm/action-setup@v4
   with:
-    version: 9
+    version: 10
 
-- uses: actions/setup-node@v4
+- uses: actions/setup-node@v6
   with:
-    node-version: 20
+    node-version: 22
     cache: 'pnpm'
 
 - run: pnpm install --frozen-lockfile
@@ -52,9 +52,9 @@ jobs:
 ### Yarn
 
 ```yaml
-- uses: actions/setup-node@v4
+- uses: actions/setup-node@v6
   with:
-    node-version: 20
+    node-version: 22
     cache: 'yarn'
 
 - run: yarn install --frozen-lockfile
@@ -63,7 +63,7 @@ jobs:
 ### Bun
 
 ```yaml
-- uses: oven-sh/setup-bun@v1
+- uses: oven-sh/setup-bun@v2
   with:
     bun-version: latest
 
@@ -106,7 +106,7 @@ jobs:
 If you can't use remote cache, cache Turborepo's local cache directory:
 
 ```yaml
-- uses: actions/cache@v4
+- uses: actions/cache@v5
   with:
     path: .turbo
     key: turbo-${{ runner.os }}-${{ hashFiles('**/turbo.json', '**/package-lock.json') }}
@@ -135,17 +135,17 @@ jobs:
       TURBO_TEAM: ${{ vars.TURBO_TEAM }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
 
-      - uses: pnpm/action-setup@v3
+      - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
 
       - name: Install dependencies

@@ -835,6 +835,50 @@ The `transit` task creates dependency relationships without matching any actual 
 }
 ```
 
+## When to Load References
+
+### Load `references/configuration/` when:
+- **README.md**: Need overview of turbo.json structure
+- **tasks.md**: Defining task configuration (dependsOn, outputs, inputs, env, cache)
+- **global-options.md**: Setting up globalEnv, globalDependencies, cacheDir, daemon
+- **gotchas.md**: Encountering unexpected configuration behavior
+
+### Load `references/caching/` when:
+- **README.md**: Understanding how cache hashing works
+- **remote-cache.md**: Setting up Vercel Remote Cache or self-hosted cache
+- **gotchas.md**: Debugging cache misses or using --summarize/--dry flags
+
+### Load `references/environment/` when:
+- **README.md**: Configuring environment variables (env, globalEnv, passThroughEnv)
+- **modes.md**: Choosing strict vs loose mode, framework inference
+- **gotchas.md**: Troubleshooting .env files or CI environment issues
+
+### Load `references/filtering/` when:
+- **README.md**: Need --filter syntax overview
+- **patterns.md**: Building complex filter patterns for selective runs
+
+### Load `references/ci/` when:
+- **README.md**: General CI principles and caching strategies
+- **github-actions.md**: Complete GitHub Actions workflow setup
+- **vercel.md**: Vercel deployment setup with turbo-ignore
+- **patterns.md**: Implementing --affected flag patterns and optimization
+
+### Load `references/cli/` when:
+- **README.md**: Basic turbo run command usage
+- **commands.md**: Complete CLI reference including turbo-ignore and flags
+
+### Load `references/best-practices/` when:
+- **README.md**: Monorepo structure and organization overview
+- **structure.md**: Repository layout, workspace config, TypeScript/ESLint setup
+- **packages.md**: Creating internal packages, JIT vs Compiled strategies, exports
+- **dependencies.md**: Dependency management patterns, version sync
+
+### Load `references/watch/` when:
+- **README.md**: Setting up turbo watch for development workflows
+
+### Load `references/boundaries/` when:
+- **README.md**: Enforcing package isolation with experimental boundaries feature
+
 ## Reference Index
 
 ### Configuration
