@@ -1308,6 +1308,15 @@
     }
 ,
     {
+      "name": "supabase-postgres-best-practices",
+      "source": "./plugins/supabase-postgres-best-practices",
+      "version": "1.1.0",
+      "description": "Postgres performance optimization and best practices from Supabase. 30 rules across 8 categories prioritized by impact.",
+      "keywords": ["postgres","postgresql","supabase","database","performance","optimization","sql","query","indexing","rls","security"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "sveltia-cms",
       "source": "./plugins/sveltia-cms",
       "version": "3.0.0",
