@@ -15,7 +15,7 @@ Turborepo is a high-performance build system for JavaScript and TypeScript monor
 
 ## Version
 
-**Current Version**: 2.8.0 (synced with official Vercel Turborepo skill)
+**Current Version**: 2.8.3-canary.4 (synced with official Vercel Turborepo skill)
 
 ## Installation
 
@@ -40,35 +40,35 @@ turborepo/
         │   └── turborepo.md            # Turborepo command
         └── references/                  # Progressive disclosure docs
             ├── best-practices/          # Monorepo best practices
-            │   ├── README.md
+            │   ├── RULE.md
             │   ├── structure.md
             │   ├── packages.md
             │   └── dependencies.md
             ├── boundaries/              # Package boundary enforcement
-            │   └── README.md
+            │   └── RULE.md
             ├── caching/                 # Caching system
-            │   ├── README.md
+            │   ├── RULE.md
             │   ├── remote-cache.md
             │   └── gotchas.md
             ├── ci/                      # CI/CD integration
-            │   ├── README.md
+            │   ├── RULE.md
             │   ├── github-actions.md
             │   ├── vercel.md
             │   └── patterns.md
             ├── cli/                     # CLI reference
-            │   ├── README.md
+            │   ├── RULE.md
             │   └── commands.md
             ├── configuration/           # Configuration guide
-            │   ├── README.md
+            │   ├── RULE.md
             │   ├── tasks.md
             │   ├── global-options.md
             │   └── gotchas.md
             ├── environment/             # Environment variables
-            │   ├── README.md
+            │   ├── RULE.md
             │   ├── modes.md
             │   └── gotchas.md
             ├── filtering/               # Package filtering
-            │   ├── README.md
+            │   ├── RULE.md
             │   └── patterns.md
             └── watch/                   # Watch mode
                 └── README.md
@@ -195,7 +195,7 @@ This skill is synchronized with the official Turborepo skill maintained by Verce
 
 - **Source**: https://github.com/vercel/turborepo/tree/main/skills/turborepo
 - **Documentation**: https://turborepo.dev/docs
-- **Last Sync**: 2026-01-28
+- **Last Sync**: 2026-02-04
 
 ## License
 

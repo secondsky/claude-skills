@@ -1427,7 +1427,7 @@
     {
       "name": "turborepo",
       "source": "./plugins/turborepo",
-      "version": "2.8.0",
+      "version": "2.8.3-canary.4",
       "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
       "keywords": ["turborepo","tooling","workflow","caching","monorepo","build-system","task-pipeline","remote-cache"],
       "category": "tooling"
