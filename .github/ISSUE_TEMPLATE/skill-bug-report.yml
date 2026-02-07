@@ -1,0 +1,162 @@
+name: Skill Bug Report
+description: Report incorrect or outdated skill content/instructions
+title: "[Skill Bug]: "
+labels: ["bug", "skill-content"]
+assignees:
+  - secondsky
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a skill bug! Please provide as much detail as possible to help us fix the issue.
+
+        **Note**: This template is for skill content errors (incorrect instructions, outdated packages, broken templates).
+        For marketplace/installation issues, use the "Marketplace Issue" template instead.
+
+  - type: checkboxes
+    id: pre-submission
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you've completed these steps before submitting
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have read the [ONE_PAGE_CHECKLIST.md](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/ONE_PAGE_CHECKLIST.md)
+          required: false
+        - label: I have checked [COMMON_MISTAKES.md](https://github.com/secondsky/claude-skills/blob/main/docs/reference/COMMON_MISTAKES.md)
+          required: false
+
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin Name
+      description: Which plugin contains the skill? (e.g., "cloudflare-d1", "tailwind-v4-shadcn")
+      placeholder: "cloudflare-d1"
+    validations:
+      required: true
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Skill Name
+      description: Name of the specific skill (usually same as plugin name)
+      placeholder: "cloudflare-d1"
+    validations:
+      required: true
+
+  - type: input
+    id: skill-version
+    attributes:
+      label: Skill Version
+      description: Version from plugin.json (run `cat plugins/<plugin-name>/.claude-plugin/plugin.json | jq .version`)
+      placeholder: "3.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of issue did you encounter?
+      options:
+        - Outdated package versions
+        - Broken code templates
+        - Incorrect instructions
+        - Missing error documentation
+        - Template doesn't work
+        - Instructions conflict with official docs
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clear description of what's wrong
+      placeholder: "The SKILL.md file recommends package version X, but the current stable version is Y which has breaking changes..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How did you discover this bug?
+      placeholder: |
+        1. Asked Claude to set up a new project using the skill
+        2. Claude used the template from templates/basic-setup.ts
+        3. Running the code resulted in error: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: "The template should work without errors..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "Got TypeScript error: ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Your setup details
+      value: |
+        - OS: [e.g., macOS 14.5, Ubuntu 22.04]
+        - Claude Code Version: [run `claude --version`]
+        - Installation Method: [marketplace install / manual symlink / cloned repo]
+        - Node/Bun Version: [if applicable]
+      render: markdown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: discovery-method
+    attributes:
+      label: Skill Discovery Method
+      description: How did Claude load this skill?
+      options:
+        - Claude auto-discovered the skill
+        - I manually invoked the skill
+        - Skill was already loaded in context
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Any error messages or logs (if applicable)
+      placeholder: "Paste error messages here..."
+      render: shell
+
+  - type: textarea
+    id: package-versions
+    attributes:
+      label: Package Versions (if applicable)
+      description: Actual vs recommended package versions
+      placeholder: |
+        Skill recommends: drizzle-orm@0.28.0
+        Current stable: drizzle-orm@0.35.0
+        Breaking changes: Yes (migration guide: https://...)
+      render: markdown
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Screenshots, links, or other relevant information
+      placeholder: "Add any other context about the problem here..."

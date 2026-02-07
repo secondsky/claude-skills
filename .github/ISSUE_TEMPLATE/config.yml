@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/secondsky/claude-skills/blob/main/CLAUDE.md
+    about: Read the project documentation and guidelines
+  - name: 🚀 Getting Started
+    url: https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/START_HERE.md
+    about: New to Claude Skills? Start here
+  - name: 📖 Claude Code Documentation
+    url: https://docs.claude.com/en/docs/claude-code/skills
+    about: Official Claude Code skills documentation
+  - name: 💬 Discussions
+    url: https://github.com/secondsky/claude-skills/discussions
+    about: Ask questions and discuss ideas with the community
