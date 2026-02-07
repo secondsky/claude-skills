@@ -1,0 +1,178 @@
+name: Marketplace/Installation Issue
+description: Report marketplace, installation, or discovery problems
+title: "[Marketplace]: "
+labels: ["bug", "marketplace"]
+assignees:
+  - secondsky
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a marketplace/installation issue!
+
+        This template is for problems with:
+        - Skill discovery by Claude
+        - Installation failures
+        - Marketplace sync issues
+        - plugin.json validation errors
+
+  - type: checkboxes
+    id: pre-submission
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have read the [Installing Skills section in CLAUDE.md](https://github.com/secondsky/claude-skills/blob/main/CLAUDE.md#installing-skills)
+          required: false
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of marketplace/installation issue?
+      options:
+        - Skill not discoverable by Claude
+        - Installation failed (symlink issues)
+        - Marketplace sync issues
+        - plugin.json validation errors
+        - Skill not listed in marketplace.json
+        - Version mismatch
+        - Permission/path issues
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin/Skill Name
+      description: Which skill is affected?
+      placeholder: "cloudflare-d1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation-method
+    attributes:
+      label: Installation Method
+      description: How did you try to install the skill?
+      options:
+        - Marketplace install (/plugin install <name>@claude-skills)
+        - Manual symlink (./scripts/install-skill.sh)
+        - Cloned entire repository
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: What steps led to the issue?
+      placeholder: |
+        1. Ran: /plugin install cloudflare-d1@claude-skills
+        2. Command completed successfully
+        3. Asked Claude: "Set up a new D1 database project"
+        4. Claude did not propose using the cloudflare-d1 skill
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: "Claude should auto-discover and propose using the cloudflare-d1 skill..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: "Claude responded with generic instructions, didn't mention the skill..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: discovery-context
+    attributes:
+      label: Claude Discovery Context
+      description: Details about how you asked Claude to use the skill
+      placeholder: |
+        **What I asked Claude:**
+        "Set up a new D1 database project with TypeScript and Drizzle ORM"
+
+        **Did Claude propose the skill?**
+        No, Claude gave generic setup instructions
+
+        **Did you manually load it?**
+        Yes, I said "use the cloudflare-d1 skill" and then it worked
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Information
+      description: Your setup details
+      value: |
+        - OS: [e.g., macOS 14.5, Ubuntu 22.04, Windows 11]
+        - Claude Code Version: [run `claude --version`]
+        - Skills Directory Path: [run `ls -la ~/.claude/skills/`]
+        - Shell: [bash, zsh, fish]
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-messages
+    attributes:
+      label: Error Messages
+      description: Any error output (if applicable)
+      placeholder: "Paste error messages here..."
+      render: shell
+
+  - type: textarea
+    id: validation-output
+    attributes:
+      label: Validation Output
+      description: Output from marketplace/installation scripts
+      placeholder: |
+        Run and paste output:
+
+        ```bash
+        # Check if skill is installed
+        ls -la ~/.claude/skills/cloudflare-d1
+
+        # Check marketplace entry
+        jq '.plugins[] | select(.name=="cloudflare-d1")' .claude-plugin/marketplace.json
+
+        # Validate plugin.json
+        cat plugins/cloudflare-d1/.claude-plugin/plugin.json | jq .
+        ```
+      render: shell
+
+  - type: checkboxes
+    id: troubleshooting
+    attributes:
+      label: Troubleshooting Steps Attempted
+      description: What have you tried to fix this?
+      options:
+        - label: Reinstalled the skill
+        - label: Checked symlink exists and points to correct location
+        - label: Verified plugin.json is valid JSON
+        - label: Checked marketplace.json contains the plugin
+        - label: Restarted Claude Code
+        - label: Checked file permissions
+        - label: Tried alternative installation method
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Screenshots, logs, or other relevant information
+      placeholder: "Add any other context about the problem here..."

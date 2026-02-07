@@ -248,7 +248,7 @@ GLOBAL_VERSION=$(jq -r '.metadata.version // "1.0.0"' "$MARKETPLACE_JSON")
 
 **Problem**: Keywords contained both hyphenated and space-separated versions:
 - `"openai-agents"` AND `"openai agents"`
-- `"project-workflow"` AND `"project workflow"`
+- `"cloudflare-d1"` AND `"cloudflare d1"`
 
 **Root Cause** (in `generate_name_keywords()`):
 ```bash
@@ -334,7 +334,7 @@ Skills are auto-categorized based on name patterns. There are 18 categories:
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
 | `ai` | `^(ai-\|openai-\|claude-\|google-gemini-\|...)` | ai-sdk-core, openai-agents |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-\|...)` | nuxt-v4, tailwind-v4-shadcn |
-| `auth` | `^(better-auth\|clerk-auth\|oauth-)` | better-auth, clerk-auth |
+| `auth` | `^(better-auth\|oauth-)` | better-auth |
 | `database` | `^(database-\|drizzle-\|neon-\|vercel-)` | drizzle-orm-d1, vercel-kv |
 | `api` | `^(api-\|graphql-\|rest-api-\|websocket-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
@@ -348,7 +348,7 @@ Skills are auto-categorized based on name patterns. There are 18 categories:
 | `architecture` | `^(architecture-\|health-check-\|microservices-)` | microservices-patterns |
 | `woocommerce` | `^woocommerce-` | woocommerce-backend-dev |
 | `cms` | `^(content-collections\|hugo\|sveltia-\|wordpress-)` | hugo |
-| `tooling` | Default fallback | project-workflow, skill-review |
+| `tooling` | Default fallback | turborepo, code-review |
 
 ### Category Distribution (Current)
 

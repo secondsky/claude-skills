@@ -69,7 +69,7 @@ Options:
 
 Examples:
   $0 better-auth
-  $0 cloudflare-worker-base --quick
+  $0 cloudflare-d1 --quick
 
 EOF
   exit 0

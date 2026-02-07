@@ -1,0 +1,193 @@
+name: Skill Optimization Request
+description: Request optimization for token budget or refactoring
+title: "[Optimization]: "
+labels: ["enhancement", "skill-optimization"]
+assignees:
+  - secondsky
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for requesting a skill optimization!
+
+        This template is for:
+        - Skills exceeding 500 lines in SKILL.md
+        - Token budget concerns (15k char system prompt limit)
+        - Progressive disclosure improvements
+        - Refactoring for better structure
+
+  - type: checkboxes
+    id: pre-submission
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have reviewed [ONE_PAGE_CHECKLIST.md Section 2 (Token Budget)](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/ONE_PAGE_CHECKLIST.md#2-token-budget-optimization)
+          required: true
+        - label: I have reviewed [PLUGIN_DEV_BEST_PRACTICES.md Section 5 (Progressive Disclosure)](https://github.com/secondsky/claude-skills/blob/main/docs/guides/PLUGIN_DEV_BEST_PRACTICES.md#section-5-progressive-disclosure)
+          required: true
+
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin/Skill Name
+      description: Which skill needs optimization?
+      placeholder: "cloudflare-d1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: optimization-type
+    attributes:
+      label: Optimization Type
+      description: What kind of optimization is needed?
+      options:
+        - SKILL.md exceeds 500 lines
+        - Extract sections to references/
+        - Consolidate redundant content
+        - Add "When to Load References" section
+        - Update to latest skill standards
+        - Reduce token count for system prompt
+        - Improve progressive disclosure
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: input
+    id: current-lines
+    attributes:
+      label: Current SKILL.md Line Count
+      description: Run `wc -l plugins/<plugin-name>/skills/<skill-name>/SKILL.md`
+      placeholder: "742 lines"
+    validations:
+      required: true
+
+  - type: input
+    id: target-lines
+    attributes:
+      label: Target Line Count
+      description: Ideal is <500 lines, acceptable is <1000 lines
+      placeholder: "<500 lines"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: Why does this skill need optimization?
+      placeholder: |
+        The SKILL.md is 742 lines, which:
+        - Exceeds the 500-line guideline
+        - Contains detailed sections that could be extracted
+        - Lacks progressive disclosure structure
+        - Impacts token budget for system prompt
+    validations:
+      required: true
+
+  - type: textarea
+    id: sections-to-extract
+    attributes:
+      label: Sections to Extract
+      description: Identify large sections that could move to references/
+      placeholder: |
+        Current large sections in SKILL.md:
+
+        1. **Advanced Migration Patterns** (lines 250-380, ~130 lines)
+           - Could move to: references/migration-guide.md
+           - Keep in SKILL.md: Brief summary + "Load when migrating from..."
+
+        2. **Complete API Reference** (lines 450-620, ~170 lines)
+           - Could move to: references/api-reference.md
+           - Keep in SKILL.md: Top 3-5 most common APIs + pointer
+
+        3. **Troubleshooting Guide** (lines 650-742, ~92 lines)
+           - Could move to: references/troubleshooting.md
+           - Keep in SKILL.md: Top 3 errors + pointer
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-approach
+    attributes:
+      label: Proposed Approach
+      description: How should the optimization be structured?
+      placeholder: |
+        ## New SKILL.md Structure (target ~350 lines):
+
+        1. **Quick Start** (~80 lines) - KEEP
+           - Installation
+           - Basic setup example
+
+        2. **Top 3-5 Errors** (~100 lines) - KEEP
+           - Most common errors with solutions
+
+        3. **When to Load References** (~50 lines) - ADD NEW
+           - Load references/migration-guide.md when: migrating from traditional DB
+           - Load references/api-reference.md when: using advanced features
+           - Load references/troubleshooting.md when: encountering errors
+
+        4. **Core Patterns** (~120 lines) - CONSOLIDATE
+           - Essential patterns only
+           - Extract advanced patterns to references/
+
+        ## New References Files:
+
+        - references/migration-guide.md (~150 lines)
+        - references/api-reference.md (~200 lines)
+        - references/troubleshooting.md (~100 lines)
+        - references/advanced-patterns.md (~80 lines)
+      render: markdown
+    validations:
+      required: true
+
+  - type: input
+    id: token-reduction
+    attributes:
+      label: Estimated Token Reduction
+      description: Expected line count reduction
+      placeholder: "~400 lines (742 → ~350)"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: compliance
+    attributes:
+      label: Standards Compliance Checklist
+      description: Ensure optimization follows skill standards
+      options:
+        - label: Reviewed ONE_PAGE_CHECKLIST.md
+          required: true
+        - label: Reviewed PLUGIN_DEV_BEST_PRACTICES.md Section 5 (Progressive Disclosure)
+          required: true
+        - label: Will maintain all critical information (nothing lost)
+          required: true
+        - label: Will add "When to Load References" section
+          required: true
+        - label: Will test that extracted references load correctly
+          required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to perform this optimization
+          required: false
+        - label: I can test the optimized skill in production
+          required: false
+        - label: I have experience with progressive disclosure patterns
+          required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about the optimization needs
+      placeholder: |
+        Add any other context:
+        - Specific sections you think should stay vs move
+        - Ideas for "When to Load References" triggers
+        - Concerns about losing important information

@@ -1,6 +1,6 @@
 # Claude Skills Marketplace
 
-Welcome to the **claude-skills** marketplace - a curated collection of **169 production-tested skills** for Claude Code CLI, organized into **18 suite plugins**.
+Welcome to the **claude-skills** marketplace - a curated collection of **167 production-tested skills** for Claude Code CLI, organized into **18 suite plugins**.
 
 ## 🚨 BREAKING CHANGE (v2.0.0)
 
@@ -29,7 +29,7 @@ Install the skill suites you need:
 
 ```bash
 # Popular suites
-/plugin install cloudflare-skills@claude-skills     # 23 Cloudflare platform skills
+/plugin install cloudflare-skills@claude-skills     # 20 Cloudflare platform skills
 /plugin install ai-skills@claude-skills              # 22 AI/ML integration skills
 /plugin install frontend-skills@claude-skills        # 22 UI framework skills
 
@@ -60,28 +60,27 @@ Skills are automatically discovered and used when relevant:
 
 ```
 User: "Set up a Cloudflare Worker with D1 database"
-Claude: [Automatically uses cloudflare-skills:cloudflare-worker-base
-         and cloudflare-skills:cloudflare-d1]
+Claude: [Automatically uses cloudflare-skills:cloudflare-d1]
 ```
 
 ---
 
 ## Available Suite Plugins (18)
 
-### 1. cloudflare-skills (23 skills)
+### 1. cloudflare-skills (20 skills)
 
 Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable Objects, and more. Production-tested edge computing solutions.
 
 **Installation**: `/plugin install cloudflare-skills@claude-skills`
 
 **Includes**:
-- cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
+- cloudflare-d1, cloudflare-r2, cloudflare-kv
 - cloudflare-workers-ai, cloudflare-vectorize, cloudflare-queues, cloudflare-workflows
 - cloudflare-durable-objects, cloudflare-agents, cloudflare-mcp-server
 - cloudflare-nextjs, cloudflare-cron-triggers, cloudflare-email-routing
 - cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
 - cloudflare-turnstile, cloudflare-zero-trust-access, cloudflare-manager
-- cloudflare-sandbox, cloudflare-full-stack-scaffold, cloudflare-full-stack-integration
+- cloudflare-sandbox
 
 ### 2. ai-skills (20 skills)
 
@@ -122,18 +121,17 @@ API design, implementation, and best practices - REST, GraphQL, WebSocket, authe
 - api-rate-limiting, api-response-optimization, api-gateway-configuration
 - api-testing, api-contract-testing, api-reference-documentation
 
-### 5. tooling-skills (28 skills)
+### 5. tooling-skills (25 skills)
 
 Development tools, utilities, and workflow automation - MCP servers, project planning, code review, debugging tools, and productivity enhancers.
 
 **Installation**: `/plugin install tooling-skills@claude-skills`
 
 **Includes**:
-- project-planning, project-session-management, project-workflow
 - typescript-mcp, fastmcp, mcp-dynamic-orchestrator, mcp-management
-- skill-review, code-review, dependency-upgrade, verification-before-completion
+- code-review, dependency-upgrade, verification-before-completion
 - systematic-debugging, root-cause-tracing, sequential-thinking
-- github-project-automation, open-source-contributions
+- github-project-automation
 - better-chatbot, better-chatbot-patterns, nano-banana-prompts
 - claude-code-bash-patterns, claude-hook-writer
 - chrome-devtools, turborepo, feature-dev, frontend-design
@@ -160,14 +158,14 @@ Testing frameworks and quality assurance - Jest, Playwright, Vitest, mutation te
 - jest-generator, playwright-testing, vitest-testing
 - mutation-testing, test-quality-analysis
 
-### 8. auth-skills (3 skills)
+### 8. auth-skills (2 skills)
 
-Authentication and authorization solutions - Better Auth, Clerk, OAuth implementations. Secure user authentication for modern apps.
+Authentication and authorization solutions - Better Auth and OAuth implementations. Secure user authentication for modern apps.
 
 **Installation**: `/plugin install auth-skills@claude-skills`
 
 **Includes**:
-- better-auth, clerk-auth, oauth-implementation
+- better-auth, oauth-implementation
 
 ### 9. cms-skills (4 skills)
 
@@ -274,22 +272,22 @@ Documentation and technical writing - Technical specification templates and docu
 
 **Old installation (v1.x - no longer works)**:
 ```bash
-/plugin install cloudflare-worker-base@claude-skills
+/plugin install cloudflare-d1@claude-skills
 /plugin install zod@claude-skills
-# ... (169 separate commands)
+# ... (167 separate commands)
 ```
 
 **New installation (v2.0+)**:
 ```bash
-/plugin install cloudflare-skills@claude-skills  # Gets all 23 Cloudflare skills
-/plugin install tooling-skills@claude-skills      # Gets all 26 tooling skills including zod
+/plugin install cloudflare-skills@claude-skills  # Gets all 20 Cloudflare skills
+/plugin install tooling-skills@claude-skills      # Gets all tooling skills including zod
 ```
 
 ### Migration Steps
 
 1. **Uninstall old individual plugins** (if installed):
    ```bash
-   /plugin uninstall cloudflare-worker-base@claude-skills
+   /plugin uninstall cloudflare-d1@claude-skills
    /plugin uninstall zod@claude-skills
    # ... repeat for each individually installed skill
    ```
@@ -313,7 +311,7 @@ Documentation and technical writing - Technical specification templates and docu
    ```
 
    You should see skills with plugin prefix:
-   - `cloudflare-skills:cloudflare-worker-base`
+   - `cloudflare-skills:cloudflare-d1`
    - `tooling-skills:zod`
    - etc.
 
@@ -322,7 +320,7 @@ Documentation and technical writing - Technical specification templates and docu
 - **Discovery**: Skills are now properly discovered by Claude Code
 - **Naming**: Skills have plugin prefix (e.g., `cloudflare-skills:cloudflare-d1`)
 - **Installation**: Install by suite instead of individual skills
-- **Count**: 18 suite plugins instead of 169 individual plugins
+- **Count**: 18 suite plugins instead of 167 individual plugins
 
 ---
 
@@ -405,7 +403,7 @@ git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
 # Install single skill (creates symlink to ~/.claude/skills/)
-./scripts/install-skill.sh cloudflare-worker-base
+./scripts/install-skill.sh cloudflare-d1
 
 # Install all skills
 ./scripts/install-all.sh

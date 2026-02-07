@@ -1,0 +1,202 @@
+name: New Skill Proposal
+description: Propose a new skill for the marketplace
+title: "[New Skill]: "
+labels: ["enhancement", "new-skill"]
+assignees:
+  - secondsky
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new skill!
+
+        **Important**: New skills require production testing evidence before acceptance.
+        Please read [START_HERE.md](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/START_HERE.md) and [QUICK_WORKFLOW.md](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/QUICK_WORKFLOW.md) before submitting.
+
+  - type: checkboxes
+    id: pre-submission
+    attributes:
+      label: Pre-submission Checklist
+      description: Please verify you've completed these steps
+      options:
+        - label: I have searched existing skills to avoid duplicates
+          required: true
+        - label: I have read [ONE_PAGE_CHECKLIST.md](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/ONE_PAGE_CHECKLIST.md)
+          required: true
+        - label: I have read [claude-code-skill-standards.md](https://github.com/secondsky/claude-skills/blob/main/docs/reference/claude-code-skill-standards.md)
+          required: true
+        - label: I have reviewed [COMMON_MISTAKES.md](https://github.com/secondsky/claude-skills/blob/main/docs/reference/COMMON_MISTAKES.md)
+          required: true
+        - label: I am willing to contribute this skill
+          required: true
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Proposed Skill Name
+      description: Use kebab-case (e.g., "cloudflare-d1", "tailwind-v4-shadcn")
+      placeholder: "my-framework-skill"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category does this skill belong to?
+      options:
+        - tooling
+        - frontend
+        - cloudflare
+        - ai
+        - api
+        - web
+        - mobile
+        - security
+        - database
+        - woocommerce
+        - testing
+        - design
+        - cms
+        - auth
+        - data
+        - architecture
+        - seo
+        - documentation
+        - other (specify in description)
+    validations:
+      required: true
+
+  - type: input
+    id: technology
+    attributes:
+      label: Technology/Framework
+      description: What technology does this skill cover? Include version.
+      placeholder: "Drizzle ORM v0.35.0 with Cloudflare D1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What errors or problems does this skill prevent?
+      placeholder: |
+        Without this skill, developers commonly encounter:
+        - Error 1: Description and frequency
+        - Error 2: Description and frequency
+        - Error 3: Description and frequency
+
+        Evidence: [links to GitHub issues, Stack Overflow questions, etc.]
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use Cases
+      description: Specific scenarios where this skill helps
+      placeholder: |
+        1. Setting up a new D1 database with type-safe queries
+        2. Migrating from traditional SQL to D1
+        3. Implementing batch operations with proper error handling
+    validations:
+      required: true
+
+  - type: textarea
+    id: production-evidence
+    attributes:
+      label: Production Testing Evidence
+      description: Links to deployed projects using this technology (REQUIRED)
+      placeholder: |
+        - Production app: https://example.com (using this skill's patterns)
+        - GitHub repo: https://github.com/user/project
+        - Blog post: https://... (explaining implementation)
+
+        **Note**: We require production evidence to ensure skills are battle-tested.
+    validations:
+      required: true
+
+  - type: textarea
+    id: related-skills
+    attributes:
+      label: Related Skills
+      description: Does this overlap or complement existing skills?
+      placeholder: |
+        - Overlaps with: None
+        - Complements: cloudflare-d1 (this skill adds X functionality)
+        - Replaces: None
+    validations:
+      required: true
+
+  - type: input
+    id: token-budget
+    attributes:
+      label: Token Budget Estimate
+      description: Estimated SKILL.md line count (<500 ideal, <1000 max)
+      placeholder: "~350 lines"
+    validations:
+      required: true
+
+  - type: textarea
+    id: skill-outline
+    attributes:
+      label: Skill Content Outline
+      description: What sections would the SKILL.md include?
+      placeholder: |
+        ## Quick Start
+        - Installation (3-5 steps)
+        - Basic setup example
+
+        ## Top 3-5 Errors
+        1. Error name - solution
+        2. Error name - solution
+
+        ## When to Load References
+        - Load references/advanced-patterns.md when...
+
+        ## Resources
+        - templates/basic-setup.ts
+        - references/migration-guide.md
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: standards-compliance
+    attributes:
+      label: Standards Compliance
+      description: I commit to following these standards
+      options:
+        - label: YAML frontmatter with name and description
+          required: true
+        - label: Third-person description style
+          required: true
+        - label: Concise description (<200 chars)
+          required: true
+        - label: Imperative/infinitive instructions
+          required: true
+        - label: Production-tested templates
+          required: true
+        - label: Current package versions
+          required: true
+        - label: Documented known issues with sources
+          required: true
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Contribution Commitment
+      description: Are you willing to create this skill?
+      options:
+        - Yes, I will create the complete skill
+        - Yes, I can help but need guidance
+        - No, proposing for someone else to create
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Links, screenshots, or other relevant information
+      placeholder: "Add any other context about the proposal here..."

@@ -1,0 +1,149 @@
+name: Skill Enhancement
+description: Suggest improvements to an existing skill
+title: "[Skill Enhancement]: "
+labels: ["enhancement", "skill-content"]
+assignees:
+  - secondsky
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a skill enhancement!
+
+        This template is for improvements to **existing** skills. For new skills, use the "New Skill Proposal" template.
+
+  - type: checkboxes
+    id: pre-submission
+    attributes:
+      label: Pre-submission Checklist
+      options:
+        - label: I have searched existing issues to avoid duplicates
+          required: true
+        - label: I have reviewed the current skill version
+          required: true
+        - label: I have checked [ONE_PAGE_CHECKLIST.md](https://github.com/secondsky/claude-skills/blob/main/docs/getting-started/ONE_PAGE_CHECKLIST.md)
+          required: false
+
+  - type: input
+    id: plugin-name
+    attributes:
+      label: Plugin/Skill Name
+      description: Which skill should be enhanced?
+      placeholder: "cloudflare-d1"
+    validations:
+      required: true
+
+  - type: input
+    id: current-version
+    attributes:
+      label: Current Skill Version
+      description: Version from plugin.json
+      placeholder: "3.0.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: enhancement-type
+    attributes:
+      label: Enhancement Type
+      description: What kind of improvement are you suggesting?
+      options:
+        - Add more examples/templates
+        - Add troubleshooting section
+        - Expand error documentation
+        - Add progressive disclosure (extract to references/)
+        - Update to newer package versions
+        - Add missing best practices
+        - Improve discoverability (keywords/description)
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What's currently lacking or problematic?
+      placeholder: |
+        The skill doesn't cover error X which I frequently encounter when...
+
+        Evidence: [GitHub issues, Stack Overflow, personal experience]
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: How should the skill be enhanced?
+      placeholder: |
+        Add a new section to SKILL.md:
+
+        ## Handling Error X
+        - When this happens: ...
+        - Solution: ...
+        - Example: ...
+
+        OR
+
+        Extract the advanced patterns section to references/advanced-patterns.md and add:
+        - When to Load References section
+        - Brief summary in SKILL.md
+    validations:
+      required: true
+
+  - type: dropdown
+    id: token-budget
+    attributes:
+      label: Token Budget Impact
+      description: How will this affect the skill's line count?
+      options:
+        - Decrease (moving content to references/)
+        - Neutral (replacing existing content)
+        - Slight increase (<50 lines)
+        - Moderate increase (50-100 lines)
+        - Significant increase (>100 lines) - requires optimization
+    validations:
+      required: true
+
+  - type: textarea
+    id: supporting-references
+    attributes:
+      label: Supporting References
+      description: Links to documentation, issues, discussions that support this enhancement
+      placeholder: |
+        - Official docs: https://...
+        - GitHub issue: https://github.com/.../issues/123
+        - Stack Overflow: https://stackoverflow.com/questions/...
+        - Blog post: https://...
+      render: markdown
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: When would this enhancement help developers?
+      placeholder: |
+        When setting up batch operations, developers currently have to figure out error handling themselves.
+        This enhancement would provide a tested template and prevent common pitfalls.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to contribute this enhancement
+          required: false
+        - label: I can provide production-tested examples
+          required: false
+        - label: I have verified current package versions
+          required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Code snippets, screenshots, or other relevant information
+      placeholder: "Add any other context about the enhancement here..."

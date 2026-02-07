@@ -1060,7 +1060,7 @@ Continue anyway? (y/n)
 
 **Philosophy**: Prevent embarrassing mistakes (secrets leak, missing LICENSE, poor documentation)
 
-**Integration**: Works alongside existing `open-source-contributions` skill (which focuses on contributing TO other projects, not releasing YOUR projects)
+**Integration**: Focuses on releasing YOUR projects (git tagging, changelogs, publication)
 
 **Scope**: GitHub releases (not npm publish, PyPI, Docker, etc. - those are separate workflows)
 

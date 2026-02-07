@@ -63,7 +63,7 @@ Use Explore subagent to research [technology/pattern]:
 Use Explore to research "MCP servers on Cloudflare Workers":
 - Context7: /websites/developers_cloudflare-workers (official patterns)
 - GitHub: anthropics/anthropic-quickstarts (MCP examples)
-- Skills: Check ~/.claude/skills/ for cloudflare-worker-base, typescript-mcp, fastmcp
+- Skills: Check ~/.claude/skills/ for cloudflare-d1, typescript-mcp, fastmcp
 - Verify: @modelcontextprotocol/sdk versions, Wrangler compatibility
 ```
 

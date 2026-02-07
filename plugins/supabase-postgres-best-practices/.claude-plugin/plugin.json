@@ -1,0 +1,29 @@
+{
+  "name": "supabase-postgres-best-practices",
+  "version": "1.1.0",
+  "description": "Postgres performance optimization and best practices from Supabase. 30 rules across 8 categories prioritized by impact.",
+  "author": {
+    "name": "Supabase",
+    "email": "support@supabase.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "postgres",
+    "postgresql",
+    "supabase",
+    "database",
+    "performance",
+    "optimization",
+    "sql",
+    "query",
+    "indexing",
+    "rls",
+    "security"
+  ],
+  "metadata": {
+    "sourceRepository": "https://github.com/supabase/agent-skills",
+    "sourceSkill": "skills/supabase-postgres-best-practices",
+    "lastSynced": "2026-02-04"
+  }
+}

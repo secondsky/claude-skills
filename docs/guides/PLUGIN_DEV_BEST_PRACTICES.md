@@ -48,7 +48,7 @@ The official plugin provides **7 comprehensive skills** with ~21,000+ words of p
 
 **Plus**:
 - `/plugin-dev:create-plugin` command (8-phase guided workflow)
-- 3 agents: agent-creator, plugin-validator, skill-reviewer
+- 3 agents: agent-creator, plugin-validator
 - 10 utility scripts for validation
 - 21 reference docs (~11k words)
 - 9 working examples
@@ -160,7 +160,6 @@ The official plugin-dev plugin is your **primary resource** for all plugin funda
 - `/plugin-dev:create-plugin` command (8-phase guided workflow)
 - `agent-creator` agent (AI-assisted agent generation)
 - `plugin-validator` agent (structure validation)
-- `skill-reviewer` agent (quality reviews)
 
 ### What This Document Covers
 
@@ -245,12 +244,12 @@ Skills are auto-categorized based on name patterns:
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
 | `ai` | `^(ai-\|openai-\|claude-\|google-gemini-)` | ai-sdk-core, openai-agents |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-)` | nuxt-v4, tailwind-v4-shadcn |
-| `auth` | `^(better-auth\|clerk-auth)` | better-auth, clerk-auth |
+| `auth` | `^(better-auth)` | better-auth |
 | `database` | `^(database-\|drizzle-\|neon-\|vercel-)` | drizzle-orm-d1, vercel-kv |
 | `api` | `^(api-\|graphql-\|rest-api-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
 | `mobile` | `^(app-store-\|mobile-\|react-native-\|swift-)` | swift-best-practices |
-| `tooling` | Default fallback | project-planning, skill-review |
+| `tooling` | Default fallback | turborepo, code-review |
 
 **Distribution** (Current):
 - tooling: 28 skills
@@ -463,11 +462,11 @@ With 169 skills, quality assurance requires systematic batch workflows, not indi
 3. **Judgment required** - Only humans can determine "Quick Start" vs "Advanced Topics"
 4. **Error prevention** - Automation can introduce subtle errors that break skills
 
-**Process** (Use skill-reviewer agent):
+**Process** (Use ONE_PAGE_CHECKLIST.md):
 ```bash
-# Launch skill reviewer for individual skill
-# Ask: "Review the cloudflare-worker-base skill"
-# Claude loads skill-reviewer agent automatically
+# Manual review for individual skill
+# Check against: docs/getting-started/ONE_PAGE_CHECKLIST.md
+# Verify with: ./scripts/check-versions.sh
 
 # For batch reviews:
 # 1. Review Tier 1 skills first (most critical)
@@ -817,7 +816,7 @@ gh pr create --repo secondsky/claude-skills
 | **Create slash command** | Official: `command-development` skill |
 | **Write skill with triggers** | Official: `skill-development` skill |
 | **Validate agent structure** | Official: `plugin-validator` agent |
-| **Review skill quality** | Official: `skill-reviewer` agent |
+| **Review skill quality** | Repository: ONE_PAGE_CHECKLIST.md |
 | | |
 | **Manage marketplace** | Repository: [MARKETPLACE_MANAGEMENT.md](MARKETPLACE_MANAGEMENT.md) |
 | **Optimize description** | Repository: This doc, Section 3 |

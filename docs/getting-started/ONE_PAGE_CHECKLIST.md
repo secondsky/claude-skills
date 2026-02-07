@@ -247,7 +247,7 @@ For maintaining skill quality over time:
 - [ ] Update "Last Verified" date in metadata after review
 - [ ] Create research log if significant research performed
 
-**Review Process**: Use the skill-review skill for complete guide
+**Review Process**: Use this checklist + plugin-dev toolkit for comprehensive validation
 
 ---
 

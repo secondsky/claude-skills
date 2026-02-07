@@ -15,8 +15,6 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-d1
 - cloudflare-durable-objects
 - cloudflare-email-routing
-- cloudflare-full-stack-integration
-- cloudflare-full-stack-scaffold
 - cloudflare-hyperdrive
 - cloudflare-images
 - cloudflare-kv
@@ -28,7 +26,6 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-sandbox
 - cloudflare-turnstile
 - cloudflare-vectorize
-- cloudflare-worker-base
 - cloudflare-workers-ai
 - cloudflare-workflows
 - cloudflare-zero-trust-access
@@ -86,7 +83,6 @@ Modern UI frameworks - React, Vue, Nuxt, Tailwind, shadcn, and component librari
 Authentication and authorization solutions.
 
 - better-auth
-- clerk-auth
 - oauth-implementation
 
 ### 5. cms-skills (6 skills)
@@ -192,13 +188,8 @@ Development tools, utilities, and workflow automation.
 - mcp-dynamic-orchestrator
 - mcp-management
 - nano-banana-prompts
-- open-source-contributions
-- project-planning
-- project-session-management
-- project-workflow
 - root-cause-tracing
 - sequential-thinking
-- skill-review
 - systematic-debugging
 - typescript-mcp
 - turborepo
