@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**176 production-ready skills for Claude Code CLI**
+**167 production-ready skills for Claude Code CLI**
 
-Version 3.0.0 | Last Updated: 2026-01-29
+Version 3.2.0 | Last Updated: 2026-02-07
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, AI integrations, React, Tailwind, and more.
 
@@ -17,12 +17,12 @@ A curated collection of battle-tested skills for building modern web application
 /plugin marketplace add https://github.com/secondsky/claude-skills
 
 # Install individual skills as needed
-/plugin install cloudflare-worker-base@claude-skills
+/plugin install cloudflare-d1@claude-skills
 /plugin install tailwind-v4-shadcn@claude-skills
 /plugin install ai-sdk-core@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 176 skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 167 skills.
 
 ### Bulk Installation (Contributors)
 
@@ -31,18 +31,18 @@ See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 176 skills.
 git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
-# Install all 176 skills at once
+# Install all 167 skills at once
 ./scripts/install-all.sh
 
 # Or install individual skills
-./scripts/install-skill.sh cloudflare-worker-base
+./scripts/install-skill.sh cloudflare-d1
 ```
 
 ---
 
 ## Repository Structure
 
-This repository contains **176 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **167 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -52,11 +52,11 @@ This repository contains **176 production-tested skills** for Claude Code, each 
 
 **Installation Options**:
 1. **Individual** - Install only the skills you need via marketplace
-2. **Bulk** - Install all 176 skills using `./scripts/install-all.sh`
+2. **Bulk** - Install all 167 skills using `./scripts/install-all.sh`
 
 ---
 
-## Available Skills (176 Individual Skills)
+## Available Skills (167 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -66,16 +66,16 @@ Each skill is individually installable. Install only the skills you need.
 
 | Category | Skills | Examples |
 |----------|--------|----------|
-| **tooling** | 32 | project-workflow, skill-review, turborepo, plan-interview |
+| **tooling** | 28 | turborepo, plan-interview, code-review |
 | **frontend** | 25 | nuxt-v4, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui |
-| **cloudflare** | 24 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
+| **cloudflare** | 21 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
 | **ai** | 20 | openai-agents, claude-api, ai-sdk-core |
 | **api** | 16 | api-design-principles, graphql-implementation |
 | **web** | 10 | hono-routing, firecrawl-scraper, web-performance |
 | **mobile** | 7 | swift-best-practices, react-native-app, react-native-skills |
 | **database** | 6 | drizzle-orm-d1, neon-vercel-postgres |
 | **security** | 6 | csrf-protection, access-control-rbac |
-| **auth** | 5 | better-auth, clerk-auth |
+| **auth** | 4 | better-auth |
 | **testing** | 4 | vitest-testing, playwright-testing |
 | **design** | 4 | design-review, design-system-creation |
 | **woocommerce** | 4 | woocommerce-backend-dev |
@@ -98,7 +98,7 @@ User: "Set up a Cloudflare Worker with D1 database"
            ↓
 Claude: [Checks skills automatically]
            ↓
-Claude: "Found cloudflare-worker-base and cloudflare-d1 skills.
+Claude: "Found cloudflare-d1 skills.
          These prevent 12 documented errors. Use them?"
            ↓
 User: "Yes"
@@ -209,7 +209,7 @@ Install the official plugin development toolkit:
 This provides:
 - `/plugin-dev:create-plugin` command (8-phase guided workflow)
 - 7 comprehensive skills (hooks, MCP, structure, agents, commands, skills)
-- 3 specialized agents (agent-creator, plugin-validator, skill-reviewer)
+- 2 specialized agents (agent-creator, plugin-validator)
 
 ### Quick Steps
 

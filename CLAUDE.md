@@ -3,9 +3,9 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 58 Plugins | 169 Skills Complete
-**Last Updated**: 2025-11-20
-**Last Audit**: 2025-11-20 (Baseline: 100% Pass)
+**Status**: Active Development | 169 Plugins | 167 Skills Complete
+**Last Updated**: 2026-02-07
+**Last Audit**: 2026-02-07 (9 plugins removed)
 
 ---
 
@@ -109,17 +109,19 @@ codemap --only ts,tsx .
 
 Install: `brew tap JordanCoin/tap && brew install codemap`
 
-## ⚠️ CRITICAL: Skill Review Process
+## Skill Review Process
 
-**ALWAYS use the `skill-review` skill when reviewing skills in this repository.**
+When reviewing skills, use manual review with the ONE_PAGE_CHECKLIST:
 
-When asked to review skills:
-1. **DO NOT** manually check versions/dates
-2. **DO** use the installed `skill-review` skill which provides a 14-phase comprehensive audit
-3. The skill-review skill is located at `skills/skill-review/SKILL.md`
-4. It covers: version accuracy, date freshness, documentation quality, error catalog completeness, template validation, and more
+**Manual Review Steps**:
+1. Check against [ONE_PAGE_CHECKLIST.md](docs/getting-started/ONE_PAGE_CHECKLIST.md)
+2. Verify package versions: `scripts/check-versions.sh`
+3. Test installation: `./scripts/install-skill.sh <skill-name>`
+4. Validate YAML frontmatter and structure
+5. Check compliance with [claude-code-skill-standards.md](docs/reference/claude-code-skill-standards.md)
 
-Example: "Review the cloudflare-worker-base skill" → Use skill-review skill, not manual inspection
+**Advanced Validation**:
+Use official plugin-dev toolkit: `/plugin install plugin-dev@claude-code-marketplace`
 
 ---
 
@@ -134,7 +136,7 @@ Example: "Review the cloudflare-worker-base skill" → Use skill-review skill, n
 - Using standard tools: Read, Edit, Write, Grep, Glob, Bash
 - Manual analysis and judgment
 - Reading files to understand structure
-- Using skill-review skill (which is a skill, not automation)
+- Using ONE_PAGE_CHECKLIST.md for manual review
 
 **❌ FORBIDDEN:**
 - Creating NEW Python/shell scripts to automate refactoring
@@ -153,7 +155,7 @@ Example: "Review the cloudflare-worker-base skill" → Use skill-review skill, n
 
 ### Correct Refactoring Process (Manual):
 
-**Phase 13: Fix Implementation** from skill-review skill:
+**Refactoring Process**:
 
 1. **Read & Analyze** (Manual):
    - Read entire SKILL.md
@@ -213,7 +215,7 @@ claude-skills/
 ├── .claude/                      # Claude Code config
 │   └── settings.local.json
 ├── .claude-plugin/               # Plugin marketplace
-│   └── marketplace.json (255KB) # 58 plugins containing 169 skills
+│   └── marketplace.json # 169 plugins containing 167 skills
 ├── commands/                     # Slash commands (8 files)
 │   ├── explore-idea.md          # Pre-planning exploration
 │   ├── plan-project.md          # Project planning generator
@@ -225,7 +227,7 @@ claude-skills/
 ├── docs/                         # Documentation
 │   └── skills_workflow.md
 ├── examples/                     # Working examples
-│   └── cloudflare-worker-base-test/
+│   └── cloudflare-d1-test/
 │       ├── public/              # Static assets
 │       ├── src/                 # Source code
 │       ├── test/                # Tests
@@ -316,26 +318,26 @@ plugins/<plugin-name>/
 
 This repository uses a **two-tier structure**:
 
-### 58 Plugins (Marketplace Categories)
+### 172 Plugins (Marketplace Categories)
 Plugins are **logical groupings** that organize related skills by domain:
 - Each plugin appears in `.claude-plugin/marketplace.json`
-- Plugins have names like "cloudflare", "ai-tools", "api", "testing", etc.
+- Plugins have names like "cloudflare-d1", "ai-sdk-core", "tailwind-v4-shadcn", etc.
 - Users install plugins via: `/plugin install <plugin-name>@claude-skills`
 
-### 169 Skills (Individual Capabilities)
+### 170 Skills (Individual Capabilities)
 Skills are the **actual knowledge units** that Claude loads:
-- Each skill has its own directory in `/skills/`
+- Each skill has its own directory in `plugins/<plugin-name>/skills/`
 - Each skill has `SKILL.md`, `README.md`, templates, references
 - Skills are discovered automatically when relevant to user tasks
 
 ### Example Structure
 ```
-Plugin: "cloudflare" (1 of 58 plugins)
+Plugin: "cloudflare-d1" (1 of 169 plugins)
   ↓ contains
-Skills: cloudflare-worker-base, cloudflare-d1, cloudflare-r2, ... (23 skills)
+Skills: cloudflare-d1 (1 skill per plugin, some multi-skill like bun with 27)
 ```
 
-**Total**: 58 plugins organize 169 skills for optimal discoverability.
+**Total**: 169 plugins organize 167 skills for optimal discoverability.
 
 ---
 
@@ -343,22 +345,21 @@ Skills: cloudflare-worker-base, cloudflare-d1, cloudflare-r2, ... (23 skills)
 
 ### ✅ Repository Status
 
-- **58 plugins** in marketplace (`.claude-plugin/marketplace.json`)
-- **169 individual skills** in repository (`/skills/` directory)
-- Each plugin groups 1-23 related skills by domain
+- **169 plugins** in marketplace (`.claude-plugin/marketplace.json`)
+- **167 individual skills** in repository (`plugins/` directory)
+- Most plugins contain 1 skill; some contain multiple (bun: 27, cloudflare-workers: 10, nuxt-v4: 4)
 
-**Baseline Audit (2025-11-20):** All 169 skills passed automated validation with 100% compliance. Zero critical/high/medium issues detected in structure, YAML frontmatter, or file organization.
+**Baseline Audit (2026-02-07):** 167 skills validated after removal of 9 redundant plugins. All remaining skills production-ready with zero critical issues.
 
-All 169 skills are production-ready and organized by domain:
+All 167 skills are production-ready and organized by domain:
 
-**Cloudflare Platform** (23 skills):
-- cloudflare-worker-base, cloudflare-d1, cloudflare-r2, cloudflare-kv
+**Cloudflare Platform** (20 skills):
+- cloudflare-d1, cloudflare-r2, cloudflare-kv
 - cloudflare-workers-ai, cloudflare-vectorize, cloudflare-queues, cloudflare-workflows
 - cloudflare-durable-objects, cloudflare-agents, cloudflare-mcp-server, cloudflare-turnstile
 - cloudflare-nextjs, cloudflare-cron-triggers, cloudflare-email-routing
 - cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
-- cloudflare-zero-trust-access, cloudflare-full-stack-scaffold, cloudflare-full-stack-integration
-- cloudflare-manager, cloudflare-sandbox
+- cloudflare-zero-trust-access, cloudflare-manager, cloudflare-sandbox
 
 **AI & Machine Learning** (19 skills):
 - ai-sdk-core, ai-sdk-ui, openai-api, openai-agents, openai-assistants, openai-responses
@@ -374,8 +375,8 @@ All 169 skills are production-ready and organized by domain:
 - tanstack-router, tanstack-start, tanstack-table, pinia-v3, pinia-colada
 - ultracite, zod, hugo, wordpress-plugin-core
 
-**Auth & Security** (2 skills):
-- clerk-auth, better-auth
+**Auth & Security** (1 skill):
+- better-auth
 
 **Content Management** (4 skills):
 - sveltia-cms, nuxt-content, nuxt-seo, content-collections
@@ -383,14 +384,13 @@ All 169 skills are production-ready and organized by domain:
 **Database & ORM** (4 skills):
 - drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
 
-**Tooling & Development** (37 skills):
-- **Planning & Project Management**: project-planning, project-session-management, project-workflow
+**Tooling & Development** (33 skills):
 - **MCP & Integration**: typescript-mcp, fastmcp, mcp-dynamic-orchestrator, mcp-management
-- **Code Quality**: skill-review, code-review, dependency-upgrade, verification-before-completion
+- **Code Quality**: code-review, dependency-upgrade, verification-before-completion
 - **Testing**: jest-generator, playwright-testing, vitest-testing, mutation-testing, test-quality-analysis, api-testing
 - **Architecture & Patterns**: api-design-principles, architecture-patterns, microservices-patterns
 - **Debugging & Analysis**: systematic-debugging, root-cause-tracing, sequential-thinking, defense-in-depth-validation
-- **Automation**: github-project-automation, open-source-contributions, claude-code-bash-patterns
+- **Automation**: github-project-automation, claude-code-bash-patterns
 - **Tools**: chrome-devtools, swift-best-practices, claude-hook-writer, turborepo
 - **Feature Development**: feature-dev, design-review
 - **WooCommerce**: woocommerce-backend-dev, woocommerce-code-review, woocommerce-copy-guidelines, woocommerce-dev-cycle
@@ -404,19 +404,20 @@ All 169 skills are production-ready and organized by domain:
 - ✅ 395+ documented errors prevented across all skills
 
 **Audit Details:**
-- Last Baseline Audit: 2025-11-20
-- Automated validation: 169/169 skills passed
+- Last Baseline Audit: 2026-02-07
+- Automated validation: 167/167 skills passed
 - Issues found: 0 Critical, 0 High, 0 Medium
-- Next reviews: Tier 1 foundation skills (manual verification)
-- Full report: `docs/archive/COMPREHENSIVE_REVIEW_SUMMARY.md` (if exists)
+- 6 plugins removed to streamline collection
+- Full report: See CHANGELOG.md v3.2.0
 
 **Recent Optimizations:**
 - **Tier 7 Optimization** (2025-12-17): 11 Tooling & Planning skills optimized
   - Total reduction: 9,558 → 4,764 lines (-50.1%)
   - Progressive disclosure implemented across all 11 skills
   - "When to Load References" sections added for better discovery
-  - Skills optimized: better-chatbot, project-planning, claude-hook-writer, github-project-automation, turborepo, typescript-mcp, design-review, skill-review, multi-ai-consultant, better-chatbot-patterns, open-source-contributions
+  - Skills optimized: better-chatbot, claude-hook-writer, github-project-automation, turborepo, typescript-mcp, design-review, multi-ai-consultant, better-chatbot-patterns
   - Full summary: `docs/archive/TIER_7_OPTIMIZATION_SUMMARY.md` (if exists)
+  - Note: project-planning, project-session-management, project-workflow removed in v3.2.0 (replaced by commands/)
 
 ---
 
@@ -602,7 +603,7 @@ Note: Bun is the preferred runtime and package manager for Node-based workflows 
 
 ```bash
 # Install single skill (creates symlink to ~/.claude/skills/)
-./scripts/install-skill.sh cloudflare-worker-base
+./scripts/install-skill.sh cloudflare-d1
 
 # Install all skills
 ./scripts/install-all.sh
@@ -615,7 +616,7 @@ ls -la ~/.claude/skills/
 
 ```bash
 # Check package versions
-./scripts/check-versions.sh skills/cloudflare-worker-base/
+./scripts/check-versions.sh plugins/cloudflare-d1/
 
 # Create new skill from template
 cp -r templates/skill-skeleton/ skills/new-skill-name/
@@ -625,7 +626,7 @@ cp -r templates/skill-skeleton/ skills/new-skill-name/
 
 ```bash
 # After installing skill, ask Claude Code:
-"Use the cloudflare-worker-base skill to set up a new project"
+"Use the cloudflare-d1 skill to set up a new project"
 
 # Claude should discover and propose using the skill automatically
 ```
@@ -764,7 +765,7 @@ See [docs/reference/COMMON_MISTAKES.md](docs/reference/COMMON_MISTAKES.md) for d
 ## Project Goals
 
 ### Short Term (Next 3 Months)
-- Complete Batch 2 skills (clerk-auth, hono-routing, react-hook-form-zod)
+- Complete Batch 2 skills (hono-routing, react-hook-form-zod)
 - Add Batch 3 (tanstack-query)
 - Maintain 100% compliance with official standards
 - Keep all package versions current

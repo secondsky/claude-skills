@@ -89,7 +89,7 @@ This provides foundational knowledge for hooks, MCP, structure, agents, commands
 **Working Examples**:
 - **Gold Standard**: `~/.claude/skills/tailwind-v4-shadcn/`
 - **Cloudflare Suite** (7 production skills):
-  - cloudflare-worker-base
+  - cloudflare-d1
   - cloudflare-d1
   - cloudflare-r2
   - cloudflare-kv

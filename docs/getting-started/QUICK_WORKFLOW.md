@@ -322,7 +322,7 @@ Our best templates to copy from:
 
 | Copy This | When Building |
 |-----------|---------------|
-| `cloudflare-worker-base/` | New Cloudflare service |
+| `cloudflare-d1/` | Cloudflare D1 database service |
 | `tailwind-v4-shadcn/` | UI framework skill |
 | `firecrawl-scraper/` | API integration skill |
 

@@ -11,6 +11,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [3.2.0] - 2026-02-07
+
+### Removed
+
+#### 9 Plugins Removed (1,524K, 199 files)
+
+Removed 9 plugins from repository and marketplace to streamline the collection and reduce maintenance burden:
+
+**Batch 1** (completed earlier):
+- skill-review (60K, 6 files)
+- clerk-auth (172K, 24 files)
+- cloudflare-worker-base (124K, 16 files)
+- cloudflare-full-stack-scaffold (432K, 76 files)
+- cloudflare-full-stack-integration (92K, 12 files)
+- open-source-contributions (108K, 9 files)
+
+**Batch 2** (this update):
+- project-workflow (212K, 19 files)
+- project-session-management (64K, 19 files)
+- project-planning (260K, 18 files)
+
+**Migration Guide**:
+- skill-review → Use ONE_PAGE_CHECKLIST.md + plugin-dev toolkit
+- clerk-auth → better-auth (already in repo)
+- cloudflare-worker-base → cloudflare-d1 (examples updated)
+- cloudflare-full-stack-* → Compose individual Cloudflare services
+- open-source-contributions → Follow CONTRIBUTING.md
+- project-workflow → Use commands/workflow.md
+- project-session-management → Use commands/continue-session.md, commands/wrap-session.md
+- project-planning → Use commands/plan-project.md, commands/plan-feature.md
+
+Marketplace: 178 → 169 plugins (-9) | Skills: 176 → 167 (-9)
+
+---
+
+### Added
+
 #### nuxt-studio Plugin (v1.0.0) - 2025-12-25
 - Visual CMS integration for Nuxt Content
 - Nuxt Studio setup assistant agent

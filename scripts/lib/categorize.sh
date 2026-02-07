@@ -21,7 +21,7 @@ categorize_skill() {
   elif [[ "$skill_name" =~ ^(nextjs|nuxt(-|$)|react-|pinia-|zustand-|tanstack-query|tanstack-router|tanstack-start|tanstack-table|tailwind-|shadcn-|aceternity-ui|inspira-ui|base-ui-react|auto-animate|motion|ultracite) ]]; then
     echo "frontend"
   # Auth skills
-  elif [[ "$skill_name" =~ ^(better-auth|clerk-auth|oauth-implementation|api-authentication|session-management) ]]; then
+  elif [[ "$skill_name" =~ ^(better-auth|oauth-implementation|api-authentication|session-management) ]]; then
     echo "auth"
   # CMS skills
   elif [[ "$skill_name" =~ ^(content-collections|hugo|nuxt-content|sveltia-cms|wordpress-plugin-core) ]]; then

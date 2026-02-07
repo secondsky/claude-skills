@@ -300,15 +300,6 @@
     }
 ,
     {
-      "name": "clerk-auth",
-      "source": "./plugins/clerk-auth",
-      "version": "3.0.0",
-      "description": "Clerk authentication for React, Next.js, Cloudflare Workers. Use for auth setup, protected routes, JWT verification/templates, clerkMiddleware, shadcn/ui integration, testing flows, or encountering secret key errors, JWKS cache issues, JWT size limits, CSRF vulnerabilities.",
-      "keywords": ["clerk-auth","clerk","auth","clerk auth","clerk authentication","@clerk/nextjs","@clerk/backend","@clerk/clerk-react","clerkmiddleware","createroutematcher","verifytoken","useuser","useauth","useclerk","jwt template","jwt claims","jwt shortcodes","custom jwt","session claims","gettoken template","user.public_metadata","org_id","org_slug","org_role","customjwtsessionclaims","sessionclaims metadata","clerk webhook","clerk secret key","clerk publishable key","protected routes","cloudflare workers auth","next.js auth","shadcn/ui auth","@hono/clerk-auth","missing clerk secret key","cannot be used as a jsx component","jwks error","authorizedparties","clerk middleware","clerkprovider","userbutton","signin","signup","clerk testing","test emails","test phone numbers","+clerk_test","424242 otp","session token","testing token","@clerk/testing","playwright testing","e2e testing","clerk test mode","bot detection","generate session token","test users","api","csrf","e2e","jsx","jwks","jwt","otp","rbac","authentication","migration","async"],
-      "category": "auth"
-    }
-,
-    {
       "name": "cloudflare-agents",
       "source": "./plugins/cloudflare-agents",
       "version": "3.0.0",
@@ -359,24 +350,6 @@
       "version": "3.0.0",
       "description": "Cloudflare Email Routing for receiving/sending emails via Workers. Use for email workers, forwarding, allowlists, or encountering Email Trigger errors, worker call failures, SPF issues.",
       "keywords": ["cloudflare-email-routing","cloudflare","email","routing","workers","edge","wrangler","spf"],
-      "category": "cloudflare"
-    }
-,
-    {
-      "name": "cloudflare-full-stack-integration",
-      "source": "./plugins/cloudflare-full-stack-integration",
-      "version": "3.0.0",
-      "description": "React-to-Cloudflare Workers integration patterns with Hono, Clerk, D1. Use for frontend-backend connection, auth flow, or encountering CORS, 401 errors, token mismatches, race conditions.",
-      "keywords": ["cloudflare-full-stack-integration","cloudflare","full","stack","integration","workers","edge","wrangler","cors"],
-      "category": "cloudflare"
-    }
-,
-    {
-      "name": "cloudflare-full-stack-scaffold",
-      "source": "./plugins/cloudflare-full-stack-scaffold",
-      "version": "3.0.0",
-      "description": "Production React + Cloudflare Workers + Hono starter with D1, KV, R2, Workers AI. Use for full-stack projects, MVPs, AI apps on Cloudflare.",
-      "keywords": ["cloudflare-full-stack-scaffold","cloudflare","full","stack","scaffold","workers","edge","wrangler"],
       "category": "cloudflare"
     }
 ,
@@ -476,15 +449,6 @@
       "version": "3.0.0",
       "description": "Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors.",
       "keywords": ["cloudflare-vectorize","cloudflare","vectorize","workers","edge","wrangler","rag"],
-      "category": "cloudflare"
-    }
-,
-    {
-      "name": "cloudflare-worker-base",
-      "source": "./plugins/cloudflare-worker-base",
-      "version": "3.0.0",
-      "description": "Cloudflare Workers with Hono, Vite, Static Assets. Use for new projects, deployment, or encountering export errors, routing conflicts, HMR crashes.",
-      "keywords": ["cloudflare-worker-base","cloudflare","worker","base","workers","edge","wrangler","hmr"],
       "category": "cloudflare"
     }
 ,
@@ -1020,15 +984,6 @@
     }
 ,
     {
-      "name": "open-source-contributions",
-      "source": "./plugins/open-source-contributions",
-      "version": "3.0.0",
-      "description": "Open source contribution best practices with PR validation scripts. Use for pull requests, community contributions, or encountering personal artifacts in PRs, working on main branch, untested submissions, unrelated changes, unfocused PRs.",
-      "keywords": ["open-source-contributions","open","source","contributions","tooling","workflow","validation"],
-      "category": "tooling"
-    }
-,
-    {
       "name": "openai-agents",
       "source": "./plugins/openai-agents",
       "version": "3.0.0",
@@ -1116,33 +1071,6 @@
       "description": "Builds Progressive Web Apps with service workers, web manifest, offline support, and installation prompts. Use when creating installable web experiences, implementing offline functionality, or adding push notifications to web apps.",
       "keywords": ["progressive-web-app","progressive","web","app","performance","pwa"],
       "category": "web"
-    }
-,
-    {
-      "name": "project-planning",
-      "source": "./plugins/project-planning",
-      "version": "3.0.0",
-      "description": "Generate planning docs (IMPLEMENTATION_PHASES.md, DATABASE_SCHEMA.md, API_ENDPOINTS.md, ARCHITECTURE.md) for web projects. Use for new projects, major features, or phased development with Cloudflare Workers + Vite + React.",
-      "keywords": ["project-planning","project","planning","tooling","workflow","architecture","implementation"],
-      "category": "tooling"
-    }
-,
-    {
-      "name": "project-session-management",
-      "source": "./plugins/project-session-management",
-      "version": "3.0.0",
-      "description": "Session state and context handoff management with SESSION.md tracking. Use for multi-session projects, resuming after context clear, phase tracking, or encountering handoff protocol, session recovery, phase progress, checkpoint errors.",
-      "keywords": ["project-session-management","project","session","management","tooling","workflow"],
-      "category": "tooling"
-    }
-,
-    {
-      "name": "project-workflow",
-      "source": "./plugins/project-workflow",
-      "version": "3.0.0",
-      "description": "Project lifecycle automation with 7 slash commands: /explore-idea, /plan-project, /plan-feature, /continue-session, /wrap-session, /release, /workflow. Use for idea exploration, project planning, session management, and safe releases.",
-      "keywords": ["project-workflow","project","workflow","project workflow","lifecycle automation","slash commands","planning","session management","release safety","implementation phases","implementation"],
-      "category": "tooling"
     }
 ,
     {
@@ -1287,15 +1215,6 @@
       "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors.",
       "keywords": ["shadcn-vue","shadcn","vue","frontend","components"],
       "category": "frontend"
-    }
-,
-    {
-      "name": "skill-review",
-      "source": "./plugins/skill-review",
-      "version": "3.0.0",
-      "description": "Comprehensive 15-phase skill audit for claude-skills repository. Use for skill updates, marketplace verification, package currency checks, or encountering standards compliance, dependency, API validation errors.",
-      "keywords": ["skill-review","skill","review","tooling","workflow","validation"],
-      "category": "tooling"
     }
 ,
     {
