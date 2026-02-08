@@ -4,6 +4,21 @@
 
 Version 3.2.0 | Last Updated: 2026-02-07
 
+<div align="center">
+
+**🔌 Platform Support**
+
+This repository uses **Claude Plugin Patterns** — natively supported by:
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| **Claude Code** | ✅ **Native** | Full marketplace support with `/plugin marketplace add` |
+| **Factory Droid** | ✅ **Native** | Direct droid integration available |
+
+</div>
+
+---
+
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, AI integrations, React, Tailwind, and more.
 
 ---
