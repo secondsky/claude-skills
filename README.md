@@ -13,7 +13,7 @@ This repository uses **Claude Plugin Patterns** — natively supported by:
 | Platform | Status | Notes |
 |----------|--------|-------|
 | **Claude Code** | ✅ **Native** | Full marketplace support with `/plugin marketplace add` |
-| **Factory Droid** | ✅ **Native** | Direct droid integration available |
+| **Factory Droid** | ✅ **Native** | Full marketplace support with direct droid integration |
 
 </div>
 
