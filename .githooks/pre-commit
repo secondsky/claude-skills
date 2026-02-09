@@ -80,6 +80,8 @@ if [ -n "$CHANGED_PLUGINS" ]; then
     plugin_name=$(basename "$(dirname "$(dirname "$plugin_file")")")
 
     # Run validation and capture output
+    # Temporarily disable errexit to capture exit code
+    set +e
     validation_output=$(ajv validate \
       -s "$SCHEMAS_DIR/plugin.schema.json" \
       -d "$REPO_ROOT/$plugin_file" \
@@ -87,6 +89,7 @@ if [ -n "$CHANGED_PLUGINS" ]; then
       --strict=false \
       --all-errors 2>&1)
     validation_exit_code=$?
+    set -e
 
     # Check exit code, not output content
     if [ $validation_exit_code -eq 0 ]; then

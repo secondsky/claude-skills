@@ -77,6 +77,8 @@ while IFS= read -r plugin_file; do
   plugin_name=$(basename "$(dirname "$(dirname "$plugin_file")")")
 
   # Run validation and capture output
+  # Temporarily disable errexit to capture exit code
+  set +e
   validation_output=$(ajv validate \
     -s "$SCHEMAS_DIR/plugin.schema.json" \
     -d "$plugin_file" \
@@ -84,6 +86,7 @@ while IFS= read -r plugin_file; do
     --strict=false \
     --all-errors 2>&1)
   validation_exit_code=$?
+  set -e
 
   # Check exit code, not output content
   if [ $validation_exit_code -eq 0 ]; then
