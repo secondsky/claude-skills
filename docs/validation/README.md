@@ -89,9 +89,11 @@ npm run validate:plugins
 **Fix**: Add the required field:
 ```json
 {
-  "name": "my-plugin"  // Required!
+  "name": "my-plugin"
 }
 ```
+
+**Note**: The `name` field is required in all plugin manifests.
 
 ## Troubleshooting
 

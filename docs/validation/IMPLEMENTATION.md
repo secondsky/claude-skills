@@ -98,7 +98,7 @@ Added to `package.json`:
   "scripts": {
     "validate": "./scripts/validate-json-schemas.sh",
     "validate:marketplace": "ajv validate -s schemas/marketplace.schema.json -d .claude-plugin/marketplace.json --spec=draft7 --strict=false",
-    "validate:plugins": "find plugins -name 'plugin.json' -path '*/.claude-plugin/plugin.json' -exec ajv validate -s schemas/plugin.schema.json -d {} \\; --spec=draft7 --strict=false"
+    "validate:plugins": "find plugins -name 'plugin.json' -path '*/.claude-plugin/plugin.json' -exec ajv validate -s schemas/plugin.schema.json -d {} --spec=draft7 --strict=false \\;"
   }
 }
 ```
@@ -368,7 +368,6 @@ When validation issues arise:
 
 - 🐛 **Issues**: https://github.com/secondsky/claude-skills/issues
 - 💬 **Discussions**: https://github.com/secondsky/claude-skills/discussions
-- 📧 **Email**: maintainers@example.com
 
 ## Success Criteria
 

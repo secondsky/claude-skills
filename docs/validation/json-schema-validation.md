@@ -466,7 +466,7 @@ Create a test file to verify error detection:
 # Backup marketplace.json
 cp .claude-plugin/marketplace.json .claude-plugin/marketplace.json.backup
 
-# Introduce error (invalid license)
+# Introduce error (missing required "metadata" field)
 cat > .claude-plugin/marketplace.json <<'EOF'
 {
   "name": "claude-skills",
@@ -474,11 +474,6 @@ cat > .claude-plugin/marketplace.json <<'EOF'
     "name": "Test",
     "email": "test@example.com",
     "url": "https://github.com/test/test"
-  },
-  "metadata": {
-    "description": "Test marketplace",
-    "version": "1.0.0",
-    "homepage": "https://github.com/test/test"
   },
   "plugins": [
     {
@@ -739,7 +734,6 @@ Questions? Issues? Feedback?
 
 - 🐛 **Bug Reports**: [GitHub Issues](https://github.com/secondsky/claude-skills/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/secondsky/claude-skills/discussions)
-- 📧 **Email**: maintainers@example.com
 
 ---
 

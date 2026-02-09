@@ -92,10 +92,6 @@
       "uniqueItems": true,
       "description": "Search keywords for discoverability"
     },
-    "category": {
-      "type": "string",
-      "description": "NOTE: Category field is NOT valid in plugin.json per official spec. Use only in marketplace.json. Including this for backward compatibility but will warn if present."
-    },
     "commands": {
       "type": "array",
       "items": {
