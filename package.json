@@ -1,0 +1,26 @@
+{
+  "name": "claude-skills",
+  "version": "3.0.0",
+  "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
+  "scripts": {
+    "validate": "./scripts/validate-json-schemas.sh",
+    "validate:marketplace": "ajv validate -s schemas/marketplace.schema.json -d .claude-plugin/marketplace.json --spec=draft7 --strict=false",
+    "validate:plugins": "find plugins -name 'plugin.json' -path '*/.claude-plugin/plugin.json' -exec ajv validate -s schemas/plugin.schema.json -d {} --spec=draft7 --strict=false \\;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/secondsky/claude-skills.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "plugins",
+    "cloudflare",
+    "ai",
+    "react",
+    "tailwind"
+  ],
+  "author": "Claude Skills Maintainers",
+  "license": "MIT"
+}

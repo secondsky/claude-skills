@@ -1,6 +1,6 @@
 {
   "name": "nuxt-seo",
-  "description": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, and Pro modules (AI Ready, Skew Protection, SEO Pro MCP). Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, configuring site-wide SEO settings, implementing advanced SEO features like rendering modes, canonical URLs, Twitter Cards, IndexNow, I18n multilanguage SEO, SEO route rules, hydration mismatch debugging, crawler protection, and SEO-friendly 404 pages.",
+  "description": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules. Use when building SEO-optimized Nuxt applications, implementing robots.txt/sitemaps, generating OG images, adding Schema.org data, managing meta tags, checking links, or encountering sitemap, robots.txt, OG image, schema validation, meta tag, canonical URL, or i18n SEO errors.",
   "version": "3.2.0",
   "author": {
     "name": "Claude Skills Maintainers",

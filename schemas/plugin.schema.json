@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/secondsky/claude-skills/schemas/plugin.schema.json",
+  "title": "Claude Code Plugin Schema",
+  "description": "JSON schema for validating plugin.json files in Claude Code plugins. Based on official Claude Code plugin specification where only 'name' is strictly required.",
+  "type": "object",
+  "required": ["name"],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Plugin name in kebab-case (REQUIRED)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+      "description": "Semantic version (major.minor.patch)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Plugin description with use cases"
+    },
+    "author": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Author name as string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Author name"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Author email"
+            }
+          },
+          "required": ["name"],
+          "description": "Author object with name and optional email"
+        }
+      ],
+      "description": "Plugin author (string or object)"
+    },
+    "license": {
+      "type": "string",
+      "pattern": "^MIT$",
+      "description": "License type (MUST be MIT for claude-skills)"
+    },
+    "repository": {
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "Repository URL as string"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["git"],
+              "description": "Repository type"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Repository URL"
+            }
+          },
+          "required": ["type", "url"],
+          "description": "Repository object with type and URL"
+        }
+      ],
+      "description": "Repository information (string or object)"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Search keywords for discoverability"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\./.*",
+        "description": "Command file path (MUST start with './')"
+      },
+      "uniqueItems": true,
+      "description": "Array of command file paths relative to plugin root"
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^\\./.*",
+        "description": "Agent file path (MUST start with './')"
+      },
+      "uniqueItems": true,
+      "description": "Array of agent file paths relative to plugin root"
+    },
+    "hooks": {
+      "type": "string",
+      "pattern": "^\\./.*",
+      "description": "Hooks file path (MUST start with './')"
+    },
+    "mcpServers": {
+      "type": "string",
+      "pattern": "^\\./.*",
+      "description": "MCP servers configuration file path (MUST start with './')"
+    }
+  }
+}
