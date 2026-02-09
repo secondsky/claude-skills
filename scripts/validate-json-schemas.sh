@@ -76,24 +76,24 @@ while IFS= read -r plugin_file; do
 
   plugin_name=$(basename "$(dirname "$(dirname "$plugin_file")")")
 
-  if ajv validate \
+  # Run validation and capture output
+  validation_output=$(ajv validate \
     -s "$SCHEMAS_DIR/plugin.schema.json" \
     -d "$plugin_file" \
     --spec=draft7 \
     --strict=false \
-    --all-errors 2>&1 | grep -q "valid"; then
+    --all-errors 2>&1)
+  validation_exit_code=$?
+
+  # Check exit code, not output content
+  if [ $validation_exit_code -eq 0 ]; then
     echo -e "${GREEN}✅${NC} $plugin_name"
     ((passed_count++))
   else
     echo -e "${RED}❌${NC} $plugin_name - VALIDATION FAILED"
     echo ""
     echo "Details:"
-    ajv validate \
-      -s "$SCHEMAS_DIR/plugin.schema.json" \
-      -d "$plugin_file" \
-      --spec=draft7 \
-      --strict=false \
-      --all-errors 2>&1 || true
+    echo "$validation_output"
     echo ""
     ((failed_count++))
   fi
