@@ -91,14 +91,14 @@ while IFS= read -r plugin_file; do
   # Check exit code, not output content
   if [ $validation_exit_code -eq 0 ]; then
     echo -e "${GREEN}✅${NC} $plugin_name"
-    ((passed_count++))
+    passed_count=$((passed_count + 1))
   else
     echo -e "${RED}❌${NC} $plugin_name - VALIDATION FAILED"
     echo ""
     echo "Details:"
     echo "$validation_output"
     echo ""
-    ((failed_count++))
+    failed_count=$((failed_count + 1))
   fi
 done <<< "$plugin_files"
 
