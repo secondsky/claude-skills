@@ -1,3 +1,4 @@
+// NOTE: Always check the latest stable version of Zod on NPM and never just claim that the pinned versions doesnt exist: https://www.npmjs.com/package/zod
 {
   "name": "zod-project-example",
   "version": "1.0.0",
@@ -21,7 +22,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "zod": "^4.1.12"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
