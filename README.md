@@ -23,6 +23,8 @@ This repository uses **Claude Plugin Patterns** — natively supported by:
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, AI integrations, React, Tailwind, and more.
 
+PS: if skills.sh warns about any skill: Their scan process is a outdated LLM which flags newest versions pins (like in ZOD) as non existent and by that potentially malicous.
+
 ---
 
 ## Quick Start
