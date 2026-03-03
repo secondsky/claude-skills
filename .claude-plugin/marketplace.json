@@ -1941,15 +1941,18 @@
     {
       "name": "mutation-testing",
       "source": "./plugins/mutation-testing",
-      "version": "3.0.0",
-      "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
+      "version": "3.0.1",
+      "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript with Vitest or bun test via @hughescr/stryker-bun-runner) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
       "keywords": [
         "mutation-testing",
         "mutation",
         "testing",
         "tests",
         "unit-tests",
-        "quality"
+        "quality",
+        "stryker-bun-runner",
+        "bun-test",
+        "bun-runner"
       ],
       "category": "testing"
     },
