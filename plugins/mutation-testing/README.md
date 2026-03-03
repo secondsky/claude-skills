@@ -24,6 +24,8 @@ Expert guidance for mutation testing - finding weak tests by introducing deliber
 ## Tools Supported
 
 - **Stryker** (TypeScript/JavaScript)
+  - Vitest runner (`@stryker-mutator/vitest-runner`)
+  - Bun native runner (`@hughescr/stryker-bun-runner`) — for `bun test` projects
 - **mutmut** (Python)
 
 ## Quick Start
@@ -47,6 +49,8 @@ uv run mutmut results
 - mutmut
 - test validation
 - code mutations
+- stryker-bun-runner
+- bun test mutation
 
 ## Source
 
