@@ -2,6 +2,7 @@
 name: mutation-testing
 description: Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript with Vitest or bun test via @hughescr/stryker-bun-runner) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.
 allowed-tools: Bash, Read, Edit, Write, Grep, Glob, TodoWrite
+license: MIT
 ---
 
 # Mutation Testing
