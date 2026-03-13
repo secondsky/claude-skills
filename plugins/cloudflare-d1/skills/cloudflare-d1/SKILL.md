@@ -1,8 +1,7 @@
 ---
 name: cloudflare-d1
 description: Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors.
-
-  Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers,
+Keywords: d1, d1 database, cloudflare d1, wrangler d1, d1 migrations, d1 bindings, sqlite workers,
   edge database, d1 queries, sql cloudflare, prepared statements, batch queries,
   d1 api, wrangler migrations, D1_ERROR, D1_EXEC_ERROR, statement too long, database bindings,
   sqlite cloudflare, sql workers api, d1 indexes, query optimization, d1 schema, read replication,
