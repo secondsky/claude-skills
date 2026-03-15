@@ -1,6 +1,12 @@
 ---
 name: thesys-generative-ui
-description: AI-powered generative UI with Thesys - create React components from natural language.
+description: >
+  Generate, modify, and style React components from natural language using the
+  Thesys SDK. Guides schema-driven UI generation, theme customisation, tool
+  calling integration, and deployment to Vite, Next.js, or Cloudflare Workers.
+  Use when the user says "generate UI", "create a component", "build an
+  interface", "Thesys", "generative UI", or asks to turn a description into a
+  React component.
 license: MIT
 ---
 
@@ -33,13 +39,18 @@ export default function Profile() {
 - **React Components**: Generate production-ready components
 - **AI-Powered**: Uses LLMs for intelligent design
 
-## Example
+## Error Handling
 
 ```typescript
-const form = await generateUI({
-  prompt: 'Create a contact form with name, email, and message fields',
-  theme: 'modern'
-});
+try {
+  const form = await generateUI({
+    prompt: 'Create a contact form with name, email, and message fields',
+    theme: 'modern'
+  });
+} catch (error) {
+  // See references/common-errors.md for full error catalog
+  console.error('Generation failed:', error.message);
+}
 ```
 
 ## Resources
