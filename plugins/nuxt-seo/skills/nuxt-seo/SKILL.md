@@ -1,22 +1,19 @@
 ---
 name: nuxt-seo
-description: |
-  Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules: @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, and Pro modules (AI Ready, Skew Protection, SEO Pro MCP). Use when building SEO-optimized Nuxt applications, implementing robots.txt and sitemaps, generating Open Graph images, adding Schema.org structured data, managing meta tags, checking links, configuring site-wide SEO settings, or implementing advanced SEO features like rendering modes, canonical URLs, Twitter Cards, and IndexNow.
-
-  Keywords: nuxt-seo, nuxt, seo, nuxt 3, nuxt 4, nuxt seo, vue, vue 3, search engine optimization, @nuxtjs/seo, nuxt-robots, nuxt-sitemap, nuxt-og-image, nuxt-schema-org, nuxt-link-checker, nuxt-seo-utils, nuxt-site-config, robots.txt, sitemap, sitemap.xml, og image, open graph, social sharing, meta tags, schema.org, structured data, json-ld, canonical urls, breadcrumbs, bot detection, crawling, indexing, noindex, nofollow, xml sitemap, multiple sitemaps, sitemap index, dynamic sitemap, og image generation, satori, chromium rendering, vue templates, seo setup, seo configuration, meta management, social media preview, search optimization, link checking, broken links, site config, multi-language seo, i18n seo, sitemap not generated, robots.txt missing, og image not rendering, schema validation errors, duplicate meta tags, canonical url issues, sitemap index errors, twitter cards, indexnow, ssr, ssg, isr, rendering modes, rich results, useSeoMeta, useSchemaOrg, defineOgImage, url structure, meta robots, ai ready, llms.txt, skew protection, i18n multilanguage, hreflang, _i18nTransform, _sitemap, route rules, routeRules, enhanced titles, title template, fallback title, link checker rules, prerendering spa, hydration mismatch, crawler protection, getBotDetection, useBotDetection, 404 page, seo-friendly 404, inspection rules, absolute-site-urls, link-text, missing-hash, no-error-response, defineSitemapEventHandler, nitro hooks, sitemap:input, sitemap:resolved, nuxt-og-image:context, asSeoCollection, asSitemapCollection, asSchemaOrgCollection, nuxt content v3, content collections, nuxt ai ready, mcp server, content signals, og image templates, multi-sitemaps, chunked sitemap, image sitemap, video sitemap, zero runtime
+description: All 8 Nuxt SEO v5 modules (robots, sitemap, og-image, schema-org, link-checker, seo-utils, site-config) plus standalone tools. Use when implementing SEO, robots.txt, sitemaps, OG images, Schema.org, meta tags, or link checking in Nuxt applications.
 license: MIT
 metadata:
-  version: 2.2.0
-  last_updated: 2025-12-28
+  version: 4.0.0
+  last_updated: 2026-03-30
   module_versions:
-    nuxtjs_seo: 3.3.0
-    nuxt_robots: 5.6.7
-    nuxt_sitemap: 7.5.0
-    nuxt_og_image: 5.1.13
-    nuxt_schema_org: 5.0.10
-    nuxt_link_checker: 4.3.9
-    nuxt_seo_utils: 7.0.19
-    nuxt_site_config: 3.2.14
+    nuxtjs_seo: 5.1.0
+    nuxt_robots: 6.0.6
+    nuxt_sitemap: 8.0.11
+    nuxt_og_image: 6.3.1
+    nuxt_schema_org: 6.0.4
+    nuxt_link_checker: 5.0.6
+    nuxt_seo_utils: 8.1.4
+    nuxt_site_config: 4.0.7
   nuxt_compatibility: ">=3.0.0"
   auto_trigger_scenarios:
     - Setting up SEO in Nuxt project
@@ -33,46 +30,52 @@ metadata:
     - Implementing rich results with JSON-LD
     - Setting up multilanguage/i18n SEO
     - Configuring SEO route rules
-    - Debugging hydration mismatches
-    - Creating SEO-friendly 404 pages
-    - Protecting from malicious crawlers
+    - Migrating from Nuxt SEO v4 to v5
+    - Adding social share links with UTM tracking
+    - Generating favicons from a source image
+    - Setting up ESLint link checking rules
 ---
 
-# Nuxt SEO - Complete Guide to All 8 SEO Modules + Pro Features
+# Nuxt SEO v5 - Complete Guide to All 8 SEO Modules + Standalone Modules
 
-**Status**: Production Ready
-**Last Updated**: 2025-12-28
+**Status**: Production Ready (v5)
+**Last Updated**: 2026-03-30
 **Dependencies**: Nuxt >=3.0.0
 **Latest Versions**: See module versions table below
 
-Use this skill when building SEO-optimized Nuxt applications with any combination of the 8 official Nuxt SEO modules plus advanced Pro modules. This skill covers the complete Nuxt SEO ecosystem maintained by Harlan Wilton, including comprehensive guides for rendering modes, JSON-LD, Twitter Cards, IndexNow, and more.
+Use this skill when building SEO-optimized Nuxt applications with any combination of the 8 official Nuxt SEO modules plus standalone modules. Covers the complete Nuxt SEO v5 ecosystem maintained by Harlan Wilton, including DevTools Unity, ESLint link checking, social share links, favicon generation, inline minification, and comprehensive migration guidance from v4.
 
 ---
 
 ## Nuxt SEO Ecosystem Overview
 
-Nuxt SEO consists of **8 core modules** plus **3 Pro modules** that work together seamlessly:
+Nuxt SEO v5 consists of **8 core modules** plus **3 standalone modules** (2 now MIT licensed) that work together seamlessly:
 
 ### Core Modules
 
 | Module | Version | Purpose |
 |--------|---------|---------|
-| **@nuxtjs/seo** | v3.3.0 | Primary SEO module (installs all 8 modules as bundle) |
-| **nuxt-robots** | v5.6.7 | Manages robots.txt and bot detection |
-| **nuxt-sitemap** | v7.5.0 | Generates XML sitemaps with advanced features |
-| **nuxt-og-image** | v5.1.13 | Creates Open Graph images via Vue templates |
-| **nuxt-schema-org** | v5.0.10 | Builds Schema.org structured data graphs |
-| **nuxt-link-checker** | v4.3.9 | Finds and fixes broken links |
-| **nuxt-seo-utils** | v7.0.19 | SEO utilities for discoverability & shareability |
-| **nuxt-site-config** | v3.2.14 | Centralized site configuration management |
+| **@nuxtjs/seo** | v5.1.0 | Primary SEO module (installs all 8 modules as bundle) |
+| **@nuxtjs/robots** | v6.0.6 | Manages robots.txt and bot detection |
+| **@nuxtjs/sitemap** | v8.0.11 | Generates XML sitemaps with advanced features |
+| **nuxt-og-image** | v6.3.1 | Creates Open Graph images via Vue templates |
+| **nuxt-schema-org** | v6.0.4 | Builds Schema.org structured data graphs |
+| **nuxt-link-checker** | v5.0.6 | Finds and fixes broken links with ESLint integration |
+| **nuxt-seo-utils** | v8.1.4 | SEO utilities, share links, favicons, inline minification |
+| **nuxt-site-config** | v4.0.7 | Centralized site configuration management (v4 breaking) |
 
-### Pro Modules
+### Standalone Modules (MIT Licensed)
+
+| Module | Version | Purpose |
+|--------|---------|---------|
+| **nuxt-ai-ready** | v1.1.0 (MIT) | Generate llms.txt for AI crawlers and LLM optimization |
+| **nuxt-skew-protection** | v1.1.0 (MIT) | Prevent version mismatches during deployments |
+
+### Pro Module (Paid)
 
 | Module | Purpose |
 |--------|---------|
-| **nuxt-ai-ready** | Generate llms.txt for AI crawlers and LLM optimization |
-| **nuxt-skew-protection** | Prevent version mismatches during deployments |
-| **Nuxt SEO Pro MCP** | AI-powered SEO tools via Model Context Protocol |
+| **Nuxt SEO Pro** | Search Console integration, Core Web Vitals, MCP server ($119 one-time) |
 
 **Requirements**: Nuxt v3 or v4
 
@@ -85,14 +88,11 @@ Nuxt SEO consists of **8 core modules** plus **3 Pro modules** that work togethe
 Install all 8 modules at once:
 
 ```bash
-# Using Bun (primary)
-bunx nuxi module add @nuxtjs/seo
+# Recommended (new in v5)
+npx nuxt module add seo
 
-# Using npm (backup)
+# Legacy command (still works)
 npx nuxi module add @nuxtjs/seo
-
-# Using pnpm (backup)
-pnpm dlx nuxi module add @nuxtjs/seo
 ```
 
 **Why this matters:**
@@ -117,7 +117,8 @@ export default defineNuxtConfig({
 })
 ```
 
-**CRITICAL:**
+**CRITICAL (v5 Breaking Change):**
+- `site.name` is NO LONGER auto-inferred from `package.json` — you MUST set it explicitly
 - Set `site.url` to production URL (required for sitemaps and canonical URLs)
 - Use environment variable for multi-environment setups
 - Set `defaultLocale` if using i18n
@@ -125,14 +126,14 @@ export default defineNuxtConfig({
 ### 3. Restart and Verify
 
 ```bash
-bun run dev
-# or
 npm run dev
 ```
 
 Visit these URLs to verify:
 - `http://localhost:3000/robots.txt` - Robots file
 - `http://localhost:3000/sitemap.xml` - Sitemap
+- `http://localhost:3000/__robots__/debug-production.json` - Debug (v5)
+- `http://localhost:3000/__sitemap__/debug-production.json` - Debug (v5)
 
 ---
 
@@ -141,8 +142,7 @@ Visit these URLs to verify:
 ### Option 1: Complete Bundle (Recommended)
 
 ```bash
-bunx nuxi module add @nuxtjs/seo
-# or: npx nuxi module add @nuxtjs/seo
+npx nuxt module add seo
 ```
 
 Configuration:
@@ -158,20 +158,9 @@ export default defineNuxtConfig({
 Install only what's needed:
 
 ```bash
-# Bun
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
-
-# npm
-npx nuxi module add nuxt-robots
-npx nuxi module add nuxt-sitemap
-npx nuxi module add nuxt-og-image
-
-# pnpm (backup)
-pnpm dlx nuxi module add nuxt-robots
-pnpm dlx nuxi module add nuxt-sitemap
-pnpm dlx nuxi module add nuxt-og-image
+npx nuxt module add nuxt-robots
+npx nuxt module add nuxt-sitemap
+npx nuxt module add nuxt-og-image
 ```
 
 Configuration:
@@ -190,31 +179,31 @@ export default defineNuxtConfig({
 
 ## Module Overview (Brief)
 
-The Nuxt SEO ecosystem consists of **8 specialized modules** that work together seamlessly. Each module serves a specific purpose and can be installed individually or as a complete bundle.
+The Nuxt SEO v5 ecosystem consists of **8 specialized modules** that work together seamlessly. Each module serves a specific purpose and can be installed individually or as a complete bundle.
 
 ### Module 1: @nuxtjs/seo
 Primary SEO module that installs all 8 modules as a bundle. Provides unified configuration through the `site` object and integrates with Nuxt Content for automatic SEO.
 
-### Module 2: nuxt-robots
+### Module 2: @nuxtjs/robots (v6)
 Manages robots.txt and bot detection. Controls which pages search engines can crawl with site-wide and page-level rules. Includes server-side and client-side bot detection.
 
-### Module 3: nuxt-sitemap
-Generates XML sitemaps automatically from routes with support for dynamic URLs, multiple sitemaps, media, and advanced optimization. Perfect for large sites with thousands of pages.
+### Module 3: @nuxtjs/sitemap (v8)
+Generates XML sitemaps automatically from routes with support for dynamic URLs, multiple sitemaps, media, and advanced optimization. New in v5: `definePageMeta` sitemap config, i18n multi-sitemap improvements, debug production endpoints.
 
-### Module 4: nuxt-og-image
-Creates Open Graph images dynamically using Vue templates. Zero runtime overhead with Satori renderer or full CSS support with Chromium renderer.
+### Module 4: nuxt-og-image (v6.3)
+Creates Open Graph images dynamically using Vue templates. New in v5: URL signing for security, prop whitelisting, strict mode.
 
-### Module 5: nuxt-schema-org
-Builds Schema.org structured data for enhanced search results with rich snippets, knowledge panels, and better SEO.
+### Module 5: nuxt-schema-org (v6)
+Builds Schema.org structured data for enhanced search results with rich snippets, knowledge panels, and better SEO. Fixed SSR memory leaks.
 
-### Module 6: nuxt-link-checker
-Finds and fixes links that may negatively affect SEO. Detects broken links, redirects, and issues during development and build.
+### Module 6: nuxt-link-checker (v5)
+Finds and fixes links that may negatively affect SEO. New in v5: ESLint integration with `link-checker/valid-route` and `link-checker/valid-sitemap-link` rules.
 
-### Module 7: nuxt-seo-utils
-SEO utilities for discoverability and shareability including canonical URLs, breadcrumbs, app icons, and Open Graph automation.
+### Module 7: nuxt-seo-utils (v8)
+SEO utilities for discoverability and shareability. New in v5: `useShareLinks()` composable, favicon generation CLI (`nuxt-seo-utils icons`), inline script/style minification.
 
-### Module 8: nuxt-site-config
-Centralized site configuration management for all SEO modules. Single source of truth for site-wide settings like URL, name, and locale.
+### Module 8: nuxt-site-config (v4)
+Centralized site configuration management. Breaking in v5: removed implicit site name inference, removed server-side `useSiteConfig(event)` (use `getSiteConfig(event)`), removed `getSiteIndexable`, named priority constants.
 
 **For complete module documentation with configurations, APIs, and examples:**  
 Load `references/module-details.md` when you need:
@@ -261,7 +250,7 @@ Load `references/common-patterns.md` when you need:
 
 ### Always Do
 
-✅ Set `site.url` in nuxt.config.ts (required for sitemaps and canonical URLs)
+✅ Set `site.url` AND `site.name` explicitly in nuxt.config.ts (v5: name no longer auto-inferred)
 ✅ Use environment variables for multi-environment setups
 ✅ Configure robots.txt to block admin/private pages
 ✅ Add Schema.org structured data to all important pages
@@ -269,23 +258,27 @@ Load `references/common-patterns.md` when you need:
 ✅ Test all SEO features before deploying to production
 ✅ Submit sitemap to Google Search Console after deployment
 ✅ Enable link checker during development
+✅ Use `getSiteConfig(event)` on server side (v5: `useSiteConfig(event)` removed)
+✅ Use `defineSitemapSchema()` for Content v3 (v5: `asSitemapCollection()` deprecated)
 
 ### Never Do
 
-❌ Forget to set `site.url` (breaks sitemaps and canonical URLs)
+❌ Forget to set `site.url` and `site.name` (breaks sitemaps, canonical URLs, and titles)
 ❌ Allow crawling of staging environments
 ❌ Skip Schema.org for key pages (products, articles, events)
 ❌ Deploy without testing OG images
 ❌ Use outdated module versions
 ❌ Ignore broken links found by link checker
 ❌ Forget to exclude admin/private routes from sitemap
-❌ Use wrong rendering engine for OG images (Chromium vs Satori)
+❌ Use `useSiteConfig(event)` on server side (v5: use `getSiteConfig(event)`)
+❌ Use `asSitemapCollection()` (v5: use `defineSitemapSchema()`)
+❌ Use `getSiteIndexable()` (v5: use `{ indexable } = getSiteConfig(event)`)
 
 ---
 
 ## Known Issues Prevention
 
-This skill prevents **10** documented common SEO mistakes:
+This skill prevents **14** documented common SEO mistakes:
 
 ### Issue #1: Sitemap Not Generating
 
@@ -297,7 +290,7 @@ This skill prevents **10** documented common SEO mistakes:
 
 **Error**: `/robots.txt` not accessible
 **Why It Happens**: Module not installed or misconfigured
-**Prevention**: Install `nuxt-robots` and set `site.url`
+**Prevention**: Install `@nuxtjs/robots` and set `site.url`
 
 ### Issue #3: OG Images Not Rendering
 
@@ -315,7 +308,7 @@ This skill prevents **10** documented common SEO mistakes:
 
 **Error**: 404 errors on internal links
 **Why It Happens**: Links not updated after route changes
-**Prevention**: Enable `nuxt-link-checker` during development
+**Prevention**: Enable `nuxt-link-checker` with ESLint rules during development
 
 ### Issue #6: Duplicate Meta Tags
 
@@ -333,7 +326,7 @@ This skill prevents **10** documented common SEO mistakes:
 
 **Error**: Sitemap index XML malformed
 **Why It Happens**: Too many URLs in single sitemap
-**Prevention**: Use `chunksSize` option to split large sitemaps
+**Prevention**: Use `chunkSize` option to split large sitemaps
 
 ### Issue #9: Crawling Staging Environment
 
@@ -347,6 +340,30 @@ This skill prevents **10** documented common SEO mistakes:
 **Why It Happens**: OG image not defined or not accessible
 **Prevention**: Use `defineOgImage()` on all important pages
 
+### Issue #11: Missing Site Name (v5 Breaking)
+
+**Error**: Site title/og:site_name missing, titles not appearing correctly
+**Why It Happens**: v5 removed implicit site name inference from `package.json`
+**Prevention**: Explicitly set `site.name` in nuxt.config.ts or `NUXT_SITE_NAME` env var
+
+### Issue #12: Server-Side useSiteConfig Error (v5 Breaking)
+
+**Error**: `useSiteConfig is not a function` or `useSiteConfig(event)` fails on server
+**Why It Happens**: v5 removed server-side `useSiteConfig(event)` composable
+**Prevention**: Use `getSiteConfig(event)` on server side
+
+### Issue #13: Deprecated Content Composables (v5 Breaking)
+
+**Error**: `asSitemapCollection is not defined` or similar
+**Why It Happens**: v5 renamed Content v3 composables
+**Prevention**: Use `defineSitemapSchema()` instead of `asSitemapCollection()`, `defineSchemaOrgSchema()` instead of `asSchemaOrgCollection()`, `defineRobotsSchema()` instead of `asRobotsCollection()`
+
+### Issue #14: OG Image Security Errors (v5)
+
+**Error**: OG image requests return 403 or signature errors
+**Why It Happens**: v5 added URL signing for OG images to prevent parameter tampering
+**Prevention**: Use the `defineOgImage()` composable properly; avoid manually constructing OG image URLs
+
 ---
 
 ## Configuration Example
@@ -359,7 +376,7 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
-    name: 'My Site',
+    name: 'My Site', // Required in v5 - no longer auto-inferred
     defaultLocale: 'en'
   },
 
@@ -372,6 +389,55 @@ export default defineNuxtConfig({
       blog: { sources: ['/api/__sitemap__/blog'] }
     }
   }
+})
+```
+
+### New v5 Features
+
+#### Social Share Links with UTM Tracking
+
+```typescript
+const links = useShareLinks({
+  title: 'Check out Nuxt SEO v5!',
+  twitter: { via: 'harlodev', hashtags: ['nuxt', 'seo'] },
+  utm: { campaign: 'v5-launch' },
+})
+```
+
+#### Favicon Generation
+
+```bash
+npx nuxt-seo-utils icons --source logo.svg
+```
+
+#### ESLint Link Checking
+
+```typescript
+import linkChecker from 'nuxt-link-checker/eslint'
+
+export default [
+  linkChecker,
+]
+```
+
+#### definePageMeta Sitemap Config
+
+```typescript
+definePageMeta({
+  sitemap: {
+    changefreq: 'daily',
+    priority: 0.8,
+  },
+})
+```
+
+#### Inline Minification
+
+```typescript
+export default defineNuxtConfig({
+  seo: {
+    minify: true, // default - minifies inline scripts/styles
+  },
 })
 ```
 
@@ -403,6 +469,12 @@ Automatically:
 #### When to Load References
 
 Load the appropriate reference file based on the user's specific needs:
+
+**Load `references/v5-migration-guide.md` when:**
+- User is upgrading from Nuxt SEO v4 to v5
+- Encountering breaking changes after upgrade (missing site name, `useSiteConfig(event)` errors, deprecated composables)
+- Need step-by-step migration instructions
+- Want to understand Site Config v4 changes
 
 **Load `references/seo-guides.md` when:**
 - User asks about rendering modes (SSR, SSG, ISR, Hybrid)
@@ -514,6 +586,7 @@ Load the appropriate reference file based on the user's specific needs:
 - LLM optimization techniques
 
 **Available references:**
+- `references/v5-migration-guide.md` - Complete v4 to v5 migration guide (Site Config v4, renamed composables, removed APIs, upgrade steps)
 - `references/seo-guides.md` - Comprehensive SEO implementation guides (rendering, JSON-LD, canonical URLs, IndexNow, Twitter Cards, Open Graph, meta robots, URL structure)
 - `references/pro-modules.md` - Pro modules (AI Ready, Skew Protection, SEO Pro MCP)
 - `references/advanced-seo-guides.md` - Advanced SEO topics (I18n multilanguage, route rules, enhanced titles, link checker rules, SPA prerendering, hydration, crawler protection, 404 pages)
@@ -627,19 +700,19 @@ Load `references/troubleshooting.md` when you need:
 - Advanced debugging techniques
 - Module-specific error resolution
 - Build and deployment issues
-## Package Versions (Verified 2025-12-28)
+## Package Versions (Verified 2026-03-30)
 
 ```json
 {
   "dependencies": {
-    "@nuxtjs/seo": "^3.3.0",
-    "nuxt-robots": "^5.6.7",
-    "nuxt-sitemap": "^7.5.0",
-    "nuxt-og-image": "^5.1.13",
-    "nuxt-schema-org": "^5.0.10",
-    "nuxt-link-checker": "^4.3.9",
-    "nuxt-seo-utils": "^7.0.19",
-    "nuxt-site-config": "^3.2.14"
+    "@nuxtjs/seo": "^5.1.0",
+    "@nuxtjs/robots": "^6.0.6",
+    "@nuxtjs/sitemap": "^8.0.11",
+    "nuxt-og-image": "^6.3.1",
+    "nuxt-schema-org": "^6.0.4",
+    "nuxt-link-checker": "^5.0.6",
+    "nuxt-seo-utils": "^8.1.4",
+    "nuxt-site-config": "^4.0.7"
   }
 }
 ```
@@ -671,21 +744,46 @@ Use this checklist to verify setup:
 ## Official Documentation
 
 - **Nuxt SEO**: https://nuxtseo.com
-- **@nuxtjs/seo**: https://nuxtseo.com/nuxt-seo/getting-started/installation
-- **nuxt-robots**: https://nuxtseo.com/robots/getting-started/installation
-- **nuxt-sitemap**: https://nuxtseo.com/sitemap/getting-started/installation
-- **nuxt-og-image**: https://nuxtseo.com/og-image/getting-started/installation
-- **nuxt-schema-org**: https://nuxtseo.com/schema-org/getting-started/installation
-- **nuxt-link-checker**: https://nuxtseo.com/link-checker/getting-started/installation
+- **v5 Migration Guide**: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
+- **@nuxtjs/seo**: https://nuxtseo.com/docs/nuxt-seo/getting-started/introduction
+- **nuxt-robots**: https://nuxtseo.com/docs/robots/getting-started/introduction
+- **nuxt-sitemap**: https://nuxtseo.com/docs/sitemap/getting-started/introduction
+- **nuxt-og-image**: https://nuxtseo.com/docs/og-image/getting-started/introduction
+- **nuxt-schema-org**: https://nuxtseo.com/docs/schema-org/getting-started/introduction
+- **nuxt-link-checker**: https://nuxtseo.com/docs/link-checker/getting-started/introduction
+- **nuxt-ai-ready**: https://nuxtseo.com/docs/ai-ready/getting-started/introduction
+- **nuxt-skew-protection**: https://nuxtseo.com/docs/skew-protection/getting-started/introduction
 - **GitHub**: https://github.com/harlan-zw
 
 ---
 
-**Production Ready**: All patterns based on official documentation from https://nuxtseo.com/llms.txt | Last verified: 2025-12-28
+**Production Ready**: All patterns based on official documentation from https://nuxtseo.com/llms-full.txt | Last verified: 2026-03-30
 
 ---
 
 ## Version History
+
+**v4.0.0** (2026-03-30)
+- Major update to Nuxt SEO v5 ecosystem
+- Updated all module versions to v5 line
+- Added v5 breaking changes and migration guidance:
+  - Site Config v4: removed implicit site name, server-side `useSiteConfig(event)`, `getSiteIndexable`
+  - Content v3 composable renames: `defineSitemapSchema`, `defineSchemaOrgSchema`, `defineRobotsSchema`
+  - New server API: `getSiteConfig(event)` replaces `useSiteConfig(event)`
+- Documented new v5 features:
+  - DevTools Unity (shared DevTools layer across all modules)
+  - ESLint link checking (`link-checker/valid-route`, `link-checker/valid-sitemap-link`)
+  - `useShareLinks()` composable for social sharing with UTM tracking
+  - Favicon generation CLI (`nuxt-seo-utils icons --source`)
+  - Inline script/style minification
+  - `definePageMeta` sitemap config
+  - Debug production endpoints
+  - OG Image security (URL signing, prop whitelisting)
+  - Site Config priority constants
+- Updated pro modules: AI Ready and Skew Protection now MIT licensed
+- Updated install command to `npx nuxt module add seo`
+- Added 4 new known issues (#11-#14) for v5 breaking changes
+- Added `references/v5-migration-guide.md` with complete upgrade instructions
 
 **v2.2.0** (2025-12-28)
 - Full expansion with comprehensive coverage of all topics from nuxtseo.com/llms.txt

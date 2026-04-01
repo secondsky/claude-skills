@@ -1,16 +1,19 @@
 # Chat Components Reference
 
-Nuxt UI v4 provides 5 purpose-built components for AI chatbots, designed to work with Vercel AI SDK v5.
+Nuxt UI v4 provides 8 purpose-built components for AI chatbots, designed to work with Vercel AI SDK v5.
 
 ## Component Overview
 
 | Component | Purpose |
 |-----------|---------|
-| ChatMessage | Single message display |
-| ChatMessages | Message list with auto-scroll |
-| ChatPalette | Chat overlay interface |
-| ChatPrompt | Enhanced textarea for input |
-| ChatPromptSubmit | Submit button with status |
+| ChatMessages | Scrollable message list with auto-scroll and loading indicator |
+| ChatMessage | Individual message bubble with avatar, actions, and slots |
+| ChatPrompt | Enhanced textarea for submitting prompts |
+| ChatPromptSubmit | Submit button with automatic status handling |
+| ChatReasoning | Collapsible AI reasoning/thinking process |
+| ChatTool | Collapsible AI tool invocation status |
+| ChatShimmer | Text shimmer animation for streaming states |
+| ChatPalette | Layout wrapper for embedding chat in overlays |
 
 ## Quick Start
 
@@ -31,10 +34,57 @@ export default defineEventHandler(async (event) => {
   const { messages } = await readBody(event)
 
   return streamText({
-    model: gateway('openai/gpt-4o-mini'),
+    model: gateway('anthropic/claude-sonnet-4.6'),
     maxOutputTokens: 10000,
     system: 'You are a helpful assistant.',
-    messages: convertToModelMessages(messages)
+    messages: await convertToModelMessages(messages)
+  }).toUIMessageStreamResponse()
+})
+```
+
+### Reasoning Support
+
+```ts
+// server/api/chat.post.ts - with reasoning
+return streamText({
+  model: gateway('anthropic/claude-sonnet-4.6'),
+  maxOutputTokens: 10000,
+  system: 'You are a helpful assistant.',
+  messages: await convertToModelMessages(messages),
+  providerOptions: {
+    anthropic: {
+      thinking: { type: 'adaptive' },
+      effort: 'low'
+    }
+  }
+}).toUIMessageStreamResponse()
+```
+
+### MCP Tool Calling
+
+```ts
+// server/api/chat.post.ts - with MCP tools
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
+import { experimental_createMCPClient } from '@ai-sdk/mcp'
+import { stepCountIs } from 'ai'
+
+export default defineEventHandler(async (event) => {
+  const { messages } = await readBody(event)
+
+  const httpClient = await experimental_createMCPClient({
+    transport: new StreamableHTTPClientTransport(new URL('https://your-app.com/mcp'))
+  })
+  const tools = await httpClient.tools()
+
+  return streamText({
+    model: gateway('anthropic/claude-sonnet-4.6'),
+    maxOutputTokens: 10000,
+    system: 'You are a helpful assistant.',
+    messages: await convertToModelMessages(messages),
+    stopWhen: stepCountIs(6),
+    tools,
+    onFinish: async () => { await httpClient.close() },
+    onError: async (error) => { console.error(error); await httpClient.close() }
   }).toUIMessageStreamResponse()
 })
 ```
@@ -43,13 +93,13 @@ export default defineEventHandler(async (event) => {
 
 ```vue
 <script setup lang="ts">
+import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
 import { Chat } from '@ai-sdk/vue'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
 
 const input = ref('')
 
 const chat = new Chat({
-  api: '/api/chat',
   onError(error) {
     console.error(error)
   }
@@ -65,11 +115,41 @@ function onSubmit() {
   <div class="flex flex-col h-full">
     <UChatMessages :messages="chat.messages" :status="chat.status">
       <template #content="{ message }">
-        <MDC :value="getTextFromMessage(message)" />
+        <template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
+          <UChatReasoning
+            v-if="isReasoningUIPart(part)"
+            :text="part.text"
+            :streaming="isReasoningStreaming(message, index, chat)"
+          >
+            <MDC
+              :value="part.text"
+              :cache-key="`reasoning-${message.id}-${index}`"
+              class="*:first:mt-0 *:last:mb-0"
+            />
+          </UChatReasoning>
+
+          <UChatTool
+            v-else-if="isToolUIPart(part)"
+            :text="getToolName(part)"
+            :streaming="isToolStreaming(part)"
+          />
+
+          <template v-else-if="isTextUIPart(part)">
+            <MDC
+              v-if="message.role === 'assistant'"
+              :value="part.text"
+              :cache-key="`${message.id}-${index}`"
+              class="*:first:mt-0 *:last:mb-0"
+            />
+            <p v-else-if="message.role === 'user'" class="whitespace-pre-wrap">
+              {{ part.text }}
+            </p>
+          </template>
+        </template>
       </template>
     </UChatMessages>
 
-    <UChatPrompt v-model="input" @submit="onSubmit">
+    <UChatPrompt v-model="input" :error="chat.error" @submit="onSubmit">
       <UChatPromptSubmit
         :status="chat.status"
         @stop="chat.stop()"
@@ -257,10 +337,6 @@ interface ChatPromptSubmitProps {
 
 Chat interface inside an overlay (modal/slideover).
 
-### Props
-
-Combines ChatMessages and ChatPrompt props with overlay configuration.
-
 ### Usage
 
 ```vue
@@ -271,13 +347,58 @@ const isOpen = ref(false)
 <template>
   <UButton @click="isOpen = true">Open Chat</UButton>
 
-  <UChatPalette v-model="isOpen" :messages="messages" :status="status">
-    <template #content="{ message }">
-      {{ message.content }}
-    </template>
+  <UChatPalette v-model="isOpen">
+    <!-- ChatPalette wraps ChatMessages + ChatPrompt -->
   </UChatPalette>
 </template>
 ```
+
+## ChatReasoning
+
+Collapsible AI reasoning/thinking process. Auto-opens during streaming, auto-closes after.
+
+```vue
+<template>
+  <UChatReasoning
+    :text="part.text"
+    :streaming="isReasoningStreaming(message, index, chat)"
+    icon="i-lucide-brain"
+  />
+</template>
+```
+
+**Load `references/chat-reasoning.md`** for full props, slots, and theme.
+
+## ChatTool
+
+Collapsible AI tool invocation status with inline or card variant.
+
+```vue
+<template>
+  <UChatTool
+    :text="getToolName(part)"
+    :streaming="isToolStreaming(part)"
+    variant="card"
+    icon="i-lucide-terminal"
+  >
+    <pre v-text="toolOutput" />
+  </UChatTool>
+</template>
+```
+
+**Load `references/chat-tool.md`** for full props, variants, and theme.
+
+## ChatShimmer
+
+Text shimmer animation for streaming states. Automatically used by ChatReasoning and ChatTool.
+
+```vue
+<template>
+  <UChatShimmer text="Thinking..." :duration="2" :spread="2" />
+</template>
+```
+
+**Load `references/chat-shimmer.md`** for full props.
 
 ## AI SDK v5 Integration
 
@@ -287,13 +408,8 @@ const isOpen = ref(false)
 import { Chat } from '@ai-sdk/vue'
 
 const chat = new Chat({
-  api: '/api/chat',
-  initialMessages: [],
-  onFinish(message) {
-    console.log('Response complete:', message)
-  },
   onError(error) {
-    toast.add({ title: 'Error', description: error.message, color: 'error' })
+    console.error(error)
   }
 })
 ```
@@ -301,46 +417,37 @@ const chat = new Chat({
 ### Available Methods
 
 ```ts
-// Send message
-chat.sendMessage({ text: 'Hello' })
+chat.sendMessage({ text: 'Hello' })  // Send message
+chat.stop()                           // Stop streaming
+chat.regenerate()                     // Regenerate last response
+chat.setMessages([])                  // Clear messages
 
-// Stop streaming
-chat.stop()
-
-// Regenerate last response
-chat.regenerate()
-
-// Clear messages
-chat.setMessages([])
-
-// Access state
-chat.messages  // Message array
-chat.status    // Current status
+chat.messages  // UIMessage[] array
+chat.status    // 'submitted' | 'streaming' | 'ready' | 'error'
 chat.error     // Error if any
 ```
 
-### Message Parts
+### Parts-Based Rendering
 
-AI SDK v5 uses message parts for rich content:
+AI SDK v5 uses message parts for rich content. Import helpers from `ai` and `@nuxt/ui/utils/ai`:
 
 ```ts
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
-
-// Extract text from message parts
-const text = getTextFromMessage(message)
-
-// Message structure
-interface UIMessage {
-  id: string
-  role: 'user' | 'assistant'
-  parts: MessagePart[]
-}
-
-type MessagePart =
-  | { type: 'text', text: string }
-  | { type: 'image', image: string }
-  | { type: 'tool-call', toolName: string, args: object }
+import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
+import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
 ```
+
+```vue
+<template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
+  <UChatReasoning v-if="isReasoningUIPart(part)" :text="part.text" :streaming="isReasoningStreaming(message, index, chat)" />
+  <UChatTool v-else-if="isToolUIPart(part)" :text="getToolName(part)" :streaming="isToolStreaming(part)" />
+  <template v-else-if="isTextUIPart(part)">
+    <MDC v-if="message.role === 'assistant'" :value="part.text" />
+    <p v-else class="whitespace-pre-wrap">{{ part.text }}</p>
+  </template>
+</template>
+```
+
+**Load `references/ai-sdk-v5-integration.md`** for complete integration guide.
 
 ## Styling
 
@@ -377,28 +484,27 @@ export default defineAppConfig({
 
 ## Common Patterns
 
-### Chat with Markdown Rendering
+### Chat with Parts-Based Rendering (Recommended)
 
 ```vue
-<UChatMessages :messages="messages" :status="status">
-  <template #content="{ message }">
-    <MDC
-      :value="getTextFromMessage(message)"
-      :cache-key="message.id"
-      class="prose prose-sm dark:prose-invert"
-    />
-  </template>
-</UChatMessages>
-```
+<script setup lang="ts">
+import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
+import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
+</script>
 
-### Chat with Tool Calls
-
-```vue
-<template #content="{ message }">
-  <template v-for="part in message.parts">
-    <div v-if="part.type === 'text'">{{ part.text }}</div>
-    <ToolResult v-else-if="part.type === 'tool-call'" :tool="part" />
-  </template>
+<template>
+  <UChatMessages :messages="chat.messages" :status="chat.status">
+    <template #content="{ message }">
+      <template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
+        <UChatReasoning v-if="isReasoningUIPart(part)" :text="part.text" :streaming="isReasoningStreaming(message, index, chat)" />
+        <UChatTool v-else-if="isToolUIPart(part)" :text="getToolName(part)" :streaming="isToolStreaming(part)" />
+        <template v-else-if="isTextUIPart(part)">
+          <MDC v-if="message.role === 'assistant'" :value="part.text" :cache-key="`${message.id}-${index}`" />
+          <p v-else-if="message.role === 'user'" class="whitespace-pre-wrap">{{ part.text }}</p>
+        </template>
+      </template>
+    </template>
+  </UChatMessages>
 </template>
 ```
 

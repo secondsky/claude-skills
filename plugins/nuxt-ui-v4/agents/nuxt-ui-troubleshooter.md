@@ -25,20 +25,11 @@ Use this agent when users report visual, styling, or rendering issues with Nuxt 
 </example>
 
 <example>
-Context: User has component errors
-user: "useToast is not defined when I try to show notifications"
-assistant: "Let me use the nuxt-ui-troubleshooter agent to identify why the useToast composable isn't working."
+Context: User has AI chat issues
+user: "My ChatReasoning component isn't auto-opening during streaming"
+assistant: "Let me use the nuxt-ui-troubleshooter agent to check your AI SDK integration."
 <commentary>
-Use this agent for errors related to Nuxt UI composables or component functionality.
-</commentary>
-</example>
-
-<example>
-Context: User has dark mode issues
-user: "Dark mode isn't working in my Nuxt app"
-assistant: "I'll use the nuxt-ui-troubleshooter agent to check your color mode configuration and fix the issue."
-<commentary>
-Use this agent for theming, color mode, or design system issues.
+Use this agent for issues with chat, reasoning, tool calling, or AI features.
 </commentary>
 </example>
 
@@ -74,7 +65,12 @@ Use this agent for theming, color mode, or design system issues.
   })
   ```
 
-**Issue 3: useToast/useNotification not working**
+**Issue 3: Missing tailwindcss package**
+- **Cause**: v4.6+ requires explicit tailwindcss dependency
+- **Check**: `package.json` for both `@nuxt/ui` and `tailwindcss`
+- **Fix**: `bun add @nuxt/ui tailwindcss`
+
+**Issue 4: useToast/useNotification not working**
 - **Cause**: Composable called outside setup or missing import
 - **Check**: Composable is called within `<script setup>` or `setup()`
 - **Fix**: Ensure proper usage:
@@ -83,7 +79,31 @@ Use this agent for theming, color mode, or design system issues.
   add({ title: 'Success', color: 'success' })
   ```
 
-**Issue 4: Dark mode not persisting**
+**Issue 5: useChat not found (AI SDK v5)**
+- **Cause**: AI SDK v5 replaced `useChat` with `Chat` class
+- **Check**: imports from `@ai-sdk/vue`
+- **Fix**:
+  ```diff
+  - import { useChat } from '@ai-sdk/vue'
+  + import { Chat } from '@ai-sdk/vue'
+  + const chat = new Chat({ onError(error) { console.error(error) } })
+  ```
+
+**Issue 6: message.content not working (AI SDK v5)**
+- **Cause**: AI SDK v5 uses `message.parts` instead of `message.content`
+- **Check**: Chat template content slot
+- **Fix**: Use parts-based rendering with helper imports:
+  ```ts
+  import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
+  import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
+  ```
+
+**Issue 7: ChatReasoning not auto-opening**
+- **Cause**: Missing `isReasoningStreaming` utility for `@nuxt/ui/utils/ai`
+- **Check**: Import from correct package
+- **Fix**: `import { isReasoningStreaming } from '@nuxt/ui/utils/ai'`
+
+**Issue 8: Dark mode not persisting**
 - **Cause**: Color mode not configured or localStorage blocked
 - **Check**: `nuxt.config.ts` ui.colorMode setting
 - **Fix**:
@@ -93,7 +113,7 @@ Use this agent for theming, color mode, or design system issues.
   })
   ```
 
-**Issue 5: Template refs returning undefined (v4.2+)**
+**Issue 9: Template refs returning undefined (v4.2+)**
 - **Cause**: Using old .$el accessor pattern
 - **Check**: Template ref access pattern
 - **Fix**:
@@ -102,44 +122,23 @@ Use this agent for theming, color mode, or design system issues.
   + inputRef.value?.focus()
   ```
 
-**Issue 6: Form validation not working**
-- **Cause**: Schema not passed or FormField name mismatch
-- **Check**: `:schema` prop and `name` attributes match
-- **Fix**: Ensure schema field names match FormField names
-
-**Issue 7: CommandPalette shortcuts not working**
-- **Cause**: defineShortcuts not called or conflicts
-- **Check**: Keyboard shortcut registration
+**Issue 10: Form nested validation not working**
+- **Cause**: Missing `nested` and `name` props on child form
+- **Check**: Inner UForm components
 - **Fix**:
-  ```ts
-  defineShortcuts({
-    'meta_k': () => openCommandPalette()
-  })
+  ```vue
+  <UForm :state="item" :name="`items.${index}`" :schema="itemSchema" nested>
   ```
 
-**Issue 8: Carousel not rendering**
-- **Cause**: Missing Embla carousel dependency or configuration
-- **Check**: `embla-carousel-vue` installed
-- **Fix**: `bun add embla-carousel-vue`
-
-**Issue 9: TypeScript errors with components**
+**Issue 11: TypeScript errors with components**
 - **Cause**: Types not generated
 - **Check**: `.nuxt/` directory exists
 - **Fix**: `bunx nuxt prepare`
 
-**Issue 10: Theme/variants not applying**
+**Issue 12: Theme/variants not applying**
 - **Cause**: Wrong app.config.ts structure or invalid color names
-- **Check**: `app.config.ts` ui.theme configuration
-- **Fix**:
-  ```ts
-  export default defineAppConfig({
-    ui: {
-      theme: {
-        colors: { primary: 'violet' }
-      }
-    }
-  })
-  ```
+- **Check**: `app.config.ts` ui configuration
+- **Fix**: Only use colors that exist in Tailwind theme or custom `@theme` colors
 
 ### Diagnostic Process
 
@@ -150,8 +149,8 @@ Use this agent for theming, color mode, or design system issues.
    - `app.vue` - UApp wrapper and CSS imports
 3. **Check dependencies**:
    - `@nuxt/ui` version
-   - `tailwindcss` version (v4 required)
-   - Optional deps (embla, fuse.js, @internationalized/date)
+   - `tailwindcss` version (v4 required, must be explicitly installed)
+   - Optional deps (embla, fuse.js, @internationalized/date, ai, @ai-sdk/vue, @ai-sdk/gateway)
 4. **Check component usage**:
    - Correct prop names
    - Proper slot usage

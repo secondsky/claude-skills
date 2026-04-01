@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
-    name: 'My Blog',
+    name: 'My Blog', // Required in v5
     description: 'Thoughts and tutorials',
     defaultLocale: 'en'
   },

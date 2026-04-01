@@ -20,7 +20,7 @@
 
 ## Module 1: @nuxtjs/seo (Primary SEO Module)
 
-**Version**: v3.2.2 | **Downloads**: 1.8M | **Stars**: 1,296
+**Version**: v5.1.0 | **Downloads**: 4.2M/month | **Stars**: 3,300
 
 ### Purpose
 
@@ -53,7 +53,7 @@ export default defineNuxtConfig({
 
 ## Module 2: nuxt-robots (Robots.txt & Bot Detection)
 
-**Version**: v5.5.6 | **Downloads**: 7.1M | **Stars**: 497
+**Version**: v6.0.6 | **Downloads**: 8.7M
 
 ### Purpose
 
@@ -164,7 +164,7 @@ robots: {
 
 ## Module 3: nuxt-sitemap (XML Sitemap Generation)
 
-**Version**: v7.4.7 | **Downloads**: 8.6M | **Stars**: 398
+**Version**: v8.0.11 | **Downloads**: 10M
 
 ### Purpose
 
@@ -323,7 +323,7 @@ After deploying:
 
 ## Module 4: nuxt-og-image (Open Graph Image Generation)
 
-**Version**: v5.1.12 | **Downloads**: 2.5M | **Stars**: 481
+**Version**: v6.3.1 | **Downloads**: 3.7M
 
 ### Purpose
 
@@ -482,7 +482,7 @@ ogImage: {
 
 ## Module 5: nuxt-schema-org (Schema.org Structured Data)
 
-**Version**: v5.0.9 | **Downloads**: 2.9M | **Stars**: 176
+**Version**: v6.0.4 | **Downloads**: 3.9M
 
 ### Purpose
 
@@ -613,7 +613,7 @@ useSchemaOrg([
 
 ## Module 6: nuxt-link-checker (Link Validation)
 
-**Version**: v4.3.6 | **Downloads**: 2M | **Stars**: 95
+**Version**: v5.0.6 | **Downloads**: 2.8M
 
 ### Purpose
 
@@ -652,7 +652,7 @@ export default defineNuxtConfig({
 
 ## Module 7: nuxt-seo-utils (SEO Utilities)
 
-**Version**: v7.0.18 | **Downloads**: 1.1M | **Stars**: 113
+**Version**: v8.1.4 | **Downloads**: 2.2M
 
 ### Purpose
 
@@ -686,7 +686,7 @@ const breadcrumbs = useBreadcrumbItems()
 
 ## Module 8: nuxt-site-config (Site Configuration)
 
-**Version**: v3.2.11 | **Downloads**: 7.9M | **Stars**: 75
+**Version**: v4.0.7 | **Downloads**: 7.9M
 
 ### Purpose
 

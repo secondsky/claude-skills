@@ -26,14 +26,11 @@ Step-by-step installation patterns for all package managers.
 Install all 8 modules at once:
 
 ```bash
-# Bun (primary)
-bunx nuxi module add @nuxtjs/seo
+# Recommended (v5)
+npx nuxt module add seo
 
-# npm (backup)
+# Legacy command (still works)
 npx nuxi module add @nuxtjs/seo
-
-# pnpm (backup)
-pnpm dlx nuxi module add @nuxtjs/seo
 ```
 
 Add to `nuxt.config.ts`:
@@ -53,32 +50,13 @@ Install only what you need:
 ### Install Each Module
 
 ```bash
-# Bun
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
-bunx nuxi module add nuxt-schema-org
-bunx nuxi module add nuxt-link-checker
-bunx nuxi module add nuxt-seo-utils
-bunx nuxi module add nuxt-site-config
-
-# npm
-npx nuxi module add nuxt-robots
-npx nuxi module add nuxt-sitemap
-npx nuxi module add nuxt-og-image
-npx nuxi module add nuxt-schema-org
-npx nuxi module add nuxt-link-checker
-npx nuxi module add nuxt-seo-utils
-npx nuxi module add nuxt-site-config
-
-# pnpm
-pnpm dlx nuxi module add nuxt-robots
-pnpm dlx nuxi module add nuxt-sitemap
-pnpm dlx nuxi module add nuxt-og-image
-pnpm dlx nuxi module add nuxt-schema-org
-pnpm dlx nuxi module add nuxt-link-checker
-pnpm dlx nuxi module add nuxt-seo-utils
-pnpm dlx nuxi module add nuxt-site-config
+npx nuxt module add nuxt-robots
+npx nuxt module add nuxt-sitemap
+npx nuxt module add nuxt-og-image
+npx nuxt module add nuxt-schema-org
+npx nuxt module add nuxt-link-checker
+npx nuxt module add nuxt-seo-utils
+npx nuxt module add nuxt-site-config
 ```
 
 ### Configure in nuxt.config.ts
@@ -104,15 +82,14 @@ export default defineNuxtConfig({
 ### Blog Site
 
 ```bash
-# Bun
-bunx nuxi module add @nuxtjs/seo
+npx nuxt module add @nuxtjs/seo
 
 # Or individually
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
-bunx nuxi module add nuxt-schema-org
-bunx nuxi module add nuxt-site-config
+npx nuxt module add nuxt-robots
+npx nuxt module add nuxt-sitemap
+npx nuxt module add nuxt-og-image
+npx nuxt module add nuxt-schema-org
+npx nuxt module add nuxt-site-config
 ```
 
 ```typescript
@@ -121,8 +98,7 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
-    name: 'My Blog',
-    description: 'Thoughts and tutorials'
+    name: 'My Blog', // Required in v5 - no longer auto-inferred
   },
 
   robots: {
@@ -149,7 +125,7 @@ export default defineNuxtConfig({
 ### E-commerce Site
 
 ```bash
-bunx nuxi module add @nuxtjs/seo
+npx nuxt module add @nuxtjs/seo
 ```
 
 ```typescript
@@ -181,11 +157,11 @@ export default defineNuxtConfig({
 ### Corporate Site
 
 ```bash
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
-bunx nuxi module add nuxt-schema-org
-bunx nuxi module add nuxt-site-config
+npx nuxt module add nuxt-robots
+npx nuxt module add nuxt-sitemap
+npx nuxt module add nuxt-og-image
+npx nuxt module add nuxt-schema-org
+npx nuxt module add nuxt-site-config
 ```
 
 ```typescript
@@ -222,8 +198,8 @@ export default defineNuxtConfig({
 ## Multi-Language Installation
 
 ```bash
-bunx nuxi module add @nuxtjs/seo
-bunx nuxi module add @nuxtjs/i18n
+npx nuxt module add @nuxtjs/seo
+npx nuxt module add @nuxtjs/i18n
 ```
 
 ```typescript
@@ -315,7 +291,7 @@ If `nuxi module add` doesn't work:
 
 ```bash
 # Bun
-bun add @nuxtjs/seo
+npx nuxt @nuxtjs/seo
 
 # npm
 npm install @nuxtjs/seo
@@ -340,7 +316,7 @@ After installation:
 
 1. **Restart dev server**:
    ```bash
-   bun run dev
+   npm run dev
    ```
 
 2. **Verify robots.txt**:
@@ -354,7 +330,7 @@ After installation:
 4. **Check module loading**:
    ```bash
    # Should list all SEO modules
-   bunx nuxi info
+   npx nuxt info
    ```
 
 5. **Test OG image**:
@@ -370,7 +346,7 @@ After installation:
 ```bash
 # Clear cache and reinstall
 rm -rf .nuxt node_modules/.cache
-bun install
+npm install
 ```
 
 ### robots.txt not generating
@@ -389,7 +365,7 @@ bun install
 
 1. Update to latest versions:
    ```bash
-   bun update @nuxtjs/seo
+   npm update @nuxtjs/seo
    ```
 
 2. Clear cache:
@@ -400,7 +376,7 @@ bun install
 3. Reinstall:
    ```bash
    rm -rf node_modules
-   bun install
+npm install
    ```
 
 ---
@@ -431,7 +407,7 @@ export default defineNuxtConfig({
 Remove individual packages:
 ```bash
 # Bun
-bun remove nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
+npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
 
 # npm
 npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
@@ -439,11 +415,12 @@ npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
 
 Install bundle:
 ```bash
-bunx nuxi module add @nuxtjs/seo
+npx nuxt module add @nuxtjs/seo
 ```
 
 ---
 
-**Last Updated**: 2025-11-10
-**Package Manager Priority**: Bun > npm > pnpm
+**Last Updated**: 2026-03-30
+**Package Manager**: npm (primary)
 **Nuxt Version**: >= 3.0.0 or Nuxt 4.x
+**v5 Install**: `npx nuxt module add seo`

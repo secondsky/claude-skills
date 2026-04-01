@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "nuxt": {
+      "type": "http",
+      "url": "https://nuxt.com/mcp",
+      "description": "Official Nuxt MCP server providing documentation, composable signatures, component examples, and migration guides"
+    }
+  }
+}

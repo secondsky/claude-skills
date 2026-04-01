@@ -1,7 +1,7 @@
 {
   "name": "nuxt-seo",
   "description": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules. Use when building SEO-optimized Nuxt applications, implementing robots.txt/sitemaps, generating OG images, adding Schema.org data, managing meta tags, checking links, or encountering sitemap, robots.txt, OG image, schema validation, meta tag, canonical URL, or i18n SEO errors.",
-  "version": "3.2.0",
+  "version": "4.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -157,6 +157,25 @@
     "video sitemap",
     "zero runtime",
     "getSiteRobotConfig",
-    "getPathRobotConfig"
+    "getPathRobotConfig",
+    "nuxt seo v5",
+    "useShareLinks",
+    "social share links",
+    "favicon generation",
+    "inline minification",
+    "eslint link checker",
+    "link-checker/valid-route",
+    "definePageMeta sitemap",
+    "devtools unity",
+    "getSiteConfig",
+    "SiteConfigResolved",
+    "SiteConfigPriority",
+    "defineSitemapSchema",
+    "defineSchemaOrgSchema",
+    "defineRobotsSchema",
+    "og image security",
+    "url signing",
+    "debug production",
+    "v5 migration"
   ]
 }

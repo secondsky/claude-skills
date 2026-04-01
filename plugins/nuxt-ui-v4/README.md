@@ -9,24 +9,25 @@ Production-ready **Nuxt UI v4** plugin for **Nuxt v4** projects with **125+ acce
 - **3 Specialized Agents**: Component selection, migration assistance, troubleshooting
 - **4 Slash Commands**: Setup, migrate, theme configuration, component scaffolding
 - **MCP Integration**: Official Nuxt UI MCP server for real-time component discovery
-- **23 Vue Templates**: Production-ready component examples
-- **34 Reference Docs**: Deep-dive guides organized by component category
-- **Semantic Color System**: 7 color aliases with dark mode support
+- **38 Reference Docs**: Deep-dive guides organized by component category
+- **7 Semantic Colors**: Primary, secondary, success, info, warning, error, neutral with dark mode support
 - **Accessibility**: WAI-ARIA compliant components built on Reka UI
-- **AI Integration**: AI SDK v5 chat components (ChatMessages, ChatPrompt, etc.)
+- **AI Integration**: 8 Chat components for AI chatbots with streaming, reasoning, and tool calling
 - **Dashboard System**: 11 dashboard components for admin interfaces
 - **Page Layout**: 16 page layout components for landing pages and marketing sites
+- **Auth System**: Pre-built AuthForm for login/register/password reset
 
 ## When to Use
 
 Use this plugin when working with:
 
 - Nuxt v4 projects with @nuxt/ui module
+- Vue projects via Vite plugin (Nuxt optional)
 - Building dashboard applications
 - Creating landing pages and marketing sites
-- Implementing AI chat interfaces
+- Implementing AI chat interfaces with reasoning and tool calling
 - Building rich text editors
-- Form-heavy applications
+- Form-heavy applications with validation
 - Data tables with sorting/pagination
 - SaaS pricing pages
 - Documentation sites and blogs
@@ -35,16 +36,16 @@ Use this plugin when working with:
 ## Component Coverage (125+)
 
 ### Dashboard (11 components)
-DashboardGroup, DashboardSidebar, DashboardPanel, DashboardNavbar, DashboardToolbar, DashboardSidebarToggle, DashboardSidebarCollapse, DashboardSearch, DashboardSearchButton, DashboardModal
+DashboardGroup, DashboardSidebar, DashboardPanel, DashboardNavbar, DashboardToolbar, DashboardSidebarToggle, DashboardSidebarCollapse, DashboardSearch, DashboardSearchButton, DashboardResizeHandle
 
-### Chat/AI (5 components)
-ChatMessage, ChatMessages, ChatPalette, ChatPrompt, ChatPromptSubmit
+### Chat/AI (8 components)
+ChatMessage, ChatMessages, ChatPalette, ChatPrompt, ChatPromptSubmit, ChatReasoning, ChatTool, ChatShimmer
 
 ### Editor (6 components)
 Editor, EditorToolbar, EditorDragHandle, EditorMentionMenu, EditorEmojiMenu, EditorSuggestionMenu
 
 ### Page Layout (16 components)
-Page, PageAside, PageBody, PageCard, PageColumns, PageCTA, PageError, PageFeature, PageGrid, PageHeader, PageHero, PageLinks, PageList, PageLogos, PageSection, UApp
+Page, PageAside, PageBody, PageCard, PageColumns, PageCTA, PageHeader, PageHero, PageFeature, PageGrid, PageLinks, PageList, PageLogos, PageSection, PageAnchors, UApp
 
 ### Content (9 components)
 BlogPost, BlogPosts, ChangelogVersion, ChangelogVersions, ContentNavigation, ContentSearch, ContentSearchButton, ContentSurround, ContentToc
@@ -52,49 +53,37 @@ BlogPost, BlogPosts, ChangelogVersion, ChangelogVersions, ContentNavigation, Con
 ### Pricing (3 components)
 PricingPlan, PricingPlans, PricingTable
 
-### Forms (17 components)
-Input, InputNumber, InputDate, InputTime, InputMenu, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Toggle, Slider, Calendar, ColorPicker, PinInput
+### Forms (22 components)
+Input, InputDate, InputTime, InputNumber, InputTags, InputMenu, Select, SelectMenu, Textarea, Checkbox, CheckboxGroup, RadioGroup, Switch, Slider, Calendar, ColorPicker, PinInput, Form, FormField, FileUpload, FieldGroup, AuthForm
 
-### Navigation (7 components)
-Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu, Tree
+### Navigation (8 components)
+Tabs, Breadcrumb, Link, Pagination, CommandPalette, NavigationMenu, Stepper, Tree
 
 ### Overlays (8 components)
-Modal, Drawer, Dialog, Popover, DropdownMenu, ContextMenu, Sheet, Tooltip
+Modal, Drawer, Slideover, Popover, DropdownMenu, ContextMenu, Tooltip, Collapsible
 
 ### Feedback (7 components)
-Alert, Toast, Notification, Progress, Meter, Skeleton, Empty
+Alert, Toast, Progress, Skeleton, Empty, Error, Banner
 
-### Layout (5 components)
-Card, Container, Divider, Separator, Collapsible
+### Data (2 components)
+Table (with virtualization), ScrollArea
 
-### Data (1 component)
-Table
+### General (14 components)
+Button, Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Icon, Kbd, Marquee, Timeline, User, Container, Separator
 
-### General (13+ components)
-Button, ButtonGroup, Avatar, AvatarGroup, Badge, Accordion, Carousel, Chip, Icon, Kbd, Stepper, User, more...
+### Color Mode (6 components)
+ColorModeAvatar, ColorModeButton, ColorModeImage, ColorModeSelect, ColorModeSwitch, LocaleSelect
 
 ## Agents
 
 ### nuxt-ui-component-selector
 Recommends the best Nuxt UI components for your use case. Uses MCP tools to search and analyze components.
 
-```
-"I need a user profile card" → Recommends Card, Avatar, Badge with example code
-```
-
 ### nuxt-ui-migration-assistant
 Guides v2/v3 to v4 migration with breaking change detection and automated fixes.
 
-```
-"Migrate my Nuxt UI v2 project" → Analyzes code, identifies breaking changes, provides migration steps
-```
-
 ### nuxt-ui-troubleshooter
-Diagnoses and fixes 10+ common Nuxt UI issues automatically.
-
-```
-"My modal isn't showing" → Checks UApp wrapper, event handling, provides fix
-```
+Diagnoses and fixes common Nuxt UI issues automatically.
 
 ## Commands
 
@@ -146,22 +135,25 @@ This plugin integrates with the official Nuxt UI MCP server:
 }
 ```
 
-**Available MCP Tools**:
-- `list_components` - List all 125+ components
-- `get_component` - Get detailed component documentation
-- `get_component_metadata` - Get component metadata
-- `search_components_by_category` - Search by category
-
 ## Quick Start
 
 ```bash
 # Install Nuxt UI v4
-npm install @nuxt/ui
+bun add @nuxt/ui tailwindcss
+```
 
-# Configure nuxt.config.ts
+```ts
+// nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@nuxt/ui']
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css']
 })
+```
+
+```css
+/* assets/css/main.css */
+@import "tailwindcss";
+@import "@nuxt/ui";
 ```
 
 ```vue
@@ -171,64 +163,21 @@ export default defineNuxtConfig({
     <NuxtPage />
   </UApp>
 </template>
-
-<style>
-@import "tailwindcss";
-@import "@nuxt/ui";
-</style>
 ```
 
-## Templates Included
+### Official Templates
 
-### Layout Templates
-- `layouts/dashboard.vue` - Complete dashboard with sidebar, navbar, search
-- `pages/landing.vue` - Marketing landing page with hero, features, pricing, testimonials
-
-### Component Templates
-- `components/ui-chat-full.vue` - Full AI chat with MDC rendering
-- `components/ui-form-example.vue` - Form with validation
-- `components/ui-data-table.vue` - Table with sorting, pagination
-- `components/ui-modal-dialog.vue` - Modal patterns
-- `components/ui-command-palette.vue` - Search with Fuse.js
-- Plus 17 more component templates...
-
-### Config Templates
-- `nuxt.config.ts` - Nuxt v4 + @nuxt/ui configuration
-- `app.config.ts` - Theme and semantic colors
-- `app.vue` - UApp wrapper with CSS imports
-
-## Reference Documentation
-
-### New in v2.0
-- **dashboard-components.md** - 11 dashboard components
-- **chat-components.md** - 5 AI chat components
-- **editor-components.md** - 6 TipTap-based editor components
-- **page-layout-components.md** - 16 page components
-- **pricing-components.md** - 3 pricing components
-- **content-components.md** - Blog, changelog, docs components
-
-### Core References
-- **semantic-color-system.md** - 7 semantic colors, theming
-- **form-validation-patterns.md** - Forms, validation, Zod
-- **ai-sdk-v5-integration.md** - Chat, streaming, AI SDK
-- **accessibility-patterns.md** - Reka UI, ARIA, keyboard nav
-- Plus 28 more reference docs...
-
-## Common Issues Solved
-
-This plugin prevents 20+ common errors:
-
-1. Missing UApp wrapper causing render issues
-2. Module not registered in nuxt.config.ts
-3. Incorrect CSS import order (Tailwind before @nuxt/ui)
-4. Dashboard components not rendering (missing DashboardGroup)
-5. Chat messages not updating (incorrect AI SDK integration)
-6. Editor toolbar not showing (missing EditorToolbar component)
-7. Page layout breaking (incorrect Page slot usage)
-8. Pricing toggle not working (billing state management)
-9. Content navigation not highlighting (route matching)
-10. Modal vs Drawer vs Dialog confusion
-... and 10+ more documented solutions
+```bash
+npm create nuxt@latest -- -t ui             # Starter
+npm create nuxt@latest -- -t ui/dashboard    # Dashboard
+npm create nuxt@latest -- -t ui/chat         # AI Chat
+npm create nuxt@latest -- -t ui/landing      # Landing page
+npm create nuxt@latest -- -t ui/saas         # SaaS
+npm create nuxt@latest -- -t ui/docs         # Documentation
+npm create nuxt@latest -- -t ui/portfolio    # Portfolio
+npm create nuxt@latest -- -t ui/changelog    # Changelog
+npm create nuxt@latest -- -t ui/editor       # Rich text editor
+```
 
 ## Version Requirements
 
@@ -236,9 +185,11 @@ This plugin prevents 20+ common errors:
 |---------|---------|----------|
 | nuxt | 4.x | Yes |
 | @nuxt/ui | 4.x | Yes |
-| vue | 3.5+ | Yes |
 | tailwindcss | 4.x | Yes |
+| vue | 3.5+ | Yes |
 | ai (Vercel AI SDK) | 5.x | For AI features |
+| @ai-sdk/vue | 5.x | For AI features |
+| @ai-sdk/gateway | latest | For AI features |
 | @tiptap/vue-3 | 2.x | For Editor |
 | fuse.js | 7.x | For CommandPalette |
 | embla-carousel-vue | 8.x | For Carousel |
@@ -256,10 +207,6 @@ cd claude-skills
 ./scripts/install-skill.sh nuxt-ui-v4
 ```
 
-## Keywords for Discovery
-
-Nuxt v4, Nuxt UI v4, @nuxt/ui, Dashboard, DashboardSidebar, DashboardPanel, DashboardNavbar, ChatMessages, ChatPrompt, Editor, EditorToolbar, Page, PageHero, PageSection, PricingPlan, BlogPost, ContentNavigation, Tailwind v4, Reka UI, accessible components, dark mode, theming, form validation, data tables, overlays, modals, drawers, AI chat, rich text editor, landing pages, SaaS pricing, documentation sites
-
 ## Links
 
 - **Nuxt UI Documentation**: https://ui.nuxt.com
@@ -274,9 +221,5 @@ Nuxt v4, Nuxt UI v4, @nuxt/ui, Dashboard, DashboardSidebar, DashboardPanel, Dash
 
 MIT License - See LICENSE file in repository root
 
-## Maintainer
-
-Claude Skills Maintainers
-
-**Last Updated**: 2025-12-28
-**Version**: 2.0.0
+**Last Updated**: 2026-03-30
+**Version**: 3.1.0

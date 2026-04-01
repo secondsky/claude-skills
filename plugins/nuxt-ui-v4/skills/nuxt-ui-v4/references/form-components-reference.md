@@ -1,13 +1,13 @@
 # Form Components Reference
 
-**Component Count**: 17 form components
+**Component Count**: 22 form components
 **Purpose**: Complete reference for all Nuxt UI v4 form components with props, events, and slots
 
 ---
 
 ## Overview
 
-Nuxt UI v4 provides 17 accessible form components built on Reka UI with automatic validation support via Zod schemas.
+Nuxt UI v4 provides 22 accessible form components built on Reka UI with automatic validation support via Standard Schema (Zod, Valibot, etc.).
 
 **Form Components List**:
 1. Input - Text inputs with leading/trailing icons
@@ -21,12 +21,17 @@ Nuxt UI v4 provides 17 accessible form components built on Reka UI with automati
 9. Textarea - Multi-line text input
 10. Checkbox - Single checkbox
 11. CheckboxGroup - Multiple checkboxes
-12. Radio - Radio button
-13. RadioGroup - Radio button group
-14. Switch - Toggle switch
-15. Slider - Range slider
+12. RadioGroup - Radio button group
+13. Switch - Toggle switch
+14. Slider - Range slider
+15. Calendar - Calendar date selection
 16. ColorPicker - Color selection
-17. Form - Form validation wrapper
+17. PinInput - OTP/pin code input
+18. FileUpload - File upload input
+19. Form - Form validation wrapper
+20. FormField - Form field with label/validation
+21. FieldGroup - Group buttons/inputs together
+22. AuthForm - Pre-built login/register/password reset form
 
 ---
 
@@ -633,8 +638,79 @@ const message = ref('')
 
 ---
 
+## PinInput
+
+```vue
+<template>
+  <UPinInput v-model="pin" :length="6" />
+</template>
+
+<script setup lang="ts">
+const pin = ref([])
+</script>
+```
+
+---
+
+## AuthForm
+
+Pre-built authentication form for login, register, and password reset flows.
+
+```vue
+<script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent, AuthFormField } from '@nuxt/ui'
+
+const fields: AuthFormField[] = [
+  { name: 'email', type: 'email', label: 'Email', placeholder: 'Enter your email', required: true },
+  { name: 'password', label: 'Password', type: 'password', placeholder: 'Enter your password', required: true },
+  { name: 'remember', label: 'Remember me', type: 'checkbox' }
+]
+
+const providers = [
+  { label: 'Google', icon: 'i-simple-icons-google', onClick: () => handleGoogle() },
+  { label: 'GitHub', icon: 'i-simple-icons-github', onClick: () => handleGitHub() }
+]
+
+const schema = z.object({
+  email: z.email('Invalid email'),
+  password: z.string('Password is required').min(8, 'Must be at least 8 characters')
+})
+
+function onSubmit(payload: FormSubmitEvent<z.output<typeof schema>>) {
+  console.log('Submitted', payload)
+}
+</script>
+
+<template>
+  <UPageCard class="w-full max-w-md">
+    <UAuthForm
+      :schema="schema"
+      title="Login"
+      description="Enter your credentials to access your account."
+      icon="i-lucide-user"
+      :fields="fields"
+      :providers="providers"
+      @submit="onSubmit"
+    />
+  </UPageCard>
+</template>
+```
+
+**Key Props**:
+- `fields` - Array of field definitions (type determines component: checkbox→Checkbox, select→SelectMenu, otp→PinInput, else→Input)
+- `providers` - Array of ButtonProps for OAuth buttons
+- `schema` - Zod/Standard Schema for validation
+- `separator` - Text between providers and fields (default: "or")
+- `submit` - Submit button config (default: `{ label: 'Continue', block: true }`)
+
+**Load `references/auth-form.md`** for complete API reference.
+
+---
+
 ## Reference
 
 - **Validation Patterns**: See `form-validation-patterns.md`
 - **Advanced Patterns**: See `form-advanced-patterns.md`
+- **Auth Form**: See `auth-form.md`
 - **Templates**: See `templates/components/ui-form-example.vue`

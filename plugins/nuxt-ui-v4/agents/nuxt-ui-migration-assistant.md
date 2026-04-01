@@ -34,15 +34,6 @@ Use this agent when the user reports issues after a Nuxt UI version upgrade.
 </commentary>
 </example>
 
-<example>
-Context: User wants to check migration readiness
-user: "What will break if I upgrade to Nuxt UI v4?"
-assistant: "I'll use the nuxt-ui-migration-assistant agent to scan your codebase and identify potential breaking changes."
-<commentary>
-Use this agent for pre-migration analysis and planning.
-</commentary>
-</example>
-
 ## Instructions
 
 ### Phase 1: Project Analysis
@@ -56,21 +47,32 @@ Use this agent for pre-migration analysis and planning.
    Search for patterns that will break in v4:
    - `ButtonGroup` → renamed to `FieldGroup`
    - `PageMarquee` → renamed to `Marquee`
-   - `PageAccordion` → removed (use `Accordion`)
+   - `PageAccordion` → removed (use `Accordion` with `unmount-on-hide="false"`)
    - `.nullify` modifier → renamed to `.nullable`
    - `inputRef.value.$el` → now returns element directly
    - `.js` extension in composable imports
+   - `useChat` from `@ai-sdk/vue` → replaced with `Chat` class
+   - `message.content` → replaced with `message.parts`
+   - `@nuxt/ui-pro` → replaced with `@nuxt/ui`
 
 3. **Identify Dependencies**
    - Check Tailwind CSS version (v4 required)
    - Check Vue version (3.5+ required)
-   - Check for @internationalized/date (needed for InputDate/InputTime)
+   - Check for `tailwindcss` explicit install (required)
+   - Check for `@internationalized/date` (needed for InputDate/InputTime)
+   - Check AI SDK version (v5 required for chat components)
 
 ### Phase 2: Migration Guide
 
 **Key v3 → v4 Breaking Changes:**
 
-1. **Component Renames**
+1. **Package Changes**
+   ```diff
+   - bun add @nuxt/ui-pro
+   + bun add @nuxt/ui tailwindcss
+   ```
+
+2. **Component Renames**
    ```diff
    - <UButtonGroup>
    + <UFieldGroup>
@@ -79,36 +81,31 @@ Use this agent for pre-migration analysis and planning.
    + <UMarquee>
    ```
 
-2. **Removed Components**
+3. **Removed Components**
    ```diff
    - <UPageAccordion>
-   + <UAccordion unmount-on-hide="false">
+   + <UAccordion unmount-on-hide="false" :ui="{ trigger: 'text-base', body: 'text-base text-muted' }">
    ```
 
-3. **Model Modifiers**
+4. **Model Modifiers**
    ```diff
    - v-model.nullify="value"
    + v-model.nullable="value"
+
+   - <UInput v-model="value" :model-modifiers="{ nullify: true }">
+   + <UInput v-model="value" :model-modifiers="{ nullable: true }">
    ```
 
-4. **Template Refs (v4.2+)**
+5. **Template Refs (v4.2+)**
    ```diff
    - inputRef.value.$el.focus()
    + inputRef.value?.focus()
    ```
 
-5. **Composable Imports**
-   ```diff
-   - import { useToast } from '#ui/composables/useToast.js'
-   + import { useToast } from '#ui/composables/useToast'
-   ```
-
 6. **CSS Import Order**
-   ```vue
-   <style>
+   ```css
    @import "tailwindcss";  /* FIRST */
    @import "@nuxt/ui";     /* SECOND */
-   </style>
    ```
 
 7. **UApp Wrapper Required**
@@ -120,9 +117,37 @@ Use this agent for pre-migration analysis and planning.
    </template>
    ```
 
-8. **Form Transformations**
-   - Now apply only to submit data, not internal state
+8. **Form Changes**
+   - Schema transformations only apply to @submit data, not internal state
    - Nested forms require explicit `nested` prop
+   - Nested forms should have a `name` prop matching parent field path
+   ```diff
+   - <UForm :state="item">
+   + <UForm :name="`items.${index}`" :state="item" nested>
+   ```
+
+9. **Content Utils Moved**
+   ```diff
+   - import { findPageHeadline } from '@nuxt/ui-pro/utils/content'
+   + import { findPageHeadline } from '@nuxt/content/utils'
+   ```
+
+10. **AI SDK v5 Migration** (if using chat components)
+    ```diff
+    - import { useChat } from '@ai-sdk/vue'
+    + import { Chat } from '@ai-sdk/vue'
+    + import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
+    + import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
+
+    - const { messages, input, handleSubmit, status } = useChat()
+    + const chat = new Chat({ onError(error) { console.error(error) } })
+
+    - :messages="messages"
+    + :messages="chat.messages"
+
+    - message.content
+    + message.parts (use isTextUIPart/isReasoningUIPart/isToolUIPart)
+    ```
 
 ### Phase 3: Automated Fixes
 
@@ -141,12 +166,14 @@ After migration:
 ### New Features in v4
 
 After migration, inform user about new capabilities:
-- 125+ components (up from ~50)
+- 125+ components (Nuxt UI + Nuxt UI Pro unified)
+- 8 Chat components with AI reasoning and tool calling support
 - Dashboard components for admin interfaces
-- Chat components for AI integration
 - Editor components for rich text
 - Page layout components for landing pages
 - Pricing components for SaaS pages
 - Blog/Changelog components for content
+- AuthForm for login/register/password reset
+- New nuxt.config options: theme.prefix, theme.defaultVariants, theme.transitions, experimental.componentDetection
 
 Always fetch the official migration guide using the MCP tool for the most accurate information.
