@@ -1,0 +1,33 @@
+{
+  "name": "Node.js Hardened Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+
+  "features": {
+    "ghcr.io/devcontainers/features/1password:1": {}
+  },
+
+  "runArgs": [
+    "--security-opt=no-new-privileges:true",
+    "--cap-drop=ALL",
+    "--cap-add=CHOWN",
+    "--cap-add=SETUID",
+    "--cap-add=SETGID"
+  ],
+
+  "containerEnv": {
+    "NODE_OPTIONS": "--disable-proto=delete"
+  },
+
+  "postCreateCommand": "npm ci --ignore-scripts",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+
+  "remoteUser": "node"
+}

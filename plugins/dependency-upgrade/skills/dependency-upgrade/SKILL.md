@@ -1,288 +1,330 @@
 ---
 name: dependency-upgrade
-description: Manage major dependency version upgrades with compatibility analysis, staged rollout, and comprehensive testing. Use when upgrading framework versions, updating major dependencies, or managing breaking changes in libraries.
+description: "Secure dependency upgrades with supply chain protection, cooldown periods, post-install script hardening, lockfile validation, and staged rollout across npm, Bun, pnpm, and Yarn. Use when upgrading dependencies, configuring security policies, or preventing supply chain attacks."
 license: MIT
 ---
 
 # Dependency Upgrade
 
-Master major dependency version upgrades, compatibility analysis, staged upgrade strategies, and comprehensive testing approaches.
+Manage dependency upgrades with supply chain security, compatibility analysis, staged rollout, and comprehensive testing across all major package managers.
 
 ## When to Use This Skill
 
-- Upgrading major framework versions
-- Updating security-vulnerable dependencies
-- Modernizing legacy dependencies
-- Resolving dependency conflicts
-- Planning incremental upgrade paths
-- Testing compatibility matrices
-- Automating dependency updates
+- Upgrading major framework or library versions
+- Configuring supply chain attack prevention (cooldown, script blocking, lockfile hardening)
+- Setting up secure package manager configuration
+- Resolving dependency conflicts or peer dependency issues
+- Planning incremental upgrade paths with testing
+- Automating dependency updates with Renovate, Dependabot, or Snyk
+- Auditing dependencies for vulnerabilities
+- Setting up CI/CD dependency security workflows
 
-## Semantic Versioning Review
+## Two Modes of Operation
 
+**Interactive** — Walk through setup questions to generate tailored config. Use for fresh setup.
+
+**Default** — Apply recommended defaults immediately: 7-day cooldown, block all scripts, frozen-lockfile, lockfile-lint, Dependabot with cooldown. Customization optional.
+
+## Interactive Setup Flow
+
+When the user wants tailored configuration, walk through these decisions. Skip this section entirely if using default mode.
+
+### Tier 1: Required Decisions
+
+Always ask these 3 questions before generating any config:
+
+**1. Package Manager**
+
+"Which package manager does this project use?"
+
+| Answer | Generates |
+|--------|-----------|
+| npm | `.npmrc` |
+| Bun | `bunfig.toml` |
+| pnpm | `pnpm-workspace.yaml` |
+| Yarn | `.yarnrc.yml` |
+| Deno | `deno.json` config |
+
+**2. Cooldown Period**
+
+"How many days should newly published packages age before install? This prevents supply chain attacks where malicious packages are discovered and unpublished within days."
+
+| Option | Days | Use Case |
+|--------|------|----------|
+| Aggressive | 3 | Catches most typosquatting |
+| Recommended | 7 | Good balance for most projects |
+| Conservative | 14 | Critical/production systems |
+| Paranoid | 21 | Matches Snyk's built-in default |
+| Custom | N | User specifies |
+
+**3. Post-Install Script Policy**
+
+"How should lifecycle scripts (postinstall, preinstall) be handled? These are the #1 attack vector for supply chain attacks."
+
+| Option | Behavior |
+|--------|----------|
+| Block all (recommended) | `--ignore-scripts` + allow-git=none |
+| Allowlist | Block by default, allow specific trusted packages |
+| Review only | Warn but don't block |
+
+### Tier 2: Security Tooling (Offer as Batch)
+
+"Which of these security features would you like to configure? Select any that apply."
+
+**4. CI/CD Automation Tool**
+
+| Answer | Generates |
+|--------|-----------|
+| Dependabot | `.github/dependabot.yml` with cooldown |
+| Renovate | `renovate.json` with minimumReleaseAge |
+| Snyk | No config needed (21-day cooldown built-in) |
+| None | Skip |
+
+**5. Automerge Policy**
+
+| Option | Behavior |
+|--------|----------|
+| None | All updates require manual review |
+| Minor+Patch only | Auto-merge safe updates, review majors |
+| All with approval | Auto-merge after team approval |
+
+**6. Update Schedule**
+
+| Option | Config Value |
+|--------|-------------|
+| Daily | `"daily"` |
+| Weekly (default) | `"weekly"` |
+| Biweekly | `"biweekly"` |
+| Monthly | `"monthly"` |
+
+**7. Install-Time Auditing**
+
+| Option | Installs |
+|--------|----------|
+| npq | Pre-install package auditor (open source) |
+| Socket Firewall (sfw) | Real-time malicious package blocker |
+| Both | Both tools with shell aliases |
+| None | Skip |
+
+**8. Lockfile Validation**
+
+| Option | Behavior |
+|--------|----------|
+| Yes (recommended) | Adds `lockfile-lint` + CI script |
+| No | Skip |
+
+### Tier 3: Advanced Options (Only If User Opts In)
+
+"Would you like to configure any advanced options?"
+
+**9. Dev Containers** — Generate hardened `.devcontainer/devcontainer.json` (Yes/No)
+
+**10. Secrets Manager** — 1Password CLI / Infisical / None
+
+**11. pnpm Trust Policy** — Enable `trustPolicy: no-downgrade` (pnpm 10.21+ only, Yes/No)
+
+**12. Cooldown Exclusions** — Package names that bypass cooldown (e.g., `@types/react`, `typescript`, `esbuild`)
+
+## Security-First Upgrade Principles
+
+1. **Cooldown before installing** — Wait 7 days for new package versions to be vetted by the community
+2. **Block post-install scripts** — Prevent arbitrary code execution during `npm install`
+3. **Freeze lockfiles in CI** — Use deterministic installs (`npm ci`, `--frozen-lockfile`)
+4. **Validate lockfile integrity** — Use `lockfile-lint` to detect injection
+5. **Audit before trusting** — Use `npq` or `sfw` to check packages before installing
+6. **Upgrade incrementally** — One major version at a time with testing between each
+7. **Never blindly upgrade** — Avoid `npm update` or `npm-check-updates -u` without review
+
+## Cooldown Period: Prevent Supply Chain Attacks
+
+Newly published packages may contain malicious code discovered within hours. Configure a cooldown period to delay installation.
+
+### Quick Setup
+
+**npm** (`.npmrc`):
+```ini
+min-release-age=7
 ```
-MAJOR.MINOR.PATCH (e.g., 2.3.1)
 
-MAJOR: Breaking changes
-MINOR: New features, backward compatible
-PATCH: Bug fixes, backward compatible
-
-^2.3.1 = >=2.3.1 <3.0.0 (minor updates)
-~2.3.1 = >=2.3.1 <2.4.0 (patch updates)
-2.3.1 = exact version
+**Bun** (`bunfig.toml`):
+```toml
+[install]
+minimumReleaseAge = 604800  # 7 days in seconds
+minimumReleaseAgeExcludes = ["@types/bun", "typescript"]
 ```
+
+**pnpm** (`pnpm-workspace.yaml`):
+```yaml
+minimumReleaseAge: 10080  # 7 days in minutes
+minimumReleaseAgeExclude:
+  - '@types/react'
+  - typescript
+```
+
+**Yarn** (`.yarnrc.yml`):
+```yaml
+npmMinimalAgeGate: "7d"
+npmPreapprovedPackages:
+  - "@types/react"
+  - "typescript"
+```
+
+Load `references/cooldown-config-guide.md` for detailed per-PM configuration, CI tool integration, and exclusion patterns.
+
+Use `templates/<pm>-security.tmpl` for copy-paste ready config files.
+
+## Disable Post-Install Scripts
+
+Post-install scripts are the most common supply chain attack vector (Shai-Hulud, Nx, event-stream incidents).
+
+### Quick Setup
+
+**npm**:
+```bash
+npm config set ignore-scripts true
+npm config set allow-git none
+```
+
+**Bun**: Disabled by default. Allow specific packages in `package.json`:
+```json
+{ "trustedDependencies": ["esbuild", "sharp"] }
+```
+
+**pnnpm (10.0+)**: Disabled by default. Allow specific packages in `pnpm-workspace.yaml`:
+```yaml
+allowBuilds:
+  esbuild: true
+strictDepBuilds: true  # Hard error on unreviewed scripts
+```
+
+Load `references/package-manager-security.md` for full per-PM hardening including pnpm `trustPolicy`, `blockExoticSubdeps`, and `@lavamoat/allow-scripts`.
+
+## Deterministic & Frozen Installs
+
+Always use frozen install commands in CI to ensure reproducible builds:
+
+| Package Manager | Command | What It Does |
+|----------------|---------|-------------|
+| npm | `npm ci` | Deletes node_modules, installs exact lockfile versions |
+| Bun | `bun install --frozen-lockfile` | Fails if lockfile is out of sync |
+| pnpm | `pnpm install --frozen-lockfile` | Fails if lockfile is out of sync |
+| Yarn | `yarn install --immutable --immutable-cache` | Validates lockfile and cache |
+| Deno | `deno install --frozen` | Frozen installation |
+
+Commit all lockfiles to version control: `package-lock.json`, `bun.lock`, `pnpm-lock.yaml`, `yarn.lock`, `deno.lock`.
+
+## Lockfile Validation
+
+Install and configure `lockfile-lint` to detect lockfile injection attacks:
+
+```bash
+npm install --save-dev lockfile-lint
+```
+
+```json
+{
+  "scripts": {
+    "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https",
+    "preinstall": "npm run lint:lockfile"
+  }
+}
+```
+
+Note: `lockfile-lint` does not currently support Bun's `bun.lock` / `bun.lockb` formats.
+
+## Pre-Install Security Auditing
+
+### npq — Pre-Install Auditor
+
+```bash
+npm install -g npq
+npq install <package>          # Audit before installing
+npq install <package> --dry-run # Audit without installing
+
+# Shell alias for seamless use
+alias npm='npq-hero'
+
+# Use with other PMs
+NPQ_PKG_MGR=pnpm npq install <package>
+NPQ_PKG_MGR=bun npq install <package>
+```
+
+### Socket Firewall (sfw) — Real-Time Blocker
+
+```bash
+npm install -g sfw
+sfw npm install <package>      # Blocks malicious packages
+sfw pnpm add <package>
+sfw yarn add <package>
+```
+
+Load `references/supply-chain-security.md` for full comparison of npq vs sfw and what each validates.
 
 ## Dependency Analysis
 
-### Audit Dependencies (Prefer Bun)
 ```bash
-# Preferred: Bun
+# Audit for vulnerabilities
+bun audit       # Bun
+npm audit       # npm
+yarn audit      # Yarn
+
+# Check for outdated packages
 bun outdated
-bun audit
-
-# npm
 npm outdated
-npm audit
-npm audit fix
 
-# yarn
-yarn outdated
-yarn audit
+# Interactive upgrade (safe — review each)
+bunx npm-check-updates --interactive
 
-# Check for major updates
-bunx npm-check-updates
-bunx npm-check-updates -u  # Update package.json
-```
-
-### Analyze Dependency Tree
-```bash
-# See why a package is installed
-npm ls package-name
-yarn why package-name
-
-# Find duplicate packages
-npm dedupe
-yarn dedupe
-
-# Visualize dependencies
-bunx madge --image graph.png src/
-```
-
-## Compatibility Matrix
-
-```javascript
-// compatibility-matrix.js
-const compatibilityMatrix = {
-  'react': {
-    '16.x': {
-      'react-dom': '^16.0.0',
-      'react-router-dom': '^5.0.0',
-      '@testing-library/react': '^11.0.0'
-    },
-    '17.x': {
-      'react-dom': '^17.0.0',
-      'react-router-dom': '^5.0.0 || ^6.0.0',
-      '@testing-library/react': '^12.0.0'
-    },
-    '18.x': {
-      'react-dom': '^18.0.0',
-      'react-router-dom': '^6.0.0',
-      '@testing-library/react': '^13.0.0'
-    }
-  }
-};
-
-function checkCompatibility(packages) {
-  // Validate package versions against matrix
-}
+# Analyze dependency tree
+npm ls <package-name>
+yarn why <package-name>
 ```
 
 ## Staged Upgrade Strategy
 
-### Phase 1: Planning
+Upgrade one dependency at a time with testing between each:
+
 ```bash
-# 1. Identify current versions
-npm list --depth=0
+# 1. Create feature branch
+git checkout -b upgrade/<package>-<version>
 
-# 2. Check for breaking changes
-# Read CHANGELOG.md and MIGRATION.md
+# 2. Upgrade single package
+bun add <package>@<version>
 
-# 3. Create upgrade plan
-echo "Upgrade order:
-1. TypeScript
-2. React
-3. React Router
-4. Testing libraries
-5. Build tools" > UPGRADE_PLAN.md
+# 3. Test immediately
+bun test && bunx tsc --noEmit && bun run build
+
+# 4. Commit and continue
+git add -A && git commit -m "chore: upgrade <package> to <version>"
 ```
 
-### Phase 2: Incremental Updates (Prefer Bun)
-```bash
-# Don't upgrade everything at once!
+Load `references/staged-upgrades.md` for codemod automation, custom migration scripts, and peer dependency handling.
 
-# Step 1: Update TypeScript (preferred)
-bun add -D typescript@latest
+Load `references/compatibility-matrix.md` for version compatibility tables (React 18/19, Next.js 13-15, TypeScript, Tailwind 3/4).
 
-# Or with npm
-bun add typescript@latest
+## Automated Updates with Cooldown
 
-# Test (preferred)
-bun test
-bun run build
+Configure CI/CD tools to respect cooldown periods:
 
-# Or with npm
-npm run test
-npm run build
+### Dependabot (`.github/dependabot.yml`)
 
-# Step 2: Update React (one major version at a time)
-# Preferred
-bun add react@17 react-dom@17
-
-# Or with npm
-bun add react@17 react-dom@17
-
-# Test again (preferred)
-bun test
-
-# Or with npm
-npm run test
-
-# Step 3: Continue with other packages
-# Preferred
-bun add react-router-dom@6
-
-# Or with npm
-bun add react-router-dom@6
-
-# And so on...
+```yaml
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
 ```
 
-### Phase 3: Validation
-```javascript
-// tests/compatibility.test.js
-describe('Dependency Compatibility', () => {
-  it('should have compatible React versions', () => {
-    const reactVersion = require('react/package.json').version;
-    const reactDomVersion = require('react-dom/package.json').version;
+### Renovate (`renovate.json`)
 
-    expect(reactVersion).toBe(reactDomVersion);
-  });
-
-  it('should not have peer dependency warnings', () => {
-    // Run npm ls and check for warnings
-  });
-});
-```
-
-## Breaking Change Handling
-
-### Identifying Breaking Changes
-```bash
-# Use changelog parsers
-bunx changelog-parser react 16.0.0 17.0.0
-
-# Or manually check
-curl https://raw.githubusercontent.com/facebook/react/main/CHANGELOG.md
-```
-
-### Codemod for Automated Fixes
-```bash
-# React upgrade codemods
-bunx react-codeshift <transform> <path>
-
-# Example: Update lifecycle methods
-bunx react-codeshift \
-  --parser tsx \
-  --transform react-codeshift/transforms/rename-unsafe-lifecycles.js \
-  src/
-```
-
-### Custom Migration Script
-```javascript
-// migration-script.js
-const fs = require('fs');
-const glob = require('glob');
-
-glob('src/**/*.tsx', (err, files) => {
-  files.forEach(file => {
-    let content = fs.readFileSync(file, 'utf8');
-
-    // Replace old API with new API
-    content = content.replace(
-      /componentWillMount/g,
-      'UNSAFE_componentWillMount'
-    );
-
-    // Update imports
-    content = content.replace(
-      /import { Component } from 'react'/g,
-      "import React, { Component } from 'react'"
-    );
-
-    fs.writeFileSync(file, content);
-  });
-});
-```
-
-## Testing Strategy
-
-### Unit Tests
-```javascript
-// Ensure tests pass before and after upgrade
-npm run test
-
-// Update test utilities if needed
-bun add @testing-library/react@latest
-```
-
-### Integration Tests
-```javascript
-// tests/integration/app.test.js
-describe('App Integration', () => {
-  it('should render without crashing', () => {
-    render(<App />);
-  });
-
-  it('should handle navigation', () => {
-    const { getByText } = render(<App />);
-    fireEvent.click(getByText('Navigate'));
-    expect(screen.getByText('New Page')).toBeInTheDocument();
-  });
-});
-```
-
-### Visual Regression Tests
-```javascript
-// visual-regression.test.js
-describe('Visual Regression', () => {
-  it('should match snapshot', () => {
-    const { container } = render(<App />);
-    expect(container.firstChild).toMatchSnapshot();
-  });
-});
-```
-
-### E2E Tests
-```javascript
-// cypress/e2e/app.cy.js
-describe('E2E Tests', () => {
-  it('should complete user flow', () => {
-    cy.visit('/');
-    cy.get('[data-testid="login"]').click();
-    cy.get('input[name="email"]').type('user@example.com');
-    cy.get('button[type="submit"]').click();
-    cy.url().should('include', '/dashboard');
-  });
-});
-```
-
-## Automated Dependency Updates
-
-### Renovate Configuration
 ```json
-// renovate.json
 {
   "extends": ["config:base"],
+  "minimumReleaseAge": "7 days",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
@@ -291,112 +333,87 @@ describe('E2E Tests', () => {
     {
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": ["major-update"]
+      "minimumReleaseAge": "14 days"
     }
-  ],
-  "schedule": ["before 3am on Monday"],
-  "timezone": "America/New_York"
+  ]
 }
 ```
 
-### Dependabot Configuration
-```yaml
-# .github/dependabot.yml
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "team-leads"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
+### Snyk
+
+Snyk includes a built-in 21-day cooldown for upgrade PRs. No configuration needed.
+
+Use `templates/dependabot-security.tmpl` or `templates/renovate-security.tmpl` for complete config files.
+
+## Publishing Security
+
+For package maintainers:
+
+```bash
+# Enable 2FA
+npm profile enable-2fa auth-and-writes
+
+# Publish with provenance (cryptographic build proof)
+npm publish --provenance
+
+# Trusted publishing via OIDC (eliminates long-lived tokens)
+# Configure on npmjs.com, then:
+# In GitHub Actions: permissions: id-token: write
 ```
+
+Load `references/supply-chain-security.md` for full publishing security guide including OIDC setup and dependency tree reduction.
+
+## Dev Environment Hardening
+
+Isolate dependency execution from the host system:
+
+- **Dev containers** — limit blast radius of malicious packages
+- **Secrets management** — use 1Password CLI or Infisical instead of plaintext `.env` files
+- **Dependency tree reduction** — replace common packages with native JS
+
+Use `templates/devcontainer-security.tmpl` for a hardened dev container config.
+
+Load `references/secrets-and-containers.md` for dev container setup, secrets management, and dependency reduction patterns.
+
+## Testing Strategy
+
+Run tests at every level after each upgrade:
+
+```bash
+# 1. Static analysis (fastest)
+bunx tsc --noEmit && bun run lint
+
+# 2. Unit tests
+bun test
+
+# 3. Build check
+bun run build
+
+# 4. Integration / E2E (after major upgrades)
+bun run test:e2e
+```
+
+Load `references/testing-strategy.md` for full testing pyramid, CI integration, and bundle analysis.
 
 ## Rollback Plan
 
-```javascript
-// rollback.sh
+```bash
 #!/bin/bash
-
-# Save current state
 git stash
-git checkout -b upgrade-branch
+git checkout -b upgrade/<package>
 
-# Attempt upgrade
-bun add package@latest
+bun add <package>@latest
 
-# Run tests
-if npm run test; then
-  echo "Upgrade successful"
-  git add package.json package-lock.json
-  git commit -m "chore: upgrade package"
+if bun test && bun run build; then
+  git add package.json bun.lock
+  git commit -m "chore: upgrade <package>"
 else
   echo "Upgrade failed, rolling back"
   git checkout main
-  git branch -D upgrade-branch
-  npm install  # Restore from package-lock.json
+  git branch -D upgrade/<package>
+  bun install
 fi
 ```
-
-## Common Upgrade Patterns
-
-### Lock File Management (Prefer Bun)
-```bash
-# Preferred: Bun
-bun install --frozen-lockfile
-
-# npm
-npm install --package-lock-only  # Update lock file only
-npm ci  # Clean install from lock file
-
-# yarn
-yarn install --frozen-lockfile  # CI mode
-yarn upgrade-interactive  # Interactive upgrades
-```
-
-### Peer Dependency Resolution
-```bash
-# npm 7+: strict peer dependencies
-npm install --legacy-peer-deps  # Ignore peer deps
-
-# npm 8+: override peer dependencies
-npm install --force
-```
-
-### Workspace Upgrades
-```bash
-# Update all workspace packages
-npm install --workspaces
-
-# Update specific workspace
-bun add package@latest --workspace=packages/app
-```
-
-## Resources
-
-- **references/semver.md**: Semantic versioning guide
-- **references/compatibility-matrix.md**: Common compatibility issues
-- **references/staged-upgrades.md**: Incremental upgrade strategies
-- **references/testing-strategy.md**: Comprehensive testing approaches
-- **assets/upgrade-checklist.md**: Step-by-step checklist
-- **assets/compatibility-matrix.csv**: Version compatibility table
-- **scripts/audit-dependencies.sh**: Dependency audit script
-
-## Best Practices
-
-1. **Prefer Bun**: Use Bun for installs, scripts, and tests when possible
-2. **Read Changelogs**: Understand what changed
-3. **Upgrade Incrementally**: One major version at a time
-4. **Test Thoroughly**: Unit, integration, E2E tests
-5. **Check Peer Dependencies**: Resolve conflicts early
-6. **Use Lock Files**: Ensure reproducible installs
-7. **Automate Updates**: Use Renovate or Dependabot
-8. **Monitor**: Watch for runtime errors post-upgrade
-9. **Document**: Keep upgrade notes
 
 ## Upgrade Checklist
 
@@ -405,14 +422,21 @@ Pre-Upgrade:
 - [ ] Review current dependency versions
 - [ ] Read changelogs for breaking changes
 - [ ] Create feature branch
-- [ ] Backup current state (git tag)
+- [ ] Tag current state (git tag pre-upgrade)
 - [ ] Run full test suite (baseline)
+- [ ] Verify cooldown period is configured
+
+Security Pre-Checks:
+- [ ] Post-install scripts are disabled
+- [ ] Lockfile validation is active
+- [ ] Install auditing tools configured (if applicable)
+- [ ] CI uses frozen-lockfile install
 
 During Upgrade:
 - [ ] Upgrade one dependency at a time
+- [ ] Respect cooldown period (don't force latest)
 - [ ] Update peer dependencies
 - [ ] Fix TypeScript errors
-- [ ] Update tests if needed
 - [ ] Run test suite after each upgrade
 - [ ] Check bundle size impact
 
@@ -427,10 +451,42 @@ Post-Upgrade:
 
 ## Common Pitfalls
 
-- Upgrading all dependencies at once
-- Not testing after each upgrade
+- Upgrading all dependencies at once (use incremental upgrades)
+- Blindly running `npm update` or `npm-check-updates -u` without review
+- Not testing after each individual upgrade
 - Ignoring peer dependency warnings
-- Forgetting to update lock file
-- Not reading breaking change notes
-- Skipping major versions
-- Not having rollback plan
+- Forgetting to update or commit the lock file
+- Not reading breaking change notes in changelogs
+- Skipping major versions instead of stepping through them
+- Not having a rollback plan
+- Trusting npmjs.org displayed source code (can differ from actual tarball)
+- Leaving post-install scripts enabled (most common attack vector)
+- Not configuring a cooldown period for new package versions
+
+## When to Load References
+
+Load these reference files when the user needs detailed information beyond the quick-reference in SKILL.md:
+
+| Load This File | When |
+|---------------|------|
+| `references/cooldown-config-guide.md` | Configuring cooldown for a specific PM, CI tool integration, or exclusion patterns |
+| `references/package-manager-security.md` | Full per-PM hardening guide including pnpm trust policy, blockExoticSubdeps, cross-PM cheat sheet |
+| `references/supply-chain-security.md` | Understanding attack vectors, incident history, npq vs sfw comparison, publisher security (2FA, provenance, OIDC) |
+| `references/secrets-and-containers.md` | Setting up dev containers, secrets management with 1Password/Infisical |
+| `references/compatibility-matrix.md` | Checking version compatibility for React, Next.js, TypeScript, Tailwind upgrades |
+| `references/staged-upgrades.md` | Codemod automation, custom migration scripts, peer dependency handling, workspace upgrades |
+| `references/testing-strategy.md` | Full testing pyramid, CI integration, bundle analysis, performance testing |
+
+## Template Files
+
+Ready-to-use config files in `templates/`:
+
+| Template | Purpose |
+|----------|---------|
+| `npmrc-security.tmpl` | Secure `.npmrc` with scripts disabled + cooldown |
+| `bunfig-security.tmpl` | Secure `bunfig.toml` with cooldown + exclusions |
+| `pnpm-workspace-security.tmpl` | Secure `pnpm-workspace.yaml` with cooldown, allowBuilds, trustPolicy |
+| `yarnrc-security.tmpl` | Secure `.yarnrc.yml` with age gate + preapproved packages |
+| `dependabot-security.tmpl` | Dependabot config with 7-day cooldown |
+| `renovate-security.tmpl` | Renovate config with minimumReleaseAge + automerge rules |
+| `devcontainer-security.tmpl` | Hardened dev container with security options |

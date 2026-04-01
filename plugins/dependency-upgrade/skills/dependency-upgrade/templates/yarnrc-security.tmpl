@@ -1,0 +1,26 @@
+# .yarnrc.yml — Security-Hardened Configuration for Yarn 4.10+
+# Copy to project root as .yarnrc.yml
+# Customize values marked with [CONFIGURE]
+
+# === COOLDOWN PERIOD ===
+# Only consider npm package versions published at least 7 days ago
+# Accepts human-readable durations: "3d", "7d", "14d", "21d"
+npmMinimalAgeGate: "7d"
+
+# Packages that bypass the age gate (descriptors or glob patterns)
+# [CONFIGURE] Add packages that need same-day updates
+npmPreapprovedPackages:
+  - "@types/react"
+  - "@types/node"
+  - typescript
+  - esbuild
+
+# === REGISTRY ===
+npmRegistryServer: "https://registry.npmjs.org/"
+
+# === SECURITY ===
+# Require integrity checks
+unsafeHttpWhitelist: []
+
+# === DETERMINISTIC INSTALLS ===
+# In CI, use: yarn install --immutable --immutable-cache

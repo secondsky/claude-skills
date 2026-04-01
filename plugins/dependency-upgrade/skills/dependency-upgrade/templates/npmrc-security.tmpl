@@ -1,0 +1,28 @@
+# .npmrc — Security-Hardened Configuration
+# Copy to project root as .npmrc
+# Customize values marked with [CONFIGURE]
+
+# === POST-INSTALL SCRIPTS ===
+# Block all lifecycle scripts (postinstall, preinstall, etc.)
+ignore-scripts=true
+
+# Block git-based dependencies from re-enabling scripts (npm CLI 11.10.0+)
+allow-git=none
+
+# === COOLDOWN PERIOD ===
+# Only install package versions published at least 7 days ago
+# Adjust value (in days): 3 (aggressive), 7 (recommended), 14 (conservative)
+min-release-age=7
+
+# === REGISTRY ===
+# Use official npm registry
+registry=https://registry.npmjs.org/
+
+# === SECURITY ===
+# Require integrity checks on all packages
+strict-ssl=true
+
+# === OPTIONAL: SCRIPT ALLOWLIST ===
+# To allow specific packages to run scripts, use @lavamoat/allow-scripts
+# npx allow-scripts auto
+# Then review and approve in package.json

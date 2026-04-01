@@ -1,0 +1,23 @@
+# bunfig.toml — Security-Hardened Configuration for Bun
+# Copy to project root as bunfig.toml
+# Customize values marked with [CONFIGURE]
+
+[install]
+# === COOLDOWN PERIOD ===
+# Only install package versions published at least 7 days ago (value in seconds)
+# 3 days = 259200, 7 days = 604800, 14 days = 1209600, 21 days = 1814400
+minimumReleaseAge = 604800
+
+# Packages that bypass the cooldown (typically build tooling that needs fast patches)
+# [CONFIGURE] Add packages that need same-day updates
+minimumReleaseAgeExcludes = [
+  "@types/bun",
+  "typescript",
+  "esbuild"
+]
+
+# === REGISTRY ===
+registry = "https://registry.npmjs.org/"
+
+# === PEER DEPENDENCIES ===
+# Bun handles peer deps automatically; no configuration needed
