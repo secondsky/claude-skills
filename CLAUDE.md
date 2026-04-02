@@ -672,7 +672,7 @@ Use [ONE_PAGE_CHECKLIST.md](docs/getting-started/ONE_PAGE_CHECKLIST.md) to verif
 
 - [ ] YAML frontmatter valid (name + description)
 - [ ] Description includes "Use when" scenarios
-- [ ] **Description is concise** (<100 chars ideal, <200 chars max)
+- [ ] **Description is concise** (<100 chars ideal, <300 chars max)
 - [ ] Keywords comprehensive (technologies, use cases, errors)
 - [ ] Third-person description style
 - [ ] Instructions in imperative form
