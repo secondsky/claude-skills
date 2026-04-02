@@ -187,14 +187,12 @@ validate_skill() {
     done <<< "$deduped"
   fi
 
-  # --- Output ---
+  # --- Output (FAIL is always printed, even in --quiet mode) ---
   if [ -n "$errors" ]; then
     has_error=true
     CRITICAL_COUNT=$((CRITICAL_COUNT + 1))
-    if [ "$QUIET" = false ]; then
-      echo -e "  ${RED}FAIL${NC} $dir_name"
-      printf '%b' "$errors"
-    fi
+    echo -e "  ${RED}FAIL${NC} $dir_name"
+    printf '%b' "$errors"
   fi
 
   if [ -n "$warnings" ]; then
@@ -262,32 +260,30 @@ if [ "$QUIET" = false ]; then
 fi
 
 if [ -n "$TARGET_DIR" ]; then
-  if [ "$(basename "$TARGET_DIR")" = "skills" ]; then
-    search_dir="$TARGET_DIR"
+  skill_files=""
+
+  # Priority 1: --dir points directly to a skill directory (contains SKILL.md)
+  if [ -f "$TARGET_DIR/SKILL.md" ]; then
+    skill_files="$TARGET_DIR/SKILL.md"
+  # Priority 2: --dir is a skills container (basename is "skills")
+  elif [ "$(basename "$TARGET_DIR")" = "skills" ]; then
+    skill_files=$(find "$TARGET_DIR" -mindepth 2 -maxdepth 2 -name 'SKILL.md' 2>/dev/null | sort || true)
+  # Priority 3: --dir is a plugin root (look for skills/ subdirectory)
   else
-    search_dir="$TARGET_DIR/skills"
-  fi
-
-  skill_files=$(find "$search_dir" -name 'SKILL.md' 2>/dev/null | sort)
-
-  if [ -z "$skill_files" ]; then
-    if [ -f "$TARGET_DIR/SKILL.md" ]; then
-      skill_files="$TARGET_DIR/SKILL.md"
-    fi
+    skill_files=$(find "$TARGET_DIR/skills" -name 'SKILL.md' 2>/dev/null | sort || true)
   fi
 
   if [ -z "$skill_files" ]; then
-    if [ "$QUIET" = false ]; then
-      echo -e "${RED}Error: No SKILL.md found in $TARGET_DIR${NC}"
-    fi
+    echo -e "${RED}Error: No SKILL.md found in $TARGET_DIR${NC}"
     exit 1
   fi
 
   while IFS= read -r file; do
+    [ -z "$file" ] && continue
     validate_skill "$file"
   done <<< "$skill_files"
 else
-  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' 2>/dev/null | sort)
+  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' 2>/dev/null | sort || true)
 
   if [ -z "$skill_files" ]; then
     echo -e "${RED}Error: No SKILL.md files found${NC}"
@@ -295,6 +291,7 @@ else
   fi
 
   while IFS= read -r file; do
+    [ -z "$file" ] && continue
     validate_skill "$file"
   done <<< "$skill_files"
 fi
@@ -312,9 +309,7 @@ if [ "$QUIET" = false ]; then
 fi
 
 if [ "$CRITICAL_COUNT" -gt 0 ]; then
-  if [ "$QUIET" = false ]; then
-    echo -e "${RED}Validation failed with $CRITICAL_COUNT critical issue(s)${NC}"
-  fi
+  echo -e "${RED}Validation failed with $CRITICAL_COUNT critical issue(s)${NC}"
   exit 1
 else
   if [ "$QUIET" = false ]; then

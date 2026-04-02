@@ -30,11 +30,18 @@ jobs:
           fi
           echo "Validating changed SKILL.md files:"
           echo "$CHANGED"
+          FAILED=0
           for file in $CHANGED; do
             dir=$(dirname "$GITHUB_WORKSPACE/$file")
             echo "Validating: $dir"
-            ./scripts/validate-frontmatter.sh --dir "$dir" --quiet
+            if ! ./scripts/validate-frontmatter.sh --dir "$dir" --quiet; then
+              FAILED=$((FAILED + 1))
+            fi
           done
+          if [ "$FAILED" -gt 0 ]; then
+            echo "::error::$FAILED skill(s) failed frontmatter validation"
+            exit 1
+          fi
 
       - name: Validate all SKILL.md frontmatter
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
