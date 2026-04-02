@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-durable-objects",
   "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
-  "version": "3.2.0",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -18,31 +18,18 @@
     "wrangler",
     "websocket",
     "migration",
-    "real-time",
-    "vitest",
-    "testing",
-    "rpc",
-    "rpctarget",
-    "metadata",
-    "gradual-deployment",
-    "state-api",
-    "sql",
-    "sqlite",
-    "hibernation",
-    "alarms",
-    "coordination",
-    "stateful"
-  ],
-  "commands": [
-    "./commands/do-setup.md",
-    "./commands/do-migrate.md",
-    "./commands/do-debug.md",
-    "./commands/do-patterns.md",
-    "./commands/do-optimize.md"
+    "real-time"
   ],
   "agents": [
     "./agents/do-debugger.md",
-    "./agents/do-setup-assistant.md",
-    "./agents/do-pattern-implementer.md"
+    "./agents/do-pattern-implementer.md",
+    "./agents/do-setup-assistant.md"
+  ],
+  "commands": [
+    "./commands/do-debug.md",
+    "./commands/do-migrate.md",
+    "./commands/do-optimize.md",
+    "./commands/do-patterns.md",
+    "./commands/do-setup.md"
   ]
 }

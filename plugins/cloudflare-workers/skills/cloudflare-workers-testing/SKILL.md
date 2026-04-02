@@ -1,35 +1,9 @@
 ---
-name: workers-testing
+name: cloudflare-workers-testing
 description: Comprehensive testing guide for Cloudflare Workers using Vitest and @cloudflare/vitest-pool-workers. Use for test setup, binding mocks (D1/KV/R2/DO), integration tests, or encountering test failures, mock errors, coverage issues.
-keywords:
-  - cloudflare-workers
-  - workers-testing
-  - vitest
-  - vitest-workers
-  - miniflare
-  - cloudflare-test
-  - unit-testing
-  - integration-testing
-  - binding-mocks
-  - d1-testing
-  - kv-testing
-  - r2-testing
-  - durable-objects-testing
-  - queue-testing
-  - workers-ai-testing
-  - test-coverage
-  - test-failures
-  - mock-errors
-  - @cloudflare/vitest-pool-workers
-  - cloudflare:test
-  - env-mocking
-  - execution-context
-  - workers-test-setup
-  - vitest-config
-  - test-driven-development
-  - tdd-workers
 license: MIT
 metadata:
+  keywords: "cloudflare-workers, workers-testing, vitest, vitest-workers, miniflare, cloudflare-test, unit-testing, integration-testing, binding-mocks, d1-testing, kv-testing, r2-testing, durable-objects-testing, queue-testing, workers-ai-testing, test-coverage, test-failures, mock-errors, @cloudflare/vitest-pool-workers, cloudflare:test, env-mocking, execution-context, workers-test-setup, vitest-config, test-driven-development, tdd-workers"
   version: "1.0.0"
   last_verified: "2025-01-27"
   production_tested: true

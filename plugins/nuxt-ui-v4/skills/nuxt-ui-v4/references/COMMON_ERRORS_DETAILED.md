@@ -1,8 +1,8 @@
 # Nuxt UI v4 - Common Errors & Detailed Solutions
 
-Complete troubleshooting guide for Nuxt UI v4 with 20 common errors and their solutions.
+Complete troubleshooting guide for Nuxt UI v4 with 25 common errors and their solutions.
 
-**Last Updated**: 2025-11-22
+**Last Updated**: 2026-03-30
 
 ---
 
@@ -29,6 +29,11 @@ Jump to specific errors:
 - [18. TypeScript Types Not Generated](#18-typescript-types-not-generated)
 - [19. Theme Variants Not Applying](#19-theme-variants-not-applying)
 - [20. Responsive Patterns Broken](#20-responsive-patterns-broken)
+- [21. Cannot read property 'focus' of undefined (v4.2+)](#21-cannot-read-property-focus-of-undefined-v42)
+- [22. Missing tailwindcss Package](#22-missing-tailwindcss-package)
+- [23. useChat Not Found (AI SDK v5)](#23-usechat-not-found-ai-sdk-v5)
+- [24. Chat messages.content Not Working](#24-chat-messagescontent-not-working)
+- [25. Form Nested Validation Not Inherited](#25-form-nested-validation-not-inherited)
 
 ---
 
@@ -943,7 +948,135 @@ function focusAll() {
 
 ---
 
+## 22. Missing tailwindcss Package
+
+**Error**: "Cannot find module tailwindcss" or styles not building
+
+**Symptoms**:
+- Build errors about missing tailwindcss
+- `@import "tailwindcss"` fails
+- CSS not compiling
+
+**Root Cause**: Nuxt UI v4.6+ requires `tailwindcss` as an explicit peer dependency.
+
+**Solution**: Install both packages:
+
+```bash
+bun add @nuxt/ui tailwindcss
+```
+
+**Why**: Earlier versions auto-installed tailwindcss. v4.6+ requires explicit installation for better dependency management.
+
+---
+
+## 23. useChat Not Found (AI SDK v5)
+
+**Error**: `useChat is not exported from '@ai-sdk/vue'`
+
+**Symptoms**:
+- Import error for `useChat`
+- Chat state not reactive
+- TypeScript error on composable
+
+**Root Cause**: AI SDK v5 replaced `useChat` with the `Chat` class.
+
+**Before (v4)** ❌:
+```ts
+import { useChat } from '@ai-sdk/vue'
+const { messages, input, handleSubmit, status } = useChat()
+```
+
+**After (v5)** ✅:
+```ts
+import { Chat } from '@ai-sdk/vue'
+const chat = new Chat({
+  onError(error) { console.error(error) }
+})
+// chat.messages, chat.status, chat.sendMessage()
+```
+
+---
+
+## 24. Chat messages.content Not Working
+
+**Error**: Chat messages display empty or `[object Object]`
+
+**Symptoms**:
+- `message.content` is undefined
+- Messages show as blank
+- Tool calls and reasoning not rendering
+
+**Root Cause**: AI SDK v5 uses `message.parts` instead of `message.content`.
+
+**Before** ❌:
+```vue
+<template #content="{ message }">
+  {{ message.content }}
+</template>
+```
+
+**After** ✅:
+```vue
+<script setup lang="ts">
+import { isTextUIPart, isReasoningUIPart, isToolUIPart, getToolName } from 'ai'
+import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
+</script>
+
+<template #content="{ message }">
+  <template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
+    <UChatReasoning v-if="isReasoningUIPart(part)" :text="part.text" :streaming="isReasoningStreaming(message, index, chat)" />
+    <UChatTool v-else-if="isToolUIPart(part)" :text="getToolName(part)" :streaming="isToolStreaming(part)" />
+    <template v-else-if="isTextUIPart(part)">
+      <MDC v-if="message.role === 'assistant'" :value="part.text" />
+      <p v-else class="whitespace-pre-wrap">{{ part.text }}</p>
+    </template>
+  </template>
+</template>
+```
+
+---
+
+## 25. Form Nested Validation Not Inherited
+
+**Error**: Nested form validation not triggering or state not syncing with parent
+
+**Symptoms**:
+- Child form doesn't validate when parent submits
+- Nested field errors don't display
+- Parent form doesn't see child form state
+
+**Root Cause**: v4 requires explicit `nested` prop AND `name` prop on child forms.
+
+**Solution**:
+
+```vue
+<UForm :state="state" :schema="schema" @submit="onSubmit">
+  <UFormField label="Customer" name="customer">
+    <UInput v-model="state.customer" />
+  </UFormField>
+
+  <div v-for="(item, index) in state.items" :key="index">
+    <UForm
+      :name="`items.${index}`"
+      :schema="itemSchema"
+      nested
+    >
+      <UFormField name="description">
+        <UInput v-model="item.description" />
+      </UFormField>
+    </UForm>
+  </div>
+</UForm>
+```
+
+**Key changes from v3**:
+- `nested` prop is now required (not automatic)
+- `name` prop on child form matches parent field path (e.g., `items.0`)
+- Schema transformations only apply to submit data, not internal state
+
+---
+
 **See also:**
-- `COMPONENT_EXAMPLES_DETAILED.md` for component-specific examples
-- `RESPONSIVE_ACCESSIBILITY.md` for responsive patterns and accessibility
-- `ADVANCED_CUSTOMIZATION.md` for theming details
+- `ai-sdk-v5-integration.md` for complete AI SDK migration guide
+- `chat-components.md` for chat component reference
+- `nuxt-v4-features.md` for v4 migration features

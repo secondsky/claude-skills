@@ -7,9 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased]
+## [3.2.1] - 2026-04-01
 
 ### Added
+
+#### nuxt-v5 Plugin (v1.0.0) - 2026-04-01
+- 4 focused skills: nuxt-core, nuxt-data, nuxt-server, nuxt-production
+- 3 diagnostic agents: debugger, migration, performance
+- Interactive setup wizard for project scaffolding
+- SSR patterns, composables, server routes, data fetching, state management
+- Deployment guides for Cloudflare, Vercel, and Netlify
+- Testing setup with Vitest
+- Category: frontend
+
+#### supabase-postgres-best-practices Plugin (v1.0.0) - 2026-02-04
+- 30 Postgres performance optimization rules from Supabase
+- 8 categories prioritized by impact: indexing, queries, connections, RLS, migrations, schemas, monitoring, backups
+- Category: database
+
+#### threejs Plugin (v1.0.0) - 2026-02-04
+- 3D web graphics with Three.js
+- Scenes, geometries, materials, lighting, cameras
+- Shaders, animations, post-processing
+- Performance optimization patterns
+- Category: frontend
+
+#### JSON Schema Validation System - 2026-02-09
+- Comprehensive plugin.json validation scripts
+- CI integration for automated validation
+- Schema-based checks for required fields, structure, and consistency
+
+#### GitHub Issue Templates - 2026-02-07
+- Skill-specific issue templates for bug reports, feature requests, and skill submissions
+- Comprehensive issue templates guide document
+
+### Changed
+
+#### Plugin Updates
+- **mutation-testing** (2026-03-03): Added Bun native runner support; added missing license field to SKILL.md frontmatter
+- **dependency-upgrade** (2026-04-01): Added supply chain security content
+- **nuxt-seo** (2026-04-01): Updated to latest
+- **nuxt-ui-v4** (2026-04-01): Updated to latest
+- **zod** (2026-02-22): Added version check comment to package.json
+
+#### Documentation Updates
+- README.md: Added platform support banner for Factory Droid and OpenPackage
+- README.md: Added skills.sh warning clarification
+- Marketplace: 169 → 170 plugins (+1 net: +3 new plugins)
+
+---
 
 ## [3.2.0] - 2026-02-07
 

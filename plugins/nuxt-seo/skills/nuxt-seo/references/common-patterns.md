@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
-    name: 'My Blog',
+    name: 'My Blog', // Required in v5
     description: 'Thoughts and tutorials',
     defaultLocale: 'en'
   },
@@ -385,8 +385,8 @@ useSchemaOrg([
 export default defineNuxtConfig({
   modules: [
     'nuxt-site-config',
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org'
   ],

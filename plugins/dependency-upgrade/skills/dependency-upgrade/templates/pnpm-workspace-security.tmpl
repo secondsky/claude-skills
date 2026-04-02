@@ -1,0 +1,50 @@
+# pnpm-workspace.yaml — Security-Hardened Configuration
+# Copy to project root as pnpm-workspace.yaml
+# Requires pnpm 10.0+ (most features) / 10.16+ (cooldown) / 10.21+ (trust policy) / 10.26+ (allowBuilds, blockExoticSubdeps)
+# Customize values marked with [CONFIGURE]
+
+# === COOLDOWN PERIOD ===
+# Only install package versions published at least 7 days ago (value in minutes)
+# 3 days = 4320, 7 days = 10080, 14 days = 20160, 21 days = 30240
+minimumReleaseAge: 10080
+
+# Packages that bypass the cooldown
+# [CONFIGURE] Add packages that need same-day updates
+minimumReleaseAgeExclude:
+  - "@types/react"
+  - "@types/node"
+  - typescript
+  - esbuild
+
+# === POST-INSTALL SCRIPTS ===
+# Preferred (pnpm 10.26+): map of package → true/false
+# [CONFIGURE] Add packages that genuinely need build scripts
+allowBuilds:
+  esbuild: true
+  fsevents: true
+#  sharp: true
+#  core-js: false
+
+# Make unreviewed build scripts a hard error (pnpm 10.3+)
+strictDepBuilds: true
+
+# === TRUST POLICY (pnpm 10.21+) ===
+# Fail if a package's trust level has decreased vs a previous version
+trustPolicy: no-downgrade
+
+# [CONFIGURE] Exclude specific packages from trust checks
+# trustPolicyExclude:
+#   - "chokidar@4.0.3"
+
+# Ignore trust checks for packages published >30 days ago (pnpm 10.27+)
+trustPolicyIgnoreAfter: 43200  # minutes (30 days)
+
+# === EXOTIC DEPENDENCY BLOCKING (pnpm 10.26+) ===
+# Prevent transitive deps from using git repos or tarball URLs
+blockExoticSubdeps: true
+
+# === WORKSPACES (if using monorepo) ===
+# [CONFIGURE] Uncomment and adjust for monorepo
+# packages:
+#   - "apps/*"
+#   - "packages/*"

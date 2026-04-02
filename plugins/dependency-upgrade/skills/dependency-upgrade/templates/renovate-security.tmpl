@@ -1,0 +1,44 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+
+  "minimumReleaseAge": "7 days",
+
+  "schedule": [
+    "before 3am on Monday"
+  ],
+  "timezone": "America/New_York",
+
+  "packageRules": [
+    {
+      "description": "Automerge minor and patch updates after cooldown",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Require manual review for major updates, longer cooldown",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "minimumReleaseAge": "14 days",
+      "labels": ["major-update", "review-required"]
+    },
+    {
+      "description": "Skip cooldown for build tooling that needs fast patches",
+      "matchPackageNames": ["typescript", "esbuild"],
+      "minimumReleaseAge": null
+    }
+  ],
+
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 3am on Monday"]
+  },
+
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Dependency Dashboard"
+}

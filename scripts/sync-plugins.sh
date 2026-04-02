@@ -26,6 +26,8 @@
 
 set -e
 
+command -v jq &>/dev/null || { echo "Error: jq is required but not installed"; exit 1; }
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PLUGINS_DIR="$ROOT_DIR/plugins"
@@ -374,7 +376,7 @@ generate_keywords_json() {
 scan_agents() {
   local skill_dir="$1"
   local agents_dir="$skill_dir/agents"
-  local json_array="null"
+  local json_array=""
 
   if [ -d "$agents_dir" ]; then
     local agents=$(find "$agents_dir" -name "*.md" -type f 2>/dev/null | sort)
@@ -403,7 +405,7 @@ scan_agents() {
 scan_commands() {
   local skill_dir="$1"
   local commands_dir="$skill_dir/commands"
-  local json_array="null"
+  local json_array=""
 
   if [ -d "$commands_dir" ]; then
     local commands=$(find "$commands_dir" -name "*.md" -type f 2>/dev/null | sort)
@@ -432,14 +434,14 @@ scan_commands() {
 count=0
 updated=0
 skipped=0
-# Count total individual skills at plugins/* level
-total=$(find "$PLUGINS_DIR" -mindepth 2 -maxdepth 2 -type f -name "SKILL.md" | wc -l | tr -d ' ')
+# Count total plugins
+total=$(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
 
 echo "Processing skills from all plugins..."
 echo ""
 
 # Loop: iterate through plugin directories (flat structure)
-for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+while IFS= read -r plugin_dir_path; do
   if [ ! -d "$plugin_dir_path" ]; then
     continue
   fi
@@ -449,14 +451,22 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
   plugin_dir="$plugin_dir_path/.claude-plugin"
   plugin_json="$plugin_dir/plugin.json"
   plugin_base_dir="$plugin_dir_path"
+  is_multi_skill=false
 
   count=$((count + 1))
 
-  # Skip if no SKILL.md
+  # Multi-skill plugins: no root SKILL.md, skills live at skills/*/SKILL.md
   if [ ! -f "$skill_md" ]; then
-    printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
-    skipped=$((skipped + 1))
-    continue
+    sub_skill_count=$(find "$plugin_dir_path/skills" -mindepth 2 -maxdepth 2 \
+        -name "SKILL.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$sub_skill_count" -gt 0 ]; then
+      is_multi_skill=true
+      skill_md=""
+    else
+      printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
+      skipped=$((skipped + 1))
+      continue
+    fi
   fi
 
   # Create .claude-plugin directory if needed
@@ -473,53 +483,65 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
     current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
   fi
 
-  # ALWAYS extract description from SKILL.md (source of truth)
-  # Only search within first YAML frontmatter block (between first two --- delimiters)
-  current_desc=$(awk '
-  BEGIN {in_frontmatter=0; found_desc=0}
-  /^---$/ {
-    frontmatter_count++
-    if (frontmatter_count==1) {in_frontmatter=1; next}
-    if (frontmatter_count==2) {exit}
-  }
-  in_frontmatter && /^description:/ {
-    if ($0 !~ /[\|>]$/) {
-      gsub(/^description: */, "")
-      print
-      exit
-    }
-  }
-  ' "$skill_md")
-  if [ -z "$current_desc" ]; then
-  current_desc=$(awk '
-    BEGIN {in_frontmatter=0}
+  category=$(categorize_skill "$skill_name")
+
+  if [ "$is_multi_skill" = true ]; then
+    # Multi-skill plugins: preserve existing plugin.json description (manually curated)
+    current_desc=""
+    if [ -f "$plugin_json" ]; then
+      current_desc=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
+    fi
+    if [ -z "$current_desc" ]; then
+      current_desc="Multi-skill plugin: $skill_name"
+    fi
+    # Pass empty skill_md so keyword generation doesn't try to read a file
+    keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "")
+  else
+    # Single-skill plugins: extract description from SKILL.md (source of truth)
+    # Only search within first YAML frontmatter block (between first two --- delimiters)
+    current_desc=$(awk '
+    BEGIN {in_frontmatter=0; found_desc=0}
     /^---$/ {
       frontmatter_count++
       if (frontmatter_count==1) {in_frontmatter=1; next}
       if (frontmatter_count==2) {exit}
     }
-    in_frontmatter && /^description: [\|>]/{flag=1; next}
-    in_frontmatter && /^[a-z-]+:/{flag=0}
-    flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
-    END{gsub(/ $/, "", line); print line}
-  ' "$skill_md")
-  fi
-  if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
-    current_desc="Production-ready skill for $skill_name"
-  fi
+    in_frontmatter && /^description:/ {
+      if ($0 !~ /[\|>]$/) {
+        gsub(/^description: */, "")
+        print
+        exit
+      }
+    }
+    ' "$skill_md")
+    if [ -z "$current_desc" ]; then
+    current_desc=$(awk '
+      BEGIN {in_frontmatter=0}
+      /^---$/ {
+        frontmatter_count++
+        if (frontmatter_count==1) {in_frontmatter=1; next}
+        if (frontmatter_count==2) {exit}
+      }
+      in_frontmatter && /^description: [\|>]/{flag=1; next}
+      in_frontmatter && /^[a-z-]+:/{flag=0}
+      flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
+      END{gsub(/ $/, "", line); print line}
+    ' "$skill_md")
+    fi
+    if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
+      current_desc="Production-ready skill for $skill_name"
+    fi
 
-  # Get category
-  category=$(categorize_skill "$skill_name")
-
-  # Generate keywords (uses full description with Keywords line for extraction)
-  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+    # Generate keywords (uses full description with Keywords line for extraction)
+    keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+  fi
 
   # Remove "Keywords: ..." line from description for plugin.json output
   clean_desc=$(remove_keywords_line "$current_desc")
 
   # Validate description length
   desc_length=${#clean_desc}
-  if [ "$desc_length" -gt 250 ]; then
+  if [ "$is_multi_skill" = false ] && [ "$desc_length" -gt 250 ]; then
     echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
     echo "  Description: $clean_desc" >&2
     echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
@@ -534,10 +556,36 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
 
   # Build the updated plugin.json
   if [ "$DRY_RUN" = false ]; then
-    # Create temp file with updated content
-    # Use jq to convert to JSON string and trim trailing whitespace/newlines
-    desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
-    cat > "$plugin_json.tmp" << EOF
+    if [ "$is_multi_skill" = true ] && [ -f "$plugin_json" ]; then
+      # Multi-skill plugins: merge updated fields into existing plugin.json
+      # This preserves extra fields like mcpServers, homepage that the template doesn't include
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+
+      # Build jq filter dynamically based on whether agents/commands exist
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .keywords = $keywords | del(.agents) | del(.commands) | del(.category)'
+      jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--argjson" "keywords" "$keywords_json")
+
+      if [ -n "$agents_json" ]; then
+        jq_filter="$jq_filter | .agents = \$agents"
+        jq_args+=("--argjson" "agents" "$agents_json")
+      fi
+      if [ -n "$commands_json" ]; then
+        jq_filter="$jq_filter | .commands = \$commands"
+        jq_args+=("--argjson" "commands" "$commands_json")
+      fi
+
+      if jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp" 2>/dev/null; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
+    elif [ "$is_multi_skill" = true ]; then
+      # Multi-skill plugins: first run (no existing plugin.json)
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+      cat > "$plugin_json.tmp" << EOF
 {
   "name": "$skill_name",
   "description": $desc_json,
@@ -548,36 +596,90 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
   "keywords": $keywords_json
 EOF
 
-    # Add agents if present
-    if [ "$agents_json" != "null" ]; then
-      echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
-    fi
+      if [ -n "$agents_json" ]; then
+        echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
+      fi
 
-    # Add commands if present
-    if [ "$commands_json" != "null" ]; then
-      echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
-    fi
+      if [ -n "$commands_json" ]; then
+        echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
+      fi
 
-    echo "}" >> "$plugin_json.tmp"
+      echo "}" >> "$plugin_json.tmp"
 
-    # Validate and format JSON
-    if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
-      jq '.' "$plugin_json.tmp" > "$plugin_json"
-      rm "$plugin_json.tmp"
+      if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
+    elif [ -f "$plugin_json" ]; then
+      # Single-skill with existing plugin.json: merge to preserve extra fields (homepage, skills, etc.)
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .license = $license | .repository = $repo | .keywords = $keywords | del(.agents) | del(.commands) | del(.category)'
+      jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--arg" "license" "MIT" "--arg" "repo" "https://github.com/secondsky/claude-skills" "--argjson" "keywords" "$keywords_json")
+
+      if [ -n "$agents_json" ]; then
+        jq_filter="$jq_filter | .agents = \$agents"
+        jq_args+=("--argjson" "agents" "$agents_json")
+      fi
+      if [ -n "$commands_json" ]; then
+        jq_filter="$jq_filter | .commands = \$commands"
+        jq_args+=("--argjson" "commands" "$commands_json")
+      fi
+
+      if jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp" 2>/dev/null; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
     else
-      echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
-      rm "$plugin_json.tmp"
-      continue
+      # No existing plugin.json: create from template
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+      cat > "$plugin_json.tmp" << EOF
+{
+  "name": "$skill_name",
+  "description": $desc_json,
+  "version": "$GLOBAL_VERSION",
+  "author": $current_author,
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": $keywords_json
+EOF
+
+      if [ -n "$agents_json" ]; then
+        echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
+      fi
+
+      if [ -n "$commands_json" ]; then
+        echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
+      fi
+
+      echo "}" >> "$plugin_json.tmp"
+
+      if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm "$plugin_json.tmp"
+        continue
+      fi
     fi
   fi
 
   # Output status
   extras=""
-  if [ "$agents_json" != "null" ]; then
+  if [ -n "$agents_json" ]; then
     agent_count=$(echo "$agents_json" | jq 'length')
     extras="$extras +${agent_count}agents"
   fi
-  if [ "$commands_json" != "null" ]; then
+  if [ -n "$commands_json" ]; then
     cmd_count=$(echo "$commands_json" | jq 'length')
     extras="$extras +${cmd_count}cmds"
   fi
@@ -589,7 +691,7 @@ EOF
   fi
 
   updated=$((updated + 1))
-done
+done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 echo ""
 echo "============================================"

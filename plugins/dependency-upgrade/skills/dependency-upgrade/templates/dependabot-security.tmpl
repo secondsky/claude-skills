@@ -1,0 +1,36 @@
+# .github/dependabot.yml — Automated Updates with Cooldown
+# Copy to .github/dependabot.yml
+# Customize values marked with [CONFIGURE]
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      # [CONFIGURE] How often to check for updates: daily, weekly, biweekly, monthly
+      interval: "weekly"
+      day: "monday"
+    # Wait 7 days after a new version is published before creating a PR
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 5
+    # [CONFIGURE] Add reviewers
+    # reviewers:
+    #   - "team-leads"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+    # [CONFIGURE] Uncomment to automerge minor/patch updates
+    # ignore:
+    #   - dependency-name: "*"
+    #     update-types: ["version-update:semver-major"]
+
+  # [CONFIGURE] Uncomment for GitHub Actions updates
+  # - package-ecosystem: "github-actions"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #   cooldown:
+  #     default-days: 7

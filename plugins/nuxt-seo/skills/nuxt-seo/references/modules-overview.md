@@ -1,4 +1,4 @@
-# Nuxt SEO - Modules Overview
+# Nuxt SEO v5 - Modules Overview
 
 Detailed overview of all 8 Nuxt SEO modules.
 
@@ -7,8 +7,8 @@ Detailed overview of all 8 Nuxt SEO modules.
 ## Table of Contents
 
 1. [@nuxtjs/seo (Primary SEO Module)](#1-nuxtjsseo-primary-seo-module)
-2. [nuxt-robots (Robots.txt & Bot Detection)](#2-nuxt-robots-robotstxt--bot-detection)
-3. [nuxt-sitemap (XML Sitemap Generation)](#3-nuxt-sitemap-xml-sitemap-generation)
+2. [@nuxtjs/robots (Robots.txt & Bot Detection)](#2-nuxtjsrobots-robotstxt--bot-detection)
+3. [@nuxtjs/sitemap (XML Sitemap Generation)](#3-nuxtjssitemap-xml-sitemap-generation)
 4. [nuxt-og-image (Open Graph Image Generation)](#4-nuxt-og-image-open-graph-image-generation)
 5. [nuxt-schema-org (Schema.org Structured Data)](#5-nuxt-schema-org-schemaorg-structured-data)
 6. [nuxt-link-checker (Link Validation)](#6-nuxt-link-checker-link-validation)
@@ -23,7 +23,7 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 1. @nuxtjs/seo (Primary SEO Module)
 
-**Version**: 3.2.2 | **Downloads**: 1.8M | **Stars**: 1,296
+**Version**: 5.1.0 | **Downloads**: 4.2M/month | **Stars**: 3,300
 
 ### What It Does
 - Installs all 8 SEO modules as a bundle
@@ -45,9 +45,9 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ---
 
-## 2. nuxt-robots (Robots.txt & Bot Detection)
+## 2. @nuxtjs/robots (Robots.txt & Bot Detection)
 
-**Version**: 5.5.6 | **Downloads**: 7.1M | **Stars**: 497
+**Version**: 6.0.6 | **Downloads**: 8.7M
 
 ### What It Does
 - Generates robots.txt automatically
@@ -81,9 +81,9 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ---
 
-## 3. nuxt-sitemap (XML Sitemap Generation)
+## 3. @nuxtjs/sitemap (XML Sitemap Generation)
 
-**Version**: 7.4.7 | **Downloads**: 8.6M | **Stars**: 398
+**Version**: 8.0.11 | **Downloads**: 10M
 
 ### What It Does
 - Auto-generates XML sitemaps from routes
@@ -104,10 +104,12 @@ Detailed overview of all 8 Nuxt SEO modules.
 - Nuxt Content integration
 - i18n support
 
+### v5 New Features
+- `definePageMeta` sitemap config
+- i18n multi-sitemap auto-expansion
+- Debug production endpoint: `/__sitemap__/debug-production.json`
+
 ### APIs
-- `defineSitemapEventHandler(handler)`
-- Route rules configuration
-- Dynamic sources
 
 ### When to Use
 - Automatic sitemap generation
@@ -121,7 +123,7 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 4. nuxt-og-image (Open Graph Image Generation)
 
-**Version**: 5.1.12 | **Downloads**: 2.5M | **Stars**: 481
+**Version**: 6.3.1 | **Downloads**: 3.7M
 
 ### What It Does
 - Generates Open Graph images dynamically
@@ -141,6 +143,11 @@ Detailed overview of all 8 Nuxt SEO modules.
 - Multi-language fonts
 - Error page OG images
 - Zero runtime mode
+
+### v5 New Features
+- URL signing to prevent parameter tampering
+- Prop whitelisting to prevent cache key DoS
+- Strict mode, deprecated `html` prop
 
 ### Rendering Engines
 - **Satori**: Fast, lightweight, HTML/CSS to image
@@ -163,7 +170,7 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 5. nuxt-schema-org (Schema.org Structured Data)
 
-**Version**: v5.0.9 | **Downloads**: 2.9M | **Stars**: 176
+**Version**: v6.0.4 | **Downloads**: 3.9M
 
 ### What It Does
 - Builds Schema.org JSON-LD graphs
@@ -213,13 +220,18 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 6. nuxt-link-checker (Link Validation)
 
-**Version**: v4.3.6 | **Downloads**: 2M | **Stars**: 95
+**Version**: v5.0.6 | **Downloads**: 2.8M
 
 ### What It Does
 - Finds broken links automatically
 - Validates internal and external links
 - Detects redirect chains
 - Reports link health
+
+### v5 New Features
+- ESLint integration with `link-checker/valid-route` and `link-checker/valid-sitemap-link` rules
+- Scans Vue templates, TS/JS (`navigateTo`, `router.push`), and Markdown links
+- `excludePages` config to skip link checking on specific pages
 
 ### Key Features
 - 404 detection
@@ -243,7 +255,7 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 7. nuxt-seo-utils (SEO Utilities)
 
-**Version**: v7.0.18 | **Downloads**: 1.1M | **Stars**: 113
+**Version**: v8.1.4 | **Downloads**: 2.2M
 
 ### What It Does
 - Provides SEO utility functions
@@ -251,17 +263,15 @@ Detailed overview of all 8 Nuxt SEO modules.
 - Generates breadcrumbs
 - Handles app icons
 
-### Key Features
-- Canonical URL automation
-- Breadcrumb generation
-- App icon management
-- Open Graph automation
-- Enhanced title templates
-- Site name appending
-- Route rules integration
+### v5 New Features
+- `useShareLinks()` composable for social sharing (8 platforms + UTM tracking)
+- `nuxt-seo-utils icons` CLI for favicon generation from a single source image
+- Inline script/style minification (enabled by default)
+- Brand new DevTools client with Identity tab
 
 ### APIs
 - `useBreadcrumbItems()`
+- `useShareLinks(options)`
 
 ### When to Use
 - Breadcrumb navigation
@@ -274,13 +284,21 @@ Detailed overview of all 8 Nuxt SEO modules.
 
 ## 8. nuxt-site-config (Site Configuration)
 
-**Version**: v3.2.11 | **Downloads**: 7.9M | **Stars**: 75
+**Version**: v4.0.7 | **Downloads**: 7.9M
 
 ### What It Does
 - Centralizes site-wide configuration
 - Provides runtime config access
 - Manages multi-tenancy
 - Integrates with i18n
+
+### v5 Breaking Changes
+- Removed implicit site name inference (must explicitly set `site.name`)
+- Removed server-side `useSiteConfig(event)` — use `getSiteConfig(event)` instead
+- Removed `getSiteIndexable()` — use `{ indexable } = getSiteConfig(event)`
+- Removed `SiteConfig` type — use `SiteConfigResolved`
+- Removed legacy `siteUrl`/`siteName`/`siteDescription` runtime config keys
+- Named priority constants: `SiteConfigPriority.runtime`, etc.
 
 ### Key Features
 - Single source of truth
@@ -293,7 +311,8 @@ Detailed overview of all 8 Nuxt SEO modules.
 - Origin detection
 
 ### APIs
-- `useSiteConfig()`
+- `useSiteConfig()` (client-side, unchanged)
+- `getSiteConfig(event)` (server-side, replaces `useSiteConfig(event)`)
 - `updateSiteConfig(config)`
 - `createSitePathResolver()`
 - `useNitroOrigin()`
@@ -369,25 +388,25 @@ Package manager support:
 
 ### Full Stack
 ```bash
-bunx nuxi module add @nuxtjs/seo
+npx nuxt module add seo
 ```
 
 ### Custom Stack
 ```bash
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-og-image
-bunx nuxi module add nuxt-schema-org
+npx nuxt module add robots
+npx nuxt module add sitemap
+npx nuxt module add nuxt-og-image
+npx nuxt module add nuxt-schema-org
 ```
 
 ### Minimal
 ```bash
-bunx nuxi module add nuxt-robots
-bunx nuxi module add nuxt-sitemap
-bunx nuxi module add nuxt-site-config
+npx nuxt module add robots
+npx nuxt module add sitemap
+npx nuxt module add nuxt-site-config
 ```
 
 ---
 
-**Last Updated**: 2025-11-10
-**Source**: https://nuxtseo.com/llms.txt
+**Last Updated**: 2026-03-30
+**Source**: https://nuxtseo.com/llms-full.txt

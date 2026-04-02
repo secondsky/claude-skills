@@ -1,6 +1,7 @@
 ---
-name: workers-observability
+name: cloudflare-workers-observability
 description: Cloudflare Workers observability with logging, Analytics Engine, Tail Workers, metrics, and alerting. Use for monitoring, debugging, tracing, or encountering log parsing, metric aggregation, alert configuration errors.
+license: MIT
 ---
 
 # Cloudflare Workers Observability

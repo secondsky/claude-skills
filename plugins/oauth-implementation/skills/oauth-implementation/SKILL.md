@@ -1,6 +1,7 @@
 ---
 name: oauth-implementation
 description: OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors.
+license: MIT
 ---
 
 # OAuth Implementation

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/secondsky/claude-skills/schemas/plugin.schema.json",
   "title": "Claude Code Plugin Schema",
-  "description": "JSON schema for validating plugin.json files in Claude Code plugins. Based on official Claude Code plugin specification where only 'name' is strictly required.",
+  "description": "JSON schema for validating plugin.json files in Claude Code plugins. Based on official Claude Code plugin specification (https://docs.claude.com/en/docs/claude-code/plugins-reference). Only 'name' is required.",
   "type": "object",
   "required": ["name"],
   "additionalProperties": true,
@@ -10,77 +10,55 @@
     "name": {
       "type": "string",
       "pattern": "^[a-z0-9-]+$",
-      "description": "Plugin name in kebab-case (REQUIRED)"
+      "description": "Plugin name in kebab-case (REQUIRED). Used for namespacing components."
     },
     "version": {
       "type": "string",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
-      "description": "Semantic version (major.minor.patch)"
+      "description": "Semantic version (major.minor.patch). If also set in marketplace entry, plugin.json takes priority."
     },
     "description": {
       "type": "string",
       "minLength": 10,
       "maxLength": 500,
-      "description": "Plugin description with use cases"
+      "description": "Brief explanation of plugin purpose"
     },
     "author": {
-      "oneOf": [
-        {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string",
           "minLength": 1,
-          "description": "Author name as string"
+          "description": "Author name"
         },
-        {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "minLength": 1,
-              "description": "Author name"
-            },
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "Author email"
-            }
-          },
-          "required": ["name"],
-          "description": "Author object with name and optional email"
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Author email"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Author URL"
         }
-      ],
-      "description": "Plugin author (string or object)"
+      },
+      "required": ["name"],
+      "additionalProperties": false,
+      "description": "Author information"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Documentation URL"
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "description": "Source code URL"
     },
     "license": {
       "type": "string",
-      "pattern": "^MIT$",
-      "description": "License type (MUST be MIT for claude-skills)"
-    },
-    "repository": {
-      "oneOf": [
-        {
-          "type": "string",
-          "format": "uri",
-          "description": "Repository URL as string"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string",
-              "enum": ["git"],
-              "description": "Repository type"
-            },
-            "url": {
-              "type": "string",
-              "format": "uri",
-              "description": "Repository URL"
-            }
-          },
-          "required": ["type", "url"],
-          "description": "Repository object with type and URL"
-        }
-      ],
-      "description": "Repository information (string or object)"
+      "minLength": 1,
+      "description": "License identifier (e.g. MIT, Apache-2.0)"
     },
     "keywords": {
       "type": "array",
@@ -90,37 +68,204 @@
       },
       "minItems": 1,
       "uniqueItems": true,
-      "description": "Search keywords for discoverability"
+      "description": "Discovery tags"
     },
     "commands": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^\\./.*",
-        "description": "Command file path (MUST start with './')"
-      },
-      "uniqueItems": true,
-      "description": "Array of command file paths relative to plugin root"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Single command file/directory path (replaces default commands/)"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "uniqueItems": true,
+          "description": "Array of command file/directory paths (replaces default commands/)"
+        }
+      ],
+      "description": "Custom command files/directories. Replaces default commands/ directory."
     },
     "agents": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^\\./.*",
-        "description": "Agent file path (MUST start with './')"
-      },
-      "uniqueItems": true,
-      "description": "Array of agent file paths relative to plugin root"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Single agent file/directory path (replaces default agents/)"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "uniqueItems": true,
+          "description": "Array of agent file paths (replaces default agents/)"
+        }
+      ],
+      "description": "Custom agent files. Replaces default agents/ directory."
+    },
+    "skills": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Single skill directory path (replaces default skills/)"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "uniqueItems": true,
+          "description": "Array of skill directory paths (replaces default skills/)"
+        }
+      ],
+      "description": "Custom skill directories. Replaces default skills/ directory."
     },
     "hooks": {
-      "type": "string",
-      "pattern": "^\\./.*",
-      "description": "Hooks file path (MUST start with './')"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Path to hooks config file"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "description": "Array of hook config file paths"
+        },
+        {
+          "type": "object",
+          "description": "Inline hooks configuration",
+          "additionalProperties": true
+        }
+      ],
+      "description": "Hook config paths or inline configuration. Hooks merge (not replace) from multiple sources."
     },
     "mcpServers": {
-      "type": "string",
-      "pattern": "^\\./.*",
-      "description": "MCP servers configuration file path (MUST start with './')"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Path to MCP servers config file"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "description": "Array of MCP config file paths"
+        },
+        {
+          "type": "object",
+          "description": "Inline MCP server configuration",
+          "additionalProperties": true
+        }
+      ],
+      "description": "MCP config paths or inline configuration. MCP servers merge (not replace) from multiple sources."
+    },
+    "outputStyles": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Single output style file/directory path"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "uniqueItems": true,
+          "description": "Array of output style file/directory paths"
+        }
+      ],
+      "description": "Custom output style files/directories. Replaces default output-styles/ directory."
+    },
+    "lspServers": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\./.*",
+          "description": "Path to LSP servers config file"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^\\./.*"
+          },
+          "description": "Array of LSP config file paths"
+        },
+        {
+          "type": "object",
+          "description": "Inline LSP server configuration",
+          "additionalProperties": true
+        }
+      ],
+      "description": "Language Server Protocol configs for code intelligence."
+    },
+    "userConfig": {
+      "type": "object",
+      "description": "User-configurable values prompted at enable time",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Explanation of what this config value is for"
+          },
+          "sensitive": {
+            "type": "boolean",
+            "description": "Whether this value should be stored securely (default: false)"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "channels": {
+      "type": "array",
+      "description": "Channel declarations for message injection",
+      "items": {
+        "type": "object",
+        "required": ["server"],
+        "properties": {
+          "server": {
+            "type": "string",
+            "description": "Must match a key in the plugin's mcpServers"
+          },
+          "userConfig": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["description"],
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sensitive": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
     }
   }
 }

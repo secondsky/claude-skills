@@ -1,6 +1,7 @@
 ---
 name: logging-best-practices
 description: Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors.
+license: MIT
 ---
 
 # Logging Best Practices

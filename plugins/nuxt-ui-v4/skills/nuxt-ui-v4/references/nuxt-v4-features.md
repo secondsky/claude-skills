@@ -26,7 +26,7 @@ This guide covers Nuxt v4-specific features and how they integrate with Nuxt UI 
 ### Installation
 
 ```bash
-npm install @nuxt/ui
+npm install @nuxt/ui tailwindcss
 ```
 
 ### Configuration
@@ -35,9 +35,112 @@ npm install @nuxt/ui
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
   compatibilityDate: '2024-11-01'
 })
 ```
+
+### nuxt.config.ts Options
+
+```typescript
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+  ui: {
+    // Component prefix (default: 'U')
+    prefix: 'U',
+
+    // Enable @nuxt/fonts module (default: true)
+    fonts: true,
+
+    // Enable color mode (default: true)
+    colorMode: true,
+
+    // Force Prose components without @nuxt/content
+    prose: false,
+
+    // Force Prose + Content components without @nuxt/content
+    content: false,
+
+    // Theme configuration
+    theme: {
+      // Dynamic color aliases (default: primary, secondary, success, info, warning, error)
+      colors: ['primary', 'secondary', 'success', 'info', 'warning', 'error'],
+
+      // Enable transitions on components (default: true)
+      transitions: true,
+
+      // Default color/size variants for all components (v4.1+)
+      defaultVariants: {
+        color: 'primary',
+        size: 'md'
+      },
+
+      // Tailwind CSS prefix for utility classes (v4.2+)
+      // Must match: @import "tailwindcss" prefix(tw);
+      prefix: 'tw'
+    },
+
+    // Experimental features
+    experimental: {
+      // Automatic component detection for tree-shaking (v4.1+)
+      // true = auto-detect, or array of component names to include
+      componentDetection: false
+    }
+  }
+})
+```
+
+### CSS Setup
+
+```css
+/* assets/css/main.css */
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Optional: Custom theme */
+@theme {
+  --font-sans: 'Public Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Optional: Custom colors (define all shades 50-950) */
+@theme static {
+  --color-brand-50: #fef2f2;
+  /* ... */
+  --color-brand-950: #450a0a;
+}
+```
+
+### With Tailwind Prefix
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  ui: {
+    theme: {
+      prefix: 'tw'
+    }
+  }
+})
+```
+
+```css
+/* assets/css/main.css */
+@import "tailwindcss" prefix(tw);
+@import "@nuxt/ui";
+```
+
+This prefixes all utility classes in Nuxt UI components:
+```html
+<!-- Without prefix -->
+<button class="px-2 py-1 text-xs hover:bg-primary/75">
+
+<!-- With prefix: tw -->
+<button class="tw:px-2 tw:py-1 tw:text-xs tw:hover:bg-primary/75">
+```
+
+> **Note**: If using `@nuxt/fonts`, enable `fonts.processCSSVariables: true`.
 
 ### Auto-imports
 
@@ -60,22 +163,16 @@ Nuxt v4 auto-imports all Nuxt UI components and composables:
 
 Nuxt UI v4.2.x introduces several new features and a few breaking changes. Most applications will upgrade smoothly, but you should be aware of the changes below.
 
-### New Components (v4.2.0)
+### New Components (v4.6)
 
-Three new components are available:
+- **ChatReasoning** - Collapsible AI reasoning/thinking process
+- **ChatTool** - Collapsible AI tool invocation status
+- **ChatShimmer** - Text shimmer animation for streaming states
+- **AuthForm** - Pre-built login/register/password reset form
+- **PinInput** - OTP/pin code input
+- **FileUpload** - File upload input
 
-1. **InputDate** - Date picker with calendar UI and range selection
-2. **InputTime** - Time picker with 12/24-hour format support
-3. **Empty** - Empty state display component
-
-**Installation** (if using date/time components):
-```bash
-bun add @internationalized/date
-```
-
-### Breaking Changes
-
-#### 1. Exposed Refs Consistency (v4.2.0)
+### Upgrade Checklist
 
 **Affected Components**: InputMenu, InputNumber, SelectMenu
 
@@ -212,15 +309,19 @@ export default defineNuxtConfig({
 
 ### Upgrade Checklist
 
-- [ ] Update `@nuxt/ui` to v4.2.1: `bun update @nuxt/ui`
+- [ ] Install both packages: `bun add @nuxt/ui tailwindcss`
 - [ ] Search for `.$el` in template refs (InputMenu, InputNumber, SelectMenu)
 - [ ] Remove `.$el` accessors, use direct element access
 - [ ] Update composable imports (remove `.js` extensions)
 - [ ] Install `@internationalized/date` if using InputDate/InputTime
+- [ ] If using AI SDK, update to v5: `Chat` class replaces `useChat`
+- [ ] Update chat rendering to use `message.parts` instead of `message.content`
+- [ ] Import AI helpers from `ai` and `@nuxt/ui/utils/ai`
+- [ ] Add `nested` and `name` props to child UForm components
 - [ ] Test all form validations
 - [ ] Test all imperative DOM operations (focus, etc.)
-- [ ] Consider enabling component detection for smaller bundles
-- [ ] Review new components: InputDate, InputTime, Empty
+- [ ] Consider enabling component detection for production
+- [ ] Review new components: ChatReasoning, ChatTool, ChatShimmer, AuthForm
 
 ### Common Migration Errors
 

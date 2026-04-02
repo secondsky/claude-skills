@@ -21,7 +21,7 @@
     "./agents/d1-query-optimizer.md"
   ],
   "commands": [
-    "./commands/d1-setup.md",
-    "./commands/d1-create-migration.md"
+    "./commands/d1-create-migration.md",
+    "./commands/d1-setup.md"
   ]
 }

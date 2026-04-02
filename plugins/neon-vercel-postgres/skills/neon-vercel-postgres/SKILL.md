@@ -1,32 +1,9 @@
 ---
 name: neon-vercel-postgres
 description: Neon + Vercel serverless Postgres for edge and serverless environments. Use for Cloudflare Workers, Vercel Edge, Next.js apps with HTTP/WebSocket connections, database branching (git-like), Drizzle/Prisma ORM integration, migrations, PITR backups, or encountering connection pool exhausted errors, TCP connection issues, SSL config problems.
-keywords:
-  - neon postgres
-  - "@neondatabase/serverless"
-  - "@vercel/postgres"
-  - serverless postgres
-  - postgres edge
-  - neon branching
-  - vercel database
-  - http postgres
-  - websocket postgres
-  - pooled connection
-  - drizzle neon
-  - prisma neon
-  - postgres cloudflare
-  - postgres vercel edge
-  - sql template tag
-  - neonctl
-  - database branches
-  - point in time restore
-  - postgres migrations
-  - serverless sql
-  - edge database
-  - neon api
-  - vercel sql
 license: MIT
 metadata:
+  keywords: "neon postgres, @neondatabase/serverless, @vercel/postgres, serverless postgres, postgres edge, neon branching, vercel database, http postgres, websocket postgres, pooled connection, drizzle neon, prisma neon, postgres cloudflare, postgres vercel edge, sql template tag, neonctl, database branches, point in time restore, postgres migrations, serverless sql, edge database, neon api, vercel sql"
   version: "2.0.0"
   neon_serverless_version: "1.0.2"
   vercel_postgres_version: "0.10.0"

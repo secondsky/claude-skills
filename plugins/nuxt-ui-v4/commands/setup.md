@@ -27,7 +27,7 @@ Initialize Nuxt UI v4 in the current Nuxt project with optimal configuration.
 
 2. **Install Dependencies**
    ```bash
-   bun add @nuxt/ui
+   bun add @nuxt/ui tailwindcss
    ```
 
    If `--ai` flag:
@@ -41,65 +41,63 @@ Initialize Nuxt UI v4 in the current Nuxt project with optimal configuration.
    ```
 
 3. **Configure nuxt.config.ts**
-   Add @nuxt/ui to modules:
+   Add @nuxt/ui to modules and CSS:
    ```ts
    export default defineNuxtConfig({
      modules: ['@nuxt/ui'],
-     ui: {
-       colorMode: true
-     }
+     css: ['~/assets/css/main.css']
    })
    ```
 
-4. **Setup app.vue**
-   Wrap with UApp and add CSS imports:
+4. **Create CSS file**
+   Create `assets/css/main.css`:
+   ```css
+   @import "tailwindcss";
+   @import "@nuxt/ui";
+   ```
+
+5. **Setup app.vue**
+   Wrap with UApp:
    ```vue
    <template>
      <UApp>
        <NuxtPage />
      </UApp>
    </template>
-
-   <style>
-   @import "tailwindcss";
-   @import "@nuxt/ui";
-   </style>
    ```
 
-5. **Create app.config.ts**
+6. **Create app.config.ts**
    Setup semantic colors:
    ```ts
    export default defineAppConfig({
      ui: {
-       theme: {
-         colors: {
-           primary: 'green',
-           neutral: 'slate'
-         }
+       colors: {
+         primary: 'green',
+         neutral: 'slate'
        }
      }
    })
    ```
 
-6. **If --dashboard flag**: Create dashboard layout
+7. **If --dashboard flag**: Create dashboard layout
    ```
    layouts/dashboard.vue
    ```
 
-7. **If --ai flag**: Create chat API endpoint
+8. **If --ai flag**: Create chat API endpoint
    ```
    server/api/chat.post.ts
    ```
 
-8. **Generate Types**
+9. **Generate Types**
    ```bash
    bunx nuxt prepare
    ```
 
-9. **Verify Installation**
-   ```bash
-   bun run dev
-   ```
+10. **Verify Installation**
+    ```bash
+    bun run dev
+    ```
 
 ## Output
 
@@ -113,3 +111,4 @@ Report what was configured:
 - Use `bun` as the preferred package manager
 - Check for existing Tailwind config and migrate if needed
 - Warn if using incompatible Tailwind v3
+- Both `@nuxt/ui` and `tailwindcss` must be installed explicitly

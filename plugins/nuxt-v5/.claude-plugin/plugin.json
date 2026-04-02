@@ -1,0 +1,28 @@
+{
+  "name": "nuxt-v5",
+  "description": "Comprehensive Nuxt 5 development with 4 focused skills (core, data, server, production), 3 diagnostic agents (debugger, migration, performance), and interactive setup wizard. Use when: building Nuxt 5 applications, implementing SSR patterns, creating composables, server routes, data fetching, state management, debugging hydration issues, migrating from Nuxt 4, optimizing performance, deploying to Cloudflare/Vercel/Netlify, or setting up testing with Vitest.",
+  "version": "3.0.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "mcpServers": "./.mcp.json",
+  "keywords": [
+    "nuxt-v5",
+    "nuxt",
+    "frontend",
+    "components",
+    "ssr",
+    "migration"
+  ],
+  "agents": [
+    "./agents/nuxt-debugger.md",
+    "./agents/nuxt-migration-assistant.md",
+    "./agents/nuxt-performance-analyzer.md"
+  ],
+  "commands": [
+    "./commands/nuxt-setup.md"
+  ]
+}

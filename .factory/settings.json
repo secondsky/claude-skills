@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "core@factory-plugins": true,
+    "ralph-loop@claude-plugins-official": true
+  }
+}

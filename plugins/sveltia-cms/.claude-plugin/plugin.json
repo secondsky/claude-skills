@@ -15,12 +15,9 @@
     "content",
     "management",
     "publishing",
-    "coop",
     "cors",
     "toml",
     "yaml",
-    "graphql",
-    "sveltekit",
-    "authentication"
+    "graphql"
   ]
 }

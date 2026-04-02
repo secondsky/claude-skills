@@ -15,18 +15,7 @@
     "workers",
     "edge",
     "wrangler",
-    "nonretryableerror",
-    "durable-execution",
-    "workflow-step",
-    "workflowentrypoint",
-    "step-do",
-    "step-sleep",
-    "workflow-retries",
-    "workflow-state",
-    "workflow-events",
-    "long-running-tasks",
-    "workflow-debugging",
-    "workflow-optimization"
+    "nonretryableerror"
   ],
   "agents": [
     "./agents/workflow-debugger.md",
@@ -34,9 +23,9 @@
     "./agents/workflow-setup-assistant.md"
   ],
   "commands": [
-    "./commands/workflow-setup.md",
     "./commands/workflow-create.md",
     "./commands/workflow-debug.md",
+    "./commands/workflow-setup.md",
     "./commands/workflow-test.md"
   ]
 }

@@ -8,16 +8,6 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
-  "agents": [
-    "./agents/troubleshooting-agent.md",
-    "./agents/upload-workflow-agent.md",
-    "./agents/optimization-agent.md"
-  ],
-  "commands": [
-    "./commands/check-images.md",
-    "./commands/validate-config.md",
-    "./commands/generate-variant.md"
-  ],
   "keywords": [
     "cloudflare-images",
     "cloudflare",
@@ -28,24 +18,16 @@
     "avif",
     "cors",
     "webp",
-    "image-upload",
-    "image-optimization",
-    "direct-creator-upload",
-    "signed-urls",
-    "image-variants",
-    "responsive-images",
-    "imagedelivery",
-    "cdn-cgi-image",
-    "transformation-errors",
-    "error-9401",
-    "error-5408",
-    "watermarks",
-    "webhooks",
-    "nextjs-images",
-    "remix-images",
-    "custom-domains",
-    "content-credentials",
-    "c2pa",
-    "image-sourcing"
+    "webhooks"
+  ],
+  "agents": [
+    "./agents/optimization-agent.md",
+    "./agents/troubleshooting-agent.md",
+    "./agents/upload-workflow-agent.md"
+  ],
+  "commands": [
+    "./commands/check-images.md",
+    "./commands/generate-variant.md",
+    "./commands/validate-config.md"
   ]
 }

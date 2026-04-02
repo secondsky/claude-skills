@@ -12,21 +12,7 @@
     "tanstack-router",
     "tanstack",
     "router",
-    "tanstack router",
-    "react router",
-    "type-safe routing",
-    "file-based routing",
-    "client-side routing",
-    "spa routing",
-    "route loaders",
-    "data loading",
-    "navigation",
-    "vite plugin",
-    "cloudflare workers",
-    "tanstack query integration",
-    "typescript routing",
-    "route params",
-    "nested routes",
-    "code splitting"
+    "frontend",
+    "components"
   ]
 }

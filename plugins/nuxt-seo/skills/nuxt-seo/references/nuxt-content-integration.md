@@ -17,6 +17,8 @@ Comprehensive guide for integrating Nuxt SEO modules with @nuxt/content v2 and v
 9. [Frontmatter Reference](#frontmatter-reference)
 10. [Best Practices](#best-practices)
 
+> **Note**: If using Nuxt SEO v5, see `references/v5-migration-guide.md` for renamed composables (`asSitemapCollection` → `defineSitemapSchema`, etc.). Examples below use the current stable API.
+
 ---
 
 ## Overview
@@ -55,8 +57,8 @@ export default defineNuxtConfig({
 export default defineNuxtConfig({
   modules: [
     'nuxt-site-config',
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org',
     'nuxt-seo-utils',

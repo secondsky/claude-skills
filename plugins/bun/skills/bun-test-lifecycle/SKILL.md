@@ -1,7 +1,9 @@
 ---
-name: Bun Test Lifecycle
+name: bun-test-lifecycle
 description: Use for test lifecycle hooks: beforeAll, afterAll, beforeEach, afterEach, fixtures, preload.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
+license: MIT
 ---
 
 # Bun Test Lifecycle

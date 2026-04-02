@@ -1,95 +1,98 @@
 {
-  "verified_date": "2025-12-28",
+  "verified_date": "2026-03-30",
+  "nuxt_seo_version": "v5",
   "modules": {
     "@nuxtjs/seo": {
-      "version": "3.3.0",
-      "downloads": "1.8M",
-      "stars": 1296,
+      "version": "5.1.0",
+      "downloads": "4.2M/month",
+      "stars": 3300,
       "npm": "https://www.npmjs.com/package/@nuxtjs/seo",
       "github": "https://github.com/harlan-zw/nuxt-seo",
-      "docs": "https://nuxtseo.com/nuxt-seo/getting-started/installation"
+      "docs": "https://nuxtseo.com/docs/nuxt-seo/getting-started/introduction"
     },
-    "nuxt-robots": {
-      "version": "5.6.7",
-      "downloads": "7.1M",
-      "stars": 497,
-      "npm": "https://www.npmjs.com/package/nuxt-robots",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/robots",
-      "docs": "https://nuxtseo.com/robots/getting-started/installation"
+    "@nuxtjs/robots": {
+      "version": "6.0.6",
+      "downloads": "8.7M",
+      "npm": "https://www.npmjs.com/package/@nuxtjs/robots",
+      "github": "https://github.com/nuxt-modules/robots",
+      "docs": "https://nuxtseo.com/docs/robots/getting-started/introduction"
     },
-    "nuxt-sitemap": {
-      "version": "7.5.0",
-      "downloads": "8.6M",
-      "stars": 398,
-      "npm": "https://www.npmjs.com/package/nuxt-sitemap",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/sitemap",
-      "docs": "https://nuxtseo.com/sitemap/getting-started/installation"
+    "@nuxtjs/sitemap": {
+      "version": "8.0.11",
+      "downloads": "10M",
+      "npm": "https://www.npmjs.com/package/@nuxtjs/sitemap",
+      "github": "https://github.com/nuxt-modules/sitemap",
+      "docs": "https://nuxtseo.com/docs/sitemap/getting-started/introduction"
     },
     "nuxt-og-image": {
-      "version": "5.1.13",
-      "downloads": "2.5M",
-      "stars": 481,
+      "version": "6.3.1",
+      "downloads": "3.7M",
       "npm": "https://www.npmjs.com/package/nuxt-og-image",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/og-image",
-      "docs": "https://nuxtseo.com/og-image/getting-started/installation"
+      "github": "https://github.com/nuxt-modules/og-image",
+      "docs": "https://nuxtseo.com/docs/og-image/getting-started/introduction"
     },
     "nuxt-schema-org": {
-      "version": "5.0.10",
-      "downloads": "2.9M",
-      "stars": 176,
+      "version": "6.0.4",
+      "downloads": "3.9M",
       "npm": "https://www.npmjs.com/package/nuxt-schema-org",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/schema-org",
-      "docs": "https://nuxtseo.com/schema-org/getting-started/installation"
+      "github": "https://github.com/harlan-zw/nuxt-schema-org",
+      "docs": "https://nuxtseo.com/docs/schema-org/getting-started/introduction"
     },
     "nuxt-link-checker": {
-      "version": "4.3.9",
-      "downloads": "2M",
-      "stars": 95,
+      "version": "5.0.6",
+      "downloads": "2.8M",
       "npm": "https://www.npmjs.com/package/nuxt-link-checker",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/link-checker",
-      "docs": "https://nuxtseo.com/link-checker/getting-started/installation"
+      "github": "https://github.com/harlan-zw/nuxt-link-checker",
+      "docs": "https://nuxtseo.com/docs/link-checker/getting-started/introduction"
     },
     "nuxt-seo-utils": {
-      "version": "7.0.19",
-      "downloads": "1.1M",
-      "stars": 113,
+      "version": "8.1.4",
+      "downloads": "2.2M",
       "npm": "https://www.npmjs.com/package/nuxt-seo-utils",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/seo-utils",
-      "docs": "https://nuxtseo.com/seo-utils/getting-started/installation"
+      "github": "https://github.com/harlan-zw/nuxt-seo-utils",
+      "docs": "https://nuxtseo.com/docs/seo-utils/getting-started/introduction"
     },
     "nuxt-site-config": {
-      "version": "3.2.14",
+      "version": "4.0.7",
       "downloads": "7.9M",
-      "stars": 75,
       "npm": "https://www.npmjs.com/package/nuxt-site-config",
-      "github": "https://github.com/harlan-zw/nuxt-seo/tree/main/packages/site-config",
-      "docs": "https://nuxtseo.com/site-config/getting-started/installation"
+      "github": "https://github.com/harlan-zw/nuxt-site-config",
+      "docs": "https://nuxtseo.com/docs/site-config/getting-started/introduction"
     }
   },
   "pro_modules": {
     "nuxt-ai-ready": {
-      "description": "Generate llms.txt for AI crawlers and LLM optimization",
-      "docs": "https://nuxtseo.com/ai-ready"
+      "version": "1.1.0",
+      "license": "MIT",
+      "description": "Generate llms.txt and llms-full.txt for AI crawlers. Now MIT licensed and standalone.",
+      "docs": "https://nuxtseo.com/docs/ai-ready/getting-started/introduction"
     },
     "nuxt-skew-protection": {
-      "description": "Prevent version mismatches during deployments",
-      "docs": "https://nuxtseo.com/skew-protection"
+      "version": "1.1.0",
+      "license": "MIT",
+      "description": "Prevent version mismatches during deployments. Now MIT licensed and standalone.",
+      "docs": "https://nuxtseo.com/docs/skew-protection/getting-started/introduction"
     },
-    "nuxt-seo-pro-mcp": {
-      "description": "AI-powered SEO tools via Model Context Protocol",
+    "nuxt-seo-pro": {
+      "description": "SEO Pro dashboard with Search Console integration, Core Web Vitals, and MCP server ($119 one-time)",
       "docs": "https://nuxtseo.com/pro"
     }
+  },
+  "version_bump_summary": {
+    "_comment": "Module versions changed from Nuxt SEO v4 to v5",
+    "nuxt-site-config": "v3 -> v4",
+    "nuxt-seo-utils": "v7 -> v8",
+    "@nuxtjs/sitemap": "v7 -> v8",
+    "@nuxtjs/robots": "v5 -> v6",
+    "nuxt-schema-org": "v5 -> v6",
+    "nuxt-link-checker": "v4 -> v5",
+    "nuxt-og-image": "v6 -> v6 (no major change)"
   },
   "requirements": {
     "nuxt": ">=3.0.0",
     "node": ">=18.0.0"
   },
-  "package_managers": {
-    "bun": "primary",
-    "npm": "backup",
-    "pnpm": "backup"
-  },
-  "source": "https://nuxtseo.com/llms.txt",
+  "source": "https://nuxtseo.com/llms-full.txt",
   "maintainer": "Harlan Wilton",
   "license": "MIT"
 }

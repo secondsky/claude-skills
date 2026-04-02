@@ -1,8 +1,9 @@
 ---
 name: ml-model-training
 description: Train ML models with scikit-learn, PyTorch, TensorFlow. Use for classification/regression, neural networks, hyperparameter tuning, or encountering overfitting, underfitting, convergence issues.
-keywords: machine learning, model training, PyTorch, TensorFlow, scikit-learn, neural networks, deep learning, classification, regression, hyperparameter tuning, cross-validation, model evaluation, data preprocessing, feature engineering
 license: MIT
+metadata:
+  keywords: "machine learning, model training, PyTorch, TensorFlow, scikit-learn, neural networks, deep learning, classification, regression, hyperparameter tuning, cross-validation, model evaluation, data preprocessing, feature engineering"
 ---
 
 # ML Model Training

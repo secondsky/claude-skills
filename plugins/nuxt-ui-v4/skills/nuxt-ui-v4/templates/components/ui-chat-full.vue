@@ -1,40 +1,58 @@
 <template>
   <div class="flex flex-col h-full">
-    <!-- Messages -->
     <UChatMessages
       :messages="chat.messages"
       :status="chat.status"
       :should-auto-scroll="true"
-      :user="{
-        variant: 'soft',
-        side: 'right'
-      }"
-      :assistant="{
-        variant: 'naked',
-        side: 'left',
-        avatar: { src: '/ai-avatar.png', alt: 'AI' }
-      }"
+      :user="{ variant: 'soft', side: 'right' }"
+      :assistant="{ variant: 'naked', side: 'left', avatar: { src: '/ai-avatar.png', alt: 'AI' } }"
     >
-      <!-- Custom content rendering with MDC -->
       <template #content="{ message }">
-        <MDC
-          :value="getTextFromMessage(message)"
-          :cache-key="message.id"
-          class="prose prose-sm dark:prose-invert max-w-none"
-        />
+        <template v-for="(part, index) in message.parts" :key="`${message.id}-${part.type}-${index}`">
+          <UChatReasoning
+            v-if="isReasoningUIPart(part)"
+            :text="part.text"
+            :streaming="isReasoningStreaming(message, index, chat)"
+            icon="i-lucide-brain"
+          >
+            <MDC
+              :value="part.text"
+              :cache-key="`reasoning-${message.id}-${index}`"
+              class="*:first:mt-0 *:last:mb-0"
+            />
+          </UChatReasoning>
+
+          <UChatTool
+            v-else-if="isToolUIPart(part)"
+            :text="getToolName(part)"
+            :streaming="isToolStreaming(part)"
+            variant="card"
+          />
+
+          <template v-else-if="isTextUIPart(part)">
+            <MDC
+              v-if="message.role === 'assistant'"
+              :value="part.text"
+              :cache-key="`${message.id}-${index}`"
+              class="*:first:mt-0 *:last:mb-0 max-w-none"
+            />
+            <p v-else-if="message.role === 'user'" class="whitespace-pre-wrap">
+              {{ part.text }}
+            </p>
+          </template>
+        </template>
       </template>
 
-      <!-- Message actions -->
       <template #actions="{ message }">
         <div v-if="message.role === 'assistant'" class="flex gap-1 mt-2">
           <UButton
-            icon="i-heroicons-clipboard"
+            icon="i-lucide-clipboard"
             variant="ghost"
             size="xs"
             @click="copyMessage(message)"
           />
           <UButton
-            icon="i-heroicons-arrow-path"
+            icon="i-lucide-refresh-cw"
             variant="ghost"
             size="xs"
             @click="chat.regenerate()"
@@ -42,99 +60,60 @@
         </div>
       </template>
 
-      <!-- Custom loading indicator -->
       <template #indicator>
         <div class="flex items-center gap-2 text-muted">
-          <UIcon name="i-heroicons-sparkles" class="animate-pulse" />
-          <span>Thinking...</span>
+          <UChatShimmer text="Thinking..." />
         </div>
       </template>
     </UChatMessages>
 
-    <!-- Prompt Input -->
     <div class="border-t border-default p-4">
       <UChatPrompt
         v-model="input"
         placeholder="Type your message..."
-        :disabled="chat.status === 'streaming'"
+        :error="chat.error"
         @submit="onSubmit"
       >
-        <template #leading>
-          <UButton
-            icon="i-heroicons-paper-clip"
-            variant="ghost"
-            color="neutral"
-            @click="attachFile"
-          />
-        </template>
-
         <UChatPromptSubmit
           :status="chat.status"
           @stop="chat.stop()"
           @reload="chat.regenerate()"
         />
       </UChatPrompt>
-
-      <!-- Error display -->
-      <UAlert
-        v-if="chat.error"
-        color="error"
-        class="mt-2"
-        :title="chat.error.message"
-        :close-button="{ click: () => chat.regenerate() }"
-      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { isReasoningUIPart, isTextUIPart, isToolUIPart, getToolName } from 'ai'
 import { Chat } from '@ai-sdk/vue'
-import { getTextFromMessage } from '@nuxt/ui/utils/ai'
+import { isReasoningStreaming, isToolStreaming } from '@nuxt/ui/utils/ai'
 
 const input = ref('')
 const { add: addToast } = useToast()
 
-// Initialize chat
 const chat = new Chat({
-  api: '/api/chat',
-  onFinish(message) {
-    console.log('Response complete:', message)
-  },
   onError(error) {
     console.error('Chat error:', error)
-    // Error is displayed via UAlert component in template
   }
 })
 
-// Submit message
 function onSubmit() {
   if (!input.value.trim()) return
-
   chat.sendMessage({ text: input.value })
   input.value = ''
 }
 
-// Copy message to clipboard
-async function copyMessage(message: { id: string; text: string; role: string }) {
+async function copyMessage(message: any) {
   try {
-    const text = getTextFromMessage(message)
-    await navigator.clipboard.writeText(text)
-    addToast({
-      title: 'Copied to clipboard',
-      color: 'success'
-    })
-  } catch (error) {
-    console.error('Failed to copy to clipboard:', error)
-    addToast({
-      title: 'Copy failed',
-      description: 'Unable to copy message to clipboard',
-      color: 'error'
-    })
+    const textParts = message.parts
+      ?.filter((p: any) => isTextUIPart(p))
+      .map((p: any) => p.text)
+      .join('\n') || ''
+    await navigator.clipboard.writeText(textParts)
+    addToast({ title: 'Copied to clipboard', color: 'success' })
+  } catch {
+    addToast({ title: 'Copy failed', color: 'error' })
   }
-}
-
-// File attachment (placeholder)
-function attachFile() {
-  // Implement file attachment logic
 }
 </script>

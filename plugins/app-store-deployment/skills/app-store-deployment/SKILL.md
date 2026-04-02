@@ -1,6 +1,7 @@
 ---
 name: app-store-deployment
 description: Publishes mobile applications to iOS App Store and Google Play with code signing, versioning, and CI/CD automation. Use when preparing app releases, configuring signing certificates, or setting up automated deployment pipelines.
+license: MIT
 ---
 
 # App Store Deployment
