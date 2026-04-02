@@ -780,7 +780,7 @@
       "name": "maz-ui",
       "source": "./plugins/maz-ui",
       "version": "3.0.0",
-      "description": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support. Includes autonomous agents for scaffolding components, generating forms, and customizing themes.",
+      "description": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support.",
       "keywords": ["maz-ui","maz","tooling","workflow","ssr"],
       "category": "tooling"
     }
