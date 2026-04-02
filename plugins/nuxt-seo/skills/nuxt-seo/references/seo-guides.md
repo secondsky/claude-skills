@@ -691,7 +691,7 @@ useSeoMeta({
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-robots'],
+  modules: ['@nuxtjs/robots'],
 
   robots: {
     // Global rules

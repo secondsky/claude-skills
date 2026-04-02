@@ -64,7 +64,7 @@ Manages robots crawling your site with minimal configuration and best practice d
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-robots'],
+  modules: ['@nuxtjs/robots'],
 
   robots: {
     // Site-wide rules
@@ -175,7 +175,7 @@ Powerfully flexible XML sitemaps that integrate seamlessly with your Nuxt app. G
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-sitemap'],
+  modules: ['@nuxtjs/sitemap'],
 
   site: {
     url: 'https://example.com'

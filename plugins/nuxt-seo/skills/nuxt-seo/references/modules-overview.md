@@ -393,16 +393,16 @@ npx nuxt module add seo
 
 ### Custom Stack
 ```bash
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add robots
+npx nuxt module add sitemap
 npx nuxt module add nuxt-og-image
 npx nuxt module add nuxt-schema-org
 ```
 
 ### Minimal
 ```bash
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add robots
+npx nuxt module add sitemap
 npx nuxt module add nuxt-site-config
 ```
 

@@ -57,8 +57,8 @@ export default defineNuxtConfig({
 export default defineNuxtConfig({
   modules: [
     'nuxt-site-config',
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org',
     'nuxt-seo-utils',

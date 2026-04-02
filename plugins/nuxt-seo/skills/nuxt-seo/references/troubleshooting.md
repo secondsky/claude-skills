@@ -26,10 +26,10 @@
 **Step 1: Verify Installation**
 ```bash
 # Check if nuxt-sitemap is installed
-bun pm ls | grep nuxt-sitemap
+bun pm ls | grep @nuxtjs/sitemap
 
 # If not installed:
-bun add nuxt-sitemap
+bun add @nuxtjs/sitemap
 ```
 
 **Step 2: Set Site URL**
@@ -75,10 +75,10 @@ http://localhost:3000/sitemap.xml
 **Step 1: Verify Installation**
 ```bash
 # Check if nuxt-robots is installed
-bun pm ls | grep nuxt-robots
+bun pm ls | grep @nuxtjs/robots
 
 # If not installed:
-bun add nuxt-robots
+bun add @nuxtjs/robots
 ```
 
 **Step 2: Set Site URL**
@@ -227,7 +227,7 @@ Use [Google Rich Results Test](https://search.google.com/test/rich-results):
 **Step 1: Update All Modules**
 ```bash
 # Update to latest versions
-bun update @nuxtjs/seo nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org nuxt-link-checker nuxt-seo-utils nuxt-site-config
+bun update @nuxtjs/seo @nuxtjs/robots @nuxtjs/sitemap nuxt-og-image nuxt-schema-org nuxt-link-checker nuxt-seo-utils nuxt-site-config
 ```
 
 **Step 2: Clear All Caches**
@@ -299,8 +299,8 @@ modules: [
   '@nuxtjs/seo',  // Install all modules at once
   // OR install individually:
   // 'nuxt-site-config',  // Should be first
-  // 'nuxt-robots',
-  // 'nuxt-sitemap',
+  // '@nuxtjs/robots',
+  // '@nuxtjs/sitemap',
   // etc.
 ]
 ```
