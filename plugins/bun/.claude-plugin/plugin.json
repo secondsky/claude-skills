@@ -18,6 +18,11 @@
     "tanstack",
     "websockets"
   ],
+  "agents": [
+    "./agents/bun-migration-assistant.md",
+    "./agents/bun-performance-analyzer.md",
+    "./agents/bun-troubleshooter.md"
+  ],
   "commands": [
     "./commands/bun-debug.md",
     "./commands/bun-deploy.md",
@@ -25,10 +30,5 @@
     "./commands/bun-migrate.md",
     "./commands/bun-optimize.md",
     "./commands/bun-upgrade.md"
-  ],
-  "agents": [
-    "./agents/bun-migration-assistant.md",
-    "./agents/bun-performance-analyzer.md",
-    "./agents/bun-troubleshooter.md"
   ]
 }

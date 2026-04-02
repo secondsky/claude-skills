@@ -15,7 +15,5 @@
     "json",
     "openapi",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -12,10 +12,8 @@
     "cloudflare-workers-ai",
     "cloudflare",
     "workers",
-    "tooling",
-    "workflow",
+    "edge",
+    "wrangler",
     "gpu"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -12,9 +12,7 @@
     "tanstack-router",
     "tanstack",
     "router",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "frontend",
+    "components"
+  ]
 }

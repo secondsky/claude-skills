@@ -13,11 +13,9 @@
     "react",
     "best",
     "practices",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "refactoring",
     "async"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

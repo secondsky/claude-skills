@@ -12,11 +12,10 @@
     "drizzle-orm-d1",
     "drizzle",
     "orm",
-    "tooling",
-    "workflow",
+    "database",
     "sql",
+    "query",
+    "migrations",
     "migration"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

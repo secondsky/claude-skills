@@ -12,10 +12,8 @@
     "design-review",
     "design",
     "review",
-    "tooling",
-    "workflow",
+    "interface",
+    "user-experience",
     "wcag"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -12,10 +12,8 @@
     "cloudflare-sandbox",
     "cloudflare",
     "sandbox",
-    "tooling",
-    "workflow",
-    "edge"
-  ],
-  "agents": null,
-  "commands": null
+    "workers",
+    "edge",
+    "wrangler"
+  ]
 }

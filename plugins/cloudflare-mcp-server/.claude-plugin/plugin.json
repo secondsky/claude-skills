@@ -13,9 +13,8 @@
     "cloudflare",
     "mcp",
     "server",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "workers",
+    "edge",
+    "wrangler"
+  ]
 }

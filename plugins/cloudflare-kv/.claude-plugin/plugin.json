@@ -11,11 +11,10 @@
   "keywords": [
     "cloudflare-kv",
     "cloudflare",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "ttl",
     "caching"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

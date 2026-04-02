@@ -13,11 +13,17 @@
     "cloudflare",
     "durable",
     "objects",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "websocket",
     "migration",
     "real-time"
+  ],
+  "agents": [
+    "./agents/do-debugger.md",
+    "./agents/do-pattern-implementer.md",
+    "./agents/do-setup-assistant.md"
   ],
   "commands": [
     "./commands/do-debug.md",
@@ -25,10 +31,5 @@
     "./commands/do-optimize.md",
     "./commands/do-patterns.md",
     "./commands/do-setup.md"
-  ],
-  "agents": [
-    "./agents/do-debugger.md",
-    "./agents/do-pattern-implementer.md",
-    "./agents/do-setup-assistant.md"
   ]
 }

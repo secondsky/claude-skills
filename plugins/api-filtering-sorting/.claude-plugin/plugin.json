@@ -13,10 +13,10 @@
     "api",
     "filtering",
     "sorting",
-    "tooling",
-    "workflow",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

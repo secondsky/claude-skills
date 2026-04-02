@@ -13,7 +13,5 @@
     "tooling",
     "workflow",
     "e2e"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

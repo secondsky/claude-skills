@@ -14,9 +14,8 @@
     "keyword",
     "cluster",
     "builder",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "search",
+    "keywords",
+    "ranking"
+  ]
 }

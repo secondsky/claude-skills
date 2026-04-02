@@ -11,12 +11,13 @@
   "keywords": [
     "vercel-kv",
     "vercel",
-    "tooling",
-    "workflow",
+    "database",
+    "orm",
+    "sql",
+    "query",
+    "migrations",
     "json",
     "ttl",
     "caching"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

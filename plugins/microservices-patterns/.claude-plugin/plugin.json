@@ -12,9 +12,6 @@
     "microservices-patterns",
     "microservices",
     "patterns",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "architecture"
+  ]
 }

@@ -12,7 +12,5 @@
     "threejs",
     "tooling",
     "workflow"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

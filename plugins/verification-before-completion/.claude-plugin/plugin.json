@@ -15,7 +15,5 @@
     "completion",
     "tooling",
     "workflow"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -13,9 +13,8 @@
     "google",
     "gemini",
     "api",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ]
 }

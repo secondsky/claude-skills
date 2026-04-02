@@ -12,18 +12,20 @@
     "better-auth",
     "better",
     "auth",
-    "tooling",
-    "workflow",
-    "rbac",
-    "authentication"
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "session",
+    "rbac"
+  ],
+  "agents": [
+    "./agents/better-auth-debugger.md"
   ],
   "commands": [
     "./commands/better-auth-add-plugin.md",
     "./commands/better-auth-setup.md",
     "./commands/explain-error.md",
     "./commands/providers.md"
-  ],
-  "agents": [
-    "./agents/better-auth-debugger.md"
   ]
 }

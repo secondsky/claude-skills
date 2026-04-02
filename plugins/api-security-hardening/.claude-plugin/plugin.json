@@ -13,13 +13,12 @@
     "api",
     "security",
     "hardening",
-    "tooling",
-    "workflow",
-    "cors",
     "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "cors",
     "authentication",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

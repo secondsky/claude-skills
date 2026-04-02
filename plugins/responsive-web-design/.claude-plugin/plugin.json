@@ -13,10 +13,8 @@
     "responsive",
     "web",
     "design",
-    "tooling",
-    "workflow",
+    "performance",
+    "pwa",
     "css"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

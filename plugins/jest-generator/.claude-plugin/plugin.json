@@ -12,9 +12,9 @@
     "jest-generator",
     "jest",
     "generator",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "testing",
+    "tests",
+    "unit-tests",
+    "quality"
+  ]
 }

@@ -8,6 +8,15 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
+  "mcpServers": "./.mcp.json",
+  "keywords": [
+    "nuxt-v4",
+    "nuxt",
+    "frontend",
+    "components",
+    "ssr",
+    "migration"
+  ],
   "agents": [
     "./agents/nuxt-debugger.md",
     "./agents/nuxt-migration-assistant.md",
@@ -15,14 +24,5 @@
   ],
   "commands": [
     "./commands/nuxt-setup.md"
-  ],
-  "mcpServers": "./.mcp.json",
-  "keywords": [
-    "nuxt-v4",
-    "nuxt",
-    "tooling",
-    "workflow",
-    "ssr",
-    "migration"
   ]
 }

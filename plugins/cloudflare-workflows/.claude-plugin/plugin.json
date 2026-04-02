@@ -12,8 +12,9 @@
     "cloudflare-workflows",
     "cloudflare",
     "workflows",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "nonretryableerror"
   ],
   "agents": [

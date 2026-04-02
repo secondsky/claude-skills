@@ -12,11 +12,10 @@
     "vitest-testing",
     "vitest",
     "testing",
-    "tooling",
-    "workflow",
+    "tests",
+    "unit-tests",
+    "quality",
     "esm",
     "hmr"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

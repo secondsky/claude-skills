@@ -15,7 +15,5 @@
     "mcp",
     "dynamodb",
     "async"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

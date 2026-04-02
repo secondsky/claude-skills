@@ -13,9 +13,6 @@
     "mobile",
     "app",
     "debugging",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "native"
+  ]
 }

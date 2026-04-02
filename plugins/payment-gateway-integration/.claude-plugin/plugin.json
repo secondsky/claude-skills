@@ -13,12 +13,9 @@
     "payment",
     "gateway",
     "integration",
-    "tooling",
-    "workflow",
+    "web",
     "pci",
     "paypal",
     "webhooks"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

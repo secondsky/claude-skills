@@ -12,10 +12,10 @@
     "api-authentication",
     "api",
     "authentication",
-    "tooling",
-    "workflow",
+    "authorization",
+    "login",
+    "security",
+    "session",
     "jwt"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

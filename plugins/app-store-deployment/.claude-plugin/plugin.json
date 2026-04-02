@@ -12,9 +12,7 @@
     "app-store-deployment",
     "app",
     "store",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "mobile",
+    "native"
+  ]
 }

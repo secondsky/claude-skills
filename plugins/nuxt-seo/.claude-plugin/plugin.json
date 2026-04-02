@@ -8,6 +8,15 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nuxt-seo",
+    "nuxt",
+    "seo",
+    "frontend",
+    "components",
+    "url",
+    "validation"
+  ],
   "agents": [
     "./agents/link-checker.md",
     "./agents/og-image-generator.md",
@@ -22,14 +31,5 @@
     "./commands/seo-audit.md",
     "./commands/seo-setup.md",
     "./commands/validate-sitemap.md"
-  ],
-  "keywords": [
-    "nuxt-seo",
-    "nuxt",
-    "seo",
-    "tooling",
-    "workflow",
-    "url",
-    "validation"
   ]
 }

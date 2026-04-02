@@ -14,10 +14,9 @@
     "gemini",
     "file",
     "search",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "rag"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

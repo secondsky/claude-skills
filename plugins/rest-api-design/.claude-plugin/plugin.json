@@ -13,10 +13,8 @@
     "rest",
     "api",
     "design",
-    "tooling",
-    "workflow",
+    "graphql",
+    "endpoints",
     "http"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

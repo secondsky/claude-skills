@@ -15,7 +15,5 @@
     "tooling",
     "workflow",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

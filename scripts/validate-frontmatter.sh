@@ -260,18 +260,22 @@ if [ "$QUIET" = false ]; then
 fi
 
 if [ -n "$TARGET_DIR" ]; then
-  skill_file="$TARGET_DIR/skills/$(basename "$TARGET_DIR")/SKILL.md"
+  skill_files=$(find "$TARGET_DIR/skills" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
 
-  if [ ! -f "$skill_file" ]; then
-    skill_file="$TARGET_DIR/SKILL.md"
+  if [ -z "$skill_files" ]; then
+    if [ -f "$TARGET_DIR/SKILL.md" ]; then
+      skill_files="$TARGET_DIR/SKILL.md"
+    fi
   fi
 
-  if [ ! -f "$skill_file" ]; then
+  if [ -z "$skill_files" ]; then
     echo -e "${RED}Error: No SKILL.md found in $TARGET_DIR${NC}"
     exit 1
   fi
 
-  validate_skill "$skill_file"
+  while IFS= read -r file; do
+    validate_skill "$file"
+  done <<< "$skill_files"
 else
   skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' -path '*/skills/*/SKILL.md' | sort)
 

@@ -14,10 +14,8 @@
     "hook",
     "form",
     "zod",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

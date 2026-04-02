@@ -12,10 +12,11 @@
     "vercel-blob",
     "vercel",
     "blob",
-    "tooling",
-    "workflow",
+    "database",
+    "orm",
+    "sql",
+    "query",
+    "migrations",
     "cdn"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

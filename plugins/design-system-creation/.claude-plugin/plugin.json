@@ -13,9 +13,7 @@
     "design",
     "system",
     "creation",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "interface",
+    "user-experience"
+  ]
 }

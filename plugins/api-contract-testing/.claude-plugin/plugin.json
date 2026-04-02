@@ -13,11 +13,11 @@
     "api",
     "contract",
     "testing",
-    "tooling",
-    "workflow",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
     "openapi",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

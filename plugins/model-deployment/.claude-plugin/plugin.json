@@ -11,10 +11,9 @@
   "keywords": [
     "model-deployment",
     "model",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "fastapi"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -12,11 +12,10 @@
     "session-management",
     "session",
     "management",
-    "tooling",
-    "workflow",
-    "jwt",
-    "authentication"
-  ],
-  "agents": null,
-  "commands": null
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "jwt"
+  ]
 }

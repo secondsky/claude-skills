@@ -12,14 +12,13 @@
     "oauth-implementation",
     "oauth",
     "implementation",
-    "tooling",
-    "workflow",
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "session",
     "pkce",
     "sso",
-    "openid",
-    "authentication",
-    "authorization"
-  ],
-  "agents": null,
-  "commands": null
+    "openid"
+  ]
 }

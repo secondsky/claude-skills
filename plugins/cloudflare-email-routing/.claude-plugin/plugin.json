@@ -13,10 +13,9 @@
     "cloudflare",
     "email",
     "routing",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "spf"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

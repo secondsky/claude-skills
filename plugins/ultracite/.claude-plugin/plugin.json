@@ -10,11 +10,9 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "ultracite",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "mcp",
     "migration"
-  ],
-  "commands": null,
-  "agents": null
+  ]
 }

@@ -12,13 +12,11 @@
     "nuxt-content",
     "nuxt",
     "content",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "cms",
     "mdc",
     "sql",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

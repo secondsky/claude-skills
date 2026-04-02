@@ -12,11 +12,10 @@
     "csrf-protection",
     "csrf",
     "protection",
-    "tooling",
-    "workflow",
+    "security",
+    "vulnerability",
+    "xss",
     "samesite",
     "authentication"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

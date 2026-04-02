@@ -12,13 +12,11 @@
     "pinia-colada",
     "pinia",
     "colada",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "ssr",
     "tanstack",
     "migration",
     "async"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -13,12 +13,10 @@
     "swift",
     "best",
     "practices",
-    "tooling",
-    "workflow",
+    "mobile",
+    "native",
     "mainactor",
     "migration",
     "async"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

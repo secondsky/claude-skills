@@ -13,12 +13,9 @@
     "web",
     "performance",
     "audit",
-    "tooling",
-    "workflow",
+    "pwa",
     "cls",
     "fid",
     "lcp"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

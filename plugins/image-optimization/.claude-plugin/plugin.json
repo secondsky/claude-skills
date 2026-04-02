@@ -12,9 +12,8 @@
     "image-optimization",
     "image",
     "optimization",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "web",
+    "performance",
+    "pwa"
+  ]
 }

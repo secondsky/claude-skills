@@ -8,6 +8,18 @@
   },
   "license": "MIT",
   "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-images",
+    "cloudflare",
+    "images",
+    "workers",
+    "edge",
+    "wrangler",
+    "avif",
+    "cors",
+    "webp",
+    "webhooks"
+  ],
   "agents": [
     "./agents/optimization-agent.md",
     "./agents/troubleshooting-agent.md",
@@ -17,16 +29,5 @@
     "./commands/check-images.md",
     "./commands/generate-variant.md",
     "./commands/validate-config.md"
-  ],
-  "keywords": [
-    "cloudflare-images",
-    "cloudflare",
-    "images",
-    "tooling",
-    "workflow",
-    "avif",
-    "cors",
-    "webp",
-    "webhooks"
   ]
 }

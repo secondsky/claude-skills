@@ -12,8 +12,9 @@
     "cloudflare-turnstile",
     "cloudflare",
     "turnstile",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "captcha",
     "csp",
     "validation"

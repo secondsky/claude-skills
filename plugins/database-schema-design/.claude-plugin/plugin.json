@@ -13,13 +13,13 @@
     "database",
     "schema",
     "design",
-    "tooling",
-    "workflow",
+    "orm",
+    "sql",
+    "query",
+    "migrations",
     "eav",
     "mysql",
     "postgresql",
     "migration"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

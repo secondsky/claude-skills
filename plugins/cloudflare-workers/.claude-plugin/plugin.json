@@ -12,9 +12,14 @@
     "cloudflare-workers",
     "cloudflare",
     "workers",
-    "tooling",
-    "workflow",
+    "edge",
+    "wrangler",
     "migration"
+  ],
+  "agents": [
+    "./agents/workers-performance-analyzer.md",
+    "./agents/workers-security-auditor.md",
+    "./agents/workers-test-generator.md"
   ],
   "commands": [
     "./commands/workers-debug.md",
@@ -22,10 +27,5 @@
     "./commands/workers-migrate.md",
     "./commands/workers-optimize.md",
     "./commands/workers-test-setup.md"
-  ],
-  "agents": [
-    "./agents/workers-performance-analyzer.md",
-    "./agents/workers-security-auditor.md",
-    "./agents/workers-test-generator.md"
   ]
 }

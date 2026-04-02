@@ -12,10 +12,8 @@
     "tanstack-table",
     "tanstack",
     "table",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "url"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

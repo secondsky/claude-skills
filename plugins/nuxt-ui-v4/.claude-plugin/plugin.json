@@ -11,9 +11,10 @@
   "keywords": [
     "nuxt-ui-v4",
     "nuxt",
-    "tooling",
-    "workflow"
+    "frontend",
+    "components"
   ],
+  "mcpServers": "./.mcp.json",
   "agents": [
     "./agents/nuxt-ui-component-selector.md",
     "./agents/nuxt-ui-migration-assistant.md",
@@ -24,6 +25,5 @@
     "./commands/migrate.md",
     "./commands/setup.md",
     "./commands/theme.md"
-  ],
-  "mcpServers": "./.mcp.json"
+  ]
 }

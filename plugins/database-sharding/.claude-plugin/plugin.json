@@ -12,11 +12,11 @@
     "database-sharding",
     "database",
     "sharding",
-    "tooling",
-    "workflow",
+    "orm",
+    "sql",
+    "query",
+    "migrations",
     "mysql",
     "postgresql"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

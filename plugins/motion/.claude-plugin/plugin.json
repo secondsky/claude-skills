@@ -10,10 +10,8 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "motion",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "svg"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

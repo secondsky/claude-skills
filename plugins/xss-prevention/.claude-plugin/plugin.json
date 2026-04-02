@@ -12,9 +12,9 @@
     "xss-prevention",
     "xss",
     "prevention",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf"
+  ]
 }

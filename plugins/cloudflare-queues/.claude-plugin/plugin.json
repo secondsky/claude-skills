@@ -12,8 +12,9 @@
     "cloudflare-queues",
     "cloudflare",
     "queues",
-    "tooling",
-    "workflow"
+    "workers",
+    "edge",
+    "wrangler"
   ],
   "agents": [
     "./agents/queue-debugger.md",

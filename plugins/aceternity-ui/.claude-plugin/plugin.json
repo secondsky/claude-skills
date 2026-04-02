@@ -11,10 +11,8 @@
   "keywords": [
     "aceternity-ui",
     "aceternity",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "cli"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

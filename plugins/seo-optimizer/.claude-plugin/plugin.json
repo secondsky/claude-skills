@@ -12,10 +12,9 @@
     "seo-optimizer",
     "seo",
     "optimizer",
-    "tooling",
-    "workflow",
+    "search",
+    "keywords",
+    "ranking",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

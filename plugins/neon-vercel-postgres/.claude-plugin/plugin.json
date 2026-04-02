@@ -13,17 +13,17 @@
     "neon",
     "vercel",
     "postgres",
-    "tooling",
-    "workflow",
-    "http",
+    "database",
     "orm",
+    "sql",
+    "query",
+    "migrations",
+    "http",
     "pitr",
     "ssl",
     "tcp",
     "websocket",
     "migration",
     "edge"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

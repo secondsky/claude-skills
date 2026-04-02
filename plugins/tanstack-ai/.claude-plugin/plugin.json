@@ -11,11 +11,10 @@
   "keywords": [
     "tanstack-ai",
     "tanstack",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "chatclient",
     "openai"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

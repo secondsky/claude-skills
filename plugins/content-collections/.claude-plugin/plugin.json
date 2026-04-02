@@ -12,12 +12,11 @@
     "content-collections",
     "content",
     "collections",
-    "tooling",
-    "workflow",
+    "cms",
+    "management",
+    "publishing",
     "mdx",
     "validation",
     "migration"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -13,13 +13,13 @@
     "wordpress",
     "plugin",
     "core",
-    "tooling",
-    "workflow",
+    "cms",
+    "content",
+    "management",
+    "publishing",
     "csrf",
     "rest",
     "sql",
     "xss"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

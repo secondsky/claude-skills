@@ -13,11 +13,9 @@
     "zustand",
     "state",
     "management",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "ssr",
     "migration"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

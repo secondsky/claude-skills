@@ -374,7 +374,7 @@ generate_keywords_json() {
 scan_agents() {
   local skill_dir="$1"
   local agents_dir="$skill_dir/agents"
-  local json_array="null"
+  local json_array=""
 
   if [ -d "$agents_dir" ]; then
     local agents=$(find "$agents_dir" -name "*.md" -type f 2>/dev/null | sort)
@@ -403,7 +403,7 @@ scan_agents() {
 scan_commands() {
   local skill_dir="$1"
   local commands_dir="$skill_dir/commands"
-  local json_array="null"
+  local json_array=""
 
   if [ -d "$commands_dir" ]; then
     local commands=$(find "$commands_dir" -name "*.md" -type f 2>/dev/null | sort)
@@ -481,6 +481,8 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
     current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
   fi
 
+  category=$(categorize_skill "$skill_name")
+
   if [ "$is_multi_skill" = true ]; then
     # Multi-skill plugins: preserve existing plugin.json description (manually curated)
     current_desc=""
@@ -556,21 +558,21 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
       # Multi-skill plugins: merge updated fields into existing plugin.json
       # This preserves extra fields like mcpServers, homepage that the template doesn't include
       desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
-      jq --arg name "$skill_name" \
-          --argjson desc "$desc_json" \
-          --arg version "$GLOBAL_VERSION" \
-          --argjson author "$current_author" \
-          --argjson keywords "$keywords_json" \
-          '.name = $name
-           | .description = $desc
-           | .version = $version
-           | .author = $author
-           | .keywords = $keywords
-           | if ($agents != "null") then .agents = $agents else . end
-           | if ($commands != "null") then .commands = $commands else . end' \
-        --argjson agents "$agents_json" \
-        --argjson commands "$commands_json" \
-        "$plugin_json" > "$plugin_json.tmp"
+
+      # Build jq filter dynamically based on whether agents/commands exist
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .keywords = $keywords | del(.agents) | del(.commands)'
+      jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--argjson" "keywords" "$keywords_json")
+
+      if [ -n "$agents_json" ]; then
+        jq_filter="$jq_filter | .agents = \$agents"
+        jq_args+=("--argjson" "agents" "$agents_json")
+      fi
+      if [ -n "$commands_json" ]; then
+        jq_filter="$jq_filter | .commands = \$commands"
+        jq_args+=("--argjson" "commands" "$commands_json")
+      fi
+
+      jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp"
 
       if [ $? -eq 0 ]; then
         jq '.' "$plugin_json.tmp" > "$plugin_json"
@@ -595,12 +597,12 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
 EOF
 
       # Add agents if present
-      if [ "$agents_json" != "null" ]; then
+      if [ "$agents_json" != "" ]; then
         echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
       fi
 
       # Add commands if present
-      if [ "$commands_json" != "null" ]; then
+      if [ "$commands_json" != "" ]; then
         echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
       fi
 
@@ -620,11 +622,11 @@ EOF
 
   # Output status
   extras=""
-  if [ "$agents_json" != "null" ]; then
+  if [ "$agents_json" != "" ]; then
     agent_count=$(echo "$agents_json" | jq 'length')
     extras="$extras +${agent_count}agents"
   fi
-  if [ "$commands_json" != "null" ]; then
+  if [ "$commands_json" != "" ]; then
     cmd_count=$(echo "$commands_json" | jq 'length')
     extras="$extras +${cmd_count}cmds"
   fi

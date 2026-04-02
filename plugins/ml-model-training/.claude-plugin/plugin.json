@@ -12,11 +12,9 @@
     "ml-model-training",
     "model",
     "training",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "artificial-intelligence",
     "pytorch",
     "tensorflow"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

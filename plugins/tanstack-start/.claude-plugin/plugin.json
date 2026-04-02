@@ -12,12 +12,10 @@
     "tanstack-start",
     "tanstack",
     "start",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "ssr",
     "migration",
     "edge"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

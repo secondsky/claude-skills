@@ -13,8 +13,8 @@
     "nuxt-studio",
     "nuxt",
     "studio",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "cms",
     "authentication"
   ],

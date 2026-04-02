@@ -12,9 +12,8 @@
     "mutation-testing",
     "mutation",
     "testing",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "tests",
+    "unit-tests",
+    "quality"
+  ]
 }

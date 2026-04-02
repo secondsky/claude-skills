@@ -13,9 +13,8 @@
     "woocommerce",
     "code",
     "review",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "wordpress",
+    "ecommerce",
+    "shop"
+  ]
 }

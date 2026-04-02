@@ -15,7 +15,5 @@
     "tooling",
     "workflow",
     "mcp"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

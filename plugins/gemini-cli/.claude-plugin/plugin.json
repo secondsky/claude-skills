@@ -12,9 +12,8 @@
     "gemini-cli",
     "gemini",
     "cli",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ]
 }

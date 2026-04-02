@@ -10,12 +10,10 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "nextjs",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "ssr",
     "migration",
     "async"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

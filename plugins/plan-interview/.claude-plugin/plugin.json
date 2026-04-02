@@ -15,10 +15,10 @@
     "tooling",
     "workflow"
   ],
-  "commands": [
-    "./commands/interview.md"
-  ],
   "agents": [
     "./agents/spec-reviewer.md"
+  ],
+  "commands": [
+    "./commands/interview.md"
   ]
 }

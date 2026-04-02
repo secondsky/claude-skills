@@ -13,9 +13,7 @@
     "react",
     "native",
     "skills",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "frontend",
+    "components"
+  ]
 }

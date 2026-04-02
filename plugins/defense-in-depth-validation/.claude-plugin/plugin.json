@@ -13,9 +13,10 @@
     "defense",
     "depth",
     "validation",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf",
+    "xss"
+  ]
 }

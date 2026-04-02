@@ -13,11 +13,9 @@
     "react",
     "composition",
     "patterns",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "scalable",
     "implementation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

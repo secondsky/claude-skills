@@ -13,9 +13,8 @@
     "test",
     "quality",
     "analysis",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "testing",
+    "tests",
+    "unit-tests"
+  ]
 }

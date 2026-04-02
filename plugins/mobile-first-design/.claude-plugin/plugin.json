@@ -13,12 +13,8 @@
     "mobile",
     "first",
     "design",
-    "tooling",
-    "workflow",
     "responsive-design",
     "media-queries",
     "breakpoints"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -11,10 +11,10 @@
   "keywords": [
     "cloudflare-d1",
     "cloudflare",
-    "tooling",
-    "workflow",
-    "migration",
-    "edge"
+    "workers",
+    "edge",
+    "wrangler",
+    "migration"
   ],
   "agents": [
     "./agents/d1-debugger.md",

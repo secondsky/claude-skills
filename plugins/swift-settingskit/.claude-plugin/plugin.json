@@ -12,10 +12,8 @@
     "swift-settingskit",
     "swift",
     "settingskit",
-    "tooling",
-    "workflow",
+    "mobile",
+    "native",
     "swiftui"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -14,13 +14,12 @@
     "zero",
     "trust",
     "access",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "cors",
     "jwt",
     "authentication",
     "validation"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

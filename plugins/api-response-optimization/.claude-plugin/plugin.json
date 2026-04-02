@@ -13,10 +13,10 @@
     "api",
     "response",
     "optimization",
-    "tooling",
-    "workflow",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
     "caching"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

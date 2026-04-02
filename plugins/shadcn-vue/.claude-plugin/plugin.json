@@ -12,9 +12,7 @@
     "shadcn-vue",
     "shadcn",
     "vue",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "frontend",
+    "components"
+  ]
 }

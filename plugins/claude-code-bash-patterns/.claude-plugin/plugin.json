@@ -18,7 +18,5 @@
     "workflow",
     "cli",
     "pretooluse"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

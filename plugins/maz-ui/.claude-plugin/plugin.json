@@ -14,7 +14,5 @@
     "tooling",
     "workflow",
     "ssr"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

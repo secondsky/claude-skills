@@ -12,10 +12,9 @@
     "ai-elements-chatbot",
     "elements",
     "chatbot",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "migration"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

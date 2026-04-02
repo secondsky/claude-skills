@@ -12,9 +12,8 @@
     "ai-sdk-core",
     "sdk",
     "core",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ]
 }

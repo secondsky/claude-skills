@@ -12,8 +12,9 @@
     "multi-ai-consultant",
     "multi",
     "consultant",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "openai",
     "validation"
   ],
@@ -22,6 +23,5 @@
     "./commands/consult-claude.md",
     "./commands/consult-codex.md",
     "./commands/consult-gemini.md"
-  ],
-  "agents": null
+  ]
 }

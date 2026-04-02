@@ -11,12 +11,10 @@
   "keywords": [
     "inspira-ui",
     "inspira",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "css",
     "gsap",
     "tailwindcss"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

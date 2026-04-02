@@ -12,11 +12,9 @@
     "tailwind-v4-shadcn",
     "tailwind",
     "shadcn",
-    "tooling",
-    "workflow",
+    "frontend",
+    "components",
     "css",
     "themeprovider"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

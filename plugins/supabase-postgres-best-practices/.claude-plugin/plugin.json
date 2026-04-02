@@ -21,7 +21,5 @@
     "sourceRepository": "https://github.com/supabase/agent-skills",
     "sourceSkill": "skills/supabase-postgres-best-practices",
     "lastSynced": "2026-02-04"
-  },
-  "agents": null,
-  "commands": null
+  }
 }

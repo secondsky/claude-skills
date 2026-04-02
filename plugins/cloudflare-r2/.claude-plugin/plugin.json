@@ -11,8 +11,9 @@
   "keywords": [
     "cloudflare-r2",
     "cloudflare",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "cors",
     "sql",
     "migration"

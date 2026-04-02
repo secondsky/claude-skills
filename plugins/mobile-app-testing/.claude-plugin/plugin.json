@@ -13,10 +13,7 @@
     "mobile",
     "app",
     "testing",
-    "tooling",
-    "workflow",
+    "native",
     "e2e"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

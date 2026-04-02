@@ -13,9 +13,7 @@
     "progressive",
     "web",
     "app",
-    "tooling",
-    "workflow"
-  ],
-  "agents": null,
-  "commands": null
+    "performance",
+    "pwa"
+  ]
 }

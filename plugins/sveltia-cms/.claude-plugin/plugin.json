@@ -12,13 +12,12 @@
     "sveltia-cms",
     "sveltia",
     "cms",
-    "tooling",
-    "workflow",
+    "content",
+    "management",
+    "publishing",
     "cors",
     "toml",
     "yaml",
     "graphql"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

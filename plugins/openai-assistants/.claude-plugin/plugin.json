@@ -12,10 +12,9 @@
     "openai-assistants",
     "openai",
     "assistants",
-    "tooling",
-    "workflow",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
     "rag"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

@@ -12,11 +12,10 @@
     "cloudflare-agents",
     "cloudflare",
     "agents",
-    "tooling",
-    "workflow",
+    "workers",
+    "edge",
+    "wrangler",
     "llm",
     "mcp"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }

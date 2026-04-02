@@ -12,10 +12,9 @@
     "firecrawl-scraper",
     "firecrawl",
     "scraper",
-    "tooling",
-    "workflow",
+    "web",
+    "performance",
+    "pwa",
     "llm"
-  ],
-  "agents": null,
-  "commands": null
+  ]
 }
