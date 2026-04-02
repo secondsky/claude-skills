@@ -10,17 +10,17 @@
       "github": "https://github.com/harlan-zw/nuxt-seo",
       "docs": "https://nuxtseo.com/docs/nuxt-seo/getting-started/introduction"
     },
-    "nuxt-robots": {
+    "@nuxtjs/robots": {
       "version": "6.0.6",
       "downloads": "8.7M",
-      "npm": "https://www.npmjs.com/package/nuxt-robots",
+      "npm": "https://www.npmjs.com/package/@nuxtjs/robots",
       "github": "https://github.com/nuxt-modules/robots",
       "docs": "https://nuxtseo.com/docs/robots/getting-started/introduction"
     },
-    "nuxt-sitemap": {
+    "@nuxtjs/sitemap": {
       "version": "8.0.11",
       "downloads": "10M",
-      "npm": "https://www.npmjs.com/package/nuxt-sitemap",
+      "npm": "https://www.npmjs.com/package/@nuxtjs/sitemap",
       "github": "https://github.com/nuxt-modules/sitemap",
       "docs": "https://nuxtseo.com/docs/sitemap/getting-started/introduction"
     },

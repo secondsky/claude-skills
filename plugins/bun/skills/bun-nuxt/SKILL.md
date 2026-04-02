@@ -1,5 +1,5 @@
 ---
-name: "Bun Nuxt"
+name: bun-nuxt
 description: Use when running Nuxt 3 with Bun runtime, building Vue/Nuxt apps with Bun, or configuring Nuxt projects to use Bun for development and production.
 ---
 

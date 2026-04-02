@@ -1,10 +1,3 @@
-function validateSecret(key, value) {
-  if (process.env.NODE_ENV === 'production' && !value) {
-    throw new Error(`Missing required secret: ${key}. Set ${key} environment variable.`)
-  }
-  return value || `dev-${key.toLowerCase().replace(/_/g, '-')}-placeholder`
-}
-
 export default defineNuxtConfig({
   future: {
     compatibilityVersion: 5
@@ -27,14 +20,14 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    apiSecret: validateSecret('API_SECRET', process.env.API_SECRET),
-    databaseUrl: validateSecret('DATABASE_URL', process.env.DATABASE_URL),
-    jwtSecret: validateSecret('JWT_SECRET', process.env.JWT_SECRET),
+    apiSecret: '',
+    databaseUrl: '',
+    jwtSecret: '',
 
     public: {
-      apiBase: process.env.API_BASE || '/api',
+      apiBase: '/api',
       appName: 'My Nuxt App',
-      appUrl: process.env.APP_URL || 'http://localhost:3000'
+      appUrl: 'http://localhost:3000'
     }
   },
 
@@ -93,7 +86,7 @@ export default defineNuxtConfig({
 
   image: {
     cloudflare: {
-      baseURL: process.env.CLOUDFLARE_IMAGES_URL || ''
+      baseURL: ''
     }
   },
 

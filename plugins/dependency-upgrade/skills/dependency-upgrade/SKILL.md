@@ -1,6 +1,6 @@
 ---
 name: dependency-upgrade
-description: "Secure dependency upgrades with supply chain protection, cooldown periods, post-install script hardening, lockfile validation, and staged rollout across npm, Bun, pnpm, and Yarn. Use when upgrading dependencies, configuring security policies, or preventing supply chain attacks."
+description: "Secure dependency upgrades with supply chain protection, cooldowns, and staged rollout. Use when upgrading deps, configuring security policies, or preventing supply chain attacks."
 license: MIT
 ---
 

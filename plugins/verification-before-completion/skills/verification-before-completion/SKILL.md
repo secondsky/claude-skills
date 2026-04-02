@@ -1,7 +1,8 @@
 ---
 name: verification-before-completion
 description: Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.
-version: 1.1.0
+metadata:
+  version: "1.1.0"
 ---
 
 # Verification Before Completion

@@ -1,7 +1,8 @@
 ---
-name: Bun File I/O
+name: bun-file-io
 description: Use for Bun file I/O: Bun.file, Bun.write, streams, directories, glob patterns, metadata.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Bun File I/O

@@ -23,7 +23,7 @@ Check before starting:
 Use AskUserQuestion to collect setup preferences.
 
 **Question 1: Project Type**
-```
+```yaml
 header: "Project Type"
 question: "What type of application are you building?"
 options:
@@ -39,7 +39,7 @@ options:
 **Store as**: `projectType`
 
 **Question 2: UI Framework**
-```
+```yaml
 header: "UI Framework"
 question: "Which UI framework would you like to use?"
 options:
@@ -55,7 +55,7 @@ options:
 **Store as**: `uiFramework`
 
 **Question 3: Features** (multiSelect: true)
-```
+```yaml
 header: "Features"
 question: "Which features do you need?"
 multiSelect: true
@@ -72,7 +72,7 @@ options:
 **Store as**: `features` (array)
 
 **Question 4: Database** (if "Database" selected)
-```
+```yaml
 header: "Database"
 question: "Which database would you like to use?"
 options:
@@ -88,7 +88,7 @@ options:
 **Store as**: `database`
 
 **Question 5: Deployment Target**
-```
+```yaml
 header: "Deployment"
 question: "Where will you deploy?"
 options:
@@ -106,7 +106,7 @@ options:
 **Store as**: `deployment`
 
 **Question 6: Package Manager**
-```
+```yaml
 header: "Package Manager"
 question: "Which package manager do you prefer?"
 options:
@@ -124,7 +124,7 @@ options:
 ### Step 2: Create Project
 
 **Ask for project name**:
-```
+```yaml
 header: "Project Name"
 question: "What should your project be called?"
 ```
@@ -133,7 +133,7 @@ question: "What should your project be called?"
 
 **Execute**:
 ```bash
-bunx nuxi@latest init <projectName> --package-manager <packageManager>
+<packageManager> exec nuxi@latest init <projectName> --package-manager <packageManager>
 cd <projectName>
 ```
 
@@ -324,7 +324,7 @@ const handleError = () => {
 
 **If features includes "Database"** - server/utils/db.ts:
 
-**If deployment == "Cloudflare Pages" OR deployment == "Cloudflare Workers"**:
+**If database == "Cloudflare D1" OR database == "NuxtHub"**:
 ```typescript
 import { drizzle } from 'drizzle-orm/d1'
 import * as schema from '~/server/database/schema'
@@ -335,7 +335,7 @@ export function useDB(event: H3Event) {
 }
 ```
 
-**If deployment == "Vercel" or "Netlify"**:
+**If database == "PostgreSQL"**:
 ```typescript
 import { drizzle } from 'drizzle-orm/node-postgres'
 import * as schema from '~/server/database/schema'
@@ -343,6 +343,16 @@ import postgres from 'postgres'
 
 const client = postgres(process.env.DATABASE_URL!)
 export const useDB = () => drizzle(client, { schema })
+```
+
+If database == "PostgreSQL", also install the driver:
+```bash
+<pm> add postgres
+```
+
+And create the schema directory:
+```bash
+mkdir -p server/database
 ```
 
 **If features includes "Authentication"** - app/middleware/auth.ts:
@@ -384,6 +394,37 @@ export const useAuth = () => {
 
   return { user, isAuthenticated, login, logout }
 }
+```
+
+**If features includes "Authentication"** - server/api/auth/login.post.ts:
+```typescript
+export default defineEventHandler(async (event) => {
+  const { email, password } = await readBody(event)
+
+  if (!email || !password) {
+    throw createError({ statusCode: 400, statusMessage: 'Email and password required' })
+  }
+
+  // TODO: Replace with real credential validation (database lookup, bcrypt, etc.)
+  const user = { id: '1', email, name: email.split('@')[0] }
+
+  setCookie(event, 'auth-session', JSON.stringify(user), {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7
+  })
+
+  return { user }
+})
+```
+
+**If features includes "Authentication"** - server/api/auth/logout.post.ts:
+```typescript
+export default defineEventHandler((event) => {
+  deleteCookie(event, 'auth-session')
+  return { success: true }
+})
 ```
 
 **If features includes "Testing"** - vitest.config.ts:
@@ -428,7 +469,7 @@ database_id = "<TO_BE_CREATED>"
 
 ### Step 8: Provide Next Steps
 
-```
+```text
 Nuxt 5 Project Setup Complete!
 
 Project: <projectName>
@@ -455,7 +496,7 @@ Next Steps:
    <pm> run build
 
 4. Type check:
-   bunx nuxi typecheck
+    <packageManager> run typecheck
 
 Helpful Commands:
 - Preview production: <pm> run preview
@@ -467,7 +508,7 @@ Helpful Commands:
 ## Error Handling
 
 ### Node.js Version Too Old
-```
+```text
 Solution:
 1. Update Node.js: nvm install 20
 2. Or use Bun: brew install bun
@@ -475,14 +516,14 @@ Solution:
 ```
 
 ### Directory Already Exists
-```
+```text
 Solutions:
 1. Choose a different name
 2. Delete existing directory: rm -rf <projectName>
 ```
 
 ### Package Installation Failed
-```
+```text
 Solutions:
 1. Clear cache: <pm> cache clean
 2. Delete node_modules: rm -rf node_modules

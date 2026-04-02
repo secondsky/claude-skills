@@ -23,7 +23,7 @@ bun outdated
 
 Upgrade in dependency order — foundations first:
 
-```
+```text
 1. TypeScript / build tools
 2. Core framework (React, Next.js, etc.)
 3. Routing

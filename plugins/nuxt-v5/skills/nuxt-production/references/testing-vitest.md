@@ -529,7 +529,7 @@ test('user can login', async ({ page }) => {
 
 ## Test Organization
 
-```
+```text
 tests/
 ├── components/
 │   ├── Button.test.ts

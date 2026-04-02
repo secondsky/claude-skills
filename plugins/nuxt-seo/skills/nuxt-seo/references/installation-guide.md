@@ -50,8 +50,8 @@ Install only what you need:
 ### Install Each Module
 
 ```bash
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add @nuxtjs/robots
+npx nuxt module add @nuxtjs/sitemap
 npx nuxt module add nuxt-og-image
 npx nuxt module add nuxt-schema-org
 npx nuxt module add nuxt-link-checker
@@ -65,8 +65,8 @@ npx nuxt module add nuxt-site-config
 export default defineNuxtConfig({
   modules: [
     'nuxt-site-config', // Base config (install first)
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org',
     'nuxt-link-checker',
@@ -85,8 +85,8 @@ export default defineNuxtConfig({
 npx nuxt module add @nuxtjs/seo
 
 # Or individually
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add @nuxtjs/robots
+npx nuxt module add @nuxtjs/sitemap
 npx nuxt module add nuxt-og-image
 npx nuxt module add nuxt-schema-org
 npx nuxt module add nuxt-site-config
@@ -157,8 +157,8 @@ export default defineNuxtConfig({
 ### Corporate Site
 
 ```bash
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add @nuxtjs/robots
+npx nuxt module add @nuxtjs/sitemap
 npx nuxt module add nuxt-og-image
 npx nuxt module add nuxt-schema-org
 npx nuxt module add nuxt-site-config
@@ -168,8 +168,8 @@ npx nuxt module add nuxt-site-config
 export default defineNuxtConfig({
   modules: [
     'nuxt-site-config',
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org'
   ],
@@ -352,13 +352,13 @@ npm install
 ### robots.txt not generating
 
 1. Check `site.url` is set in config
-2. Verify `nuxt-robots` is in modules array
+2. Verify `@nuxtjs/robots` is in modules array
 3. Clear `.nuxt` cache
 
 ### Sitemap not generating
 
 1. Check `site.url` is set
-2. Verify `nuxt-sitemap` is installed
+2. Verify `@nuxtjs/sitemap` is installed
 3. Restart dev server
 
 ### Build errors
@@ -389,8 +389,8 @@ If you have individual modules installed:
 ```typescript
 export default defineNuxtConfig({
   modules: [
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image',
     'nuxt-schema-org'
   ]
@@ -407,10 +407,10 @@ export default defineNuxtConfig({
 Remove individual packages:
 ```bash
 # Bun
-bun remove nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
+bun remove @nuxtjs/robots @nuxtjs/sitemap nuxt-og-image nuxt-schema-org
 
 # npm
-npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
+npm uninstall @nuxtjs/robots @nuxtjs/sitemap nuxt-og-image nuxt-schema-org
 ```
 
 Install bundle:

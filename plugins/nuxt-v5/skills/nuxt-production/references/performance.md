@@ -100,7 +100,7 @@ const LazyComponent = defineLazyHydrationComponent(() =>
 
 ### Lazy Prefix Convention
 
-```
+```text
 components/
 ├── HeavyChart.vue          # Auto-imported
 ├── LazyHeavyChart.vue      # Lazy-loaded
@@ -240,7 +240,7 @@ Features:
 
 Automatic in Nuxt - each page is a separate chunk.
 
-```
+```text
 pages/
 ├── index.vue       → index-[hash].js
 ├── about.vue       → about-[hash].js

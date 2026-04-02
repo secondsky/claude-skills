@@ -1,7 +1,8 @@
 ---
-name: Bun Hono Integration
+name: bun-hono-integration
 description: Use when building APIs with Hono framework on Bun, including routing, middleware, REST APIs, context handling, or web framework features.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Bun Hono Integration

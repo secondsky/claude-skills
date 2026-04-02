@@ -1,5 +1,5 @@
 ---
-name: workers-performance
+name: cloudflare-workers-performance
 description: Cloudflare Workers performance optimization with CPU, memory, caching, bundle size. Use for slow workers, high latency, cold starts, or encountering CPU limits, memory issues, timeout errors.
 ---
 

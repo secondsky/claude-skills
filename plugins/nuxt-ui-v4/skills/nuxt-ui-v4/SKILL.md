@@ -69,7 +69,7 @@ npm create nuxt@latest -- -t ui/editor       # Rich text editor
 
 ## Component Categories (125+ Total)
 
-### Dashboard (11 components) - NEW
+### Dashboard (10 components) - NEW
 Complete admin interface system:
 - **DashboardGroup** - Fixed layout wrapper with sidebar state management
 - **DashboardSidebar** - Resizable, collapsible sidebar

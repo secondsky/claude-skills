@@ -1,7 +1,8 @@
 ---
-name: Bun Test Mocking
+name: bun-test-mocking
 description: Use for mock functions in Bun tests, spyOn, mock.module, implementations, and test doubles.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Bun Test Mocking

@@ -21,7 +21,7 @@ if [ "$range" = "0" ]; then
   exit 0
 fi
 
-CHANGED_SKILLS=$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^plugins/.*/skills/.*/SKILL\.md$' || true)
+CHANGED_SKILLS=$(git diff --name-only origin/main...HEAD 2>/dev/null | grep -E '^plugins/[^/]+/(skills/[^/]+/)?SKILL\.md$' || true)
 
 if [ -z "$CHANGED_SKILLS" ]; then
   exit 0
@@ -44,7 +44,12 @@ while IFS= read -r skill_file; do
   fi
 
   skill_name=$(echo "$skill_file" | awk -F'/' '{print $(NF-1)}')
-  plugin_dir="$(dirname "$(dirname "$(dirname "$full_path")")")"
+
+  if echo "$skill_file" | grep -qE '^plugins/[^/]+/skills/'; then
+    plugin_dir="$(dirname "$(dirname "$(dirname "$full_path")")")"
+  else
+    plugin_dir="$(dirname "$full_path")"
+  fi
 
   if echo "$validated_dirs" | grep -qF "$plugin_dir"; then
     continue

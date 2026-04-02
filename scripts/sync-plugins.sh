@@ -562,7 +562,7 @@ while IFS= read -r plugin_dir_path; do
       desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
 
       # Build jq filter dynamically based on whether agents/commands exist
-      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .keywords = $keywords | del(.agents) | del(.commands)'
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .keywords = $keywords | del(.agents) | del(.commands) | del(.category)'
       jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--argjson" "keywords" "$keywords_json")
 
       if [ -n "$agents_json" ]; then
@@ -618,7 +618,7 @@ EOF
       # Single-skill with existing plugin.json: merge to preserve extra fields (homepage, skills, etc.)
       desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
 
-      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .license = $license | .repository = $repo | .keywords = $keywords | del(.agents) | del(.commands)'
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .license = $license | .repository = $repo | .keywords = $keywords | del(.agents) | del(.commands) | del(.category)'
       jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--arg" "license" "MIT" "--arg" "repo" "https://github.com/secondsky/claude-skills" "--argjson" "keywords" "$keywords_json")
 
       if [ -n "$agents_json" ]; then

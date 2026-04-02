@@ -1,7 +1,8 @@
 ---
-name: Bun Docker
+name: bun-docker
 description: Use for Docker with Bun, Dockerfiles, oven/bun image, containerization, and deployments.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Bun Docker

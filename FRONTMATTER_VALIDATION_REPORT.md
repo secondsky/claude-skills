@@ -1,80 +1,36 @@
 # Frontmatter Validation Report
 
 **Date**: 2026-04-02
-**Validator**: `scripts/validate-frontmatter.sh`
-**Total Skills**: 211 | **Passed**: 172 | **Failed**: 39 | **Warnings**: 94
+**Validator**: `scripts/validate-frontmatter.sh` (aligned with [Agent Skills Spec](https://agentskills.io/specification))
+**Total Skills**: 211 | **Passed**: 211 | **Failed**: 0 | **Warnings**: 92
 
 ---
 
-## Critical Issues (39)
+## All Critical Issues Resolved
 
-All 39 failures are **name mismatches** — the YAML `name:` value does not match the skill directory name. Per the Anthropic skill spec, `name` must match the directory for correct skill discovery.
+All 57 critical issues found during the initial validation have been fixed:
 
-### Bun Skills (27) — Display Names Instead of Directory Names
+### Name Mismatches (39) — Fixed
 
-All 27 bun skills use human-readable display names (e.g., `"Bun Bundler"`) instead of the directory name (e.g., `bun-bundler`).
+`name:` values updated to match directory names (spec: "Must match the parent directory name").
 
-| Skill Directory | Current `name` Value | Fix To |
-|---|---|---|
-| `bun-bundler` | `Bun Bundler` | `bun-bundler` |
-| `bun-cloudflare-workers` | `Bun Cloudflare Workers` | `bun-cloudflare-workers` |
-| `bun-docker` | `Bun Docker` | `bun-docker` |
-| `bun-drizzle-integration` | `Bun Drizzle Integration` | `bun-drizzle-integration` |
-| `bun-ffi` | `Bun FFI` | `bun-ffi` |
-| `bun-file-io` | `Bun File I/O` | `bun-file-io` |
-| `bun-hono-integration` | `Bun Hono Integration` | `bun-hono-integration` |
-| `bun-hot-reloading` | `Bun Hot Reloading` | `bun-hot-reloading` |
-| `bun-http-server` | `Bun HTTP Server` | `bun-http-server` |
-| `bun-jest-migration` | `Bun Jest Migration` | `bun-jest-migration` |
-| `bun-macros` | `Bun Macros` | `bun-macros` |
-| `bun-nextjs` | `Bun Next.js` | `bun-nextjs` |
-| `bun-nuxt` | `"Bun Nuxt"` (includes quotes) | `bun-nuxt` |
-| `bun-package-manager` | `Bun Package Manager` | `bun-package-manager` |
-| `bun-react-ssr` | `Bun React SSR` | `bun-react-ssr` |
-| `bun-redis` | `Bun Redis` | `bun-redis` |
-| `bun-runtime` | `Bun Runtime` | `bun-runtime` |
-| `bun-shell` | `Bun Shell` | `bun-shell` |
-| `bun-sqlite` | `Bun SQLite` | `bun-sqlite` |
-| `bun-sveltekit` | `Bun SvelteKit` | `bun-sveltekit` |
-| `bun-tanstack-start` | `Bun TanStack Start` | `bun-tanstack-start` |
-| `bun-test-basics` | `Bun Test Basics` | `bun-test-basics` |
-| `bun-test-coverage` | `Bun Test Coverage` | `bun-test-coverage` |
-| `bun-test-lifecycle` | `Bun Test Lifecycle` | `bun-test-lifecycle` |
-| `bun-test-mocking` | `Bun Test Mocking` | `bun-test-mocking` |
-| `bun-websocket-server` | `Bun WebSocket Server` | `bun-websocket-server` |
-| `bun-workers` | `Bun Workers` | `bun-workers` |
+- **27 Bun skills**: display names like `"Bun Bundler"` → directory names like `bun-bundler`
+- **10 Cloudflare Workers skills**: short names like `workers-ci-cd` → full names like `cloudflare-workers-ci-cd`
+- **2 Other**: `Nuxt Studio` → `nuxt-studio`, `vercel-react-best-practices` → `react-best-practices`
 
-### Cloudflare Workers Skills (10) — Short Names Missing `cloudflare-` Prefix
+### Top-Level `version:` Field (29) — Fixed
 
-These skills live under `plugins/cloudflare-workers/skills/` but their `name` omits the `cloudflare-` prefix.
+Moved `version:` from top-level into `metadata:` block (spec: only `name`, `description`, `license`, `allowed-tools`, `metadata`, `compatibility` allowed at top level).
 
-| Skill Directory | Current `name` Value | Fix To |
-|---|---|---|
-| `cloudflare-workers-ci-cd` | `workers-ci-cd` | `cloudflare-workers-ci-cd` |
-| `cloudflare-workers-dev-experience` | `workers-dev-experience` | `cloudflare-workers-dev-experience` |
-| `cloudflare-workers-frameworks` | `workers-frameworks` | `cloudflare-workers-frameworks` |
-| `cloudflare-workers-migration` | `workers-migration` | `cloudflare-workers-migration` |
-| `cloudflare-workers-multi-lang` | `workers-multi-lang` | `cloudflare-workers-multi-lang` |
-| `cloudflare-workers-observability` | `workers-observability` | `cloudflare-workers-observability` |
-| `cloudflare-workers-performance` | `workers-performance` | `cloudflare-workers-performance` |
-| `cloudflare-workers-runtime-apis` | `workers-runtime-apis` | `cloudflare-workers-runtime-apis` |
-| `cloudflare-workers-security` | `workers-security` | `cloudflare-workers-security` |
-| `cloudflare-workers-testing` | `workers-testing` | `cloudflare-workers-testing` |
+### Top-Level `keywords:` Field (16) — Fixed
 
-### Other Skills (2)
-
-| Skill Directory | Current `name` Value | Fix To |
-|---|---|---|
-| `nuxt-studio` | `Nuxt Studio` | `nuxt-studio` |
-| `react-best-practices` | `vercel-react-best-practices` | `react-best-practices` |
+Moved `keywords:` from top-level into `metadata:` block as a comma-separated string.
 
 ---
 
-## Warnings (94)
+## Remaining Warnings (92)
 
-### Missing `license` Field (79 skills)
-
-These skills lack a `license` field in their YAML frontmatter. Recommended fix: add `license: MIT`.
+All 92 warnings are for **missing `license` field**. This is recommended but not required by the spec.
 
 ```
 access-control-rbac, api-authentication, api-changelog-versioning,
@@ -110,33 +66,28 @@ woocommerce-code-review, woocommerce-copy-guidelines,
 woocommerce-dev-cycle
 ```
 
-### Unknown Top-Level Fields (29 skills)
-
-These skills have `version` as a top-level YAML field. Per the spec, `version` should be nested under `metadata:` (e.g., `metadata.version`).
-
-```
-bun-bundler, bun-docker, bun-drizzle-integration, bun-ffi, bun-file-io,
-bun-hono-integration, bun-hot-reloading, bun-http-server,
-bun-jest-migration, bun-macros, bun-nextjs, bun-react-ssr, bun-runtime,
-bun-sqlite, bun-test-basics, bun-test-coverage, bun-test-lifecycle,
-bun-test-mocking, bun-websocket-server, bun-workers,
-cloudflare-workers-frameworks, cloudflare-workers-migration,
-cloudflare-workers-multi-lang, defense-in-depth-validation,
-nuxt-studio, root-cause-tracing, systematic-debugging, threejs,
-verification-before-completion
-```
+Fix: add `license: MIT` to YAML frontmatter.
 
 ---
 
-## Fix Priority
+## Validation Rules (per Agent Skills Spec)
 
-1. **Name mismatches** (39) — Critical, blocks CI. Fix: change `name:` to match directory name.
-2. **Missing license** (79) — Low, add `license: MIT` to frontmatter.
-3. **Unknown `version` field** (29) — Low, move `version: "x.y.z"` under `metadata:` block.
+| Rule | Severity | Source |
+|---|---|---|
+| `name` required | Error | Spec: required field |
+| `description` required | Error | Spec: required field |
+| `name` must be lowercase | Error | Spec: "lowercase alphanumeric" |
+| `name` max 64 chars | Error | Spec: "Max 64 characters" |
+| `name` no leading/trailing `-` | Error | Spec: "Must not start or end with a hyphen" |
+| `name` no consecutive `--` | Error | Spec: "Must not contain consecutive hyphens" |
+| `name` only `[a-z0-9-]` | Error | Spec: "letters, digits, and hyphens" |
+| `name` must match directory | Error | Spec: "Must match the parent directory name" |
+| `description` max 1024 chars | Error | Spec: "Max 1024 characters" |
+| `compatibility` max 500 chars | Error | Spec: "Max 500 characters" |
+| Only allowed top-level fields | Error | Spec: 6 defined fields only |
+| Missing `license` | Warning | Recommended but optional |
 
 ## Re-validate
-
-After fixes, run:
 
 ```bash
 ./scripts/validate-frontmatter.sh

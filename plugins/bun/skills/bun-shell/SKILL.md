@@ -1,5 +1,5 @@
 ---
-name: Bun Shell
+name: bun-shell
 description: Bun shell scripting with Bun.$, Bun.spawn, subprocess management. Use for shell commands, template literals, or command execution.
 ---
 

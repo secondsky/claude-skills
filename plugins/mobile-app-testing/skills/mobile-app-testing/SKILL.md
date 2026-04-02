@@ -1,7 +1,8 @@
 ---
 name: mobile-app-testing
 description: Mobile app testing with unit tests, UI automation, performance testing. Use for test infrastructure, E2E tests, testing standards, or encountering test framework setup, device farms, flaky tests, platform-specific test errors.
-keywords: mobile testing, unit testing, UI automation, E2E testing, Jest, XCTest, JUnit, Detox, Espresso, Appium, React Native testing, iOS testing, Android testing, test framework, device farms, flaky tests, mobile test automation, integration testing, testing pyramid, test coverage
+metadata:
+  keywords: "mobile testing, unit testing, UI automation, E2E testing, Jest, XCTest, JUnit, Detox, Espresso, Appium, React Native testing, iOS testing, Android testing, test framework, device farms, flaky tests, mobile test automation, integration testing, testing pyramid, test coverage"
 ---
 
 # Mobile App Testing

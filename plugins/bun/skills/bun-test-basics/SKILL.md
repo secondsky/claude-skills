@@ -1,7 +1,8 @@
 ---
-name: Bun Test Basics
+name: bun-test-basics
 description: Use for bun:test syntax, assertions, describe/it, test.skip/only/each, and basic patterns.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Bun Test Basics

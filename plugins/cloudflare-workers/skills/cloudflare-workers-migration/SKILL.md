@@ -1,7 +1,8 @@
 ---
-name: workers-migration
+name: cloudflare-workers-migration
 description: Migrate to Cloudflare Workers from AWS Lambda, Vercel, Express, and Node.js. Use when porting existing applications to the edge, adapting serverless functions, or resolving Node.js API compatibility issues.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Workers Migration Guide

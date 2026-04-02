@@ -1,7 +1,8 @@
 ---
 name: threejs
 description: Three.js 3D graphics library - scene setup, geometry, materials, lighting, textures, animation, loaders, shaders, postprocessing, interaction. Use when building 3D web experiences, creating WebGL visualizations, working with GLTF models, implementing custom shaders, or adding interactive 3D elements to web applications.
-version: 1.0.0
+metadata:
+  version: "1.0.0"
 license: MIT
 ---
 

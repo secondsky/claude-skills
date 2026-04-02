@@ -13,7 +13,7 @@ Production-ready **Nuxt UI v4** plugin for **Nuxt v4** projects with **125+ acce
 - **7 Semantic Colors**: Primary, secondary, success, info, warning, error, neutral with dark mode support
 - **Accessibility**: WAI-ARIA compliant components built on Reka UI
 - **AI Integration**: 8 Chat components for AI chatbots with streaming, reasoning, and tool calling
-- **Dashboard System**: 11 dashboard components for admin interfaces
+- **Dashboard System**: 10 dashboard components for admin interfaces
 - **Page Layout**: 16 page layout components for landing pages and marketing sites
 - **Auth System**: Pre-built AuthForm for login/register/password reset
 
@@ -35,7 +35,7 @@ Use this plugin when working with:
 
 ## Component Coverage (125+)
 
-### Dashboard (11 components)
+### Dashboard (10 components)
 DashboardGroup, DashboardSidebar, DashboardPanel, DashboardNavbar, DashboardToolbar, DashboardSidebarToggle, DashboardSidebarCollapse, DashboardSearch, DashboardSearchButton, DashboardResizeHandle
 
 ### Chat/AI (8 components)
@@ -221,5 +221,5 @@ cd claude-skills
 
 MIT License - See LICENSE file in repository root
 
-**Last Updated**: 2026-03-30
+**Last Updated**: 2026-04-02
 **Version**: 3.2.1

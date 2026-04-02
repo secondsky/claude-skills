@@ -1,5 +1,5 @@
 ---
-name: Bun TanStack Start
+name: bun-tanstack-start
 description: TanStack Start full-stack React framework with Bun runtime. Use for TanStack Router, server functions, vinxi, or encountering SSR, build, preset errors.
 ---
 

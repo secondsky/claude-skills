@@ -143,6 +143,8 @@ validate_skill() {
     if [ "$desc_len" -gt "$MAX_DESCRIPTION_LENGTH" ]; then
       errors="${errors}  description exceeds ${MAX_DESCRIPTION_LENGTH} chars (${desc_len})\n"
     fi
+  else
+    errors="${errors}  missing required field 'description' or description is empty\n"
   fi
 
   # --- Compatibility length check (spec: <= 500 chars) ---
@@ -266,7 +268,7 @@ if [ -n "$TARGET_DIR" ]; then
     search_dir="$TARGET_DIR/skills"
   fi
 
-  skill_files=$(find "$search_dir" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
+  skill_files=$(find "$search_dir" -name 'SKILL.md' 2>/dev/null | sort)
 
   if [ -z "$skill_files" ]; then
     if [ -f "$TARGET_DIR/SKILL.md" ]; then
@@ -285,7 +287,7 @@ if [ -n "$TARGET_DIR" ]; then
     validate_skill "$file"
   done <<< "$skill_files"
 else
-  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
+  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' 2>/dev/null | sort)
 
   if [ -z "$skill_files" ]; then
     echo -e "${RED}Error: No SKILL.md files found${NC}"

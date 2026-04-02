@@ -1,5 +1,5 @@
 ---
-name: workers-security
+name: cloudflare-workers-security
 description: Cloudflare Workers security with authentication, CORS, rate limiting, input validation. Use for securing APIs, JWT/API keys, or encountering auth failures, CORS errors, XSS/injection vulnerabilities.
 ---
 
