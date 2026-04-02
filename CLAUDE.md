@@ -544,23 +544,35 @@ This script consolidates all plugin management into one command:
 
 ### Plugin.json Schema
 
-Each skill's plugin.json follows the Anthropic plugin schema:
+Each skill's plugin.json follows the [official Claude Code plugin schema](https://docs.claude.com/en/docs/claude-code/plugins-reference). Only `name` is required:
 
 ```json
 {
   "name": "feature-dev",
   "description": "...",
   "version": "3.0.0",
-  "author": {"name": "...", "email": "..."},
-  "license": "MIT",
+  "author": {"name": "...", "email": "...", "url": "..."},
+  "homepage": "https://docs.example.com/plugin",
   "repository": "https://github.com/secondsky/claude-skills",
-  "keywords": ["feature", "dev", "workflow", ...],
-  "agents": ["./agents/code-reviewer.md", "./agents/code-explorer.md"],
-  "commands": ["./commands/feature-dev.md"]
+  "license": "MIT",
+  "keywords": ["feature", "dev", "workflow"],
+  "agents": ["./agents/code-reviewer.md"],
+  "commands": ["./commands/feature-dev.md"],
+  "skills": "./custom/skills/",
+  "hooks": "./config/hooks.json",
+  "mcpServers": "./mcp-config.json",
+  "outputStyles": "./styles/",
+  "lspServers": "./.lsp.json",
+  "userConfig": {},
+  "channels": []
 }
 ```
 
+Component path fields (`commands`, `agents`, `skills`, `outputStyles`) accept `string | array` and **replace** the default directory. Fields `hooks`, `mcpServers`, `lspServers` accept `string | array | object` and **merge** from multiple sources.
+
 **Note**: The `category` field is NOT valid in plugin.json (causes installation errors). Categories are only used in `marketplace.json` for organization purposes.
+
+Validation schema: `schemas/plugin.schema.json` — run `./scripts/validate-json-schemas.sh` to check.
 
 ### Note on Script Consolidation
 

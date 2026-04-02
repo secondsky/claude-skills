@@ -614,8 +614,32 @@ EOF
         rm -f "$plugin_json.tmp"
         continue
       fi
+    elif [ -f "$plugin_json" ]; then
+      # Single-skill with existing plugin.json: merge to preserve extra fields (homepage, skills, etc.)
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+
+      jq_filter='.name = $name | .description = $desc | .version = $version | .author = $author | .license = $license | .repository = $repo | .keywords = $keywords | del(.agents) | del(.commands)'
+      jq_args=("--arg" "name" "$skill_name" "--argjson" "desc" "$desc_json" "--arg" "version" "$GLOBAL_VERSION" "--argjson" "author" "$current_author" "--arg" "license" "MIT" "--arg" "repo" "https://github.com/secondsky/claude-skills" "--argjson" "keywords" "$keywords_json")
+
+      if [ -n "$agents_json" ]; then
+        jq_filter="$jq_filter | .agents = \$agents"
+        jq_args+=("--argjson" "agents" "$agents_json")
+      fi
+      if [ -n "$commands_json" ]; then
+        jq_filter="$jq_filter | .commands = \$commands"
+        jq_args+=("--argjson" "commands" "$commands_json")
+      fi
+
+      if jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp" 2>/dev/null; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
     else
-      # Single-skill plugins: write plugin.json from template
+      # No existing plugin.json: create from template
       desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
       cat > "$plugin_json.tmp" << EOF
 {
@@ -628,19 +652,16 @@ EOF
   "keywords": $keywords_json
 EOF
 
-      # Add agents if present
       if [ -n "$agents_json" ]; then
         echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
       fi
 
-      # Add commands if present
       if [ -n "$commands_json" ]; then
         echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
       fi
 
       echo "}" >> "$plugin_json.tmp"
 
-      # Validate and format JSON
       if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
         jq '.' "$plugin_json.tmp" > "$plugin_json"
         rm "$plugin_json.tmp"
