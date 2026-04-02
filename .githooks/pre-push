@@ -32,6 +32,8 @@ echo "📋 Validating SKILL.md frontmatter for changed skills..."
 
 validation_failed=0
 
+validated_dirs=""
+
 while IFS= read -r skill_file; do
   [ -z "$skill_file" ] && continue
 
@@ -42,8 +44,14 @@ while IFS= read -r skill_file; do
   fi
 
   skill_name=$(echo "$skill_file" | awk -F'/' '{print $(NF-1)}')
+  plugin_dir="$(dirname "$(dirname "$(dirname "$full_path")")")"
 
-  "$REPO_ROOT/scripts/validate-frontmatter.sh" --dir "$(dirname "$(dirname "$full_path")")" --quiet
+  if echo "$validated_dirs" | grep -qF "$plugin_dir"; then
+    continue
+  fi
+  validated_dirs="$validated_dirs $plugin_dir"
+
+  "$REPO_ROOT/scripts/validate-frontmatter.sh" --dir "$plugin_dir" --quiet
   exit_code=$?
 
   if [ $exit_code -ne 0 ]; then

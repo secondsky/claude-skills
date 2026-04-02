@@ -4,8 +4,8 @@
 
 # === COOLDOWN PERIOD ===
 # Only consider npm package versions published at least 7 days ago
-# Accepts human-readable durations: "3d", "7d", "14d", "21d"
-npmMinimalAgeGate: "7d"
+# Value is in minutes (10080 = 7 days, 43200 = 30 days)
+npmMinimalAgeGate: 10080
 
 # Packages that bypass the age gate (descriptors or glob patterns)
 # [CONFIGURE] Add packages that need same-day updates

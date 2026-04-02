@@ -1,6 +1,6 @@
 ---
 name: nuxt-seo
-description: Nuxt SEO v5 modules (robots, sitemap, og-image, schema-org, link-checker, seo-utils, site-config). Use when implementing SEO, robots.txt, sitemaps, OG images, Schema.org, meta tags, or link checking in Nuxt applications.
+description: Nuxt SEO v5 modules (robots, sitemap, og-image, schema-org, link-checker, seo-utils, site-config). Use when implementing SEO, robots.txt, sitemaps, Schema.org, or meta tags in Nuxt apps.
 license: MIT
 metadata:
   version: 4.0.0

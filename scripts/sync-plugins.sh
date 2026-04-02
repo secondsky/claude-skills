@@ -26,6 +26,8 @@
 
 set -e
 
+command -v jq &>/dev/null || { echo "Error: jq is required but not installed"; exit 1; }
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PLUGINS_DIR="$ROOT_DIR/plugins"
@@ -432,14 +434,14 @@ scan_commands() {
 count=0
 updated=0
 skipped=0
-# Count total individual skills at plugins/* level
-total=$(find "$PLUGINS_DIR" -mindepth 2 -maxdepth 2 -type f -name "SKILL.md" | wc -l | tr -d ' ')
+# Count total plugins
+total=$(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
 
 echo "Processing skills from all plugins..."
 echo ""
 
 # Loop: iterate through plugin directories (flat structure)
-for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort); do
+while IFS= read -r plugin_dir_path; do
   if [ ! -d "$plugin_dir_path" ]; then
     continue
   fi
@@ -572,9 +574,39 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
         jq_args+=("--argjson" "commands" "$commands_json")
       fi
 
-      jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp"
+      if jq "$jq_filter" "${jq_args[@]}" "$plugin_json" > "$plugin_json.tmp" 2>/dev/null; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
+    elif [ "$is_multi_skill" = true ]; then
+      # Multi-skill plugins: first run (no existing plugin.json)
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+      cat > "$plugin_json.tmp" << EOF
+{
+  "name": "$skill_name",
+  "description": $desc_json,
+  "version": "$GLOBAL_VERSION",
+  "author": $current_author,
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": $keywords_json
+EOF
 
-      if [ $? -eq 0 ]; then
+      if [ -n "$agents_json" ]; then
+        echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
+      fi
+
+      if [ -n "$commands_json" ]; then
+        echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
+      fi
+
+      echo "}" >> "$plugin_json.tmp"
+
+      if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
         jq '.' "$plugin_json.tmp" > "$plugin_json"
         rm "$plugin_json.tmp"
       else
@@ -597,12 +629,12 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
 EOF
 
       # Add agents if present
-      if [ "$agents_json" != "" ]; then
+      if [ -n "$agents_json" ]; then
         echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
       fi
 
       # Add commands if present
-      if [ "$commands_json" != "" ]; then
+      if [ -n "$commands_json" ]; then
         echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
       fi
 
@@ -622,11 +654,11 @@ EOF
 
   # Output status
   extras=""
-  if [ "$agents_json" != "" ]; then
+  if [ -n "$agents_json" ]; then
     agent_count=$(echo "$agents_json" | jq 'length')
     extras="$extras +${agent_count}agents"
   fi
-  if [ "$commands_json" != "" ]; then
+  if [ -n "$commands_json" ]; then
     cmd_count=$(echo "$commands_json" | jq 'length')
     extras="$extras +${cmd_count}cmds"
   fi
@@ -638,7 +670,7 @@ EOF
   fi
 
   updated=$((updated + 1))
-done
+done < <(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
 
 echo ""
 echo "============================================"

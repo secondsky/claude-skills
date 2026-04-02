@@ -260,7 +260,13 @@ if [ "$QUIET" = false ]; then
 fi
 
 if [ -n "$TARGET_DIR" ]; then
-  skill_files=$(find "$TARGET_DIR/skills" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
+  if [ "$(basename "$TARGET_DIR")" = "skills" ]; then
+    search_dir="$TARGET_DIR"
+  else
+    search_dir="$TARGET_DIR/skills"
+  fi
+
+  skill_files=$(find "$search_dir" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
 
   if [ -z "$skill_files" ]; then
     if [ -f "$TARGET_DIR/SKILL.md" ]; then
@@ -269,7 +275,9 @@ if [ -n "$TARGET_DIR" ]; then
   fi
 
   if [ -z "$skill_files" ]; then
-    echo -e "${RED}Error: No SKILL.md found in $TARGET_DIR${NC}"
+    if [ "$QUIET" = false ]; then
+      echo -e "${RED}Error: No SKILL.md found in $TARGET_DIR${NC}"
+    fi
     exit 1
   fi
 
@@ -277,7 +285,7 @@ if [ -n "$TARGET_DIR" ]; then
     validate_skill "$file"
   done <<< "$skill_files"
 else
-  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' -path '*/skills/*/SKILL.md' | sort)
+  skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' -path '*/skills/*/SKILL.md' 2>/dev/null | sort)
 
   if [ -z "$skill_files" ]; then
     echo -e "${RED}Error: No SKILL.md files found${NC}"
