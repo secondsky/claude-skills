@@ -11,8 +11,9 @@
   "keywords": [
     "ai-sdk-ui",
     "sdk",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

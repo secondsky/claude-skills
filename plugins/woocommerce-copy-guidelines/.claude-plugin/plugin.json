@@ -13,8 +13,9 @@
     "woocommerce",
     "copy",
     "guidelines",
-    "wordpress",
-    "ecommerce",
-    "shop"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

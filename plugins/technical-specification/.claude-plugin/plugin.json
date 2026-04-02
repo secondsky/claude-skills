@@ -12,9 +12,9 @@
     "technical-specification",
     "technical",
     "specification",
-    "documentation",
-    "docs",
-    "technical-writing",
-    "specs"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

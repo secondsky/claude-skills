@@ -12,9 +12,10 @@
     "cloudflare-vectorize",
     "cloudflare",
     "vectorize",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "rag"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

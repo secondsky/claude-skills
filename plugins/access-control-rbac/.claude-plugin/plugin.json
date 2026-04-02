@@ -13,9 +13,10 @@
     "access",
     "control",
     "rbac",
-    "security",
-    "vulnerability",
-    "protection",
+    "tooling",
+    "workflow",
     "authorization"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

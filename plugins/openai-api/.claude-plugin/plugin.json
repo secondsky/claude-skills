@@ -12,10 +12,11 @@
     "openai-api",
     "openai",
     "api",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "gpt",
     "tts"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

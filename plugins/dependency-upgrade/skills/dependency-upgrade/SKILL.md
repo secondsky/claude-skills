@@ -190,7 +190,7 @@ npm config set allow-git none
 { "trustedDependencies": ["esbuild", "sharp"] }
 ```
 
-**pnnpm (10.0+)**: Disabled by default. Allow specific packages in `pnpm-workspace.yaml`:
+**pnpm (10.0+)**: Disabled by default. Allow specific packages in `pnpm-workspace.yaml`:
 ```yaml
 allowBuilds:
   esbuild: true

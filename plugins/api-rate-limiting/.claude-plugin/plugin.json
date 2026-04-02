@@ -13,9 +13,9 @@
     "api",
     "rate",
     "limiting",
-    "rest",
-    "graphql",
-    "endpoints",
-    "http"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

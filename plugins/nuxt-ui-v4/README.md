@@ -222,4 +222,4 @@ cd claude-skills
 MIT License - See LICENSE file in repository root
 
 **Last Updated**: 2026-03-30
-**Version**: 3.1.0
+**Version**: 3.2.1

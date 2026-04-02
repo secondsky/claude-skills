@@ -12,9 +12,11 @@
     "base-ui-react",
     "base",
     "react",
-    "frontend",
-    "components",
+    "tooling",
+    "workflow",
     "mui",
     "migration"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

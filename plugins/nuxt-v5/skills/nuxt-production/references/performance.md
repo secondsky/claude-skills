@@ -1,6 +1,6 @@
 # Performance Optimization
 
-Comprehensive guide to optimizing Nuxt 4 applications for maximum performance.
+Comprehensive guide to optimizing Nuxt 5 applications for maximum performance.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ Comprehensive guide to optimizing Nuxt 4 applications for maximum performance.
 
 ## Built-in Optimizations
 
-Nuxt 4 includes many performance optimizations out of the box:
+Nuxt 5 includes many performance optimizations out of the box:
 
 - **Automatic code splitting** by route
 - **Tree shaking** to remove unused code

@@ -12,9 +12,10 @@
     "openai-agents",
     "openai",
     "agents",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "mcp"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

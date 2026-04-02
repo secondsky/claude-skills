@@ -17,5 +17,7 @@
     "workflow",
     "formdata",
     "validation"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -291,7 +291,7 @@ If `nuxi module add` doesn't work:
 
 ```bash
 # Bun
-npx nuxt @nuxtjs/seo
+bun add @nuxtjs/seo
 
 # npm
 npm install @nuxtjs/seo
@@ -407,7 +407,7 @@ export default defineNuxtConfig({
 Remove individual packages:
 ```bash
 # Bun
-npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
+bun remove nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org
 
 # npm
 npm uninstall nuxt-robots nuxt-sitemap nuxt-og-image nuxt-schema-org

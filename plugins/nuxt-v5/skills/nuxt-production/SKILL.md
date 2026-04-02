@@ -156,18 +156,18 @@ const HeavyChart = defineAsyncComponent(() =>
 ```vue
 <script setup>
 const LazyComponent = defineLazyHydrationComponent(
-  () => import('./HeavyComponent.vue'),
-  { hydrate: 'visible' }
+  'visible',
+  () => import('./HeavyComponent.vue')
 )
 
 const InteractiveComponent = defineLazyHydrationComponent(
-  () => import('./InteractiveComponent.vue'),
-  { hydrate: 'interaction' }
+  'interaction',
+  () => import('./InteractiveComponent.vue')
 )
 
 const IdleComponent = defineLazyHydrationComponent(
-  () => import('./IdleComponent.vue'),
-  { hydrate: 'idle' }
+  'idle',
+  () => import('./IdleComponent.vue')
 )
 </script>
 ```

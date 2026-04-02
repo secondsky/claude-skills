@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
   const { messages } = await readBody(event)
 
   return streamText({
-    model: gateway('anthropic/claude-sonnet-4.6'),
+    model: gateway('anthropic/claude-sonnet-4-6'),
     maxOutputTokens: 10000,
     system: 'You are a helpful assistant.',
     messages: await convertToModelMessages(messages)
@@ -77,7 +77,7 @@ export default defineEventHandler(async (event) => {
   const tools = await httpClient.tools()
 
   return streamText({
-    model: gateway('anthropic/claude-sonnet-4.6'),
+    model: gateway('anthropic/claude-sonnet-4-6'),
     maxOutputTokens: 10000,
     system: 'You are a helpful assistant.',
     messages: await convertToModelMessages(messages),

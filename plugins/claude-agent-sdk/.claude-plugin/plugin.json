@@ -13,10 +13,11 @@
     "claude",
     "agent",
     "sdk",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "cli",
     "mcp"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

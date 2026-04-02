@@ -1,6 +1,6 @@
 # Composables - Advanced Patterns
 
-Comprehensive guide to creating and using composables in Nuxt 4.
+Comprehensive guide to creating and using composables in Nuxt 5.
 
 ## Table of Contents
 

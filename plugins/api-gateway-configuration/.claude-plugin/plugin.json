@@ -13,11 +13,11 @@
     "api",
     "gateway",
     "configuration",
-    "rest",
-    "graphql",
-    "endpoints",
-    "http",
+    "tooling",
+    "workflow",
     "aws",
     "authentication"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

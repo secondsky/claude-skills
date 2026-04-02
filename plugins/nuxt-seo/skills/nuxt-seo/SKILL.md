@@ -1,6 +1,6 @@
 ---
 name: nuxt-seo
-description: All 8 Nuxt SEO v5 modules (robots, sitemap, og-image, schema-org, link-checker, seo-utils, site-config) plus standalone tools. Use when implementing SEO, robots.txt, sitemaps, OG images, Schema.org, meta tags, or link checking in Nuxt applications.
+description: Nuxt SEO v5 modules (robots, sitemap, og-image, schema-org, link-checker, seo-utils, site-config). Use when implementing SEO, robots.txt, sitemaps, OG images, Schema.org, meta tags, or link checking in Nuxt applications.
 license: MIT
 metadata:
   version: 4.0.0
@@ -158,8 +158,8 @@ export default defineNuxtConfig({
 Install only what's needed:
 
 ```bash
-npx nuxt module add nuxt-robots
-npx nuxt module add nuxt-sitemap
+npx nuxt module add @nuxtjs/robots
+npx nuxt module add @nuxtjs/sitemap
 npx nuxt module add nuxt-og-image
 ```
 
@@ -168,8 +168,8 @@ Configuration:
 ```typescript
 export default defineNuxtConfig({
   modules: [
-    'nuxt-robots',
-    'nuxt-sitemap',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
     'nuxt-og-image'
   ]
 })

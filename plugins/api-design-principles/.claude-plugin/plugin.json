@@ -13,11 +13,13 @@
     "api",
     "design",
     "principles",
+    "tooling",
+    "workflow",
     "rest",
     "graphql",
-    "endpoints",
-    "http",
     "scalable",
     "maintainable"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

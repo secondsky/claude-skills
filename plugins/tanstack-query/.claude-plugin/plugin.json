@@ -12,9 +12,11 @@
     "tanstack-query",
     "tanstack",
     "query",
-    "frontend",
-    "components",
+    "tooling",
+    "workflow",
     "migration",
     "caching"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

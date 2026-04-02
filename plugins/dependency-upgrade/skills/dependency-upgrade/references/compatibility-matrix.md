@@ -39,7 +39,7 @@ React Router v7 is the successor to Remix and React Router v6. Key changes:
 |---------|-------|---------|------------|
 | 13.x    | 18.x  | >=16.8  | >=4.5      |
 | 14.x    | 18.x  | >=18.17 | >=4.5      |
-| 15.x    | 18.x-19.x | >=18.18 | >=4.5  |
+| 15.x    | 18.x-19.x | >=20.9  | >=4.5  |
 
 ### Next.js 14 → 15 Migration
 
@@ -51,7 +51,7 @@ Key breaking changes:
 - Turbopack as default dev bundler
 - Improved caching defaults (fetch requests no longer cached by default)
 - `next/image` changes
-- Node.js 18+ required
+- Node.js >=20.9 required
 
 ## TypeScript
 
@@ -90,17 +90,20 @@ bun add -D tailwindcss@4 @tailwindcss/vite
 
 Key changes:
 - CSS-first configuration (`@theme` instead of `tailwind.config.js`)
-- Built-in PostCSS plugin (no separate `postcss` dependency)
-- Lightning CSS replaces PostCSS for processing
-- New `@theme inline` pattern
+- Required primary entrypoint: `@import "tailwindcss"`
+- PostCSS plugin via `@tailwindcss/postcss` package (must install and configure)
+- Lightning CSS can replace PostCSS in some setups per official Tailwind recommendations
+- New `@source inline("class-name")` pattern for safelisting utilities
 
 ## Node.js Version Compatibility
 
-| Node.js | npm version | npm ci support | Notes |
-|---------|------------|----------------|-------|
-| 18 LTS | 9.x        | Yes            | LTS until April 2025 |
-| 20 LTS | 10.x       | Yes            | LTS until April 2026 |
-| 22 LTS | 10.x       | Yes            | LTS until April 2027 |
+| Node.js | npm version | npm ci support |
+|---------|------------|----------------|
+| 18 LTS | 9.x        | Yes            |
+| 20 LTS | 10.x       | Yes            |
+| 22 LTS | 10.x       | Yes            |
+
+See [Node.js Release Schedule](https://nodejs.org/en/about/releases) for LTS dates.
 
 ## Checking Compatibility
 

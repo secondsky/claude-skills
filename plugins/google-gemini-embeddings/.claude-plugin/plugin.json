@@ -13,9 +13,10 @@
     "google",
     "gemini",
     "embeddings",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "rag"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

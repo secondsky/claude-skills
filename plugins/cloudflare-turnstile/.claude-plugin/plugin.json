@@ -12,34 +12,15 @@
     "cloudflare-turnstile",
     "cloudflare",
     "turnstile",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "captcha",
     "csp",
-    "validation",
-    "bot-protection",
-    "form-protection",
-    "token-validation",
-    "siteverify",
-    "turnstile-widget",
-    "managed-challenge",
-    "react-turnstile",
-    "marsidev-react-turnstile",
-    "next-js-turnstile",
-    "hono-turnstile",
-    "recaptcha-alternative",
-    "hcaptcha-alternative",
-    "error-110200",
-    "error-300030",
-    "error-600010",
-    "turnstile-testing",
-    "dummy-keys",
-    "turnstile-csp"
+    "validation"
   ],
   "agents": [
-    "./agents/troubleshooting-agent.md",
-    "./agents/csp-debugger.md"
+    "./agents/csp-debugger.md",
+    "./agents/troubleshooting-agent.md"
   ],
   "commands": [
     "./commands/setup-wizard.md"

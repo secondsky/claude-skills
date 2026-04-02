@@ -1,6 +1,6 @@
 # Cloudflare Deployment - Complete Guide
 
-Comprehensive guide to deploying Nuxt 4 applications on Cloudflare Pages and Workers, including NuxtHub integration and all bindings.
+Comprehensive guide to deploying Nuxt 5 applications on Cloudflare Pages and Workers, including NuxtHub integration and all bindings.
 
 ## Table of Contents
 

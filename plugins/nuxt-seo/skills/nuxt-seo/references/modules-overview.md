@@ -7,8 +7,8 @@ Detailed overview of all 8 Nuxt SEO modules.
 ## Table of Contents
 
 1. [@nuxtjs/seo (Primary SEO Module)](#1-nuxtjsseo-primary-seo-module)
-2. [@nuxtjs/robots (Robots.txt & Bot Detection)](#2-nuxt-robots-robotstxt--bot-detection)
-3. [@nuxtjs/sitemap (XML Sitemap Generation)](#3-nuxt-sitemap-xml-sitemap-generation)
+2. [@nuxtjs/robots (Robots.txt & Bot Detection)](#2-nuxtjsrobots-robotstxt--bot-detection)
+3. [@nuxtjs/sitemap (XML Sitemap Generation)](#3-nuxtjssitemap-xml-sitemap-generation)
 4. [nuxt-og-image (Open Graph Image Generation)](#4-nuxt-og-image-open-graph-image-generation)
 5. [nuxt-schema-org (Schema.org Structured Data)](#5-nuxt-schema-org-schemaorg-structured-data)
 6. [nuxt-link-checker (Link Validation)](#6-nuxt-link-checker-link-validation)

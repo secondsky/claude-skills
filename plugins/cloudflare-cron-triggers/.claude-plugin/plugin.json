@@ -13,8 +13,9 @@
     "cloudflare",
     "cron",
     "triggers",
-    "workers",
-    "edge",
-    "wrangler"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

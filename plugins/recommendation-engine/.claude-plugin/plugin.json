@@ -12,10 +12,9 @@
     "recommendation-engine",
     "recommendation",
     "engine",
-    "data",
-    "analytics",
-    "processing",
-    "sql",
-    "queries"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -12,7 +12,10 @@
     "internationalization-i18n",
     "internationalization",
     "i18n",
-    "web",
+    "tooling",
+    "workflow",
     "rtl"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

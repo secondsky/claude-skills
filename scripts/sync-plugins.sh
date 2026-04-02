@@ -449,14 +449,22 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
   plugin_dir="$plugin_dir_path/.claude-plugin"
   plugin_json="$plugin_dir/plugin.json"
   plugin_base_dir="$plugin_dir_path"
+  is_multi_skill=false
 
   count=$((count + 1))
 
-  # Skip if no SKILL.md
+  # Multi-skill plugins: no root SKILL.md, skills live at skills/*/SKILL.md
   if [ ! -f "$skill_md" ]; then
-    printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
-    skipped=$((skipped + 1))
-    continue
+    sub_skill_count=$(find "$plugin_dir_path/skills" -mindepth 2 -maxdepth 2 \
+        -name "SKILL.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$sub_skill_count" -gt 0 ]; then
+      is_multi_skill=true
+      skill_md=""
+    else
+      printf "[%3d/%d] %-40s SKIP (no SKILL.md)\n" "$count" "$total" "$skill_name"
+      skipped=$((skipped + 1))
+      continue
+    fi
   fi
 
   # Create .claude-plugin directory if needed
@@ -473,53 +481,63 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
     current_author='{"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}'
   fi
 
-  # ALWAYS extract description from SKILL.md (source of truth)
-  # Only search within first YAML frontmatter block (between first two --- delimiters)
-  current_desc=$(awk '
-  BEGIN {in_frontmatter=0; found_desc=0}
-  /^---$/ {
-    frontmatter_count++
-    if (frontmatter_count==1) {in_frontmatter=1; next}
-    if (frontmatter_count==2) {exit}
-  }
-  in_frontmatter && /^description:/ {
-    if ($0 !~ /[\|>]$/) {
-      gsub(/^description: */, "")
-      print
-      exit
-    }
-  }
-  ' "$skill_md")
-  if [ -z "$current_desc" ]; then
-  current_desc=$(awk '
-    BEGIN {in_frontmatter=0}
+  if [ "$is_multi_skill" = true ]; then
+    # Multi-skill plugins: preserve existing plugin.json description (manually curated)
+    current_desc=""
+    if [ -f "$plugin_json" ]; then
+      current_desc=$(jq -r '.description // ""' "$plugin_json" 2>/dev/null)
+    fi
+    if [ -z "$current_desc" ]; then
+      current_desc="Multi-skill plugin: $skill_name"
+    fi
+    # Pass empty skill_md so keyword generation doesn't try to read a file
+    keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "")
+  else
+    # Single-skill plugins: extract description from SKILL.md (source of truth)
+    # Only search within first YAML frontmatter block (between first two --- delimiters)
+    current_desc=$(awk '
+    BEGIN {in_frontmatter=0; found_desc=0}
     /^---$/ {
       frontmatter_count++
       if (frontmatter_count==1) {in_frontmatter=1; next}
       if (frontmatter_count==2) {exit}
     }
-    in_frontmatter && /^description: [\|>]/{flag=1; next}
-    in_frontmatter && /^[a-z-]+:/{flag=0}
-    flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
-    END{gsub(/ $/, "", line); print line}
-  ' "$skill_md")
-  fi
-  if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
-    current_desc="Production-ready skill for $skill_name"
-  fi
+    in_frontmatter && /^description:/ {
+      if ($0 !~ /[\|>]$/) {
+        gsub(/^description: */, "")
+        print
+        exit
+      }
+    }
+    ' "$skill_md")
+    if [ -z "$current_desc" ]; then
+    current_desc=$(awk '
+      BEGIN {in_frontmatter=0}
+      /^---$/ {
+        frontmatter_count++
+        if (frontmatter_count==1) {in_frontmatter=1; next}
+        if (frontmatter_count==2) {exit}
+      }
+      in_frontmatter && /^description: [\|>]/{flag=1; next}
+      in_frontmatter && /^[a-z-]+:/{flag=0}
+      flag && /^  /{gsub(/^  /, ""); line=line $0 " "}
+      END{gsub(/ $/, "", line); print line}
+    ' "$skill_md")
+    fi
+    if [ -z "$current_desc" ] || [ "$current_desc" = "|" ] || [ "$current_desc" = ">" ]; then
+      current_desc="Production-ready skill for $skill_name"
+    fi
 
-  # Get category
-  category=$(categorize_skill "$skill_name")
-
-  # Generate keywords (uses full description with Keywords line for extraction)
-  keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+    # Generate keywords (uses full description with Keywords line for extraction)
+    keywords_json=$(generate_keywords_json "$skill_name" "$category" "$current_desc" "$skill_md")
+  fi
 
   # Remove "Keywords: ..." line from description for plugin.json output
   clean_desc=$(remove_keywords_line "$current_desc")
 
   # Validate description length
   desc_length=${#clean_desc}
-  if [ "$desc_length" -gt 250 ]; then
+  if [ "$is_multi_skill" = false ] && [ "$desc_length" -gt 250 ]; then
     echo "  ❌ ERROR: $skill_name description is $desc_length chars (max 250)" >&2
     echo "  Description: $clean_desc" >&2
     echo "  SKIPPING - Fix SKILL.md description first (condense to <250 chars)" >&2
@@ -534,10 +552,38 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
 
   # Build the updated plugin.json
   if [ "$DRY_RUN" = false ]; then
-    # Create temp file with updated content
-    # Use jq to convert to JSON string and trim trailing whitespace/newlines
-    desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
-    cat > "$plugin_json.tmp" << EOF
+    if [ "$is_multi_skill" = true ] && [ -f "$plugin_json" ]; then
+      # Multi-skill plugins: merge updated fields into existing plugin.json
+      # This preserves extra fields like mcpServers, homepage that the template doesn't include
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+      jq --arg name "$skill_name" \
+          --argjson desc "$desc_json" \
+          --arg version "$GLOBAL_VERSION" \
+          --argjson author "$current_author" \
+          --argjson keywords "$keywords_json" \
+          '.name = $name
+           | .description = $desc
+           | .version = $version
+           | .author = $author
+           | .keywords = $keywords
+           | if ($agents != "null") then .agents = $agents else . end
+           | if ($commands != "null") then .commands = $commands else . end' \
+        --argjson agents "$agents_json" \
+        --argjson commands "$commands_json" \
+        "$plugin_json" > "$plugin_json.tmp"
+
+      if [ $? -eq 0 ]; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm -f "$plugin_json.tmp"
+        continue
+      fi
+    else
+      # Single-skill plugins: write plugin.json from template
+      desc_json=$(echo "$clean_desc" | jq -Rs '. | rtrimstr("\n") | rtrimstr(" ") | rtrimstr("\n")')
+      cat > "$plugin_json.tmp" << EOF
 {
   "name": "$skill_name",
   "description": $desc_json,
@@ -548,26 +594,27 @@ for plugin_dir_path in $(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d | s
   "keywords": $keywords_json
 EOF
 
-    # Add agents if present
-    if [ "$agents_json" != "null" ]; then
-      echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
-    fi
+      # Add agents if present
+      if [ "$agents_json" != "null" ]; then
+        echo ",  \"agents\": $agents_json" >> "$plugin_json.tmp"
+      fi
 
-    # Add commands if present
-    if [ "$commands_json" != "null" ]; then
-      echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
-    fi
+      # Add commands if present
+      if [ "$commands_json" != "null" ]; then
+        echo ",  \"commands\": $commands_json" >> "$plugin_json.tmp"
+      fi
 
-    echo "}" >> "$plugin_json.tmp"
+      echo "}" >> "$plugin_json.tmp"
 
-    # Validate and format JSON
-    if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
-      jq '.' "$plugin_json.tmp" > "$plugin_json"
-      rm "$plugin_json.tmp"
-    else
-      echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
-      rm "$plugin_json.tmp"
-      continue
+      # Validate and format JSON
+      if jq '.' "$plugin_json.tmp" > /dev/null 2>&1; then
+        jq '.' "$plugin_json.tmp" > "$plugin_json"
+        rm "$plugin_json.tmp"
+      else
+        echo "  ❌ ERROR: Invalid JSON generated for $skill_name"
+        rm "$plugin_json.tmp"
+        continue
+      fi
     fi
   fi
 

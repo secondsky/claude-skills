@@ -12,11 +12,14 @@
     "api-testing",
     "api",
     "testing",
+    "tooling",
+    "workflow",
+    "http",
     "rest",
     "graphql",
-    "endpoints",
-    "http",
     "authentication",
     "validation"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

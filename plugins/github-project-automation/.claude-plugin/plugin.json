@@ -17,5 +17,7 @@
     "workflow",
     "yaml",
     "codeql"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

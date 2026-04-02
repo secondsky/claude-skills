@@ -12,9 +12,10 @@
     "openai-responses",
     "openai",
     "responses",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "mcp"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

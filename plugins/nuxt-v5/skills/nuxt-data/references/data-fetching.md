@@ -1,6 +1,6 @@
 # Data Fetching - Complete Guide
 
-Comprehensive guide to data fetching in Nuxt 4 with useFetch, useAsyncData, and $fetch.
+Comprehensive guide to data fetching in Nuxt 5 with useFetch, useAsyncData, and $fetch.
 
 ## Table of Contents
 
@@ -8,7 +8,7 @@ Comprehensive guide to data fetching in Nuxt 4 with useFetch, useAsyncData, and 
 - [useFetch Deep Dive](#usefetch-deep-dive)
 - [useAsyncData Deep Dive](#useasyncdata-deep-dive)
 - [$fetch Patterns](#fetch-patterns)
-- [Nuxt v4 Changes](#nuxt-v4-changes)
+- [Nuxt v5 Behaviors](#nuxt-v5-behaviors)
 - [Error Handling](#error-handling)
 - [Caching Strategies](#caching-strategies)
 - [Advanced Patterns](#advanced-patterns)
@@ -71,7 +71,7 @@ const { data } = await useFetch<User[]>('/api/users')
 
 ### Reactive Parameters
 
-**Key Feature in Nuxt v4**: Parameters are reactive by default!
+**Key Feature in Nuxt 5**: Parameters are reactive by default!
 
 ```typescript
 // Query params
@@ -140,7 +140,7 @@ const { data } = await useFetch('/api/users', {
   // Client-only
   client: true,
 
-  // Deep reactivity (default: false in v4)
+  // Deep reactivity (default: false)
   deep: false,
 
   // Default value
@@ -278,7 +278,7 @@ data.value?.stats
 
 ### Reactive Keys (Singleton Pattern)
 
-**Nuxt v4 Feature**: Same key shares the same data!
+**Nuxt v5 Feature**: Same key shares the same data!
 
 ```typescript
 // Component A
@@ -430,14 +430,14 @@ try {
 }
 ```
 
-## Nuxt v4 Changes
+## Nuxt v5 Behaviors
 
 ### Shallow Reactivity (Default)
 
-**Breaking Change**: Default changed from `deep: true` to `deep: false`
+Data refs use shallow reactivity by default (`deep: false`).
 
 ```typescript
-// Nuxt v4 - Shallow (default)
+// Nuxt v5 - Shallow (default)
 const { data } = await useFetch('/api/users')
 
 // ✅ This works
@@ -455,16 +455,16 @@ const { data } = await useFetch('/api/users', {
 data.value[0].name = 'New Name'
 ```
 
-### Default Values Changed
+### Default Values
 
-**Breaking Change**: Default changed from `null` to `undefined`
+The default value for `data` is `undefined` before the async function resolves.
 
 ```typescript
 // Nuxt v3
 const { data } = await useFetch('/api/users')
 data.value  // null initially
 
-// Nuxt v4
+// Nuxt v5
 const { data } = await useFetch('/api/users')
 data.value  // undefined initially
 
@@ -482,7 +482,7 @@ New feature - computed/ref keys trigger refetch:
 ```typescript
 const userId = ref('123')
 
-// Nuxt v4 - Auto-refetch
+// Nuxt v5 - Auto-refetch
 const { data } = await useAsyncData(
   () => `user-${userId.value}`,
   () => $fetch(`/api/users/${userId.value}`)

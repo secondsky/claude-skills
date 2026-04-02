@@ -16,5 +16,7 @@
     "tooling",
     "workflow",
     "pii"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -1,6 +1,6 @@
 # Hydration - Best Practices
 
-Complete guide to SSR hydration in Nuxt 4, common issues, and solutions.
+Complete guide to SSR hydration in Nuxt 5, common issues, and solutions.
 
 ## Table of Contents
 

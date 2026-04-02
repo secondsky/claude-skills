@@ -13,10 +13,10 @@
     "api",
     "changelog",
     "versioning",
-    "rest",
-    "graphql",
-    "endpoints",
-    "http",
+    "tooling",
+    "workflow",
     "migration"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

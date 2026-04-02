@@ -13,8 +13,9 @@
     "health",
     "check",
     "endpoints",
-    "architecture",
-    "patterns",
-    "microservices"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

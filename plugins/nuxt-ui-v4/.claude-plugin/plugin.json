@@ -1,7 +1,7 @@
 {
   "name": "nuxt-ui-v4",
   "description": "Nuxt UI v4 with 125+ accessible components, Tailwind v4, Reka UI, AI chat integration with reasoning and tool calling. Use for dashboards, forms, overlays, editors, page layouts, or encountering theming, composable, TypeScript errors.",
-  "version": "3.1.0",
+  "version": "3.0.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -10,24 +10,9 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "nuxt-ui-v4",
-    "nuxt-ui",
     "nuxt",
-    "vue",
-    "tailwind-v4",
-    "reka-ui",
-    "components",
-    "dashboard",
-    "chat",
-    "chat-reasoning",
-    "chat-tool",
-    "chat-shimmer",
-    "auth-form",
-    "ai-gateway",
-    "editor",
-    "forms",
-    "ai-sdk",
-    "accessible",
-    "design-system"
+    "tooling",
+    "workflow"
   ],
   "agents": [
     "./agents/nuxt-ui-component-selector.md",
@@ -35,10 +20,10 @@
     "./agents/nuxt-ui-troubleshooter.md"
   ],
   "commands": [
-    "./commands/setup.md",
+    "./commands/component.md",
     "./commands/migrate.md",
-    "./commands/theme.md",
-    "./commands/component.md"
+    "./commands/setup.md",
+    "./commands/theme.md"
   ],
   "mcpServers": "./.mcp.json"
 }

@@ -13,13 +13,13 @@
     "sql",
     "query",
     "optimization",
-    "data",
-    "analytics",
-    "processing",
-    "queries",
+    "tooling",
+    "workflow",
     "explain",
     "offset",
     "mysql",
     "postgresql"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

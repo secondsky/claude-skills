@@ -14,5 +14,7 @@
     "design",
     "tooling",
     "workflow"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

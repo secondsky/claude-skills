@@ -12,10 +12,11 @@
     "hono-routing",
     "hono",
     "routing",
-    "web",
-    "performance",
-    "pwa",
+    "tooling",
+    "workflow",
     "rpc",
     "validation"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

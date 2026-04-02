@@ -10,9 +10,10 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "keywords": [
     "hugo",
-    "cms",
-    "content",
-    "management",
-    "publishing"
-  ]
+    "tooling",
+    "workflow",
+    "cms"
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -11,28 +11,12 @@
   "keywords": [
     "inspira-ui",
     "inspira",
-    "vue",
-    "nuxt",
-    "vue 3",
-    "nuxt 4",
-    "inspira ui",
-    "animated components",
-    "tailwindcss v4",
-    "motion-v",
-    "three.js",
-    "ogl",
-    "webgl",
-    "aurora background",
-    "shimmer button",
-    "morphing text",
-    "3d globe",
-    "fluid cursor",
-    "confetti",
-    "neon border",
-    "icon cloud",
-    "flip card",
+    "tooling",
+    "workflow",
     "css",
     "gsap",
     "tailwindcss"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

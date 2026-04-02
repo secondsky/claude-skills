@@ -1,6 +1,6 @@
 {
   "name": "nuxt-studio",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up Nuxt Studio, configuring OAuth authentication, deploying to Cloudflare Pages/Workers with subdomain routing, or troubleshooting Studio integration.",
   "author": {
     "name": "Claude Skills Maintainers",
@@ -10,22 +10,21 @@
   "repository": "https://github.com/secondsky/claude-skills",
   "license": "MIT",
   "keywords": [
-    "nuxt",
     "nuxt-studio",
-    "nuxt-content",
+    "nuxt",
+    "studio",
+    "tooling",
+    "workflow",
     "cms",
-    "visual-editor",
-    "cloudflare",
-    "cloudflare-pages",
-    "cloudflare-workers",
-    "oauth",
-    "github-auth",
-    "gitlab-auth",
-    "google-auth",
-    "subdomain",
-    "content-management",
-    "tiptap",
-    "monaco",
-    "deployment"
+    "authentication"
+  ],
+  "agents": [
+    "./agents/studio-setup-assistant.md"
+  ],
+  "commands": [
+    "./commands/configure-studio-auth.md",
+    "./commands/deploy-studio-cloudflare.md",
+    "./commands/setup-studio.md",
+    "./commands/studio-env-setup.md"
   ]
 }

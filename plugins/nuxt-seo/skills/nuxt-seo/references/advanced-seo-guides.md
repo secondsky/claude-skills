@@ -2,7 +2,7 @@
 
 Advanced SEO topics including I18n, Route Rules, Link Checking, Enhanced Titles, SPA Prerendering, Hydration, Crawler Protection, and 404 Pages.
 
-> **v5 Note**: Several server-side APIs changed in v5. See `references/v5-migration-guide.md` for details.
+> **v5 Note**: Several server-side APIs changed in v5. See `./v5-migration-guide.md` for details.
 > - Use `getSiteConfig(event)` instead of `useSiteConfig(event)` on the server
 > - `site.name` must be explicitly set (no longer auto-inferred)
 > - Content v3 composables renamed: `defineSitemapSchema`, `defineSchemaOrgSchema`, `defineRobotsSchema`

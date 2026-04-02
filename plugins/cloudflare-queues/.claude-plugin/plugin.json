@@ -12,31 +12,16 @@
     "cloudflare-queues",
     "cloudflare",
     "queues",
-    "workers",
-    "edge",
-    "wrangler",
-    "async",
-    "message-queue",
-    "background-jobs",
-    "dead-letter-queue",
-    "dlq",
-    "retry",
-    "consumer",
-    "producer",
-    "batch-processing",
-    "throughput",
-    "backlog",
-    "pull-consumer",
-    "http-publish",
-    "r2-events"
+    "tooling",
+    "workflow"
   ],
   "agents": [
     "./agents/queue-debugger.md",
     "./agents/queue-optimizer.md"
   ],
   "commands": [
+    "./commands/queue-monitor.md",
     "./commands/queue-setup.md",
-    "./commands/queue-troubleshoot.md",
-    "./commands/queue-monitor.md"
+    "./commands/queue-troubleshoot.md"
   ]
 }

@@ -13,8 +13,9 @@
     "push",
     "notification",
     "setup",
-    "web",
-    "performance",
-    "pwa"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

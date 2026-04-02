@@ -13,6 +13,9 @@
     "mobile",
     "offline",
     "support",
-    "native"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

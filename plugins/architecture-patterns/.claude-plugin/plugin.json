@@ -12,7 +12,10 @@
     "architecture-patterns",
     "architecture",
     "patterns",
-    "microservices",
+    "tooling",
+    "workflow",
     "refactoring"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

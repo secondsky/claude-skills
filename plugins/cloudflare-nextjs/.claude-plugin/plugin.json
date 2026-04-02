@@ -12,11 +12,12 @@
     "cloudflare-nextjs",
     "cloudflare",
     "nextjs",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "isr",
     "ssr",
     "opennext"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -196,8 +196,8 @@ export default defineNuxtConfig({
     build: {
       rolldownOptions: {
         output: {
-          manualChunks: {
-            vendor: ['vue', 'vue-router']
+          advancedChunks: {
+            groups: [{ name: 'vendor', test: /\/(vue|vue-router)/ }]
           }
         }
       }

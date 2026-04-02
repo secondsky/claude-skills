@@ -1,6 +1,6 @@
 # Testing with Vitest
 
-Comprehensive guide to testing Nuxt 4 applications with Vitest and @nuxt/test-utils.
+Comprehensive guide to testing Nuxt 5 applications with Vitest and @nuxt/test-utils.
 
 ## Table of Contents
 
@@ -368,6 +368,7 @@ describe('POST /api/users', async () => {
 ### Mock useFetch
 
 ```typescript
+import { ref } from 'vue'
 import { vi } from 'vitest'
 
 vi.mock('#app', () => ({

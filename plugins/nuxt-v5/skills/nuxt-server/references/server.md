@@ -28,7 +28,7 @@ Key changes from Nitro v2 (Nuxt 4) to Nitro v3 (Nuxt 5):
 - [Database Integration](#database-integration)
 - [Authentication Patterns](#authentication-patterns)
 - [Middleware](#middleware)
-- [Error Handling](#error-handling)
+- [Error Handling](#error-handling-v5)
 - [Validation](#validation)
 - [WebSocket Support](#websocket-support)
 

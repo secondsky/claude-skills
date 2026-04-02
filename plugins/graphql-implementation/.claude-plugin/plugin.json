@@ -12,9 +12,11 @@
     "graphql-implementation",
     "graphql",
     "implementation",
+    "tooling",
+    "workflow",
     "rest",
-    "endpoints",
-    "http",
     "real-time"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -12,16 +12,10 @@
     "api-authentication",
     "api",
     "authentication",
-    "authorization",
-    "login",
-    "security",
-    "session",
-    "rest",
-    "graphql",
-    "endpoints",
-    "http",
-    "jwt",
-    "oauth",
-    "tokens"
-  ]
+    "tooling",
+    "workflow",
+    "jwt"
+  ],
+  "agents": null,
+  "commands": null
 }

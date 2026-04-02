@@ -15,5 +15,7 @@
     "tooling",
     "workflow",
     "cli"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

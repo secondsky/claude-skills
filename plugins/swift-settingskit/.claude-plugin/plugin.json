@@ -12,27 +12,10 @@
     "swift-settingskit",
     "swift",
     "settingskit",
-    "swiftui settings",
-    "settings interface",
-    "preferences ui",
-    "searchable settings",
-    "settings navigation",
-    "settingscontainer",
-    "settingsgroup",
-    "settingsitem",
-    "customsettingsgroup",
-    "settings tags",
-    "settings search",
-    "observable settings",
-    "bindable settings",
-    "ios 17",
-    "macos 14",
-    "swift 6",
-    "settings style",
-    "sidebar settings",
-    "declarative settings",
-    "settings hierarchy",
-    "swiftui",
-    "implementation"
-  ]
+    "tooling",
+    "workflow",
+    "swiftui"
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -13,7 +13,10 @@
     "web",
     "performance",
     "optimization",
-    "pwa",
+    "tooling",
+    "workflow",
     "caching"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

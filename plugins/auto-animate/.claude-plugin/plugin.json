@@ -12,9 +12,11 @@
     "auto-animate",
     "auto",
     "animate",
-    "frontend",
-    "components",
+    "tooling",
+    "workflow",
     "ssr",
     "autoanimate"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

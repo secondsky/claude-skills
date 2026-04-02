@@ -12,11 +12,10 @@
     "recommendation-system",
     "recommendation",
     "system",
-    "data",
-    "analytics",
-    "processing",
-    "sql",
-    "queries",
+    "tooling",
+    "workflow",
     "caching"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

@@ -12,8 +12,9 @@
     "ml-pipeline-automation",
     "pipeline",
     "automation",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

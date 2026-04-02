@@ -13,7 +13,9 @@
     "kpi",
     "dashboard",
     "design",
-    "interface",
-    "user-experience"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

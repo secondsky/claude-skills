@@ -16,5 +16,7 @@
     "cors",
     "validation",
     "edge"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

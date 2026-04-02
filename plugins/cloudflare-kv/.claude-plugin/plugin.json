@@ -11,20 +11,11 @@
   "keywords": [
     "cloudflare-kv",
     "cloudflare",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "ttl",
-    "caching",
-    "key-value"
+    "caching"
   ],
-  "agents": [
-    "./skills/cloudflare-kv/agents/kv-optimizer.md",
-    "./skills/cloudflare-kv/agents/kv-debugger.md"
-  ],
-  "commands": [
-    "./skills/cloudflare-kv/commands/setup-kv.md",
-    "./skills/cloudflare-kv/commands/test-kv.md",
-    "./skills/cloudflare-kv/commands/optimize-kv.md"
-  ]
+  "agents": null,
+  "commands": null
 }

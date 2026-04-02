@@ -1,0 +1,30 @@
+name: Validate Frontmatter
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-frontmatter:
+    name: Validate SKILL.md Frontmatter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make script executable
+        run: chmod +x scripts/validate-frontmatter.sh
+
+      - name: Validate all SKILL.md frontmatter
+        run: ./scripts/validate-frontmatter.sh
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Frontmatter Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Validated all \`SKILL.md\` files in \`plugins/\`" >> $GITHUB_STEP_SUMMARY
+          echo "Run \`./scripts/validate-frontmatter.sh\` locally to check before pushing." >> $GITHUB_STEP_SUMMARY

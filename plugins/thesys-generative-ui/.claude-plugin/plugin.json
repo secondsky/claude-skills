@@ -12,8 +12,9 @@
     "thesys-generative-ui",
     "thesys",
     "generative",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

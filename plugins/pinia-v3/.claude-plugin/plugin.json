@@ -11,9 +11,11 @@
   "keywords": [
     "pinia-v3",
     "pinia",
-    "frontend",
-    "components",
+    "tooling",
+    "workflow",
     "ssr",
     "migration"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

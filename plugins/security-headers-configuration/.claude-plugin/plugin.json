@@ -13,11 +13,12 @@
     "security",
     "headers",
     "configuration",
-    "vulnerability",
-    "protection",
-    "csrf",
-    "xss",
+    "tooling",
+    "workflow",
     "http",
-    "mime"
-  ]
+    "mime",
+    "xss"
+  ],
+  "agents": null,
+  "commands": null
 }

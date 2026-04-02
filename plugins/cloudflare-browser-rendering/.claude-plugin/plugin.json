@@ -13,8 +13,9 @@
     "cloudflare",
     "browser",
     "rendering",
-    "workers",
-    "edge",
-    "wrangler"
-  ]
+    "tooling",
+    "workflow"
+  ],
+  "agents": null,
+  "commands": null
 }

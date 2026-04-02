@@ -13,9 +13,10 @@
     "woocommerce",
     "backend",
     "dev",
-    "wordpress",
-    "ecommerce",
-    "shop",
+    "tooling",
+    "workflow",
     "php"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

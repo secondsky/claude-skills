@@ -12,7 +12,10 @@
     "websocket-implementation",
     "websocket",
     "implementation",
-    "http",
+    "tooling",
+    "workflow",
     "real-time"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

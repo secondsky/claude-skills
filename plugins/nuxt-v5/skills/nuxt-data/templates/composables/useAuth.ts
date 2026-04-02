@@ -77,9 +77,11 @@ export const useAuth = () => {
       if (data?.user) {
         state.value.user = data.user
         state.value.isAuthenticated = true
+      } else {
+        state.value.user = null
+        state.value.isAuthenticated = false
       }
 
-      // Clear any previous session errors on success
       state.value.sessionError = null
       state.value.lastSessionCheck = Date.now()
 

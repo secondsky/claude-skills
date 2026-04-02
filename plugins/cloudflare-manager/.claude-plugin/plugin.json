@@ -12,9 +12,10 @@
     "cloudflare-manager",
     "cloudflare",
     "manager",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "dns"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

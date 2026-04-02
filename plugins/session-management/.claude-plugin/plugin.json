@@ -12,14 +12,11 @@
     "session-management",
     "session",
     "management",
+    "tooling",
+    "workflow",
     "jwt",
-    "authentication",
-    "redis",
-    "tokens",
-    "refresh",
-    "cookie",
-    "security",
-    "logout",
-    "auth"
-  ]
+    "authentication"
+  ],
+  "agents": null,
+  "commands": null
 }

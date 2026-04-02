@@ -163,10 +163,6 @@ Nuxt v4 auto-imports all Nuxt UI components and composables:
 
 Nuxt UI v4.2.x introduces several new features and a few breaking changes. Most applications will upgrade smoothly, but you should be aware of the changes below.
 
-### New Components (v4.2.0)
-
-...)
-
 ### New Components (v4.6)
 
 - **ChatReasoning** - Collapsible AI reasoning/thinking process

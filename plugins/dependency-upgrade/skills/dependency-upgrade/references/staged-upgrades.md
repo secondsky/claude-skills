@@ -148,10 +148,11 @@ for (const file of files) {
   let changed = false;
 
   for (const [pattern, replacement] of replacements) {
-    if (pattern.test(content)) {
+    const matchCount = (content.match(pattern) || []).length;
+    if (matchCount > 0) {
       content = content.replace(pattern, replacement);
       changed = true;
-      totalChanges++;
+      totalChanges += matchCount;
     }
   }
 

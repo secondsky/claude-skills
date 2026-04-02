@@ -12,12 +12,13 @@
     "cloudflare-hyperdrive",
     "cloudflare",
     "hyperdrive",
-    "workers",
-    "edge",
-    "wrangler",
+    "tooling",
+    "workflow",
     "tls",
     "mysql",
     "postgresql",
     "caching"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

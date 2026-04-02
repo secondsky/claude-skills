@@ -12,10 +12,11 @@
     "elevenlabs-agents",
     "elevenlabs",
     "agents",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "csp",
     "rag"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

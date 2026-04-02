@@ -12,9 +12,10 @@
     "claude-api",
     "claude",
     "api",
-    "machine-learning",
-    "llm",
-    "artificial-intelligence",
+    "tooling",
+    "workflow",
     "caching"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }

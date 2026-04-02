@@ -13,11 +13,12 @@
     "api",
     "reference",
     "documentation",
+    "tooling",
+    "workflow",
     "rest",
-    "graphql",
-    "endpoints",
-    "http",
     "openapi",
     "authentication"
-  ]
+  ],
+  "agents": null,
+  "commands": null
 }
