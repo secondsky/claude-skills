@@ -1,6 +1,7 @@
 ---
 name: api-rate-limiting
 description: Implements API rate limiting using token bucket, sliding window, and Redis-based algorithms to protect against abuse. Use when securing public APIs, implementing tiered access, or preventing denial-of-service attacks.
+license: MIT
 ---
 
 # API Rate Limiting

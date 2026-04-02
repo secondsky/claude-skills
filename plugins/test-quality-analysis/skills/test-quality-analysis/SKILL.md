@@ -2,6 +2,7 @@
 name: test-quality-analysis
 description: Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.
 allowed-tools: Bash, Read, Edit, Write, Grep, Glob, TodoWrite
+license: MIT
 ---
 
 # Test Quality Analysis

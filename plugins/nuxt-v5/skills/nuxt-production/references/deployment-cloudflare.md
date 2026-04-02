@@ -47,7 +47,7 @@ npx wrangler pages deploy .output/public --project-name my-nuxt-app
 // nuxt.config.ts
 export default defineNuxtConfig({
   nitro: {
-    preset: 'cloudflare-pages'
+    preset: 'cloudflare_pages'
   }
 })
 ```
@@ -74,7 +74,7 @@ API_SECRET=your-secret
 // nuxt.config.ts
 export default defineNuxtConfig({
   nitro: {
-    preset: 'cloudflare-module'  // or 'cloudflare-pages'
+    preset: 'cloudflare_module'  // or 'cloudflare_pages'
   }
 })
 ```

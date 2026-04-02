@@ -3,6 +3,7 @@ name: bun-sqlite
 description: Use for bun:sqlite, SQLite operations, prepared statements, transactions, and queries.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun SQLite

@@ -259,7 +259,8 @@
                 "sensitive": {
                   "type": "boolean"
                 }
-              }
+              },
+              "additionalProperties": false
             }
           }
         },

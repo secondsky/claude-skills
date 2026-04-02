@@ -3,6 +3,7 @@ name: bun-test-coverage
 description: Use for test coverage with Bun, --coverage flag, lcov reports, thresholds, and CI integration.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Test Coverage

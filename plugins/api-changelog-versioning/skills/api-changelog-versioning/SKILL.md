@@ -1,6 +1,7 @@
 ---
 name: api-changelog-versioning
 description: Creates comprehensive API changelogs documenting breaking changes, deprecations, and migration strategies for API consumers. Use when managing API versions, communicating breaking changes, or creating upgrade guides.
+license: MIT
 ---
 
 # API Changelog & Versioning

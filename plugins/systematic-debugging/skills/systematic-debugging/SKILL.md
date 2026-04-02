@@ -3,6 +3,7 @@ name: systematic-debugging
 description: Four-phase debugging framework that ensures root cause investigation before attempting fixes. Never jump to solutions. Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes.
 metadata:
   version: "2.1.0"
+license: MIT
 ---
 
 # Systematic Debugging

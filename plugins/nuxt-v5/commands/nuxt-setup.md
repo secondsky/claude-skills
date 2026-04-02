@@ -165,11 +165,11 @@ export default defineNuxtConfig({
 
   nitro: {
     // Choose ONE preset based on deployment:
-    // - Cloudflare Pages: 'cloudflare-pages'
-    // - Cloudflare Workers: 'cloudflare-module'
+    // - Cloudflare Pages: 'cloudflare_pages'
+    // - Cloudflare Workers: 'cloudflare_module'
     // - Vercel: 'vercel'
     // - Netlify: 'netlify'
-    preset: 'cloudflare-pages',
+    preset: 'cloudflare_pages',
   },
 
   // If database == "NuxtHub"

@@ -3,6 +3,7 @@ name: bun-file-io
 description: Use for Bun file I/O: Bun.file, Bun.write, streams, directories, glob patterns, metadata.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun File I/O

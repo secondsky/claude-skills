@@ -1,6 +1,7 @@
 ---
 name: cloudflare-workers-dev-experience
 description: Cloudflare Workers local development with Wrangler, Miniflare, hot reload, debugging. Use for project setup, wrangler.jsonc configuration, or encountering local dev, HMR, binding simulation errors.
+license: MIT
 ---
 
 # Cloudflare Workers Developer Experience

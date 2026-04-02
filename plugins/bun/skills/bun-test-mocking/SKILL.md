@@ -3,6 +3,7 @@ name: bun-test-mocking
 description: Use for mock functions in Bun tests, spyOn, mock.module, implementations, and test doubles.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Test Mocking

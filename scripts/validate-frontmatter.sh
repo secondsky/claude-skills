@@ -193,7 +193,7 @@ validate_skill() {
     CRITICAL_COUNT=$((CRITICAL_COUNT + 1))
     if [ "$QUIET" = false ]; then
       echo -e "  ${RED}FAIL${NC} $dir_name"
-      printf "$errors"
+      printf '%b' "$errors"
     fi
   fi
 
@@ -202,7 +202,7 @@ validate_skill() {
     WARNING_COUNT=$((WARNING_COUNT + 1))
     if [ "$QUIET" = false ]; then
       echo -e "  ${YELLOW}WARN${NC} $dir_name"
-      printf "$warnings"
+      printf '%b' "$warnings"
     fi
   fi
 

@@ -3,6 +3,7 @@ name: bun-workers
 description: Use for Web Workers in Bun, worker_threads, parallel processing, and background tasks.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Workers

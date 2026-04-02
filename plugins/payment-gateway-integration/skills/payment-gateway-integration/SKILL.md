@@ -1,6 +1,7 @@
 ---
 name: payment-gateway-integration
 description: Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.
+license: MIT
 ---
 
 # Payment Gateway Integration

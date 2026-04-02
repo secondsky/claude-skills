@@ -1,6 +1,7 @@
 ---
 name: graphql-implementation
 description: Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.
+license: MIT
 ---
 
 # GraphQL Implementation

@@ -281,7 +281,7 @@ bunx wrangler pages deploy .output/public
 
 ```typescript
 export default defineNuxtConfig({
-  nitro: { preset: 'cloudflare-pages' }
+  nitro: { preset: 'cloudflare_pages' }
 })
 ```
 
@@ -289,7 +289,7 @@ export default defineNuxtConfig({
 
 ```typescript
 export default defineNuxtConfig({
-  nitro: { preset: 'cloudflare-module' }
+  nitro: { preset: 'cloudflare_module' }
 })
 ```
 

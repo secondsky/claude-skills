@@ -3,6 +3,7 @@ name: push-notification-setup
 description: Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels.
 metadata:
   keywords: "push notifications, FCM, Firebase Cloud Messaging, iOS notifications, Android notifications, web notifications, React Native notifications, notification permissions, background messages, notification channels, APNS, APNs, notification tokens, remote notifications, foreground notifications, notification handlers"
+license: MIT
 ---
 
 # Push Notification Setup

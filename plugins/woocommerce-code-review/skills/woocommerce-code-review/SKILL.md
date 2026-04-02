@@ -1,6 +1,7 @@
 ---
 name: woocommerce-code-review
 description: Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.
+license: MIT
 ---
 
 # WooCommerce Code Review

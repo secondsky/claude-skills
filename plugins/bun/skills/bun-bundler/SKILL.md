@@ -3,6 +3,7 @@ name: bun-bundler
 description: This skill should be used when the user asks about "bun build", "Bun.build", "bundling with Bun", "code splitting", "tree shaking", "minification", "sourcemaps", "bundle optimization", "esbuild alternative", "building for production", "bundling TypeScript", "bundling for browser", "bundling for Node", or JavaScript/TypeScript bundling with Bun.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Bundler

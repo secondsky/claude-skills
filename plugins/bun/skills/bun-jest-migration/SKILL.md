@@ -3,6 +3,7 @@ name: bun-jest-migration
 description: Use when migrating from Jest to Bun's test runner, import compatibility, mocks, and config.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Jest Migration

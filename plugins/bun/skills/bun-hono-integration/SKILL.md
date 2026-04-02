@@ -3,6 +3,7 @@ name: bun-hono-integration
 description: Use when building APIs with Hono framework on Bun, including routing, middleware, REST APIs, context handling, or web framework features.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Hono Integration

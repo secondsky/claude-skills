@@ -3,6 +3,7 @@ name: bun-macros
 description: Evaluate JavaScript at bundle time and inline results. Use when optimizing compile-time code generation, embedding files, inlining environment variables, or executing code during the bundling process.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Macros

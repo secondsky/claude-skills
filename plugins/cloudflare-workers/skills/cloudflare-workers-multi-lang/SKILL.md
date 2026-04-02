@@ -3,6 +3,7 @@ name: cloudflare-workers-multi-lang
 description: Multi-language Workers development with Rust, Python, and WebAssembly. Use when building Workers in languages other than JavaScript/TypeScript, or when integrating WASM modules for performance-critical code.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Multi-Language Workers Development

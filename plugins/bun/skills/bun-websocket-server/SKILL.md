@@ -3,6 +3,7 @@ name: bun-websocket-server
 description: This skill should be used when the user asks about "WebSocket in Bun", "real-time communication", "Bun.serve websocket", "ws server", "socket connections", "pub/sub", "broadcasting messages", "WebSocket upgrade", or building real-time applications with Bun.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun WebSocket Server

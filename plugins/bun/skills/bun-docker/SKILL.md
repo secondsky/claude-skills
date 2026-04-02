@@ -3,6 +3,7 @@ name: bun-docker
 description: Use for Docker with Bun, Dockerfiles, oven/bun image, containerization, and deployments.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Docker

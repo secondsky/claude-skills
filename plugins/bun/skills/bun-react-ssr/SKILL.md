@@ -3,6 +3,7 @@ name: bun-react-ssr
 description: Use when building server-rendered React with Bun, including streaming SSR, hydration, renderToString, or custom SSR without a framework.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun React SSR

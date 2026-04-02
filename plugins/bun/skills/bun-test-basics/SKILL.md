@@ -3,6 +3,7 @@ name: bun-test-basics
 description: Use for bun:test syntax, assertions, describe/it, test.skip/only/each, and basic patterns.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Bun Test Basics

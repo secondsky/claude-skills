@@ -3,6 +3,7 @@ name: cloudflare-workers-frameworks
 description: Framework integration for Cloudflare Workers. Use when building with Hono, Remix, Next.js, Astro, SvelteKit, Qwik, or Nuxt on Workers. Covers routing, SSR, static assets, and edge deployment.
 metadata:
   version: "1.0.0"
+license: MIT
 ---
 
 # Workers Frameworks Integration
