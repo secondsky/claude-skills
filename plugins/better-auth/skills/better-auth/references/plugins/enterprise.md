@@ -360,12 +360,13 @@ await authClient.admin.revokeAllSessions({
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { organization, sso, scim, admin } from "better-auth/plugins";
+import { organization, scim, admin } from "better-auth/plugins";
+import { sso } from "@better-auth/sso";
 
 export const auth = betterAuth({
   plugins: [
     organization({
-      allowUserToCreateOrganization: false,  // Admin-only
+      allowUserToCreateOrganization: false,
       roles: {
         owner: ["*"],
         admin: ["invite", "remove", "update", "manage-sso"],
@@ -374,9 +375,9 @@ export const auth = betterAuth({
     }),
     sso({
       saml: {
-        issuer: "https://your-app.com",
-        callbackURL: "/api/auth/sso/callback",
-        clockSkewTolerance: 60,
+        enableSingleLogout: true,
+        enableInResponseToValidation: true,
+        clockSkew: 60 * 1000,
       },
     }),
     scim({
@@ -403,7 +404,7 @@ export const auth = betterAuth({
 - Check signature algorithm matches IdP configuration
 
 ### SSO: "Clock skew error" (v1.4.7+)
-- Use `clockSkewTolerance` option to allow for time drift
+- Use `clockSkew` option to allow for time drift (measured in milliseconds)
 - Ensure server time is synced (NTP)
 
 ### SCIM: "401 Unauthorized"

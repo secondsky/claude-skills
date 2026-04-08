@@ -454,4 +454,4 @@ If upgrading from better-auth v1.3.x, see `migration-guide-1.4.0.md` for:
 
 ---
 
-**Last verified**: 2025-11-27 with better-auth@1.4.3
+**Last verified**: 2026-04-08 with better-auth@1.6.0

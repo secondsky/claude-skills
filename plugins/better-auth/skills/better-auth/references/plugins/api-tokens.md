@@ -384,7 +384,8 @@ oidcProvider({
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { apiKey, bearer, jwt, oidcProvider } from "better-auth/plugins";
+import { apiKey } from "@better-auth/api-key";
+import { bearer, jwt, oidcProvider } from "better-auth/plugins";
 
 export const auth = betterAuth({
   plugins: [

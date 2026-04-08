@@ -226,7 +226,11 @@ Add `webauthn` to input `autocomplete` attribute:
 
 ```typescript
 useEffect(() => {
-  if (!PublicKeyCredential.isConditionalMediationAvailable) return;
+  if (
+    !PublicKeyCredential.isConditionalMediationAvailable ||
+    !PublicKeyCredential.isConditionalMediationAvailable()
+  )
+    return;
   authClient.signIn.passkey({ autoFill: true });
 }, []);
 ```
@@ -397,9 +401,9 @@ if (session?.user.isAnonymous) {
 
 ```typescript
 import { betterAuth } from "better-auth";
+import { passkey } from "@better-auth/passkey";
 import {
   twoFactor,
-  passkey,
   magicLink,
   emailOTP,
   anonymous

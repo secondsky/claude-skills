@@ -197,7 +197,7 @@ bun add better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono  # pr
 
 - **Token Savings**: ~70% (15k → 4.5k tokens)
 - **Time Savings**: ~2-3 hours of setup and debugging
-- **Error Prevention**: 10 documented issues with solutions
+- **Error Prevention**: 15 documented issues with solutions
 
 ---
 
