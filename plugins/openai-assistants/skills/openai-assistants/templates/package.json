@@ -13,11 +13,11 @@
     "vector-store": "tsx templates/vector-store-setup.ts"
   },
   "dependencies": {
-    "openai": "^6.7.0"
+    "openai": "^6.33.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

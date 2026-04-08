@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-r2",
   "description": "Cloudflare R2 S3-compatible object storage with SQL, Iceberg, event notifications, and automation. Use for buckets, uploads, CORS, presigned URLs, large files, S3 migration, analytics, or encountering R2_ERROR, CORS failures, multipart issues.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

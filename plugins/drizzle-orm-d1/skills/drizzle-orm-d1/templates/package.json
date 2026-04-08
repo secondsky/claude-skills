@@ -17,14 +17,14 @@
     "db:delete": "wrangler d1 delete my-database"
   },
   "dependencies": {
-    "drizzle-orm": "^0.44.7",
-    "hono": "^4.6.11"
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.12"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251014.0",
-    "drizzle-kit": "^0.31.5",
-    "typescript": "^5.7.3",
-    "wrangler": "^4.43.0"
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.81.0"
   },
   "keywords": [
     "cloudflare",

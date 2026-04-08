@@ -1,7 +1,7 @@
 {
   "name": "vitest-testing",
   "description": "Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

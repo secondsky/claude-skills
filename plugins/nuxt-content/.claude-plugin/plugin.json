@@ -1,7 +1,7 @@
 {
   "name": "nuxt-content",
   "description": "Nuxt Content v3 Git-backed CMS for Markdown/MDC content sites. Use for blogs, docs, content-driven apps with type-safe queries, schema validation (Zod/Valibot), full-text search, navigation utilities. Supports Nuxt Studio production editing, Cloudflare D1/Pages deployment, Vercel deployment, SQL storage, MDC components, content collections.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

@@ -1,7 +1,7 @@
 {
   "name": "woocommerce-code-review",
   "description": "Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

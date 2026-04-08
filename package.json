@@ -1,6 +1,6 @@
 {
   "name": "claude-skills",
-  "version": "3.0.0",
+  "version": "3.2.3",
   "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
   "scripts": {
     "validate": "./scripts/validate-json-schemas.sh",

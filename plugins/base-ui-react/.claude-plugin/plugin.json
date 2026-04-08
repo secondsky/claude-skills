@@ -1,7 +1,7 @@
 {
   "name": "base-ui-react",
   "description": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

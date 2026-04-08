@@ -1,7 +1,7 @@
 {
   "name": "wordpress-plugin-core",
   "description": "WordPress plugin development with hooks, security, REST API, custom post types. Use for plugin creation, $wpdb queries, Settings API, or encountering SQL injection, XSS, CSRF, nonce errors.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

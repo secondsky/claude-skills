@@ -1,7 +1,7 @@
 {
   "name": "design-review",
   "description": "7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
