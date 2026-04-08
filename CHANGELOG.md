@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.2.3] - 2026-04-08
+
+### Changed
+
+#### Repository-Wide Dependency Audit - 2026-04-08
+
+Full audit of all 33 `package.json` files across the repository. Updated ~75 dependencies with a mix of minor bumps and major version upgrades across 28 files.
+
+**Critical fixes (3 broken version pins):**
+- `openai-responses`: `@cloudflare/workers-types` ^5.0.0 → ^4.20260408.0 (v5 does not exist)
+- `thesys-generative-ui/nextjs`: `@tavily/core` ^1.0.0 → ^0.7.2 (v1 does not exist)
+- `thesys-generative-ui/vite-react`: `@tavily/core` ^1.0.0 → ^0.7.2 (v1 does not exist)
+
+**Minor version bumps (~40 updates):**
+- `openai` ^6.7.0 → ^6.33.0, `hono` → ^4.12.12, `wrangler` → ^4.81.0
+- `drizzle-orm` → ^0.45.2, `drizzle-kit` → ^0.31.10
+- `@google/genai` → ^1.48.0, `@anthropic-ai/sdk` → ^0.85.0
+- `@anthropic-ai/claude-agent-sdk` → ^0.2.96, `ai` → ^5.0.170
+- `@tanstack/react-query` → ^5.96.2, `@tanstack/react-router` → ^1.168.10
+- `@playwright/test` → ^1.59.0, `tsx` → ^4.21.0, `puppeteer` → ^24.40.0
+- `@modelcontextprotocol/sdk` → ^1.29.0, `agents` → ^0.10.0
+- `@opennextjs/cloudflare` → ^1.18.1, `prettier` → ^3.8.1
+- `@vercel/blob` → ^2.3.3, `@thesysai/genui-sdk` → ^0.9.0
+- All TanStack, Cloudflare workers-types, and other packages updated to latest stable
+
+**Major version upgrades (~35 updates across 9 decisions):**
+- **TypeScript**: Pinned to `^5.9.3` consistently across all 28 files (kept at v5)
+- **React**: `^18` → `^19.2.0` in ai-sdk-ui, tanstack-query (+ @types/react, @types/react-dom)
+- **Next.js**: `^15` → `^16.2.0` in thesys-generative-ui, vercel-blob, vercel-kv (+ eslint-config-next)
+- **Vite**: `^6` → `^7.3.0` in 6 files (+ `@vitejs/plugin-react` → ^5.2.0)
+- **Zod**: `^3` → `^4.3.0` in 8 files (ai-sdk-core, ai-sdk-ui, claude-api, claude-agent-sdk, cloudflare-mcp-server, openai-agents, thesys x2)
+- **Wrangler**: `^3` → `^4.81.0` in 6 files (cloudflare-images x3, cloudflare-mcp-server, cloudflare-nextjs, openai-responses)
+- **OpenAI SDK**: `^5.19.1` → `^6.33.0` in openai-responses; `^4.73.0` → `^4.104.0` in thesys (kept at v4)
+- **ESLint**: `^8/9` → `^10.2.0` in 5 files (+ @eslint/js ^10.0.1, @typescript-eslint/* ^8.58.1)
+- **AI SDK**: Kept at v5 (`^5.0.170`) — template code consistency
+
+**All 170 plugins bumped to version 3.2.2.** Marketplace regenerated with updated metadata.
+
+Full audit details: `PACKAGE_VERSION_AUDIT.md`
+
+---
+
 ## [3.2.2] - 2026-04-08
 
 ### Changed

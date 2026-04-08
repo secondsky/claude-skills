@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-workers",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
   "author": {
     "name": "Claude Skills Maintainers",

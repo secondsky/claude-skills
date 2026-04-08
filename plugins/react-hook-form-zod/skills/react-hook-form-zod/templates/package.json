@@ -6,16 +6,16 @@
   "dependencies": {
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-hook-form": "^7.65.0",
+    "react-hook-form": "^7.72.1",
     "zod": "^4.1.12",
     "@hookform/resolvers": "^5.2.2"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.7.0",
-    "vite": "^6.3.0",
-    "@vitejs/plugin-react": "^4.3.0"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "@vitejs/plugin-react": "^5.2.0"
   },
   "scripts": {
     "dev": "vite",

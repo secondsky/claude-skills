@@ -2,7 +2,7 @@
 
 **170 production-ready skills for Claude Code CLI**
 
-Version 3.2.2 | Last Updated: 2026-04-08
+Version 3.2.3 | Last Updated: 2026-04-08
 
 <div align="center">
 

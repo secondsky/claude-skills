@@ -1,7 +1,7 @@
 {
   "name": "vercel-kv",
   "description": "Vercel KV (Redis-compatible key-value storage via Upstash). Use for Next.js caching, sessions, rate limiting, TTL data storage, or encountering KV_REST_API_URL errors, rate limit issues, JSON serialization errors. Provides strong consistency vs eventual consistency.",
-  "version": "3.0.0",
+  "version": "3.2.2",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

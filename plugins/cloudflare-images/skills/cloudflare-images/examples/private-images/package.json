@@ -21,12 +21,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "hono": "^4.7.10",
+    "hono": "^4.12.12",
     "@tsndr/cloudflare-worker-jwt": "^2.5.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250110.0",
-    "wrangler": "^3.91.0",
-    "typescript": "^5.7.2"
+    "wrangler": "^4.81.0",
+    "typescript": "^5.9.3"
   }
 }

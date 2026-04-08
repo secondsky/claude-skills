@@ -3,9 +3,9 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 169 Plugins | 167 Skills Complete
-**Last Updated**: 2026-02-07
-**Last Audit**: 2026-02-07 (9 plugins removed)
+**Status**: Active Development | 170 Plugins | 167 Skills Complete
+**Last Updated**: 2026-04-08
+**Last Audit**: 2026-04-08 (dependency audit)
 
 ---
 

@@ -10,10 +10,10 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.10.2"
+    "hono": "^4.12.12"
   },
   "devDependencies": {
-    "typescript": "^5.9.0",
+    "typescript": "^5.9.3",
     "tsx": "^4.19.0",
     "@types/node": "^22.10.0"
   },
@@ -21,10 +21,10 @@
     "zod": "^4.1.12",
     "valibot": "^1.1.0",
     "@hono/zod-validator": "^0.7.4",
-    "@hono/valibot-validator": "^0.5.3",
+    "@hono/valibot-validator": "^0.6.1",
     "@hono/typia-validator": "^0.1.2",
     "@hono/arktype-validator": "^2.0.1",
-    "arktype": "^2.0.0",
+    "arktype": "^2.2.0",
     "typia": "^7.1.0"
   },
   "engines": {

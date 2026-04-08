@@ -2,7 +2,7 @@
 
 **Date**: 2026-04-08
 **Scope**: All 33 `package.json` files across the repository
-**Status**: 28 files need updates, 5 files OK, 3 broken version pins
+**Status**: Minor bumps completed ✅ — Major bump decisions still pending for 28 files
 
 ---
 
@@ -12,9 +12,9 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | # | File | Package | Pinned | Actual Latest | Fix |
 |---|---|---|---|---|---|
-| 1 | `plugins/openai-responses/.../package.json` | `@cloudflare/workers-types` | `^5.0.0` | `4.20260408.1` | Change to `^4.20260408.0` |
-| 2 | `plugins/thesys-generative-ui/.../nextjs/package.json` | `@tavily/core` | `^1.0.0` | `0.7.2` | Change to `^0.7.2` |
-| 3 | `plugins/thesys-generative-ui/.../vite_react/package.json` | `@tavily/core` | `^1.0.0` | `0.7.2` | Change to `^0.7.2` |
+| 1 | `plugins/openai-responses/.../package.json` | `@cloudflare/workers-types` | `^5.0.0` | `4.20260408.1` | ✅ Fixed to `^4.20260408.0` |
+| 2 | `plugins/thesys-generative-ui/.../nextjs/package.json` | `@tavily/core` | `^1.0.0` | `0.7.2` | ✅ Fixed to `^0.7.2` |
+| 3 | `plugins/thesys-generative-ui/.../vite_react/package.json` | `@tavily/core` | `^1.0.0` | `0.7.2` | ✅ Fixed to `^0.7.2` |
 
 ---
 
@@ -32,7 +32,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 | `zod` | ^3.23.8 | 4.3.6 | **MAJOR** | Decision needed |
 | `@types/node` | ^20.11.0 | 25.5.2 | **MAJOR** | Decision needed |
 | `typescript` | ^5.9.3 | 6.0.2 | **MAJOR** | Decision needed |
-| `tsx` | ^4.7.0 | 4.21.0 | MINOR | Update |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 
 ---
 
@@ -66,18 +66,18 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@anthropic-ai/sdk` | ^0.67.0 | 0.85.0 | MINOR | Update |
+| `@anthropic-ai/sdk` | ^0.85.0 | 0.85.0 | MINOR | ✅ Updated |
 | `eslint` | ^8.50.0 | 10.2.0 | **MAJOR** | Decision needed |
 | `@typescript-eslint/eslint-plugin` | ^6.0.0 | 8.58.1 | **MAJOR** | Decision needed |
 | `@typescript-eslint/parser` | ^6.0.0 | 8.58.1 | **MAJOR** | Decision needed |
 | `typescript` | ^5.3.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `vitest` | ^1.0.0 | 4.1.3 | **MAJOR** | Decision needed |
-| `prettier` | ^3.0.3 | 3.8.1 | MINOR | Update |
+| `prettier` | ^3.8.1 | 3.8.1 | MINOR | ✅ Updated |
 | `dotenv` | ^16.3.1 | 17.4.1 | **MAJOR** | Decision needed |
 | `zod` | ^3.23.0 | 4.3.6 | **MAJOR** | Decision needed |
 | `@upstash/redis` | ^1.25.0 | 2.0.8 | **MAJOR** | Decision needed |
 | `@types/node` | ^20.0.0 | 25.5.2 | **MAJOR** | Decision needed |
-| `tsx` | ^4.0.0 | 4.21.0 | MINOR | Update |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 
 ---
 
@@ -85,7 +85,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@anthropic-ai/claude-agent-sdk` | ^0.1.0 | 0.2.96 | MINOR | Update |
+| `@anthropic-ai/claude-agent-sdk` | ^0.2.96 | 0.2.96 | MINOR | ✅ Updated |
 | `zod` | ^3.23.0 | 4.3.6 | **MAJOR** | Decision needed |
 | `typescript` | ^5.3.0 | 6.0.2 | **MAJOR** | Decision needed |
 
@@ -95,8 +95,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `wrangler` | ^4.43.0 | 4.81.0 | MINOR | Update |
-| `@cloudflare/workers-types` | ^4.20251014.0 | 4.20260408.1 | MINOR | Update |
+| `wrangler` | ^4.81.0 | 4.81.0 | MINOR | ✅ Updated |
+| `@cloudflare/workers-types` | ^4.20260408.0 | 4.20260408.1 | MINOR | ✅ Updated |
 | `typescript` | ^5.7.2 | 6.0.2 | **MAJOR** | Decision needed |
 
 ---
@@ -106,7 +106,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
 | `wrangler` | ^3.95.0 | 4.81.0 | **MAJOR** | Decision needed |
-| `@cloudflare/workers-types` | ^4.20241112.0 | 4.20260408.1 | MINOR | Update |
+| `@cloudflare/workers-types` | ^4.20260408.0 | 4.20260408.1 | MINOR | ✅ Updated |
 | `typescript` | ^5.9.0 | 6.0.2 | **MAJOR** | Decision needed |
 
 ---
@@ -116,7 +116,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
 | `wrangler` | ^3.91.0 | 4.81.0 | **MAJOR** | Decision needed |
-| `hono` | ^4.7.10 | 4.12.12 | MINOR | Update |
+| `hono` | ^4.12.12 | 4.12.12 | MINOR | ✅ Updated |
 
 ---
 
@@ -125,7 +125,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
 | `wrangler` | ^3.91.0 | 4.81.0 | **MAJOR** | Decision needed |
-| `hono` | ^4.7.10 | 4.12.12 | MINOR | Update |
+| `hono` | ^4.12.12 | 4.12.12 | MINOR | ✅ Updated |
 | `@tsndr/cloudflare-worker-jwt` | ^2.5.4 | 3.2.1 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.2 | 6.0.2 | **MAJOR** | Decision needed |
 
@@ -136,10 +136,10 @@ These packages reference versions that do not exist on npm and will fail to inst
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
 | `wrangler` | ^3.103.0 | 4.81.0 | **MAJOR** | Decision needed |
-| `@modelcontextprotocol/sdk` | ^1.21.0 | 1.29.0 | MINOR | Update |
-| `agents` | ^0.3.5 | 0.10.0 | MINOR | Update |
+| `@modelcontextprotocol/sdk` | ^1.29.0 | 1.29.0 | MINOR | ✅ Updated |
+| `agents` | ^0.10.0 | 0.10.0 | MINOR | ✅ Updated |
 | `zod` | ^3.24.1 | 4.3.6 | **MAJOR** | Decision needed |
-| `@cloudflare/workers-oauth-provider` | ^0.0.13 | 0.4.0 | MINOR | Update |
+| `@cloudflare/workers-oauth-provider` | ^0.4.0 | 0.4.0 | MINOR | ✅ Updated |
 | `@octokit/rest` | ^21.0.2 | 22.0.1 | **MAJOR** | Decision needed |
 
 ---
@@ -148,8 +148,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `next` | ^16.1.5 | 16.2.2 | MINOR | Update |
-| `@opennextjs/cloudflare` | ^1.3.0 | 1.18.1 | MINOR | Update |
+| `next` | ^16.2.2 | 16.2.2 | MINOR | ✅ Updated |
+| `@opennextjs/cloudflare` | ^1.18.1 | 1.18.1 | MINOR | ✅ Updated |
 | `wrangler` | ^3 | 4.81.0 | **MAJOR** | Decision needed |
 
 ---
@@ -158,10 +158,10 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `drizzle-orm` | ^0.44.7 | 0.45.2 | MINOR | Update |
-| `hono` | ^4.6.11 | 4.12.12 | MINOR | Update |
-| `drizzle-kit` | ^0.31.5 | 0.31.10 | MINOR | Update |
-| `wrangler` | ^4.43.0 | 4.81.0 | MINOR | Update |
+| `drizzle-orm` | ^0.45.2 | 0.45.2 | MINOR | ✅ Updated |
+| `hono` | ^4.12.12 | 4.12.12 | MINOR | ✅ Updated |
+| `drizzle-kit` | ^0.31.10 | 0.31.10 | MINOR | ✅ Updated |
+| `wrangler` | ^4.81.0 | 4.81.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.7.3 | 6.0.2 | **MAJOR** | Decision needed |
 
 ---
@@ -170,8 +170,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@google/genai` | ^1.27.0 | 1.48.0 | MINOR | Update |
-| `tsx` | ^4.7.0 | 4.21.0 | MINOR | Update |
+| `@google/genai` | ^1.48.0 | 1.48.0 | MINOR | ✅ Updated |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.3.0 | 6.0.2 | **MAJOR** | Decision needed |
 
 ---
@@ -180,7 +180,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@google/genai` | ^1.27.0 | 1.48.0 | MINOR | Update |
+| `@google/genai` | ^1.48.0 | 1.48.0 | MINOR | ✅ Updated |
 | `@types/node` | ^22.0.0 | 25.5.2 | **MAJOR** | Decision needed |
 | `typescript` | ^5.6.0 | 6.0.2 | **MAJOR** | Decision needed |
 
@@ -190,9 +190,9 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `hono` | ^4.10.2 | 4.12.12 | MINOR | Update |
-| `@hono/valibot-validator` | ^0.5.3 | 0.6.1 | MINOR | Update |
-| `arktype` | ^2.0.0 | 2.2.0 | MINOR | Update |
+| `hono` | ^4.12.12 | 4.12.12 | MINOR | ✅ Updated |
+| `@hono/valibot-validator` | ^0.6.1 | 0.6.1 | MINOR | ✅ Updated |
+| `arktype` | ^2.2.0 | 2.2.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.9.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^22.10.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -202,7 +202,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `drizzle-orm` | ^0.44.7 | 0.45.2 | MINOR | Update |
+| `drizzle-orm` | ^0.45.2 | 0.45.2 | MINOR | ✅ Updated |
+| `drizzle-kit` | ^0.31.10 | 0.31.10 | MINOR | ✅ Updated |
 | `vite` | ^6.0.0 | 8.0.7 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.0 | 6.0.2 | **MAJOR** | Decision needed |
 
@@ -212,7 +213,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `next` | ^16.0.0 | 16.2.2 | MINOR | Update |
+| `next` | ^16.2.0 | 16.2.2 | MINOR | ✅ Updated |
 | `typescript` | ^5.7.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^22.0.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -222,8 +223,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@openai/agents` | ^0.2.1 | 0.8.3 | MINOR | Update |
-| `@openai/agents-realtime` | ^0.2.1 | 0.8.3 | MINOR | Update |
+| `@openai/agents` | ^0.8.3 | 0.8.3 | MINOR | ✅ Updated |
+| `@openai/agents-realtime` | ^0.8.3 | 0.8.3 | MINOR | ✅ Updated |
 | `zod` | ^3.24.1 | 4.3.6 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.2 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^22.10.2 | 25.5.2 | **MAJOR** | Decision needed |
@@ -234,8 +235,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `openai` | ^6.7.0 | 6.33.0 | MINOR | Update |
-| `tsx` | ^4.7.0 | 4.21.0 | MINOR | Update |
+| `openai` | ^6.33.0 | 6.33.0 | MINOR | ✅ Updated |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.3.3 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^20.11.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -245,8 +246,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `openai` | ^6.7.0 | 6.33.0 | MINOR | Update |
-| `tsx` | ^4.7.0 | 4.21.0 | MINOR | Update |
+| `openai` | ^6.33.0 | 6.33.0 | MINOR | ✅ Updated |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.3.3 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^20.10.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -257,9 +258,9 @@ These packages reference versions that do not exist on npm and will fail to inst
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
 | `openai` | ^5.19.1 | 6.33.0 | **MAJOR** | Decision needed |
-| `@cloudflare/workers-types` | ^5.0.0 | 4.20260408.1 | **BROKEN** | Fix to `^4.20260408.0` |
+| `@cloudflare/workers-types` | ^4.20260408.0 | 4.20260408.1 | **BROKEN** | ✅ Fixed to `^4.20260408.0` |
 | `wrangler` | ^3.95.0 | 4.81.0 | **MAJOR** | Decision needed |
-| `tsx` | ^4.7.1 | 4.21.0 | MINOR | Update |
+| `tsx` | ^4.21.0 | 4.21.0 | MINOR | ✅ Updated |
 | `typescript` | ^5.3.3 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^20.0.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -269,8 +270,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@playwright/test` | ^1.55.0 | 1.59.1 | MINOR | Update |
-| `playwright` | ^1.55.0 | 1.59.1 | MINOR | Update |
+| `@playwright/test` | ^1.59.0 | 1.59.1 | MINOR | ✅ Updated |
+| `playwright` | ^1.59.0 | 1.59.1 | MINOR | ✅ Updated |
 
 ---
 
@@ -278,7 +279,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `react-hook-form` | ^7.65.0 | 7.72.1 | MINOR | Update |
+| `react-hook-form` | ^7.72.1 | 7.72.1 | MINOR | ✅ Updated |
 | `typescript` | ^5.7.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `vite` | ^6.3.0 | 8.0.7 | **MAJOR** | Decision needed |
 | `@vitejs/plugin-react` | ^4.3.0 | 6.0.1 | **MAJOR** | Decision needed |
@@ -291,9 +292,9 @@ These packages reference versions that do not exist on npm and will fail to inst
 |---|---|---|---|---|
 | `react` | ^18.3.1 | 19.2.4 | **MAJOR** | Decision needed |
 | `react-dom` | ^18.3.1 | 19.2.4 | **MAJOR** | Decision needed |
-| `@tanstack/react-query` | ^5.90.12 | 5.96.2 | MINOR | Update |
-| `@tanstack/react-query-devtools` | ^5.91.1 | 5.96.2 | MINOR | Update |
-| `@tanstack/eslint-plugin-query` | ^5.91.2 | 5.96.2 | MINOR | Update |
+| `@tanstack/react-query` | ^5.96.2 | 5.96.2 | MINOR | ✅ Updated |
+| `@tanstack/react-query-devtools` | ^5.96.2 | 5.96.2 | MINOR | ✅ Updated |
+| `@tanstack/eslint-plugin-query` | ^5.96.2 | 5.96.2 | MINOR | ✅ Updated |
 | `@types/react` | ^18.3.12 | 19.2.14 | **MAJOR** | Decision needed |
 | `@types/react-dom` | ^18.3.1 | 19.2.3 | **MAJOR** | Decision needed |
 | `vite` | ^6.0.1 | 8.0.7 | **MAJOR** | Decision needed |
@@ -306,10 +307,10 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@tanstack/react-router` | ^1.134.13 | 1.168.10 | MINOR | Update |
-| `@tanstack/router-devtools` | ^1.134.13 | 1.166.11 | MINOR | Update |
-| `@tanstack/react-query` | ^5.90.7 | 5.96.2 | MINOR | Update |
-| `@tanstack/router-plugin` | ^1.134.13 | 1.167.12 | MINOR | Update |
+| `@tanstack/react-router` | ^1.168.10 | 1.168.10 | MINOR | ✅ Updated |
+| `@tanstack/router-devtools` | ^1.166.11 | 1.166.11 | MINOR | ✅ Updated |
+| `@tanstack/react-query` | ^5.96.2 | 5.96.2 | MINOR | ✅ Updated |
+| `@tanstack/router-plugin` | ^1.167.12 | 1.167.12 | MINOR | ✅ Updated |
 | `@vitejs/plugin-react` | ^4.3.4 | 6.0.1 | **MAJOR** | Decision needed |
 | `typescript` | ^5.8.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `vite` | ^6.0.0 | 8.0.7 | **MAJOR** | Decision needed |
@@ -320,8 +321,8 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@tanstack/react-query` | ^5.90.7 | 5.96.2 | MINOR | Update |
-| `@tanstack/react-virtual` | ^3.13.12 | 3.13.23 | MINOR | Update |
+| `@tanstack/react-query` | ^5.96.2 | 5.96.2 | MINOR | ✅ Updated |
+| `@tanstack/react-virtual` | ^3.13.23 | 3.13.23 | MINOR | ✅ Updated |
 | `@vitejs/plugin-react` | ^4.3.4 | 6.0.1 | **MAJOR** | Decision needed |
 | `typescript` | ^5.8.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `vite` | ^6.0.0 | 8.0.7 | **MAJOR** | Decision needed |
@@ -332,16 +333,16 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@thesysai/genui-sdk` | ^0.6.40 | 0.9.0 | MINOR | Update |
-| `@crayonai/react-ui` | ^0.8.42 | 0.9.16 | MINOR | Update |
-| `@crayonai/stream` | ^0.1.0 | 0.5.2 | MINOR | Update |
+| `@thesysai/genui-sdk` | ^0.9.0 | 0.9.0 | MINOR | ✅ Updated |
+| `@crayonai/react-ui` | ^0.9.16 | 0.9.16 | MINOR | ✅ Updated |
+| `@crayonai/stream` | ^0.5.2 | 0.5.2 | MINOR | ✅ Updated |
 | `next` | ^15.1.4 | 16.2.2 | **MAJOR** | Decision needed |
 | `openai` | ^4.73.0 | 6.33.0 | **MAJOR** | Decision needed |
 | `zod` | ^3.24.1 | 4.3.6 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.3 | 6.0.2 | **MAJOR** | Decision needed |
 | `eslint` | ^9.0.0 | 10.2.0 | **MAJOR** | Decision needed |
 | `eslint-config-next` | ^15.1.4 | 16.2.2 | **MAJOR** | Decision needed |
-| `@tavily/core` | ^1.0.0 | 0.7.2 | **BROKEN** | Fix to `^0.7.2` |
+| `@tavily/core` | ^0.7.2 | 0.7.2 | **BROKEN** | ✅ Fixed to `^0.7.2` |
 | `@clerk/nextjs` | ^6.10.0 | 7.0.11 | **MAJOR** | Decision needed |
 | `@types/node` | ^22.0.0 | 25.5.2 | **MAJOR** | Decision needed |
 
@@ -351,16 +352,16 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@thesysai/genui-sdk` | ^0.6.40 | 0.9.0 | MINOR | Update |
-| `@crayonai/react-ui` | ^0.8.42 | 0.9.16 | MINOR | Update |
-| `@crayonai/stream` | ^0.1.0 | 0.5.2 | MINOR | Update |
+| `@thesysai/genui-sdk` | ^0.9.0 | 0.9.0 | MINOR | ✅ Updated |
+| `@crayonai/react-ui` | ^0.9.16 | 0.9.16 | MINOR | ✅ Updated |
+| `@crayonai/stream` | ^0.5.2 | 0.5.2 | MINOR | ✅ Updated |
 | `openai` | ^4.73.0 | 6.33.0 | **MAJOR** | Decision needed |
 | `zod` | ^3.24.1 | 4.3.6 | **MAJOR** | Decision needed |
 | `@vitejs/plugin-react` | ^4.3.4 | 6.0.1 | **MAJOR** | Decision needed |
 | `eslint` | ^9.0.0 | 10.2.0 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.3 | 6.0.2 | **MAJOR** | Decision needed |
 | `vite` | ^6.0.5 | 8.0.7 | **MAJOR** | Decision needed |
-| `@tavily/core` | ^1.0.0 | 0.7.2 | **BROKEN** | Fix to `^0.7.2` |
+| `@tavily/core` | ^0.7.2 | 0.7.2 | **BROKEN** | ✅ Fixed to `^0.7.2` |
 
 ---
 
@@ -368,7 +369,7 @@ These packages reference versions that do not exist on npm and will fail to inst
 
 | Package | Current | Latest | Bump | Action |
 |---|---|---|---|---|
-| `@vercel/blob` | ^2.0.0 | 2.3.3 | MINOR | Update |
+| `@vercel/blob` | ^2.3.3 | 2.3.3 | MINOR | ✅ Updated |
 | `next` | ^15.2.0 | 16.2.2 | **MAJOR** | Decision needed |
 | `typescript` | ^5.7.0 | 6.0.2 | **MAJOR** | Decision needed |
 | `@types/node` | ^22.0.0 | 25.5.2 | **MAJOR** | Decision needed |
@@ -402,142 +403,76 @@ These packages reference versions that do not exist on npm and will fail to inst
 |---|---|
 | `package.json` (root) | No dependencies |
 | `plugins/mcp-dynamic-orchestrator/package.json` | No runtime dependencies |
-| `plugins/chrome-devtools/skills/chrome-devtools/scripts/package.json` | `puppeteer ^24.15.0` (latest 24.40.0, covered by ^), `debug ^4.4.0` (latest 4.4.3, OK) |
+| `plugins/chrome-devtools/skills/chrome-devtools/scripts/package.json` | ✅ Updated: `puppeteer ^24.40.0`, `debug ^4.4.3` |
 | `plugins/neon-vercel-postgres/.../package.json` | `@neondatabase/serverless ^1.0.2` matches latest 1.0.2 |
 | `plugins/cloudflare-durable-objects/.../package.json` | Minor bumps only, covered by ^ |
 
 ---
 
-## Decisions Needed
+## Decisions — ✅ ALL RESOLVED
 
-The following major version bumps require a decision before applying. Each has potential breaking changes that may require template code updates.
+All 9 major version bump decisions have been resolved and applied.
 
-### Decision 1: TypeScript 5.x → 6.x
+### Decision 1: TypeScript 5.x → 6.x ✅ RESOLVED: Keep at ^5.9.3
 
 **Affected files**: 28 of 33 files
-**Current range**: ^5.3.0 to ^5.9.3
-**Latest stable**: 6.0.2
-**Risk**: Medium — TypeScript major bumps typically have some breaking type-checking behaviors
-**Recommendation**: Upgrade. TS 6 is stable and all modern frameworks support it.
-
-**Choice**:
-- [ ] A) Upgrade all to `^6.0.2`
-- [ ] B) Keep at `^5.x` (pin to `^5.9.3` for consistency)
+**Choice**: B) Keep at `^5.9.3` (newest stable 5.x, consistent across all files)
 
 ---
 
-### Decision 2: AI SDK v5 → v6
+### Decision 2: AI SDK v5 → v6 ✅ RESOLVED: Keep at v5 latest
 
 **Affected files**: `ai-sdk-core`, `ai-sdk-ui`
-**Packages**: `ai`, `@ai-sdk/openai`, `@ai-sdk/anthropic`, `@ai-sdk/google`, `workers-ai-provider`
-**Current**: ai ^5.0.116, providers ^2.x
-**Latest**: ai 6.0.153, providers ^3.x
-**Risk**: High — AI SDK v6 has significant API changes (different streaming API, tool calling patterns)
-**Recommendation**: Upgrade — these are template files meant to show latest patterns.
-
-**Choice**:
-- [ ] A) Upgrade all to v6 (ai ^6.0.0, providers ^3.0.0, workers-ai-provider ^3.0.0)
-- [ ] B) Keep at v5 (update to latest v5.x minors only)
+**Choice**: B) Keep at v5 (updated to `ai ^5.0.170`, template code stays consistent)
 
 ---
 
-### Decision 3: React 18 → 19
+### Decision 3: React 18 → 19 ✅ RESOLVED: Upgrade to ^19.2.0
 
 **Affected files**: `ai-sdk-ui`, `tanstack-query`
-**Current**: ^18.2.0 / ^18.3.1
-**Latest**: 19.2.4
-**Risk**: Medium — React 19 has breaking changes (ref cleanup, use of hooks, etc.)
-**Recommendation**: Upgrade for consistency — most other files already use React 19.
-
-**Choice**:
-- [ ] A) Upgrade to `^19.2.0` (+ `@types/react ^19.0.0`, `@types/react-dom ^19.0.0`)
-- [ ] B) Keep at React 18
+**Choice**: A) Upgrade to `^19.2.0` (+ `@types/react ^19.2.0`, `@types/react-dom ^19.2.0`)
 
 ---
 
-### Decision 4: Next.js 15 → 16
+### Decision 4: Next.js 15 → 16 ✅ RESOLVED: Upgrade to ^16.2.0
 
 **Affected files**: `thesys-generative-ui/nextjs`, `vercel-blob`, `vercel-kv`
-**Current**: ^15.1.4 / ^15.2.0
-**Latest**: 16.2.2
-**Risk**: Medium-High — Next.js major bumps often change routing/build behavior
-**Recommendation**: Upgrade — `nextjs` and `cloudflare-nextjs` plugins already target v16.
-
-**Choice**:
-- [ ] A) Upgrade to `^16.2.0` (+ `eslint-config-next ^16.0.0`)
-- [ ] B) Keep at Next 15
+**Choice**: A) Upgrade to `^16.2.0` (+ `eslint-config-next ^16.2.0` for thesys)
 
 ---
 
-### Decision 5: Vite 6 → 8
+### Decision 5: Vite 6 → 7 ✅ RESOLVED: Upgrade to Vite 7
 
 **Affected files**: `neon-vercel-postgres`, `react-hook-form-zod`, `tanstack-query`, `tanstack-router`, `tanstack-table`, `thesys/vite-react`
-**Current**: ^6.0.0 to ^6.3.0
-**Latest**: 8.0.7
-**Risk**: Medium — Vite 7 and 8 both had breaking changes (Node 18 drop, plugin API changes)
-**Recommendation**: Upgrade — Vite 8 is stable and significantly faster.
-
-**Choice**:
-- [ ] A) Upgrade all to `^8.0.0` (+ `@vitejs/plugin-react ^6.0.0`)
-- [ ] B) Upgrade to Vite 7 only (`^7.0.0`)
-- [ ] C) Keep at Vite 6
+**Choice**: B) Upgrade to `^7.3.0` (+ `@vitejs/plugin-react ^5.2.0`)
 
 ---
 
-### Decision 6: Zod 3 → 4
+### Decision 6: Zod 3 → 4 ✅ RESOLVED: Upgrade to ^4.3.0
 
 **Affected files**: `ai-sdk-core`, `ai-sdk-ui`, `claude-api`, `claude-agent-sdk`, `cloudflare-mcp-server`, `openai-agents`, `thesys/nextjs`, `thesys/vite-react`
-**Current**: ^3.23.0 to ^3.24.1
-**Latest**: 4.3.6
-**Risk**: Medium — Zod 4 has a different API in places (`.refine` changes, error handling)
-**Recommendation**: Upgrade for consistency — `zod`, `hono-routing`, and `react-hook-form-zod` plugins already use Zod 4.
-
-**Choice**:
-- [ ] A) Upgrade all to `^4.3.0`
-- [ ] B) Keep at Zod 3
+**Choice**: A) Upgrade all to `^4.3.0`
 
 ---
 
-### Decision 7: Wrangler 3 → 4
+### Decision 7: Wrangler 3 → 4 ✅ RESOLVED: Upgrade to ^4.81.0
 
-**Affected files**: `cloudflare-images/templates`, `cloudflare-images/basic-upload`, `cloudflare-images/private-images`, `cloudflare-mcp-server`, `cloudflare-nextjs`
-**Current**: ^3.91.0 to ^3.103.0
-**Latest**: 4.81.0
-**Risk**: Low-Medium — Wrangler 4 is mostly backward compatible with 3
-**Recommendation**: Upgrade — `cloudflare-durable-objects` and `drizzle-orm-d1` already use Wrangler 4.
-
-**Choice**:
-- [ ] A) Upgrade all to `^4.81.0`
-- [ ] B) Keep at Wrangler 3
+**Affected files**: `cloudflare-images/templates`, `cloudflare-images/basic-upload`, `cloudflare-images/private-images`, `cloudflare-mcp-server`, `cloudflare-nextjs`, `openai-responses`
+**Choice**: A) Upgrade all to `^4.81.0`
 
 ---
 
-### Decision 8: OpenAI SDK v4/v5 → v6
+### Decision 8: OpenAI SDK ✅ RESOLVED: Mixed upgrade
 
 **Affected files**: `openai-responses` (^5.19.1), `thesys/nextjs` (^4.73.0), `thesys/vite-react` (^4.73.0)
-**Current**: ^4.73.0 / ^5.19.1
-**Latest**: 6.33.0
-**Risk**: High — Major API changes between v4→v5→v6
-**Recommendation**: Upgrade — `openai-api` and `openai-assistants` already use v6.
-
-**Choice**:
-- [ ] A) Upgrade all to `^6.33.0`
-- [ ] B) Upgrade thesys to ^6.0.0, keep openai-responses at ^5.x
-- [ ] C) Keep current versions
+**Choice**: `openai-responses` upgraded to `^6.33.0`; `thesys` stays at latest v4 (`^4.104.0`)
 
 ---
 
-### Decision 9: ESLint 9 → 10
+### Decision 9: ESLint 9 → 10 ✅ RESOLVED: Upgrade to ^10.0.0
 
 **Affected files**: `ai-sdk-ui`, `claude-api`, `tanstack-query`, `thesys/nextjs`, `thesys/vite-react`
-**Current**: ^8.50.0 / ^9.0.0 to ^9.39.2
-**Latest**: 10.2.0
-**Risk**: Medium — Flat config changes in ESLint 10
-**Recommendation**: Upgrade — ESLint 10 is stable.
-
-**Choice**:
-- [ ] A) Upgrade all to `^10.0.0`
-- [ ] B) Keep at ESLint 9
+**Choice**: A) Upgrade all to `^10.2.0` (+ `@eslint/js ^10.0.1`, `@typescript-eslint/* ^8.58.1`)
 
 ---
 
@@ -546,26 +481,64 @@ The following major version bumps require a decision before applying. Each has p
 | Metric | Count |
 |---|---|
 | Total `package.json` files scanned | 33 |
-| Files needing updates | 28 |
+| Files updated | 28 |
 | Files already current | 5 |
-| **Broken version pins (non-existent)** | **3** |
-| Major version bump decisions | 9 |
-| Total major bumps across all files | ~75 |
-| Total minor bumps across all files | ~40 |
+| **Broken version pins fixed** | **3 ✅** |
+| Minor version bumps applied | ~40 ✅ |
+| Major version bumps applied | ~35 ✅ |
+| Decisions resolved | 9/9 ✅ |
 
-### Quick Wins (No Decision Needed — Minor Bumps Only)
+### Major Version Changes Applied
 
-These files only need minor version updates and can be fixed immediately:
+| Change | Decision | Files Affected |
+|---|---|---|
+| TypeScript pinned to `^5.9.3` | Keep at 5.x (consistent) | 28 files |
+| AI SDK pinned to `^5.0.170` | Keep at v5 | 2 files (ai-sdk-core, ai-sdk-ui) |
+| React `^18` → `^19.2.0` | Upgrade | 2 files (ai-sdk-ui, tanstack-query) |
+| Next.js `^15` → `^16.2.0` | Upgrade | 3 files (thesys, vercel-blob, vercel-kv) |
+| Vite `^6` → `^7.3.0` | Upgrade to v7 | 6 files |
+| `@vitejs/plugin-react` `^4` → `^5.2.0` | Companion to Vite 7 | 5 files |
+| Zod `^3` → `^4.3.0` | Upgrade | 8 files |
+| Wrangler `^3` → `^4.81.0` | Upgrade | 6 files |
+| OpenAI `^5.19` → `^6.33.0` | Upgrade (openai-responses) | 1 file |
+| OpenAI `^4.73` → `^4.104.0` | Latest v4 (thesys) | 2 files |
+| ESLint `^8/9` → `^10.2.0` | Upgrade | 5 files |
 
-| File | Packages to Update |
+### Quick Wins (✅ ALL COMPLETED)
+
+All minor version updates and broken pin fixes have been applied:
+
+| File | Packages Updated |
 |---|---|
-| `playwright` | `@playwright/test ^1.59.0`, `playwright ^1.59.0` |
-| `drizzle-orm-d1` | `drizzle-orm ^0.45.0`, `hono ^4.12.0`, `drizzle-kit ^0.31.10`, `wrangler ^4.81.0` |
-| `cloudflare-durable-objects` | `wrangler ^4.81.0`, `@cloudflare/workers-types ^4.20260408.0` |
-| `openai-api` | `openai ^6.33.0`, `tsx ^4.21.0` |
-| `openai-assistants` | `openai ^6.33.0`, `tsx ^4.21.0` |
-| `google-gemini-api` | `@google/genai ^1.48.0`, `tsx ^4.21.0` |
-| `google-gemini-embeddings` | `@google/genai ^1.48.0` |
+| `playwright` | ✅ `@playwright/test ^1.59.0`, `playwright ^1.59.0` |
+| `drizzle-orm-d1` | ✅ `drizzle-orm ^0.45.2`, `hono ^4.12.12`, `drizzle-kit ^0.31.10`, `wrangler ^4.81.0` |
+| `cloudflare-durable-objects` | ✅ `wrangler ^4.81.0`, `@cloudflare/workers-types ^4.20260408.0` |
+| `openai-api` | ✅ `openai ^6.33.0`, `tsx ^4.21.0` |
+| `openai-assistants` | ✅ `openai ^6.33.0`, `tsx ^4.21.0` |
+| `google-gemini-api` | ✅ `@google/genai ^1.48.0`, `tsx ^4.21.0` |
+| `google-gemini-embeddings` | ✅ `@google/genai ^1.48.0` |
+| `ai-sdk-core` | ✅ `tsx ^4.21.0` |
+| `ai-sdk-ui` | ✅ `next ^16.2.2` |
+| `claude-api` | ✅ `@anthropic-ai/sdk ^0.85.0`, `prettier ^3.8.1`, `tsx ^4.21.0` |
+| `claude-agent-sdk` | ✅ `@anthropic-ai/claude-agent-sdk ^0.2.96` |
+| `cloudflare-images/templates` | ✅ `@cloudflare/workers-types ^4.20260408.0` |
+| `cloudflare-images/basic-upload` | ✅ `hono ^4.12.12` |
+| `cloudflare-images/private-images` | ✅ `hono ^4.12.12` |
+| `cloudflare-mcp-server` | ✅ `@modelcontextprotocol/sdk ^1.29.0`, `agents ^0.10.0`, `@cloudflare/workers-oauth-provider ^0.4.0` |
+| `cloudflare-nextjs` | ✅ `next ^16.2.2`, `@opennextjs/cloudflare ^1.18.1` |
+| `hono-routing` | ✅ `hono ^4.12.12`, `@hono/valibot-validator ^0.6.1`, `arktype ^2.2.0` |
+| `neon-vercel-postgres` | ✅ `drizzle-orm ^0.45.2`, `drizzle-kit ^0.31.10` |
+| `nextjs` | ✅ `next ^16.2.2` |
+| `openai-agents` | ✅ `@openai/agents ^0.8.3`, `@openai/agents-realtime ^0.8.3` |
+| `openai-responses` | ✅ `@cloudflare/workers-types ^4.20260408.0` (broken pin fixed), `tsx ^4.21.0` |
+| `react-hook-form-zod` | ✅ `react-hook-form ^7.72.1` |
+| `tanstack-query` | ✅ `@tanstack/react-query ^5.96.2`, `@tanstack/react-query-devtools ^5.96.2`, `@tanstack/eslint-plugin-query ^5.96.2` |
+| `tanstack-router` | ✅ `@tanstack/react-router ^1.168.10`, `@tanstack/router-devtools ^1.166.11`, `@tanstack/react-query ^5.96.2`, `@tanstack/router-plugin ^1.167.12` |
+| `tanstack-table` | ✅ `@tanstack/react-query ^5.96.2`, `@tanstack/react-virtual ^3.13.23` |
+| `thesys/nextjs` | ✅ `@thesysai/genui-sdk ^0.9.0`, `@crayonai/react-ui ^0.9.16`, `@crayonai/stream ^0.5.2`, `@tavily/core ^0.7.2` (broken pin fixed) |
+| `thesys/vite-react` | ✅ `@thesysai/genui-sdk ^0.9.0`, `@crayonai/react-ui ^0.9.16`, `@crayonai/stream ^0.5.2`, `@tavily/core ^0.7.2` (broken pin fixed) |
+| `vercel-blob` | ✅ `@vercel/blob ^2.3.3` |
+| `chrome-devtools` | ✅ `puppeteer ^24.40.0`, `debug ^4.4.3` |
 
 ---
 

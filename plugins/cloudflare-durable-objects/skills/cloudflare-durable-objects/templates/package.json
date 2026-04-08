@@ -10,8 +10,8 @@
     "types": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251014.0",
-    "wrangler": "^4.43.0",
-    "typescript": "^5.7.2"
+    "@cloudflare/workers-types": "^4.20260408.0",
+    "wrangler": "^4.81.0",
+    "typescript": "^5.9.3"
   }
 }
