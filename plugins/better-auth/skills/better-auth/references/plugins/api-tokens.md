@@ -6,25 +6,27 @@ Complete guide for API authentication: API Keys, Bearer Tokens, JWT, and OIDC Pr
 
 ## API Key Plugin
 
+Extracted to `@better-auth/api-key` in v1.5.0. Install separately:
+
+```bash
+npm install @better-auth/api-key
+```
+
 ### Server Configuration
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { apiKey } from "better-auth/plugins";
+import { apiKey } from "@better-auth/api-key";
 
 export const auth = betterAuth({
   plugins: [
     apiKey({
-      // API key prefix (optional)
       prefix: "sk_",
-      // Key length in bytes
       keyLength: 32,
-      // Hash algorithm for storing keys
       hashAlgorithm: "sha256",
-      // Rate limiting per key
       rateLimit: {
-        window: 60 * 1000,  // 1 minute
-        max: 100,           // 100 requests per window
+        window: 60 * 1000,
+        max: 100,
       },
     }),
   ],
@@ -34,7 +36,7 @@ export const auth = betterAuth({
 ### Client Configuration
 
 ```typescript
-import { apiKeyClient } from "better-auth/client/plugins";
+import { apiKeyClient } from "@better-auth/api-key/client";
 
 const authClient = createAuthClient({
   plugins: [apiKeyClient()],
@@ -44,10 +46,9 @@ const authClient = createAuthClient({
 ### Create API Key
 
 ```typescript
-// Create key with optional metadata
 const { data: key } = await authClient.apiKey.create({
   name: "Production API Key",
-  expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),  // 1 year
+  expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
   metadata: {
     environment: "production",
     permissions: ["read", "write"],
@@ -56,6 +57,41 @@ const { data: key } = await authClient.apiKey.create({
 
 // IMPORTANT: key.key is only shown once!
 console.log(key.key);  // sk_abc123...
+```
+
+### Organization-Owned API Keys (v1.5+)
+
+```typescript
+import { apiKey } from "@better-auth/api-key";
+
+export const auth = betterAuth({
+  plugins: [
+    apiKey({ references: "organization" }),
+  ],
+});
+
+// Create org-owned key
+const apiKey = await auth.api.createApiKey({
+  body: { organizationId: "org_123" },
+});
+```
+
+### Multiple Configurations (v1.5+)
+
+```typescript
+export const auth = betterAuth({
+  plugins: [
+    apiKey([
+      { configId: "user-keys", prefix: "usr_" },
+      { configId: "org-keys", prefix: "org_", references: "organization" },
+    ]),
+  ],
+});
+
+// Create key for specific config
+const key = auth.api.createApiKey({
+  body: { configId: "user-keys" },
+});
 ```
 
 ### List API Keys

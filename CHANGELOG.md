@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.2.2] - 2026-04-08
+
+### Changed
+
+#### better-auth Plugin (v3.1.0) - 2026-04-08
+
+Updated from better-auth@1.4.9 to better-auth@1.6.0 with v1.5 and v1.6 support.
+
+**New reference files (6):**
+- `references/v1.5-features.md` - New CLI, MCP auth, OAuth 2.1 Provider, Electron, i18n, D1 native, secret rotation, seat billing, adapter extraction, typed error codes
+- `references/v1.6-features.md` - OpenTelemetry, passkey pre-auth, case-insensitive queries, non-blocking scrypt, release tracks
+- `references/migration-guide-1.5.0.md` - v1.5 breaking changes: API Key moved, after hooks post-transaction, InferUser removed, core/utils split
+- `references/plugins/test-utils.md` - Testing helpers: factories, DB helpers, auth helpers, OTP capture, Vitest/Playwright examples
+- `references/plugins/sso.md` - Production SSO: OIDC discovery, SAML SLO, domain verification, organization provisioning, security hardening
+- `references/integrations/electron.md` - Electron desktop auth: system browser OAuth, IPC bridges, deep links, manual token exchange
+
+**Updated reference files (5):**
+- `references/v1.4-features.md` - Fixed OAuth 2.1 plugin (was wrong package), SSO imports to `@better-auth/sso`, CLI commands to `npx auth`, SSO config structure
+- `references/plugins/authentication.md` - Updated passkey to `@better-auth/passkey`, added pre-auth registration (v1.6), WebAuthn extensions
+- `references/plugins/enterprise.md` - Updated SSO to `@better-auth/sso`, added SAML SLO, InResponseTo default ON, points to dedicated sso.md
+- `references/plugins/api-tokens.md` - Updated to `@better-auth/api-key`, added org-owned API keys, multi-configuration support
+- `references/configuration-guide.md` - Added dynamic base URL, secret key rotation, D1 native, `better-auth/minimal`, defer session refresh, verification on secondary storage
+
+**SKILL.md updates:**
+- Bumped package_version from 1.4.9 to 1.6.0, skill version to 3.1.0
+- Added v1.5 and v1.6 breaking changes and feature highlights
+- Added D1 native support (pass D1 binding directly, no adapter needed)
+- Updated CLI commands to `npx auth` syntax throughout
+- Added 6 new "When to Load References" entries
+- Updated dependencies with new packages (`@better-auth/sso`, `@better-auth/electron`, `@better-auth/i18n`, `@better-auth/oauth-provider`)
+
+Category: auth
+
+---
+
 ## [3.2.1] - 2026-04-01
 
 ### Added

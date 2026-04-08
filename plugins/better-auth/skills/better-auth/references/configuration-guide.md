@@ -1,7 +1,7 @@
 # Better-Auth Configuration Guide
 
-**Last Updated**: 2025-11-27
-**Package**: `better-auth@1.4.3`
+**Last Updated**: 2026-04-08
+**Package**: `better-auth@1.6.0`
 **Requirements**: ESM-only (v1.4.0+)
 
 ---
@@ -26,7 +26,7 @@ This guide provides complete configuration examples for better-auth v1.4.0+ with
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "better-auth": "^1.4.3",
+    "better-auth": "^1.6.0",
     "drizzle-orm": "^0.44.7",
     "hono": "^4.0.0"
   }
@@ -297,6 +297,110 @@ export interface Env {
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
 }
+```
+
+---
+
+## Dynamic Base URL (v1.5+)
+
+Allowlist-based multi-domain support for Vercel previews, reverse proxies, multi-domain setups.
+
+```typescript
+export const auth = betterAuth({
+    baseURL: {
+        allowedHosts: [
+            "myapp.com",
+            "*.vercel.app",
+            "preview-*.myapp.com",
+            "localhost:3000",
+        ],
+        fallback: "https://myapp.com",
+        protocol: "auto",
+    },
+});
+```
+
+`allowedHosts` are automatically added to `trustedOrigins`. Supports wildcard patterns (`*`).
+
+---
+
+## Secret Key Rotation (v1.5+)
+
+Non-destructive rotation without invalidating existing sessions.
+
+```typescript
+export const auth = betterAuth({
+    secrets: [
+        { version: 2, value: "new-secret-key-at-least-32-chars" },
+        { version: 1, value: "old-secret-key-still-used-to-decrypt" },
+    ],
+});
+```
+
+Or via env: `BETTER_AUTH_SECRETS="2:new-secret,1:old-secret"`
+
+---
+
+## Defer Session Refresh (v1.5+)
+
+For read-replica database setups. GET becomes read-only, returns `needsRefresh: true`.
+
+```typescript
+export const auth = betterAuth({
+    session: {
+        deferSessionRefresh: true,
+    },
+});
+```
+
+---
+
+## Verification on Secondary Storage (v1.5+)
+
+Store verification tokens in Redis instead of the database.
+
+```typescript
+export const auth = betterAuth({
+    secondaryStorage: { /* Redis config */ },
+    verification: {
+        storeIdentifier: "hashed",
+        storeInDatabase: false,
+    },
+});
+```
+
+---
+
+## Minimal Bundle (v1.5+)
+
+Use `better-auth/minimal` with extracted adapter packages for smallest bundle:
+
+```typescript
+import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { betterAuth } from "better-auth/minimal";
+
+export const auth = betterAuth({
+    database: drizzleAdapter(db, { provider: "pg" }),
+});
+```
+
+---
+
+## D1 Native Support (v1.5+)
+
+Pass D1 binding directly without Drizzle/Kysely:
+
+```typescript
+import { betterAuth } from "better-auth";
+
+export default {
+    async fetch(request, env) {
+        const auth = betterAuth({
+            database: env.DB,
+        });
+        return auth.handler(request);
+    },
+} satisfies ExportedHandler<{ DB: D1Database }>;
 ```
 
 ---

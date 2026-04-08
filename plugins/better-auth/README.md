@@ -10,7 +10,7 @@ Provides complete patterns for implementing authentication with **better-auth**,
 
 **⚠️ v2.0.0 Breaking Change**: Previous skill version incorrectly documented a non-existent `d1Adapter()`. This version corrects all patterns to use Drizzle ORM or Kysely as required by better-auth.
 
-**🆕 v2.2.0**: Updated to better-auth@1.4.9 with comprehensive framework, database, and plugin references.
+**🆕 v3.0.0**: Updated to better-auth@1.6.0 with v1.5 and v1.6 features: D1 native support, OAuth 2.1 Provider, Electron, i18n, OpenTelemetry, passkey pre-auth, dynamic base URL, SSO production hardening, test utils, secret key rotation, and more.
 
 ---
 
@@ -33,6 +33,10 @@ This skill should be automatically invoked when you mention:
 - **"passkeys"** - Passwordless auth
 - **"magic link auth"** - Email-based passwordless
 - **"better-auth CLI"** - CLI tool usage
+- **"Electron auth"** - Desktop app authentication
+- **"better-auth i18n"** - Error message translations
+- **"OpenTelemetry auth"** - Distributed tracing
+- **"test better-auth"** - Testing utilities
 - **"SAML authentication"** - SAML/SSO setup
 - **"OAuth 2.1"** - Standards compliance
 - **"better-auth Next.js"** - Next.js integration
@@ -73,28 +77,34 @@ This skill should be automatically invoked when you mention:
 7. **Interactive Commands** - `/better-auth-setup`, `/better-auth-add-plugin`
 8. **Debugging Agent** - Autonomous auth issue diagnosis
 
-### Errors Prevented (12 Common Issues)
+### Errors Prevented (15 Common Issues)
 
-- ✅ **D1 adapter misconfiguration** (no direct d1Adapter, must use Drizzle/Kysely)
-- ✅ **Schema generation failures** (using Drizzle Kit correctly)
+- ✅ **D1 adapter misconfiguration** (use D1 native or Drizzle/Kysely)
+- ✅ **Schema generation failures** (using `npx auth generate` or Drizzle Kit)
 - ✅ D1 eventual consistency causing stale session reads
 - ✅ CORS misconfiguration for SPA applications
 - ✅ Session serialization errors in Workers
 - ✅ OAuth redirect URI mismatch
 - ✅ Email verification not sending
 - ✅ JWT token expiration issues
-- ✅ Password hashing performance bottlenecks
+- ✅ Password hashing performance bottlenecks (non-blocking scrypt in v1.6)
 - ✅ Social provider scope issues (missing user data)
 - ✅ Multi-tenant data leakage
 - ✅ Rate limit false positives
+- ✅ Session freshness issues (`createdAt` vs `updatedAt` in v1.6)
+- ✅ SAML replay attacks (InResponseTo default ON in v1.6)
+- ✅ API key import errors (moved to `@better-auth/api-key` in v1.5)
 
-### Reference Files (23 total)
+### Reference Files (32 total)
 
 **Core**:
 - **`references/setup-guide.md`** - 8-step D1 setup walkthrough
 - **`references/error-catalog.md`** - 15 errors with solutions
 - **`references/advanced-features.md`** - 2FA, organizations, migrations
 - **`references/v1.4-features.md`** - Background tasks, new OAuth, CLI
+- **`references/v1.5-features.md`** - D1 native, OAuth 2.1 Provider, Electron, i18n, secret rotation
+- **`references/v1.6-features.md`** - OpenTelemetry, passkey pre-auth, non-blocking scrypt
+- **`references/migration-guide-1.5.0.md`** - Upgrading to v1.5.0+
 
 **Frameworks** (`references/frameworks/`):
 - **nextjs.md**, **nuxt.md**, **remix.md**, **sveltekit.md**, **api-frameworks.md**, **expo-mobile.md**
@@ -103,7 +113,10 @@ This skill should be automatically invoked when you mention:
 - **postgresql.md**, **mongodb.md**, **mysql.md**
 
 **Plugins** (`references/plugins/`):
-- **authentication.md** (2FA, passkeys), **enterprise.md** (SSO, SCIM), **api-tokens.md** (JWT, OIDC), **payments.md** (Stripe)
+- **authentication.md** (2FA, passkeys incl. pre-auth), **enterprise.md** (SSO, SCIM), **api-tokens.md** (API keys, org-owned), **payments.md** (Stripe), **sso.md** (production OIDC/SAML), **test-utils.md** (testing helpers)
+
+**Integrations** (`references/integrations/`):
+- **electron.md** - Electron desktop auth
 
 **Scripts**:
 - **`scripts/generate-secret.sh`** - Generate BETTER_AUTH_SECRET
@@ -116,7 +129,18 @@ This skill should be automatically invoked when you mention:
 
 ### Cloudflare Worker Setup (Drizzle ORM)
 
-**⚠️ CRITICAL**: better-auth requires **Drizzle ORM** or **Kysely** for D1. There is NO direct `d1Adapter()`.
+**v1.5.0+**: D1 can now be used directly without Drizzle. For simple setups:
+
+```typescript
+import { betterAuth } from 'better-auth'
+
+const auth = betterAuth({
+    database: env.DB, // D1 binding, auto-detected
+    secret: env.BETTER_AUTH_SECRET,
+})
+```
+
+For complex schemas with Drizzle ORM:
 
 ```typescript
 import { betterAuth } from 'better-auth'
@@ -203,7 +227,7 @@ bun add better-auth drizzle-orm drizzle-kit @cloudflare/workers-types hono  # pr
 
 - **Docs**: https://better-auth.com
 - **GitHub**: https://github.com/better-auth/better-auth (22.4k ⭐)
-- **Package**: `better-auth@1.4.9`
+- **Package**: `better-auth@1.6.0`
 - **Examples**: https://github.com/better-auth/better-auth/tree/main/examples
 - **Changelog**: https://www.better-auth.com/changelogs
 
@@ -234,11 +258,11 @@ bun add pg drizzle-orm  # preferred
 
 ## Version Info
 
-- **Skill Version**: 2.2.0 (Comprehensive framework/database/plugin coverage)
-- **Package Version**: better-auth@1.4.9
+- **Skill Version**: 3.0.0 (v1.5/v1.6 features: D1 native, Electron, i18n, OpenTelemetry, SSO, test utils)
+- **Package Version**: better-auth@1.6.0
 - **Drizzle ORM**: drizzle-orm@0.45.1, drizzle-kit@0.31.8
 - **Kysely**: kysely@0.28.9, @noxharmonium/kysely-d1@0.4.0
-- **Last Verified**: 2025-12-28
+- **Last Verified**: 2026-04-08
 - **Compatibility**: Node.js 18+, Bun 1.0+, Cloudflare Workers
 
 ---
