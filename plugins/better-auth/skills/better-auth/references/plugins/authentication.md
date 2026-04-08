@@ -104,21 +104,23 @@ await authClient.twoFactor.disable({
 
 ### Installation
 
+Passkey plugin is a separate package since v1.4.0:
+
 ```bash
-bun add better-auth @simplewebauthn/browser @simplewebauthn/server
+bun add @better-auth/passkey
 ```
 
 ### Server Configuration
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { passkey } from "better-auth/plugins";
+import { passkey } from "@better-auth/passkey";
 
 export const auth = betterAuth({
   plugins: [
     passkey({
-      rpID: "your-domain.com",  // Relying Party ID
-      rpName: "Your App",       // Display name
+      rpID: "your-domain.com",
+      rpName: "Your App",
       origin: "https://your-domain.com",
     }),
   ],
@@ -129,7 +131,7 @@ export const auth = betterAuth({
 
 ```typescript
 import { createAuthClient } from "better-auth/react";
-import { passkeyClient } from "better-auth/client/plugins";
+import { passkeyClient } from "@better-auth/passkey/client";
 
 export const authClient = createAuthClient({
   plugins: [passkeyClient()],
@@ -139,42 +141,98 @@ export const authClient = createAuthClient({
 ### Register Passkey
 
 ```typescript
-// Add passkey to existing account
 await authClient.passkey.addPasskey({
-  name: "MacBook Pro Touch ID",  // User-friendly name
+  name: "MacBook Pro Touch ID",
+  authenticatorAttachment: "platform",  // or "cross-platform"
 });
-// Browser will prompt for biometric/PIN
 ```
 
 ### Sign In with Passkey
 
 ```typescript
-// Passwordless sign-in
-const result = await authClient.signIn.passkey();
-// Browser will prompt for biometric/PIN
+const result = await authClient.signIn.passkey({
+  autoFill: true,  // Enable conditional UI
+});
+```
+
+### Pre-Auth Registration (v1.6+)
+
+Register passkeys before the user has a session — enables passkey-first onboarding:
+
+```typescript
+import { passkey } from "@better-auth/passkey";
+
+export const auth = betterAuth({
+  plugins: [
+    passkey({
+      registration: {
+        requireSession: false,
+        resolveUser: async ({ ctx, context }) => {
+          // Validate context, then create or load user
+          return { id: "user-id", name: "user@example.com" };
+        },
+        extensions: { credProps: true },
+      },
+    }),
+  ],
+});
+```
+
+Client:
+
+```typescript
+// Generate options with context
+await auth.api.generatePasskeyRegistrationOptions({
+  context: "signed-registration-token",
+});
+
+// Register with same context
+await authClient.passkey.addPasskey({
+  name: "Primary passkey",
+  context: "signed-registration-token",
+});
+```
+
+### WebAuthn Extensions (v1.6+)
+
+Pass extensions on registration and authentication:
+
+```typescript
+const result = await authClient.passkey.addPasskey({
+  name: "My Passkey",
+  extensions: { credProps: true },
+  returnWebAuthnResponse: true,
+});
+console.log(result.webauthn?.clientExtensionResults);
+```
+
+### List/Remove/Update Passkeys
+
+```typescript
+const { data: passkeys } = await authClient.passkey.listUserPasskeys();
+
+await authClient.passkey.deletePasskey({ id: "passkey-id" });
+
+await authClient.passkey.updatePasskey({ id: "passkey-id", name: "New Name" });
 ```
 
 ### Conditional UI (Autofill)
 
-```typescript
-// Enable passkey autofill in login form
-useEffect(() => {
-  authClient.passkey.signIn({
-    autoFill: true,
-  });
-}, []);
+Add `webauthn` to input `autocomplete` attribute:
+
+```html
+<input type="text" autocomplete="username webauthn">
 ```
 
-### List/Remove Passkeys
-
 ```typescript
-// List user's passkeys
-const { data: passkeys } = await authClient.passkey.listPasskeys();
-
-// Remove a passkey
-await authClient.passkey.deletePasskey({
-  passkeyId: "passkey-id",
-});
+useEffect(() => {
+  if (
+    !PublicKeyCredential.isConditionalMediationAvailable ||
+    !PublicKeyCredential.isConditionalMediationAvailable()
+  )
+    return;
+  authClient.signIn.passkey({ autoFill: true });
+}, []);
 ```
 
 ---
@@ -343,9 +401,9 @@ if (session?.user.isAnonymous) {
 
 ```typescript
 import { betterAuth } from "better-auth";
+import { passkey } from "@better-auth/passkey";
 import {
   twoFactor,
-  passkey,
   magicLink,
   emailOTP,
   anonymous

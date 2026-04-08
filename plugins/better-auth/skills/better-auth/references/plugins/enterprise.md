@@ -128,73 +128,73 @@ const canInvite = auth.api.hasPermission({
 
 ## SSO / SAML
 
+SSO is now a separate package (`@better-auth/sso`) with production-ready security hardening.
+
+> **Load `references/plugins/sso.md`** for the complete SSO guide including OIDC discovery, SAML SLO, domain verification, organization provisioning, and security configuration.
+
 ### Server Configuration
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { sso } from "better-auth/plugins";
+import { sso } from "@better-auth/sso";
 
 export const auth = betterAuth({
   plugins: [
     sso({
-      // Enable SAML
       saml: {
-        // Your app as Service Provider (SP)
-        issuer: "https://your-app.com",
-        // Callback URL
-        callbackURL: "/api/auth/sso/callback",
-        // SAML response handling
-        signatureAlgorithm: "sha256",
+        enableSingleLogout: true,
+        enableInResponseToValidation: true,  // default ON in v1.6+
+        clockSkew: 60 * 1000,
       },
     }),
   ],
 });
 ```
 
-### Configure Identity Provider
+### Client Configuration
 
 ```typescript
-// Add a SAML IdP (Okta, Azure AD, etc.)
-await auth.api.sso.addProvider({
-  provider: "saml",
-  name: "Okta SSO",
-  issuer: "https://your-okta-domain.okta.com",
-  ssoUrl: "https://your-okta-domain.okta.com/app/.../sso/saml",
-  certificate: `-----BEGIN CERTIFICATE-----
-MIIDpDCCAoygAwIBAgIGAX...
------END CERTIFICATE-----`,
-  // Map SAML attributes to user fields
-  attributeMapping: {
-    email: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-    name: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+import { ssoClient } from "@better-auth/sso/client";
+
+const authClient = createAuthClient({
+  plugins: [ssoClient()],
+});
+```
+
+### Register Provider
+
+```typescript
+await authClient.sso.register({
+  providerId: "okta",
+  issuer: "https://your-org.okta.com",
+  domain: "yourcompany.com",
+  oidcConfig: {
+    clientId: "your-client-id",
+    clientSecret: "your-client-secret",
   },
 });
 ```
 
-### v1.4.7+ SAML Features
+### Sign In with SSO
 
 ```typescript
-sso({
-  saml: {
-    // Clock skew tolerance for timestamp validation
-    clockSkewTolerance: 60,  // seconds (default: 0)
-    // Validate InResponseTo attribute
-    validateInResponseTo: true,
-    // OIDC discovery for automatic configuration
-    oidcDiscovery: true,
-  },
-}),
-```
-
-### Initiate SSO Login
-
-```typescript
-// Redirect to IdP
 await authClient.signIn.sso({
-  provider: "saml",
-  organizationSlug: "acme-corp",  // If organization-specific
+  email: "user@example.com",
+  callbackURL: "/dashboard",
 });
 ```
+
+### Key SSO Features (v1.5+)
+
+- **SAML Single Logout** (SP-initiated and IdP-initiated)
+- **Signed AuthnRequests** with configurable algorithms
+- **OIDC Discovery** — auto-fetch endpoints from `/.well-known/openid-configuration`
+- **Domain Verification** — DNS-based automatic trust
+- **Organization Provisioning** — auto-membership with role assignment
+- **Provider CRUD** — list, get, update, delete via API
+- **InResponseTo validation** — replay attack prevention (default ON in v1.6+)
+- **Algorithm validation** — warn/reject deprecated crypto
+- **Size limits** — configurable max SAML response/metadata size
 
 ---
 
@@ -360,12 +360,13 @@ await authClient.admin.revokeAllSessions({
 
 ```typescript
 import { betterAuth } from "better-auth";
-import { organization, sso, scim, admin } from "better-auth/plugins";
+import { organization, scim, admin } from "better-auth/plugins";
+import { sso } from "@better-auth/sso";
 
 export const auth = betterAuth({
   plugins: [
     organization({
-      allowUserToCreateOrganization: false,  // Admin-only
+      allowUserToCreateOrganization: false,
       roles: {
         owner: ["*"],
         admin: ["invite", "remove", "update", "manage-sso"],
@@ -374,9 +375,9 @@ export const auth = betterAuth({
     }),
     sso({
       saml: {
-        issuer: "https://your-app.com",
-        callbackURL: "/api/auth/sso/callback",
-        clockSkewTolerance: 60,
+        enableSingleLogout: true,
+        enableInResponseToValidation: true,
+        clockSkew: 60 * 1000,
       },
     }),
     scim({
@@ -403,7 +404,7 @@ export const auth = betterAuth({
 - Check signature algorithm matches IdP configuration
 
 ### SSO: "Clock skew error" (v1.4.7+)
-- Use `clockSkewTolerance` option to allow for time drift
+- Use `clockSkew` option to allow for time drift (measured in milliseconds)
 - Ensure server time is synced (NTP)
 
 ### SCIM: "401 Unauthorized"

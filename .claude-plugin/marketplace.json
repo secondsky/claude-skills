@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
-    "version": "3.0.0",
+    "version": "3.2.2",
     "homepage": "https://github.com/secondsky/claude-skills"
   },
   "plugins": [
@@ -221,7 +221,7 @@
     {
       "name": "better-auth",
       "source": "./plugins/better-auth",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "description": "Skill for integrating Better Auth - comprehensive TypeScript authentication framework for Cloudflare D1, Next.js, Nuxt, and 15+ frameworks. Use when adding auth, encountering D1 adapter errors, or implementing OAuth/2FA/RBAC features.",
       "keywords": ["better-auth","better","auth","authentication","authorization","login","security","session","rbac"],
       "category": "auth"
