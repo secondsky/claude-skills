@@ -1,13 +1,14 @@
 ---
 name: cloudflare-workers-ai
-description: Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors.
-
-  Keywords: workers ai, cloudflare ai, ai bindings, llm workers, @cf/meta/llama, workers ai models,
-  ai inference, cloudflare llm, ai streaming, text generation ai, ai embeddings, image generation ai,
-  workers ai rag, ai gateway, llama workers, flux image generation, stable diffusion workers,
-  vision models ai, ai chat completion, AI_ERROR, rate limit ai, model not found, token limit exceeded,
-  neurons exceeded, ai quota exceeded, streaming failed, model unavailable, workers ai hono,
-  ai gateway workers, vercel ai sdk workers, openai compatible workers, workers ai vectorize
+description: >-
+  Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation,
+  embeddings, or encountering AI_ERROR, rate limits, token exceeded errors. Keywords: workers ai,
+  cloudflare ai, ai bindings, llm workers, @cf/meta/llama, workers ai models, ai inference,
+  cloudflare llm, ai streaming, text generation ai, ai embeddings, image generation ai, workers ai
+  rag, ai gateway, llama workers, flux image generation, stable diffusion workers, vision models ai,
+  ai chat completion, AI_ERROR, rate limit ai, model not found, token limit exceeded, neurons
+  exceeded, ai quota exceeded, streaming failed, model unavailable, workers ai hono, ai gateway
+  workers, vercel ai sdk workers, openai compatible workers, workers ai vectorize
 license: MIT
 ---
 

@@ -1,8 +1,12 @@
 ---
 name: vercel-kv
-description: Vercel KV (Redis-compatible key-value storage via Upstash). Use for Next.js caching, sessions, rate limiting, TTL data storage, or encountering KV_REST_API_URL errors, rate limit issues, JSON serialization errors. Provides strong consistency vs eventual consistency.
-
-  Keywords: vercel kv, @vercel/kv, vercel redis, upstash vercel, kv vercel, redis vercel edge, key-value vercel, vercel cache, vercel sessions, vercel rate limit, redis upstash, kv storage, edge kv, serverless redis, vercel ttl, vercel expire, kv typescript, next.js kv, server actions kv, edge runtime kv
+description: >-
+  Vercel KV (Redis-compatible key-value storage via Upstash). Use for Next.js caching, sessions,
+  rate limiting, TTL data storage, or encountering KV_REST_API_URL errors, rate limit issues, JSON
+  serialization errors. Provides strong consistency vs eventual consistency. Keywords: vercel kv,
+  @vercel/kv, vercel redis, upstash vercel, kv vercel, redis vercel edge, key-value vercel, vercel
+  cache, vercel sessions, vercel rate limit, redis upstash, kv storage, edge kv, serverless redis,
+  vercel ttl, vercel expire, kv typescript, next.js kv, server actions kv, edge runtime kv
 license: MIT
 ---
 

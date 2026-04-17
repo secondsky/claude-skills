@@ -1,8 +1,13 @@
 ---
 name: cloudflare-hyperdrive
-description: Cloudflare Hyperdrive for Workers-to-database connections with pooling and caching. Use for PostgreSQL/MySQL, Drizzle/Prisma, or encountering pool errors, TLS issues, connection refused.
-
-  Keywords: hyperdrive, cloudflare hyperdrive, workers hyperdrive, postgres workers, mysql workers, connection pooling, query caching, node-postgres, pg, postgres.js, mysql2, drizzle hyperdrive, prisma hyperdrive, workers rds, workers aurora, workers neon, workers supabase, database acceleration, hybrid architecture, cloudflare tunnel database, wrangler hyperdrive, hyperdrive bindings, local development hyperdrive
+description: >-
+  Cloudflare Hyperdrive for Workers-to-database connections with pooling and caching. Use for
+  PostgreSQL/MySQL, Drizzle/Prisma, or encountering pool errors, TLS issues, connection refused.
+  Keywords: hyperdrive, cloudflare hyperdrive, workers hyperdrive, postgres workers, mysql workers,
+  connection pooling, query caching, node-postgres, pg, postgres.js, mysql2, drizzle hyperdrive,
+  prisma hyperdrive, workers rds, workers aurora, workers neon, workers supabase, database
+  acceleration, hybrid architecture, cloudflare tunnel database, wrangler hyperdrive, hyperdrive
+  bindings, local development hyperdrive
 license: MIT
 metadata:
   version: "2.0.0"

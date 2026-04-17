@@ -1,8 +1,15 @@
 ---
 name: cloudflare-durable-objects
-description: Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.
-
-  Keywords: durable objects, cloudflare do, DurableObject class, do bindings, websocket hibernation, do state api, ctx.storage.sql, ctx.acceptWebSocket, webSocketMessage, alarm() handler, storage.setAlarm, idFromName, newUniqueId, getByName, DurableObjectStub, serializeAttachment, real-time cloudflare, multiplayer cloudflare, chat room workers, coordination cloudflare, stateful workers, new_sqlite_classes, do migrations, location hints, RPC methods, blockConcurrencyWhile, "do class export", "new_sqlite_classes", "migrations required", "websocket hibernation", "alarm api error", "global uniqueness", "binding not found"
+description: >-
+  Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer
+  games, WebSocket hibernation, or encountering class export, migration, alarm errors. Keywords:
+  durable objects, cloudflare do, DurableObject class, do bindings, websocket hibernation, do state
+  api, ctx.storage.sql, ctx.acceptWebSocket, webSocketMessage, alarm() handler, storage.setAlarm,
+  idFromName, newUniqueId, getByName, DurableObjectStub, serializeAttachment, real-time cloudflare,
+  multiplayer cloudflare, chat room workers, coordination cloudflare, stateful workers,
+  new_sqlite_classes, do migrations, location hints, RPC methods, blockConcurrencyWhile, "do class
+  export", "new_sqlite_classes", "migrations required", "websocket hibernation", "alarm api error",
+  "global uniqueness", "binding not found"
 license: MIT
 ---
 

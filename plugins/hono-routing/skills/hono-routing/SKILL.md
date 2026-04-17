@@ -1,9 +1,12 @@
 ---
 name: hono-routing
-description: Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors.
-
-  Keywords: hono, hono routing, hono middleware, hono rpc, hono validator, zod validator, valibot validator, type-safe api, hono context, hono error handling, HTTPException, c.req.valid, middleware composition, hono hooks, typed routes, hono client, middleware response not typed, hono validation failed, hono rpc type inference
-
+description: >-
+  Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot
+  validators, or encountering middleware type inference, validation hook, RPC errors. Keywords:
+  hono, hono routing, hono middleware, hono rpc, hono validator, zod validator, valibot validator,
+  type-safe api, hono context, hono error handling, HTTPException, c.req.valid, middleware
+  composition, hono hooks, typed routes, hono client, middleware response not typed, hono validation
+  failed, hono rpc type inference
 license: MIT
 metadata:
   version: "2.0.0"

@@ -1,8 +1,11 @@
 ---
 name: openai-responses
-description: OpenAI Responses API for stateful agentic applications with reasoning preservation. Use for MCP integration, built-in tools, background processing, or migrating from Chat Completions.
-
-  Keywords: responses api, openai responses, stateful openai, openai mcp, code interpreter openai, file search openai, web search openai, image generation openai, reasoning preservation, agentic workflows, conversation state, background mode, chat completions migration, gpt-5, polymorphic outputs
+description: >-
+  OpenAI Responses API for stateful agentic applications with reasoning preservation. Use for MCP
+  integration, built-in tools, background processing, or migrating from Chat Completions. Keywords:
+  responses api, openai responses, stateful openai, openai mcp, code interpreter openai, file search
+  openai, web search openai, image generation openai, reasoning preservation, agentic workflows,
+  conversation state, background mode, chat completions migration, gpt-5, polymorphic outputs
 license: MIT
 metadata:
   version: "2.0.0"

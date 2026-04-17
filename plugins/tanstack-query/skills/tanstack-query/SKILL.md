@@ -1,8 +1,15 @@
 ---
 name: tanstack-query
-description: TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors.
-
-  Keywords: TanStack Query, React Query, useQuery, useMutation, useInfiniteQuery, useSuspenseQuery, QueryClient, QueryClientProvider, data fetching, server state, caching, staleTime, gcTime, query invalidation, prefetching, optimistic updates, mutations, query keys, query functions, error boundaries, suspense, React Query DevTools, v5 migration, v4 to v5, request waterfalls, background refetching, cacheTime renamed, loading status renamed, pending status, initialPageParam required, keepPreviousData removed, placeholderData, query callbacks removed, onSuccess removed, onError removed, object syntax required
+description: >-
+  TanStack Query v5 (React Query) server state management. Use for data fetching, caching,
+  mutations, or encountering v4 migration, stale data, invalidation errors. Keywords: TanStack
+  Query, React Query, useQuery, useMutation, useInfiniteQuery, useSuspenseQuery, QueryClient,
+  QueryClientProvider, data fetching, server state, caching, staleTime, gcTime, query invalidation,
+  prefetching, optimistic updates, mutations, query keys, query functions, error boundaries,
+  suspense, React Query DevTools, v5 migration, v4 to v5, request waterfalls, background refetching,
+  cacheTime renamed, loading status renamed, pending status, initialPageParam required,
+  keepPreviousData removed, placeholderData, query callbacks removed, onSuccess removed, onError
+  removed, object syntax required
 license: MIT
 ---
 
