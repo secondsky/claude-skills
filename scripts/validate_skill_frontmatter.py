@@ -21,7 +21,10 @@ def main() -> int:
             path = os.path.join(root, fname)
             with open(path) as fp:
                 content = fp.read()
-            m = re.match(r"^---\n(.*?)\n---\n", content, re.DOTALL)
+            # Accept either LF or CRLF around the `---` delimiters so files
+            # authored on Windows (without a .gitattributes enforcing LF) still
+            # validate cleanly.
+            m = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n", content, re.DOTALL)
             if not m:
                 broken.append((path, "missing frontmatter delimiters"))
                 continue

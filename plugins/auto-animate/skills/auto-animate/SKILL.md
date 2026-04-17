@@ -1,13 +1,27 @@
 ---
 name: auto-animate
 description: >-
-  AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions,
-  accordions, toasts, or encountering SSR errors, animation libraries complexity. Keywords:
-  auto-animate, @formkit/auto-animate, formkit, zero-config animation, automatic animations, drop-in
-  animation, list animations, accordion animation, toast animation, form validation animation,
-  lightweight animation, 2kb animation, prefers-reduced-motion, accessible animations, vite react
-  animation, cloudflare workers animation, ssr safe animation
+  AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity.
 license: MIT
+metadata:
+  keywords:
+    - auto-animate
+    - '@formkit/auto-animate'
+    - formkit
+    - zero-config animation
+    - automatic animations
+    - drop-in animation
+    - list animations
+    - accordion animation
+    - toast animation
+    - form validation animation
+    - lightweight animation
+    - 2kb animation
+    - prefers-reduced-motion
+    - accessible animations
+    - vite react animation
+    - cloudflare workers animation
+    - ssr safe animation
 ---
 
 # AutoAnimate

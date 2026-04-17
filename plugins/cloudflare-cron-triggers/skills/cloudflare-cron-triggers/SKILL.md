@@ -1,12 +1,26 @@
 ---
 name: cloudflare-cron-triggers
 description: >-
-  Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs,
-  or encountering handler not found, invalid cron expression, timezone errors. Keywords: cloudflare
-  cron, cron triggers, scheduled workers, scheduled handler, periodic tasks, background jobs,
-  scheduled tasks, cron expression, wrangler crons, scheduled event, green compute, workflow
-  triggers, maintenance tasks, scheduled() handler, ScheduledController, UTC timezone
+  Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.
 license: MIT
+metadata:
+  keywords:
+    - cloudflare cron
+    - cron triggers
+    - scheduled workers
+    - scheduled handler
+    - periodic tasks
+    - background jobs
+    - scheduled tasks
+    - cron expression
+    - wrangler crons
+    - scheduled event
+    - green compute
+    - workflow triggers
+    - maintenance tasks
+    - scheduled() handler
+    - ScheduledController
+    - UTC timezone
 ---
 
 # Cloudflare Cron Triggers

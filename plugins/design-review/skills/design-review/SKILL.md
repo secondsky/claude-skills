@@ -1,19 +1,35 @@
 ---
 name: design-review
 description: >-
-  7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual
-  polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts,
-  accessibility violations, inconsistent spacing, missing focus states. Keywords: design review, UI
-  audit, frontend review, accessibility audit, WCAG compliance, responsive design, visual QA, UX
-  review, component review, PR design check, layout issues, accessibility violations, contrast
-  problems, broken responsive, interaction bugs, keyboard navigation, focus states, design system
-  compliance, visual consistency, user experience
+  7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states.
 license: MIT
 allowed-tools:
   - Read
   - Grep
   - Glob
   - Bash
+metadata:
+  keywords:
+    - design review
+    - UI audit
+    - frontend review
+    - accessibility audit
+    - WCAG compliance
+    - responsive design
+    - visual QA
+    - UX review
+    - component review
+    - PR design check
+    - layout issues
+    - accessibility violations
+    - contrast problems
+    - broken responsive
+    - interaction bugs
+    - keyboard navigation
+    - focus states
+    - design system compliance
+    - visual consistency
+    - user experience
 ---
 
 # Design Review Skill

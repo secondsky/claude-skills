@@ -1,14 +1,7 @@
 ---
 name: hugo
 description: >-
-  Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment.
-  Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors.
-  Keywords: hugo, hugo-extended, static-site-generator, ssg, go-templates, papermod, goldmark,
-  markdown, blog, documentation, docs-site, landing-page, sveltia-cms, tina-cms, headless-cms,
-  cloudflare-workers, workers-static-assets, wrangler, hugo-server, hugo-build, frontmatter,
-  yaml-frontmatter, toml-config, hugo-themes, hugo-modules, multilingual, i18n, github-actions,
-  version-mismatch, baseurl-error, theme-not-found, tailwind, tailwind-v4, tailwind-css, hugo-pipes,
-  postcss, css-framework, utility-css, hugo-tailwind, tailwind-integration, hugo-assets
+  Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment. Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors.
 license: MIT
 metadata:
   version: "2.0.0"
@@ -20,6 +13,48 @@ metadata:
   errors_prevented: 15
   templates_included: 4
   references_included: 6
+  keywords:
+    - hugo
+    - hugo-extended
+    - static-site-generator
+    - ssg
+    - go-templates
+    - papermod
+    - goldmark
+    - markdown
+    - blog
+    - documentation
+    - docs-site
+    - landing-page
+    - sveltia-cms
+    - tina-cms
+    - headless-cms
+    - cloudflare-workers
+    - workers-static-assets
+    - wrangler
+    - hugo-server
+    - hugo-build
+    - frontmatter
+    - yaml-frontmatter
+    - toml-config
+    - hugo-themes
+    - hugo-modules
+    - multilingual
+    - i18n
+    - github-actions
+    - version-mismatch
+    - baseurl-error
+    - theme-not-found
+    - tailwind
+    - tailwind-v4
+    - tailwind-css
+    - hugo-pipes
+    - postcss
+    - css-framework
+    - utility-css
+    - hugo-tailwind
+    - tailwind-integration
+    - hugo-assets
 ---
 
 # Hugo Static Site Generator

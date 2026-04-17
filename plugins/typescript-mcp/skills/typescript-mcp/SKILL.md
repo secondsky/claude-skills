@@ -1,14 +1,7 @@
 ---
 name: typescript-mcp
 description: >-
-  MCP servers with TypeScript on Cloudflare Workers using @modelcontextprotocol/sdk. Use for API
-  integrations, stateless tools, edge deployments, or encountering export syntax, schema validation,
-  memory leak, CORS, auth errors. Keywords: mcp, model context protocol, typescript mcp, cloudflare
-  workers mcp, mcp server, mcp tools, mcp resources, mcp sdk, @modelcontextprotocol/sdk, hono mcp,
-  streamablehttpservertransport, mcp authentication, mcp cloudflare, edge mcp server, serverless
-  mcp, typescript mcp server, mcp api, llm tools, ai tools, cloudflare d1 mcp, cloudflare kv mcp,
-  mcp testing, mcp deployment, wrangler mcp, export syntax error, schema validation error, memory
-  leak mcp, cors mcp, rate limiting mcp
+  MCP servers with TypeScript on Cloudflare Workers using @modelcontextprotocol/sdk. Use for API integrations, stateless tools, edge deployments, or encountering export syntax, schema validation, memory leak, CORS, auth errors.
 license: MIT
 metadata:
   version: 2.0.0
@@ -19,6 +12,36 @@ metadata:
   platform: cloudflare-workers
   production_tested: true
   errors_prevented: 13
+  keywords:
+    - mcp
+    - model context protocol
+    - typescript mcp
+    - cloudflare workers mcp
+    - mcp server
+    - mcp tools
+    - mcp resources
+    - mcp sdk
+    - '@modelcontextprotocol/sdk'
+    - hono mcp
+    - streamablehttpservertransport
+    - mcp authentication
+    - mcp cloudflare
+    - edge mcp server
+    - serverless mcp
+    - typescript mcp server
+    - mcp api
+    - llm tools
+    - ai tools
+    - cloudflare d1 mcp
+    - cloudflare kv mcp
+    - mcp testing
+    - mcp deployment
+    - wrangler mcp
+    - export syntax error
+    - schema validation error
+    - memory leak mcp
+    - cors mcp
+    - rate limiting mcp
 allowed-tools: [Read, Write, Edit, Bash, Grep, Glob]
 ---
 

@@ -1,13 +1,31 @@
 ---
 name: cloudflare-sandbox
 description: >-
-  Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted
-  code, Python/Node.js scripts, AI code interpreters, git operations. Keywords: cloudflare sandbox,
-  container execution, code execution, isolated environment, durable objects, linux container,
-  python execution, node execution, git operations, code interpreter, AI agents, session management,
-  ephemeral container, workspace, sandbox SDK, @cloudflare/sandbox, exec(), getSandbox(), runCode(),
-  gitCheckout(), ubuntu container
+  Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations.
 license: MIT
+metadata:
+  keywords:
+    - cloudflare sandbox
+    - container execution
+    - code execution
+    - isolated environment
+    - durable objects
+    - linux container
+    - python execution
+    - node execution
+    - git operations
+    - code interpreter
+    - AI agents
+    - session management
+    - ephemeral container
+    - workspace
+    - sandbox SDK
+    - '@cloudflare/sandbox'
+    - exec()
+    - getSandbox()
+    - runCode()
+    - gitCheckout()
+    - ubuntu container
 ---
 
 # Cloudflare Sandboxes SDK
