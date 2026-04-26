@@ -7,6 +7,7 @@
 #   https://github.com/agentskills/agentskills/tree/main/skills-ref
 #
 # Checks:
+#   - YAML parseability (uses Ruby's YAML parser to catch syntax errors)
 #   - Frontmatter delimiters (--- ... ---)
 #   - Required fields: name, description
 #   - name: lowercase, <= 64 chars, no leading/trailing/consecutive hyphens, [a-z0-9-] only
@@ -81,6 +82,21 @@ validate_skill() {
 
   local errors=""
   local warnings=""
+
+  # --- YAML parseability check (catches malformed YAML that grep/awk would miss) ---
+  local yaml_error=""
+  yaml_error=$(ruby -r yaml -r date -e "
+    content = ARGF.read
+    fm_match = content.match(/^---\n(.*?)\n---/m)
+    if fm_match
+      YAML.safe_load(fm_match[1], [Date, Time])
+    else
+      exit 1
+    end
+  " < "$skill_file" 2>&1) || {
+    errors="${errors}  YAML frontmatter failed to parse: ${yaml_error}\n"
+    errors="${errors}  At runtime this skill loads with empty metadata (all frontmatter fields silently dropped).\n"
+  }
 
   # --- Required fields ---
   if ! echo "$frontmatter" | grep -q "^name:"; then

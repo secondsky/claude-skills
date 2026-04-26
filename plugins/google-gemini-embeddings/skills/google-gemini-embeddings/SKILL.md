@@ -1,8 +1,9 @@
 ---
 name: google-gemini-embeddings
-description: Google Gemini embeddings API (gemini-embedding-001) for RAG and semantic search. Use for vector search, Vectorize integration, or encountering dimension mismatches, rate limits, text truncation.
+description: >-
+  Google Gemini embeddings API (gemini-embedding-001) for RAG and semantic search. Use for vector search, Vectorize integration, or encountering dimension mismatches, rate limits, text truncation.
 
-  Keywords: gemini embeddings, gemini-embedding-001, google embeddings, semantic search, RAG, vector search, document clustering, similarity search, retrieval augmented generation, vectorize integration, cloudflare vectorize embeddings, 768 dimensions, embed content gemini, batch embeddings, embeddings api, cosine similarity, vector normalization, retrieval query, retrieval document, task types, dimension mismatch, embeddings rate limit, text truncation, @google/genai
+    Keywords: gemini embeddings, gemini-embedding-001, google embeddings, semantic search, RAG, vector search, document clustering, similarity search, retrieval augmented generation, vectorize integration, cloudflare vectorize embeddings, 768 dimensions, embed content gemini, batch embeddings, embeddings api, cosine similarity, vector normalization, retrieval query, retrieval document, task types, dimension mismatch, embeddings rate limit, text truncation, @google/genai
 license: MIT
 metadata:
   version: 1.0.0

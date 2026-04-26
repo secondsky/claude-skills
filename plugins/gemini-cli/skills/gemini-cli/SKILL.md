@@ -1,8 +1,9 @@
 ---
 name: gemini-cli
-description: Google Gemini CLI for second opinions, architectural advice, code reviews, security audits. Leverage 1M+ context for comprehensive codebase analysis via command-line tool.
+description: >-
+  Google Gemini CLI for second opinions, architectural advice, code reviews, security audits. Leverage 1M+ context for comprehensive codebase analysis via command-line tool.
 
-  Keywords: gemini-cli, google gemini, gemini command line, second opinion, model comparison, gemini-2.5-flash, gemini-2.5-pro, architectural decisions, debugging assistant, code review gemini, security audit gemini, 1M context window, AI pair programming, gemini consultation, flash vs pro, AI-to-AI prompting, peer review, codebase analysis, gemini CLI tool, shell gemini, command line AI assistant, gemini architecture advice, gemini debug help, gemini security scan, gemini code compare
+    Keywords: gemini-cli, google gemini, gemini command line, second opinion, model comparison, gemini-2.5-flash, gemini-2.5-pro, architectural decisions, debugging assistant, code review gemini, security audit gemini, 1M context window, AI pair programming, gemini consultation, flash vs pro, AI-to-AI prompting, peer review, codebase analysis, gemini CLI tool, shell gemini, command line AI assistant, gemini architecture advice, gemini debug help, gemini security scan, gemini code compare
 license: MIT
 metadata:
   version: 2.1.0

@@ -1,8 +1,9 @@
 ---
 name: ai-elements-chatbot
-description: shadcn/ui AI chat components for conversational interfaces. Use for streaming chat, tool/function displays, reasoning visualization, or encountering Next.js App Router setup, Tailwind v4 integration, AI SDK v5 migration errors.
+description: >-
+  shadcn/ui AI chat components for conversational interfaces. Use for streaming chat, tool/function displays, reasoning visualization, or encountering Next.js App Router setup, Tailwind v4 integration, AI SDK v5 migration errors.
 
-  Keywords: ai-elements, vercel-ai-sdk, shadcn, chatbot, conversational-ai, streaming-ui, chat-interface, ai-chat, message-components, conversation-ui, tool-calling, reasoning-display, source-citations, markdown-streaming, function-calling, ai-responses, prompt-input, code-highlighting, web-preview, branch-navigation, thinking-display, perplexity-style, claude-artifacts
+    Keywords: ai-elements, vercel-ai-sdk, shadcn, chatbot, conversational-ai, streaming-ui, chat-interface, ai-chat, message-components, conversation-ui, tool-calling, reasoning-display, source-citations, markdown-streaming, function-calling, ai-responses, prompt-input, code-highlighting, web-preview, branch-navigation, thinking-display, perplexity-style, claude-artifacts
 license: MIT
 metadata:
   version: "2.0.0"

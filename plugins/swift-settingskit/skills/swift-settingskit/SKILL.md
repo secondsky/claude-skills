@@ -1,8 +1,9 @@
 ---
 name: swift-settingskit
-description: SettingsKit for SwiftUI settings interfaces (iOS, macOS, watchOS, tvOS, visionOS). Use for settings/preferences screens, searchable settings, nested navigation, @Observable/@Bindable state, or encountering settings update errors, navigation state issues.
+description: >-
+  SettingsKit for SwiftUI settings interfaces (iOS, macOS, watchOS, tvOS, visionOS). Use for settings/preferences screens, searchable settings, nested navigation, @Observable/@Bindable state, or encountering settings update errors, navigation state issues.
 
-  Keywords: SettingsKit, SwiftUI settings, settings interface, preferences UI, searchable settings, settings navigation, SettingsContainer, SettingsGroup, SettingsItem, CustomSettingsGroup, settings tags, settings search, Observable settings, Bindable settings, iOS 17, macOS 14, Swift 6, settings style, sidebar settings, declarative settings, settings hierarchy
+    Keywords: SettingsKit, SwiftUI settings, settings interface, preferences UI, searchable settings, settings navigation, SettingsContainer, SettingsGroup, SettingsItem, CustomSettingsGroup, settings tags, settings search, Observable settings, Bindable settings, iOS 17, macOS 14, Swift 6, settings style, sidebar settings, declarative settings, settings hierarchy
 license: MIT
 ---
 

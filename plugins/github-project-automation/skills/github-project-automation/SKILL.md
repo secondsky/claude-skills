@@ -1,12 +1,13 @@
 ---
 name: github-project-automation
-description: GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors.
+description: >-
+  GitHub repository automation (CI/CD, issue templates, Dependabot, CodeQL). Use for project setup, Actions workflows, security scanning, or encountering YAML syntax, workflow configuration, template structure errors.
 
-  Keywords: github actions, github workflow, ci/cd, issue templates, pull request templates,
-  dependabot, codeql, security scanning, yaml syntax, github automation, repository setup,
-  workflow templates, github actions matrix, secrets management, branch protection, codeowners,
-  github projects, continuous integration, continuous deployment, workflow syntax error,
-  action version pinning, runner version, github context, yaml indentation error
+    Keywords: github actions, github workflow, ci/cd, issue templates, pull request templates,
+    dependabot, codeql, security scanning, yaml syntax, github automation, repository setup,
+    workflow templates, github actions matrix, secrets management, branch protection, codeowners,
+    github projects, continuous integration, continuous deployment, workflow syntax error,
+    action version pinning, runner version, github context, yaml indentation error
 license: MIT
 metadata:
   version: 2.0.0

@@ -1,14 +1,15 @@
 ---
 name: cloudflare-browser-rendering
-description: Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded.
+description: >-
+  Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded.
 
-  Keywords: browser rendering cloudflare, @cloudflare/puppeteer, @cloudflare/playwright,
-  puppeteer workers, playwright workers, screenshot cloudflare, pdf generation workers,
-  web scraping cloudflare, headless chrome workers, browser automation, puppeteer.launch,
-  playwright.chromium.launch, browser binding, session management, puppeteer.sessions,
-  puppeteer.connect, browser.close, browser.disconnect, XPath not supported, browser timeout,
-  concurrency limit, keep_alive, page.screenshot, page.pdf, page.goto, page.evaluate,
-  incognito context, session reuse, batch scraping, crawling websites
+    Keywords: browser rendering cloudflare, @cloudflare/puppeteer, @cloudflare/playwright,
+    puppeteer workers, playwright workers, screenshot cloudflare, pdf generation workers,
+    web scraping cloudflare, headless chrome workers, browser automation, puppeteer.launch,
+    playwright.chromium.launch, browser binding, session management, puppeteer.sessions,
+    puppeteer.connect, browser.close, browser.disconnect, XPath not supported, browser timeout,
+    concurrency limit, keep_alive, page.screenshot, page.pdf, page.goto, page.evaluate,
+    incognito context, session reuse, batch scraping, crawling websites
 license: MIT
 metadata:
   version: "1.0.0"

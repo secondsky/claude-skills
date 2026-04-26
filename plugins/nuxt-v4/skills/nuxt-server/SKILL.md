@@ -1,16 +1,17 @@
 ---
 name: nuxt-server
-description: |
-  Nuxt 4 server-side development with Nitro: API routes, server middleware,
-  database integration, and backend patterns.
+description: >-
+  |
+    Nuxt 4 server-side development with Nitro: API routes, server middleware,
+    database integration, and backend patterns.
 
-  Use when: creating server API routes, implementing server middleware,
-  integrating databases (D1, PostgreSQL, Drizzle), handling file uploads,
-  implementing WebSockets, or building backend logic with Nitro.
+    Use when: creating server API routes, implementing server middleware,
+    integrating databases (D1, PostgreSQL, Drizzle), handling file uploads,
+    implementing WebSockets, or building backend logic with Nitro.
 
-  Keywords: server routes, API routes, Nitro, defineEventHandler,
-  getRouterParam, getQuery, readBody, setCookie, createError,
-  server middleware, D1, Drizzle, PostgreSQL, WebSocket, file upload
+    Keywords: server routes, API routes, Nitro, defineEventHandler,
+    getRouterParam, getQuery, readBody, setCookie, createError,
+    server middleware, D1, Drizzle, PostgreSQL, WebSocket, file upload
 license: MIT
 metadata:
   version: 4.0.0
