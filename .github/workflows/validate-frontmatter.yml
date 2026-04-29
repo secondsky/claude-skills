@@ -43,6 +43,29 @@ jobs:
             exit 1
           fi
 
+      - name: Check no Keywords in description
+        if: github.event_name == 'pull_request'
+        run: |
+          FOUND=0
+          for f in $(find plugins -name 'SKILL.md' -type f); do
+            if ruby -r yaml -e '
+              content = File.read(ARGV[0])
+              fm = content.match(/\A---\n(.*?)\n---/m)
+              exit(0) unless fm
+              desc = fm[1][/description:.*$/m]
+              exit(0) unless desc
+              exit(1) if desc.include?("Keywords:")
+            ' "$f"; then
+              echo "::error file=$f::Keywords must be in metadata.keywords, not in description"
+              FOUND=$((FOUND + 1))
+            fi
+          done
+          if [ "$FOUND" -gt 0 ]; then
+            echo "::error::$FOUND SKILL.md file(s) have Keywords in description (should be in metadata.keywords)"
+            exit 1
+          fi
+          echo "No Keywords found in description fields."
+
       - name: Validate all SKILL.md frontmatter
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: ./scripts/validate-frontmatter.sh
