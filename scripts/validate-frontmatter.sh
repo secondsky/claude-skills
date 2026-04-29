@@ -89,7 +89,7 @@ validate_skill() {
     content = ARGF.read
     fm_match = content.match(/^---\n(.*?)\n---/m)
     if fm_match
-      YAML.safe_load(fm_match[1], [Date, Time])
+      YAML.safe_load(fm_match[1], permitted_classes: [Date, Time])
     else
       exit 1
     end
