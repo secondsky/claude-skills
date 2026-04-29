@@ -1,7 +1,7 @@
 {
   "name": "neon-vercel-postgres",
   "description": "Neon + Vercel serverless Postgres for edge and serverless environments. Use for Cloudflare Workers, Vercel Edge, Next.js apps with HTTP/WebSocket connections, database branching (git-like), Drizzle/Prisma ORM integration, migrations, PITR backups, or encountering connection pool exhausted errors, TCP connection issues, SSL config problems.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

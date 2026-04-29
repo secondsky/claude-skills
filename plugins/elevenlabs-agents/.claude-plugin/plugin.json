@@ -1,7 +1,7 @@
 {
   "name": "elevenlabs-agents",
   "description": "ElevenLabs Agents Platform for AI voice agents (React/JS/Native/Swift). Use for voice AI, RAG, tools, or encountering package deprecation, audio cutoff, CSP violations, webhook auth failures.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

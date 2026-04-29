@@ -43,6 +43,27 @@ jobs:
             exit 1
           fi
 
+      - name: Check no Keywords in description
+        if: github.event_name == 'pull_request'
+        run: |
+          FOUND=0
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "No SKILL.md files changed, skipping keyword check"
+            exit 0
+          fi
+          for f in $CHANGED; do
+            if grep -q 'Keywords:' "$f" 2>/dev/null; then
+              echo "::error file=$f::Keywords must be in metadata.keywords, not in description"
+              FOUND=$((FOUND + 1))
+            fi
+          done
+          if [ "$FOUND" -gt 0 ]; then
+            echo "::error::$FOUND SKILL.md file(s) have Keywords in frontmatter (should be in metadata.keywords)"
+            exit 1
+          fi
+          echo "No Keywords found in description fields."
+
       - name: Validate all SKILL.md frontmatter
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: ./scripts/validate-frontmatter.sh

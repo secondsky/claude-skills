@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-nextjs",
   "description": "Deploy Next.js to Cloudflare Workers via OpenNext adapter. Use for SSR, ISR, App/Pages Router, or encountering worker size limits, runtime compatibility, connection scoping errors.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

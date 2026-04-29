@@ -1,7 +1,7 @@
 {
   "name": "claude-api",
   "description": "Anthropic Messages API (Claude API) for integrations, streaming, prompt caching, tool use, vision. Use for chatbots, assistants, or encountering rate limits, 429 errors.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

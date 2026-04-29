@@ -1,7 +1,7 @@
 {
   "name": "sql-query-optimization",
   "description": "SQL query optimization for PostgreSQL/MySQL with indexing, EXPLAIN analysis. Use for slow queries, N+1 problems, missing indexes, or encountering sequential scans, OFFSET pagination, temp table spills, inefficient JOINs.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

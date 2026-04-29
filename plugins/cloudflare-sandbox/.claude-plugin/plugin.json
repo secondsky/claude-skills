@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-sandbox",
   "description": "Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

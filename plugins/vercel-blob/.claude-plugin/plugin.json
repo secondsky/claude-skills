@@ -1,7 +1,7 @@
 {
   "name": "vercel-blob",
   "description": "Vercel Blob object storage with CDN for Next.js. Use for file uploads (images, PDFs, videos), presigned URLs, user-generated content, file management, or encountering BLOB_READ_WRITE_TOKEN errors, file size limits, client upload token errors.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

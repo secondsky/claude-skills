@@ -1,6 +1,6 @@
 {
   "name": "nuxt-studio",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up Nuxt Studio, configuring OAuth authentication, deploying to Cloudflare Pages/Workers with subdomain routing, or troubleshooting Studio integration.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -7,8 +7,8 @@ metadata:
   last_updated: 2026-04-02
   module_versions:
     nuxtjs_seo: 5.1.0
-    @nuxtjs/robots: 6.0.6
-    @nuxtjs/sitemap: 8.0.11
+    "@nuxtjs/robots": 6.0.6
+    "@nuxtjs/sitemap": 8.0.11
     nuxt_og_image: 6.3.1
     nuxt_schema_org: 6.0.4
     nuxt_link_checker: 5.0.6
