@@ -1,7 +1,7 @@
 {
   "name": "shadcn-vue",
   "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

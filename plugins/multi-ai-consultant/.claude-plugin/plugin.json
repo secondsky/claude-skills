@@ -1,7 +1,7 @@
 {
   "name": "multi-ai-consultant",
   "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second opinions. Use for debugging failures, architectural decisions, security validation, or need fresh perspective with synthesis.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

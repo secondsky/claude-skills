@@ -1,7 +1,7 @@
 {
   "name": "model-deployment",
   "description": "Deploy ML models with FastAPI, Docker, Kubernetes. Use for serving predictions, containerization, monitoring, drift detection, or encountering latency issues, health check failures, version conflicts.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

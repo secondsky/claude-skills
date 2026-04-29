@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-agents",
   "description": "Build AI agents on Cloudflare Workers with MCP integration, tool use, and LLM providers.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

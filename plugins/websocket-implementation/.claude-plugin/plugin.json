@@ -1,7 +1,7 @@
 {
   "name": "websocket-implementation",
   "description": "Implements real-time WebSocket communication with connection management, room-based messaging, and horizontal scaling. Use when building chat systems, live notifications, collaborative tools, or real-time dashboards.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

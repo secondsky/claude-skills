@@ -1,6 +1,6 @@
 {
   "name": "supabase-postgres-best-practices",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "Postgres performance optimization and best practices from Supabase. 30 rules across 8 categories prioritized by impact.",
   "author": {
     "name": "Supabase",

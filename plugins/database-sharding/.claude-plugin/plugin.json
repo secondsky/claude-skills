@@ -1,7 +1,7 @@
 {
   "name": "database-sharding",
   "description": "Database sharding for PostgreSQL/MySQL with hash/range/directory strategies. Use for horizontal scaling, multi-tenant isolation, billions of records, or encountering wrong shard keys, hotspots, cross-shard transactions, rebalancing issues.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

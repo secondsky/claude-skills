@@ -1,7 +1,7 @@
 {
   "name": "verification-before-completion",
   "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

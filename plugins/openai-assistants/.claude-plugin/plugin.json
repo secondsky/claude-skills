@@ -1,7 +1,7 @@
 {
   "name": "openai-assistants",
   "description": "OpenAI Assistants API v2 for stateful chatbots with Code Interpreter, File Search, RAG. Use for threads, vector stores, or encountering active run errors, indexing delays. ⚠️ Sunset August 26, 2026.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

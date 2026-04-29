@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-workers-ai",
   "description": "Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors.",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
