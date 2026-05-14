@@ -305,6 +305,16 @@ USER bun
 CMD ["bun", "run", "dist/index.js"]
 ```
 
+## Secure Installation
+
+When installing packages in Docker builds, follow supply chain security best practices:
+
+- **Block post-install scripts** — Bun disables them by default; allow specific packages via `trustedDependencies`
+- **Pin dependency versions** — Use exact versions in `package.json` for reproducible builds
+- **Audit before installing** — Run `socket package score npm <pkg>` to check packages before they reach your image
+
+Load the `dependency-upgrade` skill for full security configuration including Socket CLI integration, cooldown setup, lockfile validation, and CI enforcement.
+
 ## Security Best Practices
 
 ```dockerfile

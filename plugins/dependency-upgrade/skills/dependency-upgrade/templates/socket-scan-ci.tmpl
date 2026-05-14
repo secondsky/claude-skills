@@ -1,0 +1,37 @@
+# Socket CI Security Gate
+# Blocks PRs that violate your organization's security policy
+# Runs on every push and pull request
+#
+# Requires: SOCKET_SECURITY_API_KEY secret in GitHub repo/org settings
+# Docs: https://docs.socket.dev/docs/socket-ci
+
+name: socket-security
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: socket-scan-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  socket-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Socket CLI
+        run: npm install -g socket
+
+      - name: Run Socket CI Gate
+        env:
+          SOCKET_SECURITY_API_KEY: ${{ secrets.SOCKET_SECURITY_API_KEY }}
+        run: socket ci

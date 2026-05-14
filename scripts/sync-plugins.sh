@@ -17,6 +17,14 @@
 #   5. Generates keywords from skill name, category, and description
 #   6. Regenerates marketplace.json with updated data
 #
+# ⚠️  VERSIONING: This script uses a SINGLE GLOBAL VERSION for all plugins.
+#     The version is read from marketplace.json → .metadata.version and stamped
+#     onto every plugin.json and marketplace entry. There is no per-plugin
+#     versioning. To bump any plugin's version:
+#       1. Update .metadata.version in marketplace.json
+#       2. Run this script (all plugins get the same version)
+#     Do NOT manually edit plugin.json version — sync will overwrite it.
+#
 # Usage:
 #   ./scripts/sync-plugins.sh           # Full sync
 #   ./scripts/sync-plugins.sh --dry-run # Preview changes without modifying
