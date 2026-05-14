@@ -250,13 +250,20 @@ What sfw checks:
 
 ### Comparison
 
-| Feature | npq | sfw |
-|---------|-----|-----|
-| Analysis | Pre-install marshalls | Real-time deep analysis |
-| Data sources | Snyk CVE, npm metadata | Socket proprietary intelligence |
-| Interactivity | Prompts before install | Blocks and prompts flagged packages |
-| PM support | npm, pnpm, Bun (env vars) | npm, yarn, pnpm, pip, uv, cargo |
-| Open source | Yes | Client only |
+| Feature | npq | sfw | Socket CLI (`socket npm`) |
+|---------|-----|-----|---------------------------|
+| Analysis | Pre-install marshalls | Real-time deep analysis | Full transitive scan via npm integration |
+| Data sources | Snyk CVE, npm metadata | Socket proprietary intelligence | Socket proprietary intelligence |
+| Interactivity | Prompts before install | Blocks and prompts flagged packages | Prompts before installing flagged packages |
+| PM support | npm, pnpm, Bun (env vars) | npm, yarn, pnpm, pip, uv, cargo | npm, npx (wrapper mode) |
+| Open source | Yes | Client only | Client only (open source on GitHub) |
+| Free tier | Yes | No | Yes (beta, default issues only) |
+| CI integration | No | No | Yes (`socket ci`, `socket fix --autopilot`) |
+| Package scoring | No | No | Yes (`socket package score`) |
+| CVE auto-fixing | No | No | Yes (`socket fix`) |
+| Requires auth | No | Yes | No for wrapper, Yes for scans/fix |
+
+See `references/socket-cli-guide.md` for full Socket CLI documentation.
 
 ## Publisher Security
 

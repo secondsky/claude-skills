@@ -1,0 +1,46 @@
+# Socket Fix CI Workflow
+# Automatically fixes CVEs with Socket and creates PRs
+# Runs twice daily. Complements Dependabot/Renovate.
+# Requires: SOCKET_CLI_API_TOKEN secret in GitHub repo/org settings
+#
+# Docs: https://docs.socket.dev/docs/socket-fix
+
+name: socket-fix
+on:
+  schedule:
+    - cron: '0 0 * * *'
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  socket-fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # -- uncomment and adjust for your package manager --
+      # - name: Setup pnpm
+      #   uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+      #   with:
+      #     version: '^10.16.0'
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "22"
+      #     cache: 'pnpm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Socket Fix
+        env:
+          SOCKET_CLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOCKET_CLI_GIT_USER_EMAIL: socket-fix[bot]@users.noreply.github.com
+          SOCKET_CLI_GIT_USER_NAME: socket-fix[bot]
+          SOCKET_CLI_API_TOKEN: ${{ secrets.SOCKET_CLI_API_TOKEN }}
+        run: npx @socketsecurity/cli fix --autopilot --minimum-release-age 7d

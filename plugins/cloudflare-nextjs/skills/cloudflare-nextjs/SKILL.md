@@ -115,6 +115,16 @@ To add the OpenNext adapter to an existing Next.js application:
 bun add -d @opennextjs/cloudflare
 ```
 
+##### Secure Installation
+
+Adapter packages handle production traffic — pin exact versions and audit before upgrading. Follow supply chain security best practices:
+
+- **Block post-install scripts** — `npm config set ignore-scripts true` (or Bun: disabled by default)
+- **Cooldown period** — Wait 7 days for new package versions to be vetted by the community
+- **Audit before installing** — Run `socket package score npm <pkg>` or use `socket npm install <pkg>` to check packages
+
+Load the `dependency-upgrade` skill for full security configuration including Socket CLI integration, cooldown setup, lockfile validation, and CI enforcement.
+
 #### 2. Create wrangler.jsonc
 
 ```jsonc

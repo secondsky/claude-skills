@@ -1,0 +1,15 @@
+{
+  "enabledPlugins": {
+    "core@factory-plugins": true,
+    "seo-optimizer@claude-skills": true,
+    "react-best-practices@claude-skills": true,
+    "react-hook-form-zod@claude-skills": true,
+    "seo-keyword-cluster-builder@claude-skills": true,
+    "react-composition-patterns@claude-skills": true,
+    "sql-query-optimization@claude-skills": true,
+    "security-headers-configuration@claude-skills": true,
+    "tanstack-table@claude-skills": true,
+    "web-performance-optimization@claude-skills": true,
+    "maz-ui@claude-skills": true
+  }
+}

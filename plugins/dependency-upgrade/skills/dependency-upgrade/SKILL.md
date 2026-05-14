@@ -97,14 +97,19 @@ Always ask these 3 questions before generating any config:
 | Biweekly | `"biweekly"` |
 | Monthly | `"monthly"` |
 
-**7. Install-Time Auditing**
+**7. Install-Time Security Tooling**
 
-| Option | Installs |
-|--------|----------|
-| npq | Pre-install package auditor (open source) |
-| Socket Firewall (sfw) | Real-time malicious package blocker |
-| Both | Both tools with shell aliases |
-| None | Skip |
+"Which security tools should protect dependency installation?"
+
+| Option | Free? | What It Does |
+|--------|-------|-------------|
+| socket npm wrapper | Yes (beta) | Wraps npm/npx, blocks malicious packages before install. Run `socket wrapper on` to enable system-wide. |
+| npq | Yes | Pre-install auditor (CVE, typosquat, age, provenance checks) |
+| Socket Firewall (sfw) | No | Real-time deep analysis, blocks malicious packages |
+| socket npm + npq | Yes | Both free tools combined |
+| None | — | Skip |
+
+Load `references/socket-cli-guide.md` for full Socket CLI setup including authentication and free vs authenticated features.
 
 **8. Lockfile Validation**
 
@@ -131,9 +136,10 @@ Always ask these 3 questions before generating any config:
 2. **Block post-install scripts** — Prevent arbitrary code execution during `npm install`
 3. **Freeze lockfiles in CI** — Use deterministic installs (`npm ci`, `--frozen-lockfile`)
 4. **Validate lockfile integrity** — Use `lockfile-lint` to detect injection
-5. **Audit before trusting** — Use `npq` or `sfw` to check packages before installing
+5. **Audit before trusting** — Use `npq` or Socket CLI to check packages before installing
 6. **Upgrade incrementally** — One major version at a time with testing between each
 7. **Never blindly upgrade** — Avoid `npm update` or `npm-check-updates -u` without review
+8. **Scan before and after** — Use `socket scan` to detect supply chain issues beyond CVEs
 
 ## Cooldown Period: Prevent Supply Chain Attacks
 
@@ -260,6 +266,49 @@ sfw yarn add <package>
 
 Load `references/supply-chain-security.md` for full comparison of npq vs sfw and what each validates.
 
+## Socket CLI Integration
+
+Socket CLI provides proactive supply chain security beyond basic vulnerability scanning — covering malware detection, typosquatting, protestware, install script risks, and license compliance.
+
+### Proactive Upgrade Workflow
+
+```
+1. PRE-UPGRADE:   socket scan create --report          → establish baseline
+2. EVALUATE:      socket package score npm <pkg>@<ver>  → assess target package safety
+3. SAFE INSTALL:  socket npm install <pkg>              → block malicious packages
+4. POST-UPGRADE:  socket scan create --report          → verify no new alerts
+5. DIFF:          socket scan diff <before> <after>     → see exactly what changed
+6. FIX:           socket fix --minimum-release-age 7d   → auto-fix any new CVEs
+7. OPTIMIZE:      socket optimize                       → apply security overrides
+```
+
+### Quick Reference
+
+```bash
+# Install
+npm install -g socket
+
+# Authenticate (required for scans, fixes, package scores)
+socket login
+
+# Check a package before upgrading
+socket package score npm <package>
+
+# Scan your whole project
+socket scan create --report
+
+# Auto-fix CVEs (complements Dependabot/Renovate)
+socket fix --minimum-release-age 7d
+
+# Gate CI on security policy
+socket ci
+
+# Safe npm wrapper (free, no auth needed)
+socket wrapper on
+```
+
+Load `references/socket-cli-guide.md` for comprehensive command reference, CI workflow templates, alert categories, and free vs authenticated feature matrix.
+
 ## Dependency Analysis
 
 ```bash
@@ -267,6 +316,10 @@ Load `references/supply-chain-security.md` for full comparison of npq vs sfw and
 bun audit       # Bun
 npm audit       # npm
 yarn audit      # Yarn
+
+# Socket: deep security assessment (CVEs + supply chain + license)
+socket package score npm <package>
+socket scan create --report
 
 # Check for outdated packages
 bun outdated
@@ -288,13 +341,22 @@ Upgrade one dependency at a time with testing between each:
 # 1. Create feature branch
 git checkout -b upgrade/<package>-<version>
 
-# 2. Upgrade single package
+# 2. (Optional) Baseline scan — capture current state
+socket scan create --report
+
+# 3. Evaluate target package before upgrading
+socket package score npm <package>@<version>
+
+# 4. Upgrade single package
 bun add <package>@<version>
 
-# 3. Test immediately
+# 5. Test immediately
 bun test && bunx tsc --noEmit && bun run build
 
-# 4. Commit and continue
+# 6. (Optional) Post-upgrade scan — verify no new alerts
+socket scan create --report
+
+# 7. Commit and continue
 git add -A && git commit -m "chore: upgrade <package> to <version>"
 ```
 
@@ -342,6 +404,28 @@ updates:
 ### Snyk
 
 Snyk includes a built-in 21-day cooldown for upgrade PRs. No configuration needed.
+
+### Socket Fix (complements Dependabot/Renovate)
+
+Socket Fix automatically resolves CVEs with intelligent upgrade planning. Runs alongside other automation tools — it focuses on CVE remediation specifically:
+
+```bash
+# Fix all fixable CVEs with cooldown alignment
+socket fix --minimum-release-age 7d
+
+# Conservative: no major version bumps
+socket fix --minimum-release-age 7d --no-major-updates
+
+# Target specific CVEs
+socket fix --id GHSA-hhq3-ff78-jv3g --minimum-release-age 7d
+
+# Preview without applying
+socket fix --no-apply-fixes --minimum-release-age 7d
+```
+
+For CI autopilot mode (auto-creates and auto-merges fix PRs), use `templates/socket-fix-ci.tmpl`.
+
+Load `references/socket-cli-guide.md` for full `socket fix` options including `--autopilot`, `--range-style`, and `--pr-limit`.
 
 Use `templates/dependabot-security.tmpl` or `templates/renovate-security.tmpl` for complete config files.
 
@@ -431,9 +515,11 @@ Security Pre-Checks:
 - [ ] Lockfile validation is active
 - [ ] Install auditing tools configured (if applicable)
 - [ ] CI uses frozen-lockfile install
+- [ ] Run `socket scan create --report` for baseline (if Socket available)
 
 During Upgrade:
 - [ ] Upgrade one dependency at a time
+- [ ] Check target package: `socket package score npm <pkg>` (if Socket available)
 - [ ] Respect cooldown period (don't force latest)
 - [ ] Update peer dependencies
 - [ ] Fix TypeScript errors
@@ -441,6 +527,8 @@ During Upgrade:
 - [ ] Check bundle size impact
 
 Post-Upgrade:
+- [ ] Post-upgrade scan: `socket scan diff` to verify no new alerts (if Socket available)
+- [ ] Consider `socket fix --minimum-release-age 7d` for any new CVEs
 - [ ] Full regression testing
 - [ ] Performance testing
 - [ ] Update documentation
@@ -471,8 +559,9 @@ Load these reference files when the user needs detailed information beyond the q
 |---------------|------|
 | `references/cooldown-config-guide.md` | Configuring cooldown for a specific PM, CI tool integration, or exclusion patterns |
 | `references/package-manager-security.md` | Full per-PM hardening guide including pnpm trust policy, blockExoticSubdeps, cross-PM cheat sheet |
-| `references/supply-chain-security.md` | Understanding attack vectors, incident history, npq vs sfw comparison, publisher security (2FA, provenance, OIDC) |
+| `references/supply-chain-security.md` | Understanding attack vectors, incident history, npq vs sfw vs Socket CLI comparison, publisher security (2FA, provenance, OIDC) |
 | `references/secrets-and-containers.md` | Setting up dev containers, secrets management with 1Password/Infisical |
+| `references/socket-cli-guide.md` | Using Socket CLI for scans, fixes, package scoring, CI integration, wrapper mode, alert categories |
 | `references/compatibility-matrix.md` | Checking version compatibility for React, Next.js, TypeScript, Tailwind upgrades |
 | `references/staged-upgrades.md` | Codemod automation, custom migration scripts, peer dependency handling, workspace upgrades |
 | `references/testing-strategy.md` | Full testing pyramid, CI integration, bundle analysis, performance testing |
@@ -490,3 +579,5 @@ Ready-to-use config files in `templates/`:
 | `dependabot-security.tmpl` | Dependabot config with 7-day cooldown |
 | `renovate-security.tmpl` | Renovate config with minimumReleaseAge + automerge rules |
 | `devcontainer-security.tmpl` | Hardened dev container with security options |
+| `socket-fix-ci.tmpl` | GitHub Actions: Socket Fix autopilot with cooldown-aligned CVE remediation |
+| `socket-scan-ci.tmpl` | GitHub Actions: Socket CI security gate for every push/PR |

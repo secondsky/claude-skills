@@ -190,6 +190,16 @@ Isolated prevents "phantom dependencies" - packages can only access declared dep
 bun install --cpu=x64 --os=linux
 ```
 
+## Secure Installation
+
+When installing packages, follow supply chain security best practices:
+
+- **Block post-install scripts** — Bun disables them by default; allow specific packages via `trustedDependencies` in `package.json`
+- **Cooldown period** — Configure `minimumReleaseAge` in `bunfig.toml` to wait 7 days for new versions
+- **Audit before installing** — Run `socket package score npm <pkg>` or use `socket npm install <pkg>` to check packages before they reach your project
+
+Load the `dependency-upgrade` skill for full security configuration including Socket CLI integration, cooldown setup, lockfile validation, and CI enforcement.
+
 ## Common Errors
 
 | Error | Cause | Fix |

@@ -542,6 +542,17 @@ This script consolidates all plugin management into one command:
 - Before releasing/pushing changes
 - To sync version across all skills
 
+### ⚠️ Versioning: Global Only
+
+`sync-plugins.sh` uses a **single global version** for all 170 plugins. The version is read from `marketplace.json` → `.metadata.version` and stamped onto every `plugin.json` and marketplace entry. There is **no per-plugin versioning**.
+
+To bump version for any plugin change:
+1. Update `.metadata.version` in `.claude-plugin/marketplace.json`
+2. Run `./scripts/sync-plugins.sh`
+3. All plugins receive the same version — this is by design
+
+**Do NOT manually edit** `plugin.json` version or keywords — sync will overwrite them. Keywords are auto-generated from skill name, category, and description.
+
 ### Plugin.json Schema
 
 Each skill's plugin.json follows the [official Claude Code plugin schema](https://docs.claude.com/en/docs/claude-code/plugins-reference). Only `name` is required:

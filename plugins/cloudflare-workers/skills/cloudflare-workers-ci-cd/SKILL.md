@@ -658,6 +658,16 @@ Load reference files for detailed, specialized content:
 
 ---
 
+## Secure Installation
+
+When installing CI/CD dependencies, follow supply chain security best practices:
+
+- **Block post-install scripts** — `npm config set ignore-scripts true` (or Bun: disabled by default)
+- **Frozen lockfiles in CI** — Always use `npm ci` or `bun install --frozen-lockfile`
+- **Security gate** — Add `socket ci` to your CI pipeline to block PRs that violate your security policy
+
+Load the `dependency-upgrade` skill for full security configuration including Socket CLI integration, cooldown setup, lockfile validation, and CI enforcement.
+
 ## Related Cloudflare Plugins
 
 **For deployment testing, load:**
