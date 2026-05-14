@@ -2,7 +2,7 @@
 
 **170 production-ready skills for Claude Code CLI**
 
-Version 3.2.3 | Last Updated: 2026-04-08
+Version 3.3.1 | Last Updated: 2026-05-14
 
 <div align="center">
 
@@ -144,6 +144,13 @@ skills/[skill-name]/
 ---
 
 ## Recent Additions
+
+### May 2026
+
+**Supply Chain Security** (cross-cutting):
+- **dependency-upgrade** expanded with **Socket CLI integration** — proactive malicious package detection, typosquatting alerts, and CI/CD security gates. New 418-line reference guide, 2 GitHub Actions templates, and expanded supply chain security comparison (3 tools)
+- **31 skills now include "Secure Installation" guidance** — contextually-tailored security sections across all high-risk skill categories (scaffolding, MCP/agent SDKs, multi-provider installs, Docker, CI/CD). Covers 8 Bun skills, 5 Nuxt skills, 6 Cloudflare skills, 4 AI/agent skills, and 8 frontend/tooling skills
+- Supply chain security is now a **first-class cross-cutting concern** woven into the skill collection — not a standalone topic
 
 ### February - April 2026
 
