@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.3.1] - 2026-05-14
+
+### Added
+
+#### Supply Chain Security — dependency-upgrade Skill Expansion
+
+Proactive supply chain security with Socket CLI integration for detecting malicious packages, typosquatting, and compromised dependencies before they reach production.
+
+**New files:**
+- `references/socket-cli-guide.md` (418 lines) — full Socket CLI reference covering free tier and authenticated features, all commands (`scan`, `fix`, `ci`, `package score`), CI/CD workflows, and alert categories
+- `templates/socket-fix-ci.tmpl` (46 lines) — GitHub Actions workflow for `socket fix --autopilot` automated dependency remediation
+- `templates/socket-scan-ci.tmpl` (37 lines) — GitHub Actions workflow for `socket ci` security gate in pull requests
+
+**Updated files:**
+- `SKILL.md` — expanded Q7 in Interactive Setup Flow to include Socket CLI; added "Socket CLI Integration" section; updated staged upgrades, dependency analysis, checklist, and added principle 8 ("Prefer proactive supply chain security over reactive auditing")
+- `references/supply-chain-security.md` — expanded from 2-tool to 3-tool comparison table (npq, sfw, Socket CLI)
+
+#### Secure Installation — Cross-Cutting Security Guidance in 31 Skills
+
+Added contextually-tailored "Secure Installation" sections to **31 skills**, each with 3 actionable practices and a cross-reference to the `dependency-upgrade` skill. Sections are placed immediately after install/setup instructions for maximum discoverability.
+
+**Batch 1 — Initial coverage (15 skills):**
+bun-package-manager (Bun-specific), shadcn-vue, ultracite, cloudflare-workers-ci-cd (CI-specific), mcp-management, better-auth (auth-specific: "high-value targets"), bun-docker (Docker-specific), nuxt-content, playwright (Playwright-specific), elevenlabs-agents, cloudflare-d1, tailwind-v4-shadcn, cloudflare-vectorize, hono-routing, drizzle-orm-d1
+
+**Batch 2 — HIGH-priority scaffolding/setup skills (16 skills):**
+cloudflare-workers-dev-experience, aceternity-ui (multi-exec risk), nuxt-v5/nuxt-core, nuxt-v4/nuxt-core, inspira-ui (heavy dependency tree), typescript-mcp (security-critical: MCP tool access), claude-agent-sdk (security-critical: agent capabilities), bun-nextjs (multi-context: local + Docker), bun-sveltekit, bun-cloudflare-workers, cloudflare-sandbox (container access), bun-tanstack-start, bun-nuxt, nuxt-ui-v4, cloudflare-nextjs (adapter: production traffic), ai-sdk-core (multi-provider: 6+ packages)
+
+**Tailoring by risk profile:**
+- **Scaffold skills** (8): Warn that `bunx create-*` downloads and executes remote code
+- **Multi-exec skills** (1): Warn about multiple remote code executions in one setup
+- **Security-critical skills** (2): Warn that MCP/agent SDKs grant system-level access
+- **Heavy-tree skills** (3): Warn about large dependency surfaces to audit
+- **Adapter skills** (1): Advise pinning exact versions for production traffic
+- **Container skills** (1): Warn about SDK granting container access
+
+### Changed
+
+- **Marketplace version** bumped to 3.3.1 across all 170 plugins via `sync-plugins.sh`
+- **`scripts/sync-plugins.sh`** — added versioning warning in header comments explaining global-only model
+- **`CLAUDE.md`** — added "Versioning: Global Only" section under sync-plugins workflow
+
+---
+
 ## [3.2.3] - 2026-04-08
 
 ### Changed
