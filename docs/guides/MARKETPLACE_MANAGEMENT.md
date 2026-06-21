@@ -248,13 +248,13 @@ GLOBAL_VERSION=$(jq -r '.metadata.version // "1.0.0"' "$MARKETPLACE_JSON")
 
 **Problem**: Keywords contained both hyphenated and space-separated versions:
 - `"cloudflare-d1"` AND `"cloudflare d1"`
-- `"ai-sdk-core"` AND `"ai sdk core"`
+- `"hono-routing"` AND `"hono routing"`
 
 **Root Cause** (in `generate_name_keywords()`):
 ```bash
 # Old code - REMOVED
 for ((i=0; i<${#parts[@]}-1; i++)); do
-  keywords="$keywords,${parts[i]} ${parts[i+1]}"  # Added "ai sdk core"
+  keywords="$keywords,${parts[i]} ${parts[i+1]}"  # Added "hono routing"
 done
 ```
 
@@ -263,10 +263,10 @@ done
 **Result**:
 ```json
 // Before
-"keywords": ["ai-sdk-core", "ai", "sdk", "core", "ai sdk core", ...]
+"keywords": ["hono-routing", "hono", "routing", "hono routing", ...]
 
 // After
-"keywords": ["ai-sdk-core", "ai", "sdk", "core", ...]
+"keywords": ["hono-routing", "hono", "routing", ...]
 ```
 
 ---
@@ -332,22 +332,22 @@ Skills are auto-categorized based on name patterns. There are 18 categories:
 | Category | Pattern Match | Example Skills |
 |----------|---------------|----------------|
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
-| `ai` | `^(ai-\|claude-\|gemini-\|...)` | ai-sdk-core, claude-api |
+| `ai` | `^(ai-\|gemini-\|ml-\|model-\|...)` | gemini-cli, ml-model-training |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-\|...)` | nuxt-v4, tailwind-v4-shadcn |
 | `auth` | `^(better-auth\|oauth-)` | better-auth |
-| `database` | `^(database-\|drizzle-)` | drizzle-orm-d1, database-schema-design |
+| `database` | `^drizzle-` | drizzle-orm-d1 |
 | `api` | `^(api-\|graphql-\|rest-api-\|websocket-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
-| `security` | `^(access-control-\|csrf-\|xss-\|...)` | csrf-protection |
+| `security` | `^(csrf-\|xss-\|...)` | csrf-protection |
 | `mobile` | `^(app-store-\|mobile-\|react-native-)` | react-native-skills |
 | `web` | `^(firecrawl-\|hono-\|image-\|session-\|...)` | hono-routing |
 | `seo` | `^seo-` | seo-optimizer |
 | `design` | `^(design-\|interaction-\|kpi-dashboard-)` | design-review |
-| `data` | `^(recommendation-\|sql-query-)` | sql-query-optimization |
+| `data` | `^recommendation-` | recommendation-engine |
 | `documentation` | `^technical-specification` | technical-specification |
 | `architecture` | `^(architecture-\|health-check-\|microservices-)` | microservices-patterns |
 | `woocommerce` | `^woocommerce-` | woocommerce-backend-dev |
-| `cms` | `^(content-collections\|hugo\|sveltia-\|wordpress-)` | hugo |
+| `cms` | `^(hugo\|wordpress-)` | hugo |
 | `tooling` | Default fallback | turborepo, code-review |
 
 ### Category Distribution (Current)
@@ -384,7 +384,7 @@ Keywords are generated from three sources and deduplicated:
 From the skill name itself:
 
 ```
-ai-sdk-core → ["ai-sdk-core", "ai", "sdk", "core"]
+hono-routing → ["hono-routing", "hono", "routing"]
 cloudflare-d1 → ["cloudflare-d1", "cloudflare"]  (d1 is ≤2 chars, skipped)
 ```
 
@@ -527,9 +527,9 @@ jq '.plugins[] | select(.keywords == []) | .name' .claude-plugin/marketplace.jso
 
 ```bash
 # Check specific skill
-jq '.keywords' plugins/ai-sdk-core/.claude-plugin/plugin.json
+jq '.keywords' plugins/hono-routing/.claude-plugin/plugin.json
 
-# Should NOT have both "ai-sdk-core" and "ai sdk core"
+# Should NOT have both "hono-routing" and "hono routing"
 ```
 
 ### Check Agents/Commands

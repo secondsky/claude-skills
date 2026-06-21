@@ -51,8 +51,8 @@ Before starting a design review, verify browser automation tools are available:
 - See the `playwright-testing` skill for Playwright setup
 - Provides browser automation, screenshots, viewport testing, console monitoring
 
-**Option B: Chrome DevTools CLI** (alternative for screenshots and performance)
-- See the `chrome-devtools` skill for Puppeteer CLI setup
+**Option B: Puppeteer CLI** (alternative for screenshots and performance)
+- Install Puppeteer directly via `npm install -g puppeteer`
 - Provides screenshot capture, performance analysis, network monitoring
 
 For complete browser tools reference, see [references/browser-tools-reference.md](references/browser-tools-reference.md).
@@ -518,8 +518,8 @@ This skill prevents **8** documented design review issues:
    - Provides: Browser automation, screenshots, viewport testing, console monitoring
    - Best for: Interactive testing, keyboard navigation, form testing
 
-2. **Chrome DevTools CLI**
-   - See `chrome-devtools` skill for installation
+2. **Puppeteer CLI**
+   - Install via `npm install -g puppeteer`
    - Provides: Screenshot capture, performance analysis, network monitoring
    - Best for: Visual testing, performance audits
 
@@ -537,7 +537,7 @@ This skill prevents **8** documented design review issues:
 
 If browser tools are not available, this skill will:
 1. Detect missing tools
-2. Link to appropriate skill for installation (`playwright-testing` or `chrome-devtools`)
+2. Link to appropriate skill for installation (`playwright-testing`)
 3. Provide fallback guidance for manual testing
 
 ---
@@ -545,10 +545,8 @@ If browser tools are not available, this skill will:
 ## Related Skills
 
 - **playwright-testing**: E2E testing with Playwright, browser automation setup
-- **chrome-devtools**: Browser automation via Puppeteer CLI scripts
 - **frontend-design**: Create new frontend interfaces with design quality (complementary skill)
 - **tailwind-v4-shadcn**: UI framework implementation (designs being reviewed may use this)
-- **ai-sdk-ui**: AI-powered UI components (may be part of reviewed interfaces)
 
 ---
 
@@ -581,5 +579,5 @@ If browser tools are not available, this skill will:
 1. Check [references/accessibility-wcag.md](references/accessibility-wcag.md) for complete WCAG checklist
 2. See [references/browser-tools-reference.md](references/browser-tools-reference.md) for Playwright/Chrome DevTools commands
 3. Review [references/visual-polish.md](references/visual-polish.md) for design principles
-4. Verify browser tools are installed (see `playwright-testing` or `chrome-devtools` skills)
+4. Verify browser tools are installed (see `playwright-testing` skill)
 5. Ensure preview URL is live and accessible

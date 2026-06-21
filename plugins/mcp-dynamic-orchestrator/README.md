@@ -338,8 +338,6 @@ Edit `skills/mcp-dynamic-orchestrator/mcp.registry.json`:
 
 | Skill | Relationship | Use Together |
 |-------|--------------|--------------|
-| **typescript-mcp** | Build single MCP servers | Create new MCPs, then orchestrate with this skill |
-| **fastmcp** | Python MCP framework | Build Python MCPs, add to registry |
 | **cloudflare-mcp-server** | Deploy MCPs to Workers | Deploy custom MCPs, configure in registry |
 | **project-planning** | Task management | Use for multi-MCP workflows planning |
 

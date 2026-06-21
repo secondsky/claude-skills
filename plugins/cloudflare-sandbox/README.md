@@ -175,8 +175,6 @@ bun run deploy  # preferred
 - `cloudflare-kv` (optional - for session state)
 - `cloudflare-d1` (optional - for metadata storage)
 - `cloudflare-workers-ai` (optional - for AI features)
-- `claude-api` (optional - for AI agents)
-- `openai-agents` (optional - for OpenAI integration)
 
 ---
 
@@ -223,8 +221,6 @@ cloudflare-sandbox/
 - **cloudflare-durable-objects** - Understanding DO routing and state
 - **cloudflare-r2** - File persistence for sandboxes
 - **cloudflare-kv** - Session state storage
-- **claude-api** - AI integration for code generation
-- **openai-agents** - OpenAI Agents SDK integration
 
 ---
 

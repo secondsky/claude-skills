@@ -12,48 +12,12 @@
   },
   "plugins": [
     {
-      "name": "access-control-rbac",
-      "source": "./plugins/access-control-rbac",
-      "version": "3.4.0",
-      "description": "Role-based access control (RBAC) with permissions and policies. Use for admin dashboards, enterprise access, multi-tenant apps, fine-grained authorization, or encountering permission hierarchies, role inheritance, policy conflicts.",
-      "keywords": ["access-control-rbac","access","control","rbac","security","vulnerability","protection","authorization"],
-      "category": "security"
-    }
-,
-    {
       "name": "aceternity-ui",
       "source": "./plugins/aceternity-ui",
       "version": "3.4.0",
       "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors.",
       "keywords": ["aceternity-ui","aceternity","frontend","components","cli"],
       "category": "frontend"
-    }
-,
-    {
-      "name": "ai-elements-chatbot",
-      "source": "./plugins/ai-elements-chatbot",
-      "version": "3.4.0",
-      "description": "shadcn/ui AI chat components for conversational interfaces. Use for streaming chat, tool/function displays, reasoning visualization, or encountering Next.js App Router setup, Tailwind v4 integration, AI SDK v5 migration errors.",
-      "keywords": ["ai-elements-chatbot","elements","chatbot","machine-learning","llm","artificial-intelligence","migration"],
-      "category": "ai"
-    }
-,
-    {
-      "name": "ai-sdk-core",
-      "source": "./plugins/ai-sdk-core",
-      "version": "3.4.0",
-      "description": "Vercel AI SDK v5 for backend AI (text generation, structured output, tools, agents). Multi-provider. Use for server-side AI or encountering AI_APICallError, AI_NoObjectGeneratedError, streaming failures.",
-      "keywords": ["ai-sdk-core","sdk","core","machine-learning","llm","artificial-intelligence"],
-      "category": "ai"
-    }
-,
-    {
-      "name": "ai-sdk-ui",
-      "source": "./plugins/ai-sdk-ui",
-      "version": "3.4.0",
-      "description": "Vercel AI SDK v5 React hooks (useChat, useCompletion, useObject) for AI chat interfaces. Use for React/Next.js AI apps or encountering parse stream errors, no response, streaming issues.",
-      "keywords": ["ai-sdk-ui","sdk","machine-learning","llm","artificial-intelligence"],
-      "category": "ai"
     }
 ,
     {
@@ -228,57 +192,12 @@
     }
 ,
     {
-      "name": "better-chatbot",
-      "source": "./plugins/better-chatbot",
-      "version": "3.4.0",
-      "description": "better-chatbot project conventions and standards. Use for contributing code, following three-tier tool system (MCP/Workflow/Default), or encountering server action validators, repository patterns, component design errors.",
-      "keywords": ["better-chatbot","better","chatbot","tooling","workflow","mcp"],
-      "category": "tooling"
-    }
-,
-    {
-      "name": "better-chatbot-patterns",
-      "source": "./plugins/better-chatbot-patterns",
-      "version": "3.4.0",
-      "description": "Reusable better-chatbot patterns for custom deployments. Use for server action validators, tool abstraction, multi-AI providers, or encountering auth validation, FormData parsing, workflow execution errors.",
-      "keywords": ["better-chatbot-patterns","better","chatbot","patterns","tooling","workflow","formdata","validation"],
-      "category": "tooling"
-    }
-,
-    {
       "name": "bun",
       "source": "./plugins/bun",
       "version": "3.4.0",
       "description": "Comprehensive Bun runtime toolkit covering runtime, package manager, bundler, testing, HTTP servers, WebSockets, databases, framework integrations (Hono, Next.js, Nuxt, TanStack Start, SvelteKit), deployment, and Node.js compatibility.",
       "keywords": ["bun","tooling","workflow","http","sveltekit","tanstack","websockets"],
       "category": "tooling"
-    }
-,
-    {
-      "name": "chrome-devtools",
-      "source": "./plugins/chrome-devtools",
-      "version": "3.4.0",
-      "description": "Browser automation with Puppeteer CLI scripts. Use for screenshots, performance analysis, network monitoring, web scraping, form automation, or encountering JavaScript debugging, browser automation errors.",
-      "keywords": ["chrome-devtools","chrome","devtools","tooling","workflow","cli"],
-      "category": "tooling"
-    }
-,
-    {
-      "name": "claude-agent-sdk",
-      "source": "./plugins/claude-agent-sdk",
-      "version": "3.4.0",
-      "description": "Anthropic Claude Agent SDK for autonomous agents and multi-step workflows. Use for subagents, tool orchestration, MCP servers, or encountering CLI not found, context length exceeded errors.",
-      "keywords": ["claude-agent-sdk","claude","agent","sdk","machine-learning","llm","artificial-intelligence","cli","mcp"],
-      "category": "ai"
-    }
-,
-    {
-      "name": "claude-api",
-      "source": "./plugins/claude-api",
-      "version": "3.4.0",
-      "description": "Anthropic Messages API (Claude API) for integrations, streaming, prompt caching, tool use, vision. Use for chatbots, assistants, or encountering rate limits, 429 errors.",
-      "keywords": ["claude-api","claude","api","machine-learning","llm","artificial-intelligence","caching"],
-      "category": "ai"
     }
 ,
     {
@@ -498,39 +417,12 @@
     }
 ,
     {
-      "name": "content-collections",
-      "source": "./plugins/content-collections",
-      "version": "3.4.0",
-      "description": "Content Collections TypeScript-first build tool for Markdown/MDX content. Use for blogs, docs, content sites with Vite + React, MDX components, type-safe Zod schemas, Contentlayer migration, or encountering TypeScript import errors, path alias issues, collection validation errors.",
-      "keywords": ["content-collections","content","collections","cms","management","publishing","mdx","validation","migration"],
-      "category": "cms"
-    }
-,
-    {
       "name": "csrf-protection",
       "source": "./plugins/csrf-protection",
       "version": "3.4.0",
       "description": "Implements CSRF protection using synchronizer tokens, double-submit cookies, and SameSite attributes. Use when securing web forms, protecting state-changing endpoints, or implementing defense-in-depth authentication.",
       "keywords": ["csrf-protection","csrf","protection","security","vulnerability","xss","samesite","authentication"],
       "category": "security"
-    }
-,
-    {
-      "name": "database-schema-design",
-      "source": "./plugins/database-schema-design",
-      "version": "3.4.0",
-      "description": "Database schema design for PostgreSQL/MySQL with normalization, relationships, constraints. Use for new databases, schema reviews, migrations, or encountering missing PKs/FKs, wrong data types, premature denormalization, EAV anti-pattern.",
-      "keywords": ["database-schema-design","database","schema","design","orm","sql","query","migrations","eav","mysql","postgresql","migration"],
-      "category": "database"
-    }
-,
-    {
-      "name": "database-sharding",
-      "source": "./plugins/database-sharding",
-      "version": "3.4.0",
-      "description": "Database sharding for PostgreSQL/MySQL with hash/range/directory strategies. Use for horizontal scaling, multi-tenant isolation, billions of records, or encountering wrong shard keys, hotspots, cross-shard transactions, rebalancing issues.",
-      "keywords": ["database-sharding","database","sharding","orm","sql","query","migrations","mysql","postgresql"],
-      "category": "database"
     }
 ,
     {
@@ -576,24 +468,6 @@
       "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1 database schemas, writing type-safe SQL queries, managing migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API, or encountering D1_ERROR, transaction errors, foreign key constraint failures, or schema inference issues.",
       "keywords": ["drizzle-orm-d1","drizzle","orm","database","sql","query","migrations","migration"],
       "category": "database"
-    }
-,
-    {
-      "name": "elevenlabs-agents",
-      "source": "./plugins/elevenlabs-agents",
-      "version": "3.4.0",
-      "description": "ElevenLabs Agents Platform for AI voice agents (React/JS/Native/Swift). Use for voice AI, RAG, tools, or encountering package deprecation, audio cutoff, CSP violations, webhook auth failures.",
-      "keywords": ["elevenlabs-agents","elevenlabs","agents","machine-learning","llm","artificial-intelligence","csp","rag"],
-      "category": "ai"
-    }
-,
-    {
-      "name": "fastmcp",
-      "source": "./plugins/fastmcp",
-      "version": "3.4.0",
-      "description": "FastMCP Python framework for MCP servers with tools, resources, storage backends (memory/disk/Redis/DynamoDB). Use for Claude tool exposure, OAuth Proxy, cloud deployment, or encountering storage, lifespan, middleware, circular import, async errors.",
-      "keywords": ["fastmcp","tooling","workflow","mcp","dynamodb","async"],
-      "category": "tooling"
     }
 ,
     {
@@ -1155,15 +1029,6 @@
     }
 ,
     {
-      "name": "sql-query-optimization",
-      "source": "./plugins/sql-query-optimization",
-      "version": "3.4.0",
-      "description": "SQL query optimization for PostgreSQL/MySQL with indexing, EXPLAIN analysis. Use for slow queries, N+1 problems, missing indexes, or encountering sequential scans, OFFSET pagination, temp table spills, inefficient JOINs.",
-      "keywords": ["sql-query-optimization","sql","query","optimization","data","analytics","processing","queries","explain","offset","mysql","postgresql"],
-      "category": "data"
-    }
-,
-    {
       "name": "systematic-debugging",
       "source": "./plugins/systematic-debugging",
       "version": "3.4.0",
@@ -1272,30 +1137,12 @@
     }
 ,
     {
-      "name": "typescript-mcp",
-      "source": "./plugins/typescript-mcp",
-      "version": "3.4.0",
-      "description": "MCP servers with TypeScript on Cloudflare Workers using @modelcontextprotocol/sdk. Use for API integrations, stateless tools, edge deployments, or encountering export syntax, schema validation, memory leak, CORS, auth errors.",
-      "keywords": ["typescript-mcp","mcp","tooling","workflow","cors","validation","edge"],
-      "category": "tooling"
-    }
-,
-    {
       "name": "ultracite",
       "source": "./plugins/ultracite",
       "version": "3.4.0",
       "description": "Ultracite multi-provider linting/formatting (Biome, ESLint, Oxlint). Use for v6/v7 setup, provider selection, Git hooks, MCP integration, AI hooks, migrations, or encountering configuration, type-aware linting, monorepo errors.",
       "keywords": ["ultracite","frontend","components","mcp","migration"],
       "category": "frontend"
-    }
-,
-    {
-      "name": "verification-before-completion",
-      "source": "./plugins/verification-before-completion",
-      "version": "3.4.0",
-      "description": "Run verification commands and confirm output before claiming success. Use when about to claim work is complete, fixed, or passing, before committing or creating PRs.",
-      "keywords": ["verification-before-completion","verification","before","completion","tooling","workflow"],
-      "category": "tooling"
     }
 ,
     {

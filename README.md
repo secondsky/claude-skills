@@ -1,6 +1,6 @@
 # Claude Code Skills Collection
 
-**156 production-ready skills for Claude Code CLI**
+**139 production-ready skills for Claude Code CLI**
 
 Version 3.4.0 | Last Updated: 2026-06-21
 
@@ -38,10 +38,10 @@ PS: if skills.sh warns about any skill: Their scan process is a outdated LLM whi
 # Install individual skills as needed
 /plugin install cloudflare-d1@claude-skills
 /plugin install tailwind-v4-shadcn@claude-skills
-/plugin install ai-sdk-core@claude-skills
+/plugin install gemini-cli@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 156 skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 139 skills.
 
 ### Bulk Installation (Contributors)
 
@@ -50,7 +50,7 @@ See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 156 skills.
 git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
-# Install all 156 skills at once
+# Install all 139 skills at once
 ./scripts/install-all.sh
 
 # Or install individual skills
@@ -61,7 +61,7 @@ cd claude-skills
 
 ## Repository Structure
 
-This repository contains **156 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **139 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -71,11 +71,11 @@ This repository contains **156 production-tested skills** for Claude Code, each 
 
 **Installation Options**:
 1. **Individual** - Install only the skills you need via marketplace
-2. **Bulk** - Install all 156 skills using `./scripts/install-all.sh`
+2. **Bulk** - Install all 139 skills using `./scripts/install-all.sh`
 
 ---
 
-## Available Skills (156 Individual Skills)
+## Available Skills (139 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -85,22 +85,22 @@ Each skill is individually installable. Install only the skills you need.
 
 | Category | Skills | Examples |
 |----------|--------|----------|
-| **tooling** | 28 | turborepo, plan-interview, code-review |
+| **tooling** | 22 | turborepo, plan-interview, code-review |
 | **frontend** | 26 | nuxt-v4, nuxt-v5, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui, threejs |
 | **cloudflare** | 21 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
 | **api** | 16 | api-design-principles, graphql-implementation |
-| **ai** | 13 | claude-api, ai-sdk-core, gemini-cli |
+| **ai** | 7 | gemini-cli, ml-model-training, tanstack-ai |
 | **web** | 10 | hono-routing, firecrawl-scraper, web-performance |
-| **security** | 6 | csrf-protection, access-control-rbac |
+| **security** | 5 | csrf-protection, xss-prevention |
 | **mobile** | 5 | react-native-app, react-native-skills |
 | **woocommerce** | 4 | woocommerce-backend-dev |
 | **testing** | 4 | vitest-testing, playwright-testing |
 | **design** | 4 | design-review, design-system-creation |
 | **auth** | 4 | better-auth |
-| **database** | 3 | drizzle-orm-d1, database-schema-design, database-sharding |
-| **data** | 3 | sql-query-optimization, recommendation-engine |
-| **cms** | 3 | hugo, wordpress-plugin-core, content-collections |
 | **architecture** | 3 | microservices-patterns, architecture-patterns |
+| **data** | 2 | recommendation-engine, recommendation-system |
+| **cms** | 2 | hugo, wordpress-plugin-core |
+| **database** | 1 | drizzle-orm-d1 |
 | **seo** | 2 | seo-optimizer, seo-keyword-cluster-builder |
 | **documentation** | 1 | technical-specification |
 
@@ -191,7 +191,7 @@ skills/[skill-name]/
 Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
 
 **What this means:**
-- Not all 156 skills may be visible in Claude's context at once
+- Not all 139 skills may be visible in Claude's context at once
 - Skills are loaded based on relevance and available token budget
 - You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
 
@@ -204,7 +204,7 @@ To verify which skills are currently loaded:
 "Check what skills/plugins you see in your system prompt"
 ```
 
-Claude will report something like: "85 of 156 skills visible due to token limits"
+Claude will report something like: "85 of 139 skills visible due to token limits"
 
 ### Workaround: Increase Token Budget
 
@@ -232,7 +232,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 | **Typical Errors** | 2-4 per service | 0 (prevented) | **100%** |
 | **Setup Time** | 2-4 hours | 15-45 minutes | **~80%** |
 
-**Across all 156 skills**: 400+ documented errors prevented.
+**Across all 139 skills**: 400+ documented errors prevented.
 
 ---
 

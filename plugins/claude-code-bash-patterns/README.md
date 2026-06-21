@@ -261,8 +261,6 @@ claude-code-bash-patterns/
 
 - **project-planning** - Use for structuring development workflows
 - **cloudflare-worker-base** - Integrates wrangler CLI patterns
-- **typescript-mcp** - CLI tool creation patterns
-- **elevenlabs-agents** - ElevenLabs CLI patterns
 
 ---
 

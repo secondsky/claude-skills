@@ -82,16 +82,16 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-turnstile, cloudflare-zero-trust-access, cloudflare-manager
 - cloudflare-sandbox
 
-### 2. ai-skills (13 skills)
+### 2. ai-skills (7 skills)
 
-AI and ML integrations - Gemini, Claude API, Eleven Labs, ML pipelines, and model deployment. Complete AI development toolkit.
+AI and ML integrations - Gemini, ML pipelines, and model deployment. Complete AI development toolkit.
 
 **Installation**: `/plugin install ai-skills@claude-skills`
 
 **Includes**:
-- gemini-cli, claude-api, claude-agent-sdk, ai-sdk-core, ai-sdk-ui
-- thesys-generative-ui, tanstack-ai, elevenlabs-agents, ai-elements-chatbot
-- multi-ai-consultant, ml-model-training, ml-pipeline-automation, model-deployment
+- gemini-cli, multi-ai-consultant
+- thesys-generative-ui, tanstack-ai
+- ml-model-training, ml-pipeline-automation, model-deployment
 
 ### 3. frontend-skills (21 skills)
 
@@ -126,23 +126,23 @@ Development tools, utilities, and workflow automation - MCP servers, project pla
 **Installation**: `/plugin install tooling-skills@claude-skills`
 
 **Includes**:
-- typescript-mcp, fastmcp, mcp-dynamic-orchestrator, mcp-management
-- code-review, dependency-upgrade, verification-before-completion
+- mcp-dynamic-orchestrator, mcp-management
+- code-review, dependency-upgrade
 - systematic-debugging, root-cause-tracing, sequential-thinking
 - github-project-automation
-- better-chatbot, better-chatbot-patterns, nano-banana-prompts
+- nano-banana-prompts
 - claude-code-bash-patterns, claude-hook-writer
-- chrome-devtools, turborepo, feature-dev, frontend-design
+- turborepo, feature-dev, frontend-design
 - logging-best-practices, idempotency-handling, zod
 
-### 6. database-skills (3 skills)
+### 6. database-skills (1 skill)
 
-Database, ORM, and data storage solutions - Drizzle ORM, schema design, and sharding strategies.
+Database and ORM solutions - Drizzle ORM for Cloudflare D1.
 
 **Installation**: `/plugin install database-skills@claude-skills`
 
 **Includes**:
-- drizzle-orm-d1, database-schema-design, database-sharding
+- drizzle-orm-d1
 
 ### 7. testing-skills (5 skills)
 
@@ -170,7 +170,7 @@ Content management systems and static site generators - WordPress, Hugo, Nuxt Co
 **Installation**: `/plugin install cms-skills@claude-skills`
 
 **Includes**:
-- hugo, wordpress-plugin-core, content-collections
+- hugo, wordpress-plugin-core
 
 ### 10. web-skills (11 skills)
 
@@ -201,7 +201,7 @@ Security best practices and vulnerability protection - RBAC, CSRF/XSS prevention
 **Installation**: `/plugin install security-skills@claude-skills`
 
 **Includes**:
-- access-control-rbac, csrf-protection, xss-prevention
+- csrf-protection, xss-prevention
 - security-headers-configuration, defense-in-depth-validation
 - vulnerability-scanning
 
@@ -230,7 +230,7 @@ Data processing and optimization - Recommendation engines, recommendation system
 **Installation**: `/plugin install data-skills@claude-skills`
 
 **Includes**:
-- recommendation-engine, recommendation-system, sql-query-optimization
+- recommendation-engine, recommendation-system
 
 ### 16. seo-skills (2 skills)
 
@@ -325,7 +325,7 @@ Documentation and technical writing - Technical specification templates and docu
 ### For Users
 
 - ✅ **Skills are now discoverable**: Claude Code sees and uses them properly
-- ✅ **Easier installation**: Install suites instead of 156 individual skills
+- ✅ **Easier installation**: Install suites instead of 139 individual skills
 - ✅ **Logical organization**: Skills grouped by domain
 - ✅ **Automatic updates**: Keep skills current with `/plugin update`
 - ✅ **Team deployment**: Share via `.claude/settings.json`
@@ -511,7 +511,7 @@ Each skill has a `plugin.json` following the Anthropic specification:
 - **Fix**: sync-plugins.sh reads global version and syncs to all files
 
 #### Issue 3: Duplicate Keywords
-- **Problem**: Keywords had both `"ai-sdk-core"` AND `"ai sdk core"`
+- **Problem**: Keywords had both `"cloudflare-d1"` AND `"cloudflare d1"`
 - **Fix**: Removed space-separated pair generation from keyword logic
 
 #### Issue 4: Missing Fields
@@ -526,7 +526,7 @@ Each skill has a `plugin.json` following the Anthropic specification:
 
 Keywords are generated from 3 sources with deduplication:
 
-1. **Name keywords**: `ai-sdk-core` → `["ai-sdk-core", "ai", "sdk", "core"]`
+1. **Name keywords**: `cloudflare-d1` → `["cloudflare-d1", "cloudflare"]`  (d1 is ≤2 chars, skipped)
 2. **Category keywords**: Domain-specific terms (e.g., cloudflare → `["workers", "edge", "serverless"]`)
 3. **Description keywords**: Extracted technical terms (ALL-CAPS, CamelCase, valuable terms)
 
@@ -569,6 +569,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 **Last Updated**: 2026-06-21
 **Marketplace Version**: 3.4.0
-**Skills**: 156 (organized into 18 suite plugins)
+**Skills**: 139 (organized into 18 suite plugins)
 **Format**: Anthropic-compliant suite plugins
 **Maintainer**: Claude Skills Maintainers

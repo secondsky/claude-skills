@@ -287,7 +287,6 @@ If systematic investigation reveals issue is truly environmental, timing-depende
 This skill works with:
 - root-cause-tracing - How to trace back through call stack
 - defense-in-depth-validation - Add validation after finding root cause
-- verification-before-completion - Verify fix worked before claiming success
 
 ## Real-World Impact
 

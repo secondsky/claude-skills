@@ -29,11 +29,10 @@
 - Network monitoring
 - Visual QA and simpler reviews
 
-**See the `chrome-devtools` skill for:**
-- Puppeteer CLI installation and setup
-- System dependencies (Linux/WSL)
-- Screenshot automation scripts
-- Performance auditing tools
+**Setup:**
+- Install Puppeteer directly: `npm install -g puppeteer`
+- Requires Chrome/Chromium browser installed
+- Scripts below assume Puppeteer is available locally
 
 ---
 
@@ -295,24 +294,23 @@ mcp__playwright__browser_close()
 
 ## Chrome DevTools CLI Scripts
 
-For complete Chrome DevTools documentation, see the `chrome-devtools` skill.
+The scripts below assume Puppeteer is installed locally. Adapt paths as needed for your project.
 
 ### Prerequisites Check
 
 ```bash
-# Check if Chrome DevTools scripts available
-ls ~/.claude/skills/chrome-devtools/scripts/
+# Check if Puppeteer is available
+node -e "require('puppeteer')" && echo "Puppeteer ready"
 
-# Verify Node dependencies installed
-cd ~/.claude/skills/chrome-devtools/scripts
-bun install  # or npm install
+# Install if missing
+npm install puppeteer
 ```
 
 ### Screenshot Capture
 
 **Basic screenshot:**
 ```bash
-cd ~/.claude/skills/chrome-devtools/scripts
+# From your project directory (where Puppeteer is installed)
 node screenshot.js --url "https://preview.example.com" --output "./screenshot.png"
 ```
 
@@ -618,21 +616,21 @@ mcp__playwright__browser_wait_for(
 
 **Solution**:
 ```bash
-cd ~/.claude/skills/chrome-devtools/scripts
-./install-deps.sh  # Auto-installs system dependencies
+# Install Chrome/Chromium system dependencies (Linux/WSL)
+sudo apt install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
 ```
 
 **Problem**: Screenshot file too large
 
 **Solution**:
 ```bash
-# Chrome DevTools auto-compresses with ImageMagick if installed
+# Compress with ImageMagick if installed
 # Install ImageMagick:
 brew install imagemagick  # macOS
 sudo apt install imagemagick  # Ubuntu/Debian
 ```
 
-See `chrome-devtools` skill for complete troubleshooting guide.
+For complete Puppeteer troubleshooting, see the official Puppeteer docs.
 
 ---
 
@@ -661,12 +659,11 @@ See the **`playwright-testing` skill** for complete installation instructions:
 
 ### Chrome DevTools CLI
 
-See the **`chrome-devtools` skill** for complete installation instructions:
-- System dependencies (Linux/WSL)
-- Node.js/Bun setup
-- Puppeteer installation
-- ImageMagick (optional, for compression)
-- Script usage examples
+Install Puppeteer directly for screenshot/performance scripts:
+- Install: `npm install puppeteer`
+- Requires Node.js 18+ and Chrome/Chromium
+- Optional: ImageMagick for screenshot compression
+- See Puppeteer docs: https://pptr.dev/
 
 ---
 

@@ -30,15 +30,9 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-workflows
 - cloudflare-zero-trust-access
 
-### 2. ai-skills (13 skills)
-AI and ML integrations - Gemini, Claude API, Eleven Labs, and ML pipelines.
+### 2. ai-skills (7 skills)
+AI and ML integrations - Gemini, ML pipelines, and model deployment.
 
-- ai-elements-chatbot
-- ai-sdk-core
-- ai-sdk-ui
-- claude-agent-sdk
-- claude-api
-- elevenlabs-agents
 - gemini-cli
 - ml-model-training
 - ml-pipeline-automation
@@ -78,19 +72,16 @@ Authentication and authorization solutions.
 - better-auth
 - oauth-implementation
 
-### 5. cms-skills (5 skills)
+### 5. cms-skills (4 skills)
 Content management systems and static site generators.
 
-- content-collections
 - hugo
 - nuxt-content
 - wordpress-plugin-core
 
-### 6. database-skills (4 skills)
+### 6. database-skills (1 skill)
 Database, ORM, and data storage solutions.
 
-- database-schema-design
-- database-sharding
 - drizzle-orm-d1
 
 ### 7. api-skills (16 skills)
@@ -133,10 +124,9 @@ Mobile app development for iOS and Android.
 - mobile-offline-support
 - react-native-app
 
-### 10. security-skills (7 skills)
+### 10. security-skills (6 skills)
 Security best practices and vulnerability protection.
 
-- access-control-rbac
 - csrf-protection
 - defense-in-depth-validation
 - security-headers-configuration
@@ -151,19 +141,15 @@ WooCommerce development and best practices.
 - woocommerce-copy-guidelines
 - woocommerce-dev-cycle
 
-### 12. tooling-skills (32 skills)
+### 12. tooling-skills (25 skills)
 Development tools, utilities, and workflow automation.
 
-- better-chatbot
-- better-chatbot-patterns
-- chrome-devtools
 - claude-code-bash-patterns
 - claude-hook-writer
 - code-review
 - dependency-upgrade
 - design-review
 - design-system-creation
-- fastmcp
 - feature-dev
 - firecrawl-scraper
 - frontend-design
@@ -178,9 +164,7 @@ Development tools, utilities, and workflow automation.
 - root-cause-tracing
 - sequential-thinking
 - systematic-debugging
-- typescript-mcp
 - turborepo
-- verification-before-completion
 
 ### 13. architecture-skills (6 skills)
 Software architecture patterns and microservices.
@@ -220,12 +204,11 @@ UI/UX design and design systems.
 - kpi-dashboard-design
 - mobile-first-design
 
-### 17. data-skills (4 skills)
+### 17. data-skills (3 skills)
 Data processing, recommendations, and SQL.
 
 - recommendation-engine
 - recommendation-system
-- sql-query-optimization
 
 ### 18. documentation-skills (1 skill)
 Documentation and technical writing.

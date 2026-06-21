@@ -242,10 +242,10 @@ Skills are auto-categorized based on name patterns:
 | Category | Pattern Match | Examples |
 |----------|---------------|----------|
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
-| `ai` | `^(ai-\|claude-\|gemini-)` | ai-sdk-core, claude-api |
+| `ai` | `^(gemini-\|ml-\|model-)` | gemini-cli, ml-model-training |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-)` | nuxt-v4, tailwind-v4-shadcn |
 | `auth` | `^(better-auth)` | better-auth |
-| `database` | `^(database-\|drizzle-)` | drizzle-orm-d1, database-schema-design |
+| `database` | `^drizzle-` | drizzle-orm-d1 |
 | `api` | `^(api-\|graphql-\|rest-api-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
 | `mobile` | `^(app-store-\|mobile-\|react-native-)` | react-native-skills |

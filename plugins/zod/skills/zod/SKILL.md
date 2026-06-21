@@ -68,7 +68,6 @@ metadata:
   production_tested: true
   related_skills:
     - react-hook-form-zod
-    - typescript-mcp
 ---
 
 # Zod: TypeScript-First Schema Validation
