@@ -1,14 +1,14 @@
 # Claude Skills - Project Structure
 
-**Generated**: 2026-04-08
+**Generated**: 2026-06-21
 **Repository**: https://github.com/secondsky/claude-skills
 
 ---
 
 ## Repository Overview
 
-**Total Size**: 22.7MB | **Files**: 3,008
-**Top File Types**: `.md` (1,589), `.ts` (369), `.json` (244), `.sh` (148), `.html` (131)
+**Total Size**: 20.9MB | **Files**: 2,712
+**Top File Types**: `.md` (1,419), `.ts` (281), `.json` (214), `.sh` (137), `.html` (123)
 
 This document provides a comprehensive overview of the claude-skills repository structure, generated using [codemap](https://github.com/JordanCoin/codemap).
 
@@ -21,9 +21,8 @@ claude-skills/
 ├── .claude-plugin/          # Plugin marketplace configuration
 ├── .githooks/               # Git hooks (pre-commit, pre-push)
 ├── .github/                 # GitHub CI workflows & issue templates
-├── commands/                # Slash commands for Claude Code CLI
 ├── docs/                    # Documentation (5 subdirectories)
-├── plugins/                 # 170 plugin directories containing 211 skills
+├── plugins/                 # 156 plugin directories containing 197 skills
 ├── schemas/                 # JSON schema validation files
 ├── scripts/                 # Automation & utility scripts
 ├── templates/               # Skill creation templates
@@ -34,20 +33,20 @@ claude-skills/
 
 ## Directory Details
 
-### `.claude-plugin/` (1.9MB, 1 file)
+### `.claude-plugin/` (76.0KB, 1 file)
 
 Plugin marketplace configuration for Claude Code.
 
 ```
 .claude-plugin/
-└── marketplace.json         # Main marketplace manifest (84KB)
+└── marketplace.json         # Main marketplace manifest
 ```
 
-**Purpose**: Defines 170 plugins containing 211 skills for Claude Code's plugin marketplace.
+**Purpose**: Defines 156 plugins containing 197 skills for Claude Code's plugin marketplace.
 
 ---
 
-### `.githooks/` (12KB, 3 files)
+### `.githooks/` (8.2KB, 3 files)
 
 Custom Git hooks for repository quality enforcement.
 
@@ -60,7 +59,7 @@ Custom Git hooks for repository quality enforcement.
 
 ---
 
-### `.github/` (60KB, 9 files)
+### `.github/` (36.2KB, 9 files)
 
 GitHub configuration for CI/CD and issue management.
 
@@ -83,27 +82,7 @@ GitHub configuration for CI/CD and issue management.
 
 ---
 
-### `commands/` (120KB, 8 files)
-
-Slash commands for interactive Claude Code workflows.
-
-```
-commands/
-├── README.md               # Command documentation
-├── continue-session.md     # Resume previous work sessions
-├── explore-idea.md         # Pre-planning exploration
-├── plan-feature.md         # Feature planning workflow
-├── plan-project.md         # Project planning generator
-├── release.md              # Pre-release safety checks
-├── workflow.md             # Interactive guidance
-└── wrap-session.md         # Session checkpoint/summary
-```
-
-**Usage**: Type `/plan-project`, `/explore-idea`, etc. in Claude Code CLI.
-
----
-
-### `docs/` (232KB, 16 files across 5 subdirectories)
+### `docs/` (191.7KB, 16 files across 5 subdirectories)
 
 Comprehensive documentation organized by purpose.
 
@@ -111,22 +90,22 @@ Comprehensive documentation organized by purpose.
 docs/
 ├── archive/                            # Archived documents
 │   └── lost-info.md                    # Information recovery tracking
-├── getting-started/                    # Onboarding guides (3 files, 28KB)
+├── getting-started/                    # Onboarding guides (3 files, 28.2KB)
 │   ├── ONE_PAGE_CHECKLIST.md           # Quality verification checklist
 │   ├── QUICK_WORKFLOW.md               # 5-minute skill creation guide
 │   └── START_HERE.md                   # First-time user guide
-├── guides/                             # Process guides (4 files, 65KB)
+├── guides/                             # Process guides (4 files, 65.4KB)
 │   ├── CONTRIBUTING.md                 # Contribution guidelines
 │   ├── ISSUE_TEMPLATES_GUIDE.md        # Issue template usage
 │   ├── MARKETPLACE_MANAGEMENT.md       # Marketplace management details
 │   └── PLUGIN_DEV_BEST_PRACTICES.md    # Plugin development best practices
-├── reference/                          # Standards & reference (5 files, 45KB)
+├── reference/                          # Standards & reference (5 files, 45.2KB)
 │   ├── COMMON_MISTAKES.md              # Learn from past failures
 │   ├── SKILL_CATEGORIZATION.md         # Skill organization system
 │   ├── STANDARDS_COMPARISON.md         # Official vs our standards
 │   ├── claude-code-skill-standards.md  # Our skill standards
 │   └── research-protocol.md            # Research methodology
-└── validation/                         # Validation docs (3 files, 32KB)
+└── validation/                         # Validation docs (3 files, 31.9KB)
     ├── IMPLEMENTATION.md               # Implementation details
     ├── README.md                       # Validation overview
     └── json-schema-validation.md       # JSON schema validation guide
@@ -139,9 +118,9 @@ docs/
 
 ---
 
-### `plugins/` (41MB, 2,938 files)
+### `plugins/` (20.3MB, 2,649 files)
 
-**170 plugins** organizing **211 individual skills** by domain.
+**156 plugins** organizing **197 individual skills** by domain.
 
 Each plugin follows this structure:
 ```
@@ -170,9 +149,9 @@ plugins/<plugin-name>/
 | **nuxt-v4** | 4 | Nuxt 4 core, UI, Content, SEO |
 | **nuxt-v5** | 4 | Nuxt 5 core, UI, Content, SEO |
 
-#### Plugin Categories (170 plugins)
+#### Plugin Categories (156 plugins)
 
-##### **Cloudflare** (21 plugins, ~6.5MB, 296 files, 23 skills)
+##### **Cloudflare** (21 plugins, 30 skills)
 - cloudflare-workers (10 skills), cloudflare-d1, cloudflare-r2, cloudflare-kv
 - cloudflare-workers-ai, cloudflare-vectorize, cloudflare-queues, cloudflare-workflows
 - cloudflare-durable-objects, cloudflare-agents, cloudflare-mcp-server, cloudflare-turnstile
@@ -180,20 +159,18 @@ plugins/<plugin-name>/
 - cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
 - cloudflare-zero-trust-access, cloudflare-manager, cloudflare-sandbox
 
-##### **Bun** (1 plugin, 324KB, 46 files, 27 skills)
+##### **Bun** (1 plugin, 27 skills)
 - bun (bundler, cloudflare-workers, docker, drizzle, ffi, file-io, hono, hot-reloading, http-server, jest-migration, macros, nextjs, nuxt, package-manager, react-ssr, redis, runtime, shell, sqlite, sveltekit, tanstack-start, test-basics, test-coverage, test-lifecycle, test-mocking, websocket-server, workers)
 
-##### **AI & Machine Learning** (20 plugins, ~1.2MB, 231 files, 20 skills)
+##### **AI & Machine Learning** (13 plugins, 13 skills)
 - ai-sdk-core, ai-sdk-ui
-- openai-api, openai-agents, openai-assistants, openai-responses
-- google-gemini-api, google-gemini-embeddings, google-gemini-file-search
 - claude-api, claude-agent-sdk
 - elevenlabs-agents, thesys-generative-ui
 - ai-elements-chatbot, better-chatbot, better-chatbot-patterns
 - multi-ai-consultant, nano-banana-prompts
 - gemini-cli, tanstack-ai
 
-##### **Nuxt** (5 plugins, ~1.8MB, 226 files, 14 skills)
+##### **Nuxt** (6 plugins, 12 skills)
 - nuxt-v4 (4 skills), nuxt-v5 (4 skills), nuxt-ui-v4, nuxt-content, nuxt-seo, nuxt-studio
 
 ##### **Frontend & UI** (30+ plugins)
@@ -208,57 +185,52 @@ plugins/<plugin-name>/
 ##### **Next.js & Frameworks** (5 plugins)
 - nextjs, hono-routing, tanstack-query, tanstack-router, tanstack-start, tanstack-table
 
-##### **API** (13 plugins, ~90KB, 33 files, 13 skills)
+##### **API** (15 plugins, 15 skills)
 - api-changelog-versioning, api-contract-testing, api-design-principles
 - api-error-handling, api-filtering-sorting, api-gateway-configuration
 - api-pagination, api-rate-limiting, api-reference-documentation
 - api-response-optimization, api-testing, api-versioning-strategy
-- rest-api-design
+- rest-api-design, api-authentication, api-security-hardening
 
-##### **Security** (7 plugins, ~45KB, 23 files, 7 skills)
+##### **Security** (7 plugins, 7 skills)
 - access-control-rbac, api-security-hardening, csrf-protection
 - defense-in-depth-validation, security-headers-configuration
 - vulnerability-scanning, xss-prevention
 
-##### **Auth** (4 plugins, ~25KB, 12 files, 4 skills)
+##### **Auth** (4 plugins, 4 skills)
 - better-auth, api-authentication, oauth-implementation, session-management
 
-##### **Database & ORM** (5 plugins, ~410KB, 63 files, 5 skills)
+##### **Database & ORM** (4 plugins, 4 skills)
 - database-schema-design, database-sharding
-- drizzle-orm-d1, sql-query-optimization, supabase-postgres-best-practices
+- drizzle-orm-d1, sql-query-optimization
 
-##### **Content Management** (2 plugins, ~5.6MB, 467 files, 2 skills)
-- sveltia-cms, content-collections, hugo (6.7MB)
+##### **Content Management** (2 plugins, 2 skills)
+- content-collections, hugo
 
-##### **MCP & Integration** (4 plugins, ~340KB, 53 files, 4 skills)
+##### **MCP & Integration** (4 plugins, 4 skills)
 - typescript-mcp, fastmcp, mcp-dynamic-orchestrator, mcp-management
 
-##### **Testing** (5 plugins, ~30KB, 15 files, 5 skills)
+##### **Testing** (6 plugins, 6 skills)
 - jest-generator, playwright, vitest-testing
-- mutation-testing, test-quality-analysis
+- mutation-testing, test-quality-analysis, api-testing
 
-##### **Mobile** (4 plugins, ~35KB, 11 files, 4 skills)
+##### **Mobile** (5 plugins, 5 skills)
 - react-native-skills, mobile-app-debugging, mobile-app-testing, mobile-offline-support
+- app-store-deployment
 
-##### **Architecture & Patterns** (3 plugins, ~33KB, 9 files, 3 skills)
+##### **Architecture & Patterns** (3 plugins, 3 skills)
 - architecture-patterns, microservices-patterns, technical-specification
 
-##### **SEO & Web Performance** (4 plugins, ~70KB, 15 files, 4 skills)
+##### **SEO & Web Performance** (4 plugins, 4 skills)
 - seo-optimizer, seo-keyword-cluster-builder, web-performance-optimization, web-performance-audit
 
-##### **ML & Data** (4 plugins, ~230KB, 19 files, 4 skills)
+##### **ML & Data** (5 plugins, 5 skills)
 - ml-model-training, ml-pipeline-automation, model-deployment
 - recommendation-engine, recommendation-system
 
-##### **WordPress & WooCommerce** (5 plugins, ~410KB, 61 files, 5 skills)
+##### **WordPress & WooCommerce** (5 plugins, 5 skills)
 - wordpress-plugin-core
 - woocommerce-backend-dev, woocommerce-code-review, woocommerce-copy-guidelines, woocommerce-dev-cycle
-
-##### **Swift** (2 plugins, ~300KB, 26 files, 2 skills)
-- swift-best-practices, swift-settingskit
-
-##### **Vercel** (3 plugins, ~185KB, 39 files, 3 skills)
-- neon-vercel-postgres, vercel-kv, vercel-blob
 
 ##### **Tooling & Dev Workflow** (remaining plugins)
 - code-review, dependency-upgrade, verification-before-completion
@@ -274,7 +246,7 @@ plugins/<plugin-name>/
 
 ---
 
-### `schemas/` (12KB, 2 files)
+### `schemas/` (11.5KB, 2 files)
 
 JSON Schema validation files for plugin and marketplace manifests.
 
@@ -288,7 +260,7 @@ schemas/
 
 ---
 
-### `scripts/` (136KB, 14 files + lib/)
+### `scripts/` (114.2KB, 16 files + lib/)
 
 Automation and utility scripts for managing skills and plugins.
 
@@ -308,39 +280,45 @@ scripts/
 ├── validate-frontmatter.sh        # Validate YAML frontmatter in SKILL.md files
 ├── validate-json-schemas.sh       # Validate plugin.json against schemas
 ├── remove-category-from-plugins.sh # Remove category field from plugin manifests
-└── renumber-skills.py             # Renumber skill ordering
+├── extract-keywords.rb            # Extract keywords from SKILL.md descriptions (Ruby)
+├── fix-frontmatter.mjs            # Repair YAML frontmatter programmatically (Node)
+└── renumber-skills.py             # Renumber skill ordering (Python)
 ```
 
 **Key Scripts**:
 - `sync-plugins.sh` - **Main workflow**: Sync versions, categories, keywords, agents, commands
 - `install-skill.sh` - Test individual skills locally
 - `generate-marketplace.sh` - Rebuild marketplace.json (called by sync-plugins.sh)
-- `baseline-audit-all.sh` - Validate all 211 skills
+- `baseline-audit-all.sh` - Validate all 197 skills
 
 ---
 
-### `templates/` (44KB, 7 files)
+### `templates/` (22.2KB, 7 files)
 
 Templates for creating new skills.
 
 ```
 templates/
-├── skill-skeleton/          # Complete skill directory structure
-│   ├── .claude-plugin/
-│   │   └── plugin.json     # Template plugin manifest
-│   ├── assets/             # Asset directory (empty)
-│   ├── references/         # Reference docs directory (empty)
-│   ├── scripts/            # Scripts directory (empty)
-│   ├── SKILL.md            # Main skill template with TODOs
-│   └── README.md           # Public doc template with TODOs
-├── README-TEMPLATE.md       # Standalone README template
-└── SKILL-TEMPLATE.md        # Standalone SKILL template
+├── skill-skeleton/                    # Complete skill directory structure
+│   ├── skills/
+│   │   └── skill-name/                # Placeholder skill directory (rename to <skill-name>)
+│   │       ├── assets/                # Asset directory (with example template)
+│   │       ├── references/            # Reference docs directory (with example)
+│   │       ├── scripts/               # Scripts directory (with example)
+│   │       └── SKILL.md               # Main skill template with TODOs
+│   └── README.md                      # Template usage instructions
+├── README-TEMPLATE.md                 # Standalone README template
+└── SKILL-TEMPLATE.md                  # Standalone SKILL template
 ```
+
+**Note**: The skeleton ships only the `skills/<skill-name>/` subtree. When wiring up a real plugin, add the parent `.claude-plugin/plugin.json` and plugin-level `README.md` (see "Standard Skill Structure" below).
 
 **Usage**:
 ```bash
-cp -r templates/skill-skeleton/ plugins/<plugin-name>/skills/<skill-name>/
-# Fill in TODOs in SKILL.md and README.md
+cp -r templates/skill-skeleton/skills/skill-name/ plugins/<plugin-name>/skills/<skill-name>/
+# Rename skill-name/ to your actual skill name
+# Fill in TODOs in SKILL.md
+# Add .claude-plugin/plugin.json at plugins/<plugin-name>/ root
 ```
 
 ---
@@ -369,74 +347,78 @@ claude-skills/
 
 ## Standard Skill Structure
 
-Every skill follows this canonical structure:
+Every production skill follows this canonical structure:
 
 ```
-<skill-name>/
+<plugin-name>/
 ├── .claude-plugin/
 │   └── plugin.json              # Auto-generated manifest
 │       {
 │         "name": "skill-name",
 │         "description": "...",
-│         "version": "3.0.0",
+│         "version": "3.3.0",
 │         "keywords": [...],
 │         "agents": [],
 │         "commands": []
 │       }
 │
-├── SKILL.md                     # Main skill content (<500 lines)
-│   ---
-│   name: skill-name
-│   description: Brief description with "Use when" scenarios
-│   license: MIT
-│   ---
+├── README.md                    # Plugin-level public documentation
 │
-│   ## Quick Start
-│   ## When to Load References (how to use references/)
-│   ## Top 3-5 Errors (most critical issues)
-│   ## [Condensed sections with pointers to references/]
-│
-├── README.md                    # Public documentation
-│   (Auto-trigger keywords, installation, examples)
-│
-├── references/                  # Extended documentation (loaded as needed)
-│   ├── setup-guide.md
-│   ├── advanced-features.md
-│   ├── error-catalog.md
-│   ├── troubleshooting.md
-│   └── [domain-specific].md
-│
-├── templates/                   # Code templates
-│   ├── basic-setup.ts
-│   ├── advanced-example.tsx
-│   └── package.json
-│
-├── scripts/                     # Helper scripts
-│   ├── setup.sh
-│   ├── check-versions.sh
-│   └── install-dependencies.sh
-│
-└── assets/                      # Images, diagrams, data
-    ├── architecture-diagram.png
-    └── sample-data.json
+└── skills/
+    └── <skill-name>/
+        ├── SKILL.md             # Main skill content (<500 lines)
+        │   ---
+        │   name: skill-name
+        │   description: Brief description with "Use when" scenarios
+        │   license: MIT
+        │   ---
+        │
+        │   ## Quick Start
+        │   ## When to Load References (how to use references/)
+        │   ## Top 3-5 Errors (most critical issues)
+        │   ## [Condensed sections with pointers to references/]
+        │
+        ├── README.md            # Public documentation
+        │   (Auto-trigger keywords, installation, examples)
+        │
+        ├── references/          # Extended documentation (loaded as needed)
+        │   ├── setup-guide.md
+        │   ├── advanced-features.md
+        │   ├── error-catalog.md
+        │   ├── troubleshooting.md
+        │   └── [domain-specific].md
+        │
+        ├── templates/           # Code templates
+        │   ├── basic-setup.ts
+        │   ├── advanced-example.tsx
+        │   └── package.json
+        │
+        ├── scripts/             # Helper scripts
+        │   ├── setup.sh
+        │   ├── check-versions.sh
+        │   └── install-dependencies.sh
+        │
+        └── assets/              # Images, diagrams, data
+            ├── architecture-diagram.png
+            └── sample-data.json
 ```
 
 ---
 
 ## File Type Distribution
 
-**Total**: 3,008 files across 22.7MB
+**Total**: 2,712 files across 20.9MB
 
 | Extension | Count | Purpose |
 |-----------|-------|---------|
-| `.md` | 1,589 | Documentation (SKILL.md, README.md, references/) |
-| `.ts` | 369 | TypeScript templates and examples |
-| `.json` | 244 | Config files (plugin.json, package.json, schemas) |
-| `.sh` | 148 | Shell scripts for automation |
-| `.html` | 131 | HTML templates and examples |
-| `.js` | 476 | JavaScript examples, scripts, and helpers |
-| `.tsx` | 91 | React component templates |
-| Other | ~160 | CSS, Python, Swift, YAML, config files |
+| `.md` | 1,419 | Documentation (SKILL.md, README.md, references/) |
+| `.ts` | 281 | TypeScript templates and examples |
+| `.json` | 214 | Config files (plugin.json, package.json, schemas) |
+| `.sh` | 137 | Shell scripts for automation |
+| `.html` | 123 | HTML templates and examples |
+| `.js` | — | JavaScript examples, scripts, and helpers |
+| `.tsx` | — | React component templates |
+| Other | — | CSS, Python, Ruby, Swift, YAML, PHP, config files |
 
 ---
 
@@ -455,7 +437,7 @@ Generated by `codemap --deps`:
 4. `plugins/mcp-dynamic-orchestrator/.../src/orchestrator` (2 importers)
 5. `plugins/tanstack-query/.../examples/react-native` (2 importers)
 
-**Stats**: 560 files, 5,891 functions, 21 dependencies
+**Stats**: 562 files, 5,900 functions, 21 dependencies
 
 ---
 
@@ -463,14 +445,14 @@ Generated by `codemap --deps`:
 
 This repository uses a two-tier architecture:
 
-### 170 Plugins (Marketplace Categories)
+### 156 Plugins (Marketplace Categories)
 - **What**: Logical groupings of related skills
 - **Where**: `plugins/<plugin-name>/`
 - **Purpose**: Organize skills by domain for discoverability
 - **Discovery**: Listed in `.claude-plugin/marketplace.json`
 - **Installation**: `/plugin install <plugin-name>@claude-skills`
 
-### 211 Skills (Individual Capabilities)
+### 197 Skills (Individual Capabilities)
 - **What**: Individual knowledge units Claude loads
 - **Where**: `plugins/<plugin-name>/skills/<skill-name>/`
 - **Purpose**: Provide specific domain expertise
@@ -479,11 +461,11 @@ This repository uses a two-tier architecture:
 
 **Example**:
 ```
-Plugin: "bun" (1 of 170)
+Plugin: "bun" (1 of 156)
   ↓ contains
 Skills: bun-bundler, bun-cloudflare-workers, bun-docker, ... (27 total)
 
-Plugin: "cloudflare-workers" (1 of 170)
+Plugin: "cloudflare-workers" (1 of 156)
   ↓ contains
 Skills: workers-runtime-apis, workers-security, workers-performance, ... (10 total)
 ```
@@ -496,7 +478,7 @@ Skills: workers-runtime-apis, workers-security, workers-performance, ... (10 tot
 
 ```bash
 # Copy template
-cp -r templates/skill-skeleton/ plugins/<plugin>/skills/<skill-name>/
+cp -r templates/skill-skeleton/skills/skill-name/ plugins/<plugin>/skills/<skill-name>/
 
 # Edit SKILL.md and README.md (fill TODOs)
 # Add templates, references, scripts
@@ -622,41 +604,44 @@ find plugins/*/skills/*/templates -name "*.ts"
 ## Statistics Summary
 
 **Repository**:
-- Total Size: 22.7MB (3,008 files)
-- Total Plugins: 170
-- Total Skills: 211
+- Total Size: 20.9MB (2,712 files)
+- Total Plugins: 156
+- Total Skills: 197
+- Marketplace Version: 3.4.0
 
-**File Types**:
-- Markdown: 1,589 files (documentation)
-- JavaScript: 476 files (scripts, helpers)
-- TypeScript: 369 files (templates)
-- JSON: 244 files (config)
-- Shell: 148 files (automation)
-- HTML: 131 files (templates)
+**File Types** (top 5 by count):
+- Markdown: 1,419 files (documentation)
+- TypeScript: 281 files (templates)
+- JSON: 214 files (config)
+- Shell: 137 files (automation)
+- HTML: 123 files (templates)
 
 **Skills by Category**:
-- Cloudflare: 23 skills (21 plugins)
+- Cloudflare: 30 skills (21 plugins)
 - Bun: 27 skills (1 plugin)
 - AI/ML: 20 skills (20 plugins)
-- Nuxt: 14 skills (5 plugins)
+- Nuxt: 12 skills (6 plugins)
+- API: 15 skills (15 plugins)
 - Frontend & UI: 30+ skills
-- API: 13 skills (13 plugins)
-- Testing: 5 skills (5 plugins)
+- Database: 8 skills (8 plugins)
+- Testing: 6 skills (6 plugins)
+- Mobile: 5 skills (5 plugins)
+- ML/Data: 5 skills (5 plugins)
 - Security: 7 skills (7 plugins)
 - Auth: 4 skills (4 plugins)
-- Database: 5 skills (5 plugins)
-- WooCommerce: 4 skills (4 plugins)
+- SEO/Perf: 4 skills (4 plugins)
+- WooCommerce: 4 skills (5 plugins with WordPress core)
 - Swift: 2 skills (2 plugins)
 
 **Largest Plugins** (by file count):
 1. playwright (539 files, 13MB)
 2. hugo (423 files, 6.7MB)
 3. cloudflare-workers (119 files, 1.3MB)
-4. cloudflare-images (63 files, 640KB)
+4. nuxt-ui-v4 (78 files, 656KB)
 5. react-best-practices (65 files, 328KB)
-6. nuxt-ui-v4 (78 files, 656KB)
-7. maz-ui (46 files, 668KB)
-8. cloudflare-durable-objects (49 files, 632KB)
+6. cloudflare-images (63 files, 640KB)
+7. cloudflare-durable-objects (49 files, 632KB)
+8. maz-ui (46 files, 668KB)
 9. bun (46 files, 324KB)
 10. better-auth (45 files, 500KB)
 
@@ -671,6 +656,6 @@ find plugins/*/skills/*/templates -name "*.ts"
 
 ---
 
-**Last Updated**: 2026-04-08
+**Last Updated**: 2026-06-21
 **Generated with**: [codemap](https://github.com/JordanCoin/codemap)
 **Maintained by**: Claude Skills Team

@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.4.0] - 2026-06-21
+
+### Removed
+
+#### Plugin Repository Cleanup — 14 Deprecated Plugins
+
+Removed 14 plugins from the marketplace and repository. These plugins were deprecated as part of ongoing curation to keep the collection focused on production-tested, actively maintained skills.
+
+**Removed plugins (14):**
+
+| Category | Plugin | Reason |
+|----------|--------|--------|
+| ai | `openai-api` | Consolidated into `claude-api` |
+| ai | `openai-agents` | Consolidated into `claude-agent-sdk` |
+| ai | `openai-assistants` | Deprecated OpenAI Assistants API |
+| ai | `openai-responses` | Consolidated into `claude-api` |
+| ai | `google-gemini-api` | Consolidated into `gemini-cli` |
+| ai | `google-gemini-embeddings` | Consolidated into `gemini-cli` |
+| ai | `google-gemini-file-search` | Consolidated into `gemini-cli` |
+| mobile | `swift-best-practices` | Out of scope (not Claude Code CLI focused) |
+| mobile | `swift-settingskit` | Out of scope (not Claude Code CLI focused) |
+| database | `supabase-postgres-best-practices` | Out of scope (superseded by `database-schema-design`) |
+| database | `neon-vercel-postgres` | Out of scope (superseded by `drizzle-orm-d1`) |
+| database | `vercel-kv` | Out of scope (Vercel-specific, not Claude Code CLI focused) |
+| database | `vercel-blob` | Out of scope (Vercel-specific, not Claude Code CLI focused) |
+| cms | `sveltia-cms` | Out of scope (niche CMS, low adoption) |
+
+**Impact:**
+- Marketplace plugins: 170 → 156
+- Repository skill count: ~211 → ~197
+- Marketplace version bumped: 3.3.0 → 3.4.0
+
+**Updated documentation:**
+- `.claude-plugin/marketplace.json` — regenerated with 156 plugins
+- `scripts/generate-marketplace.sh` — version bumped to 3.4.0
+- All `plugins/*/.claude-plugin/plugin.json` — version synced to 3.4.0 via `sync-plugins.sh`
+- `CLAUDE.md`, `README.md`, `MARKETPLACE.md`, `PROJECT_STRUCTURE.md` — counts and category lists updated
+- `docs/reference/SKILL_CATEGORIZATION.md` — category lists updated
+- `docs/guides/MARKETPLACE_MANAGEMENT.md`, `docs/guides/PLUGIN_DEV_BEST_PRACTICES.md` — examples updated to reference remaining plugins
+
+**Migration path:** Users currently relying on `openai-*` plugins should switch to `claude-api` (Anthropic) or `ai-sdk-core` (Vercel AI SDK). Users of `google-gemini-*` should switch to `gemini-cli`.
+
+---
+
 ## [3.3.1] - 2026-05-14
 
 ### Added

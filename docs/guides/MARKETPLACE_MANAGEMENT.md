@@ -247,14 +247,14 @@ GLOBAL_VERSION=$(jq -r '.metadata.version // "1.0.0"' "$MARKETPLACE_JSON")
 ### Issue 3: Duplicate Keywords
 
 **Problem**: Keywords contained both hyphenated and space-separated versions:
-- `"openai-agents"` AND `"openai agents"`
 - `"cloudflare-d1"` AND `"cloudflare d1"`
+- `"ai-sdk-core"` AND `"ai sdk core"`
 
 **Root Cause** (in `generate_name_keywords()`):
 ```bash
 # Old code - REMOVED
 for ((i=0; i<${#parts[@]}-1; i++)); do
-  keywords="$keywords,${parts[i]} ${parts[i+1]}"  # Added "openai agents"
+  keywords="$keywords,${parts[i]} ${parts[i+1]}"  # Added "ai sdk core"
 done
 ```
 
@@ -263,10 +263,10 @@ done
 **Result**:
 ```json
 // Before
-"keywords": ["openai-agents", "openai", "agents", "openai agents", ...]
+"keywords": ["ai-sdk-core", "ai", "sdk", "core", "ai sdk core", ...]
 
 // After
-"keywords": ["openai-agents", "openai", "agents", ...]
+"keywords": ["ai-sdk-core", "ai", "sdk", "core", ...]
 ```
 
 ---
@@ -332,14 +332,14 @@ Skills are auto-categorized based on name patterns. There are 18 categories:
 | Category | Pattern Match | Example Skills |
 |----------|---------------|----------------|
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
-| `ai` | `^(ai-\|openai-\|claude-\|google-gemini-\|...)` | ai-sdk-core, openai-agents |
+| `ai` | `^(ai-\|claude-\|gemini-\|...)` | ai-sdk-core, claude-api |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-\|...)` | nuxt-v4, tailwind-v4-shadcn |
 | `auth` | `^(better-auth\|oauth-)` | better-auth |
-| `database` | `^(database-\|drizzle-\|neon-\|vercel-)` | drizzle-orm-d1, vercel-kv |
+| `database` | `^(database-\|drizzle-)` | drizzle-orm-d1, database-schema-design |
 | `api` | `^(api-\|graphql-\|rest-api-\|websocket-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
 | `security` | `^(access-control-\|csrf-\|xss-\|...)` | csrf-protection |
-| `mobile` | `^(app-store-\|mobile-\|react-native-\|swift-)` | swift-best-practices |
+| `mobile` | `^(app-store-\|mobile-\|react-native-)` | react-native-skills |
 | `web` | `^(firecrawl-\|hono-\|image-\|session-\|...)` | hono-routing |
 | `seo` | `^seo-` | seo-optimizer |
 | `design` | `^(design-\|interaction-\|kpi-dashboard-)` | design-review |
@@ -384,7 +384,7 @@ Keywords are generated from three sources and deduplicated:
 From the skill name itself:
 
 ```
-openai-agents → ["openai-agents", "openai", "agents"]
+ai-sdk-core → ["ai-sdk-core", "ai", "sdk", "core"]
 cloudflare-d1 → ["cloudflare-d1", "cloudflare"]  (d1 is ≤2 chars, skipped)
 ```
 
@@ -527,9 +527,9 @@ jq '.plugins[] | select(.keywords == []) | .name' .claude-plugin/marketplace.jso
 
 ```bash
 # Check specific skill
-jq '.keywords' skills/openai-agents/.claude-plugin/plugin.json
+jq '.keywords' plugins/ai-sdk-core/.claude-plugin/plugin.json
 
-# Should NOT have both "openai-agents" and "openai agents"
+# Should NOT have both "ai-sdk-core" and "ai sdk core"
 ```
 
 ### Check Agents/Commands

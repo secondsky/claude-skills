@@ -30,8 +30,8 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-workflows
 - cloudflare-zero-trust-access
 
-### 2. ai-skills (20 skills)
-AI and ML integrations - OpenAI, Gemini, Claude API, Eleven Labs, and ML pipelines.
+### 2. ai-skills (13 skills)
+AI and ML integrations - Gemini, Claude API, Eleven Labs, and ML pipelines.
 
 - ai-elements-chatbot
 - ai-sdk-core
@@ -40,17 +40,10 @@ AI and ML integrations - OpenAI, Gemini, Claude API, Eleven Labs, and ML pipelin
 - claude-api
 - elevenlabs-agents
 - gemini-cli
-- google-gemini-api
-- google-gemini-embeddings
-- google-gemini-file-search
 - ml-model-training
 - ml-pipeline-automation
 - model-deployment
 - multi-ai-consultant
-- openai-agents
-- openai-api
-- openai-assistants
-- openai-responses
 - tanstack-ai
 - thesys-generative-ui
 
@@ -85,24 +78,20 @@ Authentication and authorization solutions.
 - better-auth
 - oauth-implementation
 
-### 5. cms-skills (6 skills)
+### 5. cms-skills (5 skills)
 Content management systems and static site generators.
 
 - content-collections
 - hugo
 - nuxt-content
-- sveltia-cms
 - wordpress-plugin-core
 
-### 6. database-skills (7 skills)
+### 6. database-skills (4 skills)
 Database, ORM, and data storage solutions.
 
 - database-schema-design
 - database-sharding
 - drizzle-orm-d1
-- neon-vercel-postgres
-- vercel-blob
-- vercel-kv
 
 ### 7. api-skills (16 skills)
 API design, implementation, and best practices.
@@ -134,7 +123,7 @@ Testing frameworks, tools, and quality assurance.
 - test-quality-analysis
 - vitest-testing
 
-### 9. mobile-skills (8 skills)
+### 9. mobile-skills (6 skills)
 Mobile app development for iOS and Android.
 
 - app-store-deployment
@@ -143,8 +132,6 @@ Mobile app development for iOS and Android.
 - mobile-first-design
 - mobile-offline-support
 - react-native-app
-- swift-best-practices
-- swift-settingskit
 
 ### 10. security-skills (7 skills)
 Security best practices and vulnerability protection.

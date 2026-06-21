@@ -3,9 +3,9 @@
 **Repository**: https://github.com/secondsky/claude-skills
 **Purpose**: Production-ready skills for Claude Code CLI
 **Owner**: Claude Skills Maintainers
-**Status**: Active Development | 170 Plugins | 167 Skills Complete
-**Last Updated**: 2026-04-08
-**Last Audit**: 2026-04-08 (dependency audit)
+**Status**: Active Development | 156 Plugins | 153 Skills Complete
+**Last Updated**: 2026-06-21
+**Last Audit**: 2026-06-21 (14 deprecated plugins removed)
 
 ---
 
@@ -55,7 +55,7 @@ The `jezweb/claude-skills` is a PERSONAL FORK that must remain untouched. All de
 **What our documentation provides**:
 - Marketplace management (unique to this repository)
 - System prompt budget optimization (production issue, 15k char limit)
-- Batch operations for 169 skills
+- Batch operations for 156 skills
 - Repository-specific workflows
 
 See [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) for repository-specific guidance.
@@ -215,7 +215,7 @@ claude-skills/
 ├── .claude/                      # Claude Code config
 │   └── settings.local.json
 ├── .claude-plugin/               # Plugin marketplace
-│   └── marketplace.json # 169 plugins containing 167 skills
+│   └── marketplace.json # 156 plugins containing 153 skills
 ├── commands/                     # Slash commands (8 files)
 │   ├── explore-idea.md          # Pre-planning exploration
 │   ├── plan-project.md          # Project planning generator
@@ -251,7 +251,7 @@ claude-skills/
 │   ├── audit-keywords.sh        # Keyword auditing
 │   ├── baseline-audit-all.sh    # Baseline validation
 │   └── ... (7 more scripts)
-├── plugins/                      # ⭐ 169 production plugins (18.2MB)
+├── plugins/                      # ⭐ 156 production plugins (18.2MB)
 │   ├── cloudflare-*/            # 23 Cloudflare plugins
 │   │   ├── .claude-plugin/      # Plugin manifest
 │   │   │   └── plugin.json
@@ -318,13 +318,13 @@ plugins/<plugin-name>/
 
 This repository uses a **two-tier structure**:
 
-### 172 Plugins (Marketplace Categories)
+### 156 Plugins (Marketplace Categories)
 Plugins are **logical groupings** that organize related skills by domain:
 - Each plugin appears in `.claude-plugin/marketplace.json`
 - Plugins have names like "cloudflare-d1", "ai-sdk-core", "tailwind-v4-shadcn", etc.
 - Users install plugins via: `/plugin install <plugin-name>@claude-skills`
 
-### 170 Skills (Individual Capabilities)
+### 153 Skills (Individual Capabilities)
 Skills are the **actual knowledge units** that Claude loads:
 - Each skill has its own directory in `plugins/<plugin-name>/skills/`
 - Each skill has `SKILL.md`, `README.md`, templates, references
@@ -332,12 +332,12 @@ Skills are the **actual knowledge units** that Claude loads:
 
 ### Example Structure
 ```
-Plugin: "cloudflare-d1" (1 of 169 plugins)
+Plugin: "cloudflare-d1" (1 of 156 plugins)
   ↓ contains
 Skills: cloudflare-d1 (1 skill per plugin, some multi-skill like bun with 27)
 ```
 
-**Total**: 169 plugins organize 167 skills for optimal discoverability.
+**Total**: 156 plugins organize 153 skills for optimal discoverability.
 
 ---
 
@@ -345,13 +345,13 @@ Skills: cloudflare-d1 (1 skill per plugin, some multi-skill like bun with 27)
 
 ### ✅ Repository Status
 
-- **169 plugins** in marketplace (`.claude-plugin/marketplace.json`)
-- **167 individual skills** in repository (`plugins/` directory)
+- **156 plugins** in marketplace (`.claude-plugin/marketplace.json`)
+- **153 individual skills** in repository (`plugins/` directory)
 - Most plugins contain 1 skill; some contain multiple (bun: 27, cloudflare-workers: 10, nuxt-v4: 4)
 
-**Baseline Audit (2026-02-07):** 167 skills validated after removal of 9 redundant plugins. All remaining skills production-ready with zero critical issues.
+**Baseline Audit (2026-06-21):** 153 skills validated after removal of 14 deprecated plugins. All remaining skills production-ready with zero critical issues.
 
-All 167 skills are production-ready and organized by domain:
+All 153 skills are production-ready and organized by domain:
 
 **Cloudflare Platform** (20 skills):
 - cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -361,9 +361,8 @@ All 167 skills are production-ready and organized by domain:
 - cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
 - cloudflare-zero-trust-access, cloudflare-manager, cloudflare-sandbox
 
-**AI & Machine Learning** (19 skills):
-- ai-sdk-core, ai-sdk-ui, openai-api, openai-agents, openai-assistants, openai-responses
-- google-gemini-api, google-gemini-embeddings, google-gemini-file-search, gemini-cli
+**AI & Machine Learning** (12 skills):
+- ai-sdk-core, ai-sdk-ui, gemini-cli
 - claude-api, claude-agent-sdk, thesys-generative-ui, elevenlabs-agents
 - ai-elements-chatbot, better-chatbot, better-chatbot-patterns
 - multi-ai-consultant, nano-banana-prompts
@@ -378,20 +377,20 @@ All 167 skills are production-ready and organized by domain:
 **Auth & Security** (1 skill):
 - better-auth
 
-**Content Management** (4 skills):
-- sveltia-cms, nuxt-content, nuxt-seo, content-collections
+**Content Management** (3 skills):
+- nuxt-content, nuxt-seo, content-collections
 
-**Database & ORM** (4 skills):
-- drizzle-orm-d1, neon-vercel-postgres, vercel-kv, vercel-blob
+**Database & ORM** (1 skill):
+- drizzle-orm-d1
 
-**Tooling & Development** (33 skills):
+**Tooling & Development** (32 skills):
 - **MCP & Integration**: typescript-mcp, fastmcp, mcp-dynamic-orchestrator, mcp-management
 - **Code Quality**: code-review, dependency-upgrade, verification-before-completion
 - **Testing**: jest-generator, playwright-testing, vitest-testing, mutation-testing, test-quality-analysis, api-testing
 - **Architecture & Patterns**: api-design-principles, architecture-patterns, microservices-patterns
 - **Debugging & Analysis**: systematic-debugging, root-cause-tracing, sequential-thinking, defense-in-depth-validation
 - **Automation**: github-project-automation, claude-code-bash-patterns
-- **Tools**: chrome-devtools, swift-best-practices, claude-hook-writer, turborepo
+- **Tools**: chrome-devtools, claude-hook-writer, turborepo
 - **Feature Development**: feature-dev, design-review
 - **WooCommerce**: woocommerce-backend-dev, woocommerce-code-review, woocommerce-copy-guidelines, woocommerce-dev-cycle
 
@@ -405,7 +404,7 @@ All 167 skills are production-ready and organized by domain:
 
 **Audit Details:**
 - Last Baseline Audit: 2026-02-07
-- Automated validation: 167/167 skills passed
+- Automated validation: 153/153 skills passed
 - Issues found: 0 Critical, 0 High, 0 Medium
 - 6 plugins removed to streamline collection
 - Full report: See CHANGELOG.md v3.2.0
@@ -514,7 +513,7 @@ git add .claude-plugin/marketplace.json && git commit -m "Update marketplace wit
 This script consolidates all plugin management into one command:
 
 ### What It Does
-1. **Syncs version** from marketplace.json to all 169 plugin.json files
+1. **Syncs version** from marketplace.json to all 156 plugin.json files
 2. **Adds category** field based on skill name patterns
 3. **Detects agents** in `agents/` directory → adds agents array
 4. **Detects commands** in `commands/` directory → adds commands array
@@ -544,7 +543,7 @@ This script consolidates all plugin management into one command:
 
 ### ⚠️ Versioning: Global Only
 
-`sync-plugins.sh` uses a **single global version** for all 170 plugins. The version is read from `marketplace.json` → `.metadata.version` and stamped onto every `plugin.json` and marketplace entry. There is **no per-plugin versioning**.
+`sync-plugins.sh` uses a **single global version** for all 156 plugins. The version is read from `marketplace.json` → `.metadata.version` and stamped onto every `plugin.json` and marketplace entry. There is **no per-plugin versioning**.
 
 To bump version for any plugin change:
 1. Update `.metadata.version` in `.claude-plugin/marketplace.json`

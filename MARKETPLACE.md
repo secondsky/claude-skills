@@ -82,16 +82,14 @@ Complete Cloudflare platform skills - Workers, D1, R2, KV, AI, Queues, Durable O
 - cloudflare-turnstile, cloudflare-zero-trust-access, cloudflare-manager
 - cloudflare-sandbox
 
-### 2. ai-skills (20 skills)
+### 2. ai-skills (13 skills)
 
-AI and ML integrations - OpenAI, Gemini, Claude API, Eleven Labs, ML pipelines, and model deployment. Complete AI development toolkit.
+AI and ML integrations - Gemini, Claude API, Eleven Labs, ML pipelines, and model deployment. Complete AI development toolkit.
 
 **Installation**: `/plugin install ai-skills@claude-skills`
 
 **Includes**:
-- openai-api, openai-agents, openai-assistants, openai-responses
-- google-gemini-api, google-gemini-embeddings, google-gemini-file-search, gemini-cli
-- claude-api, claude-agent-sdk, ai-sdk-core, ai-sdk-ui
+- gemini-cli, claude-api, claude-agent-sdk, ai-sdk-core, ai-sdk-ui
 - thesys-generative-ui, tanstack-ai, elevenlabs-agents, ai-elements-chatbot
 - multi-ai-consultant, ml-model-training, ml-pipeline-automation, model-deployment
 
@@ -137,16 +135,14 @@ Development tools, utilities, and workflow automation - MCP servers, project pla
 - chrome-devtools, turborepo, feature-dev, frontend-design
 - logging-best-practices, idempotency-handling, zod
 
-### 6. database-skills (6 skills)
+### 6. database-skills (3 skills)
 
-Database, ORM, and data storage solutions - Drizzle ORM, Neon Postgres, Vercel KV/Blob, schema design, and sharding strategies.
+Database, ORM, and data storage solutions - Drizzle ORM, schema design, and sharding strategies.
 
 **Installation**: `/plugin install database-skills@claude-skills`
 
 **Includes**:
-- drizzle-orm-d1, neon-vercel-postgres
-- vercel-kv, vercel-blob
-- database-schema-design, database-sharding
+- drizzle-orm-d1, database-schema-design, database-sharding
 
 ### 7. testing-skills (5 skills)
 
@@ -167,14 +163,14 @@ Authentication and authorization solutions - Better Auth and OAuth implementatio
 **Includes**:
 - better-auth, oauth-implementation
 
-### 9. cms-skills (4 skills)
+### 9. cms-skills (3 skills)
 
-Content management systems and static site generators - Sveltia CMS, WordPress, Hugo, Nuxt Content, and content collections.
+Content management systems and static site generators - WordPress, Hugo, Nuxt Content, and content collections.
 
 **Installation**: `/plugin install cms-skills@claude-skills`
 
 **Includes**:
-- sveltia-cms, hugo, wordpress-plugin-core, content-collections
+- hugo, wordpress-plugin-core, content-collections
 
 ### 10. web-skills (11 skills)
 
@@ -188,15 +184,15 @@ Web development, optimization, and performance - Hono routing, image optimizatio
 - payment-gateway-integration, progressive-web-app, push-notification-setup
 - responsive-web-design, session-management
 
-### 11. mobile-skills (8 skills)
+### 11. mobile-skills (6 skills)
 
-Mobile app development for iOS and Android - React Native, Swift, app store deployment, mobile testing, and offline support.
+Mobile app development for iOS and Android - React Native, app store deployment, mobile testing, and offline support.
 
 **Installation**: `/plugin install mobile-skills@claude-skills`
 
 **Includes**:
 - app-store-deployment, mobile-app-debugging, mobile-app-testing, mobile-first-design
-- mobile-offline-support, react-native-app, swift-best-practices, swift-settingskit
+- mobile-offline-support, react-native-app
 
 ### 12. security-skills (6 skills)
 
@@ -329,7 +325,7 @@ Documentation and technical writing - Technical specification templates and docu
 ### For Users
 
 - ✅ **Skills are now discoverable**: Claude Code sees and uses them properly
-- ✅ **Easier installation**: Install suites instead of 169 individual skills
+- ✅ **Easier installation**: Install suites instead of 156 individual skills
 - ✅ **Logical organization**: Skills grouped by domain
 - ✅ **Automatic updates**: Keep skills current with `/plugin update`
 - ✅ **Team deployment**: Share via `.claude/settings.json`
@@ -515,7 +511,7 @@ Each skill has a `plugin.json` following the Anthropic specification:
 - **Fix**: sync-plugins.sh reads global version and syncs to all files
 
 #### Issue 3: Duplicate Keywords
-- **Problem**: Keywords had both `"openai-agents"` AND `"openai agents"`
+- **Problem**: Keywords had both `"ai-sdk-core"` AND `"ai sdk core"`
 - **Fix**: Removed space-separated pair generation from keyword logic
 
 #### Issue 4: Missing Fields
@@ -530,7 +526,7 @@ Each skill has a `plugin.json` following the Anthropic specification:
 
 Keywords are generated from 3 sources with deduplication:
 
-1. **Name keywords**: `openai-agents` → `["openai-agents", "openai", "agents"]`
+1. **Name keywords**: `ai-sdk-core` → `["ai-sdk-core", "ai", "sdk", "core"]`
 2. **Category keywords**: Domain-specific terms (e.g., cloudflare → `["workers", "edge", "serverless"]`)
 3. **Description keywords**: Extracted technical terms (ALL-CAPS, CamelCase, valuable terms)
 
@@ -571,8 +567,8 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-**Last Updated**: 2025-12-19
-**Marketplace Version**: 3.0.0
-**Skills**: 169 (organized into 18 suite plugins)
+**Last Updated**: 2026-06-21
+**Marketplace Version**: 3.4.0
+**Skills**: 156 (organized into 18 suite plugins)
 **Format**: Anthropic-compliant suite plugins
 **Maintainer**: Claude Skills Maintainers
