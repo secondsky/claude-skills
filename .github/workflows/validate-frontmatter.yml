@@ -23,7 +23,7 @@ jobs:
       - name: Validate changed SKILL.md files
         if: github.event_name == 'pull_request'
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
+          CHANGED=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
           if [ -z "$CHANGED" ]; then
             echo "No SKILL.md files changed, skipping validation"
             exit 0
@@ -47,7 +47,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           FOUND=0
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
+          CHANGED=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
           if [ -z "$CHANGED" ]; then
             echo "No SKILL.md files changed, skipping keyword check"
             exit 0
