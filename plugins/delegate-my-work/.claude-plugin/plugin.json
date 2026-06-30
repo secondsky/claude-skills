@@ -1,7 +1,7 @@
 {
   "name": "delegate-my-work",
-  "description": "Interview the user to find recurring loops in their work and spec each for delegation to AI. Use to automate, half-automate (co-pilot), or AI-assist repetitive work, or when asking what AI could take off your plate.",
-  "version": "3.3.1",
+  "description": "Interview employees to find recurring work, map accessible AI and automation tools, and spec each loop with preferred and fallback routes.",
+  "version": "3.3.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -12,8 +12,11 @@
     "delegate-my-work",
     "delegate",
     "work",
-    "tooling",
-    "workflow"
+    "workflow",
+    "automation",
+    "employee-productivity",
+    "tool-access",
+    "ai-delegation"
   ],
   "commands": [
     "./commands/delegate.md"

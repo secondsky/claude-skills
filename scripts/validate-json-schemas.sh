@@ -7,7 +7,7 @@
 # - All plugin.json files against plugin.schema.json
 #
 # Requirements:
-# - ajv-cli: npm install -g ajv-cli ajv-formats
+# - Run `npm install` to install local dev dependencies.
 #
 # Usage:
 #   ./scripts/validate-json-schemas.sh
@@ -32,19 +32,24 @@ echo "🔍 JSON Schema Validation"
 echo "═══════════════════════════════════════"
 echo ""
 
-# Check if ajv-cli is installed
-if ! command -v ajv &> /dev/null; then
+# Resolve ajv-cli. Prefer the repo-local dev dependency so validation does not
+# depend on a global npm install.
+if [ -x "$REPO_ROOT/node_modules/.bin/ajv" ]; then
+  AJV="$REPO_ROOT/node_modules/.bin/ajv"
+elif command -v ajv &> /dev/null; then
+  AJV="$(command -v ajv)"
+else
   echo -e "${RED}❌ Error: ajv-cli is not installed${NC}"
   echo ""
   echo "Install with:"
-  echo "  npm install -g ajv-cli ajv-formats"
+  echo "  npm install"
   echo ""
   exit 1
 fi
 
 # Validate marketplace.json
 echo -e "${BLUE}📦 Validating marketplace.json...${NC}"
-if ajv validate \
+if "$AJV" validate \
   -s "$SCHEMAS_DIR/marketplace.schema.json" \
   -d "$MARKETPLACE_FILE" \
   --spec=draft7 \
@@ -79,7 +84,7 @@ while IFS= read -r plugin_file; do
   # Run validation and capture output
   # Temporarily disable errexit to capture exit code
   set +e
-  validation_output=$(ajv validate \
+  validation_output=$("$AJV" validate \
     -s "$SCHEMAS_DIR/plugin.schema.json" \
     -d "$plugin_file" \
     --spec=draft7 \
