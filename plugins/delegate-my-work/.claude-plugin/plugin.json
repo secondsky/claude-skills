@@ -1,0 +1,21 @@
+{
+  "name": "delegate-my-work",
+  "description": "Interview the user to find recurring loops in their work and spec each for delegation to AI. Use to automate, half-automate (co-pilot), or AI-assist repetitive work, or when asking what AI could take off your plate.",
+  "version": "3.3.1",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "delegate-my-work",
+    "delegate",
+    "work",
+    "tooling",
+    "workflow"
+  ],
+  "commands": [
+    "./commands/delegate.md"
+  ]
+}

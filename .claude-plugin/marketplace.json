@@ -543,6 +543,15 @@
     }
 ,
     {
+      "name": "delegate-my-work",
+      "source": "./plugins/delegate-my-work",
+      "version": "3.3.1",
+      "description": "Interview the user to find recurring loops in their work and spec each for delegation to AI. Use to automate, half-automate (co-pilot), or AI-assist repetitive work, or when asking what AI could take off your plate.",
+      "keywords": ["delegate-my-work","delegate","work","tooling","workflow"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "dependency-upgrade",
       "source": "./plugins/dependency-upgrade",
       "version": "3.3.1",
