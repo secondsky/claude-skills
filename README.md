@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**141 production-ready skills for Claude Code CLI**
+**142 production-ready skills for Claude Code CLI**
 
-Version 3.4.0 | Last Updated: 2026-07-18
+Version 3.5.0 | Last Updated: 2026-07-18
 
 <div align="center">
 
@@ -144,6 +144,11 @@ skills/[skill-name]/
 ---
 
 ## Recent Additions
+
+### July 2026
+
+**Offensive Security** (new category):
+- **cybersecurity** — Unified OSS-only cybersecurity skill with progressive disclosure. Fuses 7 community skills (mukul975 business-logic/XSS/host-header/forced-browsing/open-redirect, rysweet/amplihack cybersecurity-analyst, Aradotso security-detections-mcp) ported to fully open-source tooling (OWASP ZAP, Dalfox, ffuf, Nuclei, mitmproxy, interact.sh, Semgrep, Sigma). Covers threat modeling (STRIDE/PASTA/VAST, MITRE ATT&CK), web-vuln testing, SAST, code audit, AI/LLM-app security, and detection engineering. Live-target testing is gated behind an authorization disclaimer; static analysis, code review, and threat modeling are always available. Cross-references the 5 existing defensive security plugins (`csrf-protection`, `xss-prevention`, `vulnerability-scanning`, `security-headers-configuration`, `defense-in-depth-validation`) for remediation. Integrates 20 Aradotso dev-security skills across 5 grouped reference docs.
 
 ### May 2026
 
