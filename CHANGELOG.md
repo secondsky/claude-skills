@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.5.0] - 2026-07-18
+
+### Added
+
+#### cybersecurity Plugin (new offensive-security category)
+
+Unified OSS-only cybersecurity skill with progressive disclosure. Fills the repo's offensive-security gap — the 5 existing security plugins are all defensive (csrf-protection, xss-prevention, vulnerability-scanning, security-headers-configuration, defense-in-depth-validation); this new skill adds find / analyze / threat-model coverage.
+
+- Full plugin under `plugins/cybersecurity/` with `SKILL.md` router + 14 `references/*.md` docs
+- Fuses 7 community skills ported to fully open-source tooling (OWASP ZAP, Dalfox, ffuf, Nuclei, mitmproxy, interact.sh, Semgrep, Sigma):
+  - mukul975 — business-logic, XSS (with honest DOM Invader gap statement), host-header, open-redirect, forced-browsing
+  - rysweet/amplihack — `cybersecurity-analyst` 11-step reasoning framework (CIA, defense-in-depth, STRIDE/PASTA/VAST, MITRE ATT&CK, CVSS/FAIR, NIST IR)
+  - Aradotso — `security-detections-mcp` (Sigma + MITRE ATT&CK detection engineering via local OSS MCP; hosted API documented as optional)
+- Integrates 20 Aradotso dev-security skills across 5 grouped reference docs (code audit / SAST, agent + "vibe-coded" app safety, compliance suite, web-vuln testing + Academy walkthroughs, AI-app security)
+- Each reference doc is a **dispatchable sub-agent briefing** (decision #5): the SKILL.md is a thin router + dispatcher; every reference lookup hands the task to a dedicated high-tier sub-agent (`gpt-5.6 sol` preferred / `opus 5 max` fallback)
+- Live-target testing gated behind an authorization disclaimer that runs in main context before any sub-agent dispatch (safety invariant: no TOCTOU)
+- Static analysis, SAST, threat modeling, code review, and detection authoring are always-available (no gate)
+- Cross-references the 5 existing defensive plugins for remediation (no duplication, no edits to existing plugins)
+- Includes a centralized `oss-tool-map.md` paid→OSS swap table (Burp/Collaborator/Nessus/SonarQube/Splunk/CrowdStrike/etc.)
+- Updated `scripts/lib/categorize.sh` to include `cybersecurity` in the security-category whitelist
+
+### Changed
+
+- Bumped marketplace and all plugins to v3.5.0
+- Bumped `package.json` to 3.5.0
+- Updated `README.md` skill count (141 → 142) and added July 2026 Recent Additions entry
+- Updated `MARKETPLACE.md` catalog with cybersecurity entry
+
+---
+
 ## [3.4.0] - 2026-07-18
 
 ### Added

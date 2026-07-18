@@ -36,7 +36,7 @@ categorize_skill() {
   elif [[ "$skill_name" =~ ^(jest-generator|mutation-testing|playwright-testing|test-quality-analysis|vitest-testing) ]]; then
     echo "testing"
   # Security skills
-  elif [[ "$skill_name" =~ ^(access-control-rbac|csrf-protection|defense-in-depth-validation|security-headers-configuration|vulnerability-scanning|xss-prevention) ]]; then
+  elif [[ "$skill_name" =~ ^(access-control-rbac|csrf-protection|cybersecurity|defense-in-depth-validation|security-headers-configuration|vulnerability-scanning|xss-prevention) ]]; then
     echo "security"
   # WooCommerce skills (matches both "woocommerce" parent and "woocommerce-*" children)
   elif [[ "$skill_name" =~ ^woocommerce(-|$) ]]; then

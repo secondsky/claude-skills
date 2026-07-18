@@ -1,0 +1,26 @@
+{
+  "name": "cybersecurity",
+  "description": "OSS-only security for OWASP Top 10, pentest, vuln testing (XSS, SSRF, CSRF, business-logic, Host header), threat modeling (STRIDE, ATT&CK), Sigma rules, SAST, code audit, AI/LLM red-team, or replacing paid tools (Burp, Nessus, Splunk) with OSS.",
+  "version": "3.5.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cybersecurity",
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf",
+    "xss",
+    "att",
+    "llm",
+    "oss",
+    "owasp",
+    "sast",
+    "ssrf",
+    "stride"
+  ]
+}

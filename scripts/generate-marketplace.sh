@@ -70,7 +70,7 @@ cat > "$MARKETPLACE_JSON" << 'EOF_HEADER'
   },
   "metadata": {
     "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
-    "version": "3.4.0",
+    "version": "3.5.0",
     "homepage": "https://github.com/secondsky/claude-skills"
   },
   "plugins": [

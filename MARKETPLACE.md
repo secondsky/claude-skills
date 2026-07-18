@@ -1,6 +1,6 @@
 # Claude Skills Marketplace
 
-Welcome to the **claude-skills** marketplace - a curated collection of **167 production-tested skills** for Claude Code CLI, organized into **18 suite plugins**.
+Welcome to the **claude-skills** marketplace - a curated collection of **168 production-tested skills** for Claude Code CLI, organized into **18 suite plugins**.
 
 ## 🚨 BREAKING CHANGE (v2.0.0)
 
@@ -194,9 +194,9 @@ Mobile app development for iOS and Android - React Native, app store deployment,
 - app-store-deployment, mobile-app-debugging, mobile-app-testing, mobile-first-design
 - mobile-offline-support, react-native-app
 
-### 12. security-skills (6 skills)
+### 12. security-skills (7 skills)
 
-Security best practices and vulnerability protection - RBAC, CSRF/XSS prevention, security headers, and vulnerability scanning.
+Security best practices, vulnerability protection, and offensive security testing - RBAC, CSRF/XSS prevention, security headers, vulnerability scanning, plus OSS-only cybersecurity (pentest, threat modeling, SAST, detection engineering).
 
 **Installation**: `/plugin install security-skills@claude-skills`
 
@@ -204,6 +204,7 @@ Security best practices and vulnerability protection - RBAC, CSRF/XSS prevention
 - csrf-protection, xss-prevention
 - security-headers-configuration, defense-in-depth-validation
 - vulnerability-scanning
+- cybersecurity (offensive: OWASP Top 10, pentest, XSS/SSRF/CSRF/business-logic testing, threat modeling, MITRE ATT&CK, Sigma rules, SAST, code audit, AI/LLM red-team — all OSS tooling)
 
 ### 13. architecture-skills (3 skills)
 
@@ -316,7 +317,7 @@ Documentation and technical writing - Technical specification templates and docu
 - **Discovery**: Skills are now properly discovered by Claude Code
 - **Naming**: Skills have plugin prefix (e.g., `cloudflare-skills:cloudflare-d1`)
 - **Installation**: Install by suite instead of individual skills
-- **Count**: 18 suite plugins instead of 167 individual plugins
+- **Count**: 18 suite plugins instead of 168 individual plugins
 
 ---
 
@@ -569,6 +570,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 **Last Updated**: 2026-06-21
 **Marketplace Version**: 3.4.0
-**Skills**: 139 (organized into 18 suite plugins)
+**Skills**: 140 (organized into 18 suite plugins)
 **Format**: Anthropic-compliant suite plugins
 **Maintainer**: Claude Skills Maintainers
