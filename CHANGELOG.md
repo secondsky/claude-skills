@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.4.0] - 2026-07-18
+
+### Added
+
+#### delegate-my-work Skill Upgrade
+
+Upgraded the `delegate-my-work` skill into a full plugin for finding recurring work loops and spec'ing each one for delegation to AI (fully automate, co-pilot, or AI-assist).
+
+- New plugin tree under `plugins/delegate-my-work/`: `commands/delegate.md`, `skills/delegate-my-work/SKILL.md`, `agents/openai.yaml`, and three `references/*.md` files (interview question bank, delegation spec template, vocabulary)
+- Refined the plugin description and keywords to focus on interviewing employees, mapping accessible AI/automation tools, and producing preferred/fallback routes per loop
+- Added `scripts/validate-json-schemas.sh` JSON-schema validator and a `.githooks/pre-commit` hook
+
+#### typescript-migration Plugin
+
+New plugin covering TypeScript version migrations (5.x → 6 → 7, including the `tsgo` native port). Use for TS 6 tsconfig breaking changes, the TS 7 Go rewrite rollout, and TS5xxx deprecation codes.
+
+- Full plugin under `plugins/typescript-migration/` with SKILL.md, references for ts6 breaking changes, ts7 Go rewrite, and ecosystem compatibility, helper scripts, and tsconfig/workflow templates
+
+### Changed
+
+- **Marketplace version** bumped to 3.4.0 across all 172 plugins and the marketplace manifest
+- **README.md** updated to v3.4.0
+
+---
+
 ## [3.3.1] - 2026-05-14
 
 ### Added

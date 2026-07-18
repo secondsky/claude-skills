@@ -1,7 +1,7 @@
 {
   "name": "dependency-upgrade",
   "description": "Secure dependency upgrades with supply chain protection, cooldowns, staged rollout, and Socket CLI integration. Use when upgrading deps, configuring security policies, or preventing supply chain attacks.",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

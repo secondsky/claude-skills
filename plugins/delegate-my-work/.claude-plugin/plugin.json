@@ -1,7 +1,7 @@
 {
   "name": "delegate-my-work",
   "description": "Interview employees to find recurring work, map accessible AI and automation tools, and spec each loop with preferred and fallback routes.",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"
@@ -12,11 +12,8 @@
     "delegate-my-work",
     "delegate",
     "work",
-    "workflow",
-    "automation",
-    "employee-productivity",
-    "tool-access",
-    "ai-delegation"
+    "tooling",
+    "workflow"
   ],
   "commands": [
     "./commands/delegate.md"
