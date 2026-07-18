@@ -167,7 +167,6 @@ This skill prevents **13+ common mistakes**:
 This skill works well with:
 - `tailwind-v4-shadcn` - For additional UI components
 - `nuxt-v4` - For Nuxt 4 setup patterns
-- `typescript-mcp` - For type safety
 - `motion` - For advanced animation patterns
 
 ## Credits

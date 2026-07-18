@@ -329,8 +329,8 @@ All templates tested and verified working as of **2025-11-04**
 
 ## When NOT to Use This Skill
 
-❌ Building Python MCP servers → Use `fastmcp` skill
-❌ Local-only MCP servers → Use `typescript-mcp` skill
+❌ Building Python MCP servers → Use Python MCP libraries directly
+❌ Local-only MCP servers → Use the official MCP SDK directly
 ❌ Non-Cloudflare hosting → Different deployment guides
 ❌ Claude.ai web skills → Different from MCP servers
 
@@ -424,8 +424,6 @@ MIT License - See [LICENSE](../../LICENSE)
 
 ## Related Skills
 
-- **fastmcp** - Python MCP servers with FastMCP framework
-- **typescript-mcp** - Local TypeScript MCP servers
 - **cloudflare-worker-base** - General Cloudflare Workers setup
 - **cloudflare-durable-objects** - Deep-dive into Durable Objects
 

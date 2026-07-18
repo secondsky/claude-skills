@@ -783,8 +783,8 @@ return new Response(body, {
 ## When NOT to Use This Skill
 
 **Don't use this skill when**:
-- Building Python MCP servers (use `fastmcp` skill instead)
-- Building local-only MCP servers (use `typescript-mcp` skill)
+- Building Python MCP servers (use Python MCP libraries directly)
+- Building local-only MCP servers (use the official MCP SDK directly)
 - You need non-Cloudflare hosting (AWS Lambda, GCP, etc.)
 - You're working with Claude.ai web interface skills (different from MCP)
 

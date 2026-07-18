@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**170 production-ready skills for Claude Code CLI**
+**139 production-ready skills for Claude Code CLI**
 
-Version 3.3.1 | Last Updated: 2026-05-14
+Version 3.4.0 | Last Updated: 2026-06-21
 
 <div align="center">
 
@@ -38,10 +38,10 @@ PS: if skills.sh warns about any skill: Their scan process is a outdated LLM whi
 # Install individual skills as needed
 /plugin install cloudflare-d1@claude-skills
 /plugin install tailwind-v4-shadcn@claude-skills
-/plugin install ai-sdk-core@claude-skills
+/plugin install gemini-cli@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 170 skills.
+See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 139 skills.
 
 ### Bulk Installation (Contributors)
 
@@ -50,7 +50,7 @@ See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 170 skills.
 git clone https://github.com/secondsky/claude-skills.git
 cd claude-skills
 
-# Install all 170 skills at once
+# Install all 139 skills at once
 ./scripts/install-all.sh
 
 # Or install individual skills
@@ -61,7 +61,7 @@ cd claude-skills
 
 ## Repository Structure
 
-This repository contains **170 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **139 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -71,11 +71,11 @@ This repository contains **170 production-tested skills** for Claude Code, each 
 
 **Installation Options**:
 1. **Individual** - Install only the skills you need via marketplace
-2. **Bulk** - Install all 170 skills using `./scripts/install-all.sh`
+2. **Bulk** - Install all 139 skills using `./scripts/install-all.sh`
 
 ---
 
-## Available Skills (170 Individual Skills)
+## Available Skills (139 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -85,22 +85,22 @@ Each skill is individually installable. Install only the skills you need.
 
 | Category | Skills | Examples |
 |----------|--------|----------|
-| **tooling** | 29 | turborepo, plan-interview, code-review |
+| **tooling** | 22 | turborepo, plan-interview, code-review |
 | **frontend** | 26 | nuxt-v4, nuxt-v5, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui, threejs |
 | **cloudflare** | 21 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
-| **ai** | 20 | openai-agents, claude-api, ai-sdk-core |
 | **api** | 16 | api-design-principles, graphql-implementation |
+| **ai** | 7 | gemini-cli, ml-model-training, tanstack-ai |
 | **web** | 10 | hono-routing, firecrawl-scraper, web-performance |
-| **mobile** | 7 | swift-best-practices, react-native-app, react-native-skills |
-| **database** | 6 | drizzle-orm-d1, neon-vercel-postgres, supabase-postgres-best-practices |
-| **security** | 6 | csrf-protection, access-control-rbac |
-| **auth** | 4 | better-auth |
+| **security** | 5 | csrf-protection, xss-prevention |
+| **mobile** | 5 | react-native-app, react-native-skills |
+| **woocommerce** | 4 | woocommerce-backend-dev |
 | **testing** | 4 | vitest-testing, playwright-testing |
 | **design** | 4 | design-review, design-system-creation |
-| **woocommerce** | 4 | woocommerce-backend-dev |
-| **cms** | 4 | hugo, sveltia-cms, wordpress-plugin-core |
+| **auth** | 4 | better-auth |
 | **architecture** | 3 | microservices-patterns, architecture-patterns |
-| **data** | 3 | sql-query-optimization, recommendation-engine |
+| **data** | 2 | recommendation-engine, recommendation-system |
+| **cms** | 2 | hugo, wordpress-plugin-core |
+| **database** | 1 | drizzle-orm-d1 |
 | **seo** | 2 | seo-optimizer, seo-keyword-cluster-builder |
 | **documentation** | 1 | technical-specification |
 
@@ -156,7 +156,6 @@ skills/[skill-name]/
 
 **Full-Stack Frameworks**:
 - **nuxt-v5** (v1.0.0) - Full Nuxt 5 support with 4 skills (core, data, server, production), 3 diagnostic agents, and interactive setup wizard
-- **supabase-postgres-best-practices** - 30 Postgres optimization rules from Supabase across 8 categories
 - **threejs** (v1.0.0) - 3D web graphics: scenes, geometries, shaders, animations, post-processing
 
 **Infrastructure**:
@@ -192,7 +191,7 @@ skills/[skill-name]/
 Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
 
 **What this means:**
-- Not all 170 skills may be visible in Claude's context at once
+- Not all 139 skills may be visible in Claude's context at once
 - Skills are loaded based on relevance and available token budget
 - You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
 
@@ -205,7 +204,7 @@ To verify which skills are currently loaded:
 "Check what skills/plugins you see in your system prompt"
 ```
 
-Claude will report something like: "85 of 170 skills visible due to token limits"
+Claude will report something like: "85 of 139 skills visible due to token limits"
 
 ### Workaround: Increase Token Budget
 
@@ -233,7 +232,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 | **Typical Errors** | 2-4 per service | 0 (prevented) | **100%** |
 | **Setup Time** | 2-4 hours | 15-45 minutes | **~80%** |
 
-**Across all 170 skills**: 400+ documented errors prevented.
+**Across all 139 skills**: 400+ documented errors prevented.
 
 ---
 

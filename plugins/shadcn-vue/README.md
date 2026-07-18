@@ -256,7 +256,6 @@ shadcn-vue/
 
 - **tailwind-v4-shadcn** - Tailwind v4 with shadcn/ui for React
 - **nextjs** - Next.js framework setup
-- **typescript-mcp** - TypeScript MCP server development
 
 ---
 

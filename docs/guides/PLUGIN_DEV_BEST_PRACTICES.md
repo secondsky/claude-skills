@@ -242,13 +242,13 @@ Skills are auto-categorized based on name patterns:
 | Category | Pattern Match | Examples |
 |----------|---------------|----------|
 | `cloudflare` | `^cloudflare-` | cloudflare-d1, cloudflare-workers-ai |
-| `ai` | `^(ai-\|openai-\|claude-\|google-gemini-)` | ai-sdk-core, openai-agents |
+| `ai` | `^(gemini-\|ml-\|model-)` | gemini-cli, ml-model-training |
 | `frontend` | `^(nextjs\|nuxt-\|react-\|tanstack-)` | nuxt-v4, tailwind-v4-shadcn |
 | `auth` | `^(better-auth)` | better-auth |
-| `database` | `^(database-\|drizzle-\|neon-\|vercel-)` | drizzle-orm-d1, vercel-kv |
+| `database` | `^drizzle-` | drizzle-orm-d1 |
 | `api` | `^(api-\|graphql-\|rest-api-)` | api-design-principles |
 | `testing` | `^(jest-\|mutation-\|playwright-\|vitest-)` | vitest-testing |
-| `mobile` | `^(app-store-\|mobile-\|react-native-\|swift-)` | swift-best-practices |
+| `mobile` | `^(app-store-\|mobile-\|react-native-)` | react-native-skills |
 | `tooling` | Default fallback | turborepo, code-review |
 
 **Distribution** (Current):

@@ -104,7 +104,6 @@ pnpm dev
 **Prerequisites**: None  
 **Integrates With**:
 - tanstack-query (for data caching inside tools)
-- openai-agents / claude-agent-sdk (for provider-specific flows)
 
 ---
 
@@ -138,8 +137,6 @@ tanstack-ai/
 ## Related Skills
 
 - **tanstack-query** — server state management patterns  
-- **openai-agents** — OpenAI-specific assistants/agents setups  
-- **claude-agent-sdk** — Anthropic-flavored agent orchestration
 
 ---
 

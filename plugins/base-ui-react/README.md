@@ -227,7 +227,6 @@ import { Popover } from "@base-ui-components/react/popover";
 - `tailwind-v4-shadcn` - Styling (recommended)
 - `cloudflare-worker-base` - Deployment
 - `react-hook-form-zod` - Form validation
-- `ai-sdk-ui` - AI-powered UIs
 
 ---
 
@@ -269,7 +268,6 @@ base-ui-react/
 - **tailwind-v4-shadcn** - Styling for Base UI components
 - **cloudflare-worker-base** - Deployment foundation
 - **react-hook-form-zod** - Form validation patterns
-- **ai-sdk-ui** - AI-powered UI components
 
 ---
 

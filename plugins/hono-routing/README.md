@@ -147,7 +147,6 @@ export type AppType = typeof app
 **Integrates With**:
 - **cloudflare-worker-base** (optional) - For Cloudflare Workers setup
 - **clerk-auth** (optional) - For authentication middleware
-- **ai-sdk-core** (optional) - For AI-powered endpoints
 
 ---
 
@@ -193,7 +192,6 @@ hono-routing/
 - **cloudflare-worker-base** - Cloudflare Workers + Hono setup
 - **clerk-auth** - Authentication middleware patterns
 - **react-hook-form-zod** - Client-side form validation
-- **ai-sdk-core** - AI-powered API endpoints
 
 ---
 

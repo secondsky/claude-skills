@@ -158,7 +158,6 @@ bun add @nuxt/content better-sqlite3
 - **nuxt** - Nuxt framework (required)
 - **cloudflare-worker-base** - For Cloudflare deployments (optional)
 - **tailwind-v4-shadcn** - For UI styling (optional)
-- **typescript-mcp** - For TypeScript tooling (optional)
 
 ---
 
@@ -205,7 +204,6 @@ nuxt-content/
 - **cloudflare-worker-base** - Cloudflare Workers foundation
 - **cloudflare-d1** - Cloudflare D1 database operations
 - **tailwind-v4-shadcn** - UI component styling
-- **typescript-mcp** - TypeScript development tools
 
 ---
 

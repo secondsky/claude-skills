@@ -227,4 +227,3 @@ Build topic authority by creating comprehensive, interconnected content that ser
 ## Related Skills
 
 - **seo-optimizer**: Optimize individual content pieces for search rankings
-- **content-collections**: Organize and manage content systematically

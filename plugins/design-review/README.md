@@ -226,8 +226,8 @@ For detailed procedures, see main [SKILL.md](SKILL.md) file.
    - Capabilities: Browser automation, screenshots, viewport testing, console monitoring, form interaction
    - Best for: Complete design reviews with interaction testing
 
-2. **Chrome DevTools CLI** (alternative for visual testing)
-   - See `chrome-devtools` skill for setup
+2. **Puppeteer CLI** (alternative for visual testing)
+   - Install via `npm install -g puppeteer`
    - Capabilities: Screenshot capture, performance analysis, network monitoring
    - Best for: Visual QA, performance audits, simpler reviews
 
@@ -253,11 +253,8 @@ If browser tools are not available, this skill will:
 ## Related Skills
 
 - **playwright-testing**: E2E testing and Playwright MCP setup
-- **chrome-devtools**: Browser automation via Puppeteer CLI scripts
 - **frontend-design**: Create new frontend interfaces with design quality (complementary)
 - **tailwind-v4-shadcn**: UI framework (components being reviewed may use this)
-- **ai-sdk-ui**: AI-powered UI components (may be part of reviewed interfaces)
-- **ai-elements-chatbot**: Chatbot interfaces that may need design review
 
 ---
 
@@ -349,7 +346,7 @@ See [assets/review-report-template.md](assets/review-report-template.md) for ful
 
 ## Getting Started
 
-1. **Install browser tools**: See `playwright-testing` or `chrome-devtools` skill
+1. **Install browser tools**: See `playwright-testing` skill (or install Puppeteer directly)
 2. **Prepare preview URL**: Ensure live environment accessible
 3. **Ask Claude**: "Review the design of [component/page]" or "Design review for PR #[number]"
 4. **Claude automatically**:

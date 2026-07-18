@@ -7,6 +7,100 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.4.0] - 2026-06-21
+
+### Removed
+
+#### Plugin Repository Cleanup — Batch 2 (17 Additional Plugins)
+
+Continued curation, removing 17 more plugins. With Batch 1 (14 plugins) earlier today, this brings the total removed to 31 plugins.
+
+**Removed plugins (17):**
+
+| Category | Plugin | Reason |
+|----------|--------|--------|
+| ai | `ai-sdk-core` | Out of scope (Vercel AI SDK, not Claude-focused) |
+| ai | `ai-sdk-ui` | Out of scope (Vercel AI SDK, not Claude-focused) |
+| ai | `claude-api` | Out of scope (covered by official Anthropic docs) |
+| ai | `claude-agent-sdk` | Out of scope (covered by official Anthropic docs) |
+| ai | `elevenlabs-agents` | Out of scope (vendor-specific, low adoption) |
+| ai | `ai-elements-chatbot` | Out of scope (niche UI library) |
+| tooling | `better-chatbot` | Out of scope (project-specific conventions) |
+| tooling | `better-chatbot-patterns` | Out of scope (project-specific patterns) |
+| tooling | `chrome-devtools` | Out of scope (use `playwright-testing` or Puppeteer directly) |
+| tooling | `fastmcp` | Out of scope (Python MCP framework, use SDK directly) |
+| tooling | `typescript-mcp` | Out of scope (use official MCP SDK directly) |
+| tooling | `verification-before-completion` | Out of scope (general practice, not Claude-specific) |
+| security | `access-control-rbac` | Out of scope (general pattern, not Claude-specific) |
+| cms | `content-collections` | Out of scope (niche framework) |
+| database | `database-schema-design` | Out of scope (general DB knowledge) |
+| database | `database-sharding` | Out of scope (general DB knowledge) |
+| data | `sql-query-optimization` | Out of scope (general DB knowledge) |
+
+**Impact:**
+- Marketplace plugins: 156 → 139 (cumulative from 3.3.x: 170 → 139, -31 total)
+- Repository skill count: ~197 → ~180
+- Marketplace version: unchanged (3.4.0)
+
+**Cross-reference cleanup in remaining plugins:**
+- `design-review` (SKILL.md + `references/browser-tools-reference.md`): Replaced `chrome-devtools` skill references with direct Puppeteer guidance; removed `ai-sdk-ui`/`ai-elements-chatbot` mentions
+- `systematic-debugging/SKILL.md`: Removed `verification-before-completion` reference
+- `zod/SKILL.md`: Removed `typescript-mcp` reference
+- `cloudflare-mcp-server/references/production-deployment.md` + README.md: Removed `fastmcp`/`typescript-mcp` skill pointers
+- `claude-code-bash-patterns/README.md`, `hono-routing/README.md`, `base-ui-react/README.md`, `tanstack-ai/README.md`, `inspira-ui/README.md`, `nuxt-content/README.md`, `shadcn-vue/README.md`, `mcp-dynamic-orchestrator/README.md`, `cloudflare-sandbox/README.md`, `seo-keyword-cluster-builder/README.md`: Removed related-skill references to deleted plugins
+
+**Kept:**
+- `plugins/code-review/skills/code-review/references/verification-before-completion.md` — local reference file bundled with code-review (not the removed plugin)
+- `plugins/better-auth/README.md` reference to the `cgoinglove/better-chatbot` GitHub project (actual project URL, not the skill)
+
+**Updated documentation:**
+- `.claude-plugin/marketplace.json` — regenerated with 139 plugins
+- `CLAUDE.md`, `README.md`, `MARKETPLACE.md`, `PROJECT_STRUCTURE.md` — counts and category lists updated
+- `docs/reference/SKILL_CATEGORIZATION.md` — category lists updated
+- `docs/guides/MARKETPLACE_MANAGEMENT.md`, `docs/guides/PLUGIN_DEV_BEST_PRACTICES.md` — examples updated to reference remaining plugins
+
+---
+
+#### Plugin Repository Cleanup — Batch 1 (14 Deprecated Plugins)
+
+Removed 14 plugins from the marketplace and repository. These plugins were deprecated as part of ongoing curation to keep the collection focused on production-tested, actively maintained skills.
+
+**Removed plugins (14):**
+
+| Category | Plugin | Reason |
+|----------|--------|--------|
+| ai | `openai-api` | Consolidated into `claude-api` |
+| ai | `openai-agents` | Consolidated into `claude-agent-sdk` |
+| ai | `openai-assistants` | Deprecated OpenAI Assistants API |
+| ai | `openai-responses` | Consolidated into `claude-api` |
+| ai | `google-gemini-api` | Consolidated into `gemini-cli` |
+| ai | `google-gemini-embeddings` | Consolidated into `gemini-cli` |
+| ai | `google-gemini-file-search` | Consolidated into `gemini-cli` |
+| mobile | `swift-best-practices` | Out of scope (not Claude Code CLI focused) |
+| mobile | `swift-settingskit` | Out of scope (not Claude Code CLI focused) |
+| database | `supabase-postgres-best-practices` | Out of scope (superseded by `database-schema-design`) |
+| database | `neon-vercel-postgres` | Out of scope (superseded by `drizzle-orm-d1`) |
+| database | `vercel-kv` | Out of scope (Vercel-specific, not Claude Code CLI focused) |
+| database | `vercel-blob` | Out of scope (Vercel-specific, not Claude Code CLI focused) |
+| cms | `sveltia-cms` | Out of scope (niche CMS, low adoption) |
+
+**Impact:**
+- Marketplace plugins: 170 → 156
+- Repository skill count: ~211 → ~197
+- Marketplace version bumped: 3.3.0 → 3.4.0
+
+**Updated documentation:**
+- `.claude-plugin/marketplace.json` — regenerated with 156 plugins
+- `scripts/generate-marketplace.sh` — version bumped to 3.4.0
+- All `plugins/*/.claude-plugin/plugin.json` — version synced to 3.4.0 via `sync-plugins.sh`
+- `CLAUDE.md`, `README.md`, `MARKETPLACE.md`, `PROJECT_STRUCTURE.md` — counts and category lists updated
+- `docs/reference/SKILL_CATEGORIZATION.md` — category lists updated
+- `docs/guides/MARKETPLACE_MANAGEMENT.md`, `docs/guides/PLUGIN_DEV_BEST_PRACTICES.md` — examples updated to reference remaining plugins
+
+**Migration path:** Users currently relying on `openai-*` plugins should switch to `claude-api` (Anthropic) or `ai-sdk-core` (Vercel AI SDK). Users of `google-gemini-*` should switch to `gemini-cli`.
+
+---
+
 ## [3.3.1] - 2026-05-14
 
 ### Added

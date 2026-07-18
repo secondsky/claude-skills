@@ -1,6 +1,6 @@
 {
   "name": "bun",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "Comprehensive Bun runtime toolkit covering runtime, package manager, bundler, testing, HTTP servers, WebSockets, databases, framework integrations (Hono, Next.js, Nuxt, TanStack Start, SvelteKit), deployment, and Node.js compatibility.",
   "author": {
     "name": "Claude Skills",
