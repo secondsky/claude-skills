@@ -22,5 +22,12 @@
     "tailwind"
   ],
   "author": "Claude Skills Maintainers",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "overrides": {
+    "fast-json-patch": "^3.1.1"
+  }
 }

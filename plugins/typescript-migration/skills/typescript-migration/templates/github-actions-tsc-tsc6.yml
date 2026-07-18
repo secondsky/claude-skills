@@ -1,0 +1,56 @@
+# GitHub Actions — TypeScript 7 + TypeScript 6 parallel type-check
+#
+# Runs both `tsc` (TS 7, native Go) and `tsc6` (TS 6 compat) with --noEmit,
+# then diffs their diagnostic codes. Codes match between compilers; message
+# wording differs. Investigate any code-count divergence.
+#
+# Requires the side-by-side package.json pattern (see package.side-by-side.json).
+#
+# Source: https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/
+name: Type-check (TS 7 + TS 6)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Delete stale .tsbuildinfo
+        # .tsbuildinfo files are incompatible between the JS and Go compilers.
+        run: find . -name '*.tsbuildinfo' -not -path './node_modules/*' -delete
+
+      - name: Type-check with TypeScript 7 (tsc)
+        run: npx tsc --noEmit 2> ts7-errors.txt || true
+
+      - name: Type-check with TypeScript 6 (tsc6)
+        run: npx tsc6 --noEmit 2> ts6-errors.txt || true
+
+      - name: Compare diagnostic codes
+        run: |
+          diff \
+            <(grep -oE 'TS[0-9]+' ts7-errors.txt | sort | uniq -c | sort -k2) \
+            <(grep -oE 'TS[0-9]+' ts6-errors.txt | sort | uniq -c | sort -k2) \
+            && echo "Diagnostic codes match between TS 7 and TS 6." \
+            || { echo "::error::TS 7 and TS 6 diagnostic codes diverge — investigate"; exit 1; }
+
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ts-diagnostic-logs
+          path: |
+            ts7-errors.txt
+            ts6-errors.txt

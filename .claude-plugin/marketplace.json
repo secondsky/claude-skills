@@ -435,6 +435,15 @@
     }
 ,
     {
+      "name": "delegate-my-work",
+      "source": "./plugins/delegate-my-work",
+      "version": "3.4.0",
+      "description": "Interview employees to find recurring work, map accessible AI and automation tools, and spec each loop with preferred and fallback routes.",
+      "keywords": ["delegate-my-work","delegate","work","tooling","workflow"],
+      "category": "tooling"
+    }
+,
+    {
       "name": "dependency-upgrade",
       "source": "./plugins/dependency-upgrade",
       "version": "3.4.0",
@@ -1133,6 +1142,15 @@
       "version": "3.4.0",
       "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
       "keywords": ["turborepo","tooling","workflow","caching"],
+      "category": "tooling"
+    }
+,
+    {
+      "name": "typescript-migration",
+      "source": "./plugins/typescript-migration",
+      "version": "3.4.0",
+      "description": "TypeScript version migration guide (5.x to 6 to 7, tsgo native port). Use for TS 6 tsconfig breaking changes, TS 7 Go rewrite rollout, or TS5xxx deprecation codes.",
+      "keywords": ["typescript-migration","migration","tooling","workflow"],
       "category": "tooling"
     }
 ,

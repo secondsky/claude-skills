@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**139 production-ready skills for Claude Code CLI**
+**141 production-ready skills for Claude Code CLI**
 
-Version 3.4.0 | Last Updated: 2026-06-21
+Version 3.4.0 | Last Updated: 2026-07-18
 
 <div align="center">
 

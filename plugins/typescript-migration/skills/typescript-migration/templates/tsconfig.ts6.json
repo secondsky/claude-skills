@@ -1,0 +1,34 @@
+// TypeScript 6.0 reference tsconfig.json
+// - Embraces new defaults (no need to set strict/module/target/moduleResolution — they're already the new defaults).
+// - Explicitly sets the two disruptive options (rootDir, types) to typical values.
+// - Contains zero deprecated options — passes TS 7 cleanly too.
+// See: https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/
+{
+  "compilerOptions": {
+    // === New defaults in TS 6 (set explicitly for clarity) ===
+    "strict": true,
+    "module": "esnext",
+    "target": "es2025",
+    "moduleResolution": "bundler",
+
+    // === The two "surprising" defaults — set these explicitly ===
+    "rootDir": "./src",
+    "types": ["node"],
+
+    // === Recommended modern settings ===
+    "noUncheckedSideEffectImports": true,
+    "esModuleInterop": true,           // default true in TS 6
+    "skipLibCheck": true,              // optional but common
+    "isolatedModules": true,           // required by most bundlers
+    "verbatimModuleSyntax": true,      // for safe import/export of types
+    "noEmit": true,                    // when using an external bundler
+    "lib": ["dom", "es2025"],          // dom now absorbs dom.iterable
+
+    // === Output (when not using a bundler) ===
+    // "outDir": "./dist",
+    // "declaration": true,
+    // "sourceMap": true,
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

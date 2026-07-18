@@ -1,0 +1,22 @@
+// package.json — TypeScript 7 + TypeScript 6 side-by-side (official Microsoft pattern)
+//
+// Use this when your tooling depends on the TS Compiler API (typescript-eslint,
+// ts-morph, etc.) — TS 7.0 does not ship a programmatic API; TS 7.1 will.
+//
+// Effect:
+//   - `npx tsc` runs TypeScript 7 (native Go port).
+//   - `import "typescript"` gets TypeScript 6's API (for tooling).
+//   - `npx tsc6` runs TypeScript 6 directly if needed.
+//
+// Remove this workaround once TS 7.1 ships and your tooling supports the new API.
+//
+// Source: https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/
+{
+  "devDependencies": {
+    // TypeScript 7 — the native Go port. Alias so `npx tsc` finds it.
+    "@typescript/native": "npm:typescript@^7.0.2",
+
+    // TypeScript 6 — exposes the classic Compiler API for tools that import "typescript".
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
+  }
+}

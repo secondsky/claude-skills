@@ -6,7 +6,7 @@
 # Only validates CHANGED files for performance
 #
 # Setup (one-time):
-#   npm install -g ajv-cli ajv-formats
+#   npm install
 #   git config core.hooksPath .githooks
 #
 # Bypass (when necessary):
@@ -22,21 +22,26 @@ NC='\033[0m'
 echo ""
 echo "🔍 Running JSON schema validation..."
 
-# Check if ajv-cli is installed
-if ! command -v ajv &> /dev/null; then
+# Get repository root
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+SCHEMAS_DIR="$REPO_ROOT/schemas"
+
+# Resolve ajv-cli. Prefer the repo-local dev dependency so commits do not
+# depend on a global npm install.
+if [ -x "$REPO_ROOT/node_modules/.bin/ajv" ]; then
+  AJV="$REPO_ROOT/node_modules/.bin/ajv"
+elif command -v ajv &> /dev/null; then
+  AJV="$(command -v ajv)"
+else
   echo -e "${YELLOW}⚠️  Warning: ajv-cli not installed${NC}"
   echo ""
   echo "JSON schema validation is disabled."
-  echo "To enable, install ajv-cli:"
-  echo "  npm install -g ajv-cli ajv-formats"
+  echo "To enable it, install repo dependencies:"
+  echo "  npm install"
   echo ""
   echo "Proceeding with commit..."
   exit 0
 fi
-
-# Get repository root
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-SCHEMAS_DIR="$REPO_ROOT/schemas"
 
 # Get staged JSON files
 CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.json$' || true)
@@ -54,7 +59,7 @@ if echo "$CHANGED_FILES" | grep -q "marketplace.json"; then
   echo ""
   echo -e "${BLUE}📦 Validating marketplace.json...${NC}"
 
-  if ajv validate \
+  if "$AJV" validate \
     -s "$SCHEMAS_DIR/marketplace.schema.json" \
     -d "$REPO_ROOT/.claude-plugin/marketplace.json" \
     --spec=draft7 \
@@ -82,7 +87,7 @@ if [ -n "$CHANGED_PLUGINS" ]; then
     # Run validation and capture output
     # Temporarily disable errexit to capture exit code
     set +e
-    validation_output=$(ajv validate \
+    validation_output=$("$AJV" validate \
       -s "$SCHEMAS_DIR/plugin.schema.json" \
       -d "$REPO_ROOT/$plugin_file" \
       --spec=draft7 \

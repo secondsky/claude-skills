@@ -1,0 +1,31 @@
+// TypeScript 7.0 reference tsconfig.json
+// - TS 7 is the native Go port. Same tsconfig shape as TS 6 — the defaults carry over.
+// - stableTypeOrdering is now always-on and cannot be disabled (was opt-in in TS 6).
+// - preserveConstEnums removed — const enums are always emitted now.
+// See: https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/
+{
+  "compilerOptions": {
+    // === Defaults inherited from TS 6 ===
+    "strict": true,
+    "module": "esnext",
+    "target": "es2025",
+    "moduleResolution": "bundler",
+
+    "rootDir": "./src",
+    "types": ["node"],
+
+    "noUncheckedSideEffectImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "lib": ["dom", "es2025"],
+
+    // === TS 7 notes ===
+    // "stableTypeOrdering": true,    // always-on in TS 7 — do NOT set (it's not a valid option anymore)
+    // "preserveConstEnums": true,    // REMOVED in TS 7 — const enums always emitted now
+  },
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Delegate My Work"
+  short_description: "Find daily work AI can support"
+  default_prompt: "Use $delegate-my-work to find recurring work I can delegate to AI."
+
+policy:
+  allow_implicit_invocation: true
