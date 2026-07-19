@@ -14,7 +14,7 @@
 #   ./analyze-logs.sh --status 500       # Filter by status
 #   ./analyze-logs.sh --search "user"    # Search in logs
 
-set -e
+set -euo pipefail
 
 # Colors
 RED='\033[0;31m'
@@ -22,6 +22,34 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
+
+# Validation helpers (defense against shell metacharacter injection — see B-004).
+# Names/codes use a tight charset; search terms get a looser charset but still
+# reject shell metacharacters that could matter if the value ever reaches a shell.
+validate_name() {
+  local label="$1" value="$2"
+  if [[ -z "$value" ]]; then
+    return 0
+  fi
+  if ! [[ "$value" =~ ^[A-Za-z0-9._:-]+$ ]]; then
+    echo -e "${RED}Error: invalid $label '${value}': must match ^[A-Za-z0-9._:-]+\${NC}" >&2
+    exit 2
+  fi
+}
+
+validate_search_term() {
+  local value="$1"
+  if [[ -z "$value" ]]; then
+    return 0
+  fi
+  # Reject characters that are dangerous in shell contexts: ; | & $ ` backslash,
+  # double-quote, and newline. Single quotes are allowed because the value is
+  # passed as a single argv element (never via eval/bash -c).
+  if [[ "$value" =~ [\;\|\&\$\`\"\\] ]] || [[ "$value" == *$'\n'* ]]; then
+    echo -e "${RED}Error: invalid search term (contains shell metacharacters)${NC}" >&2
+    exit 2
+  fi
+}
 
 # Configuration
 MODE="tail"
@@ -107,37 +135,45 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Build wrangler tail command
-build_tail_cmd() {
-  local cmd="wrangler tail"
+# Validate all CLI-supplied inputs against safe charsets before they reach any
+# command invocation. This is the B-004 mitigation: never trust raw user input
+# when building command argv.
+validate_name "worker name" "$WORKER_NAME"
+validate_name "environment name" "$ENV_NAME"
+validate_name "status filter" "$STATUS_FILTER"
+validate_name "method filter" "$METHOD_FILTER"
+validate_search_term "$SEARCH_TERM"
+
+# Build wrangler tail argv into the global TAIL_ARGS array (array-based —
+# never eval/bash -c, see B-004). Must be called after argument parsing.
+build_tail_args() {
+  TAIL_ARGS=("tail")
 
   if [ -n "$WORKER_NAME" ]; then
-    cmd="$cmd --name $WORKER_NAME"
+    TAIL_ARGS+=("--name" "$WORKER_NAME")
   fi
 
   if [ -n "$ENV_NAME" ]; then
-    cmd="$cmd --env $ENV_NAME"
+    TAIL_ARGS+=("--env" "$ENV_NAME")
   fi
 
   if [ -n "$STATUS_FILTER" ]; then
-    cmd="$cmd --status $STATUS_FILTER"
+    TAIL_ARGS+=("--status" "$STATUS_FILTER")
   fi
 
   if [ -n "$METHOD_FILTER" ]; then
-    cmd="$cmd --method $METHOD_FILTER"
+    TAIL_ARGS+=("--method" "$METHOD_FILTER")
   fi
 
   if [ -n "$SEARCH_TERM" ]; then
-    cmd="$cmd --search \"$SEARCH_TERM\""
+    TAIL_ARGS+=("--search" "$SEARCH_TERM")
   fi
 
   if [ "$OUTPUT_FORMAT" = "json" ]; then
-    cmd="$cmd --format json"
+    TAIL_ARGS+=("--format" "json")
   else
-    cmd="$cmd --format pretty"
+    TAIL_ARGS+=("--format" "pretty")
   fi
-
-  echo "$cmd"
 }
 
 # Tail mode
@@ -146,8 +182,8 @@ run_tail() {
   echo -e "${YELLOW}Press Ctrl+C to stop${NC}"
   echo ""
 
-  local cmd=$(build_tail_cmd)
-  eval "$cmd"
+  build_tail_args
+  wrangler "${TAIL_ARGS[@]}"
 }
 
 # Errors mode
@@ -156,37 +192,41 @@ run_errors() {
   echo -e "${YELLOW}Press Ctrl+C to stop${NC}"
   echo ""
 
-  local cmd="wrangler tail --status error"
+  TAIL_ARGS=("tail" "--status" "error")
 
   if [ -n "$WORKER_NAME" ]; then
-    cmd="$cmd --name $WORKER_NAME"
+    TAIL_ARGS+=("--name" "$WORKER_NAME")
   fi
 
   if [ -n "$ENV_NAME" ]; then
-    cmd="$cmd --env $ENV_NAME"
+    TAIL_ARGS+=("--env" "$ENV_NAME")
   fi
 
   if [ "$OUTPUT_FORMAT" = "json" ]; then
-    cmd="$cmd --format json"
+    TAIL_ARGS+=("--format" "json")
   else
-    cmd="$cmd --format pretty"
+    TAIL_ARGS+=("--format" "pretty")
   fi
 
-  eval "$cmd"
+  wrangler "${TAIL_ARGS[@]}"
 }
 
 # Summary mode
 run_summary() {
   local duration=${DURATION:-30}
-  local tmp_file=$(mktemp)
+  local tmp_file
+  tmp_file=$(mktemp) || { echo -e "${RED}Error: mktemp failed${NC}" >&2; exit 1; }
 
   echo -e "${BLUE}Collecting logs for ${duration}s...${NC}"
 
-  # Collect logs in background
-  local cmd=$(build_tail_cmd)
-  cmd="$cmd --format json"
+  # Collect logs via direct argv — no eval, no bash -c (B-004).
+  # Force JSON output for parsing regardless of $OUTPUT_FORMAT.
+  local saved_format="$OUTPUT_FORMAT"
+  OUTPUT_FORMAT="json"
+  build_tail_args
+  OUTPUT_FORMAT="$saved_format"
 
-  timeout "$duration" bash -c "$cmd" > "$tmp_file" 2>/dev/null || true
+  timeout "$duration" wrangler "${TAIL_ARGS[@]}" > "$tmp_file" 2>/dev/null || true
 
   local total=$(wc -l < "$tmp_file")
 

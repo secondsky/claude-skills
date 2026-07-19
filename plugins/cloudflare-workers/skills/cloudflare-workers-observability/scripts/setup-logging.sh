@@ -12,7 +12,7 @@
 #   ./setup-logging.sh --with-tail-worker
 #   ./setup-logging.sh --analytics-only
 
-set -e
+set -euo pipefail
 
 # Colors
 RED='\033[0;31m'
@@ -59,6 +59,58 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# D-010: validate tail worker name against a safe charset to prevent path
+# traversal (../) and other shell/path metacharacter issues.
+if [ -n "$TAIL_WORKER_NAME" ]; then
+  if ! [[ "$TAIL_WORKER_NAME" =~ ^[A-Za-z0-9_-]+$ ]]; then
+    echo -e "${RED}Error: invalid tail worker name '$TAIL_WORKER_NAME' (must match ^[A-Za-z0-9_-]+\$/)${NC}"
+    exit 2
+  fi
+fi
+
+# D-004 helper: heuristic JSONC-comment detection. jq is JSONC-blind, so when
+# the target wrangler file contains // comments we refuse to overwrite in place.
+wrangler_has_comments() {
+  grep -Eq '(^|[^:])//' "$WRANGLER_FILE"
+}
+
+# D-004 helper: emit a comment-stripped copy of $WRANGLER_FILE on stdout for jq.
+stripped_wrangler() {
+  grep -v '^\s*//' "$WRANGLER_FILE"
+}
+
+# D-004 helper: write the jq-produced content safely. If the file has comments,
+# emit to $WRANGLER_FILE.new and instruct the user; otherwise take a timestamped
+# backup (D-021) and overwrite.
+safe_write_wrangler() {
+  local tmp_file="$1"
+  local backup_file="${WRANGLER_FILE}.bak.$(date +%Y%m%d%H%M%S)"
+
+  if wrangler_has_comments; then
+    cp "$WRANGLER_FILE" "$backup_file"
+    cp "$tmp_file" "${WRANGLER_FILE}.new"
+    echo -e "  ${YELLOW}Warning: $WRANGLER_FILE contains JSONC comments.${NC}"
+    echo -e "  ${YELLOW}Refusing to overwrite in place — wrote modified version to ${WRANGLER_FILE}.new${NC}"
+    echo -e "  ${YELLOW}Backup of original (with comments) at: $backup_file${NC}"
+    echo -e "  ${YELLOW}Review and replace $WRANGLER_FILE manually.${NC}"
+    return 0
+  fi
+
+  cp "$WRANGLER_FILE" "$backup_file"
+  mv "$tmp_file" "$WRANGLER_FILE"
+  echo -e "  ${GREEN}(backup at $backup_file)${NC}"
+}
+
+# D-010 helper: back up an existing file to .bak.<timestamp> before overwriting.
+backup_if_exists() {
+  local target="$1"
+  if [ -f "$target" ]; then
+    local backup_file="${target}.bak.$(date +%Y%m%d%H%M%S)"
+    cp "$target" "$backup_file"
+    echo -e "  ${YELLOW}Backed up existing $target to $backup_file${NC}"
+  fi
+}
+
 echo -e "${BLUE}========================================"
 echo "Cloudflare Workers Logging Setup"
 echo -e "========================================${NC}"
@@ -87,10 +139,11 @@ else
   echo "  Adding observability config..."
   # Add observability after compatibility_date line
   if command -v jq &> /dev/null; then
-    # Use jq if available
+    # Use jq if available. Feed jq a comment-stripped view so it parses even
+    # when the file is JSONC; safe_write_wrangler decides where the result goes.
     TMP_FILE=$(mktemp)
-    jq '. + {"observability": {"enabled": true, "head_sampling_rate": 1}}' "$WRANGLER_FILE" > "$TMP_FILE"
-    mv "$TMP_FILE" "$WRANGLER_FILE"
+    stripped_wrangler | jq '. + {"observability": {"enabled": true, "head_sampling_rate": 1}}' > "$TMP_FILE"
+    safe_write_wrangler "$TMP_FILE"
     echo -e "  ${GREEN}✓ Observability enabled${NC}"
   else
     echo -e "  ${YELLOW}Warning: jq not found. Please manually add to $WRANGLER_FILE:${NC}"
@@ -114,8 +167,8 @@ if [ "$ANALYTICS_ONLY" = true ] || [ "$WITH_TAIL_WORKER" = false ]; then
 
     if command -v jq &> /dev/null; then
       TMP_FILE=$(mktemp)
-      jq --arg dataset "$DATASET_NAME" '. + {"analytics_engine_datasets": [{"binding": "ANALYTICS", "dataset": $dataset}]}' "$WRANGLER_FILE" > "$TMP_FILE"
-      mv "$TMP_FILE" "$WRANGLER_FILE"
+      stripped_wrangler | jq --arg dataset "$DATASET_NAME" '. + {"analytics_engine_datasets": [{"binding": "ANALYTICS", "dataset": $dataset}]}' > "$TMP_FILE"
+      safe_write_wrangler "$TMP_FILE"
       echo -e "  ${GREEN}✓ Analytics Engine configured${NC}"
     else
       echo -e "  ${YELLOW}Warning: jq not found. Please manually add to $WRANGLER_FILE:${NC}"
@@ -137,6 +190,10 @@ if [ "$WITH_TAIL_WORKER" = true ]; then
   # Create tail worker directory
   TAIL_WORKER_DIR="workers/$TAIL_WORKER_NAME"
   mkdir -p "$TAIL_WORKER_DIR/src"
+
+  # D-010: back up existing files before overwriting (only if they exist).
+  backup_if_exists "$TAIL_WORKER_DIR/wrangler.jsonc"
+  backup_if_exists "$TAIL_WORKER_DIR/src/index.ts"
 
   # Create tail worker wrangler.jsonc
   cat > "$TAIL_WORKER_DIR/wrangler.jsonc" << EOF
@@ -238,8 +295,8 @@ EOF
   else
     if command -v jq &> /dev/null; then
       TMP_FILE=$(mktemp)
-      jq --arg name "$TAIL_WORKER_NAME" '. + {"tail_consumers": [{"service": $name}]}' "$WRANGLER_FILE" > "$TMP_FILE"
-      mv "$TMP_FILE" "$WRANGLER_FILE"
+      stripped_wrangler | jq --arg name "$TAIL_WORKER_NAME" '. + {"tail_consumers": [{"service": $name}]}' > "$TMP_FILE"
+      safe_write_wrangler "$TMP_FILE"
       echo -e "  ${GREEN}✓ Tail consumer configured${NC}"
     else
       echo -e "  ${YELLOW}Warning: jq not found. Please manually add to $WRANGLER_FILE:${NC}"

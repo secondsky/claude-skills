@@ -110,9 +110,15 @@ export default defineWorkersConfig({
 });
 EOF
 
-  # Update wrangler path if using .toml
+  # Update wrangler path if using .toml.
+  # D-005: take a backup first and use portable in-place editing (BSD vs GNU sed).
   if [ "$WRANGLER_CONFIG" = "wrangler.toml" ]; then
-    sed -i '' 's/wrangler.jsonc/wrangler.toml/g' vitest.config.ts
+    cp vitest.config.ts vitest.config.ts.bak
+    if sed --version >/dev/null 2>&1; then
+      sed -i 's/wrangler.jsonc/wrangler.toml/g' vitest.config.ts   # GNU
+    else
+      sed -i '' 's/wrangler.jsonc/wrangler.toml/g' vitest.config.ts  # BSD (macOS)
+    fi
   fi
 
   echo "✅ Created vitest.config.ts"

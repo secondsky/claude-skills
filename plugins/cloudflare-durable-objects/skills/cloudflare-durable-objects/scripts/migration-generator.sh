@@ -34,7 +34,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 CONFIG_FILE="wrangler.jsonc"
-BACKUP_FILE="wrangler.jsonc.bak"
+BACKUP_FILE="wrangler.jsonc.bak.$(date +%Y%m%d%H%M%S)"
 INTERACTIVE_MODE=true
 
 # ============================================================================
@@ -308,10 +308,51 @@ backup_config() {
   success "Backed up $CONFIG_FILE to $BACKUP_FILE"
 }
 
+# Heuristic check for JSONC line-comments (//) outside the common "schema URL"
+# form (https://). Imperfect but catches the typical hand-written JSONC case.
+# This is the D-003 mitigation: jq rewrites would destroy user comments.
+config_has_comments() {
+  grep -Eq '(^|[^:])//' "$CONFIG_FILE"
+}
+
 append_migration() {
   local migration_json="$1"
 
-  # Read current config (strip comments)
+  # D-003: jq is JSONC-blind. If the file contains comments, do NOT overwrite
+  # it in place — write the comment-stripped, migration-appended result to a
+  # sibling .new file and ask the user to review/replace manually.
+  if config_has_comments; then
+    warning "$CONFIG_FILE contains JSONC comments. Refusing to overwrite in place (comments would be lost)."
+
+    backup_config
+
+    local config
+    config=$(grep -v '^\s*//' "$CONFIG_FILE")
+
+    local has_migrations
+    has_migrations=$(echo "$config" | jq 'has("migrations")' 2>/dev/null || echo "false")
+
+    if [[ "$has_migrations" == "false" ]]; then
+      config=$(echo "$config" | jq --argjson migration "$migration_json" '. + {migrations: [$migration]}')
+    else
+      config=$(echo "$config" | jq --argjson migration "$migration_json" '.migrations += [$migration]')
+    fi
+
+    local new_file="${CONFIG_FILE}.new"
+    echo "$config" | jq '.' > "$new_file"
+
+    echo ""
+    info "A comment-free version with your migration applied has been written to:"
+    echo "    $new_file"
+    echo ""
+    echo "Review it and replace $CONFIG_FILE manually if you want auto-merge to succeed."
+    echo "Backup of the original (with comments) is at: $BACKUP_FILE"
+    echo ""
+    success "Wrote $new_file (original $CONFIG_FILE left untouched)"
+    exit 0
+  fi
+
+  # No comments present — safe to edit in place via jq.
   local config
   config=$(grep -v '^\s*//' "$CONFIG_FILE")
 
