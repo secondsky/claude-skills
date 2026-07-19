@@ -8,10 +8,12 @@ from authlib.integrations.flask_client import OAuth
 from authlib.integrations.flask_oauth2 import AuthorizationServer
 from authlib.oauth2.rfc6749 import grants
 from authlib.jose import jwt
+import os
 import time
 
+# Always load secrets from environment variables; never hardcode.
 app = Flask(__name__)
-app.secret_key = 'your-secret-key'
+app.secret_key = os.environ['SECRET_KEY']  # load from env; rotate immediately if committed
 oauth = OAuth(app)
 
 # Configure OAuth Provider

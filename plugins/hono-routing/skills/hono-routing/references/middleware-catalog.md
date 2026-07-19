@@ -294,13 +294,15 @@ Server-Timing: db;dur=45, external;dur=85, total;dur=150
 
 Simple bearer token authentication.
 
+> Always load secrets from environment variables; never hardcode.
+
 ```typescript
 import { bearerAuth } from 'hono/bearer-auth'
 
 app.use(
   '/admin/*',
   bearerAuth({
-    token: 'my-secret-token',
+    token: c.env.ADMIN_TOKEN, // load from env; rotate immediately if committed
   })
 )
 
@@ -366,13 +368,15 @@ app.use(
 
 JSON Web Token authentication.
 
+> Always load secrets from environment variables; never hardcode.
+
 ```typescript
 import { jwt } from 'hono/jwt'
 
 app.use(
   '/api/*',
   jwt({
-    secret: 'my-secret-key',
+    secret: c.env.JWT_SECRET, // load from env; rotate immediately if committed
   })
 )
 

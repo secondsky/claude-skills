@@ -396,13 +396,14 @@ app.use('/admin/*', basicAuth({
 }));
 
 // Bearer token
+// Always load secrets from environment variables; never hardcode.
 app.use('/api/*', bearerAuth({
-  token: 'my-secret-token',
+  token: c.env.API_TOKEN, // load from env; rotate immediately if committed
 }));
 
 // JWT
 app.use('/api/*', jwt({
-  secret: 'my-jwt-secret',
+  secret: c.env.JWT_SECRET, // load from env; rotate immediately if committed
 }));
 
 // Request timing

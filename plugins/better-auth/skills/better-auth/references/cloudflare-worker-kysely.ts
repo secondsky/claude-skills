@@ -78,9 +78,11 @@ function createAuth(env: Env) {
       enabled: true,
       requireEmailVerification: true,
       sendVerificationEmail: async ({ user, url, token }) => {
-        // TODO: Implement email sending
-        console.log(`Verification email for ${user.email}: ${url}`);
-        console.log(`Verification code: ${token}`);
+        // TODO: Implement email sending (Resend, SendGrid, or Cloudflare Email Routing).
+        // Pass `url` to your email provider so the user can click through.
+        // ❌ NEVER log `url` or `token` — both are single-use secrets, and
+        //    wrangler tail / Logpush persist stdout. Redacted stub only:
+        console.log(`Verification email sent to ${user.email.substring(0, 2)}***`);
       },
     },
 
