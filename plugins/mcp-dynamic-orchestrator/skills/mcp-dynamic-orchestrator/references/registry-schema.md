@@ -189,8 +189,9 @@ type Visibility = "default" | "opt_in" | "experimental";
 "uvx"      // Run Python package via uvx (UV's npx equivalent)
 "node"     // Run local Node.js script
 "python"   // Run local Python script
-"/path/to/binary"  // Absolute path to executable
 ```
+
+> ⚠️ **Security: command allowlist.** Only bare executable names resolved via PATH are permitted: `npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go`. Absolute paths (e.g. `/usr/local/bin/my-mcp`) and shells (`bash`, `sh`) are **rejected** to prevent config-driven arbitrary command execution. Set `MCP_ORCH_ALLOW_RAW_COMMANDS=1` to opt out (loud stderr warning; only for fully-trusted registries). See `references/security-model.md` § "Layer 0".
 
 **Examples**:
 ```json
@@ -211,17 +212,14 @@ type Visibility = "default" | "opt_in" | "experimental";
   "command": "node",
   "args": ["./scripts/my-mcp-server.js"]
 }
-
-// Pre-installed binary
-{
-  "command": "/usr/local/bin/my-mcp",
-  "args": ["--mode", "server"]
-}
 ```
 
+> **Note**: the previous `"command": "/usr/local/bin/my-mcp"` example was removed — it is now rejected by the allowlist. Convert absolute-path commands to a bare name resolved via PATH, or opt out via `MCP_ORCH_ALLOW_RAW_COMMANDS=1`.
+
 **Rules**:
-- Must be in PATH or absolute path
-- Must be executable
+- Must be a bare executable name resolved via PATH (no `/` or `\`)
+- Must be in the [command allowlist](#) (see security warning above)
+- Must not start with `-`
 - Use `npx` for npm packages (handles installation)
 - Use `uvx` for Python packages (handles installation)
 
@@ -307,6 +305,7 @@ type Visibility = "default" | "opt_in" | "experimental";
 - ⚠️ **Do not** store sensitive API keys in the registry
 - ⚠️ Use environment variables or secrets manager for credentials
 - ⚠️ Registry file may be committed to version control
+- ⚠️ **Env var denylist**: the following keys are silently stripped from `mcp.env` before spawn (with a stderr warning per dropped key), because they can hijack the child process: `PATH, NODE_OPTIONS, NODE_PATH, LD_PRELOAD, LD_LIBRARY_PATH, DYLD_INSERT_LIBRARIES, DYLD_LIBRARY_PATH, PYTHONPATH, PYTHONSTARTUP, PROMPT_COMMAND, ENV, BASH_ENV, ZDOTDIR, PS1, SHLVL`. See `references/security-model.md` § "Layer 0".
 
 ---
 
@@ -647,7 +646,9 @@ execute_mcp_code({
 - [ ] `summary` present and one sentence
 - [ ] `mcp.transport` is "stdio" or "http"
 - [ ] `mcp.command` present (if stdio)
+- [ ] `mcp.command` is a bare name in the allowlist (`npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go`) — no path separators, not a shell
 - [ ] `mcp.args` present (if stdio)
+- [ ] `mcp.env` does not contain denylisted keys (`PATH, NODE_OPTIONS, LD_PRELOAD, ...`)
 - [ ] `mcp.url` present (if http)
 - [ ] `domains` array with 3+ entries
 - [ ] `tags` array with 3+ entries

@@ -1,0 +1,29 @@
+title = "claude-skills gitleaks config"
+
+# Defense-in-depth secret scan config. See .githooks/pre-commit for usage.
+# The repo has no bundled gitleaks baseline; this file intentionally omits
+# `extend` so the scan runs against gitleaks' built-in default ruleset
+# without depending on a non-portable absolute path.
+#
+# Uses the gitleaks v8.25.0+ `[[allowlists]]` array-of-tables form. Each
+# table is independently scoped (path OR pattern); splitting them avoids a
+# single overly-broad regex masking real secrets across the whole repo.
+
+# Path-scoped allowlist: lockfile and audit-findings docs that document secret patterns.
+[[allowlists]]
+description = "Lockfile and audit documentation — URLs/patterns are not real secrets"
+paths = [
+  '''package-lock\.json''',
+  '''^docs/security-audit/findings/.*\.md$''',
+]
+
+# Pattern-scoped allowlist: exact placeholder literals only (anchored, case-insensitive).
+[[allowlists]]
+description = "Explicit placeholder literals used in skill examples and templates"
+regexes = [
+  '''(?i)^your[_-]?(api[_-])?key$''',
+  '''(?i)^my[_-]?jwt[_-]?secret$''',
+  '''^abc123_hardcoded_token$''',
+  '''(?i)^(changeme|placeholder)$''',
+  '''^YOUR_(API_KEY|SECRET|TOKEN)$''',
+]

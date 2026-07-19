@@ -30,7 +30,12 @@ function checkPlaywrightInstalled() {
 }
 
 /**
- * Install Playwright if missing
+ * Install Playwright if missing.
+ *
+ * Supply-chain trust assumption: first-run auto-install trusts the Playwright
+ * npm package and the CDN-hosted Chromium binary. For production use, pre-install
+ * Playwright in your image and set PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 so this
+ * step is skipped entirely.
  */
 function installPlaywright() {
   console.log('📦 Playwright not found. Installing...');
@@ -38,12 +43,18 @@ function installPlaywright() {
     // Try bun first, fallback to npm
     const packageManager = fs.existsSync(path.join(__dirname, 'bun.lockb')) ? 'bun' : 'npm';
 
+    const skipBrowserDownload = process.env.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD === '1';
+
     if (packageManager === 'bun') {
       execSync('bun install', { stdio: 'inherit', cwd: __dirname });
-      execSync('bunx playwright install chromium', { stdio: 'inherit', cwd: __dirname });
+      if (!skipBrowserDownload) {
+        execSync('bunx playwright install chromium', { stdio: 'inherit', cwd: __dirname });
+      }
     } else {
       execSync('npm install', { stdio: 'inherit', cwd: __dirname });
-      execSync('npx playwright install chromium', { stdio: 'inherit', cwd: __dirname });
+      if (!skipBrowserDownload) {
+        execSync('npx playwright install chromium', { stdio: 'inherit', cwd: __dirname });
+      }
     }
 
     console.log('✅ Playwright installed successfully');

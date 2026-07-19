@@ -10,12 +10,20 @@
  *
  * Pattern B: Inconsistent list indentation in metadata.keywords (tanstack-start).
  *            Fix: normalize all list items to use the same indentation.
+ *
+ * Safety: before rewriting each SKILL.md whose content actually changes, the
+ *         previous content is written to <file>.bak. These .bak files are kept
+ *         (not auto-deleted) so changes can be diffed or reverted. Idempotent
+ *         runs (no change) do not create .bak files.
  */
 
-import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { existsSync, readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = '/Users/eddie/github-repos/claude-skills';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const REPO_ROOT = resolve(__dirname, '..');
 const PLUGINS_DIR = join(REPO_ROOT, 'plugins');
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -183,6 +191,12 @@ function fixListIndentation(lines) {
 
 // ── main ─────────────────────────────────────────────────────────────────────
 
+if (!existsSync(PLUGINS_DIR)) {
+  console.error(`ERROR: plugins directory not found at ${PLUGINS_DIR}`);
+  console.error('Run this script from the claude-skills repo.');
+  process.exit(1);
+}
+
 const files = findSkillFiles(PLUGINS_DIR);
 let fixedCount = 0;
 const fixedNames = [];
@@ -200,6 +214,11 @@ for (const file of files) {
 
   if (step1.changed || step2.changed) {
     const newContent = '---\n' + step2.lines.join('\n') + '\n---' + content.slice(fm.end);
+    // Only write if the content actually changes. On change, preserve the
+    // previous content in <file>.bak (kept; not auto-deleted).
+    const oldContent = readFileSync(file, 'utf8');
+    if (oldContent === newContent) continue;
+    writeFileSync(file + '.bak', oldContent, 'utf8');
     writeFileSync(file, newContent, 'utf8');
     fixedCount++;
     fixedNames.push(relative(REPO_ROOT, file));

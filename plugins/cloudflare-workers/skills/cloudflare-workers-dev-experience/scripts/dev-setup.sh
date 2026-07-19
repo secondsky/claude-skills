@@ -35,7 +35,7 @@ check_requirements() {
     info "Checking requirements..."
 
     if ! command -v bun &> /dev/null; then
-        error "Bun is required. Install: curl -fsSL https://bun.sh/install | bash"
+        error "Bun is required. Install from https://bun.sh/docs/installation (prefer the pinned-version method, not unpinned curl|bash)."
     fi
 
     if ! command -v git &> /dev/null; then
@@ -127,10 +127,13 @@ init_package_json() {
 }
 EOF
 
-    # Replace placeholder with actual project name
-    sed -i.bak "s/PROJECT_NAME/$PROJECT_NAME/g" package.json && rm package.json.bak
+    # Replace placeholder with actual project name.
+    # PROJECT_NAME is validated above against ^[a-z][a-z0-9-]*$ so it cannot
+    # contain sed metacharacters; the pipe delimiter is belt-and-suspenders.
+    # Keep the .bak file (D-006: don't auto-rm backups).
+    sed -i.bak "s|PROJECT_NAME|$PROJECT_NAME|g" package.json
 
-    success "package.json created"
+    success "package.json created (backup at package.json.bak)"
 }
 
 # Create TypeScript configuration

@@ -128,3 +128,34 @@ All four layers were necessary. During testing, each layer caught bugs the other
 - Debug logging identified structural misuse
 
 **Don't stop at one validation point.** Add checks at every layer.
+
+## Security defense-in-depth
+
+The same layered approach is the standard pattern for security controls: trust
+is never granted at a single point, so that a bug or bypass in any one layer
+cannot by itself compromise the system. Each request is checked independently
+at the edge, in the handler, and at the data layer.
+
+- **Layer 1 (edge)**: rate-limit and filter at the edge (CDN/WAF such as
+  Cloudflare or AWS WAF) so abusive traffic never reaches the origin.
+- **Layer 2 (handler)**: re-derive authorization server-side from the session
+  — never trust a client-supplied claim like a `userId` in the body.
+- **Layer 3 (data)**: enforce the ownership invariant in the database query so
+  that even a handler bug cannot cross tenant boundaries.
+
+```javascript
+// Layer 2 — re-derive authz server-side, never trust client claims
+app.put('/docs/:id', async (req, res) => {
+  const user = await verifySession(req.cookies.session); // throws if invalid
+  // Layer 3 — DB clause re-checks ownership; a handler bug still can't cross tenants
+  const updated = await db.query(
+    'UPDATE docs SET title = $1 WHERE id = $2 AND owner_id = $3 RETURNING *',
+    [req.body.title, req.params.id, user.id]
+  );
+  if (!updated.rowCount) return res.status(403).send('Not allowed');
+  res.json(updated.rows[0]);
+});
+```
+
+Defense in depth means no single layer's failure is sufficient to compromise
+the system.

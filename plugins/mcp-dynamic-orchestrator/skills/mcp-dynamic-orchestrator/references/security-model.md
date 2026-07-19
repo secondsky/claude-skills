@@ -28,25 +28,71 @@
 ┌──────────────────────────────────────────────────────────┐
 │ Security Layers                                           │
 │                                                            │
+│ 0. SPAWN HARDENING LAYER (✅ Implemented)                  │
+│    - Command allowlist (npx/uvx/node/etc. only)           │
+│    - Rejects path-containing & shell-form commands        │
+│    - Env var denylist (PATH/NODE_OPTIONS/LD_PRELOAD/...)  │
+│    - Override via MCP_ORCH_ALLOW_RAW_COMMANDS=1           │
+│                                                            │
 │ 1. POLICY LAYER (✅ Implemented)                          │
 │    - Visibility filtering (default/opt_in/experimental)   │
 │    - Sensitivity-based timeouts (5s/7.5s/10s)             │
 │    - Rate limiting (10-50 calls/min)                      │
 │    - Allowed MCP ID allowlist                             │
 │                                                            │
-│ 2. MCP CLIENT LAYER (✅ Implemented)                      │
+│  2. MCP CLIENT LAYER (✅ Implemented)                      │
 │    - JSON-RPC request validation                          │
 │    - Transport-level timeouts                             │
 │    - Process lifecycle management                         │
 │    - Error isolation                                      │
 │                                                            │
-│ 3. SANDBOX LAYER (⚠️  NOT SECURE)                         │
+│  3. SANDBOX LAYER (⚠️  NOT SECURE)                         │
 │    - vm.createContext() - CAN BE ESCAPED                  │
 │    - No filesystem restrictions                           │
 │    - No network restrictions                              │
 │    - No memory/CPU limits                                 │
 │                                                            │
 └──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Layer 0: Spawn Hardening (✅ Secure)
+
+> ⚠️ **The `vm`-based sandbox in Layer 3 is NOT a security boundary.** Node's `vm` module can be escaped (see [Node docs](https://nodejs.org/api/vm.html#vm-executing-javascript)). It reduces accidental damage only. For untrusted MCP entries, run them in a **separate process/container with proper OS-level isolation.**
+
+### Command Allowlist
+
+**Purpose**: Prevent a malicious or hand-edited `mcp.registry.json` from running arbitrary commands (e.g. `bash -c "curl ... | sh"`).
+
+**Implementation**: `src/orchestrator.ts` — `validateMcpCommand()` enforced in `getStdioClient()` before every `spawn()`.
+
+**Allowed commands** (bare executable names resolved via PATH only):
+
+```
+npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go
+```
+
+**Rejected**:
+- Path-containing commands (`/usr/local/bin/foo`, `./foo`)
+- Flag-shaped commands (`-c`)
+- Anything not in the allowlist (e.g. `bash`, `sh`, `curl`, `rm`)
+- Shell-form execution (`bash -c`, `sh -c`, `zsh -c`) — defense in depth even if a shell were ever added to the allowlist
+
+**Override (power-user escape hatch)**: `MCP_ORCH_ALLOW_RAW_COMMANDS=1` disables the allowlist with a loud stderr warning per spawn. Only use this when you fully trust every registry entry.
+
+### Env Var Denylist
+
+**Purpose**: Stop registry entries from hijacking the spawned child via env vars (e.g. `NODE_OPTIONS=--require /tmp/x.js` runs code at startup, `LD_PRELOAD=...` injects a shared library, `PATH=...` reroutes subsequent lookups).
+
+**Implementation**: `src/orchestrator.ts` — `sanitizeMcpEnv()` strips denylisted keys from `mcp.env` before merging into the child env, emitting a stderr warning per dropped key.
+
+**Denied keys**:
+
+```
+PATH, NODE_OPTIONS, NODE_PATH, LD_PRELOAD, LD_LIBRARY_PATH,
+DYLD_INSERT_LIBRARIES, DYLD_LIBRARY_PATH, PYTHONPATH, PYTHONSTARTUP,
+PROMPT_COMMAND, ENV, BASH_ENV, ZDOTDIR, PS1, SHLVL
 ```
 
 ---
@@ -237,6 +283,8 @@ class HttpMcpClient {
 ---
 
 ## Layer 3: Sandbox (⚠️ NOT SECURE)
+
+> ⚠️ **The `vm`-based sandbox is NOT a security boundary.** Node's `vm` module can be escaped (see [Node docs](https://nodejs.org/api/vm.html#vm-executing-javascript)). This setting reduces accidental damage only. For untrusted MCP entries, run them in a **separate process/container with proper OS-level isolation.**
 
 ### Current Implementation
 

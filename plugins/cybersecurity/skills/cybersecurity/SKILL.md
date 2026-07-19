@@ -110,15 +110,15 @@ The authorization gate fires **once up front** for the batch (covering all live-
 
 This skill uses OSS offensive tooling (ffuf, nuclei, OWASP ZAP, dalfox, interact.sh, mitmproxy). Running these against a **real host** requires user authorization.
 
-**Static work — NO gate:** code review, SAST, threat modeling, secure-design review, detection-rule authoring, OSS tool setup, reference lookup. These are **always-allowed** (Track A). Proceed immediately.
+**Static work — NO gate:** code review, SAST, threat modeling, secure-design review, detection-rule authoring, OSS tool installation and template/help reading (e.g., `nuclei --help`, `nuclei -templates-update`, installing binaries), reference lookup. These are **always-allowed** (Track A). Proceed immediately.
 
-**Live-target work — GATED (Track B):** any task that sends requests to a real URL/IP/host (`ffuf`, `nuclei`, `zap`, `dalfox`, `interact.sh`, crafted curl to non-localhost). When the user asks the agent to test a real target:
+**Live-target work — GATED (Track B):** any task that sends requests to a real URL/IP/host (`ffuf`, `nuclei`, `zap`, `dalfox`, `interact.sh`, crafted curl to non-localhost). **INVOKING a tool against a URL is Track B, even if framed as "setup" or "configuration."** interact.sh server start, mitmproxy transparent mode, nuclei/ffuf/zap/dalfox with a URL argument — all are live-target actions requiring the gate. When the user asks the agent to test a real target:
 
 1. **Evaluate the gate IN THIS MAIN CONTEXT** — load `SEE: references/authorization-disclaimer.md` and render it to the user.
 2. **Wait for explicit acknowledgement** ("yes", "i confirm", "ack").
 3. **Proceed only after ack.** No ack → no live-target action.
 4. **Ack is per-session and per-target-scope.** Ack for `staging.example.com` does not authorize `prod.example.com`. Re-confirm when the target materially changes.
-5. **Sub-agents receive `ack_state: confirmed` and `target_scope: [...]` as inputs** and **refuse** if missing or out-of-scope (defense in depth — the gate is the primary control, but sub-agents double-check).
+5. **Sub-agents receive `ack_state: confirmed` and `target_scope: [...]` as inputs** and **refuse** if missing or out-of-scope. **NOTE: the sub-agent `ack_state` check is NOT defense in depth — it is the same control (main-context gate) expressed a second time in text. There is no signature, shared secret, or independent ground truth the sub-agent can verify. The main-context gate is the real and only authorization control. Do not rely on the sub-agent check in the threat model.**
 6. **The gate is NEVER delegated to a sub-agent.** It runs in main context, *before* dispatch (decision #5 safety invariant).
 
 If the user declines, or the target is on the gate's red-flags list, the orchestrator **stops**, explains why, and offers Track A alternatives (static review, threat model, etc.).

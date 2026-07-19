@@ -24,8 +24,17 @@ fi
 echo "🔄 Migrating $FILE from Radix UI to Base UI..."
 echo ""
 
-# Create backup
+# Create backup. If a previous .radix-backup exists (script was run before),
+# preserve it as .radix-backup.<timestamp> BEFORE taking the new backup so
+# the truly-original pre-migration state survives multiple runs. This makes
+# the script idempotent: re-runs no longer overwrite the original snapshot.
 BACKUP="${FILE}.radix-backup"
+if [ -f "$BACKUP" ]; then
+    TS="$(date +%Y%m%d%H%M%S)"
+    PREV_BACKUP="${BACKUP}.${TS}"
+    mv "$BACKUP" "$PREV_BACKUP"
+    echo "ℹ️  Existing backup moved aside: $PREV_BACKUP"
+fi
 cp "$FILE" "$BACKUP"
 echo "✅ Created backup: $BACKUP"
 
@@ -63,8 +72,11 @@ echo ""
 echo "4. Ensure all render props spread {...props}"
 echo ""
 
-# Add TODO comment at top of file
-sed -i '1i // TODO: Complete Base UI migration - check render props, Positioner wrappers, and Portal usage' "$FILE"
+# Add TODO comment at top of file (only if not already present, so the script
+# is idempotent across re-runs and doesn't stack duplicate markers).
+if ! grep -q '^// TODO: Complete Base UI migration' "$FILE" 2>/dev/null; then
+    sed -i '1i // TODO: Complete Base UI migration - check render props, Positioner wrappers, and Portal usage' "$FILE"
+fi
 
 echo "✅ Automatic transformations complete!"
 echo ""

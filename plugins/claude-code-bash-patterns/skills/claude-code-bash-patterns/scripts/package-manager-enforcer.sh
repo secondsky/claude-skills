@@ -24,12 +24,20 @@
 #     }
 #   }
 #
+# Input:
+#   Reads JSON from stdin (Claude Code PreToolUse payload shape):
+#     {"tool_input": {"command": "...", ...}, ...}
+#   Previously this hook read $CLAUDE_TOOL_INPUT (env var) — that was wrong;
+#   Claude Code sends the payload on stdin, not via env. With the wrong
+#   source, COMMAND was always empty and the block logic never fired.
+#
 # Exit Codes:
 #   0 = Allow execution
 #   2 = Block with custom error message
 
-# Parse command from CLAUDE_TOOL_INPUT
-COMMAND=$(echo "$CLAUDE_TOOL_INPUT" | jq -r '.tool_input.command // ""')
+# Parse command from stdin (Claude Code PreToolUse JSON payload)
+INPUT=$(cat)
+COMMAND=$(printf '%s' "$INPUT" | jq -r '.tool_input.command // ""')
 
 # Detect package manager from lockfile
 DETECTED_PM=""
@@ -45,13 +53,13 @@ else
 fi
 
 # Check if command uses a different package manager
-if echo "$COMMAND" | grep -qE '^(npm|pnpm|yarn)\s+'; then
+if printf '%s' "$COMMAND" | grep -qE '^(npm|pnpm|yarn)[[:space:]]+'; then
     # Extract package manager from command
-    USED_PM=$(echo "$COMMAND" | grep -oE '^(npm|pnpm|yarn)' | head -n1)
+    USED_PM=$(printf '%s' "$COMMAND" | grep -oE '^(npm|pnpm|yarn)' | head -n1)
 
     # Check if it matches detected package manager
     if [ "$USED_PM" != "$DETECTED_PM" ]; then
-        ERROR_MSG="🚨 BLOCKED: Package manager mismatch
+        ERROR_MSG="BLOCKED: Package manager mismatch
 
 Detected lockfile: ${DETECTED_PM}-lock.yaml / ${DETECTED_PM}.lock / package-lock.json
 Command uses: ${USED_PM}

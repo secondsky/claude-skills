@@ -53,6 +53,26 @@ description: Processes Excel files with formatting and validation. Use for busin
 
 ---
 
+## 🔒 Security hooks
+
+This repo ships a pre-commit hook in `.githooks/` that runs gitleaks
+secret scanning and JSON-schema validation before each commit. Hooks are
+**opt-in**: install them once per clone before your first commit:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+CI re-runs the same checks (and more), so a skipped hook will still be
+caught — but installing it locally gives you instant feedback and keeps
+secrets out of your branch history. See [`.githooks/README.md`](../../.githooks/README.md)
+for details, and [`SECURITY.md`](../../SECURITY.md) for the disclosure
+policy. Reviewers apply the checklist in
+[`docs/guides/PLUGIN_SECURITY_REVIEW.md`](PLUGIN_SECURITY_REVIEW.md) when
+assessing plugin PRs.
+
+---
+
 ## 🎯 Skill Development Guidelines
 
 ### What Makes a Good Skill?

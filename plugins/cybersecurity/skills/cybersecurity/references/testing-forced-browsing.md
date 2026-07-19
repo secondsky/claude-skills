@@ -32,10 +32,13 @@ Use SecLists wordlists with ffuf (or Gobuster / Feroxbuster). Filter for non-404
 
 ```bash
 # Directory enumeration
+# `-t 5 -p 0.1` (or `-rate 20`) is the default for shared/owned dev targets; higher
+# thread counts risk DoS and are refused by the red-flags list unless the user
+# explicitly owns the target and confirms capacity. See `-t 50` note below.
 ffuf -u https://TARGET/FUZZ \
      -w ~/SecLists/Discovery/Web-Content/raft-medium-directories.txt \
      -mc 200,204,301,302,307,401,403 \
-     -t 50 \
+     -t 5 -p 0.1 -rate 20 \
      -o findings-dirs.json -of json
 
 # File enumeration (common extensions)
@@ -43,11 +46,11 @@ ffuf -u https://TARGET/FUZZ \
      -w ~/SecLists/Discovery/Web-Content/raft-medium-files.txt \
      -e .php,.asp,.aspx,.jsp,.html,.js,.json,.env,.yaml,.yml,.xml,.bak,.old,.sql,.log,.git \
      -mc 200,204,301,302,307,401,403 \
-     -t 50 \
+     -t 5 -p 0.1 -rate 20 \
      -o findings-files.json -of json
 ```
 
-Rate-limit politely — use `-p 0.1` (100ms delay) or `-rate 20` for shared infra.
+Rate-limit politely — `-p 0.1` (100ms delay) and/or `-rate 20` are the defaults shown above for shared/owned dev infra. For owned, high-capacity dev targets only (you have explicitly confirmed the target is yours and can absorb the load), `-t 50` without rate-limiting is acceptable; the red-flags list otherwise refuses DoS-volume fuzzing regardless of ownership claims.
 
 ### Step 2 — Discover admin / debug interfaces
 

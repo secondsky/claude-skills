@@ -26,6 +26,14 @@ fi
 echo "📦 Installing @opennextjs/cloudflare..."
 npm install --save-dev @opennextjs/cloudflare
 
+# NOTE: The three `if [ ! -f ... ]; then cat > ...` blocks below have a
+# benign TOCTOU window between the existence check and the write. We
+# accept this race: the file content is static, so concurrent runs of
+# this script in the same project would simply race to write identical
+# bytes, leaving the final file in the correct state regardless of which
+# run wins. Using mktemp + mv would add atomicity but no functional
+# benefit for static content, so we keep the simpler form.
+
 # Create wrangler.jsonc if it doesn't exist
 if [ ! -f "wrangler.jsonc" ]; then
     echo "📝 Creating wrangler.jsonc..."

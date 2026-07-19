@@ -37,10 +37,13 @@ app.use((req, res, next) => {
 // Validation
 app.post('*', (req, res, next) => {
   const token = req.body._csrf || req.headers['x-csrf-token'];
-  if (!token || !crypto.timingSafeEqual(
-    Buffer.from(token),
-    Buffer.from(req.session.csrfToken)
-  )) {
+  // crypto.timingSafeEqual throws RangeError when buffers differ in length,
+  // so check length explicitly first (still constant-time on the equal-length path).
+  const csrf = req.session.csrfToken || '';
+  if (!token || token.length !== csrf.length) {
+    return res.status(403).json({ error: 'Invalid CSRF token' });
+  }
+  if (!crypto.timingSafeEqual(Buffer.from(token), Buffer.from(csrf))) {
     return res.status(403).json({ error: 'Invalid CSRF token' });
   }
   next();

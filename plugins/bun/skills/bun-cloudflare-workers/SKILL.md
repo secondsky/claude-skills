@@ -340,8 +340,12 @@ API_URL = "https://api.example.com"
 ```typescript
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    console.log(env.API_URL);    // From vars
-    console.log(env.API_KEY);    // From secrets
+    console.log(env.API_URL);    // From vars (non-secret, safe to log)
+    // Access a Worker secret (NEVER log it — wrangler tail / Logpush persist logs)
+    if (env.API_KEY) {
+      // use env.API_KEY to call the upstream API
+    }
+    // ❌ NEVER: console.log(env.API_KEY) — secrets must not appear in logs
     return new Response("OK");
   },
 };

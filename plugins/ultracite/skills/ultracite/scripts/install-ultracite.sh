@@ -165,55 +165,49 @@ check_git_hooks() {
 
 check_git_hooks
 
-# Build init command
-build_init_command() {
-  local cmd=""
+# Build init command as an array (B-005: shell-injection hygiene)
+INIT_CMD=()
 
-  case $PM in
-    bun) cmd="bun x ultracite init" ;;
-    pnpm) cmd="pnpm dlx ultracite init" ;;
-    yarn) cmd="yarn dlx ultracite init" ;;
-    npm) cmd="npx ultracite init" ;;
-  esac
+case $PM in
+  bun) INIT_CMD=(bun x ultracite init) ;;
+  pnpm) INIT_CMD=(pnpm dlx ultracite init) ;;
+  yarn) INIT_CMD=(yarn dlx ultracite init) ;;
+  npm) INIT_CMD=(npx ultracite init) ;;
+esac
 
-  # Add package manager flag
-  cmd="$cmd --pm $PM"
+# Add package manager flag
+INIT_CMD+=(--pm "$PM")
 
-  # Add framework flag
-  if [ "$FRAMEWORK" != "none" ]; then
-    cmd="$cmd --frameworks $FRAMEWORK"
+# Add framework flag
+if [ "$FRAMEWORK" != "none" ]; then
+  INIT_CMD+=(--frameworks "$FRAMEWORK")
+fi
+
+# Add editor flags
+INIT_CMD+=(--editors vscode)
+
+# Add migration flags
+if [ "${MIGRATE:-false}" = true ]; then
+  if grep -q '"eslint"' package.json && grep -q '"prettier"' package.json; then
+    INIT_CMD+=(--migrate eslint,prettier)
+  elif grep -q '"eslint"' package.json; then
+    INIT_CMD+=(--migrate eslint)
+  elif grep -q '"prettier"' package.json; then
+    INIT_CMD+=(--migrate prettier)
   fi
+fi
 
-  # Add editor flags
-  cmd="$cmd --editors vscode"
-
-  # Add migration flags
-  if [ "${MIGRATE:-false}" = true ]; then
-    if grep -q '"eslint"' package.json && grep -q '"prettier"' package.json; then
-      cmd="$cmd --migrate eslint,prettier"
-    elif grep -q '"eslint"' package.json; then
-      cmd="$cmd --migrate eslint"
-    elif grep -q '"prettier"' package.json; then
-      cmd="$cmd --migrate prettier"
-    fi
-  fi
-
-  # Add Git hooks flag
-  if [ "${SKIP_HOOKS:-false}" = false ] && [ "${GIT_HOOK:-none}" != "none" ]; then
-    cmd="$cmd --integrations $GIT_HOOK"
-  fi
-
-  echo "$cmd"
-}
-
-INIT_CMD=$(build_init_command)
+# Add Git hooks flag
+if [ "${SKIP_HOOKS:-false}" = false ] && [ "${GIT_HOOK:-none}" != "none" ]; then
+  INIT_CMD+=(--integrations "$GIT_HOOK")
+fi
 
 echo ""
-info "Running: $INIT_CMD"
+info "Running: ${INIT_CMD[*]}"
 echo ""
 
-# Run the init command
-eval $INIT_CMD
+# Run the init command via direct array execution
+"${INIT_CMD[@]}"
 
 # Verify installation
 echo ""

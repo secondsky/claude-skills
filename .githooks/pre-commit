@@ -19,12 +19,31 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo ""
-echo "🔍 Running JSON schema validation..."
-
 # Get repository root
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 SCHEMAS_DIR="$REPO_ROOT/schemas"
+
+# ---------------------------------------------------------------------------
+# Secret scan (gitleaks) — defense-in-depth against accidentally committed
+# secrets. Non-fatal-if-missing so contributors without gitleaks installed can
+# still commit; but if gitleaks IS installed and finds a finding, it MUST block.
+# ---------------------------------------------------------------------------
+if command -v gitleaks >/dev/null 2>&1; then
+  echo ""
+  echo "🔍 Running gitleaks secret scan..."
+  if ! gitleaks detect --staged --redact --config="$REPO_ROOT/.gitleaks.toml" --source="$REPO_ROOT"; then
+    echo "" >&2
+    echo "ERROR: gitleaks detected a potential secret in staged files." >&2
+    echo "If this is a false positive, add the finding to .gitleaks.toml allowlist." >&2
+    exit 1
+  fi
+else
+  echo "" >&2
+  echo "WARN: gitleaks not installed — skipping secret scan. Install: https://github.com/gitleaks/gitleaks" >&2
+fi
+
+echo ""
+echo "🔍 Running JSON schema validation..."
 
 # Resolve ajv-cli. Prefer the repo-local dev dependency so commits do not
 # depend on a global npm install.

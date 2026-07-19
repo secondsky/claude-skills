@@ -101,11 +101,20 @@ from the MCP tool definitions; the agent should always:
 
 ⚠️ **The current sandbox implementation is NOT secure for untrusted code.**
 
+> ⚠️ **The `vm`-based sandbox is NOT a security boundary.** Node's `vm` module can be escaped (see Node docs). This setting reduces accidental damage only. For untrusted MCP entries, run them in a **separate process/container with proper OS-level isolation.**
+
 - Uses `vm.createContext()` which is NOT a security boundary
 - Can be escaped via prototype pollution, require() manipulation, etc.
 - **Only enable for Claude-generated code** (trusted source)
 - Requires `MCP_ORCH_ENABLE_SANDBOX=1` environment variable
 - See `references/security-model.md` for complete security details
+
+### Spawn Hardening (Command & Env Allowlisting)
+
+When adding entries to `mcp.registry.json`, the orchestrator enforces:
+
+1. **Command allowlist** — only `npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go` (bare names resolved via PATH). Absolute/relative paths and shells are rejected. Set `MCP_ORCH_ALLOW_RAW_COMMANDS=1` to opt out (loud stderr warning; only for fully-trusted registries).
+2. **Env var denylist** — `PATH`, `NODE_OPTIONS`, `LD_PRELOAD`, `DYLD_INSERT_LIBRARIES`, `PYTHONPATH`, etc. are stripped from `mcp.env` before spawn (stderr warning per dropped key).
 
 ### Other Limitations
 

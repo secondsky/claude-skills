@@ -1,5 +1,5 @@
 {
-  "description": "Validates bun command usage and provides suggestions",
+  "description": "Advisory hooks that suggest Bun-equivalent commands (npm/yarn/pnpm -> bun). Advisory only — never blocks.",
   "hooks": {
     "PreToolUse": [
       {
