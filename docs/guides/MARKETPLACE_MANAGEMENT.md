@@ -595,6 +595,66 @@ scripts/
 | 2025-12-19 | Added category, agents, commands to plugin.json |
 | 2025-12-19 | Fixed cache duplication (18× bloat) |
 | 2025-12-19 | Created this documentation |
+| 2026-07-19 | Added repository security setup section |
+
+---
+
+## Repository security setup for maintainers
+
+Branch protection and repository-level security settings live in GitHub,
+not in this clone, so they are documented here instead of enforced via
+files. Apply these on **every new repository** that will host a fork or
+derivative of this marketplace, and verify them quarterly on the
+canonical repo. They mirror the policy in
+[`../../SECURITY.md`](../../SECURITY.md).
+
+### Setup steps
+
+1. **Branch protection on `main`.** Open *Settings → Branches → Add
+   rule* for `main` and enable:
+
+   - Require linear history.
+   - Require signed commits (configure your signing key under
+     *Settings → Email* / *SSH and GPG keys*).
+   - Require a pull request before merging, with **at least 1** approval.
+   - Require status checks to pass before merging — add these required
+     checks:
+     - `Validate Frontmatter`
+     - `Validate JSON Schemas`
+     - `Dependency Review`
+     - `CodeQL`
+   - Require branches to be up to date before merging.
+   - **Do not allow bypasses** for administrators.
+   - Block force-pushes and branch deletion.
+
+2. **Enable Dependabot security + version updates.** Settings →
+   *Code security → Code scanning → Configure*; enable Dependabot
+   security updates. The `.github/dependabot.yml` in this repo configures
+   weekly version-update PRs for npm and github-actions.
+
+3. **Enable CodeQL.** Settings → *Code security and analysis → CodeQL
+   default setup → Enable*. The `.github/workflows/codeql.yml` workflow
+   runs analysis on push/PR.
+
+4. **Enable private vulnerability reporting.** Settings → *Code security
+   → Private vulnerability reporting → Enable*. This powers the
+   "Report a vulnerability" button referenced from `SECURITY.md`.
+
+5. **Enable Dependency review.** Already on via the
+   `dependency-review.yml` workflow; no separate toggle needed once
+   Dependabot is enabled.
+
+### Quarterly verification
+
+```bash
+gh api repos/<org>/<repo>/branches/main/protection
+gh api repos/<org>/<repo>/automated-security-fixes
+gh api repos/<org>/<repo>/code-scanning/default-setup
+```
+
+All three should return non-empty / `enabled: true`. See
+[`../../SECURITY.md`](../../SECURITY.md) for the disclosure policy and
+response SLA.
 
 ---
 
