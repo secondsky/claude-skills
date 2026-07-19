@@ -111,3 +111,68 @@ After all batches: final cross-cutting review, then `superpowers:finishing-a-dev
 
 ## Status legend
 - 🔴 Not started · 🟡 In progress · 🟢 Fixed · ⚪ Accepted-risk (documented) · ⚪️ Info (no action)
+
+---
+
+## Final Status (post-fix, verified by cross-cutting review)
+
+**All 6 Critical and 25 High findings FIXED.** 34 Medium FIXED. 18 Low FIXED (except systemic D-020 partially — 5 highest-risk scripts got `--dry-run`, the remaining 8 are documented as roadmap). 15 Info documented as accepted-risk/observations.
+
+**Verification:** Independent cross-cutting review re-tested the 4 most safety-critical fixes at runtime:
+- B4 `install-skill.sh`: all 10 malicious inputs (`.`, `..`, traversal, leading-dash, empty) rejected at exit 2.
+- B5 `dangerous-command-guard.py`: malformed JSON (empty, `null`, `[]`) all exit 2 (fail-secure).
+- B7 `orchestrator.ts`: `validateMcpCommand` called before `spawn` (line 327 before 338); `sanitizeMcpEnv` strips PATH/NODE_OPTIONS/LD_PRELOAD.
+- B12 `generate-secret.sh`: default run suppresses secret on stdout; `--print` emits to stderr only.
+
+**No syntax regressions:** `bash -n` clean on all 41 shell scripts; `node --check` clean on all `.js`/`.mjs`; `py_compile` clean on `.py`; YAML/TOML parse clean; `tsc --noEmit` shows zero new errors vs main (13 pre-existing unchanged).
+
+**18 commits, 85 files, +3117/-476.** All commit messages reference finding IDs.
+
+**Known accepted partial remediations:**
+- E-002: `github/codeql-action@v3` remains tag-pinned (not SHA) — each line carries `# TODO(security): pin to commit SHA`. CodeQL action is GitHub-owned and low supply-chain risk; the four higher-risk third-party actions (checkout, setup-node, upload-artifact, dependency-review-action) are SHA-pinned.
+- D-020: `--dry-run` added to 5 highest-risk external-write scripts; 8 remaining scripts documented as roadmap in `PLUGIN_SECURITY_REVIEW.md`.
+
+**Pre-existing out-of-scope issues (confirmed via `git show main:` to predate this audit, NOT introduced):**
+- `claude-code-bash-patterns/templates/settings.json` `.envrc` source + env dump (A-014 partially addressed; the env-dump line was removed but `.envrc` source remains opt-in).
+- `setup-vitest.sh` BSD sed `-i ''` portability on other scripts in the corpus (not the B8-fixed one).
+- `gemini-cli/.../assets/` directory referenced by install scripts but not present in repo.
+- `test-access-jwt.sh` bash 3.2 `set -e` quirk halts before JWKS section on macOS.
+
+**Final review assessment:** Ready to merge.
+
+---
+
+## How to review this branch
+
+```sh
+# From the main repo checkout:
+git fetch  # if pushed
+git checkout security/defense-in-depth-audit
+# Or from the worktree:
+cd .worktrees/security-audit
+
+# Per-track raw findings:
+ls docs/security-audit/findings/
+
+# The consolidated report (this file):
+open docs/security-audit/REPORT.md
+
+# Full diff:
+git diff main...HEAD --stat
+```
+
+**To verify the critical fixes independently (PoC scripts):**
+```sh
+# B4: install-skill.sh traversal protection
+TMPHOME=$(mktemp -d); HOME=$TMPHOME bash scripts/install-skill.sh .. </dev/null; echo "exit=$? (expect 2)"
+TMPHOME=$(mktemp -d); HOME=$TMPHOME bash scripts/install-skill.sh foo/../.. </dev/null; echo "exit=$? (expect 2)"
+
+# B5: fail-secure guard
+printf '' | python3 plugins/claude-code-bash-patterns/skills/claude-code-bash-patterns/scripts/dangerous-command-guard.py; echo "exit=$? (expect 2)"
+
+# B7: MCP orchestrator allowlist (trace the code)
+grep -n "validateMcpCommand\|sanitizeMcpEnv\|ALLOWED_COMMANDS" plugins/mcp-dynamic-orchestrator/src/orchestrator.ts
+
+# B12: secret suppression
+bash plugins/better-auth/skills/better-auth/scripts/generate-secret.sh 2>/dev/null | grep -c "BETTER_AUTH_SECRET=" # expect 0 (suppressed on stdout)
+```
