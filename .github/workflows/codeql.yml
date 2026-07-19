@@ -25,14 +25,14 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3 # TODO(security): pin to commit SHA
+        uses: github/codeql-action/init@v4 # TODO(security): pin to commit SHA
         with:
           # `javascript` scans the small number of real .mjs/.js scripts in
           # scripts/ and plugins/; `actions` scans the workflow/Action files.
           languages: javascript, actions
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v3 # TODO(security): pin to commit SHA
+        uses: github/codeql-action/autobuild@v4 # TODO(security): pin to commit SHA
 
       - name: Analyze
-        uses: github/codeql-action/analyze@v3 # TODO(security): pin to commit SHA
+        uses: github/codeql-action/analyze@v4 # TODO(security): pin to commit SHA
