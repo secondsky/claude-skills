@@ -2,11 +2,36 @@
 
 # WordPress Plugin Scaffolding Script
 # Creates a new WordPress plugin from templates
+# Usage: scaffold-plugin.sh [--dry-run]
+#   --dry-run: print what would be created without touching the filesystem.
+#              Inputs can still be piped via stdin (the prompts still fire).
 
 set -e
 
+# Parse --dry-run from argv (anywhere). No other flags are accepted.
+DRY_RUN=0
+for arg in "$@"; do
+    case "$arg" in
+        --dry-run) DRY_RUN=1 ;;
+        --help|-h)
+            echo "Usage: scaffold-plugin.sh [--dry-run]"
+            exit 0
+            ;;
+        *)
+            echo "Error: unknown argument '$arg'" >&2
+            echo "Usage: scaffold-plugin.sh [--dry-run]" >&2
+            exit 1
+            ;;
+    esac
+done
+
+dry_run_echo() { [ "$DRY_RUN" = "1" ] && echo "DRY-RUN: $*"; }
+
 echo "======================================"
 echo "WordPress Plugin Scaffolding Tool"
+if [ "$DRY_RUN" = "1" ]; then
+    echo "  (DRY-RUN mode — no filesystem changes)"
+fi
 echo "======================================"
 echo ""
 
@@ -86,6 +111,42 @@ fi
 if [ -d "$DEST_DIR" ]; then
     echo "Error: Plugin directory already exists: $DEST_DIR"
     exit 1
+fi
+
+# In dry-run mode, print the full plan and exit before any mutation.
+# Validation (slug regex + canonical-path bound check) has already run
+# above, so the dry-run is a faithful preview of what would happen.
+if [ "$DRY_RUN" = "1" ]; then
+    # DEST_DIR may legitimately not exist yet in dry-run; compute the
+    # intended real path by normalizing the parent.
+    DEST_DIR_REAL="${PLUGINS_DIR_REAL}/${PLUGIN_SLUG}"
+    dry_run_echo "would scaffold plugin '$PLUGIN_SLUG' at '$DEST_DIR_REAL'"
+    dry_run_echo "would create parent directory: $PLUGINS_DIR_REAL (if absent)"
+    dry_run_echo "would copy template dir: $TEMPLATE_DIR -> $DEST_DIR_REAL"
+    if [ -d "$TEMPLATE_DIR" ]; then
+        # List template files (relative to template dir) so the user can see
+        # exactly what would land on disk.
+        ( cd "$TEMPLATE_DIR" && find . -type f | sed 's|^\./||' ) | while read -r f; do
+            dry_run_echo "  + $f"
+        done
+    else
+        # The template dir is relative to CWD; report that we could not
+        # enumerate it but the validation has already accepted the choice.
+        dry_run_echo "  (template dir '$TEMPLATE_DIR' not enumerable from CWD; files would be those under it)"
+    fi
+    case "$ARCH_NAME" in
+        simple) dry_run_echo "would rename my-simple-plugin.php -> ${PLUGIN_SLUG}.php" ;;
+        oop)    dry_run_echo "would rename my-oop-plugin.php -> ${PLUGIN_SLUG}.php" ;;
+        psr4)   dry_run_echo "would rename my-psr4-plugin.php -> ${PLUGIN_SLUG}.php" ;;
+    esac
+    dry_run_echo "would sed-substitute placeholders (name, slug, prefix, author, URIs, description) in copied files"
+    dry_run_echo "would mkdir -p ${DEST_DIR_REAL}/assets/css ${DEST_DIR_REAL}/assets/js"
+    if [ "$ARCH_NAME" = "psr4" ] && command -v composer &> /dev/null; then
+        dry_run_echo "would run 'composer install' inside $DEST_DIR_REAL"
+    fi
+    echo ""
+    echo "DRY-RUN complete; no files modified."
+    exit 0
 fi
 
 echo ""

@@ -91,3 +91,52 @@ Reviewer notes / required changes:
 
 PR mergeable once all boxes are checked or each "no"/"unsure" has a
 documented accepted-risk rationale.
+
+---
+
+## Roadmap: `--dry-run` coverage (audit finding D-020)
+
+The defense-in-depth audit (D-020, Low / L-effort) noted that almost no
+script that writes outside the repo supports `--dry-run`, so a user
+cannot preview what an installer would do before committing to it. The
+audit rated this Low and L-effort-per-script; rather than retrofit all
+~15 external-write scripts in a single broad change, we are taking a
+scoped approach: harden the highest-risk installers first (those already
+covered by the B4 input-validation and B9 canonical-path fixes), and
+track the remainder as a roadmap.
+
+### Scripts that now support `--dry-run`
+
+These accept `--dry-run` anywhere in argv. In dry-run mode they parse
+and validate arguments exactly as in the live path, then print
+`DRY-RUN: would <action> <details>` for every FS operation (mkdir,
+symlink, copy, backup, sed, chmod, composer install) and exit 0 without
+mutating disk. Validation failures still exit non-zero — dry-run never
+bypasses validation.
+
+- `scripts/install-skill.sh` — installs a skill to `$HOME/.claude/skills/`.
+- `scripts/install-all.sh` — loops `install-skill.sh`; forwards `--dry-run`.
+- `plugins/wordpress-plugin-core/skills/wordpress-plugin-core/scripts/scaffold-plugin.sh` — scaffolds a plugin to `$HOME/wp-content/plugins/`.
+- `plugins/gemini-cli/skills/gemini-cli/scripts/install-gemini-coach.sh` — copies a script to `$HOME/.local/bin/`.
+- `plugins/gemini-cli/skills/gemini-cli/scripts/setup-slash-command.sh` — copies a slash command to `$HOME/.claude/commands/`.
+
+### Scripts tracked for future `--dry-run` addition
+
+These external-write scripts are not yet dry-run-enabled. Each is a
+small, self-contained addition following the same pattern (parse
+`--dry-run` early, gate each FS operation behind `[ "$DRY_RUN" = "1" ]`,
+exit 0 after printing the plan). They are listed here so a future
+hardening pass has an explicit inventory.
+
+- `plugins/cloudflare-durable-objects/skills/cloudflare-durable-objects/scripts/migration-generator.sh`
+- `plugins/cloudflare-workers/skills/cloudflare-workers-observability/scripts/setup-logging.sh`
+- `plugins/cloudflare-workers/skills/cloudflare-workers-testing/scripts/setup-vitest.sh`
+- `plugins/cloudflare-workers/skills/cloudflare-workers-dev-experience/scripts/dev-setup.sh`
+- `plugins/cloudflare-sandbox/skills/cloudflare-sandbox/scripts/setup-sandbox-binding.sh`
+- `plugins/base-ui-react/skills/base-ui-react/scripts/migrate-radix-component.sh`
+- `plugins/nuxt-seo/skills/nuxt-seo/scripts/init-nuxt-seo.sh`
+- `plugins/nuxt-content/skills/nuxt-content/scripts/setup-nuxt-content.sh`
+
+When adding `--dry-run` to a script on this list, also remove it from
+this inventory so the doc stays authoritative.
+
