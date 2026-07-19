@@ -39,6 +39,7 @@ echo ""
 # Install each skill
 SUCCESS_COUNT=0
 FAIL_COUNT=0
+FAILED_SKILLS=()
 
 for skill_dir in "$SKILLS_DIR"/*/ ; do
     if [ -d "$skill_dir" ]; then
@@ -51,6 +52,7 @@ for skill_dir in "$SKILLS_DIR"/*/ ; do
             echo ""
         else
             FAIL_COUNT=$((FAIL_COUNT + 1))
+            FAILED_SKILLS+=("$skill_name")
             echo -e "${RED}Failed to install: $skill_name${NC}"
             echo ""
         fi
@@ -66,6 +68,7 @@ echo -e "${GREEN}✓ Installed: $SUCCESS_COUNT${NC}"
 
 if [ "$FAIL_COUNT" -gt 0 ]; then
     echo -e "${RED}✗ Failed: $FAIL_COUNT${NC}"
+    echo -e "${RED}  Failed skills: ${FAILED_SKILLS[*]}${NC}"
 fi
 
 echo ""
