@@ -31,7 +31,7 @@ SCHEMAS_DIR="$REPO_ROOT/schemas"
 if command -v gitleaks >/dev/null 2>&1; then
   echo ""
   echo "🔍 Running gitleaks secret scan..."
-  if ! gitleaks protect --staged --redact --config=.gitleaks.toml 2>&1; then
+  if ! gitleaks detect --staged --redact --config="$REPO_ROOT/.gitleaks.toml" --source="$REPO_ROOT"; then
     echo "" >&2
     echo "ERROR: gitleaks detected a potential secret in staged files." >&2
     echo "If this is a false positive, add the finding to .gitleaks.toml allowlist." >&2

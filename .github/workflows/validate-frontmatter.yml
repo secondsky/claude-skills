@@ -75,7 +75,9 @@ jobs:
 
       - name: Validate all SKILL.md frontmatter
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: ./scripts/validate-frontmatter.sh
+        run: |
+          set -euo pipefail
+          ./scripts/validate-frontmatter.sh
 
       - name: Summary
         if: always()
