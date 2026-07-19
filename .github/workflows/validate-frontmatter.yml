@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   validate-frontmatter:
     name: Validate SKILL.md Frontmatter
@@ -13,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
 
@@ -22,8 +25,11 @@ jobs:
 
       - name: Validate changed SKILL.md files
         if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
-          CHANGED=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
+          set -euo pipefail
+          CHANGED=$(git diff --diff-filter=d --name-only "origin/${BASE_REF}...HEAD" | grep 'SKILL\.md$' || true)
           if [ -z "$CHANGED" ]; then
             echo "No SKILL.md files changed, skipping validation"
             exit 0
@@ -45,9 +51,12 @@ jobs:
 
       - name: Check no Keywords in description
         if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.base_ref }}
         run: |
+          set -euo pipefail
           FOUND=0
-          CHANGED=$(git diff --diff-filter=d --name-only origin/${{ github.base_ref }}...HEAD | grep 'SKILL\.md$' || true)
+          CHANGED=$(git diff --diff-filter=d --name-only "origin/${BASE_REF}...HEAD" | grep 'SKILL\.md$' || true)
           if [ -z "$CHANGED" ]; then
             echo "No SKILL.md files changed, skipping keyword check"
             exit 0
@@ -71,6 +80,7 @@ jobs:
       - name: Summary
         if: always()
         run: |
+          set -euo pipefail
           echo "### Frontmatter Validation" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Validated \`SKILL.md\` files in \`plugins/\`" >> $GITHUB_STEP_SUMMARY

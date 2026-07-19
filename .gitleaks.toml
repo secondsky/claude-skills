@@ -1,0 +1,16 @@
+title = "claude-skills gitleaks config"
+
+# Defense-in-depth secret scan config. See .githooks/pre-commit for usage.
+# The repo has no bundled gitleaks baseline; this file intentionally omits
+# `extend` so the scan runs against gitleaks' built-in default ruleset
+# without depending on a non-portable absolute path.
+
+[allowlist]
+description = "Known false positives: placeholder values in examples and templates"
+paths = [
+  '''package-lock\.json''',
+  '''^docs/security-audit/findings/.*\.md$''',  # audit findings document patterns, not real secrets
+]
+regexes = [
+  '''your-secret-key|my-jwt-secret|abc123_hardcoded_token|placeholder|example|changeme|xxx+|YOUR_API_KEY|YOUR_''',
+]
