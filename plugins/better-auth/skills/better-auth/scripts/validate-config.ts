@@ -16,6 +16,23 @@ const COMMON_MISTAKES = [
   { pattern: /require\s*\(/i, message: "CommonJS require() detected - better-auth v1.4.0+ is ESM-only" },
 ];
 
+// Placeholder / weak-secret detection for BETTER_AUTH_SECRET.
+// We only flag values that appear inline in the config; if the secret is
+// sourced from process.env (the recommended pattern), the real value lives
+// outside this file and we cannot judge it here.
+const PLACEHOLDER_PATTERN = /^(your[-_]?|changeme|placeholder|xxx+|test|example|default)/i;
+const MIN_SECRET_LENGTH = 16;
+
+/**
+ * Extract an inline secret value from a `secret: "..."` or `secret: '...'`
+ * assignment. Returns null when the secret is sourced from process.env or
+ * not found as an inline string literal.
+ */
+function extractInlineSecret(content: string): string | null {
+  const match = content.match(/secret\s*:\s*(['"])([^'"]+)\1/);
+  return match ? match[2] : null;
+}
+
 function validateRequiredFields(content: string): string[] {
   const errors: string[] = [];
   for (const field of REQUIRED_FIELDS) {
@@ -38,6 +55,18 @@ function validateConfig(filePath: string): { valid: boolean; errors: string[]; w
 
   // Validate required fields
   errors.push(...validateRequiredFields(content));
+
+  // Validate BETTER_AUTH_SECRET value if it is inline in the config.
+  // (When sourced from process.env the value is not visible here and we
+  // cannot judge its strength.)
+  const secretValue = extractInlineSecret(content);
+  if (typeof secretValue === "string") {
+    if (PLACEHOLDER_PATTERN.test(secretValue)) {
+      errors.push(`BETTER_AUTH_SECRET appears to be a placeholder ("${secretValue}"). Set a real secret.`);
+    } else if (secretValue.length < MIN_SECRET_LENGTH) {
+      errors.push(`BETTER_AUTH_SECRET is too short (${secretValue.length} chars; minimum ${MIN_SECRET_LENGTH}).`);
+    }
+  }
 
   // Check for common mistakes
   for (const { pattern, message } of COMMON_MISTAKES) {

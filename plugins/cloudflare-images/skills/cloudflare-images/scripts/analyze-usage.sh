@@ -2,6 +2,12 @@
 
 # Analyze Usage Script - Cloudflare Images
 # Query API for storage usage, delivered images, and estimated costs
+#
+# Secrets loading: .env is sourced into the current shell only (set -a / set +a),
+# not splashed into the environment of every child process via `export $(xargs)`.
+# This avoids leaking CF_API_TOKEN into `ps`/child envs and respects shell
+# quoting in the .env file. Secrets are unset at end of script.
+# Your .env file should be mode 0600 (chmod 600 .env) since it holds API tokens.
 
 set -e
 
@@ -12,9 +18,14 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Load environment variables from .env if it exists
+# Load environment variables from .env if it exists.
+# Use POSIX sourcing (set -a) rather than the legacy xargs-based export
+# pattern so values with spaces, quotes, or special chars are handled
+# correctly and we never pipe secret material through xargs.
 if [ -f .env ]; then
-  export $(cat .env | grep -v '^#' | xargs)
+  set -a
+  . ./.env
+  set +a
 fi
 
 # Check required environment variables
@@ -138,3 +149,6 @@ echo ""
 echo -e "${YELLOW}For detailed analytics:${NC}"
 echo -e "  Dashboard → Images → Analytics"
 echo -e "  https://dash.cloudflare.com/?to=/:account/images/analytics"
+
+# Drop secrets from the shell environment now that the curl call is done.
+unset CF_ACCOUNT_ID CF_API_TOKEN

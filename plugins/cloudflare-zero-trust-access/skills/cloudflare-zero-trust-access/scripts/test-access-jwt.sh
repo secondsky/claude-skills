@@ -5,15 +5,34 @@
 #
 # This script helps test and debug Access JWT tokens by:
 # - Decoding the JWT payload
-# - Fetching and verifying the JWT signature
+# - Discovering the JWKS public keys published by the Access team domain
 # - Displaying token claims in readable format
 # - Validating expiration and issuer
 #
+# IMPORTANT — what this script DOES NOT do:
+#   It does NOT cryptographically verify the JWT signature. Confirming that
+#   a `kid` exists in the team's JWKS only proves that the issuing team has
+#   that key; it does not prove the token was signed by that key. Real
+#   signature verification requires Web Crypto (`crypto.subtle.verify`),
+#   which is not practical in pure shell. For production verification, use
+#   the template at:
+#       templates/jwt-validation-manual.ts
+#   which performs the full `crypto.subtle.verify('RSASSA-PKCS1-v1_5', ...)`
+#   flow on the Worker.
+#
 # Usage:
-#   ./test-access-jwt.sh <jwt-token> [team-domain]
+#   # Preferred: pass JWT via env var so it does not land in shell history.
+#   CF_ACCESS_JWT="eyJhbGciOi..." ./test-access-jwt.sh [team-domain]
+#
+#   # Or via stdin:
+#   echo "eyJhbGciOi..." | ./test-access-jwt.sh [team-domain]
+#
+#   # Positional argument works but is DISCOURAGED - it will be visible in
+#   # your shell history and process listings.
+#   ./test-access-jwt.sh "eyJhbGciOi..." [team-domain]
 #
 # Examples:
-#   ./test-access-jwt.sh "eyJhbGciOi..."
+#   CF_ACCESS_JWT="eyJhbGciOi..." ./test-access-jwt.sh "your-team.cloudflareaccess.com"
 #   ./test-access-jwt.sh "eyJhbGciOi..." "your-team.cloudflareaccess.com"
 #
 # Dependencies:
@@ -150,20 +169,56 @@ main() {
   # Check dependencies
   check_dependencies
 
-  # Check arguments
-  if [ $# -lt 1 ]; then
-    print_error "Missing JWT token argument"
-    echo
-    echo "Usage: $0 <jwt-token> [team-domain]"
-    echo
-    echo "Examples:"
-    echo "  $0 \"eyJhbGciOi...\""
-    echo "  $0 \"eyJhbGciOi...\" \"your-team.cloudflareaccess.com\""
-    exit 1
+  # Resolve the JWT in priority order:
+  #   1. $CF_ACCESS_JWT env var  (preferred - not recorded in shell history)
+  #   2. stdin                   (also preferred - piped in, not in argv)
+  #   3. $1 positional argument  (DISCOURAGED - visible in `ps`, shell history)
+  # The optional team-domain argument is positional regardless.
+  TEAM_DOMAIN=""
+
+  if [ -n "$CF_ACCESS_JWT" ]; then
+    JWT="$CF_ACCESS_JWT"
+    # Team domain may still be passed as $1.
+    TEAM_DOMAIN="${1:-}"
+  elif [ $# -ge 1 ]; then
+    # Heuristic: if $1 contains a dot and looks like a JWT (3 dot-separated
+    # parts), treat it as the token. Otherwise treat it as the team domain
+    # and read the token from stdin.
+    if [ $# -ge 2 ] || echo "$1" | grep -q '^[A-Za-z0-9_-]\+\.[A-Za-z0-9_-]\+\.[A-Za-z0-9_-]\+$'; then
+      JWT="$1"
+      TEAM_DOMAIN="${2:-}"
+      print_warning "JWT passed as a positional argument - it may be recorded in your shell history and process listings. Prefer CF_ACCESS_JWT env var or stdin."
+    else
+      TEAM_DOMAIN="$1"
+      if [ -t 0 ]; then
+        print_error "Missing JWT token. Pass via CF_ACCESS_JWT env var or stdin."
+        echo
+        echo "Usage:"
+        echo "  CF_ACCESS_JWT=\"<jwt>\" $0 [team-domain]"
+        echo "  echo \"<jwt>\" | $0 [team-domain]"
+        echo "  $0 <jwt> [team-domain]   # discouraged"
+        exit 1
+      fi
+      JWT=$(cat)
+    fi
+  else
+    # No args at all: try stdin.
+    if [ -t 0 ]; then
+      print_error "Missing JWT token. Pass via CF_ACCESS_JWT env var, stdin, or positional arg."
+      echo
+      echo "Usage:"
+      echo "  CF_ACCESS_JWT=\"<jwt>\" $0 [team-domain]"
+      echo "  echo \"<jwt>\" | $0 [team-domain]"
+      echo "  $0 <jwt> [team-domain]   # discouraged"
+      exit 1
+    fi
+    JWT=$(cat)
   fi
 
-  JWT="$1"
-  TEAM_DOMAIN="${2:-}"
+  if [ -z "$JWT" ]; then
+    print_error "Empty JWT token"
+    exit 1
+  fi
 
   # Validate JWT format (should have 3 parts separated by dots)
   local parts=$(echo "$JWT" | tr '.' '\n' | wc -l)
@@ -252,9 +307,17 @@ main() {
   fi
   echo
 
-  # Signature verification (if team domain available)
+  # -------------------------------------------------------------------
+  # JWKS key discovery (NOT signature verification)
+  #
+  # The check below only confirms that the Access team publishes a key
+  # whose `kid` matches the token header's `kid`. It does NOT prove that
+  # the token was actually signed by that key. Real verification needs
+  # crypto.subtle.verify, which is implemented in the production template
+  # at templates/jwt-validation-manual.ts (verifyJWTSignature).
+  # -------------------------------------------------------------------
   if [ -n "$TEAM_DOMAIN" ] && [ -n "$KID" ]; then
-    echo "=== SIGNATURE VERIFICATION ==="
+    echo "=== JWKS KEY DISCOVERY (signature NOT verified by this script) ==="
 
     KEYS_JSON=$(fetch_public_keys "$TEAM_DOMAIN")
 
@@ -263,7 +326,7 @@ main() {
       KEY_EXISTS=$(echo "$KEYS_JSON" | jq -r ".keys[] | select(.kid == \"$KID\") | .kid" 2>/dev/null || echo "")
 
       if [ -n "$KEY_EXISTS" ]; then
-        print_success "Public key found for kid: $KID"
+        print_info "Public key found for kid: $KID (key discovery only)"
         echo
         echo "  Key details:"
         echo "$KEYS_JSON" | jq ".keys[] | select(.kid == \"$KID\")" 2>/dev/null || echo "  (Unable to parse key)"
@@ -277,7 +340,7 @@ main() {
       print_warning "Could not fetch public keys"
     fi
   else
-    print_warning "Skipping signature verification (team domain or kid not available)"
+    print_warning "Skipping JWKS key discovery (team domain or kid not available)"
   fi
 
   echo
@@ -292,10 +355,12 @@ main() {
   if [ -n "$EXP" ]; then
     check_expiration "$EXP" > /dev/null 2>&1
     if [ $? -eq 0 ]; then
-      print_success "Token is valid"
+      print_warning "Token DECODED (signature NOT verified by this script - for production verification use the template at templates/jwt-validation-manual.ts which performs crypto.subtle.verify)"
     else
       print_error "Token is expired"
     fi
+  else
+    print_warning "Token DECODED (signature NOT verified by this script - for production verification use the template at templates/jwt-validation-manual.ts which performs crypto.subtle.verify)"
   fi
 
   echo

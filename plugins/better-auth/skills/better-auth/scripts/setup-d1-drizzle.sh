@@ -197,8 +197,13 @@ fi
 echo -e "${YELLOW}[8/8]${NC} Setting secrets..."
 echo ""
 echo -e "${BLUE}Generating BETTER_AUTH_SECRET...${NC}"
-SECRET=$(openssl rand -base64 32)
-echo "$SECRET" | wrangler secret put BETTER_AUTH_SECRET
+# Pipe openssl output directly into wrangler without storing it in an
+# intermediate shell variable. This keeps the secret out of `ps`, the shell
+# environment, and any `set -x` traces that capture variable assignments.
+# NOTE: do not run this step under `set -x` - it would expose the secret bytes
+# in the trace output piped through wrangler.
+openssl rand -base64 32 | wrangler secret put BETTER_AUTH_SECRET
+unset SECRET 2>/dev/null || true
 
 echo ""
 echo -e "${GREEN}✓ Setup complete!${NC}"

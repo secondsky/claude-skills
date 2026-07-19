@@ -137,7 +137,8 @@ export function initializeTurnstile() {
       '#turnstile-container',
       {
         onSuccess: (token) => {
-          console.log('Turnstile success:', token)
+          // Token consumed by form submission; do NOT log it.
+          void token
           // Enable submit button
           const submitBtn = document.querySelector('#submit-btn') as HTMLButtonElement
           if (submitBtn) submitBtn.disabled = false
@@ -211,7 +212,8 @@ export function manualExecutionExample() {
     '#turnstile-container',
     {
       onSuccess: (token) => {
-        console.log('Challenge complete:', token)
+        // Token consumed by form submission; do NOT log it.
+        void token
       },
       onError: (error) => {
         console.error('Challenge failed:', error)
@@ -240,7 +242,7 @@ export function multipleWidgetsExample() {
   loginManager.render(
     '#login-turnstile',
     {
-      onSuccess: (token) => console.log('Login token:', token),
+      onSuccess: (token) => { void token },
       onError: (error) => console.error('Login error:', error),
     },
     {
@@ -252,7 +254,7 @@ export function multipleWidgetsExample() {
   signupManager.render(
     '#signup-turnstile',
     {
-      onSuccess: (token) => console.log('Signup token:', token),
+      onSuccess: (token) => { void token },
       onError: (error) => console.error('Signup error:', error),
     },
     {
