@@ -10,7 +10,9 @@ for plugin_json in plugins/*/.claude-plugin/plugin.json; do
     plugin_name=$(basename "$(dirname "$(dirname "$plugin_json")")")
     echo "[$((count+1))] Fixing: $plugin_name"
 
-    # Use jq to remove category field
+    # Back up the original, then use jq to remove the category field.
+    # The .bak file is kept (not auto-deleted) so the change can be diffed or reverted.
+    cp "$plugin_json" "$plugin_json.bak"
     jq 'del(.category)' "$plugin_json" > "$plugin_json.tmp"
     mv "$plugin_json.tmp" "$plugin_json"
 
