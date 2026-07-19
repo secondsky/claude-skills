@@ -8,6 +8,13 @@
 # providing structured report for manual verification phases.
 #
 # See: planning/SKILL_REVIEW_PROCESS.md for complete guide
+#
+# Link checking (check_broken_links): this function fetches every URL found
+# in the skill's markdown. URLs resolving to private/loopback/link-local/
+# metadata IPs are skipped (SSRF defense — skill content is treated as
+# attacker-controlled). A fixed User-Agent identifies the source so
+# recipients can identify and block the crawler. A short delay between
+# fetches avoids hammering third-party servers.
 
 set -euo pipefail
 
@@ -232,6 +239,47 @@ check_package_versions() {
 # Phase 4: Link Validation
 # ============================================================================
 
+# Reject URLs whose resolved host is private/loopback/link-local/metadata.
+# Defense-in-depth guard against SSRF: skill content is treated as
+# attacker-controlled, so every URL extracted from markdown is screened
+# before curl touches it. Returns 0 (safe) or 1 (unsafe).
+#
+# Note: if neither getent nor dscacheutil can resolve the host (e.g. DNS
+# hiccup, or neither binary exists in the environment), the URL is allowed.
+# curl will still fail on genuinely unreachable hosts — this is a
+# defense-in-depth guard, not a hard block.
+is_safe_url() {
+  local url="$1"
+  local host
+  host=$(printf '%s' "$url" | sed -E 's|^https?://([^/:]+).*|\1|')
+  [ -z "$host" ] && return 1
+
+  # Reject literal IPs in forbidden ranges (loopback, private, link-local,
+  # cloud metadata 169.254.169.254, IPv6 ULA fc00::/7, IPv6 link-local fe80::/10)
+  case "$host" in
+    127.*|10.*|172.1[6-9].*|172.2[0-9].*|172.3[01].*|192.168.*|169.254.*|0.*|::1|f[c-f][0-9a-f][0-9a-f]:*|f[c-f][0-9a-f][0-9a-f].*|fe[89ab][0-9a-f][0-9a-f]:*|fe[89ab][0-9a-f][0-9a-f].*)
+      return 1 ;;
+  esac
+
+  # Resolve hostname and check the resulting IPs.
+  local ips=""
+  if command -v getent >/dev/null 2>&1; then
+    ips=$(getent hosts "$host" 2>/dev/null | awk '{print $1}')
+  fi
+  if [ -z "$ips" ] && command -v dscacheutil >/dev/null 2>&1; then
+    ips=$(dscacheutil -q host -a name "$host" 2>/dev/null | awk '/ip_address/{print $2}')
+  fi
+  [ -z "$ips" ] && return 0  # can't resolve — allow; curl will fail anyway
+
+  for ip in $ips; do
+    case "$ip" in
+      127.*|10.*|172.1[6-9].*|172.2[0-9].*|172.3[01].*|192.168.*|169.254.*|0.*|::1|f[c-f][0-9a-f][0-9a-f]:*|f[c-f][0-9a-f][0-9a-f].*|fe[89ab][0-9a-f][0-9a-f]:*|fe[89ab][0-9a-f][0-9a-f].*)
+        return 1 ;;
+    esac
+  done
+  return 0
+}
+
 check_broken_links() {
   local skill_dir="$1"
   echo ""
@@ -256,14 +304,26 @@ check_broken_links() {
       continue
     fi
 
-    # Check HTTP status (with timeout)
-    local status=$(timeout 3 curl -s -o /dev/null -w "%{http_code}" "$url" 2>/dev/null || echo "000")
+    # SSRF guard: skip URLs resolving to private/loopback/link-local/metadata IPs
+    if ! is_safe_url "$url"; then
+      printf "  SKIP (private/internal/metadata IP): %s\n" "$url" >&2
+      continue
+    fi
+
+    # Check HTTP status (with timeout). Fixed User-Agent so recipients can
+    # identify and block the crawler.
+    local status=$(timeout 3 curl -s -o /dev/null -w "%{http_code}" \
+      -A "claude-skills-review/1.0 (+https://github.com/secondsky/claude-skills)" \
+      "$url" 2>/dev/null || echo "000")
 
     if [ "$status" = "000" ] || [ "$status" -ge 400 ]; then
       warning "Broken link [$status]: $url"
       add_high "Broken link: $url (HTTP $status)"
       ((broken++))
     fi
+
+    # Rate-limit: avoid hammering third-party servers between fetches
+    sleep 0.2
   done <<< "$urls"
 
   if [ "$broken" -eq 0 ]; then
