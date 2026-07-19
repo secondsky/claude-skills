@@ -164,20 +164,22 @@ MIGRATE_FLAGS=${MIGRATE_FLAGS%,}  # Remove trailing comma
 echo ""
 info "Running Ultracite init with migration..."
 
-INIT_CMD=""
+# Build init command as an array (B-005: shell-injection hygiene)
+INIT_CMD=()
 case $PM in
-  bun) INIT_CMD="bun x ultracite init" ;;
-  pnpm) INIT_CMD="pnpm dlx ultracite init" ;;
-  yarn) INIT_CMD="yarn dlx ultracite init" ;;
-  npm) INIT_CMD="npx ultracite init" ;;
+  bun) INIT_CMD=(bun x ultracite init) ;;
+  pnpm) INIT_CMD=(pnpm dlx ultracite init) ;;
+  yarn) INIT_CMD=(yarn dlx ultracite init) ;;
+  npm) INIT_CMD=(npx ultracite init) ;;
 esac
 
-INIT_CMD="$INIT_CMD --pm $PM --frameworks $FRAMEWORK --migrate $MIGRATE_FLAGS --editors vscode"
+INIT_CMD+=(--pm "$PM" --frameworks "$FRAMEWORK" --migrate "$MIGRATE_FLAGS" --editors vscode)
 
-info "Command: $INIT_CMD"
+info "Command: ${INIT_CMD[*]}"
 echo ""
 
-eval $INIT_CMD
+# Run init directly (no eval)
+"${INIT_CMD[@]}"
 
 # Remove old config files (Ultracite init may not remove all)
 echo ""
@@ -197,45 +199,52 @@ fi
 echo ""
 info "Removing old dependencies..."
 
-REMOVE_CMD=""
+# Build remove base command as an array (B-005: shell-injection hygiene)
+REMOVE_CMD=()
 case $PM in
-  bun) REMOVE_CMD="bun remove" ;;
-  pnpm) REMOVE_CMD="pnpm remove" ;;
-  yarn) REMOVE_CMD="yarn remove" ;;
-  npm) REMOVE_CMD="npm uninstall" ;;
+  bun) REMOVE_CMD=(bun remove) ;;
+  pnpm) REMOVE_CMD=(pnpm remove) ;;
+  yarn) REMOVE_CMD=(yarn remove) ;;
+  npm) REMOVE_CMD=(npm uninstall) ;;
 esac
 
 if $HAS_ESLINT; then
-  # Common ESLint packages
-  ESLINT_PACKAGES="eslint"
+  # Common ESLint packages (collected as an array)
+  ESLINT_PACKAGES=()
+  ESLINT_PACKAGES+=(eslint)
 
   # TypeScript ESLint
-  grep -q '@typescript-eslint/parser' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES @typescript-eslint/parser"
-  grep -q '@typescript-eslint/eslint-plugin' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES @typescript-eslint/eslint-plugin"
+  grep -q '@typescript-eslint/parser' package.json && ESLINT_PACKAGES+=('@typescript-eslint/parser')
+  grep -q '@typescript-eslint/eslint-plugin' package.json && ESLINT_PACKAGES+=('@typescript-eslint/eslint-plugin')
 
   # Framework-specific
-  grep -q 'eslint-config-next' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-config-next"
-  grep -q 'eslint-plugin-react' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-plugin-react"
-  grep -q 'eslint-plugin-react-hooks' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-plugin-react-hooks"
-  grep -q 'eslint-plugin-vue' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-plugin-vue"
+  grep -q 'eslint-config-next' package.json && ESLINT_PACKAGES+=(eslint-config-next)
+  grep -q 'eslint-plugin-react' package.json && ESLINT_PACKAGES+=(eslint-plugin-react)
+  grep -q 'eslint-plugin-react-hooks' package.json && ESLINT_PACKAGES+=(eslint-plugin-react-hooks)
+  grep -q 'eslint-plugin-vue' package.json && ESLINT_PACKAGES+=(eslint-plugin-vue)
 
   # Integrations
-  grep -q 'eslint-config-prettier' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-config-prettier"
-  grep -q 'eslint-plugin-prettier' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-plugin-prettier"
-  grep -q 'eslint-plugin-import' package.json && ESLINT_PACKAGES="$ESLINT_PACKAGES eslint-plugin-import"
+  grep -q 'eslint-config-prettier' package.json && ESLINT_PACKAGES+=(eslint-config-prettier)
+  grep -q 'eslint-plugin-prettier' package.json && ESLINT_PACKAGES+=(eslint-plugin-prettier)
+  grep -q 'eslint-plugin-import' package.json && ESLINT_PACKAGES+=(eslint-plugin-import)
 
-  if [ -n "$ESLINT_PACKAGES" ]; then
-    eval "$REMOVE_CMD $ESLINT_PACKAGES" 2>/dev/null || warning "Some ESLint packages may not have been removed"
+  if [ "${#ESLINT_PACKAGES[@]}" -gt 0 ]; then
+    # Combine base remove command with the package list (no eval)
+    cmd=("${REMOVE_CMD[@]}" "${ESLINT_PACKAGES[@]}")
+    "${cmd[@]}" 2>/dev/null || warning "Some ESLint packages may not have been removed"
     success "Removed ESLint packages"
   fi
 fi
 
 if $HAS_PRETTIER; then
-  PRETTIER_PACKAGES="prettier"
-  grep -q 'eslint-config-prettier' package.json && PRETTIER_PACKAGES="$PRETTIER_PACKAGES eslint-config-prettier"
-  grep -q 'eslint-plugin-prettier' package.json && PRETTIER_PACKAGES="$PRETTIER_PACKAGES eslint-plugin-prettier"
+  PRETTIER_PACKAGES=()
+  PRETTIER_PACKAGES+=(prettier)
+  grep -q 'eslint-config-prettier' package.json && PRETTIER_PACKAGES+=(eslint-config-prettier)
+  grep -q 'eslint-plugin-prettier' package.json && PRETTIER_PACKAGES+=(eslint-plugin-prettier)
 
-  eval "$REMOVE_CMD $PRETTIER_PACKAGES" 2>/dev/null || warning "Some Prettier packages may not have been removed"
+  # Combine base remove command with the package list (no eval)
+  cmd=("${REMOVE_CMD[@]}" "${PRETTIER_PACKAGES[@]}")
+  "${cmd[@]}" 2>/dev/null || warning "Some Prettier packages may not have been removed"
   success "Removed Prettier packages"
 fi
 
