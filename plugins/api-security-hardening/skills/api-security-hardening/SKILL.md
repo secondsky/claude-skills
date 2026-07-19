@@ -14,11 +14,12 @@ Protect REST APIs against common vulnerabilities with multiple security layers.
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
 
 app.use(helmet());
 app.use(mongoSanitize());
-app.use(xss());
+// For input sanitization, see the `xss-prevention` skill — do NOT use the
+// deprecated `xss-clean` package (unmaintained since 2018; its own README
+// recommends migrating off it).
 
 app.use('/api/', rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -35,11 +36,14 @@ app.use('/api/auth/', rateLimit({
 
 ```javascript
 const { body, validationResult } = require('express-validator');
+const escapeHtml = require('escape-html');
 
 app.post('/users',
   body('email').isEmail().normalizeEmail(),
   body('password').isLength({ min: 8 }).matches(/[A-Z]/).matches(/[0-9]/),
-  body('name').trim().escape().isLength({ max: 100 }),
+  // express-validator v7+ removed the built-in .escape() sanitizer; use a
+  // customSanitizer backed by `escape-html` to HTML-escape the value.
+  body('name').trim().isLength({ max: 100 }).customSanitizer(v => escapeHtml(v)),
   (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

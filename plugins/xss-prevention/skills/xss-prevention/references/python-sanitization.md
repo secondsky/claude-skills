@@ -30,7 +30,7 @@ safe_content = sanitize_html(user_content)
 ## Flask Template Escaping
 
 ```python
-from flask import Flask, render_template, Markup
+from flask import Flask, render_template
 from markupsafe import escape
 
 app = Flask(__name__)
@@ -46,13 +46,12 @@ def add_comment():
     # Manual escaping when needed
     safe_comment = escape(comment)
 
-    # If you need to render trusted HTML
-    trusted_html = Markup('<b>Bold text</b>')  # Only for trusted content!
-
-    return render_template('comment.html',
-                         comment=safe_comment,
-                         trusted=trusted_html)
+    return render_template('comment.html', comment=safe_comment)
 ```
+
+Do NOT use `flask.Markup()` (or `markupsafe.Markup()`) with user content — it
+bypasses Jinja auto-escaping and marks the string as trusted. Render user
+content through auto-escaping or `bleach.clean()` first.
 
 ```html
 <!-- profile.html - Auto-escaped by Jinja2 -->

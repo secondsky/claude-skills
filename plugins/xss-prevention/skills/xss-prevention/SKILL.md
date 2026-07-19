@@ -125,18 +125,24 @@ app.use((req, res, next) => {
 
 ## Safe DOM APIs
 
-```javascript
-// DANGEROUS - avoid these
-element.innerHTML = userInput;        // XSS risk
-element.outerHTML = userInput;        // XSS risk
-document.write(userInput);            // XSS risk
-eval(userInput);                      // Code injection
+❌ NEVER do any of the following with user-controlled input — these are XSS
+sinks and there is no safe way to call them with untrusted data:
 
-// SAFE - use these instead
+- Assign it to `element.innerHTML` / `element.outerHTML`
+- Pass it to `eval()`
+- Pass it to `document.write()`
+- Pass it to `setTimeout` / `setInterval` as a string
+- Insert it into an inline event handler (e.g. `onclick="..."`)
+
+```javascript
+// SAFE — use these instead
 element.textContent = userInput;      // Escaped automatically
 element.setAttribute('data-id', id);  // Safe for attributes
 document.createTextNode(userInput);   // Creates safe text node
 ```
+
+The safe patterns above (`textContent`, attribute escaping via `setAttribute`,
+`DOMPurify.sanitize`) are the only correct ways to handle user input in the DOM.
 
 ## URL Validation
 
