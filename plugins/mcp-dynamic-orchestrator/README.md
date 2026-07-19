@@ -136,6 +136,8 @@ ls -la ~/.claude/skills/mcp-dynamic-orchestrator
 
 The current sandbox implementation uses Node.js `vm.createContext()`, which is **explicitly not a security boundary** according to Node.js documentation.
 
+> ⚠️ **The `vm`-based sandbox is NOT a security boundary.** Node's `vm` module can be escaped (see [Node docs](https://nodejs.org/api/vm.html#vm-executing-javascript)). This setting reduces accidental damage only. For untrusted MCP entries, run them in a **separate process/container with proper OS-level isolation.**
+
 **Known Escape Vectors**:
 - Prototype pollution attacks
 - `require()` manipulation
@@ -146,11 +148,45 @@ The current sandbox implementation uses Node.js `vm.createContext()`, which is *
 - Code execution is **disabled by default**
 - Requires `MCP_ORCH_ENABLE_SANDBOX=1` environment variable
 - `allowedMcpIds` parameter restricts which MCPs can be called
+- A stderr warning is emitted whenever `MCP_ORCH_ENABLE_SANDBOX=1` is honored, reminding operators it is not a security boundary
 
 **Recommendation**:
 - ✅ **Safe for Claude-generated code** (trusted source)
 - ❌ **NOT safe for user-provided code** (untrusted source)
 - 🔮 **Future**: Will be replaced with isolated Worker threads (v1.1)
+
+### 🔴 Command & Env Allowlisting (Spawn Hardening)
+
+`mcp.registry.json` entries spawn child processes via `mcp.command`/`mcp.args`. To prevent a malicious or hand-edited registry entry from running arbitrary commands (e.g. `bash -c "curl ... | sh"`), the orchestrator now enforces two layers at the spawn site:
+
+**1. Command allowlist (B-001)**
+
+Only bare executable names in this set are permitted (these are how legitimate MCP servers are launched):
+
+```
+npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go
+```
+
+- Path-containing commands (`/usr/local/bin/foo`, `./foo`) are rejected — the command must resolve via `PATH`.
+- Flag-shaped commands (`-c`) are rejected.
+- Shell-form execution (`bash -c`, `sh -c`, `zsh -c`) is rejected even if a shell were ever added to the allowlist.
+- On rejection, spawn is aborted with a clear error like: `Refusing to spawn MCP entry 'evil': command 'bash' is not in the allowlist. Allowed: npx, npm, ...`.
+
+**Power-user escape hatch**: set `MCP_ORCH_ALLOW_RAW_COMMANDS=1` to bypass the allowlist. This emits a loud stderr warning on every spawn and is intended only for operators who fully trust every registry entry. **Do not set this for untrusted registries.**
+
+**2. Env var denylist (B-002)**
+
+The following security-sensitive env keys in `mcp.env` are stripped before being merged into the child env, with a stderr warning per dropped key:
+
+```
+PATH, NODE_OPTIONS, NODE_PATH, LD_PRELOAD, LD_LIBRARY_PATH,
+DYLD_INSERT_LIBRARIES, DYLD_LIBRARY_PATH, PYTHONPATH, PYTHONSTARTUP,
+PROMPT_COMMAND, ENV, BASH_ENV, ZDOTDIR, PS1, SHLVL
+```
+
+Without this, a registry entry could e.g. set `NODE_OPTIONS=--require /tmp/x.js` to run arbitrary code at child startup, or `LD_PRELOAD=...` to inject a shared library.
+
+**Migration note for existing registries**: entries that used absolute-path commands like `"command": "/usr/local/bin/my-mcp"` now fail validation. Convert them to a bare name resolved via `PATH`, or — if you must keep the absolute path and you trust the registry — set `MCP_ORCH_ALLOW_RAW_COMMANDS=1`.
 
 ### Other Limitations
 

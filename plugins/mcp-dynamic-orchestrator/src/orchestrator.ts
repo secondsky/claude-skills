@@ -3,6 +3,176 @@ import path from "node:path";
 import { spawn, ChildProcessWithoutNullStreams } from "node:child_process";
 import vm from "node:vm";
 
+// ---------------------------------------------------------------------------
+// Command allowlist (B-001) — config-driven arbitrary command execution fix.
+//
+// Registry entries spawn child processes via `entry.mcp.command`. Without an
+// allowlist, a malicious/edited `mcp.registry.json` entry could run any binary
+// (e.g. `bash -c "curl ... | sh"`). The set below covers the realistic launchers
+// that legitimate MCP servers actually use (npm/uv/cargo/go/etc. package
+// runners plus the language runtimes themselves). Anything else is rejected
+// unless the operator explicitly sets MCP_ORCH_ALLOW_RAW_COMMANDS=1.
+// ---------------------------------------------------------------------------
+const ALLOWED_COMMANDS = new Set<string>([
+  "npx",
+  "npm",
+  "pnpm",
+  "yarn",
+  "bunx",
+  "bun",
+  "node",
+  "deno",
+  "uvx",
+  "uv",
+  "python",
+  "python3",
+  "cargo",
+  "go",
+]);
+
+// ---------------------------------------------------------------------------
+// Env denylist (B-002) — env block hijack fix.
+//
+// `entry.mcp.env` is merged on top of `process.env` before spawn. A registry
+// entry that sets PATH/NODE_OPTIONS/LD_PRELOAD/etc. could hijack the spawned
+// child (e.g. NODE_OPTIONS=--require /tmp/x.js runs arbitrary code on startup,
+// LD_PRELOAD/DYLD_INSERT_LIBRARIES inject shared libraries, PATH reroutes
+// subsequent lookups). These keys are stripped before merge with a warning.
+// ---------------------------------------------------------------------------
+const ENV_DENYLIST = new Set<string>([
+  "PATH",
+  "NODE_OPTIONS",
+  "NODE_PATH",
+  "LD_PRELOAD",
+  "LD_LIBRARY_PATH",
+  "DYLD_INSERT_LIBRARIES",
+  "DYLD_LIBRARY_PATH",
+  "PYTHONPATH",
+  "PYTHONSTARTUP",
+  "PROMPT_COMMAND",
+  "ENV",
+  "BASH_ENV",
+  "ZDOTDIR",
+  "PS1",
+  "SHLVL", // informational but shouldn't be settable
+]);
+
+export type McpCommandValidationResult =
+  | { ok: true }
+  | { ok: false; reason: string };
+
+/**
+ * Validate an MCP registry entry's command + args before spawn.
+ *
+ * Rejects:
+ *   - commands with path separators (absolute/relative path escapes)
+ *   - commands starting with `-` (flag-shaped)
+ *   - commands not in the {@link ALLOWED_COMMANDS} allowlist
+ *   - non-string args
+ *   - shell-form execution (`bash -c`, `sh -c`, `zsh -c`) even if a shell were
+ *     somehow added to the allowlist later (defense in depth)
+ *
+ * Returns `{ ok: true }` on success or `{ ok: false, reason }` describing the
+ * rejection. The caller is expected to throw on rejection rather than spawn.
+ *
+ * @param command The bare executable name (e.g. "npx", "uvx").
+ * @param args    The argv array passed to the command.
+ */
+export function validateMcpCommand(
+  command: string,
+  args: string[]
+): McpCommandValidationResult {
+  if (typeof command !== "string" || command.length === 0) {
+    return { ok: false, reason: `command must be a non-empty string` };
+  }
+
+  // 1. Reject path-containing commands — the spawn must resolve via PATH only,
+  //    so the entry cannot point at an arbitrary absolute/relative binary.
+  if (command.includes("/") || command.includes("\\")) {
+    return {
+      ok: false,
+      reason: `command must be a bare executable name resolved via PATH (no path separators): ${command}`,
+    };
+  }
+
+  // 2. Reject flag-shaped commands.
+  if (command.startsWith("-")) {
+    return { ok: false, reason: `command must not start with '-': ${command}` };
+  }
+
+  // 3. Allowlist enforcement.
+  if (!ALLOWED_COMMANDS.has(command)) {
+    return {
+      ok: false,
+      reason: `command '${command}' is not in the allowlist. Allowed: ${[...ALLOWED_COMMANDS].join(", ")}`,
+    };
+  }
+
+  // 4. Validate args are all strings (defense against malformed registry JSON).
+  if (!Array.isArray(args)) {
+    return { ok: false, reason: `args must be an array of strings` };
+  }
+  for (const arg of args) {
+    if (typeof arg !== "string") {
+      return {
+        ok: false,
+        reason: `non-string argument: ${JSON.stringify(arg)}`,
+      };
+    }
+  }
+
+  // 5. Reject shell-form execution even if a shell were added to the allowlist.
+  if (
+    (command === "bash" || command === "sh" || command === "zsh") &&
+    args.includes("-c")
+  ) {
+    return {
+      ok: false,
+      reason: `${command} -c is not permitted (shell-form execution)`,
+    };
+  }
+
+  return { ok: true };
+}
+
+/**
+ * Filter security-sensitive env vars out of an MCP entry's env block.
+ *
+ * Returns a new record with denylisted keys removed. Emits a stderr warning
+ * per dropped key so operators notice the rejection in logs. Values are
+ * coerced to string to satisfy the Node spawn env contract.
+ */
+export function sanitizeMcpEnv(
+  env: Record<string, string> | undefined
+): Record<string, string> {
+  const filtered: Record<string, string> = {};
+  for (const [k, v] of Object.entries(env ?? {})) {
+    if (ENV_DENYLIST.has(k)) {
+      process.stderr.write(
+        `[mcp-orchestrator] WARNING: dropping security-sensitive env var '${k}' from registry entry.\n`
+      );
+      continue;
+    }
+    filtered[k] = String(v);
+  }
+  return filtered;
+}
+
+// One-time guard so the sandbox honesty warning is emitted at most once.
+let sandboxWarningEmitted = false;
+
+/**
+ * Emit (once per process) a loud warning that the vm-based sandbox is not a
+ * security boundary. Called wherever MCP_ORCH_ENABLE_SANDBOX is honored.
+ */
+function emitSandboxHonestyWarning(): void {
+  if (sandboxWarningEmitted) return;
+  sandboxWarningEmitted = true;
+  process.stderr.write(
+    `[mcp-orchestrator] WARNING: MCP_ORCH_ENABLE_SANDBOX uses Node's vm module, which is NOT a security boundary. Do not rely on it for untrusted code.\n`
+  );
+}
+
 // Basic types
 export type McpVisibility = "default" | "opt_in" | "experimental";
 export type McpSensitivity = "low" | "medium" | "high";
@@ -144,9 +314,30 @@ function getStdioClient(entry: McpRegistryEntry): StdioClient {
     throw new Error(`Missing mcp.command for ${entry.id}`);
   }
 
-  const child = spawn(entry.mcp.command, entry.mcp.args ?? [], {
+  const args = entry.mcp.args ?? [];
+
+  // B-001: enforce the command allowlist unless the operator has explicitly
+  // opted out via MCP_ORCH_ALLOW_RAW_COMMANDS=1. The opt-out path still emits
+  // a stderr warning so it cannot be enabled silently.
+  if (process.env.MCP_ORCH_ALLOW_RAW_COMMANDS === "1") {
+    process.stderr.write(
+      `[mcp-orchestrator] WARNING: MCP_ORCH_ALLOW_RAW_COMMANDS=1 is set; the command allowlist is DISABLED for entry '${entry.id}'. Only use this when you fully trust every registry entry.\n`
+    );
+  } else {
+    const verdict = validateMcpCommand(entry.mcp.command, args);
+    if (!verdict.ok) {
+      throw new Error(
+        `Refusing to spawn MCP entry '${entry.id}': ${verdict.reason}`
+      );
+    }
+  }
+
+  // B-002: strip PATH/NODE_OPTIONS/LD_PRELOAD/etc. before merging into child env.
+  const filteredEnv = sanitizeMcpEnv(entry.mcp.env);
+
+  const child = spawn(entry.mcp.command, args, {
     stdio: ["pipe", "pipe", "pipe"],
-    env: { ...process.env, ...(entry.mcp.env ?? {}) },
+    env: { ...process.env, ...filteredEnv },
   });
 
   const client: StdioClient = {
@@ -573,6 +764,8 @@ export async function executeMcpCode(
   logs.push("Host must run merged files + virtual mcp-clients/* in a secure sandbox.");
 
   if (process.env.MCP_ORCH_ENABLE_SANDBOX === "1") {
+    // B-003: honesty warning — Node's vm module is NOT a security boundary.
+    emitSandboxHonestyWarning();
     logs.push("MCP_ORCH_ENABLE_SANDBOX is set; running reference in-process sandbox.");
 
     try {

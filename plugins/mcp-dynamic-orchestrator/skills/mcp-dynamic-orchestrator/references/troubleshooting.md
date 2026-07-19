@@ -182,6 +182,7 @@ source ~/.bashrc
 **⚠️ Security Warning**:
 - Only enable for Claude-generated code
 - DO NOT enable for user-provided code
+- ⚠️ **The `vm`-based sandbox is NOT a security boundary.** Node's `vm` module can be escaped (see Node docs). It reduces accidental damage only. For untrusted code, run it in a **separate process/container with proper OS-level isolation.**
 - See [security-model.md](./security-model.md) for details
 
 ---
@@ -838,7 +839,7 @@ A: Not yet. Planned for v1.2.
 A: Not yet. Requires restart currently. Planned for v1.2.
 
 **Q: Is the sandbox secure?**
-A: No, current implementation (vm.createContext) is NOT secure. See [security-model.md](./security-model.md).
+A: No. ⚠️ The current implementation (vm.createContext) is NOT a security boundary and can be escaped (see Node docs). It reduces accidental damage only. For untrusted code, run it in a **separate process/container with proper OS-level isolation.** See [security-model.md](./security-model.md).
 
 **Q: Can I use TypeScript in execute_mcp_code?**
 A: Not yet. Only JavaScript currently supported. TypeScript compilation planned for v1.1.
@@ -859,14 +860,21 @@ const [result1, result2] = await Promise.all([
 A: Check stderr: `process.stderr` in stdio transport.
 
 **Q: Can I use local MCP servers?**
-A: Yes, use absolute path:
+A: Use a bare command name resolved via PATH (e.g. `node`, `python`, or a binary you've symlinked onto PATH). Absolute paths like `/path/to/my-mcp-server` are **rejected** by the command allowlist. If you must use an absolute path and you fully trust the registry, set `MCP_ORCH_ALLOW_RAW_COMMANDS=1` (loud stderr warning per spawn).
 ```json
 {
   "mcp": {
-    "command": "/path/to/my-mcp-server"
+    "command": "node",
+    "args": ["/path/to/my-mcp-server.js"]
   }
 }
 ```
+
+**Q: My spawn fails with "command 'X' is not in the allowlist" — why?**
+A: Only `npx, npm, pnpm, yarn, bunx, bun, node, deno, uvx, uv, python, python3, cargo, go` are permitted (bare names resolved via PATH). Convert absolute-path commands to a bare name, or opt out via `MCP_ORCH_ALLOW_RAW_COMMANDS=1` if you fully trust the registry. See `references/security-model.md` § "Layer 0".
+
+**Q: My spawn warning says "dropping security-sensitive env var" — why?**
+A: The env var denylist strips `PATH, NODE_OPTIONS, NODE_PATH, LD_PRELOAD, LD_LIBRARY_PATH, DYLD_INSERT_LIBRARIES, DYLD_LIBRARY_PATH, PYTHONPATH, PYTHONSTARTUP, PROMPT_COMMAND, ENV, BASH_ENV, ZDOTDIR, PS1, SHLVL` from `mcp.env` before spawn, because they can hijack the child process. Remove the key from your registry entry.
 
 ---
 
