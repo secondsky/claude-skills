@@ -86,6 +86,8 @@ curl -sk -H "Host: attacker.example" \
 
 ### Step 4 — SSRF via Host (cloud metadata)
 
+> ⚠️ **These are live-target payloads. The authorization gate (Track B) must have fired for `TARGET` before running any of these. Do not paste-and-run without an active, in-scope ack.**
+
 Some backends proxy internal requests based on the Host header. Pivot to cloud metadata:
 
 ```bash
@@ -122,6 +124,8 @@ ffuf -u https://TARGET/ \
 A response that materially differs (different content-length, status, or body) from the default signals a vhost route exists.
 
 ### Step 6 — Connection-state attacks (HTTP request smuggling)
+
+> ⚠️ **These are live-target payloads. The authorization gate (Track B) must have fired for `TARGET` before running any of these. Do not paste-and-run without an active, in-scope ack.**
 
 > Tricky without Burp Repeater's raw socket control. Use mitmproxy with raw socket mode, or a small Python `socket` script.
 
