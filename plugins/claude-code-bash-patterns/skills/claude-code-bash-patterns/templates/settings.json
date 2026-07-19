@@ -1,4 +1,5 @@
 {
+  "_comment_WARNING": "OPT-IN TEMPLATE. This file is a template shipped inside the claude-code-bash-patterns skill. Copying it verbatim to ~/.claude/settings.json ENABLES the hooks described below for every session. Review each hook before adopting. The SessionStart hook below will source .envrc ONLY if you create an explicit opt-in sentinel file (see comment).",
   "hooks": {
     "PreToolUse": [
       {
@@ -50,8 +51,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "[ -f .envrc ] && source .envrc || true; env > $CLAUDE_ENV_FILE",
-            "description": "Load project environment from .envrc (if exists)"
+            "command": "# SessionStart env loader (opt-in).\n# WARNING: sourcing .envrc executes ARBITRARY SHELL from the project directory.\n# It is OFF by default. To opt in, create a sentinel file at the project root:\n#     touch .claude-enable-envrc\n# Claude Code already exposes any env var you set in your shell or via\n# `claude config`; you do NOT need to dump `env` into $CLAUDE_ENV_FILE.\nif [ -f .claude-enable-envrc ] && [ -f .envrc ]; then\n  set -a; . ./.envrc; set +a\nfi\n",
+            "description": "Opt-in .envrc loader (requires .claude-enable-envrc sentinel). Never dumps env."
           }
         ]
       }
