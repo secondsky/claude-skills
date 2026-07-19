@@ -8,6 +8,21 @@ SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 INSTALL_DIR="$HOME/.local/bin"
 SCRIPT_NAME="gemini-coach"
 
+# Install a file without silently clobbering user customizations. If the
+# destination already exists and differs from the source, back it up to
+# <dst>.bak.<timestamp> before overwriting, so user edits are recoverable.
+install_file() {
+    local src="$1"
+    local dst="$2"
+    if [ -f "$dst" ] && ! diff -q "$src" "$dst" >/dev/null 2>&1; then
+        local ts
+        ts="$(date +%Y%m%d%H%M%S)"
+        cp "$dst" "${dst}.bak.${ts}"
+        echo "ℹ️  Backed up existing $dst to ${dst}.bak.${ts}"
+    fi
+    cp "$src" "$dst"
+}
+
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "Installing gemini-coach to ~/.local/bin/"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -29,9 +44,9 @@ if [ ! -d "$INSTALL_DIR" ]; then
   mkdir -p "$INSTALL_DIR"
 fi
 
-# Copy script
+# Copy script (backing up any pre-existing user version that differs)
 echo "Copying $SCRIPT_NAME to $INSTALL_DIR..."
-cp "$SKILL_DIR/assets/$SCRIPT_NAME" "$INSTALL_DIR/"
+install_file "$SKILL_DIR/assets/$SCRIPT_NAME" "$INSTALL_DIR/$SCRIPT_NAME"
 
 # Make executable
 echo "Making executable..."

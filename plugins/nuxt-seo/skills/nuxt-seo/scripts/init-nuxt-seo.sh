@@ -6,7 +6,19 @@
 # Usage: ./init-nuxt-seo.sh
 #
 
-set -e
+set -euo pipefail
+
+# Script-global CONFIG_FILE: tracked by the cleanup trap so the sed .tmp
+# tempfile never leaks even on early exit / failure. Populated in
+# create_config() and reset to "" once sed completes successfully.
+CONFIG_FILE=""
+
+cleanup_sed_tmp() {
+    if [ -n "${CONFIG_FILE:-}" ] && [ -f "${CONFIG_FILE}.tmp" ]; then
+        rm -f "${CONFIG_FILE}.tmp"
+    fi
+}
+trap cleanup_sed_tmp EXIT
 
 # Colors for output
 RED='\033[0;31m'
@@ -96,13 +108,18 @@ create_config() {
     cp "$CONFIG_FILE" "${CONFIG_FILE}.backup"
     print_info "Backed up existing config to ${CONFIG_FILE}.backup"
 
-    # Check if modules array exists and add if needed
+    # Check if modules array exists and add if needed. The cleanup trap
+    # installed above guarantees ${CONFIG_FILE}.tmp is removed even on
+    # sed failure or early exit; we no longer rely on `&& rm` chaining,
+    # which would leak the tempfile on non-zero exit.
     if grep -q "modules:" "$CONFIG_FILE"; then
         # Add to existing modules array
-        sed -i.tmp "s/modules: \[/modules: ['@nuxtjs\/seo', /" "$CONFIG_FILE" && rm "${CONFIG_FILE}.tmp"
+        sed -i.tmp "s|modules: \[|modules: ['@nuxtjs/seo', |" "$CONFIG_FILE"
+        rm -f "${CONFIG_FILE}.tmp"
     else
         # Add modules array to config
-        sed -i.tmp "s/export default defineNuxtConfig({/export default defineNuxtConfig({\n  modules: ['@nuxtjs\/seo'],/" "$CONFIG_FILE" && rm "${CONFIG_FILE}.tmp"
+        sed -i.tmp "s|export default defineNuxtConfig({|export default defineNuxtConfig({\n  modules: ['@nuxtjs/seo'],|" "$CONFIG_FILE"
+        rm -f "${CONFIG_FILE}.tmp"
     fi
 
     # Add site config if not exists

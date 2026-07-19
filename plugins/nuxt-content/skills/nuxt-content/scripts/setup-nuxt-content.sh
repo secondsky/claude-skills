@@ -2,7 +2,19 @@
 # Nuxt Content Setup Script
 # Initializes a new Nuxt Content v3 project
 
-set -e
+set -euo pipefail
+
+# Script-global CONFIG_FILE: tracked by the cleanup trap so the sed .tmp
+# tempfile never leaks even on early exit / failure. Populated below when
+# we edit nuxt.config.ts and reset implicitly by process exit.
+CONFIG_FILE=""
+
+cleanup_sed_tmp() {
+    if [ -n "${CONFIG_FILE:-}" ] && [ -f "${CONFIG_FILE}.tmp" ]; then
+        rm -f "${CONFIG_FILE}.tmp"
+    fi
+}
+trap cleanup_sed_tmp EXIT
 
 echo "🚀 Nuxt Content v3 Setup"
 echo "========================"
@@ -49,13 +61,19 @@ echo ""
 if ! grep -q "@nuxt/content" nuxt.config.ts 2>/dev/null; then
   echo "📝 Adding @nuxt/content to nuxt.config.ts..."
 
+  # Track CONFIG_FILE for the cleanup trap (installed above). The trap
+  # guarantees nuxt.config.ts.tmp is removed even if sed fails or the
+  # script exits early, instead of relying on chained `&& rm` which would
+  # leak the tempfile on a non-zero sed exit.
+  CONFIG_FILE="nuxt.config.ts"
+
   # Create backup
-  cp nuxt.config.ts nuxt.config.ts.backup
+  cp "$CONFIG_FILE" "${CONFIG_FILE}.backup"
 
   # Add module (simple approach - user may need to adjust)
-  if grep -q "modules: \[" nuxt.config.ts; then
-    sed -i.tmp "s/modules: \[/modules: ['@nuxt\/content', /" nuxt.config.ts
-    rm -f nuxt.config.ts.tmp
+  if grep -q "modules: \[" "$CONFIG_FILE"; then
+    sed -i.tmp "s|modules: \[|modules: ['@nuxt/content', |" "$CONFIG_FILE"
+    rm -f "${CONFIG_FILE}.tmp"
   else
     echo "⚠️  Please manually add '@nuxt/content' to your modules array"
   fi

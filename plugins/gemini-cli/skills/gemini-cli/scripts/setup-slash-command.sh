@@ -8,6 +8,21 @@ SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COMMANDS_DIR="$HOME/.claude/commands"
 COMMAND_NAME="ask-gemini.md"
 
+# Install a file without silently clobbering user customizations. If the
+# destination already exists and differs from the source, back it up to
+# <dst>.bak.<timestamp> before overwriting, so user edits are recoverable.
+install_file() {
+    local src="$1"
+    local dst="$2"
+    if [ -f "$dst" ] && ! diff -q "$src" "$dst" >/dev/null 2>&1; then
+        local ts
+        ts="$(date +%Y%m%d%H%M%S)"
+        cp "$dst" "${dst}.bak.${ts}"
+        echo "ℹ️  Backed up existing $dst to ${dst}.bak.${ts}"
+    fi
+    cp "$src" "$dst"
+}
+
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "Setting up /ask-gemini slash command"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -29,9 +44,9 @@ if [ ! -d "$COMMANDS_DIR" ]; then
   mkdir -p "$COMMANDS_DIR"
 fi
 
-# Copy command file
+# Copy command file (backing up any pre-existing user version that differs)
 echo "Copying $COMMAND_NAME to $COMMANDS_DIR..."
-cp "$SKILL_DIR/assets/$COMMAND_NAME" "$COMMANDS_DIR/"
+install_file "$SKILL_DIR/assets/$COMMAND_NAME" "$COMMANDS_DIR/$COMMAND_NAME"
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

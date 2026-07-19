@@ -25,6 +25,18 @@ read -p "Plugin URI: " PLUGIN_URI
 read -p "Author URI: " AUTHOR_URI
 read -p "Description: " PLUGIN_DESC
 
+# Validate PLUGIN_SLUG against WordPress slug convention to prevent
+# path traversal and sed-injection via untrusted user input.
+# Slugs must be lowercase alphanumeric, optionally with internal hyphens,
+# and cannot start or end with a hyphen.
+if [[ ! "$PLUGIN_SLUG" =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?$ ]]; then
+    echo "Error: Invalid plugin slug '$PLUGIN_SLUG'." >&2
+    echo "       Slugs must be lowercase alphanumeric (a-z, 0-9, -), cannot" >&2
+    echo "       start or end with a hyphen, and cannot contain '/', '..'," >&2
+    echo "       or special characters." >&2
+    exit 1
+fi
+
 # Choose architecture
 echo ""
 echo "Select plugin architecture:"
@@ -56,6 +68,20 @@ esac
 # Set destination directory
 DEST_DIR="$HOME/wp-content/plugins/$PLUGIN_SLUG"
 
+# Canonicalize paths and assert DEST_DIR is strictly under
+# $HOME/wp-content/plugins/. This is defense-in-depth against any future
+# input-validation regression: even if the slug check above were weakened,
+# this real-path comparison would still block escapes to /etc, $HOME, etc.
+PLUGINS_DIR_REAL="$(cd "$HOME/wp-content/plugins" 2>/dev/null && pwd -P)" || {
+    echo "Error: \$HOME/wp-content/plugins does not exist. Create it first." >&2
+    exit 1
+}
+DEST_DIR_REAL="$(cd "$DEST_DIR" 2>/dev/null && pwd -P || true)"
+if [[ -n "$DEST_DIR_REAL" ]] && [[ "$DEST_DIR_REAL" != "$PLUGINS_DIR_REAL"/* ]]; then
+    echo "Error: resolved destination '$DEST_DIR_REAL' is outside the plugins dir." >&2
+    exit 1
+fi
+
 # Check if destination exists
 if [ -d "$DEST_DIR" ]; then
     echo "Error: Plugin directory already exists: $DEST_DIR"
@@ -79,28 +105,31 @@ replace_in_file() {
 
     # Only process text files
     if file "$file" | grep -q text; then
-        sed -i "s/My Simple Plugin/$PLUGIN_NAME/g" "$file"
-        sed -i "s/My OOP Plugin/$PLUGIN_NAME/g" "$file"
-        sed -i "s/My PSR-4 Plugin/$PLUGIN_NAME/g" "$file"
-        sed -i "s/my-simple-plugin/$PLUGIN_SLUG/g" "$file"
-        sed -i "s/my-oop-plugin/$PLUGIN_SLUG/g" "$file"
-        sed -i "s/my-psr4-plugin/$PLUGIN_SLUG/g" "$file"
-        sed -i "s/mysp_/${PLUGIN_PREFIX}/g" "$file"
-        sed -i "s/MYSP_/${PLUGIN_PREFIX^^}/g" "$file"
-        sed -i "s/myop_/${PLUGIN_PREFIX}/g" "$file"
-        sed -i "s/MYOP_/${PLUGIN_PREFIX^^}/g" "$file"
-        sed -i "s/mypp_/${PLUGIN_PREFIX}/g" "$file"
-        sed -i "s/MYPP_/${PLUGIN_PREFIX^^}/g" "$file"
-        sed -i "s/MyPSR4Plugin/${PLUGIN_PREFIX^}Plugin/g" "$file"
-        sed -i "s/My_OOP_Plugin/${PLUGIN_PREFIX^}Plugin/g" "$file"
-        sed -i "s/Your Name/$PLUGIN_AUTHOR/g" "$file"
+        # Use `|` as sed delimiter for belt-and-suspenders: even though the
+        # slug is charset-validated above, other fields (name, description,
+        # author) are free-form user input and could contain '/' or '&'.
+        sed -i "s|My Simple Plugin|$PLUGIN_NAME|g" "$file"
+        sed -i "s|My OOP Plugin|$PLUGIN_NAME|g" "$file"
+        sed -i "s|My PSR-4 Plugin|$PLUGIN_NAME|g" "$file"
+        sed -i "s|my-simple-plugin|$PLUGIN_SLUG|g" "$file"
+        sed -i "s|my-oop-plugin|$PLUGIN_SLUG|g" "$file"
+        sed -i "s|my-psr4-plugin|$PLUGIN_SLUG|g" "$file"
+        sed -i "s|mysp_|${PLUGIN_PREFIX}|g" "$file"
+        sed -i "s|MYSP_|${PLUGIN_PREFIX^^}|g" "$file"
+        sed -i "s|myop_|${PLUGIN_PREFIX}|g" "$file"
+        sed -i "s|MYOP_|${PLUGIN_PREFIX^^}|g" "$file"
+        sed -i "s|mypp_|${PLUGIN_PREFIX}|g" "$file"
+        sed -i "s|MYPP_|${PLUGIN_PREFIX^^}|g" "$file"
+        sed -i "s|MyPSR4Plugin|${PLUGIN_PREFIX^}Plugin|g" "$file"
+        sed -i "s|My_OOP_Plugin|${PLUGIN_PREFIX^}Plugin|g" "$file"
+        sed -i "s|Your Name|$PLUGIN_AUTHOR|g" "$file"
         sed -i "s|https://example.com/my-simple-plugin/|$PLUGIN_URI|g" "$file"
         sed -i "s|https://example.com/my-oop-plugin/|$PLUGIN_URI|g" "$file"
         sed -i "s|https://example.com/my-psr4-plugin/|$PLUGIN_URI|g" "$file"
         sed -i "s|https://example.com/|$AUTHOR_URI|g" "$file"
-        sed -i "s/A simple WordPress plugin demonstrating functional programming pattern with security best practices./$PLUGIN_DESC/g" "$file"
-        sed -i "s/An object-oriented WordPress plugin using singleton pattern with security best practices./$PLUGIN_DESC/g" "$file"
-        sed -i "s/A modern WordPress plugin using PSR-4 autoloading with Composer and namespaces./$PLUGIN_DESC/g" "$file"
+        sed -i "s|A simple WordPress plugin demonstrating functional programming pattern with security best practices.|$PLUGIN_DESC|g" "$file"
+        sed -i "s|An object-oriented WordPress plugin using singleton pattern with security best practices.|$PLUGIN_DESC|g" "$file"
+        sed -i "s|A modern WordPress plugin using PSR-4 autoloading with Composer and namespaces.|$PLUGIN_DESC|g" "$file"
     fi
 }
 

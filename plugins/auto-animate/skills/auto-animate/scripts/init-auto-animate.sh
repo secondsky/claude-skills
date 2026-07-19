@@ -91,10 +91,12 @@ EOF
       echo "⚠️  SSR config already exists in vite.config.ts"
       echo "   Add '@formkit/auto-animate' to ssr.external manually"
     else
-      # Backup original
-      cp vite.config.ts vite.config.ts.backup
-
-      # Add ssr.external (simplified approach)
+      # No automated edit is performed here: the correct insertion point
+      # depends on the user's existing vite config shape (e.g. plugin array
+      # placement, nested objects), so attempting a blind sed/cp would likely
+      # produce a broken file. We previously created a .backup file without
+      # ever modifying the original, which was misleading — that has been
+      # removed. Instruct the user to make the edit manually instead.
       echo ""
       echo "⚠️  Manual step required:"
       echo "   Add this to your vite.config.ts:"
