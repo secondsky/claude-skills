@@ -6,9 +6,9 @@
  *
  * wrangler.jsonc configuration — declare the schedules under triggers.crons.
  * Three example schedules used below: every 5 minutes, every 6 hours, and
- * daily at 2am UTC. (The literal cron step values like "<star>/5" are written
- * in the case labels further down rather than here, because the "*/" sequence
- * would prematurely close this doc-comment.)
+ * daily at 2am UTC. The literal cron step values (star-slash-N) are written
+ * only in the case labels further down, because putting them inside this
+ * doc-comment would prematurely close it.
  *
  *   {
  *     "triggers": {

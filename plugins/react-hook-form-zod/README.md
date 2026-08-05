@@ -200,7 +200,7 @@ npm install react-hook-form@7.84.0 zod@4.3.6 @hookform/resolvers@5.2.2
 1. **basic-form.tsx** - Simple login/signup form
 2. **advanced-form.tsx** - Nested objects, arrays, conditional fields
 3. **shadcn-form.tsx** - shadcn/ui Form component integration
-4. **server-validation.ts** - Server-side validation with same schema
+4. **server-validation.tsx** - Server-side validation with same schema
 5. **async-validation.tsx** - Async validation with debouncing
 6. **dynamic-fields.tsx** - useFieldArray for adding/removing items
 7. **multi-step-form.tsx** - Wizard with per-step validation

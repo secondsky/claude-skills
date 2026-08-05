@@ -162,7 +162,7 @@ export async function loginHandler(req: Request) {
 - Server validation is your security layer
 - Same Zod schema = single source of truth
 
-**Template**: See `templates/server-validation.ts`
+**Template**: See `templates/server-validation.tsx`
 
 ---
 
@@ -567,7 +567,7 @@ Copy-paste ready examples:
 - **multi-step-form.tsx** - Wizard/stepper forms with step validation
 - **dynamic-fields.tsx** - useFieldArray for dynamic form fields
 - **async-validation.tsx** - Async field validation (username check, etc.)
-- **server-validation.ts** - Server-side validation with Zod
+- **server-validation.tsx** - Server-side validation with Zod
 - **custom-error-display.tsx** - Custom error message components
 - **package.json** - Package versions and scripts
 
