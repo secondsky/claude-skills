@@ -323,13 +323,32 @@
                 const imageUrl = `https://imagedelivery.net/${ACCOUNT_HASH}/${imageId}/public`;
                 uploadedImage.src = imageUrl;
 
-                imageDetails.innerHTML = `
-                    <div><strong>Image ID:</strong> ${imageId}</div>
-                    <div><strong>Filename:</strong> ${file.name}</div>
-                    <div><strong>Size:</strong> ${(file.size / 1024).toFixed(1)} KB</div>
-                    <div><strong>Type:</strong> ${file.type}</div>
-                    <div><strong>URL:</strong> <a href="${imageUrl}" target="_blank">${imageUrl}</a></div>
-                `;
+                // Build details with the DOM API rather than innerHTML: file.name
+                // is user-controlled, so interpolating it into innerHTML would be
+                // DOM XSS. textContent never parses as HTML, so it is safe here.
+                imageDetails.replaceChildren();
+                const detailRows = [
+                    ['Image ID', imageId],
+                    ['Filename', file.name],
+                    ['Size', `${(file.size / 1024).toFixed(1)} KB`],
+                    ['Type', file.type],
+                ];
+                for (const [label, value] of detailRows) {
+                    const row = document.createElement('div');
+                    const strong = document.createElement('strong');
+                    strong.textContent = `${label}:`;
+                    row.append(strong, ' ', value);
+                    imageDetails.append(row);
+                }
+                const urlRow = document.createElement('div');
+                const urlLabel = document.createElement('strong');
+                urlLabel.textContent = 'URL:';
+                const urlLink = document.createElement('a');
+                urlLink.href = imageUrl;
+                urlLink.target = '_blank';
+                urlLink.textContent = imageUrl;
+                urlRow.append(urlLabel, ' ', urlLink);
+                imageDetails.append(urlRow);
 
                 uploadedImageContainer.style.display = 'block';
                 showSuccess('Image uploaded successfully!');

@@ -115,7 +115,10 @@ function fixDescriptionBlock(lines) {
 
       // ── single-line with unquoted colon → wrap in double quotes ──
       if (firstValue.includes(':') && !/^['"]/.test(firstValue)) {
-        const escaped = firstValue.replace(/"/g, '\\"');
+        // Escape backslashes first, then quotes — standard YAML double-quoted
+        // scalar order. Skipping the backslash escape produces invalid YAML
+        // when a value ends in `\` (e.g. `path\` → `"path\"` is unterminated).
+        const escaped = firstValue.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         out.push(`description: "${escaped}"`);
         changed = true;
         i++;

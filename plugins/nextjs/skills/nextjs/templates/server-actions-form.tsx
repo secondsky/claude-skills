@@ -189,7 +189,10 @@ export function ValidatedPostForm() {
 import { updateTag } from 'next/cache'
 
 export async function likePost(postId: string) {
-  await fetch(`https://api.example.com/posts/${postId}/like`, {
+  // Encode user-provided path params before interpolating into a URL to
+  // prevent request-forgery (e.g. `postId` carrying `../` or `?`/`#`).
+  const safePostId = encodeURIComponent(postId)
+  await fetch(`https://api.example.com/posts/${safePostId}/like`, {
     method: 'POST',
   })
 

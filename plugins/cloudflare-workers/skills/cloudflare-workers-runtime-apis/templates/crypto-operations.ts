@@ -312,13 +312,29 @@ export function randomHex(length: number): string {
 
 /**
  * Generate random alphanumeric string
+ *
+ * Uses rejection sampling: `crypto.getRandomValues` returns unbiased bytes in
+ * [0, 255], but `% chars.length` introduces modulo bias (256 % 62 = 8, so the
+ * first 8 characters would be ~1.6% more likely than the rest). We discard any
+ * byte ≥ the largest multiple of `chars.length` below 256 (248) and draw a
+ * replacement, giving a perfectly uniform mapping. For tokens/IDs this matters
+ * even though the bias is small.
  */
 export function randomString(length: number): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const bytes = randomBytes(length);
-  return Array.from(bytes)
-    .map((b) => chars[b % chars.length])
-    .join('');
+  const max = 256 - (256 % chars.length); // 248 — exclusive upper bound
+  let result = '';
+  while (result.length < length) {
+    const bytes = randomBytes(length - result.length);
+    for (const b of bytes) {
+      if (b < max) {
+        result += chars[b % chars.length];
+        if (result.length >= length) break;
+      }
+      // else: reject the biased byte and continue
+    }
+  }
+  return result;
 }
 
 /**

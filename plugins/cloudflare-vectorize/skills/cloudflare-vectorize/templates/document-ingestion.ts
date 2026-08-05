@@ -82,6 +82,45 @@ function batchArray<T>(array: T[], batchSize: number): T[][] {
 	return batches;
 }
 
+/**
+ * Extract visible text from an HTML string using Cloudflare's HTMLRewriter.
+ *
+ * Why not regex: stripping tags with regular expressions is unsafe — regexes
+ * cannot reliably match `</script >`-style end tags, can reintroduce dangerous
+ * substrings when fragments recombine, and have no understanding of element
+ * semantics. HTMLRewriter is a streaming, dependency-free HTML tokenizer built
+ * into the Workers runtime, so it handles all of the above correctly.
+ *
+ * Drops the *content* of <script>, <style>, <noscript>, <iframe>, <svg> and
+ * collapses adjacent whitespace into single spaces.
+ */
+async function extractTextFromHtml(html: string): Promise<string> {
+	let skipDepth = 0;
+	let text = '';
+
+	const rewriter = new HTMLRewriter()
+		.on('script, style, noscript, iframe, svg', {
+			element() {
+				skipDepth++;
+			},
+			endTag() {
+				if (skipDepth > 0) skipDepth--;
+			},
+		})
+		.on('*', {
+			text(chunk) {
+				if (skipDepth > 0) return;
+				// chunk.text is a small piece of decoded text content; collapse
+				// whitespace so that block elements don't leave odd gaps.
+				text += chunk.text.replace(/\s+/g, ' ');
+			},
+		});
+
+	await rewriter.transform(new Response(html)).text();
+	// Collapse any whitespace introduced at streaming chunk boundaries.
+	return text.replace(/\s+/g, ' ').trim();
+}
+
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 		// Handle CORS
@@ -237,13 +276,8 @@ export default {
 				const response = await fetch(body.url);
 				const html = await response.text();
 
-				// Simple text extraction (production would use proper HTML parsing)
-				const text = html
-					.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
-					.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
-					.replace(/<[^>]+>/g, ' ')
-					.replace(/\s+/g, ' ')
-					.trim();
+				// Extract visible text with HTMLRewriter (see extractTextFromHtml).
+				const text = await extractTextFromHtml(html);
 
 				// Create document from fetched content
 				const doc: Document = {
