@@ -37,7 +37,7 @@ jobs:
           # not directly analyzable by CodeQL either; excluding the artifacts
           # silences the noise without losing real coverage.
           config: |
-            paths_exclude:
+            paths-ignore:
               - "**/*.vue.ts"
 
       - name: Autobuild
