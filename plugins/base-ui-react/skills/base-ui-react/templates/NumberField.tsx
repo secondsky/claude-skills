@@ -411,7 +411,7 @@ export function DisabledNumberFieldExample() {
  * Common Pitfalls:
  *
  * ❌ Using type="number" directly
- * <input type="number" /> {/* No increment/decrement, poor accessibility */}
+ * <input type="number" /> (No increment/decrement, poor accessibility)
  *
  * ✅ Use NumberField
  * <NumberField.Root>
@@ -421,14 +421,14 @@ export function DisabledNumberFieldExample() {
  * </NumberField.Root>
  *
  * ❌ Forgetting min/max validation
- * <NumberField.Root value={value} /> {/* Can go negative/unlimited */}
+ * <NumberField.Root value={value} /> (Can go negative/unlimited)
  *
  * ✅ Set boundaries
  * <NumberField.Root value={value} min={0} max={100} />
  *
  * ❌ Wrong step for decimals
- * <NumberField.Root step={1} /> {/* Can't enter 9.99 */}
+ * <NumberField.Root step={1} /> (Can't enter 9.99)
  *
  * ✅ Match step to precision
- * <NumberField.Root step={0.01} /> {/* Allows 2 decimal places */}
+ * <NumberField.Root step={0.01} /> (Allows 2 decimal places)
  */

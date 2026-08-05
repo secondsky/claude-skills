@@ -328,13 +328,13 @@ export function TooltipPositionsExample() {
  * Common Pitfalls:
  *
  * ❌ Not keyboard accessible
- * <div onMouseEnter={show}>...</div> {/* No keyboard support */}
+ * <div onMouseEnter={show}>...</div> (No keyboard support)
  *
  * ✅ Use Tooltip.Trigger
  * <Tooltip.Trigger render={(props) => <button {...props}>...</button>} />
  *
  * ❌ Missing Positioner
- * <Tooltip.Popup /> {/* Won't position correctly */}
+ * <Tooltip.Popup /> (Won't position correctly)
  *
  * ✅ Wrap in Positioner
  * <Tooltip.Positioner>
@@ -344,7 +344,7 @@ export function TooltipPositionsExample() {
  * </Tooltip.Positioner>
  *
  * ❌ Tooltip on disabled button doesn't show
- * <Tooltip.Trigger disabled /> {/* Pointer events disabled */}
+ * <Tooltip.Trigger disabled /> (Pointer events disabled)
  *
  * ✅ Wrap disabled element
  * <Tooltip.Trigger>

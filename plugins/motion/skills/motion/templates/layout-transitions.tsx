@@ -249,7 +249,7 @@ export function TabPanel({ tabs }: TabPanelProps) {
  *
  * <div className="grid grid-cols-2 gap-4">
  *   <TabPanel tabs={[...]} />
- *   <TabPanel tabs={[...]} />  {/* No layoutId conflicts! */}
+ *   <TabPanel tabs={[...]} />  (No layoutId conflicts!)
  * </div>
  */
 

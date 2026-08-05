@@ -250,7 +250,7 @@ export function SearchableSelectExample() {
  * ❌ Missing Positioner (popup won't position correctly)
  * <Select.Root>
  *   <Select.Trigger />
- *   <Select.Popup /> {/* Wrong! */}
+ *   <Select.Popup /> (Wrong!)
  * </Select.Root>
  *
  * ✅ Wrap Popup in Positioner

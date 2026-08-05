@@ -284,7 +284,7 @@ export function CollisionBoundaryExample() {
  * ❌ Missing Positioner
  * <Popover.Root>
  *   <Popover.Trigger />
- *   <Popover.Popup /> {/* Won't position correctly */}
+ *   <Popover.Popup /> (Won't position correctly)
  * </Popover.Root>
  *
  * ✅ Wrap in Positioner
@@ -298,7 +298,7 @@ export function CollisionBoundaryExample() {
  * </Popover.Root>
  *
  * ❌ Arrow without proper styling
- * <Popover.Arrow /> {/* Invisible */}
+ * <Popover.Arrow /> (Invisible)
  *
  * ✅ Style arrow correctly
  * <Popover.Arrow

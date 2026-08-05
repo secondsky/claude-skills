@@ -422,7 +422,7 @@ export function DisabledAccordionExample() {
  * Common Pitfalls:
  *
  * ❌ Missing value prop
- * <Accordion.Item> {/* Won't work */}
+ * <Accordion.Item> (Won't work — missing value)
  *   <Accordion.Trigger />
  * </Accordion.Item>
  *
@@ -432,7 +432,7 @@ export function DisabledAccordionExample() {
  * </Accordion.Item>
  *
  * ❌ Animating height without max-height
- * <Accordion.Panel className="transition-all" /> {/* Jumpy animation */}
+ * <Accordion.Panel className="transition-all" /> (Jumpy animation)
  *
  * ✅ Use max-height or grid
  * <Accordion.Panel
@@ -441,7 +441,7 @@ export function DisabledAccordionExample() {
  * />
  *
  * ❌ Forgetting multiple prop
- * <Accordion.Root> {/* Only one item can be open */}
+ * <Accordion.Root> (Only one item can be open)
  *
  * ✅ Allow multiple open
  * <Accordion.Root multiple>

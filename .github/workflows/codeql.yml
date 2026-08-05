@@ -30,6 +30,15 @@ jobs:
           # `javascript` scans the small number of real .mjs/.js scripts in
           # scripts/ and plugins/; `actions` scans the workflow/Action files.
           languages: javascript, actions
+          # Exclude Vue SFC transpile artifacts. The autobuild step compiles
+          # .vue files to intermediate .vue.ts files that the CodeQL TypeScript
+          # extractor cannot parse, producing a wave of "Declaration or
+          # statement expected" diagnostics. The .vue sources themselves are
+          # not directly analyzable by CodeQL either; excluding the artifacts
+          # silences the noise without losing real coverage.
+          config: |
+            paths_exclude:
+              - "**/*.vue.ts"
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@d1ba80a13dd99fba24a470575428917156a28b43 # v4.37.5
