@@ -408,7 +408,7 @@ export default app
 - **error-handling.ts** - HTTPException and global error handler
 - **context-extension.ts** - Custom context variables
 - **rpc-pattern.ts** - RPC server setup
-- **rpc-client.ts** - RPC client usage
+- **rpc-client.tsx** - RPC client usage
 - **package.json** - Dependencies configuration
 
 ---

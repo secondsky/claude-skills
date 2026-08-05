@@ -253,7 +253,7 @@ app.get('/', (c) => {
     endpoints: {
       'POST /workflows/create': {
         description: 'Create new workflow instance',
-        body: { userId: 'string', email: 'string', ...params: 'any' }
+        body: { userId: 'string', email: 'string', params: 'any' }
       },
       'GET /workflows/:id': {
         description: 'Get workflow status',

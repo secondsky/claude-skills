@@ -245,7 +245,7 @@ jest.mock('@marsidev/react-turnstile', () => ({
  *
  * Use dummy keys for development/testing
  */
-export function useT turnstileSiteKey() {
+export function useTurnstileSiteKey() {
   // Development/Test: Use dummy sitekey
   if (process.env.NODE_ENV !== 'production') {
     return '1x00000000000000000000AA' // Always passes

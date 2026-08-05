@@ -364,7 +364,7 @@ export async function RATE_LIMITED() {
 /**
  * Summary:
  *
- * Route Handlers (app/api/*/route.ts):
+ * Route Handlers (app/api/[segment]/route.ts):
  * 1. ✅ Support all HTTP methods (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)
  * 2. ✅ Await params in Next.js 16
  * 3. ✅ Access cookies with await cookies()

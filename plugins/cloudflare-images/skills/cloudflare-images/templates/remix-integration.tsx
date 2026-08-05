@@ -573,27 +573,26 @@ export async function deleteFromCloudflare(imageId: string): Promise<boolean> {
 
 // ===== 11. Progressive Enhancement Example =====
 
-/*
-// app/routes/upload-progressive.tsx
-
-import { Form, useActionData } from '@remix-run/react';
-
-export default function UploadProgressivePage() {
-  const actionData = useActionData<typeof action>();
-
-  return (
-    <Form method="post" encType="multipart/form-data">
-      <input type="file" name="file" required />
-      <button type="submit">Upload</button>
-
-      {actionData?.error && <p>{actionData.error}</p>}
-      {actionData?.success && <p>Success!</p>}
-
-      {/* Works without JavaScript */}
-      <noscript>
-        <p>Form works without JavaScript enabled!</p>
-      </noscript>
-    </Form>
-  );
-}
-*/
+// Example: app/routes/upload-progressive.tsx (shown as line comments so the
+// JSX comment "{/* ... */}" inside doesn't prematurely close a block comment):
+//
+// import { Form, useActionData } from '@remix-run/react';
+//
+// export default function UploadProgressivePage() {
+//   const actionData = useActionData<typeof action>();
+//
+//   return (
+//     <Form method="post" encType="multipart/form-data">
+//       <input type="file" name="file" required />
+//       <button type="submit">Upload</button>
+//
+//       {actionData?.error && <p>{actionData.error}</p>}
+//       {actionData?.success && <p>Success!</p>}
+//
+//       {/* Works without JavaScript */}
+//       <noscript>
+//         <p>Form works without JavaScript enabled!</p>
+//       </noscript>
+//     </Form>
+//   );
+// }

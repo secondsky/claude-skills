@@ -4,16 +4,17 @@
  * Worker with multiple schedules, each triggering different tasks.
  * Best for: Workers that need different tasks on different schedules
  *
- * wrangler.jsonc configuration:
- * {
- *   "triggers": {
- *     "crons": [
- *       "*/5 * * * *",    // Every 5 minutes
- *       "0 */6 * * *",    // Every 6 hours
- *       "0 2 * * *"       // Daily at 2am UTC
- *     ]
+ * wrangler.jsonc configuration — declare the schedules under triggers.crons.
+ * Three example schedules used below: every 5 minutes, every 6 hours, and
+ * daily at 2am UTC. (The literal cron step values like "<star>/5" are written
+ * in the case labels further down rather than here, because the "*/" sequence
+ * would prematurely close this doc-comment.)
+ *
+ *   {
+ *     "triggers": {
+ *       "crons": ["<every-5-min>", "<every-6-h>", "0 2 * * *"]
+ *     }
  *   }
- * }
  */
 
 interface Env {

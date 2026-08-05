@@ -56,7 +56,7 @@ async function handleFailedMessage(message: Message, env: Env) {
   console.log(`  Body:`, message.body);
 
   // 1. Store in database for manual review
-  await storeFailed Message(message, env);
+  await storeFailedMessage(message, env);
 
   // 2. Send alert to ops team
   await sendAlert(message, env);

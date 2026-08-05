@@ -18,20 +18,20 @@
 // WRANGLER.JSONC
 // ============================================
 
-/*
-{
-  "name": "wasm-worker",
-  "main": "src/index.ts",
-  "compatibility_date": "2024-12-01",
-  "rules": [
-    {
-      "type": "CompiledWasm",
-      "globs": ["**/*.wasm"],
-      "fallthrough": true
-    }
-  ]
-}
-*/
+// wrangler.jsonc — shown as line comments so the "**/*.wasm" glob doesn't
+// prematurely close a block comment:
+//   {
+//     "name": "wasm-worker",
+//     "main": "src/index.ts",
+//     "compatibility_date": "2024-12-01",
+//     "rules": [
+//       {
+//         "type": "CompiledWasm",
+//         "globs": ["**/*.wasm"],
+//         "fallthrough": true
+//       }
+//     ]
+//   }
 
 // ============================================
 // TYPE DEFINITIONS
