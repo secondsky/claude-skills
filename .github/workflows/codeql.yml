@@ -30,15 +30,22 @@ jobs:
           # `javascript` scans the small number of real .mjs/.js scripts in
           # scripts/ and plugins/; `actions` scans the workflow/Action files.
           languages: javascript, actions
-          # Exclude Vue SFC transpile artifacts. The autobuild step compiles
-          # .vue files to intermediate .vue.ts files that the CodeQL TypeScript
-          # extractor cannot parse, producing a wave of "Declaration or
-          # statement expected" diagnostics. The .vue sources themselves are
-          # not directly analyzable by CodeQL either; excluding the artifacts
-          # silences the noise without losing real coverage.
+          # Exclude files CodeQL's JS/TS extractor cannot meaningfully parse:
+          #  1. Vue SFC transpile artifacts — the autobuild step compiles .vue
+          #     files to intermediate .vue.ts files that the TypeScript extractor
+          #     can't parse, producing "Declaration or statement expected" noise.
+          #     The .vue sources themselves aren't directly analyzable either.
+          #  2. Hugo Go-template files with a .js extension — the vendored
+          #     hugo-book theme ships service-worker / search scripts as .js files
+          #     containing Hugo {{ }} template directives. These are not valid JS
+          #     on disk; Hugo processes them at build time. Excluding the 3 known
+          #     files; the theme's other .js files are real JS and stay scanned.
           config: |
             paths-ignore:
               - "**/*.vue.ts"
+              - "plugins/hugo/skills/hugo/templates/hugo-docs/themes/hugo-book/assets/sw.js"
+              - "plugins/hugo/skills/hugo/templates/hugo-docs/themes/hugo-book/assets/sw-register.js"
+              - "plugins/hugo/skills/hugo/templates/hugo-docs/themes/hugo-book/assets/search.js"
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@d1ba80a13dd99fba24a470575428917156a28b43 # v4.37.5
