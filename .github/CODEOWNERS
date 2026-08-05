@@ -1,0 +1,11 @@
+# CODEOWNERS — routes required reviews on pull requests.
+#
+# This repo is a single-maintainer marketplace (secondsky). The default rule
+# assigns every path to @secondsky so branch protection's "require code owner
+# review" has an owner to request. Split per-plugin path ownership out as
+# additional maintainers are added.
+#
+# Syntax: https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for the entire repository.
+* @secondsky
