@@ -100,11 +100,17 @@ async function extractTextFromHtml(html: string): Promise<string> {
 
 	const rewriter = new HTMLRewriter()
 		.on('script, style, noscript, iframe, svg', {
-			element() {
+			// HTMLRewriter has no standalone `endTag` handler on the content
+			// handlers object — end-tag callbacks are registered per-element via
+			// `el.onEndTag(...)`. Registering the decrement there (not as a
+			// sibling `endTag` key, which is silently ignored) is what keeps
+			// `skipDepth` balanced so visible text after a skipped element is
+			// processed again.
+			element(el) {
 				skipDepth++;
-			},
-			endTag() {
-				if (skipDepth > 0) skipDepth--;
+				el.onEndTag(() => {
+					if (skipDepth > 0) skipDepth--;
+				});
 			},
 		})
 		.on('*', {
@@ -116,6 +122,11 @@ async function extractTextFromHtml(html: string): Promise<string> {
 			},
 		});
 
+	// HTMLRewriter is a streaming transform: the element/text handlers fire as
+	// the output stream is consumed. Awaiting `.text()` drains that stream to
+	// completion, which is what drives every callback above — the resolved
+	// string itself is unused. (Reading is the engine, not waste; if the stream
+	// isn't drained the callbacks never fire.)
 	await rewriter.transform(new Response(html)).text();
 	// Collapse any whitespace introduced at streaming chunk boundaries.
 	return text.replace(/\s+/g, ' ').trim();
