@@ -805,7 +805,7 @@ Deep-dive documentation loaded when needed:
 - `infinite-scroll.tsx` - useInfiniteQuery + IntersectionObserver
 - `prefetching.tsx` - prefetch on hover before navigation
 - `suspense.tsx` - useSuspenseQuery + boundary
-- `default-query-function.ts` - global fetcher using queryKey
+- `default-query-function.tsx` - global fetcher using queryKey
 - `nextjs-app-router.tsx` - App Router prefetch + hydrate (`networkMode: 'always'`)
 - `react-native.tsx` - offline-first with AsyncStorage persister
 

@@ -11,7 +11,7 @@ Copy-ready, minimal snippets that match the most common asks. Each links to the 
 | Infinite scroll | `examples/infinite-scroll.tsx` | `useInfiniteQuery` + IntersectionObserver | /examples/load-more-infinite-scroll |
 | Prefetch on hover | `examples/prefetching.tsx` | `prefetchQuery` before navigation | /examples/prefetching |
 | Suspense | `examples/suspense.tsx` | `useSuspenseQuery` + boundary | /examples/suspense |
-| Default query function | `examples/default-query-function.ts` | Global fetcher using `queryKey` | /examples/default-query-function |
+| Default query function | `examples/default-query-function.tsx` | Global fetcher using `queryKey` | /examples/default-query-function |
 | Next.js App Router (SSR hydrate) | `examples/nextjs-app-router.tsx` | `dehydrate` + `HydrationBoundary` with `networkMode: 'always'` | /examples/nextjs-app-prefetching |
 | React Native (offline-first) | `examples/react-native.tsx` | AsyncStorage persister, focus disabled | /examples/react-native |
 
