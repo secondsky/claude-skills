@@ -1,0 +1,36 @@
+{
+  "name": "design-review",
+  "version": "3.6.3",
+  "description": "7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "design-review",
+    "design",
+    "review",
+    "interface",
+    "user-experience",
+    "wcag"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Design Review",
+    "shortDescription": "7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive",
+    "longDescription": "7-phase frontend design review with accessibility (WCAG 2.1 AA), responsive testing, visual polish. Use for PR reviews, UI audits, or encountering contrast issues, broken layouts, accessibility violations, inconsistent spacing, missing focus states.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Design & UX",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Design Review.",
+      "Show me best practices for Design Review.",
+      "Guide me through using Design Review effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "design-system-creation",
+  "version": "3.6.3",
+  "description": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "design-system-creation",
+    "design",
+    "system",
+    "creation",
+    "interface",
+    "user-experience"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Design System Creation",
+    "shortDescription": "Creates comprehensive design systems with typography, colors, components, and",
+    "longDescription": "Creates comprehensive design systems with typography, colors, components, and documentation for consistent UI development. Use when establishing design standards, building component libraries, or ensuring cross-team consistency.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Design & UX",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Design System Creation.",
+      "Show me best practices for Design System Creation.",
+      "Guide me through using Design System Creation effectively."
+    ]
+  }
+}

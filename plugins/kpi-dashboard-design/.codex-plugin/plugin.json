@@ -1,0 +1,36 @@
+{
+  "name": "kpi-dashboard-design",
+  "version": "3.6.3",
+  "description": "Designs effective KPI dashboards with proper metric selection, visual hierarchy, and data visualization best practices. Use when building executive dashboards, creating analytics views, or presenting business metrics.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "kpi-dashboard-design",
+    "kpi",
+    "dashboard",
+    "design",
+    "interface",
+    "user-experience"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Kpi Dashboard Design",
+    "shortDescription": "Designs effective KPI dashboards with proper metric selection, visual",
+    "longDescription": "Designs effective KPI dashboards with proper metric selection, visual hierarchy, and data visualization best practices. Use when building executive dashboards, creating analytics views, or presenting business metrics.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Design & UX",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Kpi Dashboard Design.",
+      "Show me best practices for Kpi Dashboard Design.",
+      "Guide me through using Kpi Dashboard Design effectively."
+    ]
+  }
+}

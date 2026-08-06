@@ -1,0 +1,40 @@
+{
+  "name": "api-design-principles",
+  "version": "3.6.3",
+  "description": "Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-design-principles",
+    "api",
+    "design",
+    "principles",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "scalable",
+    "maintainable"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Design Principles",
+    "shortDescription": "Master REST and GraphQL API design principles to build intuitive, scalable, and",
+    "longDescription": "Master REST and GraphQL API design principles to build intuitive, scalable, and maintainable APIs that delight developers. Use when designing new APIs, reviewing API specifications, or establishing API design standards.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Design Principles.",
+      "Show me best practices for API Design Principles.",
+      "Guide me through using API Design Principles effectively."
+    ]
+  }
+}

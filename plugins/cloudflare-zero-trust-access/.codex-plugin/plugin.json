@@ -1,0 +1,42 @@
+{
+  "name": "cloudflare-zero-trust-access",
+  "version": "3.6.3",
+  "description": "Cloudflare Zero Trust Access authentication for Workers. Use for JWT validation, service tokens, CORS, or encountering preflight blocking, cache race conditions, missing JWT headers.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-zero-trust-access",
+    "cloudflare",
+    "zero",
+    "trust",
+    "access",
+    "workers",
+    "edge",
+    "wrangler",
+    "cors",
+    "jwt",
+    "authentication",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Zero Trust Access",
+    "shortDescription": "Cloudflare Zero Trust Access authentication for Workers. Use for JWT",
+    "longDescription": "Cloudflare Zero Trust Access authentication for Workers. Use for JWT validation, service tokens, CORS, or encountering preflight blocking, cache race conditions, missing JWT headers.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Zero Trust Access.",
+      "Show me best practices for Cloudflare Zero Trust Access.",
+      "Guide me through using Cloudflare Zero Trust Access effectively."
+    ]
+  }
+}

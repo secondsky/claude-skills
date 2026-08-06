@@ -1,0 +1,35 @@
+{
+  "name": "sequential-thinking",
+  "version": "3.6.3",
+  "description": "Systematic step-by-step reasoning with revision and branching. Use for complex problems, multi-stage analysis, design planning, problem decomposition, or encountering unclear scope, alternative approaches needed, revision requirements.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "sequential-thinking",
+    "sequential",
+    "thinking",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sequential Thinking",
+    "shortDescription": "Systematic step-by-step reasoning with revision and branching. Use for complex",
+    "longDescription": "Systematic step-by-step reasoning with revision and branching. Use for complex problems, multi-stage analysis, design planning, problem decomposition, or encountering unclear scope, alternative approaches needed, revision requirements.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Sequential Thinking.",
+      "Show me best practices for Sequential Thinking.",
+      "Guide me through using Sequential Thinking effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "mobile-app-testing",
+  "version": "3.6.3",
+  "description": "Mobile app testing with unit tests, UI automation, performance testing. Use for test infrastructure, E2E tests, testing standards, or encountering test framework setup, device farms, flaky tests, platform-specific test errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mobile-app-testing",
+    "mobile",
+    "app",
+    "testing",
+    "native",
+    "e2e"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mobile App Testing",
+    "shortDescription": "Mobile app testing with unit tests, UI automation, performance testing. Use for",
+    "longDescription": "Mobile app testing with unit tests, UI automation, performance testing. Use for test infrastructure, E2E tests, testing standards, or encountering test framework setup, device farms, flaky tests, platform-specific test errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Mobile Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Mobile App Testing.",
+      "Show me best practices for Mobile App Testing.",
+      "Guide me through using Mobile App Testing effectively."
+    ]
+  }
+}

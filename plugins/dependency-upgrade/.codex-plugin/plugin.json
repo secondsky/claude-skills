@@ -1,0 +1,36 @@
+{
+  "name": "dependency-upgrade",
+  "version": "3.6.3",
+  "description": "Secure dependency upgrades with supply chain protection, cooldowns, staged rollout, and Socket CLI integration. Use when upgrading deps, configuring security policies, or preventing supply chain attacks.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "dependency-upgrade",
+    "dependency",
+    "upgrade",
+    "tooling",
+    "workflow",
+    "cli"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dependency Upgrade",
+    "shortDescription": "Secure dependency upgrades with supply chain protection, cooldowns, staged",
+    "longDescription": "Secure dependency upgrades with supply chain protection, cooldowns, staged rollout, and Socket CLI integration. Use when upgrading deps, configuring security policies, or preventing supply chain attacks.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Dependency Upgrade.",
+      "Show me best practices for Dependency Upgrade.",
+      "Guide me through using Dependency Upgrade effectively."
+    ]
+  }
+}

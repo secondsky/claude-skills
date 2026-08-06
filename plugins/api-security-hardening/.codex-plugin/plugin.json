@@ -1,0 +1,41 @@
+{
+  "name": "api-security-hardening",
+  "version": "3.6.3",
+  "description": "REST API security hardening with authentication, rate limiting, input validation, security headers. Use for production APIs, security audits, defense-in-depth, or encountering vulnerabilities, injection attacks, CORS issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-security-hardening",
+    "api",
+    "security",
+    "hardening",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "cors",
+    "authentication",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Security Hardening",
+    "shortDescription": "REST API security hardening with authentication, rate limiting, input",
+    "longDescription": "REST API security hardening with authentication, rate limiting, input validation, security headers. Use for production APIs, security audits, defense-in-depth, or encountering vulnerabilities, injection attacks, CORS issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Security Hardening.",
+      "Show me best practices for API Security Hardening.",
+      "Guide me through using API Security Hardening effectively."
+    ]
+  }
+}

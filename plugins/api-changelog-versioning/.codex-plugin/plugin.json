@@ -1,0 +1,39 @@
+{
+  "name": "api-changelog-versioning",
+  "version": "3.6.3",
+  "description": "Creates comprehensive API changelogs documenting breaking changes, deprecations, and migration strategies for API consumers. Use when managing API versions, communicating breaking changes, or creating upgrade guides.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-changelog-versioning",
+    "api",
+    "changelog",
+    "versioning",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Changelog Versioning",
+    "shortDescription": "Creates comprehensive API changelogs documenting breaking changes,",
+    "longDescription": "Creates comprehensive API changelogs documenting breaking changes, deprecations, and migration strategies for API consumers. Use when managing API versions, communicating breaking changes, or creating upgrade guides.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Changelog Versioning.",
+      "Show me best practices for API Changelog Versioning.",
+      "Guide me through using API Changelog Versioning effectively."
+    ]
+  }
+}

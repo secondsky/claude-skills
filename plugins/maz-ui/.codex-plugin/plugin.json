@@ -1,0 +1,35 @@
+{
+  "name": "maz-ui",
+  "version": "3.6.3",
+  "description": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "maz-ui",
+    "maz",
+    "tooling",
+    "workflow",
+    "ssr"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Maz UI",
+    "shortDescription": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components,",
+    "longDescription": "Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Maz UI.",
+      "Show me best practices for Maz UI.",
+      "Guide me through using Maz UI effectively."
+    ]
+  }
+}

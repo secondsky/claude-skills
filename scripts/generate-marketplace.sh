@@ -257,3 +257,18 @@ echo "  /plugin install bun@claude-skills           # Gets all 27 bun skills"
 echo "  /plugin install cloudflare-workers@claude-skills  # Gets all 10 workers skills"
 echo "  /plugin install nuxt-v4@claude-skills       # Gets all 4 nuxt skills"
 echo ""
+
+# -----------------------------------------------------------------------------
+# Regenerate Codex CLI manifests + marketplace (derived from Claude manifests)
+# -----------------------------------------------------------------------------
+echo "============================================"
+echo "Generating Codex CLI manifests..."
+echo "============================================"
+if [ -x "$SCRIPT_DIR/generate-codex-manifests.sh" ]; then
+  if ! "$SCRIPT_DIR/generate-codex-manifests.sh"; then
+    echo "⚠️  Warning: Failed to generate Codex manifests (non-fatal)" >&2
+  fi
+else
+  echo "⚠️  Warning: generate-codex-manifests.sh not found or not executable" >&2
+fi
+echo ""

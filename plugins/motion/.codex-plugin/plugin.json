@@ -1,0 +1,34 @@
+{
+  "name": "motion",
+  "version": "3.6.3",
+  "description": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "motion",
+    "frontend",
+    "components",
+    "svg"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Motion",
+    "shortDescription": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll",
+    "longDescription": "Motion (Framer Motion) React animation library. Use for drag-and-drop, scroll animations, gestures, SVG morphing, or encountering bundle size, complex transitions, spring physics errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Motion.",
+      "Show me best practices for Motion.",
+      "Guide me through using Motion effectively."
+    ]
+  }
+}

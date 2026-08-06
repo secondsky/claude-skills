@@ -1,0 +1,37 @@
+{
+  "name": "cloudflare-kv",
+  "version": "3.6.3",
+  "description": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-kv",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "ttl",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare KV",
+    "shortDescription": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching,",
+    "longDescription": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare KV.",
+      "Show me best practices for Cloudflare KV.",
+      "Guide me through using Cloudflare KV effectively."
+    ]
+  }
+}

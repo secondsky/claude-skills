@@ -1,0 +1,37 @@
+{
+  "name": "graphql-implementation",
+  "version": "3.6.3",
+  "description": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "graphql-implementation",
+    "graphql",
+    "implementation",
+    "rest",
+    "endpoints",
+    "http",
+    "real-time"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Graphql Implementation",
+    "shortDescription": "Builds GraphQL APIs with schema design, resolvers, error handling, and",
+    "longDescription": "Builds GraphQL APIs with schema design, resolvers, error handling, and performance optimization using Apollo or Graphene. Use when creating flexible query APIs, migrating from REST, or implementing real-time subscriptions.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Graphql Implementation.",
+      "Show me best practices for Graphql Implementation.",
+      "Guide me through using Graphql Implementation effectively."
+    ]
+  }
+}

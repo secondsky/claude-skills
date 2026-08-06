@@ -1,0 +1,37 @@
+{
+  "name": "test-quality-analysis",
+  "version": "3.6.3",
+  "description": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "test-quality-analysis",
+    "test",
+    "quality",
+    "analysis",
+    "testing",
+    "tests",
+    "unit-tests"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Test Quality Analysis",
+    "shortDescription": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test",
+    "longDescription": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Testing",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Test Quality Analysis.",
+      "Show me best practices for Test Quality Analysis.",
+      "Guide me through using Test Quality Analysis effectively."
+    ]
+  }
+}

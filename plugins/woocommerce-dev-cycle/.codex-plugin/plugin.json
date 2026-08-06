@@ -1,0 +1,37 @@
+{
+  "name": "woocommerce-dev-cycle",
+  "version": "3.6.3",
+  "description": "Run tests, linting, and quality checks for WooCommerce development. Use when running tests, fixing code style, or following the development workflow in WooCommerce projects.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "woocommerce-dev-cycle",
+    "woocommerce",
+    "dev",
+    "cycle",
+    "wordpress",
+    "ecommerce",
+    "shop"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Woocommerce Dev Cycle",
+    "shortDescription": "Run tests, linting, and quality checks for WooCommerce development. Use when",
+    "longDescription": "Run tests, linting, and quality checks for WooCommerce development. Use when running tests, fixing code style, or following the development workflow in WooCommerce projects.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "E-Commerce",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Woocommerce Dev Cycle.",
+      "Show me best practices for Woocommerce Dev Cycle.",
+      "Guide me through using Woocommerce Dev Cycle effectively."
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "cloudflare-durable-objects",
+  "version": "3.6.3",
+  "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-durable-objects",
+    "cloudflare",
+    "durable",
+    "objects",
+    "workers",
+    "edge",
+    "wrangler",
+    "websocket",
+    "migration",
+    "real-time"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Durable Objects",
+    "shortDescription": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use",
+    "longDescription": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Durable Objects.",
+      "Show me best practices for Cloudflare Durable Objects.",
+      "Guide me through using Cloudflare Durable Objects effectively."
+    ]
+  }
+}

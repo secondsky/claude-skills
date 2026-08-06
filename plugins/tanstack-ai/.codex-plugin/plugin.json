@@ -1,0 +1,37 @@
+{
+  "name": "tanstack-ai",
+  "version": "3.6.3",
+  "description": "TanStack AI (alpha) provider-agnostic type-safe chat with streaming for OpenAI, Anthropic, Gemini, Ollama. Use for chat APIs, React/Solid frontends with useChat/ChatClient, isomorphic tools, tool approval flows, agent loops, multimodal inputs, or troubleshooting streaming and tool definitions.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tanstack-ai",
+    "tanstack",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "chatclient",
+    "openai"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tanstack AI",
+    "shortDescription": "TanStack AI (alpha) provider-agnostic type-safe chat with streaming for OpenAI,",
+    "longDescription": "TanStack AI (alpha) provider-agnostic type-safe chat with streaming for OpenAI, Anthropic, Gemini, Ollama. Use for chat APIs, React/Solid frontends with useChat/ChatClient, isomorphic tools, tool approval flows, agent loops, multimodal inputs, or troubleshooting streaming and tool definitions.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Tanstack AI.",
+      "Show me best practices for Tanstack AI.",
+      "Guide me through using Tanstack AI effectively."
+    ]
+  }
+}

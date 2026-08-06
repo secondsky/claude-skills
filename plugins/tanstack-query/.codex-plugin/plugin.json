@@ -1,0 +1,37 @@
+{
+  "name": "tanstack-query",
+  "version": "3.6.3",
+  "description": "TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tanstack-query",
+    "tanstack",
+    "query",
+    "frontend",
+    "components",
+    "migration",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tanstack Query",
+    "shortDescription": "TanStack Query v5 (React Query) server state management. Use for data fetching,",
+    "longDescription": "TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Tanstack Query.",
+      "Show me best practices for Tanstack Query.",
+      "Guide me through using Tanstack Query effectively."
+    ]
+  }
+}

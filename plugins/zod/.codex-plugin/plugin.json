@@ -1,0 +1,36 @@
+{
+  "name": "zod",
+  "version": "3.6.3",
+  "description": "TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "zod",
+    "tooling",
+    "workflow",
+    "json",
+    "openapi",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Zod",
+    "shortDescription": "TypeScript-first schema validation and type inference. Use for validating API",
+    "longDescription": "TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Zod.",
+      "Show me best practices for Zod.",
+      "Guide me through using Zod effectively."
+    ]
+  }
+}

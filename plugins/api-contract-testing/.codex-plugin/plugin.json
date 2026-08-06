@@ -1,0 +1,40 @@
+{
+  "name": "api-contract-testing",
+  "version": "3.6.3",
+  "description": "Verifies API contracts between services using consumer-driven contracts, schema validation, and tools like Pact. Use when testing microservices communication, preventing breaking changes, or validating OpenAPI specifications.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-contract-testing",
+    "api",
+    "contract",
+    "testing",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "openapi",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Contract Testing",
+    "shortDescription": "Verifies API contracts between services using consumer-driven contracts, schema",
+    "longDescription": "Verifies API contracts between services using consumer-driven contracts, schema validation, and tools like Pact. Use when testing microservices communication, preventing breaking changes, or validating OpenAPI specifications.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Contract Testing.",
+      "Show me best practices for API Contract Testing.",
+      "Guide me through using API Contract Testing effectively."
+    ]
+  }
+}

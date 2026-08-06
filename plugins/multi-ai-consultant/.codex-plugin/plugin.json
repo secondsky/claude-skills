@@ -1,0 +1,38 @@
+{
+  "name": "multi-ai-consultant",
+  "version": "3.6.3",
+  "description": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second opinions. Use for debugging failures, architectural decisions, security validation, or need fresh perspective with synthesis.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "multi-ai-consultant",
+    "multi",
+    "consultant",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "openai",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Multi AI Consultant",
+    "shortDescription": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second",
+    "longDescription": "Consult external AIs (Gemini 2.5 Pro, OpenAI Codex, Claude) for second opinions. Use for debugging failures, architectural decisions, security validation, or need fresh perspective with synthesis.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Multi AI Consultant.",
+      "Show me best practices for Multi AI Consultant.",
+      "Guide me through using Multi AI Consultant effectively."
+    ]
+  }
+}

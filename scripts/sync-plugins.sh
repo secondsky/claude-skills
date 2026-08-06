@@ -712,9 +712,31 @@ echo "Plugins skipped: $skipped"
 echo "Global version: $GLOBAL_VERSION"
 echo ""
 
+# -----------------------------------------------------------------------------
+# Sync .codex-plugin/plugin.json version (lockstep with Claude manifests)
+# -----------------------------------------------------------------------------
+codex_count=0
+codex_updated=0
+while IFS= read -r codex_json; do
+  if [ ! -f "$codex_json" ]; then
+    continue
+  fi
+  codex_count=$((codex_count + 1))
+  if [ "$DRY_RUN" = false ]; then
+    jq --arg v "$GLOBAL_VERSION" '.version = $v' "$codex_json" > "$codex_json.tmp" \
+      && mv "$codex_json.tmp" "$codex_json"
+    codex_updated=$((codex_updated + 1))
+  fi
+done < <(find "$PLUGINS_DIR" -path '*/.codex-plugin/plugin.json' | sort)
+
+if [ "$codex_count" -gt 0 ]; then
+  echo "Codex manifests synced: $codex_updated/$codex_count"
+fi
+echo ""
+
 if [ "$DRY_RUN" = false ]; then
-  # Regenerate marketplace.json
-  echo "Regenerating marketplace.json..."
+  # Regenerate Claude marketplace.json
+  echo "Regenerating Claude marketplace.json..."
   if ! "$SCRIPT_DIR/generate-marketplace.sh"; then
     echo "❌ ERROR: Failed to regenerate marketplace.json" >&2
     exit 1

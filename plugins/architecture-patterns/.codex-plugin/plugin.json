@@ -1,0 +1,35 @@
+{
+  "name": "architecture-patterns",
+  "version": "3.6.3",
+  "description": "Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "architecture-patterns",
+    "architecture",
+    "patterns",
+    "microservices",
+    "refactoring"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Architecture Patterns",
+    "shortDescription": "Implement proven backend architecture patterns including Clean Architecture,",
+    "longDescription": "Implement proven backend architecture patterns including Clean Architecture, Hexagonal Architecture, and Domain-Driven Design. Use when architecting complex backend systems or refactoring existing applications for better maintainability.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Architecture",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Architecture Patterns.",
+      "Show me best practices for Architecture Patterns.",
+      "Guide me through using Architecture Patterns effectively."
+    ]
+  }
+}

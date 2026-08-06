@@ -1,0 +1,37 @@
+{
+  "name": "woocommerce-copy-guidelines",
+  "version": "3.6.3",
+  "description": "Guidelines for UI text and copy in WooCommerce. Use when writing user-facing text, labels, buttons, messages, or documentation in WooCommerce projects.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "woocommerce-copy-guidelines",
+    "woocommerce",
+    "copy",
+    "guidelines",
+    "wordpress",
+    "ecommerce",
+    "shop"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Woocommerce Copy Guidelines",
+    "shortDescription": "Guidelines for UI text and copy in WooCommerce. Use when writing user-facing",
+    "longDescription": "Guidelines for UI text and copy in WooCommerce. Use when writing user-facing text, labels, buttons, messages, or documentation in WooCommerce projects.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "E-Commerce",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Woocommerce Copy Guidelines.",
+      "Show me best practices for Woocommerce Copy Guidelines.",
+      "Guide me through using Woocommerce Copy Guidelines effectively."
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "rest-api-design",
+  "version": "3.6.3",
+  "description": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes, and response formats. Use when building new APIs, establishing API conventions, or designing developer-friendly interfaces.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "rest-api-design",
+    "rest",
+    "api",
+    "design",
+    "graphql",
+    "endpoints",
+    "http"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Rest API Design",
+    "shortDescription": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes,",
+    "longDescription": "Designs RESTful APIs with proper resource naming, HTTP methods, status codes, and response formats. Use when building new APIs, establishing API conventions, or designing developer-friendly interfaces.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Rest API Design.",
+      "Show me best practices for Rest API Design.",
+      "Guide me through using Rest API Design effectively."
+    ]
+  }
+}

@@ -1,0 +1,1571 @@
+{
+  "name": "claude-skills",
+  "interface": {
+    "displayName": "Claude Skills",
+    "shortDescription": "Production-tested skills for modern web development"
+  },
+  "plugins": [
+    {
+      "name": "aceternity-ui",
+      "source": {
+        "source": "local",
+        "path": "./plugins/aceternity-ui"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "api-authentication",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-authentication"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "api-changelog-versioning",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-changelog-versioning"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-contract-testing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-contract-testing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-design-principles",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-design-principles"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-error-handling",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-error-handling"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-filtering-sorting",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-filtering-sorting"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-gateway-configuration",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-gateway-configuration"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-pagination",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-pagination"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-rate-limiting",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-rate-limiting"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-reference-documentation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-reference-documentation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-response-optimization",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-response-optimization"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-security-hardening",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-security-hardening"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-testing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-testing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "api-versioning-strategy",
+      "source": {
+        "source": "local",
+        "path": "./plugins/api-versioning-strategy"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "app-store-deployment",
+      "source": {
+        "source": "local",
+        "path": "./plugins/app-store-deployment"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Mobile Development"
+    },
+    {
+      "name": "architecture-patterns",
+      "source": {
+        "source": "local",
+        "path": "./plugins/architecture-patterns"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Architecture"
+    },
+    {
+      "name": "auto-animate",
+      "source": {
+        "source": "local",
+        "path": "./plugins/auto-animate"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "base-ui-react",
+      "source": {
+        "source": "local",
+        "path": "./plugins/base-ui-react"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "better-auth",
+      "source": {
+        "source": "local",
+        "path": "./plugins/better-auth"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "bun",
+      "source": {
+        "source": "local",
+        "path": "./plugins/bun"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "claude-code-bash-patterns",
+      "source": {
+        "source": "local",
+        "path": "./plugins/claude-code-bash-patterns"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "claude-hook-writer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/claude-hook-writer"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-agents",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-agents"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-browser-rendering",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-browser-rendering"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-cron-triggers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-cron-triggers"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-d1",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-d1"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-durable-objects",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-durable-objects"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-email-routing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-email-routing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-hyperdrive",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-hyperdrive"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-images",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-images"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-kv",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-kv"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-mcp-server",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-mcp-server"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-nextjs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-nextjs"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-queues",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-queues"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-r2",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-r2"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-sandbox",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-sandbox"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-turnstile",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-turnstile"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-vectorize",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-vectorize"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workers"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workers-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workers-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workflows",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workflows"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-zero-trust-access",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-zero-trust-access"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "code-review",
+      "source": {
+        "source": "local",
+        "path": "./plugins/code-review"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "csrf-protection",
+      "source": {
+        "source": "local",
+        "path": "./plugins/csrf-protection"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "cybersecurity",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cybersecurity"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "defense-in-depth-validation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/defense-in-depth-validation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "delegate-my-work",
+      "source": {
+        "source": "local",
+        "path": "./plugins/delegate-my-work"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "dependency-upgrade",
+      "source": {
+        "source": "local",
+        "path": "./plugins/dependency-upgrade"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "design-review",
+      "source": {
+        "source": "local",
+        "path": "./plugins/design-review"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Design & UX"
+    },
+    {
+      "name": "design-system-creation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/design-system-creation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Design & UX"
+    },
+    {
+      "name": "drizzle-orm-d1",
+      "source": {
+        "source": "local",
+        "path": "./plugins/drizzle-orm-d1"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Databases"
+    },
+    {
+      "name": "feature-dev",
+      "source": {
+        "source": "local",
+        "path": "./plugins/feature-dev"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "firecrawl-scraper",
+      "source": {
+        "source": "local",
+        "path": "./plugins/firecrawl-scraper"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "frontend-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/frontend-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "gemini-cli",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gemini-cli"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "github-project-automation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/github-project-automation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "graphql-implementation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/graphql-implementation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "health-check-endpoints",
+      "source": {
+        "source": "local",
+        "path": "./plugins/health-check-endpoints"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Architecture"
+    },
+    {
+      "name": "hono-routing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hono-routing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "hugo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/hugo"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Content Management"
+    },
+    {
+      "name": "idempotency-handling",
+      "source": {
+        "source": "local",
+        "path": "./plugins/idempotency-handling"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "image-optimization",
+      "source": {
+        "source": "local",
+        "path": "./plugins/image-optimization"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "inspira-ui",
+      "source": {
+        "source": "local",
+        "path": "./plugins/inspira-ui"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "interaction-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/interaction-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Design & UX"
+    },
+    {
+      "name": "internationalization-i18n",
+      "source": {
+        "source": "local",
+        "path": "./plugins/internationalization-i18n"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "jest-generator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/jest-generator"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Testing"
+    },
+    {
+      "name": "kpi-dashboard-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/kpi-dashboard-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Design & UX"
+    },
+    {
+      "name": "logging-best-practices",
+      "source": {
+        "source": "local",
+        "path": "./plugins/logging-best-practices"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "maz-ui",
+      "source": {
+        "source": "local",
+        "path": "./plugins/maz-ui"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "mcp-dynamic-orchestrator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mcp-dynamic-orchestrator"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "mcp-management",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mcp-management"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "microservices-patterns",
+      "source": {
+        "source": "local",
+        "path": "./plugins/microservices-patterns"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Architecture"
+    },
+    {
+      "name": "ml-model-training",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ml-model-training"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "ml-pipeline-automation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ml-pipeline-automation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "mobile-app-debugging",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mobile-app-debugging"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Mobile Development"
+    },
+    {
+      "name": "mobile-app-testing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mobile-app-testing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Mobile Development"
+    },
+    {
+      "name": "mobile-first-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mobile-first-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Mobile Development"
+    },
+    {
+      "name": "mobile-offline-support",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mobile-offline-support"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Mobile Development"
+    },
+    {
+      "name": "model-deployment",
+      "source": {
+        "source": "local",
+        "path": "./plugins/model-deployment"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "motion",
+      "source": {
+        "source": "local",
+        "path": "./plugins/motion"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "multi-ai-consultant",
+      "source": {
+        "source": "local",
+        "path": "./plugins/multi-ai-consultant"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "mutation-testing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mutation-testing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Testing"
+    },
+    {
+      "name": "nano-banana-prompts",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nano-banana-prompts"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "nextjs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nextjs"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-content",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-content"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-seo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-seo"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-studio",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-studio"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-ui-v4",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-ui-v4"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-v4",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-v4"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "nuxt-v5",
+      "source": {
+        "source": "local",
+        "path": "./plugins/nuxt-v5"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "oauth-implementation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/oauth-implementation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "payment-gateway-integration",
+      "source": {
+        "source": "local",
+        "path": "./plugins/payment-gateway-integration"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "pinia-colada",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pinia-colada"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "pinia-v3",
+      "source": {
+        "source": "local",
+        "path": "./plugins/pinia-v3"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "plan-interview",
+      "source": {
+        "source": "local",
+        "path": "./plugins/plan-interview"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "playwright",
+      "source": {
+        "source": "local",
+        "path": "./plugins/playwright"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "progressive-web-app",
+      "source": {
+        "source": "local",
+        "path": "./plugins/progressive-web-app"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "push-notification-setup",
+      "source": {
+        "source": "local",
+        "path": "./plugins/push-notification-setup"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "react-best-practices",
+      "source": {
+        "source": "local",
+        "path": "./plugins/react-best-practices"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "react-composition-patterns",
+      "source": {
+        "source": "local",
+        "path": "./plugins/react-composition-patterns"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "react-hook-form-zod",
+      "source": {
+        "source": "local",
+        "path": "./plugins/react-hook-form-zod"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "react-native-skills",
+      "source": {
+        "source": "local",
+        "path": "./plugins/react-native-skills"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "recommendation-engine",
+      "source": {
+        "source": "local",
+        "path": "./plugins/recommendation-engine"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "recommendation-system",
+      "source": {
+        "source": "local",
+        "path": "./plugins/recommendation-system"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Data & Analytics"
+    },
+    {
+      "name": "responsive-web-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/responsive-web-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "rest-api-design",
+      "source": {
+        "source": "local",
+        "path": "./plugins/rest-api-design"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "root-cause-tracing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/root-cause-tracing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "security-headers-configuration",
+      "source": {
+        "source": "local",
+        "path": "./plugins/security-headers-configuration"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "seo-keyword-cluster-builder",
+      "source": {
+        "source": "local",
+        "path": "./plugins/seo-keyword-cluster-builder"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "SEO"
+    },
+    {
+      "name": "seo-optimizer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/seo-optimizer"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "SEO"
+    },
+    {
+      "name": "sequential-thinking",
+      "source": {
+        "source": "local",
+        "path": "./plugins/sequential-thinking"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "session-management",
+      "source": {
+        "source": "local",
+        "path": "./plugins/session-management"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "shadcn-vue",
+      "source": {
+        "source": "local",
+        "path": "./plugins/shadcn-vue"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "systematic-debugging",
+      "source": {
+        "source": "local",
+        "path": "./plugins/systematic-debugging"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "tailwind-v4-shadcn",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tailwind-v4-shadcn"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "tanstack-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tanstack-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "tanstack-query",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tanstack-query"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "tanstack-router",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tanstack-router"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "tanstack-start",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tanstack-start"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "tanstack-table",
+      "source": {
+        "source": "local",
+        "path": "./plugins/tanstack-table"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "technical-specification",
+      "source": {
+        "source": "local",
+        "path": "./plugins/technical-specification"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Documentation"
+    },
+    {
+      "name": "test-quality-analysis",
+      "source": {
+        "source": "local",
+        "path": "./plugins/test-quality-analysis"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Testing"
+    },
+    {
+      "name": "thesys-generative-ui",
+      "source": {
+        "source": "local",
+        "path": "./plugins/thesys-generative-ui"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "AI & Machine Learning"
+    },
+    {
+      "name": "threejs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/threejs"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "turborepo",
+      "source": {
+        "source": "local",
+        "path": "./plugins/turborepo"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "typescript-migration",
+      "source": {
+        "source": "local",
+        "path": "./plugins/typescript-migration"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "ultracite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ultracite"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    },
+    {
+      "name": "vitest-testing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/vitest-testing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Testing"
+    },
+    {
+      "name": "vulnerability-scanning",
+      "source": {
+        "source": "local",
+        "path": "./plugins/vulnerability-scanning"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "web-performance-audit",
+      "source": {
+        "source": "local",
+        "path": "./plugins/web-performance-audit"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "web-performance-optimization",
+      "source": {
+        "source": "local",
+        "path": "./plugins/web-performance-optimization"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
+    },
+    {
+      "name": "websocket-implementation",
+      "source": {
+        "source": "local",
+        "path": "./plugins/websocket-implementation"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "APIs & Backend"
+    },
+    {
+      "name": "woocommerce-backend-dev",
+      "source": {
+        "source": "local",
+        "path": "./plugins/woocommerce-backend-dev"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "E-Commerce"
+    },
+    {
+      "name": "woocommerce-code-review",
+      "source": {
+        "source": "local",
+        "path": "./plugins/woocommerce-code-review"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "E-Commerce"
+    },
+    {
+      "name": "woocommerce-copy-guidelines",
+      "source": {
+        "source": "local",
+        "path": "./plugins/woocommerce-copy-guidelines"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "E-Commerce"
+    },
+    {
+      "name": "woocommerce-dev-cycle",
+      "source": {
+        "source": "local",
+        "path": "./plugins/woocommerce-dev-cycle"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "E-Commerce"
+    },
+    {
+      "name": "wordpress-plugin-core",
+      "source": {
+        "source": "local",
+        "path": "./plugins/wordpress-plugin-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Content Management"
+    },
+    {
+      "name": "xss-prevention",
+      "source": {
+        "source": "local",
+        "path": "./plugins/xss-prevention"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
+      "name": "zod",
+      "source": {
+        "source": "local",
+        "path": "./plugins/zod"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "zustand-state-management",
+      "source": {
+        "source": "local",
+        "path": "./plugins/zustand-state-management"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Frontend"
+    }
+  ]
+}

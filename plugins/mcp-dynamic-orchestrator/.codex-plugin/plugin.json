@@ -1,0 +1,36 @@
+{
+  "name": "mcp-dynamic-orchestrator",
+  "version": "3.6.3",
+  "description": "Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mcp-dynamic-orchestrator",
+    "mcp",
+    "dynamic",
+    "orchestrator",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MCP Dynamic Orchestrator",
+    "shortDescription": "Dynamic MCP server discovery and code-mode execution via central registry. Use",
+    "longDescription": "Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with MCP Dynamic Orchestrator.",
+      "Show me best practices for MCP Dynamic Orchestrator.",
+      "Guide me through using MCP Dynamic Orchestrator effectively."
+    ]
+  }
+}

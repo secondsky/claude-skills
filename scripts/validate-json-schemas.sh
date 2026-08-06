@@ -126,8 +126,74 @@ echo -e "  Failed: ${RED}$failed_count${NC}"
 
 echo ""
 
+# -----------------------------------------------------------------------------
+# Codex CLI manifest validation
+# -----------------------------------------------------------------------------
+codex_marketplace_file="$REPO_ROOT/.agents/plugins/marketplace.json"
+codex_failed=0
+codex_passed=0
+codex_total=0
+
+if [ -f "$codex_marketplace_file" ]; then
+  echo -e "${BLUE}📦 Validating Codex marketplace.json...${NC}"
+  set +e
+  "$AJV" validate \
+    -s "$SCHEMAS_DIR/codex-marketplace.schema.json" \
+    -d "$codex_marketplace_file" \
+    --spec=draft7 \
+    --strict=false \
+    --all-errors 2>&1
+  codex_mkt_exit=$?
+  set -e
+  if [ $codex_mkt_exit -eq 0 ]; then
+    echo -e "${GREEN}✅ Codex marketplace.json is valid${NC}"
+    codex_marketplace_valid=true
+  else
+    echo -e "${RED}❌ Codex marketplace.json validation FAILED${NC}"
+    codex_marketplace_valid=false
+  fi
+  echo ""
+
+  echo -e "${BLUE}🔌 Validating Codex plugin manifests...${NC}"
+  codex_files=$(find "$REPO_ROOT/plugins" -name 'plugin.json' -path '*/.codex-plugin/plugin.json' | sort)
+  while IFS= read -r cfile; do
+    if [ -z "$cfile" ]; then continue; fi
+    codex_total=$((codex_total + 1))
+    cname=$(basename "$(dirname "$(dirname "$cfile")")")
+    set +e
+    "$AJV" validate \
+      -s "$SCHEMAS_DIR/codex-plugin.schema.json" \
+      -d "$cfile" \
+      --spec=draft7 \
+      --strict=false \
+      --all-errors 2>&1
+    cexit=$?
+    set -e
+    if [ $cexit -eq 0 ]; then
+      echo -e "${GREEN}✅${NC} [codex] $cname"
+      codex_passed=$((codex_passed + 1))
+    else
+      echo -e "${RED}❌${NC} [codex] $cname - FAILED"
+      codex_failed=$((codex_failed + 1))
+    fi
+  done <<< "$codex_files"
+
+  echo ""
+  echo "Codex Plugin Validation:"
+  echo -e "  Total:  ${BLUE}$codex_total${NC}"
+  echo -e "  Passed: ${GREEN}$codex_passed${NC}"
+  echo -e "  Failed: ${RED}$codex_failed${NC}"
+  echo ""
+else
+  echo -e "${YELLOW}⚠️  No Codex marketplace found (.agents/plugins/marketplace.json)${NC}"
+  echo -e "${YELLOW}   Run ./scripts/generate-codex-manifests.sh to generate.${NC}"
+  echo ""
+  codex_marketplace_valid=true  # Not an error if Codex support hasn't been generated yet
+fi
+
 # Exit with appropriate code
-if [ "$marketplace_valid" = true ] && [ $failed_count -eq 0 ]; then
+if [ "$marketplace_valid" = true ] && [ $failed_count -eq 0 ] && \
+   [ "${codex_marketplace_valid:-true}" = true ] && [ $codex_failed -eq 0 ]; then
   echo -e "${GREEN}✅ All validations passed!${NC}"
   echo ""
   exit 0

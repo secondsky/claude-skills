@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.6.3] - 2026-08-06
+
+### Added
+
+- **Codex CLI native marketplace support.** All 142 plugins now ship `.codex-plugin/plugin.json` manifests alongside their `.claude-plugin/` manifests, plus a `.agents/plugins/marketplace.json` catalog (Codex's standard marketplace location). Codex CLI users can now install plugins natively via `codex plugin marketplace add secondsky/claude-skills` and browse them with `/plugins` in the Codex TUI. Skills are auto-discovered from each plugin's `skills/` directory — the same `SKILL.md` files Claude Code uses.
+
+- **`scripts/generate-codex-manifests.sh`** — new generator script that derives `.codex-plugin/plugin.json` from each `.claude-plugin/plugin.json` (Claude manifests remain the source of truth). Maps Claude categories to Codex Title-Case categories, generates `interface` UX metadata (displayName, shortDescription, defaultPrompt), and carries `mcpServers` through where present (3 nuxt plugins).
+
+- **`schemas/codex-plugin.schema.json` + `schemas/codex-marketplace.schema.json`** — JSON Schema validation for the generated Codex artifacts, wired into `scripts/validate-json-schemas.sh` and `npm run validate:codex`.
+
+### Changed
+
+- **`scripts/sync-plugins.sh`** now syncs `.codex-plugin/plugin.json` version in the same lockstep pass as `.claude-plugin/` manifests, keeping both harnesses at the same version.
+
+- **`scripts/generate-marketplace.sh`** now calls `generate-codex-manifests.sh` after regenerating the Claude marketplace, so both marketplaces are always in sync.
+
+- **`scripts/validate-json-schemas.sh`** now validates `.agents/plugins/marketplace.json` and all 142 `.codex-plugin/plugin.json` files against their schemas, alongside the existing Claude validation.
+
+- **README** — Codex CLI row upgraded from ⚠️ "does not generate yet" to ✅ **Native** (federated). Added a "Codex CLI Installation" section with install commands.
+
+- **Version bump 3.6.2 → 3.6.3** — all 142 plugins, both marketplaces, and `package.json`.
+
+### Notes
+
+- **Not carried into Codex:** Claude Code slash commands (`commands/`) and subagents (`agents/`) have no Codex plugin-manifest equivalent. The official Codex `/import` command converts these at install time. `mcpServers` config paths are carried through as-is (same `./.mcp.json` convention).
+- **Cursor, opencode, Gemini CLI** remain skills.sh-only — no manifest generation added for those harnesses in this release.
+
+---
+
 ## [3.6.1] - 2026-08-05
 
 ### Changed

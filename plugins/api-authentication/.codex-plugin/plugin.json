@@ -1,0 +1,38 @@
+{
+  "name": "api-authentication",
+  "version": "3.6.3",
+  "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-authentication",
+    "api",
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "session",
+    "jwt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Authentication",
+    "shortDescription": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication",
+    "longDescription": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Authentication.",
+      "Show me best practices for API Authentication.",
+      "Guide me through using API Authentication effectively."
+    ]
+  }
+}

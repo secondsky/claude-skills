@@ -1,0 +1,35 @@
+{
+  "name": "hugo",
+  "version": "3.6.3",
+  "description": "Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment. Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "hugo",
+    "cms",
+    "content",
+    "management",
+    "publishing"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Hugo",
+    "shortDescription": "Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina),",
+    "longDescription": "Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment. Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Content Management",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Hugo.",
+      "Show me best practices for Hugo.",
+      "Guide me through using Hugo effectively."
+    ]
+  }
+}

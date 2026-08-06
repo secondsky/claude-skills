@@ -1,0 +1,37 @@
+{
+  "name": "mobile-first-design",
+  "version": "3.6.3",
+  "description": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mobile-first-design",
+    "mobile",
+    "first",
+    "design",
+    "responsive-design",
+    "media-queries",
+    "breakpoints"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mobile First Design",
+    "shortDescription": "Designs responsive interfaces starting from mobile screens with progressive",
+    "longDescription": "Designs responsive interfaces starting from mobile screens with progressive enhancement for larger devices. Use when building responsive websites, optimizing for mobile users, or implementing adaptive layouts.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Mobile Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Mobile First Design.",
+      "Show me best practices for Mobile First Design.",
+      "Guide me through using Mobile First Design effectively."
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "cloudflare-email-routing",
+  "version": "3.6.3",
+  "description": "Cloudflare Email Routing for receiving/sending emails via Workers. Use for email workers, forwarding, allowlists, or encountering Email Trigger errors, worker call failures, SPF issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-email-routing",
+    "cloudflare",
+    "email",
+    "routing",
+    "workers",
+    "edge",
+    "wrangler",
+    "spf"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Email Routing",
+    "shortDescription": "Cloudflare Email Routing for receiving/sending emails via Workers. Use for",
+    "longDescription": "Cloudflare Email Routing for receiving/sending emails via Workers. Use for email workers, forwarding, allowlists, or encountering Email Trigger errors, worker call failures, SPF issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Email Routing.",
+      "Show me best practices for Cloudflare Email Routing.",
+      "Guide me through using Cloudflare Email Routing effectively."
+    ]
+  }
+}

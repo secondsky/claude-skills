@@ -1,0 +1,40 @@
+{
+  "name": "cloudflare-images",
+  "version": "3.6.3",
+  "description": "This skill should be used when the user asks to \"upload images to Cloudflare\", \"implement direct creator upload\", \"configure image transformations\", \"optimize WebP/AVIF\", \"create image variants\", \"generate signed URLs\", \"add image watermarks\", \"integrate with Next.js/Remix\", \"configure webhooks\", \"debug CORS errors\", \"troubleshoot error 5408/9401-9413\", or \"build responsive images with Cloudflare Images API\".",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-images",
+    "cloudflare",
+    "images",
+    "workers",
+    "edge",
+    "wrangler",
+    "avif",
+    "cors",
+    "webp",
+    "webhooks"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Images",
+    "shortDescription": "This skill should be used when the user asks to \"upload images to Cloudflare\",",
+    "longDescription": "This skill should be used when the user asks to \"upload images to Cloudflare\", \"implement direct creator upload\", \"configure image transformations\", \"optimize WebP/AVIF\", \"create image variants\", \"generate signed URLs\", \"add image watermarks\", \"integrate with Next.js/Remix\", \"configure webhooks\", \"debug CORS errors\", \"troubleshoot error 5408/9401-9413\", or \"build responsive images with Cloudflare Images API\".",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Images.",
+      "Show me best practices for Cloudflare Images.",
+      "Guide me through using Cloudflare Images effectively."
+    ]
+  }
+}

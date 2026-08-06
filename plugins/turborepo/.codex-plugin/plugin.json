@@ -1,0 +1,34 @@
+{
+  "name": "turborepo",
+  "version": "3.6.3",
+  "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "turborepo",
+    "tooling",
+    "workflow",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Turborepo",
+    "shortDescription": "Turborepo high-performance monorepo build system. Use for monorepo setup, build",
+    "longDescription": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Turborepo.",
+      "Show me best practices for Turborepo.",
+      "Guide me through using Turborepo effectively."
+    ]
+  }
+}

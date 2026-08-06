@@ -1,0 +1,37 @@
+{
+  "name": "nuxt-studio",
+  "version": "3.6.3",
+  "description": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up Nuxt Studio, configuring OAuth authentication, deploying to Cloudflare Pages/Workers with subdomain routing, or troubleshooting Studio integration.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nuxt-studio",
+    "nuxt",
+    "studio",
+    "frontend",
+    "components",
+    "cms",
+    "authentication"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Nuxt Studio",
+    "shortDescription": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up",
+    "longDescription": "Visual CMS for Nuxt Content with Cloudflare deployment. Use when setting up Nuxt Studio, configuring OAuth authentication, deploying to Cloudflare Pages/Workers with subdomain routing, or troubleshooting Studio integration.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Nuxt Studio.",
+      "Show me best practices for Nuxt Studio.",
+      "Guide me through using Nuxt Studio effectively."
+    ]
+  }
+}

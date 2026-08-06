@@ -1,0 +1,37 @@
+{
+  "name": "woocommerce-code-review",
+  "version": "3.6.3",
+  "description": "Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "woocommerce-code-review",
+    "woocommerce",
+    "code",
+    "review",
+    "wordpress",
+    "ecommerce",
+    "shop"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Woocommerce Code Review",
+    "shortDescription": "Review WooCommerce code changes for coding standards compliance. Use when",
+    "longDescription": "Review WooCommerce code changes for coding standards compliance. Use when reviewing code locally, performing automated PR reviews, or checking code quality in WooCommerce projects.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "E-Commerce",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Woocommerce Code Review.",
+      "Show me best practices for Woocommerce Code Review.",
+      "Guide me through using Woocommerce Code Review effectively."
+    ]
+  }
+}

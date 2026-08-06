@@ -1,0 +1,36 @@
+{
+  "name": "tanstack-table",
+  "version": "3.6.3",
+  "description": "TanStack Table v8 headless data tables with server-side features for Cloudflare Workers + D1. Use for pagination, filtering, sorting, virtualization, or encountering state management, TanStack Query coordination, URL sync errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tanstack-table",
+    "tanstack",
+    "table",
+    "frontend",
+    "components",
+    "url"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tanstack Table",
+    "shortDescription": "TanStack Table v8 headless data tables with server-side features for Cloudflare",
+    "longDescription": "TanStack Table v8 headless data tables with server-side features for Cloudflare Workers + D1. Use for pagination, filtering, sorting, virtualization, or encountering state management, TanStack Query coordination, URL sync errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Tanstack Table.",
+      "Show me best practices for Tanstack Table.",
+      "Guide me through using Tanstack Table effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "gemini-cli",
+  "version": "3.6.3",
+  "description": "Google Gemini CLI for second opinions, architectural advice, code reviews, security audits. Leverage 1M+ context for comprehensive codebase analysis via command-line tool.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "gemini-cli",
+    "gemini",
+    "cli",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Gemini Cli",
+    "shortDescription": "Google Gemini CLI for second opinions, architectural advice, code reviews,",
+    "longDescription": "Google Gemini CLI for second opinions, architectural advice, code reviews, security audits. Leverage 1M+ context for comprehensive codebase analysis via command-line tool.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Gemini Cli.",
+      "Show me best practices for Gemini Cli.",
+      "Guide me through using Gemini Cli effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "mutation-testing",
+  "version": "3.6.3",
+  "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "mutation-testing",
+    "mutation",
+    "testing",
+    "tests",
+    "unit-tests",
+    "quality"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Mutation Testing",
+    "shortDescription": "Validate test effectiveness with mutation testing using Stryker",
+    "longDescription": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Testing",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Mutation Testing.",
+      "Show me best practices for Mutation Testing.",
+      "Guide me through using Mutation Testing effectively."
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "cloudflare-vectorize",
+  "version": "3.6.3",
+  "description": "Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-vectorize",
+    "cloudflare",
+    "vectorize",
+    "workers",
+    "edge",
+    "wrangler",
+    "rag"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Vectorize",
+    "shortDescription": "Cloudflare Vectorize vector database for semantic search and RAG. Use for",
+    "longDescription": "Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Vectorize.",
+      "Show me best practices for Cloudflare Vectorize.",
+      "Guide me through using Cloudflare Vectorize effectively."
+    ]
+  }
+}

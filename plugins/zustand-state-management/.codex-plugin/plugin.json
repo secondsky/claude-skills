@@ -1,0 +1,38 @@
+{
+  "name": "zustand-state-management",
+  "version": "3.6.3",
+  "description": "Zustand state management for React with TypeScript. Use for global state, Redux/Context API migration, localStorage persistence, slices pattern, devtools, Next.js SSR, or encountering hydration errors, TypeScript inference issues, persist middleware problems, infinite render loops.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "zustand-state-management",
+    "zustand",
+    "state",
+    "management",
+    "frontend",
+    "components",
+    "ssr",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Zustand State Management",
+    "shortDescription": "Zustand state management for React with TypeScript. Use for global state,",
+    "longDescription": "Zustand state management for React with TypeScript. Use for global state, Redux/Context API migration, localStorage persistence, slices pattern, devtools, Next.js SSR, or encountering hydration errors, TypeScript inference issues, persist middleware problems, infinite render loops.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Zustand State Management.",
+      "Show me best practices for Zustand State Management.",
+      "Guide me through using Zustand State Management effectively."
+    ]
+  }
+}

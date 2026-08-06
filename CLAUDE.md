@@ -628,8 +628,12 @@ Note: Bun is the preferred runtime and package manager for Node-based workflows 
 # Install a single skill
 /plugin install cloudflare-d1@claude-skills
 
-# Cross-harness install (Cursor, Codex, opencode, Gemini CLI, etc.)
+# Cross-harness install (Cursor, opencode, Gemini CLI, etc.)
 npx skills add secondsky/claude-skills --skill cloudflare-d1
+
+# Codex CLI (native marketplace — .codex-plugin/ manifests generated for all plugins)
+codex plugin marketplace add secondsky/claude-skills
+# Then /plugins in the Codex TUI to browse/install
 
 # Verify installation
 ls -la ~/.claude/skills/

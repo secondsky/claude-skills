@@ -1,0 +1,36 @@
+{
+  "name": "thesys-generative-ui",
+  "version": "3.6.3",
+  "description": "AI-powered generative UI with Thesys - create React components from natural language.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "thesys-generative-ui",
+    "thesys",
+    "generative",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Thesys Generative UI",
+    "shortDescription": "AI-powered generative UI with Thesys - create React components from natural",
+    "longDescription": "AI-powered generative UI with Thesys - create React components from natural language.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Thesys Generative UI.",
+      "Show me best practices for Thesys Generative UI.",
+      "Guide me through using Thesys Generative UI effectively."
+    ]
+  }
+}

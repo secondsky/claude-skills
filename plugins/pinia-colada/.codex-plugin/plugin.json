@@ -1,0 +1,39 @@
+{
+  "name": "pinia-colada",
+  "version": "3.6.3",
+  "description": "Pinia Colada data fetching for Vue/Nuxt with useQuery, useMutation. Use for async state, query cache, SSR, or encountering invalidation, hydration, TanStack Vue Query migration errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "pinia-colada",
+    "pinia",
+    "colada",
+    "frontend",
+    "components",
+    "ssr",
+    "tanstack",
+    "migration",
+    "async"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Pinia Colada",
+    "shortDescription": "Pinia Colada data fetching for Vue/Nuxt with useQuery, useMutation. Use for",
+    "longDescription": "Pinia Colada data fetching for Vue/Nuxt with useQuery, useMutation. Use for async state, query cache, SSR, or encountering invalidation, hydration, TanStack Vue Query migration errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Pinia Colada.",
+      "Show me best practices for Pinia Colada.",
+      "Guide me through using Pinia Colada effectively."
+    ]
+  }
+}

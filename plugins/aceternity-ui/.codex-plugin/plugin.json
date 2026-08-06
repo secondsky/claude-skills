@@ -1,0 +1,35 @@
+{
+  "name": "aceternity-ui",
+  "version": "3.6.3",
+  "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "aceternity-ui",
+    "aceternity",
+    "frontend",
+    "components",
+    "cli"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Aceternity UI",
+    "shortDescription": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use",
+    "longDescription": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Aceternity UI.",
+      "Show me best practices for Aceternity UI.",
+      "Guide me through using Aceternity UI effectively."
+    ]
+  }
+}

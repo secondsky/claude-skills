@@ -1,0 +1,38 @@
+{
+  "name": "csrf-protection",
+  "version": "3.6.3",
+  "description": "Implements CSRF protection using synchronizer tokens, double-submit cookies, and SameSite attributes. Use when securing web forms, protecting state-changing endpoints, or implementing defense-in-depth authentication.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "csrf-protection",
+    "csrf",
+    "protection",
+    "security",
+    "vulnerability",
+    "xss",
+    "samesite",
+    "authentication"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CSRF Protection",
+    "shortDescription": "Implements CSRF protection using synchronizer tokens, double-submit cookies,",
+    "longDescription": "Implements CSRF protection using synchronizer tokens, double-submit cookies, and SameSite attributes. Use when securing web forms, protecting state-changing endpoints, or implementing defense-in-depth authentication.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with CSRF Protection.",
+      "Show me best practices for CSRF Protection.",
+      "Guide me through using CSRF Protection effectively."
+    ]
+  }
+}

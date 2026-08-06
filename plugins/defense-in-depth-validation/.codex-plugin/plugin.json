@@ -1,0 +1,39 @@
+{
+  "name": "defense-in-depth-validation",
+  "version": "3.6.3",
+  "description": "Validate at every layer data passes through to make bugs impossible. Use when invalid data causes failures deep in execution, requiring validation at multiple system layers.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "defense-in-depth-validation",
+    "defense",
+    "depth",
+    "validation",
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf",
+    "xss"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Defense In Depth Validation",
+    "shortDescription": "Validate at every layer data passes through to make bugs impossible. Use when",
+    "longDescription": "Validate at every layer data passes through to make bugs impossible. Use when invalid data causes failures deep in execution, requiring validation at multiple system layers.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Defense In Depth Validation.",
+      "Show me best practices for Defense In Depth Validation.",
+      "Guide me through using Defense In Depth Validation effectively."
+    ]
+  }
+}

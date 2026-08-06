@@ -1,0 +1,35 @@
+{
+  "name": "code-review",
+  "version": "3.6.3",
+  "description": "Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "code-review",
+    "code",
+    "review",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Code Review",
+    "shortDescription": "Code review practices with technical rigor and verification gates. Use for",
+    "longDescription": "Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Code Review.",
+      "Show me best practices for Code Review.",
+      "Guide me through using Code Review effectively."
+    ]
+  }
+}

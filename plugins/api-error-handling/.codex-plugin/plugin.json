@@ -1,0 +1,38 @@
+{
+  "name": "api-error-handling",
+  "version": "3.6.3",
+  "description": "Implements standardized API error responses with proper status codes, logging, and user-friendly messages. Use when building production APIs, implementing error recovery patterns, or integrating error monitoring services.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-error-handling",
+    "api",
+    "error",
+    "handling",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Error Handling",
+    "shortDescription": "Implements standardized API error responses with proper status codes, logging,",
+    "longDescription": "Implements standardized API error responses with proper status codes, logging, and user-friendly messages. Use when building production APIs, implementing error recovery patterns, or integrating error monitoring services.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Error Handling.",
+      "Show me best practices for API Error Handling.",
+      "Guide me through using API Error Handling effectively."
+    ]
+  }
+}

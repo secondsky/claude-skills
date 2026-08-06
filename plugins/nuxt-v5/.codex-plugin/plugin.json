@@ -1,0 +1,37 @@
+{
+  "name": "nuxt-v5",
+  "version": "3.6.3",
+  "description": "Comprehensive Nuxt 5 development with 4 focused skills (core, data, server, production), 3 diagnostic agents (debugger, migration, performance), and interactive setup wizard. Use when: building Nuxt 5 applications, implementing SSR patterns, creating composables, server routes, data fetching, state management, debugging hydration issues, migrating from Nuxt 4, optimizing performance, deploying to Cloudflare/Vercel/Netlify, or setting up testing with Vitest.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nuxt-v5",
+    "nuxt",
+    "frontend",
+    "components",
+    "ssr",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Nuxt V5",
+    "shortDescription": "Comprehensive Nuxt 5 development with 4 focused skills (core, data, server,",
+    "longDescription": "Comprehensive Nuxt 5 development with 4 focused skills (core, data, server, production), 3 diagnostic agents (debugger, migration, performance), and interactive setup wizard. Use when: building Nuxt 5 applications, implementing SSR patterns, creating composables, server routes, data fetching, state management, debugging hydration issues, migrating from Nuxt 4, optimizing performance, deploying to Cloudflare/Vercel/Netlify, or setting up testing with Vitest.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Nuxt V5.",
+      "Show me best practices for Nuxt V5.",
+      "Guide me through using Nuxt V5 effectively."
+    ]
+  },
+  "mcpServers": "./.mcp.json"
+}

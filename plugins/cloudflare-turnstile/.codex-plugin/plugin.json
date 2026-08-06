@@ -1,0 +1,39 @@
+{
+  "name": "cloudflare-turnstile",
+  "version": "3.6.3",
+  "description": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-turnstile",
+    "cloudflare",
+    "turnstile",
+    "workers",
+    "edge",
+    "wrangler",
+    "captcha",
+    "csp",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Turnstile",
+    "shortDescription": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login",
+    "longDescription": "Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Turnstile.",
+      "Show me best practices for Cloudflare Turnstile.",
+      "Guide me through using Cloudflare Turnstile effectively."
+    ]
+  }
+}

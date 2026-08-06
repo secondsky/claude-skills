@@ -1,0 +1,36 @@
+{
+  "name": "cloudflare-sandbox",
+  "version": "3.6.3",
+  "description": "Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-sandbox",
+    "cloudflare",
+    "sandbox",
+    "workers",
+    "edge",
+    "wrangler"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Sandbox",
+    "shortDescription": "Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge.",
+    "longDescription": "Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Sandbox.",
+      "Show me best practices for Cloudflare Sandbox.",
+      "Guide me through using Cloudflare Sandbox effectively."
+    ]
+  }
+}

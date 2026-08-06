@@ -1,0 +1,36 @@
+{
+  "name": "cloudflare-workers",
+  "version": "3.6.3",
+  "description": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-workers",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Workers",
+    "shortDescription": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing",
+    "longDescription": "Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Workers.",
+      "Show me best practices for Cloudflare Workers.",
+      "Guide me through using Cloudflare Workers effectively."
+    ]
+  }
+}

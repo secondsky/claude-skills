@@ -1,0 +1,35 @@
+{
+  "name": "plan-interview",
+  "version": "3.6.3",
+  "description": "Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "plan-interview",
+    "plan",
+    "interview",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Plan Interview",
+    "shortDescription": "Adaptive interview-driven spec generation with quality review. Automatically",
+    "longDescription": "Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Plan Interview.",
+      "Show me best practices for Plan Interview.",
+      "Guide me through using Plan Interview effectively."
+    ]
+  }
+}

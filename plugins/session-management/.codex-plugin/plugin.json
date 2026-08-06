@@ -1,0 +1,38 @@
+{
+  "name": "session-management",
+  "version": "3.6.3",
+  "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "session-management",
+    "session",
+    "management",
+    "authentication",
+    "authorization",
+    "login",
+    "security",
+    "jwt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Session Management",
+    "shortDescription": "Implements secure session management with JWT tokens, Redis storage, refresh",
+    "longDescription": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Session Management.",
+      "Show me best practices for Session Management.",
+      "Guide me through using Session Management effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "cloudflare-workers-ai",
+  "version": "3.6.3",
+  "description": "Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-workers-ai",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "gpu"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Workers AI",
+    "shortDescription": "Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image",
+    "longDescription": "Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Workers AI.",
+      "Show me best practices for Cloudflare Workers AI.",
+      "Guide me through using Cloudflare Workers AI effectively."
+    ]
+  }
+}

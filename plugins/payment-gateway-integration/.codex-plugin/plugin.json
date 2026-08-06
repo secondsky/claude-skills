@@ -1,0 +1,38 @@
+{
+  "name": "payment-gateway-integration",
+  "version": "3.6.3",
+  "description": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "payment-gateway-integration",
+    "payment",
+    "gateway",
+    "integration",
+    "web",
+    "pci",
+    "paypal",
+    "webhooks"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Payment Gateway Integration",
+    "shortDescription": "Integrates payment processing with Stripe, PayPal, or Square including",
+    "longDescription": "Integrates payment processing with Stripe, PayPal, or Square including subscriptions, webhooks, and PCI compliance. Use when implementing checkout flows, recurring billing, or handling refunds and disputes.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Web Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Payment Gateway Integration.",
+      "Show me best practices for Payment Gateway Integration.",
+      "Guide me through using Payment Gateway Integration effectively."
+    ]
+  }
+}

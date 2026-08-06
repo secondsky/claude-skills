@@ -1,0 +1,37 @@
+{
+  "name": "logging-best-practices",
+  "version": "3.6.3",
+  "description": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "logging-best-practices",
+    "logging",
+    "best",
+    "practices",
+    "tooling",
+    "workflow",
+    "pii"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Logging Best Practices",
+    "shortDescription": "Structured logging with proper levels, context, PII handling, centralized",
+    "longDescription": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Logging Best Practices.",
+      "Show me best practices for Logging Best Practices.",
+      "Guide me through using Logging Best Practices effectively."
+    ]
+  }
+}

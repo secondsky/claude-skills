@@ -1,0 +1,35 @@
+{
+  "name": "shadcn-vue",
+  "version": "3.6.3",
+  "description": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "shadcn-vue",
+    "shadcn",
+    "vue",
+    "frontend",
+    "components"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Shadcn Vue",
+    "shortDescription": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for",
+    "longDescription": "shadcn-vue for Vue/Nuxt with Reka UI components and Tailwind. Use for accessible UI, Auto Form, data tables, charts, or encountering component imports, dark mode, Reka UI errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Shadcn Vue.",
+      "Show me best practices for Shadcn Vue.",
+      "Guide me through using Shadcn Vue effectively."
+    ]
+  }
+}

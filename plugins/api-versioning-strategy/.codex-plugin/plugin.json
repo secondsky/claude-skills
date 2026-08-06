@@ -1,0 +1,40 @@
+{
+  "name": "api-versioning-strategy",
+  "version": "3.6.3",
+  "description": "Implements API versioning using URL paths, headers, or query parameters with backward compatibility and deprecation strategies. Use when managing multiple API versions, planning breaking changes, or designing migration paths.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "api-versioning-strategy",
+    "api",
+    "versioning",
+    "strategy",
+    "rest",
+    "graphql",
+    "endpoints",
+    "http",
+    "url",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "API Versioning Strategy",
+    "shortDescription": "Implements API versioning using URL paths, headers, or query parameters with",
+    "longDescription": "Implements API versioning using URL paths, headers, or query parameters with backward compatibility and deprecation strategies. Use when managing multiple API versions, planning breaking changes, or designing migration paths.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "APIs & Backend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with API Versioning Strategy.",
+      "Show me best practices for API Versioning Strategy.",
+      "Guide me through using API Versioning Strategy effectively."
+    ]
+  }
+}

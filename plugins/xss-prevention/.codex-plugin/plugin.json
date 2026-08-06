@@ -1,0 +1,37 @@
+{
+  "name": "xss-prevention",
+  "version": "3.6.3",
+  "description": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "xss-prevention",
+    "xss",
+    "prevention",
+    "security",
+    "vulnerability",
+    "protection",
+    "csrf"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "XSS Prevention",
+    "shortDescription": "Prevents Cross-Site Scripting attacks through input sanitization, output",
+    "longDescription": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with XSS Prevention.",
+      "Show me best practices for XSS Prevention.",
+      "Guide me through using XSS Prevention effectively."
+    ]
+  }
+}

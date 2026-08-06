@@ -1,0 +1,37 @@
+{
+  "name": "nuxt-seo",
+  "version": "3.6.3",
+  "description": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules. Use when building SEO-optimized Nuxt applications, implementing robots.txt/sitemaps, generating OG images, adding Schema.org data, managing meta tags, checking links, or encountering sitemap, robots.txt, OG image, schema validation, meta tag, canonical URL, or i18n SEO errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nuxt-seo",
+    "nuxt",
+    "seo",
+    "frontend",
+    "components",
+    "url",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Nuxt SEO",
+    "shortDescription": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules. Use when",
+    "longDescription": "Comprehensive guide for all 8 Nuxt SEO modules plus Pro modules. Use when building SEO-optimized Nuxt applications, implementing robots.txt/sitemaps, generating OG images, adding Schema.org data, managing meta tags, checking links, or encountering sitemap, robots.txt, OG image, schema validation, meta tag, canonical URL, or i18n SEO errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Nuxt SEO.",
+      "Show me best practices for Nuxt SEO.",
+      "Guide me through using Nuxt SEO effectively."
+    ]
+  }
+}

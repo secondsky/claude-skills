@@ -1,0 +1,36 @@
+{
+  "name": "nextjs",
+  "version": "3.6.3",
+  "description": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "nextjs",
+    "frontend",
+    "components",
+    "ssr",
+    "migration",
+    "async"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Nextjs",
+    "shortDescription": "Next.js 16 with App Router, Server Components, Server Actions, Cache",
+    "longDescription": "Next.js 16 with App Router, Server Components, Server Actions, Cache Components. Use for React 19.2 apps, SSR, or encountering async params, proxy.ts migration, use cache errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Nextjs.",
+      "Show me best practices for Nextjs.",
+      "Guide me through using Nextjs effectively."
+    ]
+  }
+}

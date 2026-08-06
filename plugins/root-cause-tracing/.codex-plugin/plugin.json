@@ -1,0 +1,36 @@
+{
+  "name": "root-cause-tracing",
+  "version": "3.6.3",
+  "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "root-cause-tracing",
+    "root",
+    "cause",
+    "tracing",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Root Cause Tracing",
+    "shortDescription": "Systematically trace bugs backward through call stack to find original trigger.",
+    "longDescription": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Root Cause Tracing.",
+      "Show me best practices for Root Cause Tracing.",
+      "Guide me through using Root Cause Tracing effectively."
+    ]
+  }
+}

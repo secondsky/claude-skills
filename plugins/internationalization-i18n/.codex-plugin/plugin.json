@@ -1,0 +1,35 @@
+{
+  "name": "internationalization-i18n",
+  "version": "3.6.3",
+  "description": "Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "internationalization-i18n",
+    "internationalization",
+    "i18n",
+    "web",
+    "rtl"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Internationalization I18N",
+    "shortDescription": "Implements multi-language support using i18next, gettext, or Intl API with",
+    "longDescription": "Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Web Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Internationalization I18N.",
+      "Show me best practices for Internationalization I18N.",
+      "Guide me through using Internationalization I18N effectively."
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "base-ui-react",
+  "version": "3.6.3",
+  "description": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "base-ui-react",
+    "base",
+    "react",
+    "frontend",
+    "components",
+    "mui",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Base UI React",
+    "shortDescription": "MUI Base UI unstyled React components with Floating UI. Use for accessible",
+    "longDescription": "MUI Base UI unstyled React components with Floating UI. Use for accessible components, Radix UI migration, render props API, or encountering positioning, popup, v1.0 beta issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Base UI React.",
+      "Show me best practices for Base UI React.",
+      "Guide me through using Base UI React effectively."
+    ]
+  }
+}

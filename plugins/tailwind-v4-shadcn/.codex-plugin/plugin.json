@@ -1,0 +1,37 @@
+{
+  "name": "tailwind-v4-shadcn",
+  "version": "3.6.3",
+  "description": "Production-tested setup for Tailwind CSS v4 with shadcn/ui, Vite, and React. Use when: initializing React projects with Tailwind v4, setting up shadcn/ui, implementing dark mode, debugging CSS variable issues, fixing theme switching, migrating from Tailwind v3, or encountering color/theming problems. Covers: @theme inline pattern, CSS variable architecture, dark mode with ThemeProvider, component composition, vite.config setup, common v4 gotchas, and production-tested patterns.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tailwind-v4-shadcn",
+    "tailwind",
+    "shadcn",
+    "frontend",
+    "components",
+    "css",
+    "themeprovider"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tailwind V4 Shadcn",
+    "shortDescription": "Production-tested setup for Tailwind CSS v4 with shadcn/ui, Vite, and React.",
+    "longDescription": "Production-tested setup for Tailwind CSS v4 with shadcn/ui, Vite, and React. Use when: initializing React projects with Tailwind v4, setting up shadcn/ui, implementing dark mode, debugging CSS variable issues, fixing theme switching, migrating from Tailwind v3, or encountering color/theming problems. Covers: @theme inline pattern, CSS variable architecture, dark mode with ThemeProvider, component composition, vite.config setup, common v4 gotchas, and production-tested patterns.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Tailwind V4 Shadcn.",
+      "Show me best practices for Tailwind V4 Shadcn.",
+      "Guide me through using Tailwind V4 Shadcn effectively."
+    ]
+  }
+}

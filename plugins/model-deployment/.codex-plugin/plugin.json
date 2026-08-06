@@ -1,0 +1,36 @@
+{
+  "name": "model-deployment",
+  "version": "3.6.3",
+  "description": "Deploy ML models with FastAPI, Docker, Kubernetes. Use for serving predictions, containerization, monitoring, drift detection, or encountering latency issues, health check failures, version conflicts.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "model-deployment",
+    "model",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence",
+    "fastapi"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Model Deployment",
+    "shortDescription": "Deploy ML models with FastAPI, Docker, Kubernetes. Use for serving predictions,",
+    "longDescription": "Deploy ML models with FastAPI, Docker, Kubernetes. Use for serving predictions, containerization, monitoring, drift detection, or encountering latency issues, health check failures, version conflicts.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Model Deployment.",
+      "Show me best practices for Model Deployment.",
+      "Guide me through using Model Deployment effectively."
+    ]
+  }
+}

@@ -2,19 +2,19 @@
 
 **142 production-ready skills for Claude Code CLI**
 
-Version 3.6.1 | Last Updated: 2026-08-05
+Version 3.6.3 | Last Updated: 2026-08-06
 
 <div align="center">
 
 **🔌 Platform / Harness Support**
 
-These plugins ship as Claude Code marketplace plugins (`.claude-plugin/` manifests). Other harnesses consume the same skills via [skills.sh](#installing-with-skillssh) — the cross-harness bridge.
+These plugins ship as Claude Code marketplace plugins (`.claude-plugin/` manifests) and Codex CLI plugins (`.codex-plugin/` manifests). Other harnesses consume the same skills via [skills.sh](#installing-with-skillssh) — the cross-harness bridge.
 
 | Harness | Marketplace support | How to install |
 |---------|---------------------|----------------|
 | **Claude Code** | ✅ **Native** (federated) | `/plugin marketplace add secondsky/claude-skills`, then `/plugin install <name>@claude-skills` |
 | **ZCode** | ✅ **Native** (reads `.claude-plugin/` manifests) | Add this repo as a marketplace in the ZCode GUI |
-| **Codex CLI** | ⚠️ Adaptation needed | Codex has a native marketplace (`codex plugin marketplace add`), but expects `.codex-plugin/` manifests this repo does not generate yet. Use skills.sh. |
+| **Codex CLI** | ✅ **Native** (federated) | `codex plugin marketplace add secondsky/claude-skills`, then `/plugins` in the Codex TUI |
 | **Cursor** | ⚠️ Adaptation needed | Cursor has an official marketplace, but expects `.cursor-plugin/plugin.json` (UI "Add to Cursor") this repo does not generate yet. Use skills.sh. |
 | **opencode** | ❌ No marketplace | npm plugins only (`opencode.json` `plugin[]`). Use skills.sh or vendor manually. |
 | **Gemini CLI** | ❌ No marketplace | `gemini extensions install <url>` only. Use skills.sh or vendor manually. |
@@ -43,11 +43,26 @@ A curated collection of battle-tested skills for building modern web application
 
 See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 142 skills.
 
+### Codex CLI Installation
+
+This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 142 plugins, so Codex CLI can install them natively:
+
+```bash
+# Add the marketplace (from GitHub)
+codex plugin marketplace add secondsky/claude-skills
+
+# Browse and install plugins in the Codex TUI
+#   /plugins          # opens the plugin browser
+#   Space             # enable/disable a plugin
+```
+
+Skills are auto-discovered from each plugin's `skills/` directory — the same `SKILL.md` files Claude Code uses. Claude-specific slash commands and subagents are not carried into Codex (use Codex's `/import` command for that).
+
 ---
 
 ## Installing with skills.sh
 
-[skills.sh](https://skills.sh) is an open agent-skills registry and `npx skills` CLI (maintained by Vercel) that auto-detects your coding agent — Claude Code, Cursor, Codex, Copilot, Cline, opencode, and 70+ others — and installs each skill into the correct directory for that harness. It is the **universal cross-harness path** for harnesses without a marketplace (opencode, Gemini CLI) or where this repo's manifest format isn't generated yet (Codex CLI, Cursor).
+[skills.sh](https://skills.sh) is an open agent-skills registry and `npx skills` CLI (maintained by Vercel) that auto-detects your coding agent — Claude Code, Cursor, Codex, Copilot, Cline, opencode, and 70+ others — and installs each skill into the correct directory for that harness. It is the **universal cross-harness path** for harnesses without a marketplace (opencode, Gemini CLI) or where this repo's manifest format isn't generated yet (Cursor).
 
 ```bash
 # Install one skill (auto-detects your agent)

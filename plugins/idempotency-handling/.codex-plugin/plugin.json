@@ -1,0 +1,36 @@
+{
+  "name": "idempotency-handling",
+  "version": "3.6.3",
+  "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "idempotency-handling",
+    "idempotency",
+    "handling",
+    "tooling",
+    "workflow",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Idempotency Handling",
+    "shortDescription": "Idempotent API operations with idempotency keys, Redis caching, DB constraints.",
+    "longDescription": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Idempotency Handling.",
+      "Show me best practices for Idempotency Handling.",
+      "Guide me through using Idempotency Handling effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "claude-hook-writer",
+  "version": "3.6.3",
+  "description": "Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "claude-hook-writer",
+    "claude",
+    "hook",
+    "writer",
+    "tooling",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Claude Hook Writer",
+    "shortDescription": "Expert guidance for writing secure, reliable, and performant Claude Code hooks",
+    "longDescription": "Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Claude Hook Writer.",
+      "Show me best practices for Claude Hook Writer.",
+      "Guide me through using Claude Hook Writer effectively."
+    ]
+  }
+}

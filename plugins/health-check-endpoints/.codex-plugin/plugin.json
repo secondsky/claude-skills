@@ -1,0 +1,37 @@
+{
+  "name": "health-check-endpoints",
+  "version": "3.6.3",
+  "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "health-check-endpoints",
+    "health",
+    "check",
+    "endpoints",
+    "architecture",
+    "patterns",
+    "microservices"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Health Check Endpoints",
+    "shortDescription": "Health check endpoints for liveness, readiness, dependency monitoring. Use for",
+    "longDescription": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Architecture",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Health Check Endpoints.",
+      "Show me best practices for Health Check Endpoints.",
+      "Guide me through using Health Check Endpoints effectively."
+    ]
+  }
+}

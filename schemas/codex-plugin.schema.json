@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/secondsky/claude-skills/schemas/codex-plugin.schema.json",
+  "title": "Codex CLI Plugin Schema",
+  "description": "JSON schema for validating .codex-plugin/plugin.json files. Derived from .claude-plugin/plugin.json by generate-codex-manifests.sh. Based on the OpenAI Codex CLI plugin specification.",
+  "type": "object",
+  "required": ["name", "version", "description", "author"],
+  "additionalProperties": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Plugin name in kebab-case (REQUIRED)."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+      "description": "Semantic version (major.minor.patch). Must be valid semver."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Brief explanation of plugin purpose."
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Author name (REQUIRED)."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Author email."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Author URL."
+        }
+      },
+      "required": ["name"],
+      "additionalProperties": false
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "description": "License identifier (e.g. MIT, Apache-2.0)."
+    },
+    "repository": {
+      "type": "string",
+      "description": "Source code URL."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Discovery tags."
+    },
+    "skills": {
+      "type": "string",
+      "description": "Path to skills directory (Codex auto-discovers SKILL.md files)."
+    },
+    "mcpServers": {
+      "description": "MCP server config — path string, array of paths, or inline config.",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } },
+        { "type": "object" }
+      ]
+    },
+    "interface": {
+      "type": "object",
+      "description": "UX metadata for the Codex plugin browser.",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable plugin name."
+        },
+        "shortDescription": {
+          "type": "string",
+          "description": "One-line summary (shown in list views)."
+        },
+        "longDescription": {
+          "type": "string",
+          "description": "Full description (shown in detail view)."
+        },
+        "developerName": {
+          "type": "string",
+          "description": "Developer/organization name."
+        },
+        "category": {
+          "type": "string",
+          "description": "Plugin category (freeform string)."
+        },
+        "capabilities": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What the plugin can do (e.g. Read, Write, Interactive)."
+        },
+        "defaultPrompt": {
+          "type": "array",
+          "items": { "type": "string", "maxLength": 128 },
+          "maxItems": 3,
+          "description": "Suggested starter prompts (max 3, 128 chars each)."
+        },
+        "websiteURL": { "type": "string", "format": "uri" },
+        "privacyPolicyURL": { "type": "string", "format": "uri" },
+        "termsOfServiceURL": { "type": "string", "format": "uri" },
+        "brandColor": { "type": "string" },
+        "logo": { "type": "string" },
+        "logoDark": { "type": "string" },
+        "screenshots": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

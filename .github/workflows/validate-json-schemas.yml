@@ -39,5 +39,7 @@ jobs:
           name: validation-errors
           path: |
             .claude-plugin/marketplace.json
+            .agents/plugins/marketplace.json
             plugins/*/.claude-plugin/plugin.json
+            plugins/*/.codex-plugin/plugin.json
           retention-days: 1

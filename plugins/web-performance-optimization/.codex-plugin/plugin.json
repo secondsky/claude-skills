@@ -1,0 +1,36 @@
+{
+  "name": "web-performance-optimization",
+  "version": "3.6.3",
+  "description": "Optimizes web application performance through code splitting, lazy loading, caching strategies, and Core Web Vitals monitoring. Use when improving page load times, implementing service workers, or reducing bundle sizes.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "web-performance-optimization",
+    "web",
+    "performance",
+    "optimization",
+    "pwa",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Web Performance Optimization",
+    "shortDescription": "Optimizes web application performance through code splitting, lazy loading,",
+    "longDescription": "Optimizes web application performance through code splitting, lazy loading, caching strategies, and Core Web Vitals monitoring. Use when improving page load times, implementing service workers, or reducing bundle sizes.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Web Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Web Performance Optimization.",
+      "Show me best practices for Web Performance Optimization.",
+      "Guide me through using Web Performance Optimization effectively."
+    ]
+  }
+}

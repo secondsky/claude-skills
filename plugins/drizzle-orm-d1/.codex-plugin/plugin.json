@@ -1,0 +1,38 @@
+{
+  "name": "drizzle-orm-d1",
+  "version": "3.6.3",
+  "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1 database schemas, writing type-safe SQL queries, managing migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API, or encountering D1_ERROR, transaction errors, foreign key constraint failures, or schema inference issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "drizzle-orm-d1",
+    "drizzle",
+    "orm",
+    "database",
+    "sql",
+    "query",
+    "migrations",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Drizzle Orm D1",
+    "shortDescription": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1",
+    "longDescription": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1 database schemas, writing type-safe SQL queries, managing migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API, or encountering D1_ERROR, transaction errors, foreign key constraint failures, or schema inference issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Databases",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Drizzle Orm D1.",
+      "Show me best practices for Drizzle Orm D1.",
+      "Guide me through using Drizzle Orm D1 effectively."
+    ]
+  }
+}

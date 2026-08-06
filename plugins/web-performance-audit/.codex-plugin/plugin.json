@@ -1,0 +1,38 @@
+{
+  "name": "web-performance-audit",
+  "version": "3.6.3",
+  "description": "Web performance audits with Core Web Vitals, bottleneck identification, optimization recommendations. Use for page load times, performance reviews, UX optimization, or encountering LCP, FID, CLS issues, resource blocking, render delays.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "web-performance-audit",
+    "web",
+    "performance",
+    "audit",
+    "pwa",
+    "cls",
+    "fid",
+    "lcp"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Web Performance Audit",
+    "shortDescription": "Web performance audits with Core Web Vitals, bottleneck identification,",
+    "longDescription": "Web performance audits with Core Web Vitals, bottleneck identification, optimization recommendations. Use for page load times, performance reviews, UX optimization, or encountering LCP, FID, CLS issues, resource blocking, render delays.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Web Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Web Performance Audit.",
+      "Show me best practices for Web Performance Audit.",
+      "Guide me through using Web Performance Audit effectively."
+    ]
+  }
+}

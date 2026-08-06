@@ -565,8 +565,12 @@ git commit -m "Add <skill-name> skill"
 # Single skill (Claude Code)
 /plugin install <skill-name>@claude-skills
 
-# Cross-harness (Cursor, Codex, opencode, Gemini CLI, ...)
+# Cross-harness (Cursor, opencode, Gemini CLI, ...)
 npx skills add secondsky/claude-skills --skill <skill-name>
+
+# Codex CLI (native marketplace — .codex-plugin/ manifests for all 142 plugins)
+codex plugin marketplace add secondsky/claude-skills
+# Then /plugins in the Codex TUI to browse/install
 
 # Verify
 ls -la ~/.claude/skills/

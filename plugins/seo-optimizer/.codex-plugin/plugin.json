@@ -1,0 +1,37 @@
+{
+  "name": "seo-optimizer",
+  "version": "3.6.3",
+  "description": "SEO optimization with keyword analysis, readability assessment, technical validation, content quality. Use for search rankings, blog posts, content audits, or encountering keyword density, readability scores, meta tags, schema markup errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "seo-optimizer",
+    "seo",
+    "optimizer",
+    "search",
+    "keywords",
+    "ranking",
+    "validation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SEO Optimizer",
+    "shortDescription": "SEO optimization with keyword analysis, readability assessment, technical",
+    "longDescription": "SEO optimization with keyword analysis, readability assessment, technical validation, content quality. Use for search rankings, blog posts, content audits, or encountering keyword density, readability scores, meta tags, schema markup errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "SEO",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with SEO Optimizer.",
+      "Show me best practices for SEO Optimizer.",
+      "Guide me through using SEO Optimizer effectively."
+    ]
+  }
+}

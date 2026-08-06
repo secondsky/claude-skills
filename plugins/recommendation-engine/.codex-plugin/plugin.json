@@ -1,0 +1,38 @@
+{
+  "name": "recommendation-engine",
+  "version": "3.6.3",
+  "description": "Build recommendation systems with collaborative filtering, matrix factorization, hybrid approaches. Use for product recommendations, personalization, or encountering cold start, sparsity, quality evaluation issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "recommendation-engine",
+    "recommendation",
+    "engine",
+    "data",
+    "analytics",
+    "processing",
+    "sql",
+    "queries"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Recommendation Engine",
+    "shortDescription": "Build recommendation systems with collaborative filtering, matrix",
+    "longDescription": "Build recommendation systems with collaborative filtering, matrix factorization, hybrid approaches. Use for product recommendations, personalization, or encountering cold start, sparsity, quality evaluation issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Data & Analytics",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Recommendation Engine.",
+      "Show me best practices for Recommendation Engine.",
+      "Guide me through using Recommendation Engine effectively."
+    ]
+  }
+}

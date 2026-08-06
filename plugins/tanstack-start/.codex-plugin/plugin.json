@@ -1,0 +1,38 @@
+{
+  "name": "tanstack-start",
+  "version": "3.6.3",
+  "description": "TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare Workers. Use for Next.js migration, edge rendering, or encountering hydration, auth, data pattern errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tanstack-start",
+    "tanstack",
+    "start",
+    "frontend",
+    "components",
+    "ssr",
+    "migration",
+    "edge"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Tanstack Start",
+    "shortDescription": "TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare",
+    "longDescription": "TanStack Start (RC) full-stack React with server functions, SSR, Cloudflare Workers. Use for Next.js migration, edge rendering, or encountering hydration, auth, data pattern errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Tanstack Start.",
+      "Show me best practices for Tanstack Start.",
+      "Guide me through using Tanstack Start effectively."
+    ]
+  }
+}

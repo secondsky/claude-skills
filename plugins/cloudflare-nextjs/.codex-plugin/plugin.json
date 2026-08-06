@@ -1,0 +1,42 @@
+{
+  "name": "cloudflare-nextjs",
+  "version": "3.6.3",
+  "description": "Deploy Next.js to Cloudflare Workers via the OpenNext adapter (@opennextjs/cloudflare). Use for SSR/ISR/SSG, App or Pages Router, getCloudflareContext, bindings (D1/R2/KV/AI/Hyperdrive), caching tiers, skew protection, multi-worker, custom worker, env vars, or worker size/runtime/keep_names/FinalizationRegistry/connection-scoping errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-nextjs",
+    "cloudflare",
+    "nextjs",
+    "workers",
+    "edge",
+    "wrangler",
+    "isr",
+    "ssg",
+    "ssr",
+    "finalizationregistry",
+    "opennext",
+    "caching"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Nextjs",
+    "shortDescription": "Deploy Next.js to Cloudflare Workers via the OpenNext adapter",
+    "longDescription": "Deploy Next.js to Cloudflare Workers via the OpenNext adapter (@opennextjs/cloudflare). Use for SSR/ISR/SSG, App or Pages Router, getCloudflareContext, bindings (D1/R2/KV/AI/Hyperdrive), caching tiers, skew protection, multi-worker, custom worker, env vars, or worker size/runtime/keep_names/FinalizationRegistry/connection-scoping errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Nextjs.",
+      "Show me best practices for Cloudflare Nextjs.",
+      "Guide me through using Cloudflare Nextjs effectively."
+    ]
+  }
+}

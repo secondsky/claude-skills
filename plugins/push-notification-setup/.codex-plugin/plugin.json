@@ -1,0 +1,37 @@
+{
+  "name": "push-notification-setup",
+  "version": "3.6.3",
+  "description": "Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "push-notification-setup",
+    "push",
+    "notification",
+    "setup",
+    "web",
+    "performance",
+    "pwa"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Push Notification Setup",
+    "shortDescription": "Implements push notifications across iOS, Android, and web using Firebase Cloud",
+    "longDescription": "Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Web Development",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Push Notification Setup.",
+      "Show me best practices for Push Notification Setup.",
+      "Guide me through using Push Notification Setup effectively."
+    ]
+  }
+}

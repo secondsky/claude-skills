@@ -1,0 +1,37 @@
+{
+  "name": "cloudflare-cron-triggers",
+  "version": "3.6.3",
+  "description": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-cron-triggers",
+    "cloudflare",
+    "cron",
+    "triggers",
+    "workers",
+    "edge",
+    "wrangler"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Cron Triggers",
+    "shortDescription": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic",
+    "longDescription": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Cron Triggers.",
+      "Show me best practices for Cloudflare Cron Triggers.",
+      "Guide me through using Cloudflare Cron Triggers effectively."
+    ]
+  }
+}

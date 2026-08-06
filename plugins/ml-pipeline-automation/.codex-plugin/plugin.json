@@ -1,0 +1,36 @@
+{
+  "name": "ml-pipeline-automation",
+  "version": "3.6.3",
+  "description": "Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible pipelines, retraining schedules, MLOps, or encountering task failures, dependency errors, experiment tracking issues.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "ml-pipeline-automation",
+    "pipeline",
+    "automation",
+    "machine-learning",
+    "llm",
+    "artificial-intelligence"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ML Pipeline Automation",
+    "shortDescription": "Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible",
+    "longDescription": "Automate ML workflows with Airflow, Kubeflow, MLflow. Use for reproducible pipelines, retraining schedules, MLOps, or encountering task failures, dependency errors, experiment tracking issues.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "AI & Machine Learning",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with ML Pipeline Automation.",
+      "Show me best practices for ML Pipeline Automation.",
+      "Guide me through using ML Pipeline Automation effectively."
+    ]
+  }
+}

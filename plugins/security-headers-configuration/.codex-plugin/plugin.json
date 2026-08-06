@@ -1,0 +1,40 @@
+{
+  "name": "security-headers-configuration",
+  "version": "3.6.3",
+  "description": "Configures HTTP security headers to protect against XSS, clickjacking, and MIME sniffing attacks. Use when hardening web applications, passing security audits, or implementing Content Security Policy.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "security-headers-configuration",
+    "security",
+    "headers",
+    "configuration",
+    "vulnerability",
+    "protection",
+    "csrf",
+    "xss",
+    "http",
+    "mime"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Security Headers Configuration",
+    "shortDescription": "Configures HTTP security headers to protect against XSS, clickjacking, and MIME",
+    "longDescription": "Configures HTTP security headers to protect against XSS, clickjacking, and MIME sniffing attacks. Use when hardening web applications, passing security audits, or implementing Content Security Policy.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Security & Authentication",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Security Headers Configuration.",
+      "Show me best practices for Security Headers Configuration.",
+      "Guide me through using Security Headers Configuration effectively."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "cloudflare-d1",
+  "version": "3.6.3",
+  "description": "Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-d1",
+    "cloudflare",
+    "workers",
+    "edge",
+    "wrangler",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare D1",
+    "shortDescription": "Cloudflare D1 serverless SQLite on edge. Use for databases, migrations,",
+    "longDescription": "Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare D1.",
+      "Show me best practices for Cloudflare D1.",
+      "Guide me through using Cloudflare D1 effectively."
+    ]
+  }
+}

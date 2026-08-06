@@ -1,0 +1,37 @@
+{
+  "name": "inspira-ui",
+  "version": "3.6.3",
+  "description": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "inspira-ui",
+    "inspira",
+    "frontend",
+    "components",
+    "css",
+    "gsap",
+    "tailwindcss"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Inspira UI",
+    "shortDescription": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP,",
+    "longDescription": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Inspira UI.",
+      "Show me best practices for Inspira UI.",
+      "Guide me through using Inspira UI effectively."
+    ]
+  }
+}

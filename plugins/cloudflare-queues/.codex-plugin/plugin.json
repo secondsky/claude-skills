@@ -1,0 +1,36 @@
+{
+  "name": "cloudflare-queues",
+  "version": "3.6.3",
+  "description": "This skill should be used when the user asks to \"set up Cloudflare Queues\", \"create a message queue\", \"implement queue consumer\", \"process background jobs\", \"configure queue retry logic\", \"publish messages to queue\", \"implement dead letter queue\", or encountering \"queue timeout\", \"message retry\", \"throughput exceeded\", \"queue backlog\" errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "cloudflare-queues",
+    "cloudflare",
+    "queues",
+    "workers",
+    "edge",
+    "wrangler"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Cloudflare Queues",
+    "shortDescription": "This skill should be used when the user asks to \"set up Cloudflare Queues\",",
+    "longDescription": "This skill should be used when the user asks to \"set up Cloudflare Queues\", \"create a message queue\", \"implement queue consumer\", \"process background jobs\", \"configure queue retry logic\", \"publish messages to queue\", \"implement dead letter queue\", or encountering \"queue timeout\", \"message retry\", \"throughput exceeded\", \"queue backlog\" errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Cloudflare Queues.",
+      "Show me best practices for Cloudflare Queues.",
+      "Guide me through using Cloudflare Queues effectively."
+    ]
+  }
+}

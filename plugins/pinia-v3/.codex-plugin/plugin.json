@@ -1,0 +1,36 @@
+{
+  "name": "pinia-v3",
+  "version": "3.6.3",
+  "description": "Pinia v3 Vue state management with defineStore, getters, actions. Use for Vue 3 stores, Nuxt SSR, Vuex migration, or encountering store composition, hydration, testing errors.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "pinia-v3",
+    "pinia",
+    "frontend",
+    "components",
+    "ssr",
+    "migration"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Pinia V3",
+    "shortDescription": "Pinia v3 Vue state management with defineStore, getters, actions. Use for Vue 3",
+    "longDescription": "Pinia v3 Vue state management with defineStore, getters, actions. Use for Vue 3 stores, Nuxt SSR, Vuex migration, or encountering store composition, hydration, testing errors.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Frontend",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Pinia V3.",
+      "Show me best practices for Pinia V3.",
+      "Guide me through using Pinia V3 effectively."
+    ]
+  }
+}
