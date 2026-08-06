@@ -2092,6 +2092,21 @@
       "category": "frontend"
     },
     {
+      "name": "unknowns-discovery",
+      "source": "./plugins/unknowns-discovery",
+      "version": "3.7.0",
+      "description": "Discover and reduce task unknowns — blindspots, missing context, unknown unknowns — before committing to a plan, implementation, review, or merge.",
+      "keywords": [
+        "unknowns-discovery",
+        "unknowns",
+        "discovery",
+        "tooling",
+        "workflow",
+        "implementation"
+      ],
+      "category": "tooling"
+    },
+    {
       "name": "vitest-testing",
       "source": "./plugins/vitest-testing",
       "version": "3.7.0",

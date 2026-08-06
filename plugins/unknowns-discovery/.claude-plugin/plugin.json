@@ -1,0 +1,24 @@
+{
+  "name": "unknowns-discovery",
+  "description": "Discover and reduce task unknowns — blindspots, missing context, unknown unknowns — before committing to a plan, implementation, review, or merge.",
+  "version": "3.7.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "unknowns-discovery",
+    "unknowns",
+    "discovery",
+    "tooling",
+    "workflow",
+    "implementation"
+  ],
+  "commands": [
+    "./commands/blindspot-pass.md",
+    "./commands/discover-unknowns.md",
+    "./commands/merge-readiness-quiz.md"
+  ]
+}

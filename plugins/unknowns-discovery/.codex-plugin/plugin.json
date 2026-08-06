@@ -1,0 +1,36 @@
+{
+  "name": "unknowns-discovery",
+  "version": "3.7.0",
+  "description": "Discover and reduce task unknowns — blindspots, missing context, unknown unknowns — before committing to a plan, implementation, review, or merge.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "unknowns-discovery",
+    "unknowns",
+    "discovery",
+    "tooling",
+    "workflow",
+    "implementation"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Unknowns Discovery",
+    "shortDescription": "Discover and reduce task unknowns — blindspots, missing context, unknown",
+    "longDescription": "Discover and reduce task unknowns — blindspots, missing context, unknown unknowns — before committing to a plan, implementation, review, or merge.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Unknowns Discovery.",
+      "Show me best practices for Unknowns Discovery.",
+      "Guide me through using Unknowns Discovery effectively."
+    ]
+  }
+}

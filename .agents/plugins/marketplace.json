@@ -1436,6 +1436,17 @@
       "category": "Frontend"
     },
     {
+      "name": "unknowns-discovery",
+      "source": {
+        "source": "local",
+        "path": "./plugins/unknowns-discovery"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
       "name": "vitest-testing",
       "source": {
         "source": "local",
