@@ -1,6 +1,6 @@
 {
   "name": "turborepo",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Turborepo high-performance monorepo build system. Use for monorepo setup, build optimization, task pipelines, caching strategies, or multi-package orchestration.",
   "author": {
     "name": "Claude Skills Maintainers",

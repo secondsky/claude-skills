@@ -1,6 +1,6 @@
 {
   "name": "health-check-endpoints",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors.",
   "author": {
     "name": "Claude Skills Maintainers",

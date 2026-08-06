@@ -1,6 +1,6 @@
 {
   "name": "pinia-v3",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Pinia v3 Vue state management with defineStore, getters, actions. Use for Vue 3 stores, Nuxt SSR, Vuex migration, or encountering store composition, hydration, testing errors.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "tanstack-query",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "TanStack Query v5 (React Query) server state management. Use for data fetching, caching, mutations, or encountering v4 migration, stale data, invalidation errors.",
   "author": {
     "name": "Claude Skills Maintainers",

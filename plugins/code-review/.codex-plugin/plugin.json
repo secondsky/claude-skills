@@ -1,6 +1,6 @@
 {
   "name": "code-review",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests.",
   "author": {
     "name": "Claude Skills Maintainers",

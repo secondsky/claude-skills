@@ -1,6 +1,6 @@
 {
   "name": "aceternity-ui",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "100+ animated React components (Aceternity UI) for Next.js with Tailwind. Use for hero sections, parallax, 3D effects, or encountering animation, shadcn CLI integration errors.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-cron-triggers",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors.",
   "author": {
     "name": "Claude Skills Maintainers",

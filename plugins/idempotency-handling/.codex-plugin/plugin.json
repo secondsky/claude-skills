@@ -1,6 +1,6 @@
 {
   "name": "idempotency-handling",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors.",
   "author": {
     "name": "Claude Skills Maintainers",

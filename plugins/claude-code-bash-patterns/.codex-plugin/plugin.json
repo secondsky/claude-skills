@@ -1,6 +1,6 @@
 {
   "name": "claude-code-bash-patterns",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Claude Code Bash tool patterns with hooks, automation, git workflows. Use for PreToolUse hooks, command chaining, CLI orchestration, custom commands, or encountering bash permissions, command failures, security guards, hook configurations.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "mutation-testing",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Validate test effectiveness with mutation testing using Stryker (TypeScript/JavaScript) and mutmut (Python). Find weak tests that pass despite code mutations. Use to improve test quality.",
   "author": {
     "name": "Claude Skills Maintainers",

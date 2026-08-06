@@ -1,6 +1,6 @@
 {
   "name": "api-error-handling",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Implements standardized API error responses with proper status codes, logging, and user-friendly messages. Use when building production APIs, implementing error recovery patterns, or integrating error monitoring services.",
   "author": {
     "name": "Claude Skills Maintainers",

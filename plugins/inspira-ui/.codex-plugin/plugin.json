@@ -1,6 +1,6 @@
 {
   "name": "inspira-ui",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "120+ Vue/Nuxt animated components with TailwindCSS v4, motion-v, GSAP, Three.js. Use for hero sections, 3D effects, interactive backgrounds, or encountering setup, CSS variables, motion-v integration errors.",
   "author": {
     "name": "Claude Skills Maintainers",

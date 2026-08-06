@@ -1,6 +1,6 @@
 {
   "name": "test-quality-analysis",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality.",
   "author": {
     "name": "Claude Skills Maintainers",

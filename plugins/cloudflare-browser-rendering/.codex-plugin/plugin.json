@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-browser-rendering",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "oauth-implementation",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors.",
   "author": {
     "name": "Claude Skills Maintainers",

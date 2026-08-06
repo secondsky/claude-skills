@@ -1,6 +1,6 @@
 {
   "name": "internationalization-i18n",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages.",
   "author": {
     "name": "Claude Skills Maintainers",

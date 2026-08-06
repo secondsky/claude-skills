@@ -1,6 +1,6 @@
 {
   "name": "session-management",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality.",
   "author": {
     "name": "Claude Skills Maintainers",

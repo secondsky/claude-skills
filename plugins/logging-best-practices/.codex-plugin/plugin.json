@@ -1,6 +1,6 @@
 {
   "name": "logging-best-practices",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors.",
   "author": {
     "name": "Claude Skills Maintainers",

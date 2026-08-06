@@ -1,6 +1,6 @@
 {
   "name": "claude-hook-writer",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks.",
   "author": {
     "name": "Claude Skills Maintainers",

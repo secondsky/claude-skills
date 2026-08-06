@@ -1,6 +1,6 @@
 {
   "name": "firecrawl-scraper",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors.",
   "author": {
     "name": "Claude Skills Maintainers",

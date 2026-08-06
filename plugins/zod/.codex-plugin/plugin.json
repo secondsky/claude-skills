@@ -1,6 +1,6 @@
 {
   "name": "zod",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).",
   "author": {
     "name": "Claude Skills Maintainers",

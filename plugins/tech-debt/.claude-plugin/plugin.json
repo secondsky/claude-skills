@@ -1,0 +1,18 @@
+{
+  "name": "tech-debt",
+  "description": "Multi-skill plugin: tech-debt",
+  "version": "3.7.0",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "tech-debt",
+    "tech",
+    "debt",
+    "tooling",
+    "workflow"
+  ]
+}

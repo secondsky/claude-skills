@@ -1,6 +1,6 @@
 {
   "name": "api-security-hardening",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "REST API security hardening with authentication, rate limiting, input validation, security headers. Use for production APIs, security audits, defense-in-depth, or encountering vulnerabilities, injection attacks, CORS issues.",
   "author": {
     "name": "Claude Skills Maintainers",

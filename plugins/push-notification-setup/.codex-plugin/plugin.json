@@ -1,6 +1,6 @@
 {
   "name": "push-notification-setup",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Implements push notifications across iOS, Android, and web using Firebase Cloud Messaging and native services. Use when adding notification capabilities, handling background messages, or setting up notification channels.",
   "author": {
     "name": "Claude Skills Maintainers",

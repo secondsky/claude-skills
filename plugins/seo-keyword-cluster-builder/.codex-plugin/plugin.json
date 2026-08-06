@@ -1,6 +1,6 @@
 {
   "name": "seo-keyword-cluster-builder",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Groups related keywords into topic clusters and creates content hub architecture recommendations with internal linking strategies. Use when planning content strategy, organizing keyword research, or building pillar page structures.",
   "author": {
     "name": "Claude Skills Maintainers",

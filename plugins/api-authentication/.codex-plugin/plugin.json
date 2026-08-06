@@ -1,6 +1,6 @@
 {
   "name": "api-authentication",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "typescript-migration",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "TypeScript version migration guide (5.x to 6 to 7, tsgo native port). Use for TS 6 tsconfig breaking changes, TS 7 Go rewrite rollout, or TS5xxx deprecation codes.",
   "author": {
     "name": "Claude Skills Maintainers",

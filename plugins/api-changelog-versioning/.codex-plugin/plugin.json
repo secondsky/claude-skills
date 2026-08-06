@@ -1,6 +1,6 @@
 {
   "name": "api-changelog-versioning",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Creates comprehensive API changelogs documenting breaking changes, deprecations, and migration strategies for API consumers. Use when managing API versions, communicating breaking changes, or creating upgrade guides.",
   "author": {
     "name": "Claude Skills Maintainers",

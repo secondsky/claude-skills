@@ -1,6 +1,6 @@
 {
   "name": "feature-dev",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Automate 7-phase feature development with specialized agents (code-explorer, code-architect, code-reviewer). Use for multi-file features, architectural decisions, or encountering ambiguous requirements, integration patterns, design approach errors.",
   "author": {
     "name": "Claude Skills Maintainers",

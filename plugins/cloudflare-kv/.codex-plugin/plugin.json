@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-kv",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues.",
   "author": {
     "name": "Claude Skills Maintainers",

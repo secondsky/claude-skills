@@ -1,6 +1,6 @@
 {
   "name": "tanstack-table",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "TanStack Table v8 headless data tables with server-side features for Cloudflare Workers + D1. Use for pagination, filtering, sorting, virtualization, or encountering state management, TanStack Query coordination, URL sync errors.",
   "author": {
     "name": "Claude Skills Maintainers",

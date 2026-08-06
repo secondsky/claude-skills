@@ -1,6 +1,6 @@
 {
   "name": "hugo",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Hugo static site generator with Tailwind v4, headless CMS (Sveltia/Tina), Cloudflare deployment. Use for blogs, docs sites, or encountering theme installation, frontmatter, baseURL errors.",
   "author": {
     "name": "Claude Skills Maintainers",

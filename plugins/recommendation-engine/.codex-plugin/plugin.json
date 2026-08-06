@@ -1,6 +1,6 @@
 {
   "name": "recommendation-engine",
-  "version": "3.6.3",
+  "version": "3.7.0",
   "description": "Build recommendation systems with collaborative filtering, matrix factorization, hybrid approaches. Use for product recommendations, personalization, or encountering cold start, sparsity, quality evaluation issues.",
   "author": {
     "name": "Claude Skills Maintainers",
