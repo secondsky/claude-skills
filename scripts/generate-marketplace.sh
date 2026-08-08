@@ -143,8 +143,11 @@ while IFS= read -r plugin_dir; do
   # Track category count
   echo "$plugin_name" >> "$TEMP_DIR/$category"
 
-  # Count skills in this plugin (for info only, not included in marketplace)
-  skill_count=$(find "$plugin_dir/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
+  # Count skills in this plugin (for info only, not included in marketplace).
+  # `find` exits non-zero if the directory doesn't exist; under `set -o pipefail`
+  # that would abort the whole generator. Append `|| true` so a plugin lacking a
+  # skills/ subdir simply reports count 0 instead of crashing the run.
+  skill_count=$(find "$plugin_dir/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ' || true)
 
   # Add comma before each entry except the first
   if [ "$first" = true ]; then
@@ -204,6 +207,15 @@ if command -v jq &> /dev/null; then
   echo "Validating JSON..."
   if jq empty "$MARKETPLACE_JSON" 2>/dev/null; then
     plugin_count=$(jq '.plugins | length' "$MARKETPLACE_JSON")
+
+    # Reject an empty marketplace before doing anything else. If every plugin
+    # was skipped (misconfigured PLUGINS_DIR, all plugin.json invalid, etc.)
+    # the file would contain `"plugins": []`, violating the marketplace schema
+    # (minItems) and silently publishing a broken artifact. Fail loudly instead.
+    if [ "$plugin_count" -eq 0 ]; then
+      echo "❌ ERROR: Generated marketplace has 0 plugins (all skipped?). Aborting; $MARKETPLACE_JSON left as-is or empty." >&2
+      exit 1
+    fi
 
     # Sync top-level metadata.version from plugin entries and ENFORCE lockstep.
     # Previously this read `.plugins[0].version` (always the alphabetically-first

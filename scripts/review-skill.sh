@@ -212,11 +212,13 @@ check_yaml_frontmatter() {
     # Check for last_verified
     if echo "$frontmatter" | grep -q "last_verified:"; then
       local last_verified=$(echo "$frontmatter" | grep "last_verified:" | sed 's/.*last_verified:[[:space:]]*//')
-      # Strip surrounding quotes / whitespace so a YAML-quoted scalar like
-      # `last_verified: "2024-01-15"` parses cleanly.
+      # Strip trailing YAML comments / whitespace FIRST, then surrounding quotes,
+      # so values like `last_verified: "2024-01-15" # comment` or
+      # `'2024-01-15' # note` reduce to a parseable date. Stripping quotes before
+      # the comment left a stray closing quote in single-quoted-with-comment cases.
+      last_verified="${last_verified%% *}"
       last_verified="${last_verified#\"}"; last_verified="${last_verified%\"}"
       last_verified="${last_verified#\'}"; last_verified="${last_verified%\'}"
-      last_verified="${last_verified%% *}"
       # Parse the YYYY-MM-DD date to epoch seconds portably. `date -d` is
       # GNU-only and errors on macOS/BSD (silently yielding epoch 0, which
       # flagged every skill as ~56 years stale). Use BSD's `date -jf` when on

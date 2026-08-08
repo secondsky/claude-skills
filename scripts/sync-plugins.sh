@@ -728,13 +728,13 @@ while IFS= read -r codex_json; do
   fi
   codex_count=$((codex_count + 1))
   if [ "$DRY_RUN" = false ]; then
-    # Write to .tmp, VALIDATE with jq, then promote. Previously a failed jq
-    # left a .tmp behind and still incremented the updated counter (reporting
-    # "N/N synced" when some had failed), and a malformed result could destroy
-    # the original via mv with no validation step in between.
+    # Write to .tmp, VALIDATE with jq, then promote — all in one `&&` chain so
+    # that a failure at ANY step (jq write, jq validate, OR mv) routes to the
+    # else branch for cleanup. Previously `mv` was a standalone command inside
+    # `then`, so an mv failure aborted under set -e instead of being reported.
     if jq --arg v "$GLOBAL_VERSION" '.version = $v' "$codex_json" > "$codex_json.tmp" \
-      && jq '.' "$codex_json.tmp" > /dev/null 2>&1; then
-      mv "$codex_json.tmp" "$codex_json"
+      && jq '.' "$codex_json.tmp" > /dev/null 2>&1 \
+      && mv "$codex_json.tmp" "$codex_json"; then
       codex_updated=$((codex_updated + 1))
     else
       rm -f "$codex_json.tmp"
