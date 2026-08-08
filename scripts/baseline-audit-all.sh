@@ -75,7 +75,9 @@ echo ""
 
 # Process each skill
 for skill in "${SKILLS[@]}"; do
-  ((COMPLETED++))
+  # `((VAR++))` returns exit status 1 when VAR is 0; under `set -e` this would
+  # abort the audit on the first skill (same bug class fixed in review-skill.sh).
+  ((COMPLETED++)) || true
 
   echo -ne "[$COMPLETED/$TOTAL_SKILLS] Checking $skill..."
 
@@ -93,22 +95,22 @@ for skill in "${SKILLS[@]}"; do
   priority="🟢 Low"
 
   if [ "$critical" -gt 0 ]; then
-    ((CRITICAL_SKILLS++))
+    ((CRITICAL_SKILLS++)) || true
     status="CRITICAL"
     priority="🔴 Critical"
     echo -e " ${RED}CRITICAL${NC} (${critical} critical, ${high} high, ${medium} medium)"
   elif [ "$high" -gt 0 ]; then
-    ((HIGH_SKILLS++))
+    ((HIGH_SKILLS++)) || true
     status="HIGH"
     priority="🟡 High"
     echo -e " ${YELLOW}HIGH${NC} (${high} high, ${medium} medium)"
   elif [ "$medium" -gt 0 ]; then
-    ((MEDIUM_SKILLS++))
+    ((MEDIUM_SKILLS++)) || true
     status="MEDIUM"
     priority="🟠 Medium"
     echo -e " ${BLUE}MEDIUM${NC} (${medium} medium, ${low} low)"
   else
-    ((CLEAN_SKILLS++))
+    ((CLEAN_SKILLS++)) || true
     echo -e " ${GREEN}CLEAN${NC}"
   fi
 
@@ -121,7 +123,10 @@ for skill in "${SKILLS[@]}"; do
     notes="$notes NAME_MISMATCH"
   fi
   if echo "$output" | grep -q "Last verified.*days ago"; then
-    days=$(echo "$output" | grep -o "Last verified [0-9]* days ago" | grep -o "[0-9]*")
+    # Default to 0 so a missing/empty match doesn't make `[ "" -gt 90 ]` throw
+    # "integer expression expected" under set -e/u and abort the audit.
+    days=$(echo "$output" | grep -o "Last verified [0-9]* days ago" | grep -o "[0-9]*" || echo "0")
+    [ -z "$days" ] && days=0
     if [ "$days" -gt 90 ]; then
       notes="$notes STALE_${days}d"
     fi
