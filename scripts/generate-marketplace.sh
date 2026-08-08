@@ -16,7 +16,7 @@
 # - Official docs: https://code.claude.com/docs/en/plugin-marketplaces
 # - Fix for: 3,218 skill count (should be 169)
 
-set -e
+set -eo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLUGINS_DIR="$(cd "$SCRIPT_DIR/../plugins" && pwd)"
@@ -153,24 +153,25 @@ while IFS= read -r plugin_dir; do
     echo "," >> "$MARKETPLACE_JSON"
   fi
 
-  # Escape description for JSON (handles all control characters)
-  description_escaped=$(printf '%s' "$description" | jq -Rs . | sed 's/^"//;s/"$//')
-
   # Source path points to plugin directory
   source_path="./plugins/$plugin_name"
 
-  # Write marketplace entry for this PLUGIN
-  # Skills auto-discovered from plugins/$plugin_name/skills/ directory
-  cat >> "$MARKETPLACE_JSON" << EOF
-    {
-      "name": "$plugin_name",
-      "source": "$source_path",
-      "version": "$version",
-      "description": "$description_escaped",
-      "keywords": $keywords,
-      "category": "$category"
-    }
-EOF
+  # Write marketplace entry for this PLUGIN as a single compact JSON object.
+  # Previously this used an unquoted heredoc that interpolated $plugin_name,
+  # $version, and $description_escaped raw into the JSON text — safe only as
+  # long as no value contained a double-quote, backslash, or newline. Building
+  # the object with `jq -nc --arg` escapes all values correctly (the same safe
+  # pattern generate-codex-manifests.sh uses).
+  # Skills auto-discovered from plugins/$plugin_name/skills/ directory.
+  jq -nc \
+    --arg name "$plugin_name" \
+    --arg source "$source_path" \
+    --arg version "$version" \
+    --arg description "$description" \
+    --argjson keywords "$keywords" \
+    --arg category "$category" \
+    '{name:$name, source:$source, version:$version, description:$description, keywords:$keywords, category:$category}' \
+    >> "$MARKETPLACE_JSON"
 
   # Show skill count in progress output
   if [ "$skill_count" -gt 1 ]; then
@@ -204,11 +205,20 @@ if command -v jq &> /dev/null; then
   if jq empty "$MARKETPLACE_JSON" 2>/dev/null; then
     plugin_count=$(jq '.plugins | length' "$MARKETPLACE_JSON")
 
-    # Sync top-level metadata.version from plugin entries (lockstep: all match).
-    # The hardcoded heredoc value drifts; this keeps it consistent without a
-    # manual edit every release.
+    # Sync top-level metadata.version from plugin entries and ENFORCE lockstep.
+    # Previously this read `.plugins[0].version` (always the alphabetically-first
+    # plugin), which silently masked version drift instead of detecting it — the
+    # exact bug the comment claimed to fix. Now: collect the distinct set of
+    # plugin versions; if more than one exists, fail loudly so drift is caught
+    # at generation time rather than shipped.
+    distinct_versions=$(jq -r '[.plugins[].version] | unique | join(",")' "$MARKETPLACE_JSON")
     synced_version=$(jq -r '.plugins[0].version // empty' "$MARKETPLACE_JSON")
     if [ -n "$synced_version" ]; then
+      if [ "$distinct_versions" != "$synced_version" ]; then
+        echo "❌ Version lockstep violated: plugins report versions [$distinct_versions]." >&2
+        echo "   Expected all plugins at a single version. Fix the divergent plugin.json files." >&2
+        exit 1
+      fi
       jq --arg v "$synced_version" '.metadata.version = $v' "$MARKETPLACE_JSON" > "$MARKETPLACE_JSON.tmp" && mv "$MARKETPLACE_JSON.tmp" "$MARKETPLACE_JSON"
     fi
 

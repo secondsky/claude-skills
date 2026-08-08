@@ -67,7 +67,13 @@ echo ""
 # Find all plugin.json files
 echo -e "${BLUE}🔌 Finding plugin.json files...${NC}"
 plugin_files=$(find "$REPO_ROOT/plugins" -name 'plugin.json' -path '*/.claude-plugin/plugin.json' | sort)
-plugin_count=$(echo "$plugin_files" | wc -l | tr -d ' ')
+# `echo "" | wc -l` returns 1 for empty input, so guard explicitly to avoid a
+# misleading "Total: 1, Passed: 0, Failed: 0" report when no files are found.
+if [ -z "$plugin_files" ]; then
+  plugin_count=0
+else
+  plugin_count=$(printf '%s\n' "$plugin_files" | wc -l | tr -d ' ')
+fi
 
 echo -e "Found ${BLUE}$plugin_count${NC} plugin.json files"
 echo ""

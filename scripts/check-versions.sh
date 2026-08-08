@@ -37,9 +37,11 @@ check_package_json() {
 
     echo -e "${BLUE}Checking: $skill_name${NC}"
 
-    # Extract dependencies
-    local deps=$(cat "$file" | grep -A 999 '"dependencies"' | grep -B 999 '}' | head -n -1 | tail -n +2 || true)
-    local devDeps=$(cat "$file" | grep -A 999 '"devDependencies"' | grep -B 999 '}' | head -n -1 | tail -n +2 || true)
+    # Extract dependencies. `head -n -1` is GNU-only and errors on macOS/BSD
+    # (silently zeroing the dep list under `|| true`); use `sed '$d'` to drop
+    # the closing brace line, which is portable across BSD and GNU sed.
+    local deps=$(cat "$file" | grep -A 999 '"dependencies"' | grep -B 999 '}' | sed '$d' | tail -n +2 || true)
+    local devDeps=$(cat "$file" | grep -A 999 '"devDependencies"' | grep -B 999 '}' | sed '$d' | tail -n +2 || true)
 
     # Combine all deps
     local all_deps="$deps"$'\n'"$devDeps"

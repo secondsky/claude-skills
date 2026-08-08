@@ -22,7 +22,7 @@
 #   ./scripts/generate-codex-manifests.sh --dry-run # Preview without writing
 # =============================================================================
 
-set -e
+set -eo pipefail
 
 command -v jq &>/dev/null || { echo "Error: jq is required but not installed"; exit 1; }
 
@@ -191,7 +191,10 @@ while IFS= read -r plugin_dir; do
 
   # Read fields from Claude manifest
   description=$(jq -r '.description // ""' "$claude_json")
-  version=$(jq -r '.version // "1.0.0"' "$claude_json")
+  # Default version aligned with generate-marketplace.sh (both derive from the
+  # same plugin.json source of truth; divergent defaults — 1.0.0 here vs 3.0.0
+  # there — could mask drift if a manifest ever lacks a version field).
+  version=$(jq -r '.version // "3.0.0"' "$claude_json")
   author=$(jq -c '.author // {"name": "Claude Skills Maintainers", "email": "maintainers@example.com"}' "$claude_json")
   license=$(jq -r '.license // "MIT"' "$claude_json")
   repository=$(jq -r '.repository // "https://github.com/secondsky/claude-skills"' "$claude_json")

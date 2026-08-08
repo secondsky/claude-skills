@@ -713,7 +713,12 @@ echo "Global version: $GLOBAL_VERSION"
 echo ""
 
 # -----------------------------------------------------------------------------
-# Sync .codex-plugin/plugin.json version (lockstep with Claude manifests)
+# Stamp .version into .codex-plugin/plugin.json to match the Claude manifests.
+# NOTE: this only synchronizes the version field. The full codex manifest
+# (description, keywords, interface, etc.) is regenerated downstream by
+# generate-codex-manifests.sh (invoked via generate-marketplace.sh below), which
+# treats the Claude manifests as the source of truth. Do not expect this loop
+# alone to keep codex fields in sync — it is a version lockstep only.
 # -----------------------------------------------------------------------------
 codex_count=0
 codex_updated=0
@@ -723,14 +728,23 @@ while IFS= read -r codex_json; do
   fi
   codex_count=$((codex_count + 1))
   if [ "$DRY_RUN" = false ]; then
-    jq --arg v "$GLOBAL_VERSION" '.version = $v' "$codex_json" > "$codex_json.tmp" \
-      && mv "$codex_json.tmp" "$codex_json"
-    codex_updated=$((codex_updated + 1))
+    # Write to .tmp, VALIDATE with jq, then promote. Previously a failed jq
+    # left a .tmp behind and still incremented the updated counter (reporting
+    # "N/N synced" when some had failed), and a malformed result could destroy
+    # the original via mv with no validation step in between.
+    if jq --arg v "$GLOBAL_VERSION" '.version = $v' "$codex_json" > "$codex_json.tmp" \
+      && jq '.' "$codex_json.tmp" > /dev/null 2>&1; then
+      mv "$codex_json.tmp" "$codex_json"
+      codex_updated=$((codex_updated + 1))
+    else
+      rm -f "$codex_json.tmp"
+      echo "⚠️  Failed to sync version for $(basename "$(dirname "$(dirname "$codex_json")")") — left unchanged" >&2
+    fi
   fi
 done < <(find "$PLUGINS_DIR" -path '*/.codex-plugin/plugin.json' | sort)
 
 if [ "$codex_count" -gt 0 ]; then
-  echo "Codex manifests synced: $codex_updated/$codex_count"
+  echo "Codex version synced: $codex_updated/$codex_count"
 fi
 echo ""
 

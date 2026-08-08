@@ -52,6 +52,11 @@ echo "Starting baseline audit..."
 echo "Output will be saved to: $OUTPUT_FILE"
 echo ""
 
+# Ensure the output directory exists (planning/ is not guaranteed to be
+# present; without this the `cat >` below fails under `set -e` before any
+# skill is processed).
+mkdir -p "$(dirname "$OUTPUT_FILE")"
+
 # Initialize output file
 cat > "$OUTPUT_FILE" << 'EOF'
 # Baseline Audit Results

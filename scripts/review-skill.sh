@@ -78,12 +78,15 @@ declare -a MEDIUM_LIST
 declare -a LOW_LIST
 declare -a MANUAL_LIST
 
-# Add findings
-add_critical() { CRITICAL_LIST+=("$1"); ((CRITICAL++)); }
-add_high() { HIGH_LIST+=("$1"); ((HIGH++)); }
-add_medium() { MEDIUM_LIST+=("$1"); ((MEDIUM++)); }
-add_low() { LOW_LIST+=("$1"); ((LOW++)); }
-add_manual() { MANUAL_LIST+=("$1"); ((MANUAL_CHECKS++)); }
+# Add findings. NOTE: `((VAR++))` returns exit status 1 when VAR is 0, which
+# under `set -e` would abort the script on the first finding (bug: the entire
+# report was unreachable whenever any issue existed). `|| true` neutralizes the
+# non-zero status while still incrementing.
+add_critical() { CRITICAL_LIST+=("$1"); ((CRITICAL++)) || true; }
+add_high() { HIGH_LIST+=("$1"); ((HIGH++)) || true; }
+add_medium() { MEDIUM_LIST+=("$1"); ((MEDIUM++)) || true; }
+add_low() { LOW_LIST+=("$1"); ((LOW++)) || true; }
+add_manual() { MANUAL_LIST+=("$1"); ((MANUAL_CHECKS++)) || true; }
 
 # Helper functions
 error() { echo -e "${RED}${FAIL} $1${NC}"; }
@@ -209,7 +212,17 @@ check_yaml_frontmatter() {
     # Check for last_verified
     if echo "$frontmatter" | grep -q "last_verified:"; then
       local last_verified=$(echo "$frontmatter" | grep "last_verified:" | sed 's/.*last_verified:[[:space:]]*//')
-      local days_ago=$(( ($(date +%s) - $(date -d "$last_verified" +%s 2>/dev/null || echo 0)) / 86400 ))
+      # Parse the YYYY-MM-DD date to epoch seconds portably. `date -d` is
+      # GNU-only and errors on macOS/BSD (silently yielding epoch 0, which
+      # flagged every skill as ~56 years stale). Use BSD's `date -jf` when on
+      # macOS, falling back to GNU `date -d`.
+      local verified_epoch=0
+      if date -jf "%Y-%m-%d" "$last_verified" +%s >/dev/null 2>&1; then
+        verified_epoch=$(date -jf "%Y-%m-%d" "$last_verified" +%s 2>/dev/null || echo 0)
+      elif date -d "$last_verified" +%s >/dev/null 2>&1; then
+        verified_epoch=$(date -d "$last_verified" +%s 2>/dev/null || echo 0)
+      fi
+      local days_ago=$(( ($(date +%s) - verified_epoch ) / 86400 ))
 
       if [ "$days_ago" -gt 90 ]; then
         warning "Last verified ${days_ago} days ago (>90 days is stale)"

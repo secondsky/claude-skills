@@ -296,7 +296,7 @@ if [ -n "$TARGET_DIR" ]; then
 
   while IFS= read -r file; do
     [ -z "$file" ] && continue
-    validate_skill "$file"
+    validate_skill "$file" || true
   done <<< "$skill_files"
 else
   skill_files=$(find "$REPO_ROOT/plugins" -name 'SKILL.md' 2>/dev/null | sort || true)
@@ -308,7 +308,7 @@ else
 
   while IFS= read -r file; do
     [ -z "$file" ] && continue
-    validate_skill "$file"
+    validate_skill "$file" || true
   done <<< "$skill_files"
 fi
 
