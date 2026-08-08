@@ -74,11 +74,17 @@ function fixDescriptionBlock(lines) {
     if (m) {
       const firstValue = m[1]; // text after "description: "
 
-      // Idempotency: if the description is already a YAML block scalar
-      // (`>-`, `|-`, `>`, `|`) it has already been normalized — leave it
-      // untouched. Without this guard the script re-processed already-folded
-      // descriptions on every run, churning valid frontmatter.
-      if (/^[>|][-+]?$/.test(firstValue.trim())) {
+      // Idempotency: if the description is already a YAML block scalar header
+      // (`>`, `|`, `>-`, `|2`, `>3-`, `| # comment`, etc.) it has already been
+      // normalized — leave it untouched. A block-scalar header is `>` or `|`
+      // followed by an optional indentation indicator (digit 1-9) and/or a
+      // chomping indicator (`-`/`+`) in any order, then an optional comment.
+      // Match the header token (before any comment) then allow trailing space
+      // + `# ...`.
+      const headerCore = /^[>|]([1-9][-+]?|[-+]?[1-9]?|[-+]?)$/;
+      const fv = firstValue.trim();
+      const headerToken = fv.split(/\s+#/)[0];
+      if (headerCore.test(headerToken)) {
         out.push(line);
         i++;
         continue;
@@ -177,19 +183,21 @@ function fixListIndentation(lines) {
       // collector consumed every consecutive `^\s+-\s` line regardless of
       // indentation, which merged separately-indented lists and corrupted
       // nested-list semantics. A list item at a different indentation ends the
-      // block (it is a different list).
-      let sawBlank = false;
+      // block (it is a different list). Buffer blank lines so that when the
+      // block breaks on a non-matching line, the trailing blanks are preserved
+      // in the output rather than silently dropped.
+      let pendingBlanks = [];
       while (j < lines.length) {
         const next = lines[j];
         if (next.trim() === '') {
-          sawBlank = true;
+          pendingBlanks.push(next);
           j++;
           continue;
         }
         const nextMatch = next.match(/^(\s+)-\s/);
         if (nextMatch && nextMatch[1] === blockIndent) {
-          if (sawBlank) block.push(''); // preserve a single separating blank
-          sawBlank = false;
+          if (pendingBlanks.length) block.push(''); // single separating blank
+          pendingBlanks = [];
           block.push(next);
           j++;
           continue;
@@ -210,6 +218,7 @@ function fixListIndentation(lines) {
       });
 
       out.push(...normalised);
+      out.push(...pendingBlanks);
       i = j;
       continue;
     }
