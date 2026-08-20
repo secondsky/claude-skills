@@ -1,6 +1,6 @@
 {
   "name": "hono-routing",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors.",
   "author": {
     "name": "Claude Skills Maintainers",

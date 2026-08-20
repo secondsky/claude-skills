@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-workflows",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors.",
   "author": {
     "name": "Claude Skills Maintainers",

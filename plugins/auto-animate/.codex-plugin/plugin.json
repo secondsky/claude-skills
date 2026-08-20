@@ -1,6 +1,6 @@
 {
   "name": "auto-animate",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "AutoAnimate (@formkit/auto-animate) zero-config animations for React. Use for list transitions, accordions, toasts, or encountering SSR errors, animation libraries complexity.",
   "author": {
     "name": "Claude Skills Maintainers",

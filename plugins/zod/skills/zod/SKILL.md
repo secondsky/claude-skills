@@ -1,11 +1,11 @@
 ---
 name: zod
-description: TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies (2kb gzipped).
+description: TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies, compact core (~5kb gzipped; zod/mini ~1.9kb).
 license: MIT
 metadata:
-  version: 2.0.0
-  last_verified: 2025-11-17
-  package_version: 4.1.12+
+  version: 2.1.0
+  last_verified: 2026-08-20
+  package_version: 4.4.x
   keywords:
     - zod
     - validation
@@ -63,6 +63,22 @@ metadata:
     - dto
     - type-guard
     - runtime-type-checking
+    - zod-mini
+    - z.core
+    - z.preprocess
+    - z.custom
+    - z.templateLiteral
+    - z.catchall
+    - z.check
+    - z.file
+    - z.json
+    - z.stringbool
+    - z.xor
+    - z.exactOptional
+    - z.safeExtend
+    - z.fromJSONSchema
+    - best-practices
+    - performance
   token_savings: 65%
   errors_prevented: 8
   production_tested: true
@@ -74,23 +90,23 @@ metadata:
 
 ## Overview
 
-Zod is a TypeScript-first validation library that enables developers to define schemas for validating data at runtime while automatically inferring static TypeScript types. With zero dependencies and a 2kb core bundle (gzipped), Zod provides immutable, composable validation with comprehensive error handling.
+Zod is a TypeScript-first validation library that enables developers to define schemas for validating data at runtime while automatically inferring static TypeScript types. With zero dependencies and a compact core (~5kb gzipped; ~1.9kb for `zod/mini`), Zod provides immutable, composable validation with comprehensive error handling.
 
 ## Installation
 
 ```bash
 bun add zod
 # or
-bun add zod
+npm install zod
 # or
-bun add zod
+pnpm add zod
 # or
 yarn add zod
 ```
 
 **Requirements**:
 - TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
-- Zod 4.x (4.1.12+)
+- Zod 4.x (4.4.x recommended; `z.codec()` requires 4.1+)
 
 **Important**: This skill documents **Zod 4.x** features. The following APIs require Zod 4 and are NOT available in Zod 3.x:
 - `z.codec()` - Bidirectional transformations
@@ -99,8 +115,17 @@ yarn add zod
 - `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
 - `.meta()` - Enhanced metadata (Zod 3.x only has `.describe()`)
 - Unified `error` parameter - Replaces `message`, `invalid_type_error`, `required_error`, `errorMap`
+- `.check()` - Low-level multi-issue validation (composes check factories like `z.minLength(3)`)
+- `z.file()`, `z.json()`, `z.stringbool()`, `z.xor()`, `z.templateLiteral()` - New schema types
+- `z.exactOptional()`, `.prefault()`, `.safeExtend()`, `z.fromJSONSchema()` - New utilities
 
 For Zod 3.x compatibility or migration guidance, see https://zod.dev
+
+**Import paths** (all ship in the `zod` package):
+- `import { z } from "zod"` — standard (v4 since 4.0)
+- `import { z } from "zod/v4"` — pin for libraries supporting both v3 (3.25+) and v4 users
+- `import { z } from "zod/mini"` — functional, tree-shakable API (~1.9kb; checks via `.check(z.minLength(3))`)
+- `import * as core from "zod/v4/core"` — low-level `$`-prefixed internals for library authors
 
 ## Migrating from Zod v3 to v4
 
@@ -112,7 +137,7 @@ Zod v4 introduces breaking changes for better performance:
 
 - **Error customization**: Use unified `error` parameter (replaces `message`, `invalid_type_error`, `required_error`)
 - **Number validation**: Stricter - rejects `Infinity` and unsafe integers
-- **String formats**: Now top-level functions (`z.email()` vs `z.string().email()`)
+- **String formats**: Prefer top-level functions (`z.email()` instead of `z.string().email()`; the method forms still work but are deprecated)
 - **Object defaults**: Applied even in optional fields
 - **Deprecated APIs**: Use `.extend()` (not `.merge()`), `z.treeifyError()` (not `error.format()`)
 - **Function validation**: Use `.implement()` method
@@ -171,7 +196,10 @@ z.string().max(100)          // Maximum length
 z.string().length(10)        // Exact length
 z.email()                    // Email validation (top-level in v4)
 z.url()                      // URL validation (top-level in v4)
-z.string().uuid()            // UUID format
+z.uuid()                     // UUID (RFC 9562; use z.guid() for permissive)
+z.uuidv4()                   // Version-specific UUIDs (also z.uuidv7)
+z.httpUrl()                  // http/https URLs only (rejects ftp:// etc.)
+z.e164()                     // Phone numbers (E.164 format)
 z.string().regex(/^\d+$/)    // Custom pattern
 z.string().startsWith("pre") // Prefix check
 z.string().endsWith("suf")   // Suffix check
@@ -199,6 +227,12 @@ z.cuid2()                    // CUID2
 z.ulid()                     // ULID
 z.base64()                   // Base64 encoded
 z.hex()                      // Hexadecimal
+z.hash("sha256")             // Hash of algorithm-specific length
+z.guid()                     // Permissive UUID/GUID (non-RFC)
+z.hostname()                 // Hostname
+z.mac()                      // MAC address
+z.uuid({ version: "v4" })    // UUID with version constraint
+z.email({ pattern: z.regexes.email }) // Email with explicit pattern
 ```
 
 ### Numbers
@@ -218,7 +252,8 @@ z.number().lt(100)           // Less than
 z.number().lte(100)          // Less than or equal
 z.number().multipleOf(5)     // Must be multiple of 5
 z.int()                      // Shorthand for z.number().int()
-z.int32()                    // 32-bit integer
+z.int32()                    // 32-bit integer (also z.uint32, z.int64, z.uint64)
+z.float32()                  // 32-bit float (also z.float64)
 z.nan()                      // NaN value
 ```
 
@@ -252,6 +287,16 @@ z.symbol()                   // Symbol
 z.null()                     // Null
 z.undefined()                // Undefined
 z.void()                     // Void (undefined)
+
+// File validation (v4) — sizes are bytes
+z.file().min(1).max(5 * 1024 * 1024).mime(["image/png"])
+
+// JSON-representable values (v4) — validates the VALUE is JSON-serializable
+// (recursive union of string | number | boolean | null | array | record)
+z.json()
+
+// Env-style boolean coercion: "true"/"yes"/"1" → true (v4)
+z.stringbool({ truthy: ["true", "yes", "1"], falsy: ["false", "no", "0"] })
 ```
 
 ## Complex Types
@@ -275,16 +320,21 @@ type Person = z.infer<typeof PersonSchema>;
 PersonSchema.shape                 // Access shape
 PersonSchema.keyof()              // Get union of keys
 PersonSchema.extend({ role: z.string() })  // Add fields
+PersonSchema.safeExtend({ role: z.string() }) // Type-safe extend (inherits refinements)
 PersonSchema.pick({ name: true }) // Pick specific fields
 PersonSchema.omit({ age: true })  // Omit fields
 PersonSchema.partial()            // Make all fields optional
+PersonSchema.partial({ age: true }) // Make specific fields optional
 PersonSchema.required()           // Make all fields required
-PersonSchema.deepPartial()        // Recursively optional
+
+// NOTE: .deepPartial() was REMOVED in v4 — build recursive partials manually
+// (top-level z.deepPartial() landed post-4.4.3 and is not yet stable)
 
 // Strict vs loose objects
 z.strictObject({ ... })           // No extra keys allowed (throws)
 z.object({ ... })                 // Strips extra keys (default)
 z.looseObject({ ... })            // Allows extra keys
+z.object({ ... }).catchall(z.number()) // Validate (and keep) unknown keys
 ```
 
 ### Arrays
@@ -346,6 +396,9 @@ const ResponseSchema = z.discriminatedUnion("status", [
 
 type Response = z.infer<typeof ResponseSchema>;
 // { status: "success", data: any } | { status: "error", message: string }
+
+// Exclusive union (v4): must match exactly ONE branch
+z.xor([z.object({ a: z.string() }), z.object({ b: z.number() })])
 ```
 
 ### Intersections
@@ -361,11 +414,11 @@ const Combined = z.intersection(BaseSchema, ExtendedSchema);
 ### Records and Maps
 
 ```typescript
-// Record: object with typed keys and values
-z.record(z.string())             // { [key: string]: string }
-z.record(z.string(), z.number()) // { [key: string]: number }
+// Record: object with typed keys and values (BOTH args required in v4)
+z.record(z.string(), z.number())  // { [key: string]: number }
+z.record(z.enum(["a", "b"]), z.string()) // Exhaustive: both keys REQUIRED
 
-// Partial record (some keys optional)
+// Partial record (enum keys optional)
 z.partialRecord(z.enum(["a", "b"]), z.string())
 
 // Map
@@ -389,6 +442,23 @@ z.object({ password, confirmPassword }).superRefine((data, ctx) => { /* ... */ }
 ```typescript
 z.string().transform((val) => val.trim());
 z.string().pipe(z.coerce.number());
+z.preprocess((v) => (typeof v === "string" ? v.trim() : v), z.string()); // Transform BEFORE parsing
+z.custom<string>((v) => typeof v === "string", { error: "Not a string" }); // Fully custom schema
+```
+
+**Multi-issue validation** (`.check()`, v4):
+```typescript
+z.string().check(z.minLength(3), z.startsWith("a")); // Compose check factories
+z.string().check((payload) => {
+  if (payload.value === "forbidden") {
+    payload.issues.push({ code: "custom", message: "Not allowed", input: payload.value });
+  }
+});
+```
+
+**Template literals** (v4):
+```typescript
+const UserRole = z.templateLiteral(["role-", z.string()]); // "role-admin", "role-editor", ...
 ```
 
 **Codecs** (bidirectional transforms - NEW in v4.1):
@@ -488,7 +558,7 @@ type Output = z.output<typeof TransformSchema>; // number
 ```typescript
 const jsonSchema = z.toJSONSchema(UserSchema, {
   target: "openapi-3.0",
-  metadata: true,
+  // .meta() data from the global registry is included by default
 });
 ```
 
@@ -508,12 +578,13 @@ const formRegistry = z.registry<FormFieldMeta>();
 
 ## Functions
 
-Validate function inputs and outputs:
+Validate function inputs and outputs with the v4 factory signature:
 
 ```typescript
-const AddFunction = z.function()
-  .args(z.number(), z.number())  // Arguments
-  .returns(z.number());           // Return type
+const AddFunction = z.function({
+  input: [z.number(), z.number()], // Arguments
+  output: z.number(),              // Return type
+});
 
 // Implement typed function
 const add = AddFunction.implement((a, b) => {
@@ -521,14 +592,18 @@ const add = AddFunction.implement((a, b) => {
 });
 
 // Async functions
-const FetchFunction = z.function()
-  .args(z.string())
-  .returns(z.promise(z.object({ data: z.any() })))
-  .implementAsync(async (url) => {
-    const response = await fetch(url);
-    return response.json();
-  });
+const FetchFunction = z.function({
+  input: [z.string()],
+  output: z.object({ data: z.any() }),
+});
+
+const fetchJson = FetchFunction.implementAsync(async (url) => {
+  const response = await fetch(url);
+  return response.json();
+});
 ```
+
+**Note**: the v3 chaining style (`z.function().args(...).returns(...)`) was removed in v4.
 
 ## Common Patterns
 
@@ -620,12 +695,12 @@ const AuthorSchema = z.object({
   authorName: z.string(),
 });
 
-// Compose into larger schemas
+// Compose into larger schemas (.merge() is deprecated — use .extend with .shape)
 const PostSchema = z.object({
   id: z.string(),
   title: z.string(),
   content: z.string(),
-}).merge(TimestampSchema).merge(AuthorSchema);
+}).extend(TimestampSchema.shape).extend(AuthorSchema.shape);
 ```
 
 ## Ecosystem Integration
@@ -695,15 +770,21 @@ z.enum(), z.union(), z.discriminatedUnion(), z.intersection()
 z.literal(), z.any(), z.unknown(), z.never()
 
 // Modifiers
-.optional(), .nullable(), .nullish(), .default(), .catch()
-.readonly(), .brand()
+.optional(), .nullable(), .nullish(), .default(), .prefault()
+.catch(), .readonly(), .brand(), .exactOptional()
 
 // Validation
-.min(), .max(), .length(), .regex(), .email(), .url(), .uuid()
-.refine(), .superRefine()
+.min(), .max(), .length(), .regex()
+.refine(), .superRefine(), .check(z.minLength(3))
+
+// Top-level formats (v4)
+z.email(), z.uuid(), z.url(), z.iso.datetime(), z.file(), z.json()
 
 // Transformation
-.transform(), .pipe(), .codec()
+.transform(), .pipe(), .codec(), z.preprocess(), z.custom()
+
+// Composition helpers
+z.strictObject(), z.looseObject(), z.xor(), z.templateLiteral()
 
 // Parsing
 .parse(), .safeParse(), .parseAsync(), .safeParseAsync()
@@ -721,7 +802,8 @@ z.toJSONSchema(schema, options)
 .meta(), .describe()
 
 // Object methods
-.extend(), .pick(), .omit(), .partial(), .required(), .merge()
+.extend(), .safeExtend(), .pick(), .omit(), .partial(), .required()
+.catchall(), .keyof()  // .merge() is deprecated — use .extend(other.shape)
 ```
 
 ## When to Load References
@@ -771,11 +853,19 @@ z.toJSONSchema(schema, options)
 - Need best practices or testing patterns
 - Confusion between `.refine()` and `.transform()`
 
+**Load `references/best-practices.md` when:**
+- Writing production Zod code or reviewing Zod usage
+- Deciding strict vs loose objects, optional vs nullable, `any` vs `unknown`
+- Optimizing hot paths (schema caching, avoiding dynamic schema creation, large arrays)
+- Unsure where to validate (boundaries, `JSON.parse`, double validation)
+- Want Incorrect/Correct examples with "when NOT to use" guidance
+
 ## Additional Resources
 
 - **Official Docs**: https://zod.dev
 - **GitHub**: https://github.com/colinhacks/zod
 - **TypeScript Playground**: https://zod-playground.vercel.app
+- **Zod Mini**: https://zod.dev/packages/mini
 - **ESLint Plugin (Best Practices)**: https://github.com/JoshuaKGoldberg/eslint-plugin-zod-x
 - **tRPC Integration**: https://trpc.io
 - **Ecosystem**: https://zod.dev/ecosystem
@@ -783,15 +873,21 @@ z.toJSONSchema(schema, options)
 ---
 
 **Production Notes**:
-- Package version: 4.1.12+ (Zod 4.x stable)
+- Package version: 4.4.x (all APIs verified against zod@4.4.3)
 - Zero dependencies
-- Bundle size: 2kb (gzipped)
+- Bundle size: ~5kb core / ~1.9kb zod/mini (gzipped)
 - TypeScript 5.5+ required
 - Strict mode required
-- Last verified: 2025-11-17
-- Skill version: 2.0.0 (Updated with v4.1 enhancements)
+- Last verified: 2026-08-20
+- Skill version: 2.1.0 (fidelity audit + best-practices rules)
 
-**What's New in This Version**:
+**What's New in 2.1.0**:
+- 🔍 Fidelity audit: every documented API verified against zod@4.4.3 (typecheck + runtime tests)
+- 📜 New `references/best-practices.md` rulebook (Incorrect/Correct/When-NOT format with impact ratings)
+- ➕ New coverage: `zod/mini`, `.check()`, `catchall`, `z.preprocess`, `z.custom`, `z.templateLiteral`, `z.file`/`z.json`/`z.stringbool`/`z.xor`, `z.exactOptional`, `.safeExtend`, `z.fromJSONSchema`, expanded format validators
+- 🐛 Fixed: install commands, `z.string().uuid()` → `z.uuid()`, v3 `.merge()`/`z.function()` chains, `.deepPartial()` (removed in v4), single-arg `z.record`, `toJSONSchema` `metadata` option
+
+**What's New in 2.0.0**:
 - ✨ Comprehensive v3 to v4 migration guide with breaking changes
 - ✨ Enhanced error customization with three-level system
 - ✨ Expanded metadata API with registry system

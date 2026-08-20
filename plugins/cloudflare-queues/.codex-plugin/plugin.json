@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-queues",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "This skill should be used when the user asks to \"set up Cloudflare Queues\", \"create a message queue\", \"implement queue consumer\", \"process background jobs\", \"configure queue retry logic\", \"publish messages to queue\", \"implement dead letter queue\", or encountering \"queue timeout\", \"message retry\", \"throughput exceeded\", \"queue backlog\" errors.",
   "author": {
     "name": "Claude Skills Maintainers",

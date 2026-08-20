@@ -1,6 +1,6 @@
 {
   "name": "api-testing",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "HTTP API testing for TypeScript (Supertest) and Python (httpx, pytest). Test REST APIs, GraphQL, request/response validation, authentication, and error handling.",
   "author": {
     "name": "Claude Skills Maintainers",

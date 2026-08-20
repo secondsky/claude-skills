@@ -2,7 +2,7 @@
 
 Complete guide for upgrading from Zod v3 to v4, including all breaking changes and migration strategies.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -31,7 +31,7 @@ z.string({
   error: "Custom message"
 });
 
-z.string().email({
+z.email({
   error: (issue) => "Invalid email"
 });
 ```
@@ -64,25 +64,26 @@ z.number().refine((n) => Number.isFinite(n) || !Number.isNaN(n));
 
 ## 3. String Format Methods Moved to Top-Level
 
-**Breaking Change**: Format validators are now top-level functions, not methods.
+**Behavior Change**: Format validators are now top-level functions. The v3 method forms still work in v4 but are **deprecated and slated for removal**.
 
 ```typescript
-// ❌ Zod v3 (Methods on z.string() — REMOVED in v4)
+// ❌ Zod v3 (Methods on z.string() — deprecated in v4)
 z.string().email();
 z.string().uuid();
 z.string().url();
 z.string().ipv4();
 z.string().ipv6();
 
-// ✅ Zod v4 (Top-level functions — required)
-z.email();        // Shorthand for validated email
-z.uuid();         // Stricter UUID validation (RFC 9562/4122)
+// ✅ Zod v4 (Top-level functions — use these in all new code)
+z.email();        // Validated email
+z.uuid();         // Stricter UUID validation (RFC 9562)
 z.url();
 z.ipv4();
 z.ipv6();
 
-// NOTE: z.string().email() / .url() / .ip() / .cidr() / .datetime() / .base64url()
-// were REMOVED in v4. Use the top-level z.email(), z.url(), etc. instead.
+// NOTE: z.string().email() / .uuid() / .url() / .datetime() etc. still parse
+// successfully in v4 but emit deprecation warnings in tooling. Migrate to the
+// top-level functions (z.email(), z.uuid(), z.iso.datetime(), ...).
 ```
 
 ---
@@ -115,46 +116,50 @@ schema.parse({ age: undefined });
 
 ```typescript
 // ❌ Zod v3 APIs (Deprecated in v4)
-schema1.merge(schema2);           // Use .extend() instead
+schema1.merge(schema2);           // Use .extend(other.shape) instead
 error.format();                   // Use z.treeifyError(error)
 error.flatten();                  // Use z.flattenError(error)
-z.nativeEnum(MyEnum);             // Use z.enum() (now handles both)
-z.promise(schema);                // Deprecated
+z.nativeEnum(MyEnum);             // Use z.enum() (now handles TS enums + const objects)
+z.promise(schema);                // Deprecated — await the value before validating
+
+// ❌ Removed entirely in v4
+schema.deepPartial();             // Build recursive partials manually
+z.record(valueType);              // z.record() now REQUIRES key AND value schemas
+schema.nonstrict();               // Use z.looseObject() or .loose()
+z.function().args(...).returns(...) // Use the object config (see §6)
 
 // ✅ Zod v4 Replacements
-schema1.extend(schema2);          // Preferred way to merge
-z.treeifyError(error);           // New error formatting
-z.flattenError(error);           // New flat error format
-z.enum(MyEnum);                  // Unified enum handling
-// No direct replacement for z.promise() - use async refinements
+schema1.extend(schema2.shape);    // Preferred way to combine object schemas
+z.treeifyError(error);            // New error formatting
+z.flattenError(error);            // New flat error format
+z.enum(MyEnum);                   // Unified enum handling
+
+// Error issue codes renamed in v4:
+// invalid_string    → invalid_format (with issue.format)
+// invalid_enum_value → invalid_value (with issue.values)
+// invalid_date      → folded into invalid_type
 ```
 
 ---
 
 ## 6. Function Validation Redesigned
 
-**Breaking Change**: `z.function()` no longer returns a schema directly.
+**Breaking Change**: `z.function()` now uses an object config instead of the v3 `.args()`/`.returns()` chain (which was removed).
 
 ```typescript
-// ❌ Zod v3
+// ❌ Zod v3 (removed in v4)
 const myFunc = z.function()
   .args(z.string())
   .returns(z.number())
   .parse(someFunction);
 
-// ✅ Zod v4
-const myFunc = z.function()
-  .args(z.string())
-  .returns(z.number())
-  .implement((str) => {
-    return parseInt(str); // Type-checked!
-  });
-
-// Or with new syntax:
+// ✅ Zod v4 (object config — the only supported form)
 const myFunc = z.function({
   input: [z.string()],
   output: z.number()
-}).implement((str) => parseInt(str));
+}).implement((str) => {
+  return parseInt(str); // Type-checked!
+});
 ```
 
 ---
@@ -178,14 +183,16 @@ Use this checklist to systematically upgrade your codebase:
 - [ ] Replace `message`, `invalid_type_error`, `required_error`, `errorMap` with unified `error` parameter
 - [ ] Check for `Infinity` or `-Infinity` in number validations
 - [ ] Update `.int()` usage if relying on unsafe integers
-- [ ] Replace `.merge()` with `.extend()`
+- [ ] Replace `.merge()` with `.extend(other.shape)`
 - [ ] Replace `error.format()` with `z.treeifyError()`
 - [ ] Replace `error.flatten()` with `z.flattenError()`
 - [ ] Update `z.nativeEnum()` to `z.enum()` (or keep for clarity)
-- [ ] Replace `z.promise()` with async refinements
-- [ ] Update function validation to use `.implement()` or new syntax
-- [ ] Consider using top-level format functions (`z.email()` instead of `z.string().email()`)
+- [ ] Replace `.deepPartial()` (removed) with a manual recursive partial
+- [ ] Fix single-arg `z.record(value)` — both key and value schemas are now required
+- [ ] Update function validation to the `z.function({ input, output })` factory
+- [ ] Replace string format methods (`z.string().email()` → `z.email()`)
 - [ ] Test UUID validation if using custom UUID formats
+- [ ] Update error-code switches (`invalid_string` → `invalid_format`, `invalid_enum_value` → `invalid_value`)
 
 ---
 
@@ -269,11 +276,7 @@ const FormSchema = z.object({
 
 // ✅ Zod v4
 const FormSchema = z.object({
-  email: z.string({
-    error: "Email required"
-  }).email({
-    error: "Invalid email"
-  })
+  email: z.email({ error: "Invalid email address" })
 });
 ```
 
@@ -335,7 +338,7 @@ If you need to rollback to Zod v3:
 
 ```bash
 # Install last stable v3 version
-bun add zod@3.23.8
+bun add zod@3.25.76
 ```
 
 Then revert code changes using version control.

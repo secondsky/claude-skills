@@ -1,6 +1,6 @@
 {
   "name": "woocommerce-dev-cycle",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Run tests, linting, and quality checks for WooCommerce development. Use when running tests, fixing code style, or following the development workflow in WooCommerce projects.",
   "author": {
     "name": "Claude Skills Maintainers",

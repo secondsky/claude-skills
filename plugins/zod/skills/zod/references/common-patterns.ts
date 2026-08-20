@@ -4,7 +4,7 @@
  * This file contains frequently used Zod validation patterns
  * for real-world applications.
  *
- * @requires zod ^4.1.12 (Zod 4.x)
+ * @requires zod ^4.4 (Zod 4.x; APIs verified against 4.4.3)
  * @note Uses Zod 4 APIs: z.codec, z.iso.datetime, z.flattenError, z.prettifyError
  */
 
@@ -47,14 +47,14 @@ export type CreateUserRequest = z.infer<typeof CreateUserRequest>;
 
 // Update User Request (partial)
 export const UpdateUserRequest = CreateUserRequest.partial().extend({
-  id: z.string().uuid(),
+  id: z.uuid(),
 });
 
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequest>;
 
 // User Response
 export const UserResponse = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   username: z.string(),
   email: z.email(),
   firstName: z.string().nullable(),
@@ -101,10 +101,11 @@ export const SignupFormSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         path: ["confirmPassword"],
         message: "Passwords do not match",
+        input: data.confirmPassword,
       });
     }
   });
@@ -186,7 +187,7 @@ export const UsernameSchema = z.string().min(3).max(20).refine(
     // return !exists;
     return true; // Replace with actual check
   },
-  { message: "Username is already taken" }
+  { error: "Username is already taken" }
 );
 
 // ============================================================================
@@ -228,22 +229,22 @@ export const TimestampSchema = z.object({
 
 // Base author fields
 export const AuthorSchema = z.object({
-  authorId: z.string().uuid(),
+  authorId: z.uuid(),
   authorName: z.string(),
 });
 
-// Combine into larger schemas
+// Combine into larger schemas (.merge() is deprecated — use .extend with .shape)
 export const PostSchema = z
   .object({
-    id: z.string().uuid(),
+    id: z.uuid(),
     title: z.string().min(1).max(200),
     content: z.string(),
     slug: SlugSchema,
     published: z.boolean().default(false),
     tags: z.array(z.string()).max(10),
   })
-  .merge(TimestampSchema)
-  .merge(AuthorSchema);
+  .extend(TimestampSchema.shape)
+  .extend(AuthorSchema.shape);
 
 export type Post = z.infer<typeof PostSchema>;
 
@@ -259,7 +260,7 @@ interface Category {
 
 export const CategorySchema: z.ZodType<Category> = z.lazy(() =>
   z.object({
-    id: z.string().uuid(),
+    id: z.uuid(),
     name: z.string().min(1).max(100),
     subcategories: z.array(CategorySchema),
   })
@@ -310,7 +311,7 @@ export type SearchQuery = z.infer<typeof SearchQuerySchema>;
 // ============================================================================
 
 export const WebhookPayloadSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   event: z.enum([
     "user.created",
     "user.updated",
@@ -319,7 +320,7 @@ export const WebhookPayloadSchema = z.object({
     "order.fulfilled",
   ]),
   timestamp: DateCodec,
-  data: z.record(z.any()),
+  data: z.record(z.string(), z.any()),
   signature: z.string(),
 });
 
@@ -345,7 +346,7 @@ export const AppConfigSchema = z.object({
     enabled: z.boolean().default(true),
     ttl: z.number().int().positive().default(3600),
   }),
-  features: z.record(z.boolean()).default({}),
+  features: z.record(z.string(), z.boolean()).default({}),
 });
 
 export type AppConfig = z.infer<typeof AppConfigSchema>;

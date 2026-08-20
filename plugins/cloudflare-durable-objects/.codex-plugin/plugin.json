@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-durable-objects",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors.",
   "author": {
     "name": "Claude Skills Maintainers",

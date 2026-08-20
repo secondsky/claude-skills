@@ -2,7 +2,7 @@
 
 Complete guide for advanced Zod validation patterns including refinements, transformations, codecs, and recursive types.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -15,7 +15,7 @@ Refinements allow you to add custom validation logic beyond Zod's built-in valid
 ```typescript
 const PasswordSchema = z.string().refine(
   (val) => val.length >= 8,
-  { message: "Password must be at least 8 characters" }
+  { error: "Password must be at least 8 characters" }
 );
 ```
 
@@ -36,14 +36,41 @@ const UserSchema = z.object({
   confirmPassword: z.string(),
 }).superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      path: ["confirmPassword"],
+    ctx.issues.push({
+      code: "custom",
       message: "Passwords must match",
+      input: data.confirmPassword,
+      path: ["confirmPassword"],
     });
   }
 });
 ```
+
+### .check() — Low-Level Multi-Issue Validation (v4)
+
+`.refine()` is sugar over `.check()`, which accepts reusable check factories and raw
+payload functions (push multiple issues in one pass):
+
+```typescript
+import { z } from "zod";
+
+// Compose check factories
+const Username = z.string().check(z.minLength(3), z.maxLength(20));
+
+// Raw payload function — { value, issues }
+const NotForbidden = z.string().check((payload) => {
+  if (payload.value === "forbidden") {
+    payload.issues.push({
+      code: "custom",
+      message: "This name is reserved",
+      input: payload.value,
+    });
+  }
+});
+```
+
+**When to use**: multiple issues per field, reusable validation rules, or when you
+need `abort: true` semantics on a specific check (`.refine(fn, { abort: true })`).
 
 ### Async Refinement
 
@@ -53,7 +80,7 @@ const UsernameSchema = z.string().refine(
     const exists = await checkUsernameExists(username);
     return !exists;
   },
-  { message: "Username already taken" }
+  { error: "Username already taken" }
 );
 ```
 
@@ -83,6 +110,47 @@ const TrimAndLowercaseSchema = z.string()
 
 ```typescript
 const NumberStringSchema = z.string().pipe(z.coerce.number());
+```
+
+### Preprocess (Transform BEFORE Parsing)
+
+Use `z.preprocess` when the raw input needs normalization before validation runs
+(unlike `.transform()`, which runs after):
+
+```typescript
+// Trim user input before length validation
+const Name = z.preprocess(
+  (val) => (typeof val === "string" ? val.trim() : val),
+  z.string().min(1, "Name is required")
+);
+
+// Parse JSON strings arriving from query params
+const Filters = z.preprocess(
+  (val) => (typeof val === "string" ? JSON.parse(val) : val),
+  z.record(z.string(), z.unknown())
+);
+```
+
+### Custom Schemas (z.custom)
+
+When no built-in type fits:
+
+```typescript
+const PingSchema = z.custom<{ ping: true }>(
+  (val) => typeof val === "object" && val !== null && "ping" in val,
+  { error: "Expected a ping message" }
+);
+```
+
+### Template Literals (v4)
+
+Validate strings built from parts:
+
+```typescript
+const Permission = z.templateLiteral([
+  "resource:", z.enum(["user", "post"]), ":", z.enum(["read", "write"]),
+]);
+// Matches "resource:user:read", "resource:post:write", ...
 ```
 
 ---
@@ -144,32 +212,23 @@ DateCodec.encode(new Date());
 DateCodec.encode("2024-01-01");
 ```
 
-### Safe Variants (No Exceptions)
+### Async Variants
 
-Codecs provide safe methods that return result objects instead of throwing:
+Codecs validate during conversion and throw `ZodError` on failure. Async variants exist for async decode/encode functions; wrap in try/catch for non-throwing behavior:
 
 ```typescript
-// Safe decode
-const decodeResult = DateCodec.decodeSafe("2024-01-01T00:00:00Z");
-if (decodeResult.success) {
-  console.log(decodeResult.data); // Date object
-} else {
-  console.error(decodeResult.error); // ZodError
-}
+// Async decode/encode
+await DateCodec.decodeAsync("2024-01-01T00:00:00Z");
+await DateCodec.encodeAsync(new Date());
 
-// Safe encode
-const encodeResult = DateCodec.encodeSafe(new Date());
-if (encodeResult.success) {
-  console.log(encodeResult.data); // ISO string
-} else {
-  console.error(encodeResult.error); // ZodError
+// Non-throwing decode (wrap the throw)
+function safeDecode<T>(codec: { decode: (d: T) => unknown }, data: T) {
+  try {
+    return { success: true as const, data: codec.decode(data) };
+  } catch (error) {
+    return { success: false as const, error };
+  }
 }
-
-// Async safe variants
-await DateCodec.decodeAsync(data);
-await DateCodec.decodeSafeAsync(data);
-await DateCodec.encodeAsync(data);
-await DateCodec.encodeSafeAsync(data);
 ```
 
 ### Composability
@@ -178,7 +237,7 @@ Codecs work seamlessly within objects, arrays, and other schemas:
 
 ```typescript
 const EventSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   title: z.string(),
   createdAt: DateCodec,     // Automatically handles conversion
   updatedAt: DateCodec,
@@ -281,7 +340,7 @@ const SecondsCodec = z.codec(
 ```typescript
 // Define API schema with codecs
 const UserAPISchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   email: z.email(),
   createdAt: z.codec(
     z.iso.datetime(),
@@ -336,6 +395,18 @@ const CategorySchema: z.ZodType<Category> = z.lazy(() =>
     subcategories: z.array(CategorySchema),
   })
 );
+```
+
+Zod 4 also supports **getter-based recursion** without `z.lazy` or manual type
+annotations:
+
+```typescript
+const CategorySchema = z.object({
+  name: z.string(),
+  get subcategories() {
+    return z.array(CategorySchema);
+  },
+});
 ```
 
 ---
@@ -416,18 +487,39 @@ type UpdateUser = z.infer<typeof UpdateUserSchema>;
 
 ### Deep Partial (Nested Optional)
 
+`.deepPartial()` was **removed in v4** (a top-level `z.deepPartial()` is landing in
+later releases). Build recursive partials manually:
+
 ```typescript
+import { z } from "zod";
+
+type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K];
+};
+
+function deepPartial<T extends z.ZodObject<any>>(
+  schema: T
+): z.ZodType<DeepPartial<z.output<T>>> {
+  const result: Record<string, any> = {};
+  for (const key in schema.shape) {
+    const field = schema.shape[key];
+    if (field instanceof z.ZodObject) {
+      result[key] = deepPartial(field).optional();
+    } else {
+      result[key] = field.optional();
+    }
+  }
+  return z.object(result) as any;
+}
+
 const NestedSchema = z.object({
   user: z.object({
-    profile: z.object({
-      name: z.string(),
-      age: z.number(),
-    }),
+    profile: z.object({ name: z.string(), age: z.number() }),
   }),
 });
 
-const DeepPartialSchema = NestedSchema.deepPartial();
-// All nested fields become optional
+// All nested fields optional — { user?: { profile?: { name?, age? } } }
+const PatchSchema = deepPartial(NestedSchema);
 ```
 
 ### Pick and Omit
@@ -465,12 +557,12 @@ const AuthorSchema = z.object({
   authorName: z.string(),
 });
 
-// Compose into larger schemas
+// Compose into larger schemas (.merge() is deprecated — use .extend with .shape)
 const PostSchema = z.object({
   id: z.string(),
   title: z.string(),
   content: z.string(),
-}).merge(TimestampSchema).merge(AuthorSchema);
+}).extend(TimestampSchema.shape).extend(AuthorSchema.shape);
 ```
 
 ---
@@ -488,15 +580,15 @@ const ConditionalSchema = z.object({
 }).superRefine((data, ctx) => {
   if (data.type === "individual") {
     if (!data.firstName || !data.lastName) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "First and last name required for individuals",
       });
     }
   } else {
     if (!data.companyName) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+      ctx.issues.push({
+        code: "custom",
         message: "Company name required for companies",
       });
     }
@@ -510,9 +602,15 @@ const ConditionalSchema = z.object({
 
 ### Lazy Loading Large Schemas
 
+Use dynamic `import()` for rarely-used schemas (note: `z.lazy` expects a schema,
+not a promise — it's for circular references, not code splitting):
+
 ```typescript
-// Don't load schema until needed
-const HeavySchema = z.lazy(() => import('./schemas/heavy').then(m => m.schema));
+// Don't load the schema module until needed
+async function validateHeavy(data: unknown) {
+  const { HeavySchema } = await import("./schemas/heavy");
+  return HeavySchema.safeParse(data);
+}
 ```
 
 ### Discriminated Unions for Performance

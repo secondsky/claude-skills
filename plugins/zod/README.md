@@ -19,7 +19,7 @@ Claude will automatically suggest this skill when you're working with:
 
 ## 🚀 What This Skill Provides
 
-### Comprehensive Coverage (v2.0.0 - Updated 2025-11-17)
+### Comprehensive Coverage (v2.1.0 - Updated 2026-08-20)
 
 - ✅ **All primitive types**: strings, numbers, booleans, dates, bigints
 - ✅ **Complex types**: objects, arrays, tuples, enums, unions, intersections
@@ -33,9 +33,12 @@ Claude will automatically suggest this skill when you're working with:
 - ✅ **Localization**: Built-in support for 40+ locales (i18n)
 - ✅ **Migration guide**: Comprehensive v3 to v4 upgrade documentation
 - ✅ **Codecs**: Bidirectional transformations with practical examples
+- ✅ **Best practices rulebook**: Incorrect/Correct patterns with "when NOT to use" guidance
+- ✅ **Zod Mini + z.core**: import paths and bundle guidance
 - ✅ **Ecosystem**: ESLint plugins, tRPC, Prisma, React Hook Form
 - ✅ **Best practices**: performance tips, common patterns
 - ✅ **Known issues**: documented solutions with examples
+- ✅ **Verified**: all documented APIs typechecked + runtime-tested against zod@4.4.3
 
 ### Code Examples
 
@@ -74,15 +77,16 @@ yarn add zod
 
 **Requirements**:
 - TypeScript v5.5+ with `"strict": true` in `tsconfig.json`
-- Zod 4.x (4.1.12+)
+- Zod 4.x (4.4.x recommended; `z.codec()` requires 4.1+)
 
-**⚠️ Important - Zod 4.x Only**: This skill documents **Zod 4.x** features with comprehensive v4.1 enhancements. The following APIs require Zod 4 and are NOT available in Zod 3.x:
+**⚠️ Important - Zod 4.x Only**: This skill documents **Zod 4.x** features (verified against 4.4.3). The following APIs require Zod 4 and are NOT available in Zod 3.x:
 - `z.codec()` - Bidirectional transformations (new in v4.1)
 - `z.iso.date()`, `z.iso.time()`, `z.iso.datetime()`, `z.iso.duration()` - ISO format validators
 - `z.toJSONSchema()` - JSON Schema generation
 - `z.treeifyError()`, `z.prettifyError()`, `z.flattenError()` - New error formatting helpers
 - `.meta()`, `.register()`, `z.registry()` - Enhanced metadata system
 - Unified `error` parameter - Replaces `message`, `invalid_type_error`, `required_error`, `errorMap`
+- `.check()`, `z.file()`, `z.json()`, `z.stringbool()`, `z.xor()`, `z.templateLiteral()` - New v4 APIs
 - Built-in localization support for 40+ languages
 
 **📖 Includes Migration Guide**: Comprehensive v3 to v4 migration documentation with breaking changes, checklist, and upgrade strategies.
@@ -179,10 +183,10 @@ const PasswordSchema = z.string()
 ## 📊 Performance & Quality
 
 - **Zero dependencies**
-- **2kb gzipped** core bundle
+- **~5kb core / ~1.9kb zod/mini** gzipped
 - **~65% token savings** vs. manual documentation lookup
 - **8+ errors prevented** through comprehensive guidance
-- **Production-tested** patterns and examples
+- **API-verified** patterns and examples (typecheck + runtime tests vs 4.4.3)
 
 ## 🏗️ Common Use Cases
 
@@ -201,7 +205,7 @@ const FormSchema = z.object({
 ```typescript
 export const appRouter = t.router({
   getUser: t.procedure
-    .input(z.object({ id: z.string().uuid() }))
+    .input(z.object({ id: z.uuid() }))
     .query(({ input }) => db.user.findUnique({ where: { id: input.id } })),
 });
 ```
@@ -230,7 +234,7 @@ const DateCodec = z.codec(
 ```typescript
 const jsonSchema = z.toJSONSchema(UserSchema, {
   target: "openapi-3.0",
-  metadata: true,
+  // .meta() data is included by default
 });
 ```
 
@@ -339,6 +343,12 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 
 ## 🔄 Version History
 
+- **2.1.0** (2026-08-20) - Fidelity Audit + Best Practices
+  - 🔍 All documented APIs verified against zod@4.4.3 (typecheck + runtime tests)
+  - 📜 New `references/best-practices.md` rulebook (Incorrect/Correct/When-NOT, impact ratings)
+  - ➕ New coverage: `zod/mini`, `.check()`, `catchall`, `z.preprocess`, `z.custom`, `z.templateLiteral`, `z.file`/`z.json`/`z.stringbool`/`z.xor`, `z.exactOptional`, `.safeExtend`, `z.fromJSONSchema`, expanded format validators
+  - 🐛 Fixed: install commands, `z.string().uuid()` → `z.uuid()`, v3 `.merge()`/`z.function()` chains, `.deepPartial()` (removed in v4), single-arg `z.record`, `toJSONSchema` `metadata` option, v3 error codes
+
 - **2.0.0** (2025-11-17) - Major Update: v4.1 Enhancements
   - ✨ Comprehensive v3 to v4 migration guide with breaking changes
   - ✨ Enhanced error customization with three-level system
@@ -361,11 +371,11 @@ MIT License - see [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Skill Version**: 2.0.0
-**Package Version**: 4.1.12+ (Zod 4.x stable)
-**Last Verified**: 2025-11-17
+**Skill Version**: 2.1.0
+**Package Version**: 4.4.x (Zod 4.x stable)
+**Last Verified**: 2026-08-20
 **Token Savings**: ~65%
 **Errors Prevented**: 8+
-**Production Status**: ✅ Tested
+**Verification**: ✅ typecheck + runtime tests vs zod@4.4.3
 
 Made with ❤️ for the Claude Code community

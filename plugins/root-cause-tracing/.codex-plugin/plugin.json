@@ -1,6 +1,6 @@
 {
   "name": "root-cause-tracing",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Systematically trace bugs backward through call stack to find original trigger. Use when errors occur deep in execution and you need to trace back to find the original trigger.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "api-reference-documentation",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Creates professional API documentation using OpenAPI specifications with endpoints, authentication, and interactive examples. Use when documenting REST APIs, creating SDK references, or building developer portals.",
   "author": {
     "name": "Claude Skills Maintainers",

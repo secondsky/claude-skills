@@ -1,6 +1,6 @@
 {
   "name": "ultracite",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Ultracite multi-provider linting/formatting (Biome, ESLint, Oxlint). Use for v6/v7 setup, provider selection, Git hooks, MCP integration, AI hooks, migrations, or encountering configuration, type-aware linting, monorepo errors.",
   "author": {
     "name": "Claude Skills Maintainers",

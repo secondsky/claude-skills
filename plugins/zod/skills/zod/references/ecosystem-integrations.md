@@ -2,7 +2,7 @@
 
 Complete guide for integrating Zod with popular frameworks, libraries, and tools.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -201,7 +201,7 @@ model User {
 ```typescript
 // src/zod/user.ts (auto-generated)
 export const UserSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   email: z.email(),
   name: z.string(),
   createdAt: z.date(),

@@ -1,6 +1,6 @@
 {
   "name": "cybersecurity",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "OSS-only security for OWASP Top 10, pentest, vuln testing (XSS, SSRF, CSRF, business-logic, Host header), threat modeling (STRIDE, ATT&CK), Sigma rules, SAST, code audit, AI/LLM red-team, or replacing paid tools (Burp, Nessus, Splunk) with OSS.",
   "author": {
     "name": "Claude Skills Maintainers",

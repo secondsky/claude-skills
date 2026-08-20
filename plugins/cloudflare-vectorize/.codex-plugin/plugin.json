@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-vectorize",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors.",
   "author": {
     "name": "Claude Skills Maintainers",

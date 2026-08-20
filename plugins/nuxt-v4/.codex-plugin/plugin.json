@@ -1,6 +1,6 @@
 {
   "name": "nuxt-v4",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Comprehensive Nuxt 4 development with 4 focused skills (core, data, server, production), 3 diagnostic agents (debugger, migration, performance), and interactive setup wizard. Use when: building Nuxt 4 applications, implementing SSR patterns, creating composables, server routes, data fetching, state management, debugging hydration issues, migrating from Nuxt 3, optimizing performance, deploying to Cloudflare/Vercel/Netlify, or setting up testing with Vitest.",
   "author": {
     "name": "Claude Skills Maintainers",

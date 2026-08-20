@@ -1,7 +1,7 @@
 {
   "name": "cloudflare-nextjs",
   "description": "Deploy Next.js to Cloudflare Workers via the OpenNext adapter (@opennextjs/cloudflare). Use for SSR/ISR/SSG, App or Pages Router, getCloudflareContext, bindings (D1/R2/KV/AI/Hyperdrive), caching tiers, skew protection, multi-worker, custom worker, env vars, or worker size/runtime/keep_names/FinalizationRegistry/connection-scoping errors.",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "author": {
     "name": "Claude Skills Maintainers",
     "email": "maintainers@example.com"

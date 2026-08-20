@@ -2,7 +2,7 @@
 
 Complete guide for TypeScript type inference, JSON Schema generation, and metadata system in Zod.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -99,7 +99,7 @@ Generate JSON Schema from Zod schemas for OpenAPI, AI structured outputs, or doc
 
 ```typescript
 const UserSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   email: z.email(),
   age: z.number().int().positive(),
   role: z.enum(["admin", "user"]),
@@ -126,12 +126,26 @@ const jsonSchema = z.toJSONSchema(UserSchema);
 
 ```typescript
 z.toJSONSchema(schema, {
-  target: "openapi-3.0",           // Target version
-  metadata: true,                  // Include .meta() data
+  target: "openapi-3.0",           // Target version (also draft-2020-12/draft-07/draft-04)
+  metadata: myRegistry,            // Metadata registry (defaults to globalRegistry)
   cycles: "ref",                   // Handle recursive schemas
-  reused: "defs",                  // Extract repeated schemas
+  reused: "inline",                // Extract repeated schemas ("ref" | "inline")
   io: "input",                     // Use input types instead of output
-  unrepresentable: "any",          // Handle unsupported types
+  unrepresentable: "any",          // Handle unsupported types ("throw" | "any")
+});
+// NOTE: .meta() data from the global registry is included by default — there is
+// no `metadata: true` boolean option.
+```
+
+### From JSON Schema (Experimental)
+
+Round-trip in the other direction (4.3+):
+
+```typescript
+const schema = z.fromJSONSchema({
+  type: "object",
+  properties: { name: { type: "string" } },
+  required: ["name"],
 });
 ```
 
@@ -323,10 +337,8 @@ const UserSchema = z.object({
   }),
 });
 
-// Include metadata in JSON Schema output
-const jsonSchema = z.toJSONSchema(UserSchema, {
-  metadata: true, // ← Includes .meta() data
-});
+// .meta() data from the global registry is included in JSON Schema by default
+const jsonSchema = z.toJSONSchema(UserSchema);
 
 /*
 {
@@ -405,7 +417,7 @@ const ConditionalSchema = z.object({
     }
     return z.string().regex(/^\+?[1-9]\d{1,14}$/).safeParse(data.value).success;
   },
-  { message: "Invalid format for selected type" }
+  { error: "Invalid format for selected type" }
 );
 
 type ConditionalData = z.infer<typeof ConditionalSchema>;

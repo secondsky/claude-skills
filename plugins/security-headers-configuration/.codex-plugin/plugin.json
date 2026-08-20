@@ -1,6 +1,6 @@
 {
   "name": "security-headers-configuration",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Configures HTTP security headers to protect against XSS, clickjacking, and MIME sniffing attacks. Use when hardening web applications, passing security audits, or implementing Content Security Policy.",
   "author": {
     "name": "Claude Skills Maintainers",

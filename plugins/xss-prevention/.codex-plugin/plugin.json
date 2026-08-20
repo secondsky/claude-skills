@@ -1,6 +1,6 @@
 {
   "name": "xss-prevention",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Prevents Cross-Site Scripting attacks through input sanitization, output encoding, and Content Security Policy. Use when handling user-generated content, implementing rich text editors, or securing web applications.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "drizzle-orm-d1",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Type-safe ORM for Cloudflare D1 databases using Drizzle. Use when: building D1 database schemas, writing type-safe SQL queries, managing migrations with Drizzle Kit, defining table relations, implementing prepared statements, using D1 batch API, or encountering D1_ERROR, transaction errors, foreign key constraint failures, or schema inference issues.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-mcp-server",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Build MCP (Model Context Protocol) servers on Cloudflare Workers with tools, resources, and prompts.",
   "author": {
     "name": "Claude Skills Maintainers",

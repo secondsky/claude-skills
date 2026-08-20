@@ -1,6 +1,6 @@
 {
   "name": "plan-interview",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity.",
   "author": {
     "name": "Claude Skills Maintainers",

@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-zero-trust-access",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "description": "Cloudflare Zero Trust Access authentication for Workers. Use for JWT validation, service tokens, CORS, or encountering preflight blocking, cache race conditions, missing JWT headers.",
   "author": {
     "name": "Claude Skills Maintainers",

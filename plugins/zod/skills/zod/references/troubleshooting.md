@@ -2,7 +2,7 @@
 
 Solutions for common issues, performance optimization, and best practices.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -37,16 +37,15 @@ Type 'string | undefined' is not assignable to type 'string'
 
 **Issue**: Complex schemas can increase bundle size significantly.
 
-**Solution 1**: Use lazy loading for large schemas:
+**Solution 1**: Use dynamic imports for large schemas (`z.lazy` is for circular
+references, not code splitting — it expects a schema, not a promise):
 
 ```typescript
-// Instead of importing directly
-import { HeavySchema } from './schemas/heavy';
-
-// Lazy load when needed
-const HeavySchema = z.lazy(() =>
-  import('./schemas/heavy').then(m => m.HeavySchema)
-);
+// Lazy load the schema module when needed
+async function validateHeavy(data: unknown) {
+  const { HeavySchema } = await import('./schemas/heavy');
+  return HeavySchema.safeParse(data);
+}
 ```
 
 **Solution 2**: Code splitting by route/page:
@@ -68,11 +67,11 @@ const TimestampSchema = z.object({
 // Use in multiple places
 const PostSchema = z.object({
   /* ... */
-}).merge(TimestampSchema);
+}).extend(TimestampSchema.shape);
 
 const CommentSchema = z.object({
   /* ... */
-}).merge(TimestampSchema);
+}).extend(TimestampSchema.shape);
 ```
 
 ---
@@ -163,9 +162,7 @@ const result = schema.parse(data, {
 import { t } from 'i18next';
 
 z.config({
-  customError: (issue) => ({
-    message: t(`validation.${issue.code}`, issue),
-  }),
+  customError: (issue) => t(`validation.${issue.code}`, issue),
 });
 ```
 
@@ -176,8 +173,8 @@ z.config({
   "validation": {
     "too_small": "Minimum length: {{minimum}}",
     "too_big": "Maximum length: {{maximum}}",
-    "invalid_type": "Expected {{expected}}, got {{received}}",
-    "invalid_string": "Invalid {{validation}}"
+    "invalid_type": "Expected {{expected}}",
+    "invalid_format": "Invalid {{format}}"
   }
 }
 ```
@@ -314,6 +311,24 @@ z.string().transform((val) => val.trim());
 
 ## Performance Tips
 
+### 0. Know Zod 4's Performance Profile
+
+Zod 4 uses JIT compilation: initial schema creation is slightly slower, but repeated
+parsing is dramatically faster (roughly 7-14x over v3 in the official benchmarks),
+with far fewer TypeScript type instantiations (~100x reduction). Consequences:
+
+- **Create schemas once** (module level) and reuse them — the JIT pays off on the second and later parses.
+- **Never build schemas inside hot loops or request handlers** — you pay the creation cost every time and lose the JIT benefit.
+- **For extreme bundle budgets**, switch to `zod/mini` (~1.9kb gzipped vs ~5kb core) — a functional API where checks attach via `.check(z.minLength(3))`.
+
+```typescript
+// Zod Mini for bundle-sensitive targets
+import { z } from "zod/mini";
+const Name = z.string().check(z.minLength(1), z.maxLength(100));
+const User = z.object({ name: Name });
+z.safeParse(User, { name: "a" });
+```
+
 ### 1. Use `.discriminatedUnion()` instead of `.union()`
 
 **Impact**: 5-10x faster for large unions
@@ -333,7 +348,11 @@ z.discriminatedUnion("type", [...]);
 **Impact**: Reduces initial bundle size by 50-80%
 
 ```typescript
-const HeavySchema = z.lazy(() => import('./schemas/heavy'));
+// Dynamic import the schema module on demand
+async function validateHeavy(data: unknown) {
+  const { HeavySchema } = await import('./schemas/heavy');
+  return HeavySchema.safeParse(data);
+}
 ```
 
 ---
@@ -536,7 +555,7 @@ const TimestampSchema = z.object({
 const PostSchema = z.object({
   title: z.string(),
   content: z.string(),
-}).merge(TimestampSchema);
+}).extend(TimestampSchema.shape);
 
 // ✗ Repetitive, error-prone
 const PostSchema = z.object({

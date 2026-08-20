@@ -2,7 +2,7 @@
 
 Complete guide for handling, formatting, and customizing Zod validation errors.
 
-**Last Updated**: 2025-11-17
+**Last Updated**: 2026-08-20 (verified against zod@4.4.3)
 
 ---
 
@@ -234,7 +234,7 @@ const NameSchema = z.string({
 
 const EmailSchema = z.email({
   error: (issue) => {
-    if (issue.code === "invalid_string") {
+    if (issue.code === "invalid_format") {
       return "Please provide a valid email address";
     }
   },
@@ -306,7 +306,7 @@ z.string({
       return `Minimum length: ${issue.minimum}`;
     }
     if (issue.code === "invalid_type") {
-      return `Expected string, got ${issue.received}`;
+      return `Expected ${issue.expected}, got ${JSON.stringify(issue.input)}`;
     }
     return undefined; // Use default message
   },
@@ -461,18 +461,20 @@ if (!result.success) {
 
 ## Error Code Reference
 
-Common Zod error codes you'll encounter:
+Common Zod v4 error codes you'll encounter:
 
-| Code | Description | Example |
-|------|-------------|---------|
-| `invalid_type` | Wrong data type | Expected string, got number |
-| `too_small` | Value below minimum | String length < 5 |
-| `too_big` | Value above maximum | Number > 100 |
-| `invalid_string` | String format invalid | Email validation failed |
-| `invalid_enum_value` | Not in enum | Value not in ["a", "b", "c"] |
-| `custom` | Custom refinement failed | Password doesn't match |
-| `invalid_union` | No union branch matched | Neither string nor number |
-| `invalid_date` | Invalid Date object | NaN date |
+| Code | Description | Example / extra fields |
+|------|-------------|-------------------------|
+| `invalid_type` | Wrong data type | `issue.expected` (e.g. "string") |
+| `too_small` | Value below minimum | `issue.minimum`, `issue.inclusive` |
+| `too_big` | Value above maximum | `issue.maximum`, `issue.inclusive` |
+| `invalid_format` | String format invalid (v4; was `invalid_string`) | `issue.format` (e.g. "email", "uuid") |
+| `invalid_value` | Not an allowed value (v4; was `invalid_enum_value`) | `issue.values` |
+| `unrecognized_keys` | Extra keys in strict object | `issue.keys` |
+| `custom` | Custom refinement failed | — |
+| `invalid_union` | No union branch matched | — |
+
+**Note**: v3 codes `invalid_string`, `invalid_enum_value`, and `invalid_date` were renamed/merged in v4 — update any `switch (issue.code)` logic during migration.
 
 ---
 
