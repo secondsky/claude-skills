@@ -12,14 +12,27 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch:  # Allow manual triggering
 
+# Least privilege: read-only by default; only the cache-cleanup job opts
+# into actions: write, which the cache management API requires.
+permissions:
+  contents: read
+
+# Scheduled maintenance should never kill an in-progress maintenance run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   dependency-audit:
     name: Security Audit
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
@@ -40,10 +53,17 @@ jobs:
   cache-cleanup:
     name: Clean Old Caches
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # actions: write is required by the cache management API (gh cache delete).
+    permissions:
+      contents: read
+      actions: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Clean old caches
         run: |
@@ -67,6 +87,7 @@ jobs:
   health-check:
     name: Health Check
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Check production endpoint
@@ -86,7 +107,7 @@ jobs:
           DURATION=$((END - START))
           echo "Build took ${DURATION} seconds"
 
-          if [ $DURATION -gt 300 ]; then
+          if [ "$DURATION" -gt 300 ]; then
             echo "⚠️  Build is slow (>${DURATION}s)"
           fi
 
@@ -94,6 +115,7 @@ jobs:
     name: Generate Report
     needs: [dependency-audit, cache-cleanup, health-check]
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     if: always()
 
     steps:

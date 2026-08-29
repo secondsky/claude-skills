@@ -10,16 +10,27 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
+# Least privilege: only the labels check talks to the API, and it only
+# needs read access; everything else just reads the repository.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   pr-size:
     name: Check PR Size
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check PR size
         # Event-derived values are passed via env, never interpolated
@@ -53,12 +64,14 @@ jobs:
   commit-format:
     name: Check Commit Messages
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check commit messages
         # Event-derived values are passed via env, never interpolated
@@ -84,6 +97,7 @@ jobs:
   branch-naming:
     name: Check Branch Name
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Check branch name
@@ -110,6 +124,11 @@ jobs:
   required-labels:
     name: Check Required Labels
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # Read-only API access is enough to inspect PR labels.
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       - name: Check for labels
@@ -135,10 +154,13 @@ jobs:
   conflict-check:
     name: Check for Merge Conflicts
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Check for conflicts
         # Event-derived values are passed via env, never interpolated
