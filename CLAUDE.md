@@ -9,6 +9,18 @@
 
 ---
 
+## ⚠️ CRITICAL: Communication Rule — THE MOST IMPORTANT RULE
+
+**🚨 ABSOLUTE RULE: Always talk to the user in clear, easy, short, plain language. NEVER use jargon. This rule is more important than any other rule in this file. 🚨**
+
+When communicating with the user:
+- Use plain, simple words that a non-expert understands right away
+- Keep answers short and to the point
+- Never use jargon or technical buzzwords — if a technical term is truly needed, explain it in one simple phrase
+- Lead with the outcome: say what happened, then give detail only if it helps
+
+---
+
 ## ⚠️ CRITICAL: Repository Policy - NEVER TOUCH JEZWEB REPO
 
 **🚨 ABSOLUTE RULE: The `jezweb/claude-skills` repository must NEVER be modified under ANY circumstances! 🚨**
