@@ -1,0 +1,73 @@
+# zizmor: static security analysis for GitHub Actions workflows.
+#
+# Why zizmor: it catches supply-chain patterns CodeQL does not — impostor
+# commits (a tag ref silently moved onto a malicious commit), typosquatted
+# actions, tag hijacking, and known-vulnerable action versions. This is the
+# tj-actions/changed-files class of attack (CVE-2025-30066), where a mutable
+# tag was retargeted to exfiltrate CI secrets. Failures here block the PR.
+#
+# Why the token: zizmor's online audits (tag/impostor-commit checks against
+# the GitHub API) silently degrade to offline mode when no token is available,
+# weakening exactly the checks this gate exists for. `github.token` is passed
+# explicitly to keep those audits genuinely enabled.
+#
+# Why the templates are scanned: the 12 workflows under
+# plugins/github-project-automation/skills/github-project-automation/templates/
+# are shipped to end users as content — they never run in this repo, but they
+# are the workflows this repo hands to others, so they are held to the same
+# audit as the live workflows.
+name: zizmor
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly Monday 07:00 UTC — deliberately offset from CodeQL's 06:00 run
+    - cron: '0 7 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  zizmor-scan:
+    name: zizmor scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor
+        # advanced-security: false — plain exit-code gate with no SARIF
+        # upload. The action's default (`true`) uploads results to the
+        # security tab, which needs permissions this workflow deliberately
+        # does not have. Blocking comes from the action's default behavior:
+        # it propagates zizmor's non-zero exit code on findings.
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with:
+          advanced-security: false
+          online-audits: true
+          token: ${{ github.token }}
+          inputs: >-
+            .github/workflows/
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/cd-production.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-basic.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-cloudflare-workers.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-matrix.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-node.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-python.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/ci-react.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/pr-checks.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/release.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/scheduled-maintenance.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/security-codeql.yml
+            plugins/github-project-automation/skills/github-project-automation/templates/workflows/security-dependency-review.yml
