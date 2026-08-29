@@ -28,7 +28,10 @@ jobs:
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
         with:
           node-version: '20'
-          cache: 'npm'
+          # SECURITY: disable dependency caching in release/publish jobs —
+          # restored action caches are a cache-poisoning vector for a
+          # trusted publish path, so releases build from the registry.
+          package-manager-cache: false
 
       - name: Install dependencies
         run: npm ci
@@ -41,7 +44,7 @@ jobs:
 
       - name: Extract version from tag
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
         id: changelog
@@ -51,32 +54,44 @@ jobs:
           if [ -z "$LAST_TAG" ]; then
             CHANGELOG=$(git log --pretty=format:"- %s (%h)" HEAD)
           else
-            CHANGELOG=$(git log --pretty=format:"- %s (%h)" $LAST_TAG..HEAD)
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" "$LAST_TAG..HEAD")
           fi
-          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
-          echo "$CHANGELOG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo "CHANGELOG<<EOF"
+            echo "$CHANGELOG"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191  # v2.0.8
-        with:
-          name: Release v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## What's Changed
+        # SECURITY: uses the first-party `gh` CLI instead of a third-party
+        # release action, and receives every workflow expression via env —
+        # never interpolated directly into the script.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+          CHANGELOG: ${{ steps.changelog.outputs.CHANGELOG }}
+          COMPARE_URL: ${{ github.server_url }}/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}
+        run: |
+          {
+            echo "## What's Changed"
+            echo ""
+            echo "$CHANGELOG"
+            echo ""
+            echo "## Installation"
+            echo ""
+            echo '```bash'
+            echo "npm install your-package@${VERSION}"
+            echo '```'
+            echo ""
+            echo "**Full Changelog**: $COMPARE_URL"
+          } > release-notes.md
 
-            ${{ steps.changelog.outputs.CHANGELOG }}
-
-            ## Installation
-
-            ```bash
-            npm install your-package@${{ steps.version.outputs.VERSION }}
-            ```
-
-            **Full Changelog**: ${{ github.server_url }}/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}
-          files: |
-            dist/**/*
-          draft: false
-          prerelease: false
+          shopt -s globstar nullglob
+          files=(dist/**/*)
+          gh release create "v${VERSION}" \
+            --title "Release v${VERSION}" \
+            --notes-file release-notes.md \
+            "${files[@]}"
 
   publish-npm:
     name: Publish to npm
@@ -92,6 +107,9 @@ jobs:
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
         with:
           node-version: '20'
+          # SECURITY: disable dependency caching in release/publish jobs
+          # (cache-poisoning hardening — see above).
+          package-manager-cache: false
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
@@ -101,7 +119,10 @@ jobs:
         run: npm run build
 
       - name: Publish to npm
-        run: npm publish
+        # SECURITY NOTE: a long-lived NPM_TOKEN is the portable default for
+        # a public template. Prefer npm trusted publishing (OIDC, npm >= 11.5)
+        # in your own repo when your npm registry configuration supports it.
+        run: npm publish  # zizmor: ignore[use-trusted-publishing]
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

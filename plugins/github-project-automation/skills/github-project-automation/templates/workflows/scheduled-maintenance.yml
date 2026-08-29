@@ -49,15 +49,15 @@ jobs:
         run: |
           echo "Cleaning caches older than 7 days..."
           gh cache list --limit 100 | while read -r line; do
-            CACHE_ID=$(echo $line | awk '{print $1}')
-            CACHE_AGE=$(echo $line | awk '{print $NF}')
+            CACHE_ID=$(echo "$line" | awk '{print $1}')
+            CACHE_AGE=$(echo "$line" | awk '{print $NF}')
 
             # Delete if older than 7 days
             if [[ "$CACHE_AGE" == *"days ago"* ]]; then
-              DAYS=$(echo $CACHE_AGE | awk '{print $1}')
-              if [ $DAYS -gt 7 ]; then
+              DAYS=$(echo "$CACHE_AGE" | awk '{print $1}')
+              if [ "$DAYS" -gt 7 ]; then
                 echo "Deleting cache $CACHE_ID (${DAYS} days old)"
-                gh cache delete $CACHE_ID || true
+                gh cache delete "$CACHE_ID" || true
               fi
             fi
           done
