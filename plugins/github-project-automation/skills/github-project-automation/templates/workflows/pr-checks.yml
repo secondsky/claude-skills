@@ -10,26 +10,39 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 
+# Least privilege: only the labels check talks to the API, and it only
+# needs read access; everything else just reads the repository.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   pr-size:
     name: Check PR Size
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check PR size
+        # Event-derived values are passed via env, never interpolated
+        # directly into the script (prevents template injection).
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           # Get number of changed lines
-          BASE_SHA=${{ github.event.pull_request.base.sha }}
-          HEAD_SHA=${{ github.event.pull_request.head.sha }}
-
-          CHANGES=$(git diff --shortstat $BASE_SHA..$HEAD_SHA)
-          ADDED=$(echo $CHANGES | awk '{print $4}')
-          DELETED=$(echo $CHANGES | awk '{print $6}')
+          CHANGES=$(git diff --shortstat "$BASE_SHA..$HEAD_SHA")
+          ADDED=$(echo "$CHANGES" | awk '{print $4}')
+          DELETED=$(echo "$CHANGES" | awk '{print $6}')
           TOTAL=$((ADDED + DELETED))
 
           echo "Lines changed: $TOTAL"
@@ -37,11 +50,11 @@ jobs:
           echo "Deleted: $DELETED"
 
           # Warn if PR is large (>800 lines)
-          if [ $TOTAL -gt 800 ]; then
+          if [ "$TOTAL" -gt 800 ]; then
             echo "⚠️  Large PR detected ($TOTAL lines changed)"
             echo "Consider splitting into smaller PRs for easier review"
             exit 1
-          elif [ $TOTAL -gt 400 ]; then
+          elif [ "$TOTAL" -gt 400 ]; then
             echo "⚠️  Medium-sized PR ($TOTAL lines changed)"
             echo "This is acceptable but consider splitting if possible"
           else
@@ -51,21 +64,26 @@ jobs:
   commit-format:
     name: Check Commit Messages
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check commit messages
+        # Event-derived values are passed via env, never interpolated
+        # directly into the script (prevents template injection).
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           # Check if commits follow conventional commits format
-          BASE_SHA=${{ github.event.pull_request.base.sha }}
-          HEAD_SHA=${{ github.event.pull_request.head.sha }}
 
           echo "Checking commit messages..."
-          git log --format=%s $BASE_SHA..$HEAD_SHA | while read -r msg; do
+          git log --format=%s "$BASE_SHA..$HEAD_SHA" | while read -r msg; do
             if ! echo "$msg" | grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?: .+'; then
               echo "❌ Invalid commit message: $msg"
               echo "Must follow format: type(scope): description"
@@ -79,11 +97,17 @@ jobs:
   branch-naming:
     name: Check Branch Name
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Check branch name
+        # SECURITY: github.head_ref is attacker-controlled on fork PRs.
+        # It is passed via env (never interpolated into the script) and
+        # always referenced quoted, so a branch name cannot inject shell
+        # commands into this workflow.
+        env:
+          BRANCH: ${{ github.head_ref }}
         run: |
-          BRANCH="${{ github.head_ref }}"
           echo "Branch name: $BRANCH"
 
           # Check if branch follows naming convention
@@ -100,12 +124,22 @@ jobs:
   required-labels:
     name: Check Required Labels
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # Read-only API access is enough to inspect PR labels.
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       - name: Check for labels
+        # Event-derived values are passed via env, never interpolated
+        # directly into the script (prevents template injection).
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           # Get PR labels
-          LABELS=$(gh pr view ${{ github.event.pull_request.number }} --json labels --jq '.labels[].name' | tr '\n' ',')
+          LABELS=$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name' | tr '\n' ',')
           echo "PR labels: $LABELS"
 
           # Check if PR has at least one type label
@@ -116,20 +150,25 @@ jobs:
           else
             echo "✅ PR has required labels"
           fi
-        env:
-          GH_TOKEN: ${{ github.token }}
 
   conflict-check:
     name: Check for Merge Conflicts
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Check for conflicts
+        # Event-derived values are passed via env, never interpolated
+        # directly into the script (prevents template injection).
+        env:
+          MERGEABLE: ${{ github.event.pull_request.mergeable }}
         run: |
-          if [ "${{ github.event.pull_request.mergeable }}" = "false" ]; then
+          if [ "$MERGEABLE" = "false" ]; then
             echo "❌ PR has merge conflicts"
             echo "Please resolve conflicts before merging"
             exit 1

@@ -11,21 +11,30 @@ on:
   pull_request:
     branches: [main, master]
 
+# pull-requests: write is required only to post the review summary comment
+# (comment-summary-in-pr); the review itself needs read access alone.
 permissions:
   contents: read
   pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   dependency-review:
     name: Review Dependencies
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Dependency Review
-        uses: actions/dependency-review-action@5a2ce3f5b92ee19cbb1541a4984c76d921601d7c  # v4.3.4
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294  # v5.0.0
         with:
           # Fail on: critical, high
           # Warn on: medium, low

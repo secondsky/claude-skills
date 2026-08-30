@@ -12,17 +12,28 @@ on:
     branches: [main, master]
   workflow_dispatch:  # Allow manual triggering
 
+# Least privilege: this workflow never needs write access to the repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # v4.1.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
         with:
           node-version: '20'
           cache: 'npm'
@@ -39,7 +50,7 @@ jobs:
           NODE_ENV: production
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # v4.4.3
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4  # v5.0.0
         with:
           name: production-build
           path: dist/
@@ -49,16 +60,19 @@ jobs:
     name: Deploy to Production
     needs: test
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
     environment:
       name: production
       url: https://your-app.com
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Download build artifacts
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16  # v4.1.8
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53  # v6.0.0
         with:
           name: production-build
           path: dist/
@@ -79,8 +93,10 @@ jobs:
           # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deployment summary
+        env:
+          COMMIT_SHA: ${{ github.sha }}
         run: |
           echo "✅ Deployment completed successfully!"
           echo "Environment: production"
-          echo "Commit: ${{ github.sha }}"
+          echo "Commit: $COMMIT_SHA"
           echo "URL: https://your-app.com"

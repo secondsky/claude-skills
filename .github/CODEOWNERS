@@ -7,5 +7,8 @@
 #
 # Syntax: https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
+# Workflow edits require owner review (GhostAction-class injection control)
+/.github/workflows/ @secondsky
+
 # Default owner for the entire repository.
 * @secondsky

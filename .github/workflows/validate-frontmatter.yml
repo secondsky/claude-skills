@@ -9,16 +9,22 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate-frontmatter:
     name: Validate SKILL.md Frontmatter
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Make script executable
         run: chmod +x scripts/validate-frontmatter.sh
@@ -83,7 +89,9 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          echo "### Frontmatter Validation" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Validated \`SKILL.md\` files in \`plugins/\`" >> $GITHUB_STEP_SUMMARY
-          echo "Run \`./scripts/validate-frontmatter.sh\` locally to check before pushing." >> $GITHUB_STEP_SUMMARY
+          cat <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ### Frontmatter Validation
+
+          Validated `SKILL.md` files in `plugins/`
+          Run `./scripts/validate-frontmatter.sh` locally to check before pushing.
+          EOF
