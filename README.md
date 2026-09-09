@@ -41,7 +41,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install gemini-cli@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 145 skills.
+The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json), summarized in the category table below. ([MARKETPLACE.md](MARKETPLACE.md) is outdated — it still describes the retired suite-based layout and is pending a rewrite.)
 
 ### Codex CLI Installation
 
@@ -112,7 +112,7 @@ This repository contains **145 production-tested skills** for Claude Code, each 
 
 Each skill is individually installable. Install only the skills you need.
 
-**Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for detailed listings.
+**Full Catalog**: The authoritative list is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json). [MARKETPLACE.md](MARKETPLACE.md) is outdated (retired suite-based layout, pending rewrite).
 
 ### Categories
 
@@ -324,7 +324,7 @@ See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) and [PLUGIN_DEV_BEST_PRACTICE
 |----------|---------|
 | [START_HERE.md](docs/getting-started/START_HERE.md) | **Start here!** Quick navigation guide |
 | [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
-| [MARKETPLACE.md](MARKETPLACE.md) | Full skill catalog and installation guide |
+| [MARKETPLACE.md](MARKETPLACE.md) | Legacy catalog — **outdated** (retired suite-based layout, pending rewrite; use `marketplace.json` or the README category table) |
 | [MARKETPLACE_MANAGEMENT.md](docs/guides/MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
 | [CLAUDE.md](CLAUDE.md) | Project context and development standards |
 | [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) | Contribution guidelines |
