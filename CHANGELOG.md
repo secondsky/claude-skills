@@ -15,7 +15,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **CLAUDE.md + AGENTS.md (PR #90)** — added an absolute plain-language communication rule: agents must always answer in clear, simple, jargon-free language, and it overrides everything else.
+
+- **GitHub Actions hardening (PR #91)** — workflows hardened against the 2025–2026 threat landscape; the default workflow token is read-only and zizmor linting is enforced via the main-branch ruleset.
+
 - **Version bump 3.8.0 → 3.9.0** — all 145 plugins, both marketplaces, and `package.json`.
+
+## [3.8.0] - 2026-08-20
+
+### Changed
+
+- **`zod` skill v2.1.0 — fidelity audit against zod@4.4.3 (PR #89).** All documented APIs verified by typecheck plus 22 runtime tests against the real package (probe artifacts kept in `.audit/zod-probe`). Fidelity fixes: real install block (bun/npm/pnpm/yarn — was `bun add zod` ×3), `z.string().uuid()` → `z.uuid()` (11+ sites), v3 `.merge()` → `.extend(other.shape)`, v4 `{input, output}` function factory, `.deepPartial()` documented as removed, two-arg `z.record`, `toJSONSchema` registry parameter, corrected error-code renames and migration-guide claims, corrected bundle-size claim. New coverage: zod/mini (including the `.check()` pattern), check factories, `z.preprocess`/`z.custom`/`z.templateLiteral`, catchall, `z.xor`, `z.file`, `z.json`, `z.stringbool`, `z.exactOptional`, `.safeExtend`, `z.fromJSONSchema`, import-path guide, and the new format validators. New `references/best-practices.md`: 12-rule Incorrect/Correct/When-NOT-to-use rulebook with impact ratings.
+
+- **Version bump 3.7.0 → 3.8.0** — all 144 plugins, both marketplaces, and `package.json`.
+
+## [3.7.0] - 2026-08-06
+
+### Added
+
+- **`tech-debt` plugin (plugin #143, PR #84).** Two-mode routed skill: prevent tech debt while reworking a change, or triage the existing refactor backlog (categorize, score, prioritize). Bundles the jnsahaj/zero-tech-debt and anthropics/tech-debt stances.
+
+- **`unknowns-discovery` plugin (plugin #144, PR #84).** Ported from the suedzucker-codex-plugins Codex plugin into the Claude Code plugin format. Frontmatter description trimmed 341 → 150 chars for the sync 250-char limit; its 3 slash commands namespaced `unknowns-discovery:<cmd>`; 7 references, 12 templates, 4 examples, and 2 scripts copied verbatim; Codex-only files dropped. Also synced a pre-existing `package.json` version drift (the bump scripts don't touch it).
+
+### Fixed
+
+- **Adversarial script audit — 15 + 4 bugs across the marketplace scripts (PRs #85, #86).** Critical: `review-skill.sh`'s `((VAR++))` aborted the whole report under `set -e` on the first finding, and GNU-only `date -d` flagged every skill as ~20,500 days stale on macOS. Also fixed: validators aborting on the first failing skill, a false `Total: 1` count, version-drift masking (the generator read only the alphabetically-first plugin), GNU-only `head -n -1`, JSON built by heredoc interpolation (now `jq -nc --arg` per entry), non-idempotent frontmatter re-folding, `set -o pipefail` aborting `find | wc` on missing directories, publishing an empty marketplace, and YAML quote/comment stripping order.
+
+### Changed
+
+- **Version bump 3.6.3 → 3.7.0** — all 144 plugins, both marketplaces, and `package.json`.
 
 ## [3.6.3] - 2026-08-06
 
