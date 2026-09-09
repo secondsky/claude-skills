@@ -1,8 +1,8 @@
 # Claude Code Skills Collection
 
-**142 production-ready skills for Claude Code CLI**
+**145 production-ready skills for Claude Code CLI**
 
-Version 3.6.3 | Last Updated: 2026-08-06
+Version 3.9.0 | Last Updated: 2026-09-09
 
 <div align="center">
 
@@ -41,11 +41,11 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install gemini-cli@claude-skills
 ```
 
-See [MARKETPLACE.md](MARKETPLACE.md) for complete catalog of all 142 skills.
+The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json), summarized in the category table below. ([MARKETPLACE.md](MARKETPLACE.md) is outdated — it still describes the retired suite-based layout and is pending a rewrite.)
 
 ### Codex CLI Installation
 
-This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 142 plugins, so Codex CLI can install them natively:
+This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 145 plugins, so Codex CLI can install them natively:
 
 ```bash
 # Add the marketplace (from GitHub)
@@ -94,7 +94,7 @@ skills.sh runs every published skill through three scanners (Gen Agent Trust Hub
 
 ## Repository Structure
 
-This repository contains **142 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **145 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -108,17 +108,17 @@ This repository contains **142 production-tested skills** for Claude Code, each 
 
 ---
 
-## Available Skills (142 Individual Skills)
+## Available Skills (145 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
-**Full Catalog**: See [MARKETPLACE.md](MARKETPLACE.md) for detailed listings.
+**Full Catalog**: The authoritative list is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json). [MARKETPLACE.md](MARKETPLACE.md) is outdated (retired suite-based layout, pending rewrite).
 
 ### Categories
 
 | Category | Skills | Examples |
 |----------|--------|----------|
-| **tooling** | 24 | turborepo, plan-interview, code-review |
+| **tooling** | 27 | turborepo, plan-interview, code-review, tech-debt, humanize-writing |
 | **frontend** | 26 | nuxt-v4, nuxt-v5, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui, threejs |
 | **cloudflare** | 21 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
 | **api** | 16 | api-design-principles, graphql-implementation |
@@ -182,6 +182,20 @@ plugins/[plugin-name]/
 
 ## Recent Additions
 
+### September 2026
+
+**Writing Quality**:
+- **humanize-writing** — Rewrites AI-sounding text so it reads like a knowledgeable human wrote it. Eight editing passes (formulaic structure, significance inflation, AI vocabulary, grammar-level tells, robotic rhythm, hedging, overused transitions, missing personality) plus a review-only mode that flags passages and names the pattern. Based on Wikipedia's "Signs of AI writing" guide; adapted from [jpeggdev/humanize-writing](https://github.com/jpeggdev/humanize-writing)
+
+### August 2026
+
+**Plugin Additions**:
+- **tech-debt** — Two-mode routed skill: prevent tech debt while reworking a change, or triage the existing backlog (categorize, score, prioritize). Bundles jnsahaj/zero-tech-debt and anthropics/tech-debt stances
+- **unknowns-discovery** — Ported from the suedzucker-codex-plugins Codex plugin: surfaces unknowns, risks, and open questions in a plan or codebase
+
+**Skill Overhauls**:
+- **zod v2.1.0** — Fidelity audit against zod@4.4.3: every documented API verified by typecheck + runtime tests. Fixed stale v3 patterns across 11+ sites, corrected the migration guide, added zod/mini and the full v4 surface (`.check()`, `z.xor`, `z.file`, `z.json`, new format validators), and added a 12-rule best-practices rulebook
+
 ### July 2026
 
 **Offensive Security** (new category):
@@ -233,7 +247,7 @@ plugins/[plugin-name]/
 Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
 
 **What this means:**
-- Not all 142 skills may be visible in Claude's context at once
+- Not all 145 skills may be visible in Claude's context at once
 - Skills are loaded based on relevance and available token budget
 - You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
 
@@ -246,7 +260,7 @@ To verify which skills are currently loaded:
 "Check what skills/plugins you see in your system prompt"
 ```
 
-Claude will report something like: "85 of 142 skills visible due to token limits"
+Claude will report something like: "85 of 145 skills visible due to token limits"
 
 ### Workaround: Increase Token Budget
 
@@ -274,7 +288,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 | **Typical Errors** | 2-4 per service | 0 (prevented) | **100%** |
 | **Setup Time** | 2-4 hours | 15-45 minutes | **~80%** |
 
-**Across all 142 skills**: 400+ documented errors prevented.
+**Across all 145 skills**: 400+ documented errors prevented.
 
 ---
 
@@ -310,7 +324,7 @@ See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) and [PLUGIN_DEV_BEST_PRACTICE
 |----------|---------|
 | [START_HERE.md](docs/getting-started/START_HERE.md) | **Start here!** Quick navigation guide |
 | [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
-| [MARKETPLACE.md](MARKETPLACE.md) | Full skill catalog and installation guide |
+| [MARKETPLACE.md](MARKETPLACE.md) | Legacy catalog — **outdated** (retired suite-based layout, pending rewrite; use `marketplace.json` or the README category table) |
 | [MARKETPLACE_MANAGEMENT.md](docs/guides/MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
 | [CLAUDE.md](CLAUDE.md) | Project context and development standards |
 | [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) | Contribution guidelines |
