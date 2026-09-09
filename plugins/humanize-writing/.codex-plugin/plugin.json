@@ -1,0 +1,36 @@
+{
+  "name": "humanize-writing",
+  "version": "3.9.0",
+  "description": "Rewrites AI-sounding text so it reads like a human wrote it. Use when the user says 'sounds like AI/ChatGPT,' 'too robotic,' or 'humanize this.' Fixes AI vocabulary, inflated significance, hedging, robotic rhythm, and formulaic structure.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "humanize-writing",
+    "humanize",
+    "writing",
+    "tooling",
+    "workflow",
+    "chatgpt"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Humanize Writing",
+    "shortDescription": "Rewrites AI-sounding text so it reads like a human wrote it. Use when the user",
+    "longDescription": "Rewrites AI-sounding text so it reads like a human wrote it. Use when the user says 'sounds like AI/ChatGPT,' 'too robotic,' or 'humanize this.' Fixes AI vocabulary, inflated significance, hedging, robotic rhythm, and formulaic structure.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Humanize Writing.",
+      "Show me best practices for Humanize Writing.",
+      "Guide me through using Humanize Writing effectively."
+    ]
+  }
+}

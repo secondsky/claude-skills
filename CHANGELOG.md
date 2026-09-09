@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.9.0] - 2026-09-09
+
+### Added
+
+- **`humanize-writing` plugin (plugin #145).** Rewrites AI-sounding text so it reads like a knowledgeable human wrote it. Eight editing passes cover formulaic structure, significance inflation, AI vocabulary, grammar-level tells (copula avoidance, synonym cycling), robotic rhythm, hedging and vague attributions, overused transitions, and missing personality, followed by a per-pass summary of changes. Pattern catalog based on Wikipedia's "Signs of AI writing" guide, with the full word/phrase list in `references/ai-tells.md`. Also handles review-only mode: flags passages, names the triggered pattern, and suggests alternatives. Adapted from [jpeggdev/humanize-writing](https://github.com/jpeggdev/humanize-writing) (MIT); npm installer scaffolding dropped in favor of the marketplace layout, frontmatter condensed to meet the 250-char description limit.
+
+### Changed
+
+- **Version bump 3.8.0 → 3.9.0** — all 145 plugins, both marketplaces, and `package.json`.
+
 ## [3.6.3] - 2026-08-06
 
 ### Added

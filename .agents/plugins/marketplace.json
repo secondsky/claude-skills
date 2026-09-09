@@ -688,6 +688,17 @@
       "category": "Content Management"
     },
     {
+      "name": "humanize-writing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/humanize-writing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
       "name": "idempotency-handling",
       "source": {
         "source": "local",
