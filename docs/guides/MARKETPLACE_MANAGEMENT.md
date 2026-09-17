@@ -167,7 +167,7 @@ Each skill has a `plugin.json` file following the Anthropic plugin specification
 
 ### Secondary Script: generate-marketplace.sh
 
-Generates `marketplace.json` from all `plugin.json` files.
+Generates `marketplace.json` from all `plugin.json` files, and regenerates the human-readable catalog `MARKETPLACE.md` from it. The script also prunes timestamped `marketplace.json.backup-*` files, keeping only the 5 newest.
 
 ```bash
 ./scripts/generate-marketplace.sh

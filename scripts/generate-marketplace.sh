@@ -40,6 +40,16 @@ if [ -f "$MARKETPLACE_JSON" ]; then
   echo ""
 fi
 
+# Prune timestamped backups: keep only the 5 most recent. Without this the
+# backups accumulate forever (28 piled up between June and September 2026).
+# `ls` exits non-zero when no backups match; guard it so pipefail doesn't abort.
+{ ls -1t "$MARKETPLACE_DIR"/marketplace.json.backup-* 2>/dev/null || true; } \
+  | tail -n +6 \
+  | while IFS= read -r stale_backup; do
+      rm -f "$stale_backup"
+      echo "🗑️  Pruned old backup: $(basename "$stale_backup")"
+    done
+
 # Load shared categorization library
 source "$SCRIPT_DIR/lib/categorize.sh"
 
@@ -253,12 +263,67 @@ else
   echo "⚠️  Warning: jq not installed, skipping JSON validation"
 fi
 
+# -----------------------------------------------------------------------------
+# Regenerate MARKETPLACE.md — human-readable catalog derived purely from
+# marketplace.json (grouped by category, alphabetical within each group).
+# Never hand-edit: re-running sync-plugins.sh refreshes it.
+# -----------------------------------------------------------------------------
+if command -v jq &> /dev/null; then
+  MARKETPLACE_MD="$SCRIPT_DIR/../MARKETPLACE.md"
+  md_plugin_count=$(jq '.plugins | length' "$MARKETPLACE_JSON")
+  md_version=$(jq -r '.metadata.version' "$MARKETPLACE_JSON")
+
+  {
+    cat << MD_HEADER
+# Claude Skills — Plugin Catalog
+
+> **Generated file — do not edit by hand.** Regenerated from
+> [\`.claude-plugin/marketplace.json\`](.claude-plugin/marketplace.json) by
+> \`scripts/generate-marketplace.sh\` (invoked via \`scripts/sync-plugins.sh\`).
+
+**${md_plugin_count} plugins** · marketplace version **${md_version}** · generated $(date +"%Y-%m-%d")
+
+## Installing
+
+\`\`\`
+/plugin marketplace add secondsky/claude-skills
+/plugin install <plugin-name>@claude-skills
+\`\`\`
+
+Multi-skill plugins (for example \`bun\` or \`cloudflare-workers\`) install all of their skills in one step.
+
+## Catalog
+MD_HEADER
+
+    # Plugins are already sorted by name inside marketplace.json; group by
+    # category (alphabetical) and emit one table per category. Pipes in
+    # descriptions are escaped so they cannot break the markdown table.
+    while IFS= read -r md_category; do
+      md_cat_count=$(jq --arg c "$md_category" \
+        '[.plugins[] | select(.category == $c)] | length' "$MARKETPLACE_JSON")
+      echo ""
+      echo "### $md_category ($md_cat_count)"
+      echo ""
+      echo "| Plugin | Description |"
+      echo "| --- | --- |"
+      jq -r --arg c "$md_category" \
+        '.plugins[] | select(.category == $c)
+         | "| [`\(.name)`](plugins/\(.name)) | \(.description | gsub("\\|"; "\\|")) |"' \
+        "$MARKETPLACE_JSON"
+    done < <(jq -r '.plugins[].category' "$MARKETPLACE_JSON" | sort -u)
+  } > "$MARKETPLACE_MD"
+
+  echo "✅ Regenerated MARKETPLACE.md ($md_plugin_count plugins, $md_version)"
+else
+  echo "⚠️  Warning: jq not installed, skipping MARKETPLACE.md regeneration" >&2
+fi
+
 echo ""
 echo "============================================"
 echo "✅ Marketplace generation complete!"
 echo "============================================"
 echo ""
-echo "Output: $MARKETPLACE_JSON"
+echo "Outputs: $MARKETPLACE_JSON + root MARKETPLACE.md"
 echo "Format: Individual plugins (skills auto-discovered)"
 echo "Total plugins: $((count - skipped))"
 echo ""

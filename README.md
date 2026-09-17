@@ -41,7 +41,7 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install gemini-cli@claude-skills
 ```
 
-The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json), summarized in the category table below. ([MARKETPLACE.md](MARKETPLACE.md) is outdated — it still describes the retired suite-based layout and is pending a rewrite.)
+The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json), summarized in the category table below. A human-readable catalog is auto-generated in [MARKETPLACE.md](MARKETPLACE.md).
 
 ### Codex CLI Installation
 
@@ -112,7 +112,7 @@ This repository contains **145 production-tested skills** for Claude Code, each 
 
 Each skill is individually installable. Install only the skills you need.
 
-**Full Catalog**: The authoritative list is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json). [MARKETPLACE.md](MARKETPLACE.md) is outdated (retired suite-based layout, pending rewrite).
+**Full Catalog**: The authoritative list is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json); a human-readable version is generated in [MARKETPLACE.md](MARKETPLACE.md).
 
 ### Categories
 
@@ -324,7 +324,7 @@ See [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) and [PLUGIN_DEV_BEST_PRACTICE
 |----------|---------|
 | [START_HERE.md](docs/getting-started/START_HERE.md) | **Start here!** Quick navigation guide |
 | [PLUGIN_DEV_BEST_PRACTICES.md](docs/guides/PLUGIN_DEV_BEST_PRACTICES.md) | **Repository-specific best practices** (marketplace, budget, quality) |
-| [MARKETPLACE.md](MARKETPLACE.md) | Legacy catalog — **outdated** (retired suite-based layout, pending rewrite; use `marketplace.json` or the README category table) |
+| [MARKETPLACE.md](MARKETPLACE.md) | Human-readable plugin catalog (generated from `marketplace.json` by `scripts/generate-marketplace.sh`) |
 | [MARKETPLACE_MANAGEMENT.md](docs/guides/MARKETPLACE_MANAGEMENT.md) | Technical infrastructure (plugin.json, scripts, validation) |
 | [CLAUDE.md](CLAUDE.md) | Project context and development standards |
 | [CONTRIBUTING.md](docs/guides/CONTRIBUTING.md) | Contribution guidelines |

@@ -1,14 +1,14 @@
 # Claude Skills - Project Structure
 
-**Generated**: 2026-08-05
+**Generated**: 2026-09-17
 **Repository**: https://github.com/secondsky/claude-skills
 
 ---
 
 ## Repository Overview
 
-**Total Size**: 20.0MB | **Files**: 2,495
-**Top File Types**: `.md` (1,330), `.ts` (234), `.json` (197), `.html` (122), `.sh` (121)
+**Total Size**: 19.6MB | **Files**: 2,647
+**Top File Types**: `.md` (1,339), `.json` (346), `.ts` (230), `.html` (122), `.sh` (116)
 
 This document provides a comprehensive overview of the claude-skills repository structure, generated using [codemap](https://github.com/JordanCoin/codemap).
 
@@ -24,8 +24,7 @@ claude-skills/
 ├── .githooks/               # Git hooks (pre-commit, pre-push)
 ├── .github/                 # GitHub CI workflows & issue templates
 ├── docs/                    # Documentation (6 subdirectories)
-├── plans/                   # In-progress skill planning docs
-├── plugins/                 # 142 plugin directories containing 183 skills
+├── plugins/                 # 145 plugin directories containing 186 skills
 ├── schemas/                 # JSON schema validation files
 ├── scripts/                 # Automation & utility scripts
 ├── templates/               # Skill creation templates
@@ -36,17 +35,17 @@ claude-skills/
 
 ## Directory Details
 
-### `.claude-plugin/` (78.6KB, 12 files)
+### `.claude-plugin/` (80.2KB, 6 files)
 
 Plugin marketplace configuration for Claude Code.
 
 ```
 .claude-plugin/
-├── marketplace.json                 # Main marketplace manifest (142 plugins)
-└── marketplace.json.backup-*        # 11 timestamped backups
+├── marketplace.json                 # Main marketplace manifest (145 plugins)
+└── marketplace.json.backup-*        # Timestamped backups (auto-pruned to newest 5)
 ```
 
-**Purpose**: Defines 142 plugins containing 183 skills for Claude Code's plugin marketplace. Marketplace `.metadata.version`, all 142 plugin entries, all 142 `plugin.json` manifests, and `package.json` are lockstep at **3.6.0**.
+**Purpose**: Defines 145 plugins containing 186 skills for Claude Code's plugin marketplace. Marketplace `.metadata.version`, all 145 plugin entries, all 145 `plugin.json` manifests, and `package.json` are lockstep at **3.9.0**.
 
 ---
 
@@ -138,21 +137,9 @@ docs/
 
 ---
 
-### `plans/` (150.8KB, 12 files)
+### `plugins/` (2,570 tracked files)
 
-In-progress planning documents for skills under development.
-
-```
-plans/
-├── README.md                # Plans index
-└── cybersecurity-skill/     # Cybersecurity skill spec (11 files)
-```
-
----
-
-### `plugins/` (19.0MB, 2,403 files)
-
-**142 plugins** organizing **183 individual skills** by domain.
+**145 plugins** organizing **186 individual skills** by domain.
 
 Each plugin follows this structure:
 ```
@@ -183,7 +170,7 @@ plugins/<plugin-name>/
 
 All other 138 plugins contain exactly 1 skill. The 4 multi-skill plugins contribute 45 of the 183 SKILL.md files; the remaining 138 plugins contribute the other 138 (183 total).
 
-#### Plugin Categories (142 plugins)
+#### Plugin Categories (145 plugins)
 
 Official `category` field distribution (from `marketplace.json`): frontend (26), tooling (24), cloudflare (21), api (16), web (10), ai (7), security (6), mobile (5), woocommerce (4), testing (4), design (4), auth (4), architecture (3), seo (2), data (2), cms (2), documentation (1), database (1).
 
@@ -304,22 +291,16 @@ scripts/
 ├── generate-marketplace.sh        # Generate marketplace.json
 ├── check-versions.sh              # Verify package versions are current
 ├── review-skill.sh                # Automated skill review
-├── audit-keywords.sh              # Audit keyword quality
 ├── baseline-audit-all.sh          # Baseline validation for all skills
-├── release-check.sh               # Pre-release verification
 ├── validate-frontmatter.sh        # Validate YAML frontmatter in SKILL.md files
 ├── validate-json-schemas.sh       # Validate plugin.json against schemas
-├── remove-category-from-plugins.sh # Remove category field from plugin manifests
-├── extract-keywords.rb            # Extract keywords from SKILL.md descriptions (Ruby)
-├── fix-frontmatter.mjs            # Repair YAML frontmatter programmatically (Node)
-└── renumber-skills.py             # Renumber skill ordering (Python)
 ```
 
 **Key Scripts**:
 - `sync-plugins.sh` - **Main workflow**: Sync versions, categories, keywords, agents, commands
 - `generate-marketplace.sh` - Rebuild marketplace.json (called by sync-plugins.sh)
 - `review-skill.sh` - Automated single-skill review
-- `baseline-audit-all.sh` - Validate all 183 skills
+- `baseline-audit-all.sh` - Validate all skills
 
 ---
 
@@ -360,13 +341,12 @@ claude-skills/
 ├── CHANGELOG.md               # Version history
 ├── CLAUDE.md                  # Project context for Claude Code
 ├── LICENSE                    # MIT License
-├── MARKETPLACE.md             # Marketplace overview
+├── MARKETPLACE.md             # Generated plugin catalog (do not hand-edit)
 ├── PROJECT_STRUCTURE.md       # This file
 ├── README.md                  # Public repository overview
 ├── SECURITY.md                # Security policy
 ├── package.json               # Node package config
 ├── package-lock.json          # Lockfile
-├── skills-lock.json           # External skill lockfile (e.g. grill-me)
 ├── .gitignore                 # Ignored paths
 └── .gitleaks.toml             # Secret-scanning config
 ```
@@ -390,7 +370,7 @@ Every production skill follows this canonical structure:
 │       {
 │         "name": "skill-name",
 │         "description": "...",
-│         "version": "3.6.0",
+│         "version": "3.9.0",
 │         "keywords": [...],
 │         "agents": [],
 │         "commands": []
@@ -481,7 +461,7 @@ Generated by `codemap --deps`:
 
 This repository uses a two-tier architecture:
 
-### 142 Plugins (Marketplace Categories)
+### 145 Plugins (Marketplace Categories)
 - **What**: Logical groupings of related skills
 - **Where**: `plugins/<plugin-name>/`
 - **Purpose**: Organize skills by domain for discoverability
@@ -497,11 +477,11 @@ This repository uses a two-tier architecture:
 
 **Example**:
 ```
-Plugin: "bun" (1 of 142)
+Plugin: "bun" (1 of 145)
   ↓ contains
 Skills: bun-bundler, bun-cloudflare-workers, bun-docker, ... (27 total)
 
-Plugin: "cloudflare-workers" (1 of 142)
+Plugin: "cloudflare-workers" (1 of 145)
   ↓ contains
 Skills: cloudflare-workers-runtime-apis, cloudflare-workers-security, cloudflare-workers-performance, ... (10 total)
 ```
@@ -568,7 +548,7 @@ git commit -m "Add <skill-name> skill"
 # Cross-harness (Cursor, opencode, Gemini CLI, ...)
 npx skills add secondsky/claude-skills --skill <skill-name>
 
-# Codex CLI (native marketplace — .codex-plugin/ manifests for all 142 plugins)
+# Codex CLI (native marketplace — .codex-plugin/ manifests for all 145 plugins)
 codex plugin marketplace add secondsky/claude-skills
 # Then /plugins in the Codex TUI to browse/install
 
@@ -645,21 +625,21 @@ find plugins/*/skills/*/templates -name "*.ts"
 ## Statistics Summary
 
 **Repository**:
-- Total Size: 20.0MB (2,495 files, codemap tracked view)
-- Total Plugins: 142
-- Total Skills: 183
-- Plugin/Package Version: 3.6.0
+- Total Size: 19.6MB (2,647 files, codemap tracked view)
+- Total Plugins: 145
+- Total Skills: 186
+- Plugin/Package Version: 3.9.0
 
 **File Types** (top 5 by count, codemap view):
-- Markdown: 1,330 files (documentation)
-- TypeScript: 234 files (templates)
-- JSON: 197 files (config)
+- Markdown: 1,339 files (documentation)
+- JSON: 346 files (config/manifests)
+- TypeScript: 230 files (templates)
 - HTML: 122 files (templates)
-- Shell: 121 files (automation)
+- Shell: 116 files (automation)
 
 **Skills by Category** (from marketplace.json `category` field):
+- Tooling: 27 plugins
 - Frontend: 26 plugins
-- Tooling: 24 plugins
 - Cloudflare: 21 plugins (30 skills)
 - API: 16 plugins
 - Web: 10 plugins
@@ -677,17 +657,19 @@ find plugins/*/skills/*/templates -name "*.ts"
 - Documentation: 1 plugin
 - Database: 1 plugin
 
-**Largest Plugins** (by file count):
-1. playwright (539 files, 13MB)
-2. hugo (423 files, 6.7MB)
-3. cloudflare-workers (119 files, 1.4MB)
-4. nuxt-ui-v4 (78 files, 656KB)
-5. react-best-practices (65 files, 154KB)
-6. cloudflare-images (63 files, 648KB)
-7. cloudflare-durable-objects (49 files, 636KB)
-8. maz-ui (46 files, 668KB)
-9. bun (46 files, 248KB)
-10. better-auth (45 files, 504KB)
+**Largest Plugins** (by tracked file count):
+1. hugo (423 files)
+2. cloudflare-workers (118 files)
+3. nuxt-ui-v4 (79 files)
+4. react-best-practices (66 files)
+5. cloudflare-images (63 files)
+6. cloudflare-durable-objects (50 files)
+7. maz-ui (47 files)
+8. bun (47 files)
+9. better-auth (46 files)
+10. react-native-skills (45 files)
+
+> Note: `playwright` tracks only 11 files; its large vendored example app on disk is gitignored.
 
 ---
 
@@ -700,6 +682,6 @@ find plugins/*/skills/*/templates -name "*.ts"
 
 ---
 
-**Last Updated**: 2026-08-05
+**Last Updated**: 2026-09-17
 **Generated with**: [codemap](https://github.com/JordanCoin/codemap)
 **Maintained by**: Claude Skills Team
