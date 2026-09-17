@@ -168,11 +168,11 @@ plugins/<plugin-name>/
 | **nuxt-v4** | 4 | Nuxt 4 core, data, production, server |
 | **nuxt-v5** | 4 | Nuxt 5 core, data, production, server |
 
-All other 138 plugins contain exactly 1 skill. The 4 multi-skill plugins contribute 45 of the 183 SKILL.md files; the remaining 138 plugins contribute the other 138 (183 total).
+All other 141 plugins contain exactly 1 skill. The 4 multi-skill plugins contribute 45 of the 186 SKILL.md files; the remaining 141 plugins contribute the other 141 (186 total).
 
 #### Plugin Categories (145 plugins)
 
-Official `category` field distribution (from `marketplace.json`): frontend (26), tooling (24), cloudflare (21), api (16), web (10), ai (7), security (6), mobile (5), woocommerce (4), testing (4), design (4), auth (4), architecture (3), seo (2), data (2), cms (2), documentation (1), database (1).
+Official `category` field distribution (from `marketplace.json`): tooling (27), frontend (26), cloudflare (21), api (16), web (10), ai (7), security (6), mobile (5), woocommerce (4), testing (4), design (4), auth (4), architecture (3), seo (2), data (2), cms (2), documentation (1), database (1).
 
 ##### **Cloudflare** (21 plugins, 30 skills)
 - cloudflare-workers (10 skills), cloudflare-d1, cloudflare-r2, cloudflare-kv
@@ -421,15 +421,15 @@ Every production skill follows this canonical structure:
 
 ## File Type Distribution
 
-**Total**: 2,495 files across 20.0MB (codemap tracked view)
+**Total**: 2,647 files across 19.6MB (codemap tracked view)
 
 | Extension | Count | Purpose |
 |-----------|-------|---------|
-| `.md` | 1,330 | Documentation (SKILL.md, README.md, references/) |
-| `.ts` | 234 | TypeScript templates and examples |
-| `.json` | 197 | Config files (plugin.json, package.json, schemas) |
+| `.md` | 1,339 | Documentation (SKILL.md, README.md, references/) |
+| `.json` | 346 | Config files (plugin.json, package.json, schemas) |
+| `.ts` | 230 | TypeScript templates and examples |
 | `.html` | 122 | HTML templates and examples |
-| `.sh` | 121 | Shell scripts for automation |
+| `.sh` | 116 | Shell scripts for automation |
 | `.js` | — | JavaScript examples, scripts, and helpers |
 | `.tsx` | — | React component templates |
 | `.yaml`/`.yml` | — | CI/CD and config files |
@@ -468,7 +468,7 @@ This repository uses a two-tier architecture:
 - **Discovery**: Listed in `.claude-plugin/marketplace.json`
 - **Installation**: `/plugin install <plugin-name>@claude-skills`
 
-### 183 Skills (Individual Capabilities)
+### 186 Skills (Individual Capabilities)
 - **What**: Individual knowledge units Claude loads
 - **Where**: `plugins/<plugin-name>/skills/<skill-name>/`
 - **Purpose**: Provide specific domain expertise

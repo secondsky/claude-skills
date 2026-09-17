@@ -308,7 +308,7 @@ MD_HEADER
       echo "| --- | --- |"
       jq -r --arg c "$md_category" \
         '.plugins[] | select(.category == $c)
-         | "| [`\(.name)`](plugins/\(.name)) | \(.description | gsub("\\|"; "\\|")) |"' \
+         | "| [`\(.name)`](plugins/\(.name)) | \(.description | gsub("[\r\n]+"; " ") | gsub("\\|"; "\\|")) |"' \
         "$MARKETPLACE_JSON"
     done < <(jq -r '.plugins[].category' "$MARKETPLACE_JSON" | sort -u)
   } > "$MARKETPLACE_MD"
