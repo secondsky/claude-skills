@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.10.0] - 2026-10-20
+
+### Added
+
+- **`clefcut-cloudflare-remotion-video` plugin (plugin #146).** Remotion video QA built on Levanto Labs' SageCut design (MIT, adapted with attribution) with the frame-reading model swapped to Cloudflare Workers AI: free local checks first (ffmpeg black/blank/frozen/flash, free local OCR via tesseract.js or system tesseract), CLEF decision questions next (`noul`/`choice`/`score`, ≤4 base64 frames per request), CLAIRIC typed extraction, and agent eyes only on model/local disagreement (subagent critics on ≤32 frames). Ships a zero-dependency Node 18+ CLI (`scripts/video-qa.mjs`) covering frame extraction (native + test-width + frame-diff + contact sheet), local checks with declared-effects suppression (`--declared`), positive controls (`synthesize` → `ask --controls`, unmapped controls mark the run unreliable), auto-isolation of failing batches to per-frame answers, a pre-run cost estimate with a >240-frame confirmation gate, incremental result writes, 429/3036 fail-fast, and optional AI Gateway routing (`cf-aig-gateway-id`). Model facts verified against live Cloudflare docs; CLAIRIC's Preview status is stated in the docs.
+
+### Changed
+
+- **Version bump 3.9.0 → 3.10.0** — all 146 plugins, both marketplaces, `package.json`, and regenerated Codex manifests.
+
 ## [3.9.0] - 2026-09-09
 
 ### Added
