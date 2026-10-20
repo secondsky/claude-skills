@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.11.0] - 2026-10-20
+
+### Added
+
+- **`clefcut-cloudflare-video` plugin (plugin #147).** Cuts long videos into clips for YouTube, YouTube Shorts, TikTok, Instagram Reels, X (Twitter), and any other creator platform (open list: unnamed platforms map to a generic creator profile — 9:16 1080×1920, ≤60–90s, safe middle zone). Same free-first stack as `clefcut-cloudflare-remotion-video`: free local analysis (scene scores via temp-file metadata parsing, silence map, EBU R128 loudness, keyframe map, local OCR of burned-in text), CLEF clip-worthiness rating over per-segment contact sheets (`clef-flash` default), CLAIRIC extraction, then verified cutting — lossless `-c copy` with 0.5s keyframe-snap tolerance, auto re-encode fallback with 30ms audio fades, `duration_error_ms` + `start_error_ms` reporting, VFR detection — and platform exports (original / 9:16 bounded crop / 9:16 blur-pad, faststart verified by box walk, optional two-pass loudnorm to -14 LUFS). Preview step produces per-clip sheets, first/last-3s samples, and a real boundary check (±1.5s scene-score scan → `preview.json`). Ships `scripts/clipcut.mjs` (zero-dependency Node 18+, 107 selftest checks) adapted from the battle-tested `video-qa.mjs`. Platform specs carry per-fact verification marks (verified / verified-via-excerpt / community-measured); no speech-to-text, caption burning, or downloading — stated as limitations. Ideas adapted with attribution from kajisho5/ffmpeg-skill (tolerance cut), melvynx/video-agent-skills (scoring rubric), clueso-ai/skills (candidate archetypes), dkyazzentwatwa/vid-clipper (clips JSON contract), browser-use/video-use (self-eval rules), eachlabs/skills + social-media-skills (genre table, human gate) — see THIRD_PARTY_NOTICES.md.
+
+### Changed
+
+- **Version bump 3.10.0 → 3.11.0** — all 147 plugins, both marketplaces, `package.json`, and regenerated Codex manifests.
+
 ## [3.10.0] - 2026-10-20
 
 ### Added

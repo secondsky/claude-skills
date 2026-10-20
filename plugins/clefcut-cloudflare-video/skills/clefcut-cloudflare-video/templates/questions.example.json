@@ -1,0 +1,48 @@
+{
+  "_comment": "Clip-worthiness questions for the `rate` command. Same instructions-file format clefcut-cloudflare-remotion-video uses: questions (CLEF question objects), pass (defect threshold per question id), escalate_margin, severity, escalate_only. Every question is worded so a HIGH value means a problem is present; visual_energy's score levels run from most energetic (0) to most static (4) for the same reason.",
+  "questions": {
+    "opens_on_action": {
+      "type": "noul",
+      "instructions": "The image is a contact sheet of one candidate segment; cells run in time order and span the whole segment. Does the segment open on throat-clearing, greetings, filler words such as 'so' or 'and', or dead air, so that no real content appears within roughly the first second?"
+    },
+    "complete_thought": {
+      "type": "noul",
+      "instructions": "Does the segment fail to read as one complete, self-contained idea from start to finish, for example by covering only half of an idea or by drifting between two separate topics?"
+    },
+    "ends_clean": {
+      "type": "noul",
+      "instructions": "Does the segment end mid-sentence, mid-word, or in the middle of a visual action, so that the ending feels chopped off rather than finished?"
+    },
+    "needs_context": {
+      "type": "noul",
+      "instructions": "Would a viewer who sees only this segment be confused because it refers to people, events, numbers, or earlier statements that are never shown or explained inside the segment itself?"
+    },
+    "visual_energy": {
+      "type": "score",
+      "instructions": "Rate the visual energy of the segment for a sound-off, scroll-fast feed. Level 0 is the most energetic; level 4 is a frozen screen.",
+      "criteria": [
+        "Strong visual energy: frequent motion, action, expressive faces, or on-screen text that keeps changing",
+        "Moderate visual energy: regular cuts, gestures, or text changes",
+        "Mild visual energy: one mostly static shot with occasional movement",
+        "Minimal visual energy: a nearly frozen screen",
+        "No visual energy: a single static screen, like a still image"
+      ]
+    }
+  },
+  "pass": {
+    "opens_on_action": 0.5,
+    "complete_thought": 0.5,
+    "ends_clean": 0.5,
+    "needs_context": 0.5,
+    "visual_energy": 0.75
+  },
+  "escalate_margin": 0.3,
+  "severity": {
+    "opens_on_action": "major",
+    "complete_thought": "major",
+    "ends_clean": "major",
+    "needs_context": "major",
+    "visual_energy": "minor"
+  },
+  "escalate_only": []
+}
