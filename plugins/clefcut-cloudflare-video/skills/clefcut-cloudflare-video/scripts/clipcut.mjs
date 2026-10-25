@@ -62,6 +62,19 @@ const SCENE_THRESHOLD = 0.4;                 // default scene-score cutoff for s
 const SCENE_MAX_CHANGES = 64;                // keep at most this many scene-change points
 const SILENCE_FILTER = 'silencedetect=noise=-35dB:d=0.5';
 const FADE_S = 0.03;                         // 30 ms audio fades on accurate re-encodes / tighten joins
+const SILENT_MAX_DB = -80;                   // one digital-silence tripwire: max volume at/below this = dead audio
+
+/**
+ * Gain expression for a 30 ms de-click at a tighten JOIN (output timeline):
+ * ramp down into c, ramp up out of c, gain 1 everywhere else. NOT afade —
+ * afade=t=in with st>0 silences everything before st, which would zero every
+ * earlier kept piece. Evaluate at t=c: between() is inclusive so the first
+ * branch wins and yields 0 — continuous on both sides of the dip.
+ */
+export function fadeJoinExpr(c, fadeS = FADE_S) {
+  return `if(between(t,${fmt(c - fadeS)},${fmt(c)}),(${fmt(c)}-t)/${fadeS},if(between(t,${fmt(c)},${fmt(c + fadeS)}),(t-${fmt(c)})/${fadeS},1))`;
+}
+
 const LOUDNORM_TARGET = { I: -14, TP: -1.5, LRA: 11 };
 const PLATFORMS = ['youtube', 'shorts', 'tiktok', 'reels', 'x', 'creator'];
 const VARIANTS = ['original', '9x16-crop', '9x16-blur'];
@@ -363,7 +376,7 @@ async function probeCheckFacts(file) {
     const vol = parseVolumedetect(rv.stderr);
     if (vol) {
       facts.audioMaxDb = vol.max;
-      facts.silentAudio = vol.max != null ? vol.max <= -89 : null;
+      facts.silentAudio = vol.max != null ? vol.max <= SILENT_MAX_DB : null;
     }
     const rl = await runFf('ffmpeg', ['-i', file, '-af', 'loudnorm=print_format=json', '-f', 'null', '-']);
     facts.loudness = parseLoudnormJson(rl.stderr);
@@ -516,6 +529,16 @@ export function parseVolumedetect(text) {
   if (!mm && !xm) return null;
   const n = (m) => (m ? Number(m[1]) : null);
   return { mean: n(mm), max: n(xm) };
+}
+
+/** Max volume in dBFS via volumedetect — null when the file has no readable audio. */
+async function measureMaxVolume(file) {
+  try {
+    const rv = await runFf('ffmpeg', ['-i', file, '-vn', '-af', 'volumedetect', '-f', 'null', '-']);
+    if (rv.code !== 0) return null;
+    const vol = parseVolumedetect(rv.stderr);
+    return vol ? vol.max : null;
+  } catch { return null; }
 }
 
 // ---------------------------------------------------------------- segments builder (pure)
@@ -855,7 +878,13 @@ export function buildCheckRows(facts, { platform = null } = {}) {
     const over = rule.cap != null && d > rule.cap;
     const inWarnZone = !over && rule.warnFrom != null && rule.cap != null && rule.warnFrom < rule.cap
       && (rule.warnInclusive ? d >= rule.warnFrom : d > rule.warnFrom);
-    if (over) judge('duration', 'FAIL', { reason: rule.warnText(d), note: `${fmt(d)}s vs the ${rule.cap}s ${platform || 'creator'} cap (${rule.mark})`, fix: `clipcut cut <source> --plan clips.json (shorten this clip's end — duration is set by the plan)` });
+    // Only VERIFIED caps hard-FAIL: a cap the platform table itself marks
+    // community/guidance is reported loudly but never blocks delivery on its own.
+    if (over) judge('duration', rule.mark === 'verified' ? 'FAIL' : 'WARN', {
+      reason: rule.warnText(d),
+      note: `${fmt(d)}s vs the ${rule.cap}s ${platform || 'creator'} cap (${rule.mark}${rule.mark === 'verified' ? '' : ' — reported, not enforced'})`,
+      fix: `clipcut cut <source> --plan clips.json (shorten this clip's end — duration is set by the plan)`,
+    });
     else if (inWarnZone) judge('duration', 'WARN', { reason: rule.warnText(d), note: `${fmt(d)}s vs the conservative ${rule.warnFrom}s warn threshold` });
     else judge('duration', 'PASS', { note: `${fmt(d)}s${rule.cap != null ? ` (cap ${rule.cap}s, ${rule.mark})` : rule.note ? ` — ${rule.note}` : ''}` });
   }
@@ -928,8 +957,8 @@ export function buildCheckRows(facts, { platform = null } = {}) {
 
     // silent audio — format: a dead track is a defect, not a style choice.
     if (f.silentAudio == null) unmeasurable('silent_audio', 'format', 'volumedetect did not report levels');
-    else if (f.silentAudio) add('silent_audio', 'format', 'FAIL', { reason: 'audio measures as digital silence (max level <= -89 dBFS) — the audio track is dead' });
-    else add('silent_audio', 'format', 'PASS', { note: `max level ${f.audioMaxDb != null ? `${f.audioMaxDb} dBFS` : 'above -89 dBFS'}` });
+    else if (f.silentAudio) add('silent_audio', 'format', 'FAIL', { reason: `audio measures as digital silence (max level <= ${SILENT_MAX_DB} dBFS) — the audio track is dead` });
+    else add('silent_audio', 'format', 'PASS', { note: `max level ${f.audioMaxDb != null ? `${f.audioMaxDb} dBFS` : `above ${SILENT_MAX_DB} dBFS`}` });
   }
 
   // faststart — format: moov-box walk.
@@ -1964,7 +1993,7 @@ async function cmdTighten(clip, o) {
     const rv = await runFf('ffmpeg', ['-i', clip, '-vn', '-af', 'volumedetect', '-f', 'null', '-']);
     const vol = parseVolumedetect(rv.stderr);
     const meanDb = vol ? vol.mean : null;
-    if (meanDb != null && meanDb <= -80) {
+    if (meanDb != null && meanDb <= SILENT_MAX_DB) {
       console.log(`nothing to tighten at threshold ${threshold} dBFS / min-silence ${minSilence}s — and the audio measures as digital silence (mean ${meanDb} dBFS): there is no speech to keep.`);
     } else {
       const suggestion = suggestThreshold(meanDb);
@@ -1979,20 +2008,26 @@ async function cmdTighten(clip, o) {
   const stem = sanitizeSlug(path.basename(clip));
   const target = path.join(path.dirname(path.resolve(clip)), `${stem}_tight.mp4`);
   const expr = keep.map(([a, b]) => `between(t,${fmt(a)},${fmt(b)})`).join('+');
-  // 30 ms audio fades at every JOIN (end of kept piece i meets start of piece i+1),
+  // 30 ms audio de-click at every JOIN (end of kept piece i meets start of piece i+1),
   // placed at the CUMULATIVE output timestamps (post-asetpts the audio is contiguous).
+  // NOT afade: afade=t=in with st>0 silences everything BEFORE st, so a fade-in at a
+  // join would zero every earlier kept piece. A per-frame conditional volume filter
+  // ramps down into each join and back up out of it, leaving all other samples at 1.
+  const fadeJoin = fadeJoinExpr;
   const fadeList = [];
   let cum = 0;
   for (let i = 0; i < keep.length - 1; i++) {
     cum += keep[i][1] - keep[i][0];
-    fadeList.push(`afade=t=out:st=${fmt(Math.max(0, cum - FADE_S))}:d=${FADE_S}`, `afade=t=in:st=${fmt(cum)}:d=${FADE_S}`);
+    fadeList.push(`volume=volume='${fadeJoin(cum)}':eval=frame`);
   }
   const vf = `select='${expr}',setpts=N/FRAME_RATE/TB`;
   const af = [`aselect='${expr}',asetpts=N/SR/TB`, ...fadeList].join(',');
   const expectedS = +keep.reduce((a, k) => a + (k[1] - k[0]), 0).toFixed(3);
-  // Single re-encode, written atomically: the temp is verified (output duration must
-  // match the keep-span total — this is what catches a broken-aselect ffmpeg build)
-  // before it replaces anything at <stem>_tight.mp4.
+  // Single re-encode, written atomically: the temp is verified before it replaces
+  // anything at <stem>_tight.mp4 — duration must match the keep-span total AND the
+  // output audio must not be silent (duration alone let a broken filter chain ship
+  // a digitally-silent file; volumedetect is the backstop).
+  const srcVol = await measureMaxVolume(clip);
   await atomicMediaWrite(target, async (tmp) => {
     const r = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', clip, '-vf', vf, '-af', af,
       '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p',
@@ -2002,6 +2037,12 @@ async function cmdTighten(clip, o) {
     const d = await durationOf(tmp);
     const { within } = classifyDuration(d, expectedS, 0.5);
     if (!within) throw new UserError(`tighten verification failed: output is ${fmt(d)}s but the keep spans total ${fmt(expectedS)}s — this ffmpeg build may not drop audio frames in aselect; no file written.`);
+    if (srcVol != null && srcVol > SILENT_MAX_DB) {
+      const outVol = await measureMaxVolume(tmp);
+      if (outVol != null && outVol <= SILENT_MAX_DB) {
+        throw new UserError(`tighten verification failed: the source audio peaks at ${srcVol} dBFS but the output is digitally silent (<= ${SILENT_MAX_DB} dBFS) — a filter chain destroyed the audio; no file written.`);
+      }
+    }
   });
   const after = await durationOf(target);
   console.log(`tighten: ${path.basename(clip)} -> ${path.basename(target)} (threshold ${threshold} dBFS, min-silence ${minSilence}s, margin ${margin}s, min-keep ${minKeep}s)`);
@@ -2339,6 +2380,29 @@ async function cmdSelftest() {
   eq('keepspans margin keeps silence each side', r1.keep, [[0, 10.15], [11.85, 20]]);
   eq('keepspans one cut + removed total', [r1.cuts, r1.removedS], [1, 1.7]);
   eq('keepspans overlapping silences merge', buildKeepSpans(20, [{ start: 8, end: 10 }, { start: 9.5, end: 12 }], { margin: 0, minKeep: 0.2 }).keep, [[0, 8], [12, 20]]);
+  // fadeJoin semantics: translate the ffmpeg expression (if/between) to JS and
+  // evaluate it the way ffmpeg would (between inclusive, first-matching if-branch wins).
+  {
+    const between = (v, a, b) => v >= a && v <= b;
+    const splitArgs = (s) => { const out = []; let d = 0; let cur = ''; for (const ch of s) { if (ch === '(') d++; if (ch === ')') d--; if (ch === ',' && d === 0) { out.push(cur); cur = ''; } else cur += ch; } out.push(cur); return out; };
+    const toJs = (s) => {
+      s = s.trim();
+      if (s.startsWith('if(') && s.endsWith(')')) { const a = splitArgs(s.slice(3, -1)); return `(${toJs(a[0])} ? ${toJs(a[1])} : ${toJs(a[2])})`; }
+      if (s.startsWith('between(') && s.endsWith(')')) { const a = splitArgs(s.slice(8, -1)); return `between(${a.map(toJs).join(',')})`; }
+      return s;
+    };
+    const gainAt = (expr, t) => Function('t', 'between', `'use strict'; return (${toJs(expr)});`)(t, between);
+    const j = fadeJoinExpr(10, 0.03);
+    eq('fadejoin gain 1 far before the join', gainAt(j, 0), 1);
+    eq('fadejoin gain 1 far after the join', gainAt(j, 20), 1);
+    eq('fadejoin gain 0 at the join center', gainAt(j, 10), 0);
+    eq('fadejoin gain ~1 at the outer edge before', Math.abs(gainAt(j, 10 - 0.03) - 1) < 1e-9, true);
+    eq('fadejoin gain ~1 at the outer edge after', Math.abs(gainAt(j, 10 + 0.03) - 1) < 1e-9, true);
+    eq('fadejoin gain ~0.5 at the ramp midpoints', Math.abs(gainAt(j, 10 - 0.015) - 0.5) < 1e-9 && Math.abs(gainAt(j, 10 + 0.015) - 0.5) < 1e-9, true);
+    const j2 = fadeJoinExpr(20, 0.03);
+    eq('fadejoin chained joins do not interfere', gainAt(j2, 0) * gainAt(j, 9.985) > 0.4, true); // join at 20 leaves join-at-10's window untouched
+  }
+  eq('parseVolumedetect max-only line', parseVolumedetect('max_volume: -91.0 dB').max, -91.0);
   eq('keepspans silence fully eaten by margins removes nothing', buildKeepSpans(20, [{ start: 10, end: 10.2 }], { margin: 0.15, minKeep: 0.2 }), { keep: [[0, 20]], cuts: 0, removedS: 0 });
   eq('keepspans null end means silent to EOF', buildKeepSpans(10, [{ start: 8, end: null }], { margin: 0.15, minKeep: 0.2 }).keep, [[0, 8.15]]);
   const tiny = buildKeepSpans(20, [{ start: 5, end: 5.4 }, { start: 5.6, end: 6 }], { margin: 0, minKeep: 0.25 });
@@ -2417,7 +2481,7 @@ async function cmdSelftest() {
   const tt = buildCheckRows({ ...goodFacts, duration: 580 }, { platform: 'tiktok' }).find((r) => r.check === 'duration');
   eq('check tiktok 580s in the warn zone', tt.status, 'WARN');
   const ttOver = buildCheckRows({ ...goodFacts, duration: 650 }, { platform: 'tiktok' }).find((r) => r.check === 'duration');
-  eq('check tiktok 650s FAIL hedged', [ttOver.status, ttOver.reason], ['FAIL', 'duration 650s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)']);
+  eq('check tiktok 650s WARN (community cap reported, not enforced)', [ttOver.status, ttOver.reason, ttOver.note.includes('reported, not enforced')], ['WARN', 'duration 650s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)', true]);
   if (fails.length) { console.error(`\nselftest: ${fails.length} failure(s)`); return 2; }
   console.log('\nselftest: all checks passed');
   return 0;

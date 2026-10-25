@@ -67,12 +67,16 @@ classification:
 | audio / sample rate | format | AAC present; 48000 Hz (44100 widely accepted) | no audio stream = WARN "could not measure", not a FAIL |
 | faststart | format | moov box before mdat (box walk) | fix: `clipcut export <file> --platform <id> --variant original` |
 | loudness | judgement | within 6 LU of −14 LUFS and TP ≤ −1 dBTP | measure-only I/TP — no platform documents −14; fix: `--loudnorm` |
-| silent audio | format | max level above −89 dBFS | digital silence is a dead track, a defect |
+| silent audio | format | max level above −80 dBFS | digital silence is a dead track, a defect |
 | size | format | under the table's cap where one exists | reels ~4 GiB, x ~512 MiB free tier (both community); WARN only |
 
 Judgement rows (duration, aspect, loudness) FAIL only with `--platform`;
 without it they are evaluated against the generic creator profile and
 downgrade to WARN, while format rows still enforce. Any FAIL exits 1.
+One more honesty rule: a duration cap the platform table itself marks
+**community or guidance is reported loudly (WARN, "reported, not enforced")
+even with `--platform`** — only verified caps (e.g. the Shorts 180 s limit)
+hard-FAIL. Unverified numbers never block delivery on their own.
 Unmeasurable facts (probe failure, no audio stream, silent track) are WARN
 "could not measure" — never PASS.
 
