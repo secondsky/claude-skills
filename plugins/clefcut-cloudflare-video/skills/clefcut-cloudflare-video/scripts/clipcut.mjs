@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 // clipcut.mjs — cut long videos into social/creator clips: FREE local analysis first
-// (probe / segments / sheets / cut / export / preview), Cloudflare Workers AI second
-// (CLEF = rate contact sheets, CLAIRIC = read burned-in text), verified ffmpeg cutting
-// and platform export last. Single file, zero npm dependencies (node: builtins;
-// tesseract.js used opportunistically when present). Node 18+. MIT license.
+// (probe / segments / sheets / cut / tighten / export / check / preview), Cloudflare
+// Workers AI second (CLEF = rate contact sheets, CLAIRIC = read burned-in text),
+// verified ffmpeg cutting and platform export last. Single file, zero npm
+// dependencies (node: builtins; tesseract.js used opportunistically when present).
+// Node 18+. MIT license.
 //
 // Credits / design lineage:
 //   - Infrastructure (env layering, ffmpeg discovery, batching, retry shape, cost gate)
 //     adapted from Levanto Labs SageCut (MIT) via the sibling video-qa.mjs skill.
-//   - Tolerance-based cutting (try -c copy, measure, re-encode when off) inspired by
-//     kajisho5/ffmpeg-skill.
+//   - Tolerance-based cutting (try -c copy, measure, re-encode when off), silence
+//     removal with kept margins, and the platform compliance-check idea are inspired
+//     by kajisho5/ffmpeg-skill (MIT).
 //   - The rate rubric (questions.json pass/escalate semantics) follows melvynx's
 //     rubric style from the sibling skill.
 //
@@ -27,7 +29,9 @@
 //   node clipcut.mjs rate --sheets sheets/ --questions questions.json --model clef-flash
 //   node clipcut.mjs read talk.mp4 --segments segments.json --engine auto
 //   node clipcut.mjs cut talk.mp4 --plan clips.json --tolerance 0.5
+//   node clipcut.mjs tighten clips/hook.mp4
 //   node clipcut.mjs export clips/hook.mp4 --platform shorts --variant 9x16-crop --loudnorm
+//   node clipcut.mjs check exports/hook_shorts_9x16-crop.mp4 --platform shorts
 //   node clipcut.mjs preview clips/hook.mp4 --source talk.mp4 --start 12.5 --end 58.2
 //   node clipcut.mjs plan --file clips.json
 //   node clipcut.mjs --selftest
@@ -57,11 +61,11 @@ const RETRIES = 3;                           // 429/5xx: backoff 1s, 2s, 4s (ret
 const SCENE_THRESHOLD = 0.4;                 // default scene-score cutoff for scene_changes
 const SCENE_MAX_CHANGES = 64;                // keep at most this many scene-change points
 const SILENCE_FILTER = 'silencedetect=noise=-35dB:d=0.5';
-const FADE_S = 0.03;                         // 30 ms audio fades on accurate re-encodes
+const FADE_S = 0.03;                         // 30 ms audio fades on accurate re-encodes / tighten joins
 const LOUDNORM_TARGET = { I: -14, TP: -1.5, LRA: 11 };
 const PLATFORMS = ['youtube', 'shorts', 'tiktok', 'reels', 'x', 'creator'];
 const VARIANTS = ['original', '9x16-crop', '9x16-blur'];
-const VERTICAL_PLATFORMS = ['shorts', 'tiktok', 'reels', 'creator'];
+const TIGHTEN_DEFAULTS = { thresholdDb: -35, minSilenceS: 0.6, marginS: 0.15, minKeepS: 0.2, maxCuts: 400 };
 const DEFAULT_TEXT_FIELDS = { onscreen_text: { type: 'text', instructions: 'All text visible in the frame, in reading order' } };
 const IS_WIN = process.platform === 'win32';
 const EXE = IS_WIN ? '.exe' : '';
@@ -309,8 +313,66 @@ async function probeContainer(file) {
     fps: avgFps || rFps || 30, r_frame_rate: rFps, avg_frame_rate: avgFps,
     vfr: rFps > 0 && avgFps > 0 && Math.abs(rFps - avgFps) > 0.5,
     hasAudio: (j.streams || []).some((s) => s.codec_type === 'audio'),
+    codec: v.codec_name || null, pixFmt: v.pix_fmt || null,
     duration,
   };
+}
+
+/** Facts for the `check` subcommand: one ffprobe pass (container + streams) plus, when an
+ * audio stream exists, volumedetect (levels/silence) and loudness (loudnorm JSON with the
+ * ebur128 fallback). Unmeasurable facts stay null — never guessed. A hard ffprobe failure
+ * throws; a file with no video stream returns measurable: false (rows become WARNs). */
+async function probeCheckFacts(file) {
+  const r = await runFf('ffprobe', ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', file]);
+  if (r.code !== 0) throw new UserError(`ffprobe failed on ${file}: ${r.stderr.trim().slice(0, 300)}`);
+  const j = JSON.parse(r.stdout.toString());
+  const v = (j.streams || []).find((s) => s.codec_type === 'video') || null;
+  const a = (j.streams || []).find((s) => s.codec_type === 'audio') || null;
+  const num = (x) => { const n = Number(x); return Number.isFinite(n) ? n : null; };
+  const rate = (s) => { const [n, d] = String(s || '0/1').split('/').map(Number); return d ? n / d : n || 0; };
+  const durRaw = num(j.format && j.format.duration) ?? (v ? num(v.duration) : null);
+  const rFps = v ? rate(v.r_frame_rate) : 0;
+  const avgFps = v ? rate(v.avg_frame_rate) : 0;
+  // The moov-box walk only means something on ISO-BMFF containers (mp4/mov family);
+  // on anything else faststart is unmeasurable (null), never a false FAIL.
+  const container = String((j.format && j.format.format_name) || '');
+  const isIsoBmff = /mp4|mov|m4a|3gp|m4v/.test(container);
+  let sizeBytes = null;
+  try { sizeBytes = fs.statSync(file).size; } catch { /* keep null */ }
+  const facts = {
+    file,
+    measurable: !!v,
+    duration: durRaw != null && durRaw > 0 ? +durRaw.toFixed(3) : null,
+    width: v ? num(v.width) : null,
+    height: v ? num(v.height) : null,
+    fps: avgFps || rFps || null,
+    vfr: !!(rFps > 0 && avgFps > 0 && Math.abs(rFps - avgFps) > 0.5),
+    videoCodec: v ? v.codec_name || null : null,
+    pixFmt: v ? v.pix_fmt || null : null,
+    hasAudio: !!a,
+    audioCodec: a ? a.codec_name || null : null,
+    audioSampleRate: a ? num(a.sample_rate) : null,
+    faststart: isIsoBmff ? hasFaststart(file) : null,
+    loudness: null,
+    silentAudio: null,
+    audioMaxDb: null,
+    sizeBytes,
+  };
+  if (a) {
+    const rv = await runFf('ffmpeg', ['-i', file, '-vn', '-af', 'volumedetect', '-f', 'null', '-']);
+    const vol = parseVolumedetect(rv.stderr);
+    if (vol) {
+      facts.audioMaxDb = vol.max;
+      facts.silentAudio = vol.max != null ? vol.max <= -89 : null;
+    }
+    const rl = await runFf('ffmpeg', ['-i', file, '-af', 'loudnorm=print_format=json', '-f', 'null', '-']);
+    facts.loudness = parseLoudnormJson(rl.stderr);
+    if (!facts.loudness) {
+      const re = await runFf('ffmpeg', ['-i', file, '-af', 'ebur128=peak=true', '-f', 'null', '-']);
+      facts.loudness = parseEbur128(re.stderr);
+    }
+  }
+  return facts;
 }
 
 /** Pixel dimensions of an image file (ffprobe), or nulls. */
@@ -429,6 +491,31 @@ export function keyframeAtOrBefore(keyframes, t) {
   let best = null;
   for (const k of keyframes || []) if (Number.isFinite(k) && k <= t + 1e-6 && (best == null || k > best)) best = k;
   return best;
+}
+
+/** The keyframes BRACKETING t: { before: latest <= t, after: earliest >= t } — nulls when
+ * unknown. Feeds cut-report's nearest_keyframes (what the re-encode path snapped past). */
+export function bracketKeyframes(keyframes, t) {
+  let before = null;
+  let after = null;
+  for (const k of keyframes || []) {
+    if (!Number.isFinite(k)) continue;
+    if (k <= t + 1e-6 && (before == null || k > before)) before = k;
+    if (k >= t - 1e-6 && (after == null || k < after)) after = k;
+  }
+  return { before, after };
+}
+
+/** Parse volumedetect stderr: { mean, max } in dBFS (either null when absent). Digital
+ * silence reports as about -91 dB — used by `tighten` (threshold suggestion) and `check`
+ * (silent-audio row). */
+export function parseVolumedetect(text) {
+  const s = String(text || '');
+  const mm = /mean_volume:\s*(-?[\d.]+)\s*dB/.exec(s);
+  const xm = /max_volume:\s*(-?[\d.]+)\s*dB/.exec(s);
+  if (!mm && !xm) return null;
+  const n = (m) => (m ? Number(m[1]) : null);
+  return { mean: n(mm), max: n(xm) };
 }
 
 // ---------------------------------------------------------------- segments builder (pure)
@@ -592,27 +679,84 @@ export function planDurations(clips) {
   return { durations, total };
 }
 
+// ---------------------------------------------------------------- platform specs (single source of truth)
+
+/** Universal container baseline every platform in the table shares (synthesis of the
+ * compiled research): H.264 video in yuv420p, AAC audio (48 kHz recommended), MP4 with
+ * the moov box at the front (faststart), even (divisible-by-2) dimensions. */
+export const PLATFORM_CODEC = { video: 'h264', pixFmt: 'yuv420p', audio: 'aac', sampleRateRecHz: 48000, faststart: true };
+
 /**
- * Per-platform duration rules from the compiled research (verified caps stated as fact,
- * community-reported limits hedged as unverified). tiktok only warns from 570s — the 3-min
- * figure for it was never verified; standard uploads allow up to ~10 min.
+ * PLATFORM_SPECS is the SINGLE SOURCE OF TRUTH for per-platform facts. Both the export
+ * warnings (platformWarnings) and the `check` subcommand (buildCheckRows) read this
+ * table — never copy a number or a hedge out of it into other code. Duration entries
+ * carry:
+ *   cap              — the `check` FAIL threshold in seconds (null = no practical cap)
+ *   mark             — honesty mark: 'verified' | 'community' | 'guidance'
+ *   warnFrom / warnInclusive / warnText — the export-warning threshold + exact hedged
+ *                      wording (verified caps stated as fact, community-reported
+ *                      limits hedged as unverified; tiktok only warns from 570s — the
+ *                      3-min figure for it was never verified, standard uploads allow
+ *                      up to ~10 min).
+ * Aspects are matched with a 0.02 ratio tolerance (same as platformWarnings).
  */
-const DURATION_WARN = {
-  shorts: { over: 180, inclusive: false, text: (d) => `duration ${fmt(d)}s exceeds the 3-minute YouTube Shorts cap (verified)` },
-  tiktok: { over: 570, inclusive: true, text: (d) => `duration ${fmt(d)}s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)` },
-  reels: { over: 180, inclusive: false, text: (d) => `duration ${fmt(d)}s may exceed the community-reported 3-minute Reels limit (unverified)` },
-  creator: { over: 90, inclusive: false, text: (d) => `duration ${fmt(d)}s exceeds the 60–90s generic creator-platform guidance` },
-  x: { over: 140, inclusive: false, text: (d) => `duration ${fmt(d)}s may exceed the community-reported 140s X free-tier limit (unverified; Premium allows up to 4h)` },
+export const PLATFORM_SPECS = {
+  youtube: {
+    aspects: { accepted: [16 / 9, 1, 9 / 16], vertical: false },
+    duration: { cap: null, mark: 'verified', note: '256 GB / 12 h account cap (verified) — no practical limit for clip work' },
+    sizeCapBytes: null,
+  },
+  shorts: {
+    aspects: { accepted: [9 / 16], vertical: true },
+    duration: {
+      cap: 180, mark: 'verified', warnFrom: 180, warnInclusive: false,
+      warnText: (d) => `duration ${fmt(d)}s exceeds the 3-minute YouTube Shorts cap (verified)`,
+    },
+    sizeCapBytes: null,
+  },
+  tiktok: {
+    aspects: { accepted: [9 / 16], vertical: true },
+    duration: {
+      cap: 600, mark: 'community', warnFrom: 570, warnInclusive: true,
+      warnText: (d) => `duration ${fmt(d)}s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)`,
+    },
+    sizeCapBytes: null,
+  },
+  reels: {
+    aspects: { accepted: [9 / 16], vertical: true },
+    duration: {
+      cap: 180, mark: 'community', warnFrom: 180, warnInclusive: false,
+      warnText: (d) => `duration ${fmt(d)}s may exceed the community-reported 3-minute Reels limit (unverified)`,
+    },
+    sizeCapBytes: 4 * 1024 * 1024 * 1024, sizeMark: 'community',
+  },
+  x: {
+    aspects: { accepted: [16 / 9, 1, 9 / 16], vertical: false },
+    duration: {
+      cap: 140, mark: 'community', warnFrom: 140, warnInclusive: false,
+      warnText: (d) => `duration ${fmt(d)}s may exceed the community-reported 140s X free-tier limit (unverified; Premium allows up to 4h)`,
+    },
+    sizeCapBytes: 512 * 1024 * 1024, sizeMark: 'community',
+  },
+  creator: {
+    aspects: { accepted: [9 / 16], vertical: true },
+    duration: {
+      cap: 90, mark: 'guidance', warnFrom: 90, warnInclusive: false,
+      warnText: (d) => `duration ${fmt(d)}s exceeds the 60–90s generic creator-platform guidance`,
+    },
+    sizeCapBytes: null,
+  },
 };
 
-/** Platform spec warnings from the compiled research (duration caps, vertical aspect). */
+/** Platform spec warnings from the shared table (duration caps, vertical aspect). */
 export function platformWarnings(platform, durationS, dims = {}, variant = 'original') {
   const w = [];
   const d = Number(durationS);
   if (!PLATFORMS.includes(platform)) return w;
-  const rule = DURATION_WARN[platform];
-  if (rule && Number.isFinite(d) && (rule.inclusive ? d >= rule.over : d > rule.over)) w.push(rule.text(d));
-  if (VERTICAL_PLATFORMS.includes(platform)) {
+  const spec = PLATFORM_SPECS[platform] || {};
+  const rule = spec.duration || {};
+  if (rule.warnText && Number.isFinite(d) && (rule.warnInclusive ? d >= rule.warnFrom : d > rule.warnFrom)) w.push(rule.warnText(d));
+  if (spec.aspects && spec.aspects.vertical) {
     const wd = Number(dims.width); const ht = Number(dims.height);
     if (Number.isFinite(wd) && Number.isFinite(ht) && wd > 0 && ht > 0) {
       const ar = wd / ht;
@@ -620,6 +764,187 @@ export function platformWarnings(platform, durationS, dims = {}, variant = 'orig
     }
   }
   return w;
+}
+
+// ---------------------------------------------------------------- tighten / check (pure)
+
+/**
+ * Keep-span builder for `tighten` (silence removal), pure. Each silence [start, end]
+ * (end null = silent to EOF) becomes a removal [start+margin, end-margin]: `margin`
+ * seconds of silence stay attached to the speech on each side so the joins sound
+ * natural. A silence fully eaten by its margins removes nothing. Removals are merged,
+ * then kept spans shorter than `minKeep` are dropped (swallowed by their neighboring
+ * removals). Returns { keep: [[a,b],...] ascending, cuts: removal count,
+ * removedS: seconds removed } over [0, duration].
+ */
+export function buildKeepSpans(duration, silences, { margin = TIGHTEN_DEFAULTS.marginS, minKeep = TIGHTEN_DEFAULTS.minKeepS } = {}) {
+  const dur = Number(duration) || 0;
+  const clamp = (x) => Math.max(0, Math.min(dur, x));
+  const removals = [];
+  for (const s of silences || []) {
+    if (!s) continue;
+    const st = Number(s.start);
+    const en = s.end == null ? dur : Number(s.end);
+    if (!Number.isFinite(st) || !Number.isFinite(en) || en <= st) continue;
+    const a = clamp(st + margin);
+    const b = clamp(en - margin);
+    if (b > a) removals.push([a, b]);
+  }
+  removals.sort((x, y) => x[0] - y[0] || x[1] - y[1]);
+  const merged = [];
+  for (const r of removals) {
+    if (merged.length && r[0] <= merged[merged.length - 1][1]) merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], r[1]);
+    else merged.push([r[0], r[1]]);
+  }
+  let keep = [];
+  let t = 0;
+  for (const [a, b] of merged) { if (a > t) keep.push([t, a]); t = Math.max(t, b); }
+  if (t < dur) keep.push([t, dur]);
+  keep = keep.filter((k) => k[1] - k[0] >= minKeep);
+  const keptS = keep.reduce((a, k) => a + (k[1] - k[0]), 0);
+  const cuts = Math.max(0, keep.length - 1)
+    + (keep.length && keep[0][0] > 1e-9 ? 1 : 0)
+    + (keep.length && keep[keep.length - 1][1] < dur - 1e-9 ? 1 : 0);
+  return { keep, cuts, removedS: +Math.max(0, dur - keptS).toFixed(3) };
+}
+
+/** Suggested silencedetect threshold when no silence was found: track mean level + 6 dB,
+ * capped at -5 dB (never suggest anything near full scale). null when the mean is unknown. */
+export function suggestThreshold(meanDb) {
+  if (meanDb == null) return null;
+  const m = Number(meanDb);
+  if (!Number.isFinite(m)) return null;
+  return +Math.min(m + 6, -5).toFixed(1);
+}
+
+/**
+ * Build the `check` compliance rows from measured facts (pure — feeds the report and the
+ * selftests). Null facts fields are UNMEASURABLE: they become WARN "could not measure",
+ * never PASS. Row kinds: "judgement" (duration, aspect, loudness — platform-dependent
+ * taste) and "format" (objective container facts). Judgement rows FAIL only with a
+ * --platform; without one they are evaluated against the generic creator profile (the
+ * open-list default) and downgrade to WARN. Format rows enforce in both modes.
+ * Each non-PASS row carries a plain `reason` and, when a real fix exists, a `fix`
+ * naming the exact clipcut command.
+ */
+export function buildCheckRows(facts, { platform = null } = {}) {
+  const f = facts || {};
+  const spec = platform && PLATFORM_SPECS[platform] ? PLATFORM_SPECS[platform] : null;
+  const eff = spec || PLATFORM_SPECS.creator; // open-list default: generic creator profile
+  const downgrade = !platform;                // judgement FAIL -> WARN without --platform
+  const fin = (x) => { const n = x == null ? NaN : Number(x); return Number.isFinite(n) ? n : null; }; // Number(null) is 0 — never let null look measured
+  const rows = [];
+  const add = (check, kind, status, extra = {}) => {
+    const row = { check, kind, status };
+    if (extra.reason) row.reason = extra.reason;
+    if (extra.fix) row.fix = extra.fix;
+    if (extra.note) row.note = extra.note;
+    rows.push(row);
+  };
+  const unmeasurable = (check, kind, why) => add(check, kind, 'WARN', { reason: `could not measure (${why})` });
+  const judge = (check, status, extra = {}) => add(check, 'judgement', downgrade && status === 'FAIL' ? 'WARN' : status, extra);
+  const fixExport = (variant, tail = '') => `clipcut export ${f.file || '<file>'} --platform ${platform || 'creator'} --variant ${variant}${tail}`;
+  const arName = (r) => (Math.abs(r - 9 / 16) < 1e-9 ? '9:16' : Math.abs(r - 16 / 9) < 1e-9 ? '16:9' : '1:1');
+
+  // duration — judgement.
+  if (fin(f.duration) == null || !(fin(f.duration) > 0)) {
+    unmeasurable('duration', 'judgement', 'ffprobe reported no duration');
+  } else {
+    const d = fin(f.duration);
+    const rule = eff.duration || {};
+    const over = rule.cap != null && d > rule.cap;
+    const inWarnZone = !over && rule.warnFrom != null && rule.cap != null && rule.warnFrom < rule.cap
+      && (rule.warnInclusive ? d >= rule.warnFrom : d > rule.warnFrom);
+    if (over) judge('duration', 'FAIL', { reason: rule.warnText(d), note: `${fmt(d)}s vs the ${rule.cap}s ${platform || 'creator'} cap (${rule.mark})`, fix: `clipcut cut <source> --plan clips.json (shorten this clip's end — duration is set by the plan)` });
+    else if (inWarnZone) judge('duration', 'WARN', { reason: rule.warnText(d), note: `${fmt(d)}s vs the conservative ${rule.warnFrom}s warn threshold` });
+    else judge('duration', 'PASS', { note: `${fmt(d)}s${rule.cap != null ? ` (cap ${rule.cap}s, ${rule.mark})` : rule.note ? ` — ${rule.note}` : ''}` });
+  }
+
+  // aspect — judgement.
+  if (fin(f.width) == null || fin(f.height) == null || !(fin(f.width) > 0)) {
+    unmeasurable('aspect', 'judgement', 'ffprobe reported no dimensions');
+  } else {
+    const wd = fin(f.width); const ht = fin(f.height);
+    const ar = wd / ht;
+    const want = (eff.aspects.accepted || []).map(arName).join(' or ');
+    if ((eff.aspects.accepted || []).some((r) => Math.abs(ar - r) <= 0.02)) judge('aspect', 'PASS', { note: `${wd}x${ht} (~${ar.toFixed(3)}:1) matches ${want}` });
+    else judge('aspect', 'FAIL', {
+      reason: `output is ${wd}x${ht} (~${ar.toFixed(3)}:1), not ${want}${platform ? ` — ${platform} expects ${eff.aspects.vertical ? 'vertical 9:16 1080x1920' : want}` : ' — the generic creator profile expects vertical 9:16'}`,
+      fix: eff.aspects.vertical ? fixExport('9x16-crop') : undefined,
+    });
+  }
+
+  // resolution — format: divisible-by-2 (H.264 4:2:0 needs even dimensions).
+  if (fin(f.width) == null || fin(f.height) == null || !(fin(f.width) > 0)) unmeasurable('resolution', 'format', 'ffprobe reported no dimensions');
+  else if (f.width % 2 !== 0 || f.height % 2 !== 0) add('resolution', 'format', 'FAIL', { reason: `dimensions ${f.width}x${f.height} are not divisible by 2 — H.264 4:2:0 encoding needs even numbers`, fix: fixExport('original') });
+  else add('resolution', 'format', 'PASS', { note: `${f.width}x${f.height}, both divisible by 2` });
+
+  // fps + VFR/CFR — format (VFR is a compatibility hazard, not a hard reject).
+  if (fin(f.fps) == null || !(fin(f.fps) > 0)) unmeasurable('fps', 'format', 'ffprobe reported no frame rate');
+  else if (f.vfr) add('fps', 'format', 'WARN', { reason: `variable frame rate suspected (r_frame_rate vs avg_frame_rate differ by > 0.5 fps around ${fmt(f.fps)}fps) — players may judder; a re-encode makes it CFR`, fix: `clipcut cut <source> --plan clips.json --mode accurate, or ${fixExport('9x16-crop')}` });
+  else add('fps', 'format', 'PASS', { note: `${fmt(f.fps)}fps, constant (CFR)` });
+
+  // codec / pix_fmt — format: the shared H.264 + yuv420p baseline.
+  if (!f.videoCodec) unmeasurable('codec', 'format', 'ffprobe reported no video codec');
+  else if (f.videoCodec !== PLATFORM_CODEC.video) add('codec', 'format', 'FAIL', { reason: `video codec ${f.videoCodec} — the platform baseline is ${PLATFORM_CODEC.video} (H.264)`, fix: fixExport('original') });
+  else add('codec', 'format', 'PASS', { note: `${PLATFORM_CODEC.video} (${f.videoCodec})` });
+
+  if (!f.pixFmt) unmeasurable('pix_fmt', 'format', 'ffprobe reported no pixel format');
+  else if (f.pixFmt !== PLATFORM_CODEC.pixFmt) add('pix_fmt', 'format', 'FAIL', { reason: `pixel format ${f.pixFmt} — the platform baseline is ${PLATFORM_CODEC.pixFmt} (most web/mobile players show nothing else)`, fix: fixExport('original') });
+  else add('pix_fmt', 'format', 'PASS', { note: `${PLATFORM_CODEC.pixFmt}` });
+
+  // audio presence / codec / sample rate — format. No audio stream = unmeasurable WARN
+  // (platforms accept silent video; it is not a compliance failure).
+  if (!f.hasAudio) {
+    unmeasurable('audio', 'format', 'no audio stream');
+    unmeasurable('audio_sample_rate', 'format', 'no audio stream');
+    unmeasurable('loudness', 'judgement', 'no audio stream');
+    unmeasurable('silent_audio', 'format', 'no audio stream');
+  } else {
+    if (!f.audioCodec) unmeasurable('audio', 'format', 'audio stream present but codec not reported');
+    else if (f.audioCodec !== PLATFORM_CODEC.audio) add('audio', 'format', 'WARN', { reason: `audio codec ${f.audioCodec}, not ${PLATFORM_CODEC.audio} (AAC) — re-encoding the audio is the safe route`, fix: fixExport('original', ' --loudnorm') });
+    else add('audio', 'format', 'PASS', { note: `${PLATFORM_CODEC.audio} audio present` });
+    if (fin(f.audioSampleRate) == null) unmeasurable('audio_sample_rate', 'format', 'sample rate not reported');
+    else if (f.audioSampleRate === PLATFORM_CODEC.sampleRateRecHz) add('audio_sample_rate', 'format', 'PASS', { note: `${f.audioSampleRate} Hz (recommended)` });
+    else if (f.audioSampleRate === 44100) add('audio_sample_rate', 'format', 'PASS', { note: '44100 Hz (widely accepted; 48000 Hz is the recommendation)' });
+    else add('audio_sample_rate', 'format', 'WARN', { reason: `audio sample rate ${f.audioSampleRate} Hz is unusual — ${PLATFORM_CODEC.sampleRateRecHz} Hz recommended` });
+
+    // loudness — judgement, measure-only (no platform documents -14 LUFS; it is a web norm).
+    if (!f.loudness || !Number.isFinite(Number(f.loudness.I))) {
+      unmeasurable('loudness', 'judgement', 'loudness measurement did not parse (silent or unreadable audio)');
+    } else {
+      const I = Number(f.loudness.I);
+      const TP = f.loudness.TP != null && Number.isFinite(Number(f.loudness.TP)) ? Number(f.loudness.TP) : null;
+      const devI = Math.abs(I - LOUDNORM_TARGET.I);
+      const note = `I=${I} LUFS${TP != null ? `, true peak=${TP} dBTP` : ''} vs the -14 LUFS / -1.5 dBTP web target (measure-only)`;
+      if (devI <= 6 && (TP == null || TP <= -1)) judge('loudness', 'PASS', { note });
+      else {
+        const why = [];
+        if (devI > 6) why.push(`integrated loudness ${I} LUFS is ${fmt(devI)} LU from -14 LUFS`);
+        if (TP != null && TP > -1) why.push(`true peak ${TP} dBTP exceeds -1.5 dBTP`);
+        judge('loudness', devI > 12 || (TP != null && TP > 0) ? 'FAIL' : 'WARN', { reason: `${why.join('; ')} (measure-only judgement)`, fix: fixExport('original', ' --loudnorm') });
+      }
+    }
+
+    // silent audio — format: a dead track is a defect, not a style choice.
+    if (f.silentAudio == null) unmeasurable('silent_audio', 'format', 'volumedetect did not report levels');
+    else if (f.silentAudio) add('silent_audio', 'format', 'FAIL', { reason: 'audio measures as digital silence (max level <= -89 dBFS) — the audio track is dead' });
+    else add('silent_audio', 'format', 'PASS', { note: `max level ${f.audioMaxDb != null ? `${f.audioMaxDb} dBFS` : 'above -89 dBFS'}` });
+  }
+
+  // faststart — format: moov-box walk.
+  if (f.faststart === true) add('faststart', 'format', 'PASS', { note: 'moov box before mdat (faststart)' });
+  else if (f.faststart === false) add('faststart', 'format', 'FAIL', { reason: 'moov box is not at the front (no faststart) — players must buffer the whole file before playback starts', fix: fixExport('original') });
+  else unmeasurable('faststart', 'format', 'not an MP4/MOV-family container (the moov-box walk does not apply)');
+
+  // size — format, only where the table carries a cap (community-reported): WARN, not FAIL.
+  if (eff.sizeCapBytes != null && fin(f.sizeBytes) != null) {
+    const mib = f.sizeBytes / 1024 / 1024;
+    const capMib = eff.sizeCapBytes / 1024 / 1024;
+    if (f.sizeBytes > eff.sizeCapBytes) add('size', 'format', 'WARN', { reason: `file is ${mib.toFixed(1)} MiB, over the ~${capMib.toFixed(0)} MiB ${platform || 'creator'} cap (${eff.sizeMark}-reported)` });
+    else add('size', 'format', 'PASS', { note: `${mib.toFixed(1)} MiB (cap ~${capMib.toFixed(0)} MiB, ${eff.sizeMark}-reported)` });
+  }
+  return rows;
 }
 
 /** True when the mp4 top-level box order is moov-before-mdat (faststart). */
@@ -845,6 +1170,40 @@ async function ocrImages(kind, files) {
 
 // ---------------------------------------------------------------- shared ffmpeg helpers
 
+/** Hidden temp-sibling name for an atomic output: `.<stem>.tmp-<rand><ext>` in the same
+ * dir (same filesystem, so renameSync is atomic). The media extension STAYS on the name —
+ * ffmpeg picks its muxer from the output extension. */
+export function tempSiblingName(name, rand = Math.random().toString(36).slice(2, 10)) {
+  const base = path.basename(String(name));
+  const ext = path.extname(base);
+  const stem = ext ? base.slice(0, -ext.length) : base;
+  return `.${stem}.tmp-${rand}${ext}`;
+}
+
+/** Matches the temp-sibling names atomicMediaWrite leaves behind on a crash. */
+const TEMP_OUTPUT_RE = /^\..+\.tmp-[a-z0-9]+(?:\.[A-Za-z0-9]+)?$/;
+
+/**
+ * Atomic media write: `run(tmp)` encodes into a hidden temp sibling, `verify(tmp)`
+ * probes it (duration read, faststart box walk, ...) and only then is the temp
+ * renameSync'd onto `finalPath`. On ANY failure the temp is removed and a pre-existing
+ * final file is left untouched — a failed or truncated encode can never replace good
+ * output with a broken file.
+ */
+async function atomicMediaWrite(finalPath, run, verify) {
+  const dir = path.dirname(finalPath);
+  fs.mkdirSync(dir, { recursive: true });
+  const tmp = path.join(dir, tempSiblingName(finalPath));
+  try {
+    await run(tmp);
+    await verify(tmp);
+    fs.renameSync(tmp, finalPath);
+  } catch (e) {
+    fs.rmSync(tmp, { force: true, recursive: true });
+    throw e;
+  }
+}
+
 /** Managed output dir: every existing entry must be tool-created (isManaged); those are cleared. */
 function prepareManagedDir(dir, isManaged, what) {
   if (fs.existsSync(dir)) {
@@ -862,14 +1221,16 @@ function prepareManagedDir(dir, isManaged, what) {
 /**
  * Managed output dir that refuses unrelated files but clears ONLY `removeNames` — other
  * managed files from earlier runs survive, so re-running one clip/slug in the same dir
- * works without destroying its siblings.
+ * works without destroying its siblings. Stale atomic-write temps (`.name.tmp-<rand>`
+ * from a crashed run) are always removed: they are this tool's own litter.
  */
 function prepareManagedDirKeep(dir, isManaged, removeNames) {
   if (fs.existsSync(dir)) {
     if (!fs.statSync(dir).isDirectory()) throw new UserError(`output path exists and is not a directory: ${dir}`);
     for (const e of fs.readdirSync(dir)) {
-      if (!isManaged(e)) throw new UserError(`output dir has unrelated files; choose a fresh --out (found "${e}" in ${dir})`);
+      if (!isManaged(e) && !TEMP_OUTPUT_RE.test(e)) throw new UserError(`output dir has unrelated files; choose a fresh --out (found "${e}" in ${dir})`);
     }
+    for (const e of fs.readdirSync(dir)) if (TEMP_OUTPUT_RE.test(e)) fs.rmSync(path.join(dir, e), { force: true });
     for (const n of removeNames) fs.rmSync(path.join(dir, n), { force: true });
   }
   fs.mkdirSync(dir, { recursive: true });
@@ -1339,43 +1700,77 @@ async function cmdCut(video, o) {
   }
   // Managed dir: cut-report.json + any tool-named clip/export output (<slug>.mp4 and the
   // <slug>_<platform>_<variant>.mp4 family) may stay from earlier runs — re-running cut
-  // for one clip in the same dir works; only THIS run's clip files + report are cleared.
-  prepareManagedDirKeep(outdir, (e) => e === 'cut-report.json' || /^[A-Za-z0-9][A-Za-z0-9._-]*\.mp4$/.test(e), ['cut-report.json', ...plan.clips.map((c) => `${c.slug}.mp4`)]);
+  // for one clip in the same dir works. Only the stale report is cleared upfront; clip
+  // files are replaced by ATOMIC rename (verified temp first), so a failed cut leaves a
+  // pre-existing clip untouched instead of a truncated file.
+  prepareManagedDirKeep(outdir, (e) => e === 'cut-report.json' || /^[A-Za-z0-9][A-Za-z0-9._-]*\.mp4$/.test(e), ['cut-report.json']);
   if (mode === 'lossless' && info.vfr) console.log(`note: source looks VFR (r=${fmt(info.r_frame_rate)} vs avg=${fmt(info.avg_frame_rate)} fps) — copy cuts may drift; every clip will be re-encoded`);
-  // Keyframe map for copy-mode start_error_ms (stdout pass in probe style — never truncated).
-  let keyframes = [];
-  if (mode === 'lossless' && !info.vfr) {
-    const rk = await runFf('ffprobe', ['-v', 'error', '-select_streams', 'v', '-show_packets', '-show_entries', 'packet=pts_time,flags', video]);
-    keyframes = parseKeyframes(rk.stdout.toString());
-  }
+  // Keyframe map (stdout pass in probe style — never truncated): used for copy-mode
+  // start_error_ms AND for nearest_keyframes / lossless_alternative on every re-encode
+  // path (accurate mode, VFR fallback, tolerance fallback), so it is fetched for all
+  // modes (~40 B/packet; a 60-min 30fps video is ~4 MB — complete coverage).
+  const rk = await runFf('ffprobe', ['-v', 'error', '-select_streams', 'v', '-show_packets', '-show_entries', 'packet=pts_time,flags', video]);
+  const keyframes = parseKeyframes(rk.stdout.toString());
 
   const outPath = (slug) => path.join(outdir, `${slug}.mp4`);
   const measure = async (f) => durationOf(f);
-  const runCut = async (args, what) => {
-    const r = await runFf('ffmpeg', args);
-    if (r.code !== 0) throw new UserError(`${what} failed: ${r.stderr.trim().slice(0, 300)}`);
+  /** First packet pts of one stream (null when unreadable) — feeds av_start_skew_s. */
+  const firstPacketPts = async (file, sel) => {
+    const rp = await runFf('ffprobe', ['-v', 'error', '-select_streams', sel, '-read_intervals', '%+#1', '-show_entries', 'packet=pts_time', '-of', 'csv=p=0', file]);
+    if (rp.code !== 0) return null;
+    const first = rp.stdout.toString().split(/\r?\n/).map((l) => l.trim()).filter(Boolean)[0];
+    const n = Number(first);
+    return Number.isFinite(n) ? n : null;
   };
   const rows = [];
   for (const c of plan.clips) {
     const dur = +(c.end - c.start).toFixed(3);
     const target = outPath(c.slug);
     const fadeStart = Math.max(0, dur - FADE_S).toFixed(3);
-    const encodeArgs = [
+    const encodeArgs = (out) => [
       '-v', 'error', '-y', '-ss', fmt(c.start), '-i', video, '-t', fmt(dur),
       '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p',
       ...(info.hasAudio ? ['-c:a', 'aac', '-b:a', '192k', '-af', `afade=t=in:st=0:d=${FADE_S},afade=t=out:st=${fadeStart}:d=${FADE_S}`] : []),
-      '-movflags', '+faststart', target,
+      '-movflags', '+faststart', out,
     ];
-    const copyArgs = ['-v', 'error', '-y', '-ss', fmt(c.start), '-i', video, '-t', fmt(dur), '-c', 'copy', '-avoid_negative_ts', 'make_zero', target];
+    const copyArgs = (out) => ['-v', 'error', '-y', '-ss', fmt(c.start), '-i', video, '-t', fmt(dur), '-c', 'copy', '-avoid_negative_ts', 'make_zero', out];
+    // Atomic write: encode/copy into a hidden temp sibling, verify (readable duration;
+    // faststart on re-encode paths), then rename onto the final name.
+    const writeClip = async (argsFor, what, { wantFaststart = false } = {}) => {
+      await atomicMediaWrite(target, async (tmp) => {
+        const r = await runFf('ffmpeg', argsFor(tmp));
+        if (r.code !== 0) throw new UserError(`${what} failed: ${r.stderr.trim().slice(0, 300)}`);
+      }, async (tmp) => {
+        await durationOf(tmp); // throws when the output is unreadable
+        if (wantFaststart && !hasFaststart(tmp)) throw new UserError(`${what}: verification failed — output has no faststart (moov not at the front); nothing written`);
+      });
+    };
+    const bracket = bracketKeyframes(keyframes, c.start);
+    const tolMs = Math.round(tolerance * 1000);
     let used = '';
     let command = '';
+    let nearestKeyframes = null;
+    let losslessAlt = null;
     if (mode === 'accurate' || info.vfr) {
-      await runCut(encodeArgs, `accurate cut of ${c.slug}`); used = 're-encode'; command = encodeArgs.join(' ');
+      await writeClip(encodeArgs, `accurate cut of ${c.slug}`, { wantFaststart: true }); used = 're-encode'; command = encodeArgs(target).join(' ');
+      nearestKeyframes = bracket;
+      losslessAlt = {
+        command: `ffmpeg ${copyArgs(target).join(' ')}`,
+        reason: mode === 'accurate' ? '--mode accurate was requested (always re-encodes)' : 'source looks VFR — copy cuts can start on a frozen or wrong frame',
+      };
     } else {
-      await runCut(copyArgs, `lossless cut of ${c.slug}`); used = 'copy'; command = copyArgs.join(' ');
+      await writeClip(copyArgs, `lossless cut of ${c.slug}`); used = 'copy'; command = copyArgs(target).join(' ');
       const first = classifyDuration(await measure(target), dur, tolerance);
       if (!first.within) {
-        await runCut(encodeArgs, `accurate re-cut of ${c.slug}`); used = 're-encode (tolerance fallback)'; command = encodeArgs.join(' ');
+        const snapMs = bracket.before == null ? null : Math.round((c.start - bracket.before) * 1000);
+        await writeClip(encodeArgs, `accurate re-cut of ${c.slug}`, { wantFaststart: true }); used = 're-encode (tolerance fallback)'; command = encodeArgs(target).join(' ');
+        nearestKeyframes = bracket;
+        losslessAlt = {
+          command: `ffmpeg ${copyArgs(target).join(' ')}`,
+          reason: snapMs != null && snapMs > tolMs
+            ? `keyframe snap ${snapMs}ms exceeds tolerance ${tolMs}ms`
+            : `copy duration error ${first.error_ms}ms exceeded tolerance ${tolMs}ms${snapMs != null ? ` (start keyframe snap ${snapMs}ms)` : ''}`,
+        };
       }
     }
     const actual = await measure(target);
@@ -1383,17 +1778,35 @@ async function cmdCut(video, o) {
     // Copy mode snaps -ss to the keyframe at-or-before the requested start: record how far
     // earlier than requested the clip actually begins (null when the keyframe map is empty).
     let startErr = null;
+    let avSkew = null;
+    let avSkewWarn = false;
     if (used === 'copy') {
       const kf = keyframeAtOrBefore(keyframes, c.start);
       startErr = kf == null ? null : Math.round((c.start - kf) * 1000);
+      if (info.hasAudio) {
+        // Copy-mode joins can start audio and video at slightly different pts. Warning
+        // field only — it does NOT change the exit semantics of this command.
+        const vPts = await firstPacketPts(target, 'v');
+        const aPts = await firstPacketPts(target, 'a');
+        if (vPts != null && aPts != null) {
+          avSkew = +Math.abs(vPts - aPts).toFixed(3);
+          const limit = Math.max(2 / (info.fps || 30), 0.1);
+          if (avSkew > limit) {
+            avSkewWarn = true;
+            console.log(`warning: ${c.slug}: audio starts ${fmt(avSkew)}s away from video (over the ${fmt(limit)}s limit) — copy-mode joins can click or drift; re-cut with --mode accurate if that matters`);
+          }
+        }
+      }
     }
     rows.push({
       slug: c.slug, file: target, mode: used, requested_s: dur, actual_s: +actual.toFixed(3),
       duration_error_ms: error_ms, within_tolerance: within,
       ...(used === 'copy' ? { start_error_ms: startErr } : {}),
+      ...(used === 'copy' && avSkew != null ? { av_start_skew_s: avSkew, ...(avSkewWarn ? { av_start_skew_warning: true } : {}) } : {}),
+      ...(used !== 'copy' ? { nearest_keyframes: nearestKeyframes, lossless_alternative: losslessAlt } : {}),
       command: `ffmpeg ${command}`,
     });
-    console.log(`${c.slug}: mode=${used.startsWith('copy') ? 'copy' : 're-encode'} requested=${fmt(dur)}s actual=${fmt(actual)}s err=${error_ms}ms${used === 'copy' && startErr != null ? ` start_err=${startErr}ms` : ''} ${within ? 'ok' : 'OVER TOLERANCE'}`);
+    console.log(`${c.slug}: mode=${used.startsWith('copy') ? 'copy' : 're-encode'} requested=${fmt(dur)}s actual=${fmt(actual)}s err=${error_ms}ms${used === 'copy' && startErr != null ? ` start_err=${startErr}ms` : ''}${avSkew != null ? ` av_skew=${fmt(avSkew)}s` : ''} ${within ? 'ok' : 'OVER TOLERANCE'}`);
   }
   const report = {
     video: path.resolve(video), plan: path.resolve(o.plan), mode, tolerance_s: tolerance,
@@ -1437,13 +1850,16 @@ async function cmdExport(clip, o) {
   const outdir = o.out || 'exports';
   const slug = sanitizeSlug(path.basename(clip));
   const target = path.join(outdir, exportName(slug, platform, variant));
-  // Managed dir: only this tool's export naming family is allowed; ONLY the exact target is cleared.
+  // Managed dir: only this tool's export naming family is allowed (plus this tool's own
+  // stale atomic-write temps, which are cleared). The target itself is NOT removed
+  // upfront — the write is atomic (verified temp, then rename), so a failed export
+  // leaves a pre-existing export untouched instead of nothing.
   if (fs.existsSync(outdir)) {
     if (!fs.statSync(outdir).isDirectory()) throw new UserError(`--out path exists and is not a directory: ${outdir}`);
     for (const e of fs.readdirSync(outdir)) {
-      if (!EXPORT_NAME_RE.test(e)) throw new UserError(`output dir has unrelated files; choose a fresh --out (found "${e}" in ${outdir})`);
+      if (!EXPORT_NAME_RE.test(e) && !TEMP_OUTPUT_RE.test(e)) throw new UserError(`output dir has unrelated files; choose a fresh --out (found "${e}" in ${outdir})`);
     }
-    if (fs.existsSync(target)) fs.rmSync(target, { force: true });
+    for (const e of fs.readdirSync(outdir)) if (TEMP_OUTPUT_RE.test(e)) fs.rmSync(path.join(outdir, e), { force: true });
   }
   fs.mkdirSync(outdir, { recursive: true });
 
@@ -1469,26 +1885,39 @@ async function cmdExport(clip, o) {
   let blurFgH = null;
   if (variant === '9x16-blur') {
     const fc = '[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=20:2[bg];[0:v]scale=1080:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1[v]';
-    args = ['-v', 'error', '-y', '-i', clip, '-filter_complex', fc, '-map', '[v]', '-map', '0:a?', ...videoEncode, ...audioArgs, ...faststart, target];
+    args = ['-v', 'error', '-y', '-i', clip, '-filter_complex', fc, '-map', '[v]', '-map', '0:a?', ...videoEncode, ...audioArgs, ...faststart];
     label = '9x16 blur-pad re-encode';
     if (Number.isFinite(info.width) && info.width > 0) blurFgH = Math.round((info.height * 1080) / info.width);
   } else if (variant === '9x16-crop') {
     // Bounded crop: min(iw,ih*9/16) x min(ih,iw*16/9) never exceeds the frame in either
     // dimension, so ANY aspect (portrait/taller-than-9:16, landscape, square) fills 1080x1920.
-    args = ['-v', 'error', '-y', '-i', clip, '-vf', "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1", ...videoEncode, ...audioArgs, ...faststart, target];
+    args = ['-v', 'error', '-y', '-i', clip, '-vf', "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1", ...videoEncode, ...audioArgs, ...faststart];
     label = '9x16 center-crop re-encode';
   } else if (!evenDims(info.width, info.height)) {
-    args = ['-v', 'error', '-y', '-i', clip, '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', ...videoEncode, ...audioArgs, ...faststart, target];
+    args = ['-v', 'error', '-y', '-i', clip, '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', ...videoEncode, ...audioArgs, ...faststart];
     label = `re-encode to even dimensions (${info.width}x${info.height} is odd)`;
+  } else if ((info.codec && info.codec !== PLATFORM_CODEC.video) || (info.pixFmt && info.pixFmt !== PLATFORM_CODEC.pixFmt)) {
+    // Original-variant baseline from the shared table: even dims are not enough — a
+    // non-H.264 or non-yuv420p stream (hevc, vp9, yuv444...) is stream-copied into an
+    // export platforms reject, so it re-encodes to the PLATFORM_CODEC baseline.
+    args = ['-v', 'error', '-y', '-i', clip, ...videoEncode, ...audioArgs, ...faststart];
+    label = `re-encode to the ${PLATFORM_CODEC.video}/${PLATFORM_CODEC.pixFmt} baseline (source is ${info.codec || '?'}/${info.pixFmt || '?'})`;
   } else if (af) {
-    args = ['-v', 'error', '-y', '-i', clip, '-c:v', 'copy', ...audioArgs, ...faststart, target];
+    args = ['-v', 'error', '-y', '-i', clip, '-c:v', 'copy', ...audioArgs, ...faststart];
     label = 'audio re-encode (loudnorm), video stream-copied';
   } else {
-    args = ['-v', 'error', '-y', '-i', clip, '-c', 'copy', ...faststart, target];
-    label = `stream copy remux (already even-sized${hasFaststart(clip) ? ', faststart normalized' : ''})`;
+    args = ['-v', 'error', '-y', '-i', clip, '-c', 'copy', ...faststart];
+    label = `stream copy remux (already compliant${hasFaststart(clip) ? ', faststart normalized' : ''})`;
   }
-  const r = await runFf('ffmpeg', args);
-  if (r.code !== 0) throw new UserError(`export failed (${label}): ${r.stderr.trim().slice(0, 300)}`);
+  // Atomic write: encode into a hidden temp sibling, verify (readable container + a
+  // faststart box walk — every export path adds +faststart), then rename onto the target.
+  await atomicMediaWrite(target, async (tmp) => {
+    const r = await runFf('ffmpeg', [...args, tmp]);
+    if (r.code !== 0) throw new UserError(`export failed (${label}): ${r.stderr.trim().slice(0, 300)}`);
+  }, async (tmp) => {
+    await probeContainer(tmp);
+    if (!hasFaststart(tmp)) throw new UserError(`export verification failed (${label}): output has no faststart (moov not at the front); nothing written`);
+  });
   const outInfo = await probeContainer(target);
   const warnings = platformWarnings(platform, outInfo.duration, { width: outInfo.width, height: outInfo.height }, variant);
   console.log(`${PLATFORM_NOTES[platform]}`);
@@ -1501,6 +1930,109 @@ async function cmdExport(clip, o) {
   for (const w of warnings) console.log(`warning: ${w}`);
   if (warnings.length) { console.log('attention needed: platform spec warnings above'); return 1; }
   return 0;
+}
+
+// ---------------------------------------------------------------- commands: tighten
+
+// AUDIO ROUTE (empirical): kajisho5/ffmpeg-skill reports FFmpeg 8/8.1 `aselect` passing
+// every frame through (nothing dropped). Verified locally on ffmpeg 9.0.2 (Homebrew):
+// aselect DOES drop correctly here — 3 s wav with one 1 s span removed -> 1.978 s;
+// 12 s mp4 keeping 8 s -> audio 8.006 s / video 8.067 s (both tracks dropped the same
+// 4 s). CHOSEN ROUTE: direct `select` + `aselect` (+ pts resets) in ONE re-encode,
+// guarded by the atomic post-write duration verification — on a build where aselect
+// misbehaves (everything passes through) the output duration check fails, the temp is
+// deleted and nothing is written, instead of a silently wrong file.
+async function cmdTighten(clip, o) {
+  if (!clip || !fs.existsSync(clip)) throw new UserError(`Clip not found: ${clip}`);
+  const threshold = numFlag(o, 'threshold', TIGHTEN_DEFAULTS.thresholdDb, { min: -100, max: -1 });
+  const minSilence = numFlag(o, 'min-silence', TIGHTEN_DEFAULTS.minSilenceS, { min: 0.05, max: 60 });
+  const margin = numFlag(o, 'margin', TIGHTEN_DEFAULTS.marginS, { min: 0, max: 2 });
+  const minKeep = numFlag(o, 'min-keep', TIGHTEN_DEFAULTS.minKeepS, { min: 0, max: 30 });
+  const maxCuts = numFlag(o, 'max-cuts', TIGHTEN_DEFAULTS.maxCuts, { min: 1, max: 5000 });
+  const info = await probeContainer(clip); // throws on a missing video stream
+  if (!info.hasAudio) throw new UserError(`${clip} has no audio stream — tighten removes silence detected on AUDIO; nothing to tighten.`);
+  const duration = info.duration;
+  const rsi = await runFf('ffmpeg', ['-i', clip, '-vn', '-af', `silencedetect=noise=${threshold}dB:d=${minSilence}`, '-f', 'null', '-']);
+  const silences = parseSilences(rsi.stderr)
+    .map((s) => (s.end == null && duration > s.start ? { ...s, end: +duration.toFixed(3) } : s))
+    .map((s) => ({ start: +Number(s.start).toFixed(3), end: s.end == null ? null : +Number(s.end).toFixed(3) }));
+  const { keep, cuts, removedS } = buildKeepSpans(duration, silences, { margin, minKeep });
+
+  // Nothing to tighten: measure the track mean level and SUGGEST a threshold (mean + 6 dB,
+  // capped at -5 dB) instead of returning an empty nothing.
+  if (!keep.length || removedS < 0.05) {
+    const rv = await runFf('ffmpeg', ['-i', clip, '-vn', '-af', 'volumedetect', '-f', 'null', '-']);
+    const vol = parseVolumedetect(rv.stderr);
+    const meanDb = vol ? vol.mean : null;
+    if (meanDb != null && meanDb <= -80) {
+      console.log(`nothing to tighten at threshold ${threshold} dBFS / min-silence ${minSilence}s — and the audio measures as digital silence (mean ${meanDb} dBFS): there is no speech to keep.`);
+    } else {
+      const suggestion = suggestThreshold(meanDb);
+      console.log(`nothing to tighten at threshold ${threshold} dBFS / min-silence ${minSilence}s: no removable silence found${meanDb != null ? ` — the track mean level is ${meanDb} dBFS; try --threshold ${suggestion}` : ''}`);
+    }
+    return 0;
+  }
+  if (cuts > maxCuts) {
+    throw new UserError(`${cuts} silence cuts exceeds --max-cuts ${maxCuts} (the select filter graph would be oversized). Raise --min-silence (fewer, longer silences), --margin, or --max-cuts.`);
+  }
+
+  const stem = sanitizeSlug(path.basename(clip));
+  const target = path.join(path.dirname(path.resolve(clip)), `${stem}_tight.mp4`);
+  const expr = keep.map(([a, b]) => `between(t,${fmt(a)},${fmt(b)})`).join('+');
+  // 30 ms audio fades at every JOIN (end of kept piece i meets start of piece i+1),
+  // placed at the CUMULATIVE output timestamps (post-asetpts the audio is contiguous).
+  const fadeList = [];
+  let cum = 0;
+  for (let i = 0; i < keep.length - 1; i++) {
+    cum += keep[i][1] - keep[i][0];
+    fadeList.push(`afade=t=out:st=${fmt(Math.max(0, cum - FADE_S))}:d=${FADE_S}`, `afade=t=in:st=${fmt(cum)}:d=${FADE_S}`);
+  }
+  const vf = `select='${expr}',setpts=N/FRAME_RATE/TB`;
+  const af = [`aselect='${expr}',asetpts=N/SR/TB`, ...fadeList].join(',');
+  const expectedS = +keep.reduce((a, k) => a + (k[1] - k[0]), 0).toFixed(3);
+  // Single re-encode, written atomically: the temp is verified (output duration must
+  // match the keep-span total — this is what catches a broken-aselect ffmpeg build)
+  // before it replaces anything at <stem>_tight.mp4.
+  await atomicMediaWrite(target, async (tmp) => {
+    const r = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', clip, '-vf', vf, '-af', af,
+      '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-pix_fmt', 'yuv420p',
+      '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', tmp]);
+    if (r.code !== 0) throw new UserError(`tighten encode failed: ${r.stderr.trim().slice(0, 300)}`);
+  }, async (tmp) => {
+    const d = await durationOf(tmp);
+    const { within } = classifyDuration(d, expectedS, 0.5);
+    if (!within) throw new UserError(`tighten verification failed: output is ${fmt(d)}s but the keep spans total ${fmt(expectedS)}s — this ffmpeg build may not drop audio frames in aselect; no file written.`);
+  });
+  const after = await durationOf(target);
+  console.log(`tighten: ${path.basename(clip)} -> ${path.basename(target)} (threshold ${threshold} dBFS, min-silence ${minSilence}s, margin ${margin}s, min-keep ${minKeep}s)`);
+  console.log(`report: before_s=${fmt(duration)} after_s=${fmt(after)} removed_s=${fmt(Math.max(0, duration - after))} cuts=${cuts}`);
+  return 0;
+}
+
+// ---------------------------------------------------------------- commands: check
+
+async function cmdCheck(file, o) {
+  if (!file || !fs.existsSync(file)) throw new UserError(`File not found: ${file}`);
+  const platform = o.platform || null;
+  if (platform && !PLATFORMS.includes(platform)) throw new UserError(`--platform must be one of ${PLATFORMS.join('|')} or omitted. Got: ${platform}`);
+  const facts = await probeCheckFacts(file);
+  const rows = buildCheckRows(facts, { platform });
+  const summary = { pass: 0, warn: 0, fail: 0 };
+  for (const r of rows) summary[r.status === 'FAIL' ? 'fail' : r.status === 'WARN' ? 'warn' : 'pass']++;
+  const outPath = o.out || 'check-report.json';
+  fs.writeFileSync(outPath, JSON.stringify({
+    file: path.resolve(file), platform, generated_at: new Date().toISOString(),
+    rows, summary,
+  }, null, 2));
+  console.log(`check: ${path.basename(file)}${platform ? ` against ${platform} (duration cap ${PLATFORM_SPECS[platform].duration.cap == null ? 'none' : `${PLATFORM_SPECS[platform].duration.cap}s`} — ${PLATFORM_SPECS[platform].duration.mark})` : ' (no --platform: judgement rows are WARN-only, format rows still enforce)'}`);
+  for (const r of rows) {
+    console.log(`  ${r.status.padEnd(4)} ${r.check} [${r.kind}]${r.note ? ` — ${r.note}` : ''}`);
+    if (r.reason) console.log(`       reason: ${r.reason}`);
+    if (r.fix) console.log(`       fix: ${r.fix}`);
+  }
+  console.log(`summary: ${summary.pass} PASS, ${summary.warn} WARN, ${summary.fail} FAIL`);
+  console.log(`wrote ${outPath}`);
+  return summary.fail ? 1 : 0;
 }
 
 // ---------------------------------------------------------------- commands: preview / plan
@@ -1797,6 +2329,95 @@ async function cmdSelftest() {
   eq('export name format', exportName('my-clip', 'shorts', '9x16-crop'), 'my-clip_shorts_9x16-crop.mp4');
   eq('export name sanitizes slug', exportName('My Clip!.mp4', 'x', 'original'), 'My-Clip-_x_original.mp4');
   eq('sanitize slug fallback', sanitizeSlug('!!!'), 'clip');
+  // platform specs: one table entry per platform id, judgement rows come from it.
+  eq('platform specs cover every id', PLATFORMS.every((p) => PLATFORM_SPECS[p] && PLATFORM_SPECS[p].duration && PLATFORM_SPECS[p].aspects), true);
+  eq('platform specs marks', PLATFORMS.map((p) => PLATFORM_SPECS[p].duration.mark), ['verified', 'verified', 'community', 'community', 'community', 'guidance']);
+  eq('platform specs caps', PLATFORMS.map((p) => PLATFORM_SPECS[p].duration.cap), [null, 180, 600, 180, 140, 90]);
+  eq('platform specs vertical flags', PLATFORMS.map((p) => PLATFORM_SPECS[p].aspects.vertical), [false, true, true, true, false, true]);
+  // keep-span builder (tighten): margins, merging, min-keep, leading/trailing silence.
+  const r1 = buildKeepSpans(20, [{ start: 10, end: 12 }], { margin: 0.15, minKeep: 0.2 });
+  eq('keepspans margin keeps silence each side', r1.keep, [[0, 10.15], [11.85, 20]]);
+  eq('keepspans one cut + removed total', [r1.cuts, r1.removedS], [1, 1.7]);
+  eq('keepspans overlapping silences merge', buildKeepSpans(20, [{ start: 8, end: 10 }, { start: 9.5, end: 12 }], { margin: 0, minKeep: 0.2 }).keep, [[0, 8], [12, 20]]);
+  eq('keepspans silence fully eaten by margins removes nothing', buildKeepSpans(20, [{ start: 10, end: 10.2 }], { margin: 0.15, minKeep: 0.2 }), { keep: [[0, 20]], cuts: 0, removedS: 0 });
+  eq('keepspans null end means silent to EOF', buildKeepSpans(10, [{ start: 8, end: null }], { margin: 0.15, minKeep: 0.2 }).keep, [[0, 8.15]]);
+  const tiny = buildKeepSpans(20, [{ start: 5, end: 5.4 }, { start: 5.6, end: 6 }], { margin: 0, minKeep: 0.25 });
+  eq('keepspans drops keeps shorter than min-keep', tiny.keep, [[0, 5], [6, 20]]);
+  eq('keepspans dropped keep merges its removals', tiny.cuts, 1);
+  const edges = buildKeepSpans(20, [{ start: 0, end: 2 }, { start: 18, end: 20 }], { margin: 0.15, minKeep: 0.2 });
+  eq('keepspans leading+trailing silence (margin keeps get dropped)', edges.keep, [[1.85, 18.15]]);
+  eq('keepspans leading+trailing count 2 cuts', edges.cuts, 2);
+  // threshold suggestion: mean + 6 dB, capped at -5.
+  eq('suggest threshold mean+6', suggestThreshold(-20), -14);
+  eq('suggest threshold caps at -5', suggestThreshold(-2), -5);
+  eq('suggest threshold exactly at cap', suggestThreshold(-11), -5);
+  eq('suggest threshold unknown mean', suggestThreshold(null), null);
+  // keyframe bracketing (nearest_keyframes).
+  eq('bracket keyframes middle', bracketKeyframes([0, 2, 4, 6], 3.1), { before: 2, after: 4 });
+  eq('bracket keyframes exact hit', bracketKeyframes([0, 2, 4], 2), { before: 2, after: 2 });
+  eq('bracket keyframes past end', bracketKeyframes([0, 2, 4], 10), { before: 4, after: null });
+  eq('bracket keyframes before start', bracketKeyframes([2, 4], 1), { before: null, after: 2 });
+  eq('bracket keyframes empty map', bracketKeyframes([], 5), { before: null, after: null });
+  // volumedetect parser.
+  eq('volumedetect parser', parseVolumedetect('[Parsed_volumedetect_0 @ 0x1] mean_volume: -23.4 dB | max_volume: -8.6 dB'), { mean: -23.4, max: -8.6 });
+  eq('volumedetect parser rejects garbage', parseVolumedetect('nothing'), null);
+  // atomic temp naming.
+  eq('temp sibling name', tempSiblingName('out.mp4', 'abc123'), '.out.tmp-abc123.mp4');
+  eq('temp sibling name unique per rand', tempSiblingName('out.mp4', 'a') !== tempSiblingName('out.mp4', 'b'), true);
+  eq('temp sibling keeps the media extension', tempSiblingName('hook.mp4').endsWith('.mp4'), true);
+  eq('temp sibling matches the cleanup pattern', TEMP_OUTPUT_RE.test(tempSiblingName('out.mp4')), true);
+  // check-row builder on synthetic facts.
+  const goodFacts = {
+    file: 'hook_shorts_9x16-crop.mp4', duration: 58.2, width: 1080, height: 1920, fps: 30, vfr: false,
+    videoCodec: 'h264', pixFmt: 'yuv420p', hasAudio: true, audioCodec: 'aac', audioSampleRate: 48000,
+    faststart: true, loudness: { I: -14.2, TP: -2.1 }, silentAudio: false, audioMaxDb: -3.2, sizeBytes: 8 * 1024 * 1024,
+  };
+  const goodRows = buildCheckRows(goodFacts, { platform: 'shorts' });
+  eq('check compliant file all PASS', goodRows.every((r) => r.status === 'PASS'), true);
+  eq('check judgement kinds', goodRows.filter((r) => r.kind === 'judgement').map((r) => r.check).sort(), ['aspect', 'duration', 'loudness']);
+  eq('check format kinds present', ['codec', 'faststart', 'pix_fmt', 'resolution', 'silent_audio'].every((c) => goodRows.some((r) => r.kind === 'format' && r.check === c)), true);
+  const badFacts = { ...goodFacts, duration: 200, width: 640, height: 360 };
+  const badRows = buildCheckRows(badFacts, { platform: 'shorts' });
+  const durRow = badRows.find((r) => r.check === 'duration');
+  const aspRow = badRows.find((r) => r.check === 'aspect');
+  eq('check duration FAIL is judgement', [durRow.status, durRow.kind, durRow.reason], ['FAIL', 'judgement', 'duration 200s exceeds the 3-minute YouTube Shorts cap (verified)']);
+  eq('check duration fix names the command', /^clipcut cut <source> --plan clips.json/.test(durRow.fix), true);
+  eq('check aspect FAIL with crop fix', [aspRow.status, aspRow.kind, aspRow.fix], ['FAIL', 'judgement', 'clipcut export hook_shorts_9x16-crop.mp4 --platform shorts --variant 9x16-crop']);
+  const noPlat = buildCheckRows(badFacts, {});
+  const nd = noPlat.find((r) => r.check === 'duration');
+  const na = noPlat.find((r) => r.check === 'aspect');
+  eq('check without platform downgrades judgement rows', [nd.status, na.status], ['WARN', 'WARN']);
+  eq('check without platform still has format rows enforcing', noPlat.filter((r) => r.kind === 'format').some((r) => r.check === 'codec'), true);
+  const fsBad = buildCheckRows({ ...goodFacts, faststart: false }, { platform: 'shorts' }).find((r) => r.check === 'faststart');
+  eq('check faststart FAIL stays FAIL without platform', [fsBad.status, fsBad.fix], ['FAIL', 'clipcut export hook_shorts_9x16-crop.mp4 --platform shorts --variant original']);
+  const unmeasurableFacts = { file: 'x.mp4', duration: null, width: null, height: null, fps: null, vfr: false, videoCodec: null, pixFmt: null, hasAudio: false, audioCodec: null, audioSampleRate: null, faststart: null, loudness: null, silentAudio: null, audioMaxDb: null, sizeBytes: null };
+  const unRows = buildCheckRows(unmeasurableFacts, { platform: 'shorts' });
+  eq('check unmeasurable never PASS', unRows.some((r) => r.status === 'PASS'), false);
+  eq('check unmeasurable all WARN with reason', unRows.every((r) => r.status === 'WARN' && /^could not measure/.test(r.reason)), true);
+  const noAudio = buildCheckRows({ ...goodFacts, hasAudio: false, audioCodec: null, audioSampleRate: null, loudness: null, silentAudio: null }, { platform: 'shorts' });
+  eq('check no-audio rows warn could not measure', noAudio.filter((r) => ['audio', 'audio_sample_rate', 'loudness', 'silent_audio'].includes(r.check)).every((r) => r.status === 'WARN' && r.reason.includes('could not measure')), true);
+  const loudBad = buildCheckRows({ ...goodFacts, loudness: { I: -2, TP: 0.5 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check loudness extreme FAIL with loudnorm fix', [loudBad.status, loudBad.kind, loudBad.fix.includes('--loudnorm')], ['FAIL', 'judgement', true]);
+  const loudBadNoPlat = buildCheckRows({ ...goodFacts, loudness: { I: -2, TP: 0.5 } }, {}).find((r) => r.check === 'loudness');
+  eq('check loudness downgrades without platform', loudBadNoPlat.status, 'WARN');
+  const silent = buildCheckRows({ ...goodFacts, silentAudio: true, audioMaxDb: -91 }, { platform: 'shorts' }).find((r) => r.check === 'silent_audio');
+  eq('check silent audio FAIL', silent.status, 'FAIL');
+  const vfrRow = buildCheckRows({ ...goodFacts, vfr: true }, { platform: 'shorts' }).find((r) => r.check === 'fps');
+  eq('check vfr is a format WARN', [vfrRow.status, vfrRow.kind], ['WARN', 'format']);
+  const oddRow = buildCheckRows({ ...goodFacts, width: 1081 }, { platform: 'shorts' }).find((r) => r.check === 'resolution');
+  eq('check odd resolution FAIL format', [oddRow.status, oddRow.kind], ['FAIL', 'format']);
+  // per-platform judgement classification: every platform yields judgement duration+aspect rows.
+  eq('check all platforms classify duration/aspect judgement', PLATFORMS.every((p) => {
+    const rs = buildCheckRows(goodFacts, { platform: p });
+    return ['duration', 'aspect'].every((c) => { const r = rs.find((x) => x.check === c); return r && r.kind === 'judgement'; });
+  }), true);
+  const yt = buildCheckRows({ ...goodFacts, duration: 4000, width: 1920, height: 1080 }, { platform: 'youtube' });
+  eq('check youtube long 16:9 passes duration', yt.find((r) => r.check === 'duration').status, 'PASS');
+  eq('check youtube 16:9 aspect passes', yt.find((r) => r.check === 'aspect').status, 'PASS');
+  const tt = buildCheckRows({ ...goodFacts, duration: 580 }, { platform: 'tiktok' }).find((r) => r.check === 'duration');
+  eq('check tiktok 580s in the warn zone', tt.status, 'WARN');
+  const ttOver = buildCheckRows({ ...goodFacts, duration: 650 }, { platform: 'tiktok' }).find((r) => r.check === 'duration');
+  eq('check tiktok 650s FAIL hedged', [ttOver.status, ttOver.reason], ['FAIL', 'duration 650s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)']);
   if (fails.length) { console.error(`\nselftest: ${fails.length} failure(s)`); return 2; }
   console.log('\nselftest: all checks passed');
   return 0;
@@ -1810,12 +2431,16 @@ platform export last.
 
 Usage: node clipcut.mjs <command> [options]
 Exit codes: 0 = pass/ok; 1 = attention needed (failed/escalated ratings, cut duration
-errors, platform spec warnings); 2 = error (fix hint on stderr).
+errors, platform spec warnings, check FAIL rows); 2 = error (fix hint on stderr).
 
 Pipeline: probe (free) -> segments (free) -> sheets (free) -> rate (CLEF, paid) ->
-cut (free) -> export (free) -> preview (free). read (OCR/CLAIRIC) adds burned-in text.
-Typical loop: probe once, segments+sheets, rate the sheets, keep the winners as a
-clips.json plan, then cut/export/preview those.
+cut (free) -> tighten (free, optional) -> export (free) -> check (free, final gate)
+-> preview (free). read (OCR/CLAIRIC) adds burned-in text. Typical loop: probe once,
+segments+sheets, rate the sheets, keep the winners as a clips.json plan, then
+cut/tighten/export/check/preview those. cut, export and tighten write their media
+ATOMICALLY: a verified hidden temp file is renamed over the output only after it
+passes a post-write probe (duration / faststart box walk), so a failed encode never
+replaces good output with a broken file.
 
 Commands:
   doctor [--ping]
@@ -1881,10 +2506,10 @@ Commands:
   cut <video> --plan clips.json [--mode lossless|accurate] [--tolerance 0.5] [--outdir clips/]
                        The source is probed and the plan validated BEFORE any previous
                        output is cleared — a corrupt source never empties --outdir. The
-                       dir may hold earlier tool-named clip outputs (<slug>.mp4 and
-                       <slug>_<platform>_<variant>.mp4): only THIS run's clips +
-                       cut-report.json are replaced, so re-running cut for one clip in
-                       the same dir works. Lossless first: -ss before -i + -c copy +
+                       dir may hold earlier tool-named clip outputs (<slug>.mp4 and the
+                       <slug>_<platform>_<variant>.mp4 family): only the stale report is
+                       cleared upfront; clips are replaced by ATOMIC verified writes.
+                       Lossless first: -ss before -i + -c copy +
                        -avoid_negative_ts make_zero, then the ACTUAL output duration is
                        measured with ffprobe; when the error exceeds --tolerance
                        (seconds) OR the source is VFR, the clip is re-encoded accurately
@@ -1892,13 +2517,39 @@ Commands:
                        fades (accurate mode always re-encodes and always fades).
                        cut-report.json records file, mode (copy/re-encode), requested_s,
                        actual_s, duration_error_ms, start_error_ms (copy mode only:
-                       requested start vs the keyframe actually used) and the exact
-                       command per clip. Exit 1 when any clip is still over tolerance at
-                       the end (failing slugs listed).
+                       requested start vs the keyframe actually used), av_start_skew_s
+                       (copy mode with audio only: first video pts vs first audio pts;
+                       over max(2 frames, 0.1s) also sets av_start_skew_warning — a
+                       WARNING field, it does not change exit semantics) and the exact
+                       command per clip. Re-encoded cuts additionally record
+                       nearest_keyframes {before, after} (the keyframes bracketing the
+                       requested start) and lossless_alternative {command, reason} — the
+                       -c copy command that WOULD have run and why it did not (e.g.
+                       "keyframe snap 1200ms exceeds tolerance 500ms"). Exit 1 when any
+                       clip is still over tolerance at the end (failing slugs listed).
+  tighten <clip> [--threshold -35] [--min-silence 0.6] [--margin 0.15] [--min-keep 0.2]
+         [--max-cuts 400]
+                       Silence removal for a cut clip — make it punchy. Silences are
+                       detected on the audio track (silencedetect; --threshold in dBFS,
+                       --min-silence in s); --margin s of silence stays attached to each
+                       side of kept speech so joins sound natural; kept pieces shorter
+                       than --min-keep are dropped; more than --max-cuts cuts is
+                       refused with guidance to raise --min-silence (the select filter
+                       graph would be oversized). ONE re-encode (crf 18 / medium /
+                       yuv420p / aac 192k / +faststart) with 30 ms audio fades at every
+                       join. Output <stem>_tight.mp4, written atomically; report line:
+                       before_s / after_s / removed_s / cuts. When no silence is found
+                       the track mean level is measured and a suggested --threshold is
+                       printed (mean + 6 dB, capped at -5 dB) — exit 0 ("nothing to
+                       tighten"). AUDIO ROUTE: direct aselect, verified empirically on
+                       ffmpeg 9.0.2 (kajisho5/ffmpeg-skill reports 8/8.1 builds pass
+                       everything through) — the atomic post-write duration check
+                       catches such a build and writes nothing.
   export <clip> --platform youtube|shorts|tiktok|reels|x|creator
          [--variant original|9x16-crop|9x16-blur] [--loudnorm] [--out exports/]
-                       original: ensure faststart + even dimensions (stream-copy remux
-                       when already compliant, re-encode crf 18 when odd). 9x16-crop:
+                       original: ensure the shared platform baseline — faststart + even
+                       dimensions + h264/yuv420p (stream-copy remux when already
+                       compliant; re-encode crf 18 when odd, non-H.264 or non-yuv420p). 9x16-crop:
                        crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1
                        — a bounded crop, so ANY aspect (portrait/taller-than-9:16,
                        landscape, square) fills 1080x1920. 9x16-blur: blurred cover
@@ -1906,12 +2557,30 @@ Commands:
                        a warning that vertical content is cropped. All re-encode paths
                        add -movflags +faststart and yuv420p. --loudnorm runs a two-pass
                        loudnorm (pass 1 measures, pass 2 applies measured_*; target
-                       I=-14 LUFS, TP=-1.5). Platform duration warnings: shorts >180s
-                       (verified cap); tiktok >=570s, reels >180s, x >140s
-                       (community-reported, unverified); creator >90s (generic
+                       I=-14 LUFS, TP=-1.5). Platform duration warnings come from the
+                       SHARED platform table (same single source of truth as check):
+                       shorts >180s (verified cap); tiktok >=570s, reels >180s,
+                       x >140s (community-reported, unverified); creator >90s (generic
                        guidance); vertical platforms also warn when the output is not
-                       9:16; youtube has no duration warn. Exit 1 on any platform
+                       9:16; youtube has no duration warn. The output is written
+                       atomically (verified temp, then rename). Exit 1 on any platform
                        warning. Output name: <slug>_<platform>_<variant>.mp4.
+  check <file> [--platform youtube|shorts|tiktok|reels|x|creator] [--out check-report.json]
+                       Compliance verification — the final gate after export. Rows:
+                       duration, aspect, resolution (divisible-by-2), fps + VFR/CFR,
+                       codec, pix_fmt, audio presence/codec, sample rate, faststart
+                       (moov-box walk), loudness (measure-only I/TP), silent audio, and
+                       size where the shared table carries a cap. Each row is
+                       PASS/WARN/FAIL with kind "format"|"judgement" (duration/aspect/
+                       loudness are judgement), a plain-language reason when not PASS,
+                       and a fix naming the exact clipcut command when one exists
+                       (e.g. "clipcut export <file> --platform shorts --variant
+                       9x16-crop", "clipcut tighten <file>"). UNMEASURABLE facts (probe
+                       fails, no audio stream, silent track) are WARN "could not
+                       measure" — never PASS. Without --platform, judgement rows are
+                       evaluated against the generic creator profile and downgrade to
+                       WARN; format rows still enforce. Any FAIL exits 1. Writes
+                       check-report.json + a human summary.
   preview <clip> [--source <video> --start S --end E] [--probe probe.json] [--out preview/]
                        FREE, informational (exit 0 = ok, 2 = error). Writes
                        <slug>_preview.png (6-frame contact sheet), <slug>_3s.mp4 (first
@@ -1989,11 +2658,13 @@ Examples:
   node clipcut.mjs rate --sheets sheets/ --questions questions.json
   node clipcut.mjs read talk.mp4 --segments segments.json --engine auto
   node clipcut.mjs cut talk.mp4 --plan clips.json --tolerance 0.5
+  node clipcut.mjs tighten clips/hook.mp4
   node clipcut.mjs export clips/hook.mp4 --platform shorts --variant 9x16-crop --loudnorm
+  node clipcut.mjs check exports/hook_shorts_9x16-crop.mp4 --platform shorts
   node clipcut.mjs preview clips/hook.mp4 --source talk.mp4 --start 12.5 --end 58.2`;
 
 /** Flags that must be followed by a value; a missing/true value is a clean exit-2 error. */
-const VALUE_FLAGS = new Set(['out', 'scene-threshold', 'min', 'max', 'count', 'frames', 'sheets', 'segments', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'plan', 'mode', 'tolerance', 'outdir', 'platform', 'variant', 'file', 'source', 'start', 'end', 'probe', 'even-split']);
+const VALUE_FLAGS = new Set(['out', 'scene-threshold', 'min', 'max', 'count', 'frames', 'sheets', 'segments', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'plan', 'mode', 'tolerance', 'outdir', 'platform', 'variant', 'file', 'source', 'start', 'end', 'probe', 'even-split', 'threshold', 'min-silence', 'margin', 'min-keep', 'max-cuts']);
 
 export function parseArgs(argv) {
   const out = { _: [] };
@@ -2038,7 +2709,9 @@ async function main(argv) {
       case 'rate': return await cmdRate(o);
       case 'read': return await cmdRead(o._[1], o);
       case 'cut': return await cmdCut(o._[1], o);
+      case 'tighten': return await cmdTighten(o._[1], o);
       case 'export': return await cmdExport(o._[1], o);
+      case 'check': return await cmdCheck(o._[1], o);
       case 'preview': return await cmdPreview(o._[1], o);
       case 'plan': return cmdPlan(o);
       default: throw new UserError(`Unknown command: ${cmd}. Run with --help.`);
@@ -2058,6 +2731,6 @@ if (process.argv[1]) {
 if (invokedDirectly) main(process.argv.slice(2)).then((code) => { process.exitCode = code; });
 
 export {
-  cmdDoctor, cmdProbe, cmdSegments, cmdSheets, cmdRate, cmdRead, cmdCut, cmdExport, cmdPreview, cmdPlan,
+  cmdDoctor, cmdProbe, cmdSegments, cmdSheets, cmdRate, cmdRead, cmdCut, cmdTighten, cmdExport, cmdCheck, cmdPreview, cmdPlan,
   main,
 };

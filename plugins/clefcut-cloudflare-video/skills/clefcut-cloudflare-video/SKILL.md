@@ -59,7 +59,7 @@ the picks, and every cut is verified by its reported duration error. The
 free-first philosophy follows the sibling plugin
 `clefcut-cloudflare-remotion-video` (Remotion QA) — same layers, different job.
 
-## Overview: the 8-step pipeline
+## Overview: the 9-step pipeline
 
 1. **Probe** — free local maps of the whole video: scene scores, silence
    ranges, loudness, plus container/codec facts and a variable-frame-rate
@@ -78,15 +78,20 @@ free-first philosophy follows the sibling plugin
    presents ranked candidates with scores and reasons; the user picks.
 6. **Cut** — lossless `-c copy` with a 0.5 s keyframe tolerance, upgrading to
    a frame-accurate re-encode when the snap exceeds it; every cut reports
-   `duration_error_ms`.
-7. **Export** — platform variants per clip: original, bounded 9:16 crop (any
+   `duration_error_ms`; outputs are written atomically (verified temp first).
+7. **Tighten (optional)** — silence removal on a cut clip: 0.15 s of silence
+   kept on each side of speech, one re-encode, `before_s`/`after_s`/
+   `removed_s`/`cuts` reported. Make the clip punchy — remove dead air.
+8. **Export** — platform variants per clip: original, bounded 9:16 crop (any
    source aspect fills 1080x1920; a portrait taller than 9:16 crops
    vertically), 9:16 blur-pad (warns when taller-than-9:16 vertical content
    is cropped); `+faststart`; optional two-pass loudness normalization.
-8. **Preview verify** — per output clip: a 6-frame contact sheet, muted
-   first-3s and last-3s samples, and `preview.json` with per-boundary
-   scene scores computed over ±1.5 s windows on the source; the agent
-   reviews the samples and scores before anything is called done.
+9. **Check + preview verify** — `check` verifies an export against the shared
+   platform table (duration/aspect are judgement calls, codec/faststart/etc.
+   are hard format rows); `preview` gives per output clip a 6-frame contact
+   sheet, muted first-3s and last-3s samples, and per-boundary scene scores
+   over ±1.5 s windows on the source. The agent reviews the samples, scores
+   and check rows before anything is called done.
 
 Why staged: each layer costs roughly an order of magnitude less than the one
 above it. Deciding from maps and sheets instead of raw frames is what keeps a
@@ -132,10 +137,12 @@ platform's own help pages for anything still marked unverified.
 1. Run the tool only as `node "<skill-dir>/scripts/clipcut.mjs" <cmd>` from
    the directory holding the source video. Never use `npx` for the tool.
 2. Exit codes: 0 = pass/ok; 1 = attention needed (failed or escalated
-   ratings, cut duration errors, platform spec warnings); 2 = error — the
-   message on stderr has the fix. `preview` is informational: it exits 0 or
-   2 only, never 1. `plan --file` uses 0 = valid, 1 = warnings only,
-   2 = invalid.
+   ratings, cut duration errors, platform spec warnings, `check` FAIL rows);
+   2 = error — the message on stderr has the fix. `preview` is
+   informational: it exits 0 or 2 only, never 1. `plan --file` uses
+   0 = valid, 1 = warnings only, 2 = invalid. `check` exits 1 on any FAIL
+   row (judgement rows can only FAIL when `--platform` is given; unmeasurable
+   facts are WARN "could not measure", never PASS).
 3. Subcommands:
 
 | Command | What it does |
@@ -146,8 +153,10 @@ platform's own help pages for anything still marked unverified.
 | `sheets <video> --segments segments.json` | One contact sheet per candidate segment (default 6 frames in a 3×2 grid of ~480-px-wide cells). Writes `sheets/seg_NNN.png` plus the `sheets.json` manifest. |
 | `rate --sheets sheets/ --questions questions.json` | Send one sheet per segment to CLEF (`--model clef-flash` default; `--max-images 2`–`4` batches, with auto-isolation of a failing batch). Writes `ratings.json`, rewritten after every request. |
 | `read <video> --segments segments.json` | Read burned-in on-screen text per segment with `--engine local`, `clairic`, or `auto` (chosen once per run). Writes `text.json`. |
-| `cut <video> --plan clips.json` | Cut the chosen clips: lossless with `--tolerance 0.5` default, verified `duration_error_ms` (plus `start_error_ms` for copy-mode cuts), 30 ms fades on re-encoded cuts. Writes `clips/<slug>.mp4` and `clips/cut-report.json`. |
-| `export <clip> --platform <id>` | Render variants per clip (`original`, `9x16-crop`, `9x16-blur`) into `exports/<slug>_<platform>_<variant>.mp4`, `+faststart`, optional two-pass loudnorm (`--loudnorm`). |
+| `cut <video> --plan clips.json` | Cut the chosen clips: lossless with `--tolerance 0.5` default, verified `duration_error_ms` (plus `start_error_ms` and `av_start_skew_s` for copy-mode cuts), 30 ms fades on re-encoded cuts. Re-encoded cuts record `nearest_keyframes` + `lossless_alternative` (the copy command that would have run and why it did not). Writes `clips/<slug>.mp4` and `clips/cut-report.json`. |
+| `tighten <clip>` | Remove silence: detect silences (`--threshold -35` dBFS, `--min-silence 0.6` s), keep `--margin 0.15` s of silence on each side of speech, drop kept pieces under `--min-keep 0.2` s, refuse over `--max-cuts 400` cuts. One re-encode (crf 18, aac 192k, faststart) with 30 ms fades at each join; writes `<stem>_tight.mp4` atomically and reports before_s / after_s / removed_s / cuts. No silence found → prints a suggested threshold (mean + 6 dB, capped at −5 dB) and exits 0. |
+| `export <clip> --platform <id>` | Render variants per clip (`original`, `9x16-crop`, `9x16-blur`) into `exports/<slug>_<platform>_<variant>.mp4`, `+faststart`, optional two-pass loudnorm (`--loudnorm`). The `original` variant re-encodes when the source is odd-sized, non-H.264, or non-yuv420p. |
+| `check <file> [--platform <id>]` | Compliance gate: rows for duration, aspect, resolution, fps/VFR, codec, pix_fmt, audio, sample rate, faststart, loudness (measure-only), silent audio — each PASS/WARN/FAIL with a plain reason and the exact fix command. Judgement rows (duration/aspect/loudness) FAIL only with `--platform`; unmeasurable facts are WARN "could not measure". Writes `check-report.json`. Exits 1 on any FAIL. |
 | `preview <clip> --source <video> --start S --end E` | 6-frame contact sheet plus muted first-3s/last-3s samples and `preview.json` per-boundary scene scores; `--probe probe.json` cross-checks the source's scene changes. Informational: exit 0 or 2 only. |
 | `plan` | Print the clips.json schema; with `--file`, validate a plan (duplicate slugs rejected, durations + total printed, unknown platforms mapped to the creator profile with a warning). |
 
@@ -205,19 +214,32 @@ Worked token math and per-model details: `references/clef.md` and
    the requested one.
 2. Tolerance is 0.5 s by default (`--tolerance`). When the keyframe snap
    would exceed it, the cut upgrades to an accurate re-encode — `-ss` before
-   `-i` plus re-encode is frame-accurate.
+   `-i` plus re-encode is frame-accurate. When that happens, the report also
+   records `nearest_keyframes` (the keyframes bracketing the requested start)
+   and `lossless_alternative` — the copy command that WOULD have run plus
+   why it did not (e.g. "keyframe snap 1200ms exceeds tolerance 500ms").
 3. EVERY cut reports `duration_error_ms` in `clips/cut-report.json`
    (copy-mode cuts also report `start_error_ms` — the requested start vs
-   the keyframe actually used). A cut that ends over tolerance makes the
-   command exit 1. A caller never has to trust "it probably cut where
+   the keyframe actually used — and `av_start_skew_s`, first video pts vs
+   first audio pts; over max(2 frames, 0.1 s) it becomes a warning field,
+   which never changes the exit code). A cut that ends over tolerance makes
+   the command exit 1. A caller never has to trust "it probably cut where
    asked" on faith.
 4. Re-encoded cuts get 30 ms audio fades at both boundaries (`afade`
    in/out) to prevent clicks. Lossless `-c copy` cuts cannot carry fades —
    when fades are required, the cut runs in accurate mode.
 5. VFR (variable-frame-rate) sources force re-encode: `-c copy` on VFR can
    start on a frozen or wrong frame.
-6. Never cut inside a word or mid-action: boundaries come from the silence
+6. `cut`, `export` and `tighten` write ATOMICALLY: the encode lands in a
+   hidden temp file next to the output, is verified (probe duration,
+   faststart box walk), and only then is renamed over the final name. A
+   failed or truncated encode removes the temp and leaves any pre-existing
+   output untouched — a broken file can never replace a good one.
+7. Never cut inside a word or mid-action: boundaries come from the silence
    map (sentence/breath points), not from round numbers.
+8. Optional `tighten` after cutting removes detected silences while keeping
+   0.15 s of silence on each side of kept speech — margins keep speech
+   natural; do not tighten with margins near zero unless the user asks.
 
 ## Selecting clips (rubric summary)
 
@@ -261,7 +283,7 @@ decides. Thresholds and the defect-direction convention:
 
 | File | Load it before... |
 |---|---|
-| `references/platform-specs.md` | any `export` run or any platform question — specs table, safe zones, export recipes |
+| `references/platform-specs.md` | any `export` or `check` run, or any platform question — specs table, what `check` verifies, safe zones, export recipes |
 | `references/clip-selection.md` | composing `rate` questions, ranking candidates, or setting segment duration bounds |
 | `references/clef.md` | any `rate` run — models, prices, request schema, response shapes, retries, token math |
 | `references/clairic.md` | `read --engine clairic` — field types, response shape, Preview caveats |

@@ -50,6 +50,32 @@ hedges, per platform:
 - `youtube`: no duration warning.
 - Vertical platforms also warn when the output is not 9:16.
 
+## What `check` verifies
+
+`clipcut check <file> --platform <id>` reads the SAME single-source-of-truth
+table the export warnings come from (the script's `PLATFORM_SPECS`), so the
+numbers and honesty marks below are the same ones above. Rows and their
+classification:
+
+| Row | Kind | PASS when | Notes |
+|---|---|---|---|
+| duration | judgement | within the platform cap | shorts ≤180 s (verified); tiktok ≤~600 s (community; the 570–600 s band is a WARN zone); reels ≤180 s (community); x ≤140 s free tier (community; Premium allows up to 4 h, verified-excerpt); creator ≤90 s (guidance); youtube no practical cap (256 GB / 12 h verified account cap) |
+| aspect | judgement | 9:16 for shorts/tiktok/reels/creator; 16:9, 1:1 or 9:16 for youtube/x | 0.02 ratio tolerance; fix names `clipcut export <file> --platform <id> --variant 9x16-crop` |
+| resolution | format | width and height divisible by 2 | H.264 4:2:0 needs even numbers |
+| fps | format | constant frame rate | VFR is a WARN (compatibility hazard), not a FAIL |
+| codec / pix_fmt | format | h264 + yuv420p | the universal baseline every platform row shares |
+| audio / sample rate | format | AAC present; 48000 Hz (44100 widely accepted) | no audio stream = WARN "could not measure", not a FAIL |
+| faststart | format | moov box before mdat (box walk) | fix: `clipcut export <file> --platform <id> --variant original` |
+| loudness | judgement | within 6 LU of −14 LUFS and TP ≤ −1 dBTP | measure-only I/TP — no platform documents −14; fix: `--loudnorm` |
+| silent audio | format | max level above −89 dBFS | digital silence is a dead track, a defect |
+| size | format | under the table's cap where one exists | reels ~4 GiB, x ~512 MiB free tier (both community); WARN only |
+
+Judgement rows (duration, aspect, loudness) FAIL only with `--platform`;
+without it they are evaluated against the generic creator profile and
+downgrade to WARN, while format rows still enforce. Any FAIL exits 1.
+Unmeasurable facts (probe failure, no audio stream, silent track) are WARN
+"could not measure" — never PASS.
+
 ## Safe zones (9:16, 1080x1920)
 
 ```

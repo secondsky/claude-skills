@@ -14,8 +14,10 @@ holding the source video.
 | `ratings.json` | `rate` | Per-segment answer rows (fail/escalate/pass), severity, `usage`; rewritten after every request |
 | `text.json` | `read` | Engine used, per-segment burned-in text and confidence |
 | `clips.json` | Agent | The plan `cut` consumes (schema below) |
-| `clips/<slug>.mp4` + `clips/cut-report.json` | `cut` | The clips plus per-cut mode (copy/re-encode), `requested_s`, `actual_s`, `duration_error_ms`, `start_error_ms` (copy mode only), and the exact command |
+| `clips/<slug>.mp4` + `clips/cut-report.json` | `cut` | The clips plus per-cut mode (copy/re-encode), `requested_s`, `actual_s`, `duration_error_ms`, `start_error_ms` (copy mode only), `av_start_skew_s` (copy mode with audio only), `nearest_keyframes` + `lossless_alternative` (re-encode paths only), and the exact command |
+| `<stem>_tight.mp4` | `tighten` | The silence-removed clip (written next to its input, atomically); the report line `before_s / after_s / removed_s / cuts` prints to the console |
 | `exports/<slug>_<platform>_<variant>.mp4` | `export` | Platform variant files (+faststart, optional loudnorm) |
+| `check-report.json` | `check` | Per-fact compliance rows (status + kind + reason + fix) and the PASS/WARN/FAIL summary |
 | `preview/<slug>_preview.png`, `preview/<slug>_3s.mp4`, `preview/<slug>_end3s.mp4`, `preview/preview.json` | `preview` | 6-frame sheet, muted first-3s/last-3s samples, and per-boundary scene-score results |
 
 ## The loop
@@ -78,21 +80,53 @@ holding the source video.
    always re-encode. Each clip lands in `clips/<slug>.mp4` and is recorded
    in `clips/cut-report.json` — mode (copy/re-encode), `requested_s`,
    `actual_s`, `duration_error_ms`, `start_error_ms` (copy mode only: the
-   requested start vs the keyframe actually used), and the exact command.
-   A cut that finishes over tolerance makes the command exit 1.
+   requested start vs the keyframe actually used), `av_start_skew_s` (copy
+   mode with audio only: first video pts vs first audio pts, a warning
+   field when over max(2 frames, 0.1 s)), `nearest_keyframes` +
+   `lossless_alternative` (re-encode paths only: the keyframes bracketing
+   the requested start, and the copy command that would have run with the
+   reason it did not), and the exact command. Writes are atomic — a failed
+   encode never replaces an existing clip. A cut that finishes over
+   tolerance makes the command exit 1.
 
-9. **Export.** `clipcut export <clip> --platform <id> --variant 9x16-crop`
-   renders the variants each clip lists (`original`, `9x16-crop`,
-   `9x16-blur`) with `+faststart`, plus optional two-pass loudnorm
-   (`--loudnorm`, about -14 LUFS, TP ≤ -1.5 dBTP). Specs and recipes:
-   `references/platform-specs.md`. The 9x16-crop is bounded, so ANY source
-   aspect fills 1080x1920 — landscape sources lose most of the width, a
-   portrait taller than 9:16 crops vertically (top and bottom). Check the
-   subject is near frame center before cropping and say so when it is not.
-   9x16-blur warns when a taller-than-9:16 source's vertical foreground
-   content is cropped.
+9. **Tighten (optional).** `clipcut tighten clips/<slug>.mp4` — make the
+   clip punchy: remove dead air. Silences are detected at −35 dBFS / 0.6 s
+   defaults (`--threshold`, `--min-silence`); 0.15 s of silence stays on
+   each side of kept speech (`--margin`) so speech still sounds natural;
+   kept pieces under 0.2 s are dropped (`--min-keep`). Output
+   `<stem>_tight.mp4` (one re-encode, 30 ms fades at every join, atomic
+   write) plus a `before_s / after_s / removed_s / cuts` report line. When
+   no silence is found the tool suggests a `--threshold` (mean level + 6 dB,
+   capped at −5 dB) and exits 0 — nothing was changed. Use tighten when the
+   user wants pace; skip it when pauses carry meaning.
 
-10. **Preview verify.** `clipcut preview <clip> --source <video> --start S
+10. **Export.** `clipcut export <clip> --platform <id> --variant 9x16-crop`
+    renders the variants each clip lists (`original`, `9x16-crop`,
+    `9x16-blur`) with `+faststart`, plus optional two-pass loudnorm
+    (`--loudnorm`, about -14 LUFS, TP ≤ -1.5 dBTP). Specs and recipes:
+    `references/platform-specs.md`. The 9x16-crop is bounded, so ANY source
+    aspect fills 1080x1920 — landscape sources lose most of the width, a
+    portrait taller than 9:16 crops vertically (top and bottom). Check the
+    subject is near frame center before cropping and say so when it is not.
+    9x16-blur warns when a taller-than-9:16 source's vertical foreground
+    content is cropped. Exports are written atomically.
+
+11. **Check (final gate).** `clipcut check exports/<file>.mp4 --platform
+    shorts` verifies the export against the SAME shared platform table the
+    export warnings come from: duration, aspect, resolution
+    (divisible-by-2), fps + VFR/CFR, codec, pix_fmt, audio, sample rate,
+    faststart, loudness (measure-only), silent audio. Each row is
+    PASS/WARN/FAIL with kind `format` or `judgement` (duration, aspect,
+    loudness are judgement — platform-dependent taste), a plain reason, and
+    the exact fix command when one exists. Without `--platform`, judgement
+    rows downgrade to WARN (evaluated against the generic creator profile)
+    and format rows still enforce; with `--platform`, any FAIL exits 1.
+    Unmeasurable facts (no audio stream, silent track, missing probe data)
+    are WARN "could not measure" — never PASS. Run it before or alongside
+    preview; a FAIL row blocks calling the clip done unless the user
+    explicitly accepts the risk.
+
+12. **Preview verify.** `clipcut preview <clip> --source <video> --start S
     --end E --probe probe.json` writes a 6-frame contact sheet
     (`preview/<slug>_preview.png`), muted first-3s and last-3s samples
     (`<slug>_3s.mp4`, `<slug>_end3s.mp4`), and `preview.json`. With
@@ -106,16 +140,34 @@ holding the source video.
     harsh opening. A boundary you judge bad goes back to step 8 with an
     adjusted start/end snapped to a silence-map boundary.
 
-11. **Final report.** Write it after preview is clean:
-    - **Clips table**: one row per clip — slug, start–end, duration, score,
-      variants exported, output paths.
-    - **Duration errors**: each cut's `duration_error_ms` (and, for
-      copy-mode cuts, `start_error_ms`) and mode (copy/re-encode); anything
-      over tolerance and unresolved.
-    - **Cost line**: model spend from the runs' `usage` numbers where
-      available; every projected number carries the word "estimate".
-    - **Coverage**: three counts — segments probed (all candidates, free) vs
-      segments rated (model-read) vs clips cut (user-confirmed).
+13. **Final report.** Write it after check and preview are clean:
+    - **Done**: one line saying what was produced (clips, exports, checks).
+    - **Steps**: the commands run and their exit codes (cut, tighten,
+      export, check, preview).
+    - **Check**: the check summary per export (PASS/WARN/FAIL counts, any
+      non-PASS rows with their fix commands).
+    - **Look**: the PNGs actually inspected (name them — e.g.
+      `preview/hook_preview.png`, `sheets/seg_003.png`) or state plainly
+      "pixels were not inspected".
+    - **Notes**: duration errors and copy-mode `start_error_ms` /
+      `av_start_skew_s` values, cost line (model spend from the runs'
+      `usage` numbers where available; every projected number carries the
+      word "estimate"), and coverage (segments probed vs rated vs cut).
+
+## Report contract
+
+The final report is only as good as the files behind it:
+
+1. Never report success without the output files — name the actual
+   `clips/`, `exports/`, `*_tight.mp4` paths that exist on disk.
+2. `Look:` must name the PNGs actually inspected or state "pixels were not
+   inspected" — never imply eyes that were not spent.
+3. Quote errors verbatim (stderr text), not paraphrased.
+4. Unmeasurable facts are warnings, never passes — carry "could not
+   measure" rows into the report as-is.
+5. Every number traces to a file the run produced (`probe.json`,
+   `ratings.json`, `clips/cut-report.json`, `check-report.json`,
+   `preview/preview.json`). Do not type numbers no file produced.
 
 ## clips.json — the plan file `cut` consumes
 
@@ -173,11 +225,14 @@ judgments, no stylized-text reading, and no escalation path.
 ## Exit semantics
 
 - **Exit 0** = pass/ok — every cut within tolerance, no findings, no
-  escalations.
+  escalations, no check FAIL.
 - **Exit 1** = attention needed — any rating finding, any escalation, a cut
-  duration error over tolerance, or a platform spec warning. Read the run
-  artifacts to see which.
+  duration error over tolerance, a platform spec warning, or a `check` FAIL
+  row (judgement rows can only FAIL when `--platform` was given). Read the
+  run artifacts to see which.
 - **Exit 2** = error; the fix hint is on stderr.
+- `tighten` with nothing to tighten (including its threshold suggestion) is
+  exit 0 — nothing was changed.
 - `preview` is informational: exit 0 = ok, 2 = error — never 1.
 - `plan --file` validates: 0 = valid, 1 = warnings only, 2 = invalid.
 
@@ -187,9 +242,11 @@ judgments, no stylized-text reading, and no escalation path.
    paths, in that order.
 2. Every number in the report traces to a file the run produced
    (`probe.json`, `ratings.json`, `clips/cut-report.json`,
-   `preview/preview.json`). Do not type numbers no file produced.
+   `check-report.json`, `preview/preview.json`). Do not type numbers no
+   file produced.
 3. If the user wants a clip re-bounded: adjust `clips.json`, re-run `cut`
-   for that clip only, then `export` and `preview` for it.
+   for that clip only, then `tighten` / `export` / `check` / `preview` for
+   it.
 4. If the user asks what the model saw: one contact sheet per candidate
    segment — not raw frames — plus the free probe measurements
    (`probe.json`) that built the candidates.
