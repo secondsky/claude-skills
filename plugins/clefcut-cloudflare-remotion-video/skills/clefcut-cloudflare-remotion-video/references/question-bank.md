@@ -112,9 +112,10 @@ Exact instruction wording (the authoritative copy is
   tags and numbers. Is any such word blurred, merged with another line, or
   too small to read without zooming?"
 - `ui_occlusion` (noul, on safe-zone frames): "This frame has translucent red
-  boxes shaded over where the platform's own interface (buttons, captions,
-  icons) covers the video. Is any text or key graphic inside the shaded red
-  zones?"
+  boxes shaded over the APPROXIMATE areas where the platform's interface
+  (buttons, captions, icons) typically covers the video (community-measured
+  zones; exact placement varies by device and app version). Is any text or key
+  graphic inside the shaded red zones?"
 - `text_integrity` (noul): "Is any on-screen word partly hidden, split into
   two colours, overlapped by another word, or followed by a stray fragment of
   text, so that a word could be misread as another word or looks broken?"

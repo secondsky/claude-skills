@@ -852,7 +852,7 @@ export function validateQuestions(spec) {
     if (!['noul', 'choice', 'score'].includes(q.type)) throw bad(`question "${id}": type must be noul, choice or score.`);
     if (!q.instructions) throw bad(`question "${id}": instructions is required.`);
     if (q.type === 'choice' && (typeof q.criteria !== 'object' || Array.isArray(q.criteria) || !q.criteria)) throw bad(`question "${id}": choice needs criteria as an OBJECT of option -> description.`);
-    if (q.type === 'score' && (!Array.isArray(q.criteria) || q.criteria.length < 2)) throw bad(`question "${id}": score needs criteria as an ordered ARRAY (worst last), 2-10 levels.`);
+    if (q.type === 'score' && (!Array.isArray(q.criteria) || q.criteria.length < 2 || q.criteria.length > 10)) throw bad(`question "${id}": score needs criteria as an ordered ARRAY (worst last), 2-10 levels.`);
   }
   const pass = spec.pass && typeof spec.pass === 'object' ? spec.pass : {};
   const esc = new Set(Array.isArray(spec.escalate_only) ? spec.escalate_only : []);
@@ -1323,6 +1323,7 @@ async function cmdSelftest() {
   const vqMsg = (spec) => { try { validateQuestions(spec); return ''; } catch (e) { return e.message; } };
   eq('validateQuestions rejects missing pass', /missing for: bad_id/.test(vqMsg({ questions: { ok_id: { type: 'noul', instructions: 'x' }, bad_id: { type: 'noul', instructions: 'x' } }, pass: { ok_id: 0.5 } })), true);
   eq('validateQuestions rejects pass out of range', vqMsg({ questions: { a: { type: 'noul', instructions: 'x' } }, pass: { a: 1.5 } }) !== '', true);
+  eq('validateQuestions rejects >10 score levels', /2-10 levels/.test(vqMsg({ questions: { a: { type: 'score', instructions: 'x', criteria: Array.from({ length: 11 }, (_, i) => `l${i}`) } }, pass: { a: 0.5 } })), true);
   eq('validateQuestions accepts escalate_only', vqMsg({ questions: { a: { type: 'noul', instructions: 'x' } }, escalate_only: ['a'] }), '');
   // time_s from manifest frame index, not array position.
   const zFrames = [{ index: 10, file: 'frame_000001.png' }, { index: 11, file: 'frame_000002.png' }];

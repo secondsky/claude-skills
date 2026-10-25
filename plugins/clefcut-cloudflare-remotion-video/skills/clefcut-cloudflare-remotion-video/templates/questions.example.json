@@ -32,7 +32,7 @@
     },
     "ui_occlusion": {
       "type": "noul",
-      "instructions": "This frame has translucent red boxes shaded over where the platform's own interface (buttons, captions, icons) covers the video. Is any text or key graphic inside the shaded red zones?"
+      "instructions": "This frame has translucent red boxes shaded over the APPROXIMATE areas where the platform's interface (buttons, captions, icons) typically covers the video (community-measured zones; exact placement varies by device and app version). Is any text or key graphic inside the shaded red zones?"
     },
     "text_integrity": {
       "type": "noul",
@@ -73,5 +73,7 @@
     "text_integrity": "major",
     "hierarchy": "major"
   },
-  "escalate_only": ["hierarchy"]
+  "escalate_only": [
+    "hierarchy"
+  ]
 }
