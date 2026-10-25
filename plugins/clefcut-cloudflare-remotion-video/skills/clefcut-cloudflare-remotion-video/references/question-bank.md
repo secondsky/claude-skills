@@ -43,7 +43,7 @@ The question file then carries per-question thresholds and one margin:
   would-be fail becomes an escalate. `severity` is a top-level map of
   id → blocker | major | minor.
 
-## Gate questions (the 8)
+## Gate questions (the 9)
 
 | Id | Type | Severity | Asked on | Escalation (defect probability) |
 |---|---|---|---|---|
@@ -53,6 +53,7 @@ The question file then carries per-question thresholds and one margin:
 | `abrupt_change` | noul | major | `diff/diff_%06d.png` images (`frames --diff`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `overlap` | noul | major | full-resolution frames | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `legible_feed` | noul | **blocker** | `test/frame_%06d.png` frames (`frames --test-width`, default 350) | pass 0.5: at/above fails; 0.2–0.5 escalates |
+| `ui_occlusion` | noul | major | `safe/frame_%06d.png` frames (`frames --test-width --safe <platform>`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `text_integrity` | noul | major | full-resolution frames | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `hierarchy` | score (5 levels) | major | full-resolution frames | escalate_only, line 0.5 (native 2 of 4): never a finding, only opens |
 
@@ -64,8 +65,20 @@ the two frames. `legible_feed` is asked on frames resized to the TEST WIDTH
 a smaller N such as 210 for a 9:16 feed or 375 for 1:1 can be passed
 explicitly), because legibility is a perception question at feed size, not at
 desktop size. `staging_order` reads the labelled cells of `sheet.png`
-(`frames --sheet`). The remaining questions run on the full-resolution
-frames.
+(`frames --sheet`). `ui_occlusion` is asked on the SAFE-ZONE frames —
+`frames --test-width --safe shorts|tiktok|reels|creator` writes
+`safe/frame_%06d.png` copies of the test-width frames with translucent red
+boxes over the platform's UI occlusion zones; the zone numbers live in ONE
+place, the `SAFE_ZONES` constant table in `scripts/video-qa.mjs`
+(community-measured; for Reels the official ads-only guideline is a bottom
+40% keep-out, which the overlay deliberately does not use so organic and paid
+content share one overlay). The remaining questions run on the
+full-resolution frames.
+
+Because `ui_occlusion` reads `safe/` frames while the rest of the bank reads
+`test/` or full-resolution frames, an `ask` run is TWO passes when the bank
+includes it: the main bank on its own frames, then the occlusion question
+alone on the `safe/` frames (see `references/workflow.md`, step 7).
 
 Exact instruction wording (the authoritative copy is
 `templates/questions.example.json`):
@@ -98,6 +111,10 @@ Exact instruction wording (the authoritative copy is
   or background. All other on-screen text counts, including small labels,
   tags and numbers. Is any such word blurred, merged with another line, or
   too small to read without zooming?"
+- `ui_occlusion` (noul, on safe-zone frames): "This frame has translucent red
+  boxes shaded over where the platform's own interface (buttons, captions,
+  icons) covers the video. Is any text or key graphic inside the shaded red
+  zones?"
 - `text_integrity` (noul): "Is any on-screen word partly hidden, split into
   two colours, overlapped by another word, or followed by a stray fragment of
   text, so that a word could be misread as another word or looks broken?"

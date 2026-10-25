@@ -12,10 +12,11 @@
 //   (acts like passing --yes to the cost gate).
 //
 // Usage: node video-qa.mjs --help | doctor [--ping] | frames <video> [--fps N] [--width W]
-//   [--out dir] [--frames A-B] [--test-width [N]] [--diff] [--sheet] | check <framesDir>
-//   [--declared declared.json] | text <framesDir|video> | ask <framesDir|video>
-//   --questions q.json | extract <framesDir|video> --fields f.json | synthesize <framesDir>
-//   --out dir | --selftest
+//   [--out dir] [--frames A-B] [--test-width [N]] [--safe shorts|tiktok|reels|creator] [--diff]
+//   [--sheet] | check <framesDir> [--declared declared.json] [--ink-threshold 12] | compare
+//   <a.png> <b.png> (or two frame dirs) [--out compare.png] | text <framesDir|video> |
+//   ask <framesDir|video> --questions q.json | extract <framesDir|video> --fields f.json |
+//   synthesize <framesDir> --out dir | --selftest
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -38,7 +39,63 @@ const CHOICE_CONF_FLOOR = 0.5;               // choice answers below this confid
 const TIMEOUT_MS = 120_000;
 const RETRIES = 3;                           // 429/5xx: backoff 1s, 2s, 4s (retry-after honored, capped 60s)
 const CHECKS = { blackMean: 16, blackStd: 4, frozenDiff: 0.5, flashJump: 60 };
-const SEVERITY = { black: 'major', frozen: 'major', flash: 'minor' };
+const SEVERITY = { black: 'major', frozen: 'major', flash: 'minor', ink: 'minor' };
+const INK = { threshold: 12, minFraction: 0.005 };
+
+// UI-occlusion safe zones per platform — the SINGLE SOURCE OF TRUTH for the numbers.
+// Docs (SKILL.md, references/*) reference this table by name and never repeat the values.
+// frac zones: top/bottom are fractions of the frame HEIGHT, right of the WIDTH. px zones
+// (tiktok) are absolute at the reference size and scale uniformly with frame_width /
+// ref.width. All zones are community-measured overlays of where the platform's own UI
+// covers the video. For Reels the official ads-only guideline is a bottom 40% keep-out;
+// this table keeps the community-measured 30% so organic and paid content share one overlay.
+const SAFE_ZONES = {
+  creator: { zones: [{ edge: 'top', frac: 0.15 }, { edge: 'bottom', frac: 0.30 }, { edge: 'right', frac: 0.10 }] },
+  shorts: { zones: [{ edge: 'top', frac: 0.10 }, { edge: 'bottom', frac: 0.30 }] },
+  tiktok: { ref: { width: 1080, height: 1920 }, zones: [{ edge: 'top', px: 130 }, { edge: 'bottom', px: 484 }, { edge: 'right', px: 140 }] },
+  reels: { zones: [{ edge: 'top', frac: 0.14 }, { edge: 'bottom', frac: 0.30 }, { edge: 'right', frac: 0.06 }] },
+};
+
+/** Pixel rects {x,y,w,h} for a platform's occlusion zones on a w x h frame. */
+export function safeZoneRects(platform, w, h) {
+  const spec = SAFE_ZONES[platform];
+  if (!spec) throw new UserError(`--safe must be one of: ${Object.keys(SAFE_ZONES).join(', ')}. Got: ${platform}`);
+  const s = spec.ref ? w / spec.ref.width : 1;
+  return spec.zones.map((z) => {
+    const band = Math.max(1, Math.round(z.frac != null ? (z.edge === 'right' ? z.frac * w : z.frac * h) : z.px * s));
+    const v = Math.min(band, z.edge === 'right' ? w : h);
+    if (z.edge === 'top') return { x: 0, y: 0, w, h: v };
+    if (z.edge === 'bottom') return { x: 0, y: h - v, w, h: v };
+    return { x: w - v, y: 0, w: v, h };
+  });
+}
+
+/** Median luma of a gray buffer via a 256-bin histogram (O(n); frames are large). */
+export function medianLuma(buf) {
+  const hist = new Uint32Array(256);
+  for (let i = 0; i < buf.length; i++) hist[buf[i]]++;
+  const half = Math.ceil(buf.length / 2);
+  let acc = 0;
+  for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc >= half) return v; }
+  return 255;
+}
+
+/** Fraction of pixels deviating more than `thr` from the median — how much of the frame is "drawn". */
+export function inkFraction(buf, median, thr) {
+  if (!buf.length) return 0;
+  let n = 0;
+  for (let i = 0; i < buf.length; i++) if (Math.abs(buf[i] - median) > thr) n++;
+  return n / buf.length;
+}
+
+/** Argument check for `compare` (pure): null when the positional list is exactly two inputs. */
+export function compareArgError(args) {
+  if (!args || args.length === 0) return 'compare needs two inputs: compare <before.png> <after.png> [--out compare.png] (or two frame dirs).';
+  if (args.length === 1) return 'compare needs TWO inputs (before and after); got one.';
+  if (args.length > 2) return `compare takes exactly two inputs (before and after); got ${args.length}.`;
+  return null;
+}
+
 const DEFAULT_TEXT_FIELDS = { onscreen_text: { type: 'text', instructions: 'All text visible in the frame, in reading order' } };
 const IS_WIN = process.platform === 'win32';
 const EXE = IS_WIN ? '.exe' : '';
@@ -322,16 +379,27 @@ function listFrames(dir) {
   return { dir, files, fps: (manifest && (manifest.fps_used || manifest.fps_source)) || null, manifest };
 }
 
+/** Which tool-managed artifacts exist on disk in a frames dir (order: frames,test,diff,safe,sheet). */
+export function dirArtifacts(dir) {
+  const out = ['frames'];
+  for (const k of ['test', 'diff', 'safe']) {
+    const p = path.join(dir, k);
+    if (fs.existsSync(p) && fs.statSync(p).isDirectory()) out.push(k);
+  }
+  if (fs.existsSync(path.join(dir, 'sheet.png'))) out.push('sheet');
+  return out;
+}
+
 /**
  * Extract PNG frames from a video into out/ (frame_%06d.png + manifest.json).
  * If out/ already exists it must hold ONLY tool-managed artifacts — frame_%06d.png, manifest.json,
- * findings.json (written by `check`), sheet.png, and the test/ and diff/ subdirs (written here) —
- * those are cleared so a range re-extract can never leave stale frames behind — anything else in
- * the dir is an error (choose a fresh --out). manifest.count = frames exported THIS run.
+ * findings.json (written by `check`), sheet.png, and the test/, diff/ and safe/ subdirs (written
+ * here) — those are cleared so a range re-extract can never leave stale frames behind — anything
+ * else in the dir is an error (choose a fresh --out). manifest.count = frames exported THIS run.
  */
-async function extractFrames(video, { fps = null, width = null, out, range = null, testWidth = null, diff = false, sheet = false }) {
+async function extractFrames(video, { fps = null, width = null, out, range = null, testWidth = null, safe = null, diff = false, sheet = false }) {
   const info = await probe(video);
-  const managed = (e) => /^frame_\d{6}\.png$/.test(e) || ['manifest.json', 'findings.json', 'sheet.png'].includes(e) || ((e === 'test' || e === 'diff') && fs.statSync(path.join(out, e)).isDirectory());
+  const managed = (e) => /^frame_\d{6}\.png$/.test(e) || ['manifest.json', 'findings.json', 'sheet.png'].includes(e) || ['test', 'diff', 'safe'].includes(e) && fs.statSync(path.join(out, e)).isDirectory();
   if (fs.existsSync(out)) {
     if (!fs.statSync(out).isDirectory()) throw new UserError(`--out path exists and is not a directory: ${out}`);
     const entries = fs.readdirSync(out);
@@ -353,18 +421,28 @@ async function extractFrames(video, { fps = null, width = null, out, range = nul
   if (r.code !== 0) throw new UserError(`ffmpeg frame export failed: ${r.stderr.trim().slice(0, 300)}`);
   const pngs = fs.readdirSync(out).filter((f) => /^frame_\d{6}\.png$/.test(f)).sort();
   if (!pngs.length) throw new UserError(`No frames produced for ${video}${range ? ` in range ${range.a}-${range.b}` : ''}.`);
-  const artifacts = ['frames'];
   if (testWidth != null) {
     fs.mkdirSync(path.join(out, 'test'), { recursive: true });
     const rt = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', `scale=${testWidth}:-2`, ...sync, path.join(out, 'test', 'frame_%06d.png')]);
     if (rt.code !== 0) throw new UserError(`test-frame export failed: ${rt.stderr.trim().slice(0, 300)}`);
-    artifacts.push('test');
+  }
+  if (safe) {
+    // Safe-zone frames: copies of the TEST-width frames with translucent red boxes over the
+    // platform's UI occlusion zones (rects scale with the frame — see SAFE_ZONES).
+    const tdir = path.join(out, 'test');
+    const first = fs.readdirSync(tdir).filter((f) => /^frame_\d{6}\.png$/.test(f)).sort()[0];
+    const pst = await runFf('ffprobe', ['-v', 'error', '-show_streams', '-of', 'json', path.join(tdir, first)]);
+    const st = JSON.parse(pst.stdout.toString()).streams[0];
+    if (!st || !st.width) throw new UserError(`Could not probe test frame ${first}.`);
+    const boxes = safeZoneRects(safe, st.width, st.height).map((rc) => `drawbox=x=${rc.x}:y=${rc.y}:w=${rc.w}:h=${rc.h}:color=red@0.30:t=fill`).join(',');
+    fs.mkdirSync(path.join(out, 'safe'), { recursive: true });
+    const rs = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(tdir, 'frame_%06d.png'), '-vf', boxes, ...sync, path.join(out, 'safe', 'frame_%06d.png')]);
+    if (rs.code !== 0) throw new UserError(`safe-zone frame export failed: ${rs.stderr.trim().slice(0, 300)}`);
   }
   if (diff) {
     fs.mkdirSync(path.join(out, 'diff'), { recursive: true });
     const rd = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', 'tblend=all_mode=difference,eq=contrast=8', ...sync, path.join(out, 'diff', 'diff_%06d.png')]);
     if (rd.code !== 0) throw new UserError(`diff-frame export failed: ${rd.stderr.trim().slice(0, 300)}`);
-    artifacts.push('diff');
   }
   if (sheet) {
     const count = pngs.length;
@@ -377,14 +455,13 @@ async function extractFrames(video, { fps = null, width = null, out, range = nul
     const tile = count > 64 ? `select=not(mod(n\\,${step})),scale=320:-2,tile=${cols}x${rows}` : `scale=320:-2,tile=${cols}x${rows}`;
     const rs = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', tile, '-frames:v', '1', path.join(out, 'sheet.png')]);
     if (rs.code !== 0) throw new UserError(`contact sheet export failed: ${rs.stderr.trim().slice(0, 300)}`);
-    artifacts.push('sheet');
   }
   const start = range ? range.a : 0;
   const scaledH = Math.round(info.height * width / info.width);
   const height = width != null ? scaledH - (scaledH % 2) : info.height;
   const manifest = {
     source: path.resolve(video), width: width != null ? width : info.width, height, fps_source: info.fps, fps_used: fps || null,
-    frame_start: start, count: pngs.length, created_at: new Date().toISOString(), artifacts,
+    frame_start: start, count: pngs.length, created_at: new Date().toISOString(), artifacts: dirArtifacts(out),
     command: `ffmpeg ${args.join(' ')}`, files: pngs.map((f, i) => ({ index: start + i, file: f })),
   };
   fs.writeFileSync(path.join(out, 'manifest.json'), JSON.stringify(manifest, null, 2));
@@ -581,6 +658,14 @@ export function computeFindings(frames, stats, t) {
       if (jump > t.flashJump) finding(i, 'flash', jump, t.flashJump);
     }
   }
+  // ink — almost nothing drawn: pixels deviating > threshold from the frame's MEDIAN luma;
+  // a featureless frame (flat fill, missing layer) has an ink_fraction below the floor.
+  const inkThreshold = t.inkThreshold == null ? INK.threshold : t.inkThreshold;
+  const inkMin = t.inkMin == null ? INK.minFraction : t.inkMin;
+  for (let i = 0; i < n; i++) {
+    const frac = inkFraction(stats.data[i], medianLuma(stats.data[i]), inkThreshold);
+    if (frac < inkMin) finding(i, 'ink', frac, inkMin);
+  }
   return out;
 }
 
@@ -618,6 +703,9 @@ export function applyDeclared(findings, declared) {
     } else if (f.check === 'black') {
       if (inRange(f.frame, declared.blackouts)) reason = 'black inside a declared blackout';
       else if (nearCut(f.frame)) reason = 'black within 2 frames of a declared cut';
+    } else if (f.check === 'ink') {
+      if (inRange(f.frame, declared.blackouts)) reason = 'ink inside a declared blackout';
+      else if (inRange(f.frame, declared.holds)) reason = 'ink inside a declared hold';
     }
     if (reason) suppressed.push({ ...f, suppressed_reason: reason });
     else keep.push(f);
@@ -642,6 +730,7 @@ async function cmdCheck(dir, o) {
     blackMean: num('black-mean', CHECKS.blackMean), blackStd: num('black-std', CHECKS.blackStd),
     frozenDiff: num('frozen-diff', CHECKS.frozenDiff), frozenRun: num('frozen-run', Math.max(3, Math.round(1.5 * fpsUsed))),
     flashJump: num('flash-jump', CHECKS.flashJump),
+    inkThreshold: num('ink-threshold', INK.threshold), inkMin: INK.minFraction,
   };
   const { findings, suppressed } = applyDeclared(computeFindings(files, { data, fps: fpsUsed }, t), declared);
   const outPath = o.out || path.join(dir, 'findings.json');
@@ -652,7 +741,7 @@ async function cmdCheck(dir, o) {
   const counts = {};
   for (const f of findings) counts[f.check] = (counts[f.check] || 0) + 1;
   console.log(`checked ${files.length} frames at ${s0.width}x${s0.height} (${fpsUsed} fps${fpsAssumed ? ', assumed' : ''})`);
-  console.log(`black/blank: ${counts.black || 0} finding(s) | frozen: ${counts.frozen || 0} | flash/pop: ${counts.flash || 0}`);
+  console.log(`black/blank: ${counts.black || 0} finding(s) | frozen: ${counts.frozen || 0} | flash/pop: ${counts.flash || 0} | ink (almost nothing drawn): ${counts.ink || 0}`);
   if (suppressed.length) console.log(`suppressed by --declared: ${suppressed.length} finding(s) (${[...new Set(suppressed.map((s) => s.check))].join(', ')}) — see "suppressed" in ${outPath}`);
   console.log(`${findings.length ? 'findings' : 'clean — findings'} written to ${outPath}`);
   return findings.length ? 1 : 0;
@@ -1018,6 +1107,100 @@ async function cmdSynthesize(dir, o) {
   return 0;
 }
 
+// ---------------------------------------------------------------- compare (before/after proof)
+
+/** probe an image's pixel size (throws a clean error for non-images). */
+async function imgDims(p) {
+  const r = await runFf('ffprobe', ['-v', 'error', '-show_streams', '-of', 'json', p]);
+  if (r.code !== 0) throw new UserError(`Not a readable image: ${p}`);
+  const st = JSON.parse(r.stdout.toString()).streams[0];
+  if (!st || !st.width) throw new UserError(`No image stream in ${p}.`);
+  return { w: st.width, h: st.height };
+}
+
+/** PNGs named frame_%06d.png in a dir, keyed by frame number. */
+function frameNumMap(dir) {
+  const m = new Map();
+  for (const f of fs.readdirSync(dir)) {
+    const mm = /^frame_(\d{6})\.png$/.exec(f);
+    if (mm) m.set(Number(mm[1]), path.join(dir, f));
+  }
+  return m;
+}
+
+/**
+ * Side-by-side proof image. Two PNGs -> one same-height hstack (the taller input is scaled
+ * down to the shorter height; no text is burned in — the JSON index carries the mapping).
+ * Two frame DIRS -> ONE combined contact sheet of matching frame numbers (each pair an
+ * hstack, pairs vstacked; <= 64 pairs, evenly sampled when there are more) + the JSON index.
+ */
+async function cmdCompare(args, o) {
+  const bad = compareArgError(args);
+  if (bad) throw new UserError(bad);
+  const [a, b] = args.map((p) => path.resolve(p));
+  for (const p of [a, b]) if (!fs.existsSync(p)) throw new UserError(`Input not found: ${p}`);
+  const aDir = fs.statSync(a).isDirectory();
+  const bDir = fs.statSync(b).isDirectory();
+  if (aDir !== bDir) throw new UserError('compare needs two PNG files or two frame dirs — got one of each.');
+  const out = o.out || 'compare.png';
+  const jsonOut = /\.[^./]+$/.test(out) ? out.replace(/\.[^./]+$/, '') + '.json' : `${out}.json`;
+  const index = { generated_at: new Date().toISOString(), out, ...(aDir ? { type: 'dirs' } : { type: 'files' }) };
+
+  if (!aDir) {
+    const dA = await imgDims(a);
+    const dB = await imgDims(b);
+    const H = Math.min(dA.h, dB.h); // scale the taller reference down to the shorter height
+    let fc;
+    if (dA.h === dB.h) fc = '[0:v][1:v]hstack=inputs=2[out]';
+    else if (dA.h > dB.h) fc = `[0:v]scale=-2:${H}[a];[a][1:v]hstack=inputs=2[out]`;
+    else fc = `[1:v]scale=-2:${H}[b];[0:v][b]hstack=inputs=2[out]`;
+    const r = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', a, '-i', b, '-filter_complex', fc, '-map', '[out]', '-frames:v', '1', '-update', '1', out]);
+    if (r.code !== 0) throw new UserError(`compare failed: ${r.stderr.trim().slice(0, 300)}`);
+    const done = await imgDims(out);
+    fs.writeFileSync(jsonOut, JSON.stringify({ ...index, left: a, right: b, width: done.w, height: done.h }, null, 2));
+    console.log(`wrote ${out} (${done.w}x${done.h}; left is ${path.basename(a)}, right is ${path.basename(b)}) + index ${jsonOut}`);
+    return 0;
+  }
+
+  const mapA = frameNumMap(a);
+  const mapB = frameNumMap(b);
+  const shared = [...mapA.keys()].filter((k) => mapB.has(k)).sort((x, y) => x - y);
+  if (!shared.length) throw new UserError(`No matching frame numbers between ${a} and ${b} (frames must be named frame_%06d.png).`);
+  let included = shared;
+  if (shared.length > 64) {
+    const step = Math.ceil(shared.length / 64); // same sampling convention as the contact sheet
+    included = shared.filter((_, i) => i % step === 0);
+  }
+  const dA = await imgDims(mapA.get(shared[0]));
+  const dB = await imgDims(mapB.get(shared[0]));
+  const H = Math.min(dA.h, dB.h);
+  const evenW = (w, h) => 2 * Math.max(1, Math.round((w * H / h) / 2));
+  const wA = dA.h === H ? dA.w : evenW(dA.w, dA.h);
+  const wB = dB.h === H ? dB.w : evenW(dB.w, dB.h);
+  const Wmax = wA + wB + 8 - ((wA + wB + 8) % 2); // pad target: absorbs scale rounding between differently-sized dirs
+  const chains = included.map((_, i) => {
+    const l = `[${2 * i}:v]${dA.h === H ? '' : `scale=-2:${H},`}null[l${i}]`;
+    const r = `[${2 * i + 1}:v]${dB.h === H ? '' : `scale=-2:${H},`}null[r${i}]`;
+    const pair = `[l${i}][r${i}]hstack=inputs=2,pad=${Wmax}:${H}:0:0:color=black[p${i}]`;
+    return `${l};${r};${pair}`;
+  });
+  const stack = included.length > 1
+    ? `${chains.join(';')};${included.map((_, i) => `[p${i}]`).join('')}vstack=inputs=${included.length}[out]`
+    : `${chains[0]};[p0]null[out]`;
+  const inputs = included.flatMap((n) => ['-i', mapA.get(n), '-i', mapB.get(n)]);
+  const r = await runFf('ffmpeg', ['-v', 'error', '-y', ...inputs, '-filter_complex', stack, '-map', '[out]', '-frames:v', '1', '-update', '1', out]);
+  if (r.code !== 0) throw new UserError(`compare failed: ${r.stderr.trim().slice(0, 300)}`);
+  const inSet = new Set(included);
+  fs.writeFileSync(jsonOut, JSON.stringify({
+    ...index, left_dir: a, right_dir: b, height: H, sheet_pairs: included.length,
+    sampled: included.length < shared.length ? `${included.length} of ${shared.length} pairs (evenly sampled) in the sheet; ALL pairs listed below` : false,
+    pairs: shared.map((n) => ({ frame: n, left: mapA.get(n), right: mapB.get(n), in_sheet: inSet.has(n) })),
+  }, null, 2));
+  console.log(`compared ${shared.length} matching frame(s): wrote ${out} (${included.length} side-by-side pair(s)) + index ${jsonOut}`);
+  if (included.length < shared.length) console.log(`note: the sheet holds ${included.length} of ${shared.length} pairs (evenly sampled); the index lists every pair`);
+  return 0;
+}
+
 async function cmdDoctor(o) {
   const problems = [];
   const nodeMajor = Number(process.versions.node.split('.')[0]);
@@ -1068,7 +1251,13 @@ async function cmdFrames(video, o) {
     testWidth = o['test-width'] === true ? 350 : Number(o['test-width']);
     if (!Number.isFinite(testWidth) || testWidth < 16) throw new UserError('--test-width must be a number >= 16 (default 350).');
   }
-  const r = await extractFrames(video, { fps, width, out, range, testWidth, diff: o.diff === true, sheet: o.sheet === true });
+  let safe = null;
+  if (o.safe != null) {
+    safe = String(o.safe);
+    if (!SAFE_ZONES[safe]) throw new UserError(`--safe must be one of: ${Object.keys(SAFE_ZONES).join(', ')}. Got: ${o.safe}`);
+    if (testWidth == null) throw new UserError('--safe requires --test-width: safe-zone frames are shaded copies of the TEST-width frames (the red boxes scale with the frame). Re-run with --test-width --safe <platform>.');
+  }
+  const r = await extractFrames(video, { fps, width, out, range, testWidth, safe, diff: o.diff === true, sheet: o.sheet === true });
   console.log(`exported ${r.files.length} frame(s) to ${out} (frame_start=${range ? range.a : 0}, width=${width != null ? width : 'native'}, fps=${fps || `source ${r.fps}`}, artifacts: ${r.manifest.artifacts.join('+')}) — wrote ${path.join(out, 'manifest.json')}`);
   return 0;
 }
@@ -1151,6 +1340,56 @@ async function cmdSelftest() {
   eq('declared suppresses flash near cut', dec.suppressed.filter((s) => s.check === 'flash').map((s) => s.frame), [30]);
   eq('declared suppresses frozen in hold', dec.suppressed.map((s) => s.check), ['flash', 'frozen']);
   eq('declared keeps unrelated findings', dec.findings.map((s) => s.frame), [40]);
+  // declared.json suppression for ink: blackouts and holds windows.
+  const decInk = applyDeclared([{ frame: 5, check: 'ink' }, { frame: 9, check: 'ink' }, { frame: 20, check: 'ink' }], { blackouts: [[4, 6]], holds: [[8, 10]] });
+  eq('declared suppresses ink in blackout+hold', decInk.findings.map((s) => s.frame), [20]);
+  eq('declared ink suppression reasons', decInk.suppressed.map((s) => s.suppressed_reason), ['ink inside a declared blackout', 'ink inside a declared hold']);
+  // safe-zone rect math: fractions -> px on a 350-wide (350x622) test frame.
+  eq('safe zones creator on 350px frame', safeZoneRects('creator', 350, 622), [
+    { x: 0, y: 0, w: 350, h: 93 },
+    { x: 0, y: 435, w: 350, h: 187 },
+    { x: 315, y: 0, w: 35, h: 622 },
+  ]);
+  eq('safe zones tiktok scaled by width/1080', safeZoneRects('tiktok', 350, 622), [
+    { x: 0, y: 0, w: 350, h: 42 },
+    { x: 0, y: 465, w: 350, h: 157 },
+    { x: 305, y: 0, w: 45, h: 622 },
+  ]);
+  eq('safe zones native 1080 keeps px values', safeZoneRects('tiktok', 1080, 1920), [
+    { x: 0, y: 0, w: 1080, h: 130 },
+    { x: 0, y: 1436, w: 1080, h: 484 },
+    { x: 940, y: 0, w: 140, h: 1920 },
+  ]);
+  const szErr = () => { try { safeZoneRects('nope', 100, 100); return ''; } catch (e) { return e.message; } };
+  eq('safe zones unknown platform errors', /--safe must be one of: creator, shorts, tiktok, reels/.test(szErr()), true);
+  // ink math on synthetic buffers: blank vs busy.
+  eq('median luma flat buffer', medianLuma(Buffer.alloc(200, 200)), 200);
+  eq('median luma lower-middle on even count', medianLuma(Buffer.from([10, 20, 30, 200])), 20);
+  eq('ink fraction blank is 0', inkFraction(Buffer.alloc(200, 200), medianLuma(Buffer.alloc(200, 200)), 12), 0);
+  const busyBuf = Buffer.alloc(200, 200);
+  for (let i = 0; i < 10; i++) busyBuf[i] = 40;
+  eq('ink fraction busy 5%', +(inkFraction(busyBuf, 200, 12).toFixed(4)), 0.05);
+  eq('ink fraction threshold boundary excluded', inkFraction(Buffer.from([100, 112, 88, 100]), 100, 12), 0);
+  const inkF = computeFindings([{ index: 0, file: 'frame_000000.png' }], { data: [Buffer.alloc(64, 128)], fps: 30 }, { blackMean: 16, blackStd: 4, frozenDiff: 0.5, frozenRun: 99, flashJump: 60 });
+  eq('ink finding fires on featureless frame', inkF.map((f) => f.check), ['ink']);
+  const busy2 = Buffer.alloc(100, 128);
+  for (let i = 0; i < 10; i++) busy2[i] = 250;
+  const inkF2 = computeFindings([{ index: 0, file: 'frame_000000.png' }], { data: [busy2], fps: 30 }, { blackMean: 16, blackStd: 4, frozenDiff: 0.5, frozenRun: 99, flashJump: 60 });
+  eq('no ink finding on busy frame', inkF2.length, 0);
+  // compare arg validation.
+  eq('compare args empty errors', /two inputs/.test(String(compareArgError([]))), true);
+  eq('compare args one errors', /TWO inputs/.test(String(compareArgError(['a.png']))), true);
+  eq('compare args two ok', compareArgError(['a.png', 'b.png']), null);
+  eq('compare args three errors', /exactly two/.test(String(compareArgError(['a', 'b', 'c']))), true);
+  // artifacts list: "safe" appears only when a safe/ subdir exists (i.e. only with --safe).
+  const artDir = fs.mkdtempSync(path.join(os.tmpdir(), 'clefcut-artifacts-'));
+  eq('artifacts frames only on fresh dir', dirArtifacts(artDir), ['frames']);
+  fs.mkdirSync(path.join(artDir, 'test'));
+  fs.writeFileSync(path.join(artDir, 'frame_000000.png'), '');
+  eq('artifacts gains test but not safe', dirArtifacts(artDir), ['frames', 'test']);
+  fs.mkdirSync(path.join(artDir, 'safe'));
+  eq('artifacts gains safe only when safe/ exists', dirArtifacts(artDir), ['frames', 'test', 'safe']);
+  fs.rmSync(artDir, { recursive: true, force: true });
   // arg parser: value flags demand a value; --test-width may be bare (defaults to 350 later).
   const argMsg = (argv) => { try { parseArgs(argv); return ''; } catch (e) { return e.message; } };
   eq('arg parser missing value errors', /--questions requires a value/.test(argMsg(['ask', 'v.mp4', '--questions'])), true);
@@ -1176,32 +1415,52 @@ Exit codes: 0 = pass/ok; 1 = attention needed (findings, escalations, or unrelia
 Commands:
   doctor [--ping]      Node, env vars (set/missing + which file each came from), ffmpeg, OCR engines, gateway.
                        --ping adds ONE clef-flash question (the only network call).
-  frames <video> [--fps N] [--width W] [--out dir] [--frames A-B] [--test-width [N]] [--diff] [--sheet]
+  frames <video> [--fps N] [--width W] [--out dir] [--frames A-B] [--test-width [N]]
+               [--safe shorts|tiktok|reels|creator] [--diff] [--sheet]
                        Export frame_%06d.png + manifest.json. Default fps = full source fps.
                        --width omitted = NATIVE video width (no rescale); an explicit W scales to W px.
                        A-B is 0-based, frame-accurate (applies after optional --fps).
                        Re-extracting (e.g. a range) into an existing --out is allowed only when the
-                       dir holds just frame_%06d.png files + manifest.json — those are cleared first,
-                       so no stale frames survive; manifest.count = frames exported by THIS run.
+                       dir holds just tool-managed artifacts — those are cleared first, so no stale
+                       frames survive; manifest.count = frames exported by THIS run.
                        ANY other file in the dir is an error — choose a fresh --out.
                        --test-width [N] (N defaults to 350): also write test/frame_%06d.png scaled to N px.
+                       --safe <platform> (requires --test-width): also write safe/frame_%06d.png —
+                       copies of the TEST-width frames with translucent red boxes (red@0.30, ffmpeg
+                       drawbox) over that platform's UI occlusion zones, scaled proportionally to
+                       the frame. Zone numbers live in ONE place — the SAFE_ZONES constant table in
+                       this script (community-measured; for Reels the official ads-only guideline
+                       is bottom 40%, the overlay keeps the community 30% zone); docs reference it.
                        --diff: also write diff/diff_%06d.png — consecutive-frame absolute difference,
                        amplified (tblend=all_mode=difference,eq=contrast=8).
                        --sheet: also write sheet.png — 8-column contact sheet (explicit tile rows, ≤64 frames),
                        capped at 64 frames (evenly sampled when there are more).
-                       manifest.artifacts records what exists: ["frames","test","diff","sheet"].
+                       manifest.artifacts records what exists: ["frames","test","diff","safe","sheet"].
   check <framesDir> [--out findings.json] [--declared declared.json] [--black-mean 16] [--black-std 4]
-        [--frozen-diff 0.5] [--frozen-run N] [--flash-jump 60]
-                       LOCAL, free: black/blank, frozen, flash/pop checks per frame.
+        [--frozen-diff 0.5] [--frozen-run N] [--flash-jump 60] [--ink-threshold 12]
+                       LOCAL, free: black/blank, frozen, flash/pop and ink checks per frame.
                        time_s comes from the manifest frame INDEX; without a manifest fps is
                        unknown and 30 is assumed (a warning is printed).
                        Frozen = a run of near-identical frames >= max(3, round(1.5 x fps)) frames
                        (~1.5 s); --frozen-run overrides the threshold (in frames).
+                       ink — almost nothing drawn: per frame the median luma is computed and
+                       ink_fraction = the fraction of pixels deviating more than --ink-threshold
+                       (default 12) from it; ink_fraction < 0.005 is a finding (minor).
   declared.json (for check --declared) — intentional-edit map, frame numbers, inclusive:
         {"cuts":[n,...], "holds":[[a,b],...], "blackouts":[[a,b],...], "effects":[[a,b],...]}
         Suppresses (moved to "suppressed" in findings.json with the declaring reason, and
         excluded from the exit code): flash within 2 frames of a cut or inside effects;
-        frozen inside holds; black inside blackouts or within 2 frames of a cut.
+        frozen inside holds; black inside blackouts or within 2 frames of a cut;
+        ink inside blackouts or holds.
+  compare <before.png> <after.png> [--out compare.png]
+          (or compare <beforeDir> <afterDir> [--out compare.png])
+                       Fix-round proof image, side by side. Two PNGs -> one same-height hstack:
+                       the TALLER input is scaled down to the shorter height, the shorter passes
+                       through unchanged. Two frame DIRS -> ONE combined contact sheet of matching
+                       frame numbers (each pair an hstack, pairs stacked; <= 64 pairs, evenly
+                       sampled when more). No text labels are burned in (no font dependency) —
+                       the mapping (which file is left, which is right) is carried by the JSON
+                       index written next to the output: <out minus extension>.json.
   text <framesDir|video> [--engine local|clairic|auto] [--fields fields.json] [--max-images 1]
        [--out text.json] [--yes] [--keep-temp]
                        On-screen text. local = tesseract.js or system tesseract — note
@@ -1269,7 +1528,7 @@ CLEFCUT_FFMPEG/CLEFCUT_FFPROBE (optional), CLEFCUT_YES=1 (= --yes). Precedence: 
 from). Token values are never printed.`;
 
 /** Flags that must be followed by a value; a missing/true value is a clean exit-2 error. */
-const VALUE_FLAGS = new Set(['fps', 'width', 'out', 'frames', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'controls', 'declared', 'black-mean', 'black-std', 'frozen-diff', 'frozen-run', 'flash-jump']);
+const VALUE_FLAGS = new Set(['fps', 'width', 'out', 'frames', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'controls', 'declared', 'black-mean', 'black-std', 'frozen-diff', 'frozen-run', 'flash-jump', 'ink-threshold', 'safe']);
 
 export function parseArgs(argv) {
   const out = { _: [] };
@@ -1298,6 +1557,7 @@ async function main(argv) {
       case 'doctor': return await cmdDoctor(o);
       case 'frames': return await cmdFrames(o._[1], o);
       case 'check': return await cmdCheck(o._[1], o);
+      case 'compare': return await cmdCompare(o._.slice(1), o);
       case 'text': return await cmdText(o._[1], o);
       case 'ask': return await cmdAsk(o._[1], o);
       case 'extract': return await cmdExtract(o._[1], o);

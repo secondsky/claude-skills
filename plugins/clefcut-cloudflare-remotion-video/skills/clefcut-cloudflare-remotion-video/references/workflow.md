@@ -10,13 +10,15 @@ user's Remotion project root. `video-qa` below means
 |---|---|---|
 | `frames/frame_%06d.png` | `frames` | Native-width frames (no rescale unless `--width W`) |
 | `test/frame_%06d.png` | `frames --test-width [N]` | Test-width copies for legibility questions (N defaults to 350) |
+| `safe/frame_%06d.png` | `frames --test-width --safe <platform>` | Test-width copies with translucent red boxes over the platform's UI occlusion zones, for the `ui_occlusion` question |
 | `diff/diff_%06d.png` | `frames --diff` | Amplified consecutive-frame difference images for pop/abrupt-change questions |
 | `sheet.png` | `frames --sheet` | 8-column contact sheet (capped at 64 evenly sampled frames) for staging-order questions |
 | `manifest.json` | `frames` | Frame list, fps, and `artifacts` — which of the above exist |
-| `findings.json` | `check` | Per-frame black/frozen/flash findings (and `suppressed` with `--declared`) |
+| `findings.json` | `check` | Per-frame black/frozen/flash/ink findings (and `suppressed` with `--declared`) |
 | `text.json` | `text` | Engine used, each frame's OCR text and confidence |
 | `answers.json` | `ask` | Per-frame classification rows, controls tally, `unreliable` flag, `usage` |
 | `extract.json` | `extract` | Per-frame typed values with `p_null` and `confidence` per field |
+| `compare.png` + `compare.json` | `compare` | Before/after proof image(s) and the JSON index mapping left/right files |
 | controls dir | `synthesize --out <dir>` | Control PNGs + `controls.json` (kept outside the frames dir) |
 | `opened.json` | Agent | Every frame the agent opened and why (see step 8) |
 
@@ -42,15 +44,17 @@ user's Remotion project root. `video-qa` below means
    — h264 at CRF 17 for a reviewable master; bt709 for predictable color.
 
 4. **Frames.** `video-qa frames out/<name>.mp4` writes native-width frames by
-   default; add `--test-width` (legibility), `--diff` (pop/abrupt-change), and
-   `--sheet` (staging order) as the question bank needs. Note the run folder:
-   all artifacts in the table above live there.
+   default; add `--test-width` (legibility), `--safe <platform>`
+   (safe-zone frames, when the target is a short-form feed), `--diff`
+   (pop/abrupt-change), and `--sheet` (staging order) as the question bank
+   needs. Note the run folder: all artifacts in the table above live there.
 
 5. **Check (free, local, every frame).** `video-qa check <framesDir>` —
-   black/blank, frozen, and flash checks, measured not guessed. Every finding
-   arrives with its measurement (check type, value, threshold, severity). Run
-   it with `--declared declared.json` so intentional edits are suppressed, not
-   flagged. This pass is free: run it on every frame, every time.
+   black/blank, frozen, flash, and ink (almost nothing drawn) checks, measured
+   not guessed. Every finding arrives with its measurement (check type, value,
+   threshold, severity). Run it with `--declared declared.json` so intentional
+   edits are suppressed, not flagged. This pass is free: run it on every
+   frame, every time.
 
 6. **Text.** `video-qa text <framesDir> --engine local|clairic|auto`.
    Integrity-vs-script runs free on full-resolution frames with the local
@@ -59,10 +63,19 @@ user's Remotion project root. `video-qa` below means
    run (local when a local engine is installed, otherwise CLAIRIC); the run
    report states which engine produced the results.
 
-7. **Ask CLEF, with controls.**
+7. **Ask CLEF, with controls — TWO passes when the bank has `ui_occlusion`.**
    `video-qa ask <framesDir|video> --questions questions.json --controls <dir>`
    (add `--model clef-flash` for cheap sweeps; default is `clef`). Start from
    the default bank at `templates/questions.example.json` or a project copy.
+   The `ui_occlusion` question is defined on the `safe/` frames, which no
+   other question reads — so when the bank includes it, run `ask` TWICE with
+   two question files: first the main bank (minus `ui_occlusion`) on the
+   frames it reads (`test/` for `legible_feed`, `diff/` for `pop`/
+   `abrupt_change`, `sheet.png` for `staging_order`, full-resolution for the
+   rest), then `ui_occlusion` alone on the `safe/` dir
+   (`ask <framesDir>/safe --questions occlusion.json`). Splitting the bank
+   this way keeps every question on the artifact it was written for; the two
+   answers.json files are read together in reconciliation.
    Before the run: synthesize positive controls from the user's own frames
    with `video-qa synthesize <framesDir> --out <controlsDir>` (black, ghost,
    and 96px-left-edge-shift controls plus `controls.json`, with trips already
@@ -115,7 +128,12 @@ user's Remotion project root. `video-qa` below means
    rubric. Craft + clarity score 1–10 (pass = 8+ both); freshness gives a
    verdict only. Never approve your own hero element.
 
-10. **Fix.** Fix the defects in the composition. Re-render. Re-run steps 4–9.
+10. **Fix.** Fix the defects in the composition. Re-render. Prove each fix
+    with `video-qa compare <before> <after> --out compare.png` — two PNGs
+    make one side-by-side image, or two frame dirs make one combined
+    side-by-side contact sheet plus a JSON index mapping left (before) to
+    right (after). Reference the compare output in the report's findings
+    table instead of describing the fix in words. Re-run steps 4–9.
     Maximum 3 fix rounds; then stop and report what is still open.
 
 11. **Re-check changed ranges.** After a fix round, do not re-run the model
@@ -129,23 +147,40 @@ user's Remotion project root. `video-qa` below means
     main cost saver on iterations.
 
 12. **Final report.** On the exact file the user will deliver, re-verify any
-    range touched since the last pass, then write the report:
+    range touched since the last pass, then write the report in the FIVE
+    labelled parts of the report contract below: **Done / Steps / Check /
+    Look / Notes**.
 
-    - **Findings table**: one row per finding — id, severity, frame, what was
-      wrong, the fix, and before/after frame paths (both image files).
-    - **Cost line**: model spend from the runs' `usage` numbers where
-      available, prefixed with the plan and prices used; any projected or
-      non-usage-sourced number carries the word "estimate".
-    - **Coverage statement**, three counts, so the reader knows what was
-      actually checked: frames measured (local, all) vs frames model-read
-      (sampled or flagged) vs frames critic-seen (≤32).
-    - **Open items**: anything unresolved after 3 rounds, any control that
-      failed (which makes those answers unreliable), and any finding
-      suppressed as declared design (with its declaring reason).
+## The report contract: Done / Steps / Check / Look / Notes
+
+The final report has exactly FIVE labelled parts, in this order. Two rules
+govern all of them: never report success without the tool's output files
+(findings.json, answers.json, text.json, compare PNGs — quote them, do not
+retype their numbers from memory), and anything that could not be measured is
+reported as unknown or warn, never as a pass.
+
+1. **Done:** one sentence — delivered or not delivered, and the delivered
+   file path.
+2. **Steps:** the commands that actually ran, in order (doctor, frames,
+   check, text, ask, compare, critics), with the run folder path.
+3. **Check:** the findings table — one row per finding: id, severity, frame,
+   what was wrong, the fix, and before/after paths (the compare PNGs from
+   step 10). Include findings suppressed as declared design (with their
+   declaring reason) and any failed control (which makes those answers
+   unreliable).
+4. **Look:** the exact PNG files the agent's own eyes actually inspected —
+   sheets, safe-zone frames, compares, opened frames — listed by path. If no
+   pixels were inspected, say plainly "pixels were not inspected". Do not
+   let a table of file names imply eyes that never looked.
+5. **Notes:** the cost line (model spend from the runs' `usage` numbers,
+   prefixed with the plan and prices; any projected number carries the word
+   "estimate"), the coverage statement (frames measured vs model-read vs
+   critic-seen), open items after 3 rounds, and tool errors quoted verbatim
+   (with their exit codes) where a command failed.
 
 ## declared.json — declaring intentional edits
 
-Frozen, black, and flash findings are cross-checked against the project's
+Frozen, black, flash, and ink findings are cross-checked against the project's
 DECLARED cuts, holds, blackouts, and effects before becoming findings.
 `check --declared declared.json` moves matching findings to `suppressed` in
 findings.json (with the declaring reason) and excludes them from the exit
@@ -156,7 +191,8 @@ code. Frame numbers are inclusive:
 ```
 
 Suppression rules: flash within 2 frames of a cut or inside `effects`; frozen
-inside `holds`; black inside `blackouts` or within 2 frames of a cut.
+inside `holds`; black inside `blackouts` or within 2 frames of a cut; ink
+inside `blackouts` or `holds`.
 
 Derive the numbers from the Remotion schedule or composition source, not by
 eyeballing: `cuts` at frame boundaries where `<Sequence from={...}>` elements
