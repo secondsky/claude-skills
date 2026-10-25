@@ -30,6 +30,10 @@
       "type": "noul",
       "instructions": "This frame is shown at phone-feed size. Ignore decorative text that is part of an object, texture or background. All other on-screen text counts, including small labels, tags and numbers. Is any such word blurred, merged with another line, or too small to read without zooming?"
     },
+    "ui_occlusion": {
+      "type": "noul",
+      "instructions": "This frame has translucent red boxes shaded over where the platform's own interface (buttons, captions, icons) covers the video. Is any text or key graphic inside the shaded red zones?"
+    },
     "text_integrity": {
       "type": "noul",
       "instructions": "Is any on-screen word partly hidden, split into two colours, overlapped by another word, or followed by a stray fragment of text, so that a word could be misread as another word or looks broken?"
@@ -53,6 +57,7 @@
     "abrupt_change": 0.5,
     "overlap": 0.5,
     "legible_feed": 0.5,
+    "ui_occlusion": 0.5,
     "text_integrity": 0.5,
     "hierarchy": 0.5
   },
@@ -64,6 +69,7 @@
     "abrupt_change": "major",
     "overlap": "major",
     "legible_feed": "blocker",
+    "ui_occlusion": "major",
     "text_integrity": "major",
     "hierarchy": "major"
   },

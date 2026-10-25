@@ -47,7 +47,7 @@ from SageCut by Levanto Labs (MIT).
 
 | Layer | What runs | Cost |
 |---|---|---|
-| 1. Local checks | Frame extraction and measurements with ffmpeg (black/blank, frozen, flash) plus free local OCR (tesseract.js or system tesseract) | Free, offline, nothing uploaded |
+| 1. Local checks | Frame extraction and measurements with ffmpeg (black/blank, frozen, flash, ink) plus free local OCR (tesseract.js or system tesseract) | Free, offline, nothing uploaded |
 | 2. CLEF reads frames | Cloudflare CLEF answers yes/no (`noul`), option-pick (`choice`), and rating (`score`) questions about frames | Cents per thousand frames (estimate) |
 | 3. CLAIRIC extracts | Cloudflare CLAIRIC pulls typed values (text, numbers, dates, lists) out of frames | Cents per thousand frames (estimate) |
 | 4. Agent eyes | Three subagent critics see ≤32 selected frames; the main agent opens a frame only when a model answer and a local measurement disagree | The expensive layer — keep it rare |
@@ -96,10 +96,11 @@ SageCut):
 | Command | What it does |
 |---|---|
 | `doctor` | Check env vars, ffmpeg, and text-engine availability. Run it first. `--ping` makes one clef-flash call to verify the token. |
-| `frames` | Extract frames from the render. Native video width by default (no rescale) — full-resolution read frames for OCR and CLEF; `--width W` rescales. `--fps` samples, `--frames A-B` selects a 0-based frame-accurate range. `--test-width N` (default 350) also writes `test/` frames for legibility questions; `--diff` also writes `diff/` difference images for pop/abrupt-change questions; `--sheet` also writes `sheet.png`, an 8-column contact sheet for staging-order questions. |
-| `check` | Free local measurements on every frame: black/blank, frozen, flash. Writes `findings.json`. `--declared declared.json` suppresses findings that match declared intentional edits (see below). |
+| `frames` | Extract frames from the render. Native video width by default (no rescale) — full-resolution read frames for OCR and CLEF; `--width W` rescales. `--fps` samples, `--frames A-B` selects a 0-based frame-accurate range. `--test-width N` (default 350) also writes `test/` frames for legibility questions; `--safe shorts\|tiktok\|reels\|creator` (requires `--test-width`) also writes `safe/` frames — the test-width frames with translucent red boxes over the platform's UI occlusion zones (the `ui_occlusion` question reads these; the zone numbers live in one place, the `SAFE_ZONES` table in the script); `--diff` also writes `diff/` difference images for pop/abrupt-change questions; `--sheet` also writes `sheet.png`, an 8-column contact sheet for staging-order questions. `manifest.artifacts` records which exist. |
+| `check` | Free local measurements on every frame: black/blank, frozen, flash, and ink (almost nothing drawn — the fraction of pixels deviating more than `--ink-threshold`, default 12, from the frame's median luma; below 0.005 is a finding). Writes `findings.json`. `--declared declared.json` suppresses findings that match declared intentional edits, ink included (blackouts and holds suppress ink; see below). |
+| `compare` | Fix-round proof image: two PNGs become one same-height side-by-side PNG (the taller input is scaled to the shorter height), or two frame dirs become one combined side-by-side contact sheet of matching frame numbers plus a JSON index mapping left/right files. No text is burned in; the JSON carries the mapping. |
 | `text` | Read on-screen text with `--engine local`, `clairic`, or `auto`. Writes `text.json`. |
-| `ask` | Send frames plus a question file (`--questions`, starting from `templates/questions.example.json`) to CLEF, batched at ≤4 images and ≤6 MiB per request, with `--controls`. Writes `answers.json`. |
+| `ask` | Send frames plus a question file (`--questions`, starting from the 9-question `templates/questions.example.json`) to CLEF, batched at ≤4 images and ≤6 MiB per request, with `--controls`. Writes `answers.json`. |
 | `extract` | Typed extraction from frames with CLAIRIC via a `--fields` file. Writes `extract.json`. |
 | `synthesize` | Build free positive controls (black, ghost, 96px left-edge shift) from the run's own frames, plus a `controls.json` with trips mapped to the default bank ids. |
 
@@ -107,10 +108,11 @@ SageCut):
 
 1. **Doctor.** Env, ffmpeg, engines.
 2. **Render.** `npx remotion render <id> out/<name>.mp4 --codec h264 --crf 17 --color-space bt709`.
-3. **Frames.** Extract at native width, plus `--test-width`, `--diff`, and
-   `--sheet` artifacts as the question bank needs.
-4. **Check (local, free).** Every frame measured (black/blank, frozen, flash),
-   with `--declared` for intentional edits. Findings carry measurements.
+3. **Frames.** Extract at native width, plus `--test-width`, `--diff`,
+   `--sheet`, and — when the delivery target is a short-form feed —
+   `--safe <platform>` artifacts as the question bank needs.
+4. **Check (local, free).** Every frame measured (black/blank, frozen, flash,
+   ink), with `--declared` for intentional edits. Findings carry measurements.
 5. **Text.** Choose the engine (see below). Script-integrity compare runs free
    on full-resolution frames.
 6. **Ask CLEF** the question bank (start from `templates/questions.example.json`),
@@ -127,7 +129,7 @@ in `references/workflow.md`. Read it before the first full run.
 
 ## Declared effects are not defects
 
-Frozen, black, and flash findings are cross-checked against the project's
+Frozen, black, flash, and ink findings are cross-checked against the project's
 DECLARED cuts, holds, blackouts, and effects before they become findings. Run
 `check --declared declared.json` and every finding that matches a declared
 range is suppressed — moved to `suppressed` in `findings.json` with the
@@ -154,7 +156,12 @@ Every command writes a file that can be quoted instead of retyping numbers:
 | `text.json` | `text` | Engine used, each frame's OCR text and confidence |
 | `answers.json` | `ask` | Per-frame answer rows (`fail`/`escalate`/`pass`), severity, `unreliable` flag, `usage` |
 | `extract.json` | `extract` | Typed values with `p_null` and `confidence` per field |
+| `compare.png` + its `.json` | `compare` | Before/after proof image and the JSON index mapping left/right files |
 | `opened.json` | Agent | Every frame the agent opened and why (see `references/workflow.md`) |
+
+`frames` artifacts live in the frames dir as `frame_%06d.png` plus, per the
+flags used: `test/` (test-width), `safe/` (safe-zone), `diff/` (difference),
+and `sheet.png` — recorded in `manifest.json` under `artifacts`.
 
 Cost lines come from the `usage` objects in these files. Any cost number not
 traceable to a `usage` object is an estimate and must say so.
