@@ -1,6 +1,6 @@
 # ClefCut — Remotion video QA on Cloudflare
 
-Status: Beta (CLAIRIC is in Preview) · Last updated: 2026-10-20
+Status: Beta (CLAIRIC is in Preview) · Last updated: 2026-10-25
 
 `clefcut-cloudflare-remotion-video` is a Claude Code skill that quality-checks
 rendered Remotion videos in staged cost layers: free local measurements on
@@ -14,7 +14,7 @@ design is adapted from SageCut by Levanto Labs (MIT) — see
 
 | Layer | What runs | Cost |
 |---|---|---|
-| 1 | ffmpeg frame extraction + free local checks (black/blank, frozen, flash) + free local OCR (tesseract.js or system tesseract) | Free, offline |
+| 1 | ffmpeg frame extraction + free local checks (black/blank, frozen, flash, ink) + free local OCR (tesseract.js or system tesseract) | Free, offline |
 | 2 | Cloudflare CLEF reads frames and answers yes/no + rating questions | Cents per 1,000 frames (estimate) |
 | 3 | Cloudflare CLAIRIC extracts typed text and numbers from frames | Cents per 1,000 frames (estimate) |
 | 4 | Three subagent critics on ≤32 selected frames; the main agent opens a frame only on a model-vs-measurement disagreement | The expensive layer — kept rare by design |
@@ -24,6 +24,19 @@ At list prices (input tokens only; none of these models charge output tokens)
 that is about $0.12 per 1,000 frames on clef, $0.02 on clef-flash, and $0.05
 on clairic (estimates). A 300-frame run is about $0.04 on clef and $0.006 on
 clef-flash (estimate). Workers AI also includes 10,000 free neurons per day.
+
+Also in the box:
+
+- `compare` — fix-round proof images: two PNGs (or two frame dirs, paired on
+  true frame indices from the manifests) become one side-by-side PNG plus a
+  JSON index; unpaired frames are listed.
+- `--safe shorts|tiktok|reels|creator` zone frames — test-width copies with
+  translucent red boxes over the platform's UI occlusion zones, plus `--diff`
+  difference images and `--sheet` contact sheets, so the model passes read
+  the artifact each question was written for.
+- A five-part report contract (Done / Steps / Check / Look / Notes) — every
+  number in the final report traces to a run file, and anything not measured
+  is reported as unknown, never as a pass.
 
 ## Quick start
 
@@ -109,7 +122,7 @@ The tool and workflow are shaped to prevent specific failure modes:
 
 | Failure mode | How it is prevented |
 |---|---|
-| Stale-frame misattribution | Re-extraction into an existing frames dir auto-clears managed files (frame PNGs + manifest.json) and refuses dirs holding unrelated files; use a fresh `--out` per re-checked range |
+| Stale-frame misattribution | Re-extraction into an existing frames dir auto-clears managed files (frame PNGs, manifest.json, findings.json, sheet.png, and the test/, diff/ and safe/ subdirs) and refuses dirs holding unrelated files; use a fresh `--out` per re-checked range |
 | Cost runaway without an estimate | The script prints a frame/request/cost estimate before the first request and requires `--yes` above 240 frames |
 | Per-batch answers read as per-frame | CLEF answers once per question PER REQUEST; the script auto-isolates failing batches one frame per request so final answers.json rows are per-frame |
 | Controls that validate nothing | `ask --controls` warns "0 of N controls map to any question id" and marks the run unreliable when no control trips map to the bank's question ids |

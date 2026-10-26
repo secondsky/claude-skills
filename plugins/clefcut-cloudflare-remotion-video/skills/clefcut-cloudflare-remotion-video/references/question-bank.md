@@ -49,8 +49,8 @@ The question file then carries per-question thresholds and one margin:
 |---|---|---|---|---|
 | `staging_order` | score (4 levels) | major | `sheet.png` contact-sheet cells (`frames --sheet`) | pass 0.67 (native level 2 of 3): at/above fails; 0.37–0.67 escalates |
 | `dead_frame` | noul | minor | full-resolution frames | pass 0.5: at/above fails; 0.2–0.5 escalates |
-| `pop` | noul | major | `diff/diff_%06d.png` images (`frames --diff`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
-| `abrupt_change` | noul | major | `diff/diff_%06d.png` images (`frames --diff`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
+| `pop` | noul | major | `diff/frame_%06d.png` images (`frames --diff`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
+| `abrupt_change` | noul | major | `diff/frame_%06d.png` images (`frames --diff`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `overlap` | noul | major | full-resolution frames | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `legible_feed` | noul | **blocker** | `test/frame_%06d.png` frames (`frames --test-width`, default 350) | pass 0.5: at/above fails; 0.2–0.5 escalates |
 | `ui_occlusion` | noul | major | `safe/frame_%06d.png` frames (`frames --test-width --safe <platform>`) | pass 0.5: at/above fails; 0.2–0.5 escalates |
@@ -59,37 +59,42 @@ The question file then carries per-question thresholds and one margin:
 
 `pop` and `abrupt_change` are defined on the DIFF images — consecutive-frame
 absolute difference, amplified (`frames --diff` writes them as
-`diff/diff_%06d.png`); bright areas in a diff image are what changed between
-the two frames. `legible_feed` is asked on frames resized to the TEST WIDTH
-(`frames --test-width`; N defaults to 350 px — the feed-size perception frame;
-a smaller N such as 210 for a 9:16 feed or 375 for 1:1 can be passed
-explicitly), because legibility is a perception question at feed size, not at
-desktop size. `staging_order` reads the labelled cells of `sheet.png`
-(`frames --sheet`). `ui_occlusion` is asked on the SAFE-ZONE frames —
+`diff/frame_%06d.png`; the diff image at index i is the change BETWEEN
+frames i-1 and i, attributed to the later frame); bright areas in a diff
+image are what changed between the two frames. `legible_feed` is asked on
+frames resized to the TEST WIDTH (`frames --test-width`; N defaults to 350
+px — the feed-size perception frame; a smaller N such as 210 for a 9:16 feed
+or 375 for 1:1 can be passed explicitly), because legibility is a perception
+question at feed size, not at desktop size. `staging_order` reads the cells
+of `sheet.png` (`frames --sheet`) — the cells are in time order but carry NO
+labels. `ui_occlusion` is asked on the SAFE-ZONE frames —
 `frames --test-width --safe shorts|tiktok|reels|creator` writes
 `safe/frame_%06d.png` copies of the test-width frames with translucent red
 boxes over the platform's UI occlusion zones; the zone numbers live in ONE
 place, the `SAFE_ZONES` constant table in `scripts/video-qa.mjs`
 (community-measured; for Reels the official ads-only guideline is a bottom
-40% keep-out, which the overlay deliberately does not use so organic and paid
-content share one overlay). The remaining questions run on the
+40% keep-out, which the overlay deliberately does not use so organic and
+paid content share one overlay). The remaining questions run on the
 full-resolution frames.
 
-Because `ui_occlusion` reads `safe/` frames while the rest of the bank reads
-`test/` or full-resolution frames, an `ask` run is TWO passes when the bank
-includes it: the main bank on its own frames, then the occlusion question
-alone on the `safe/` frames (see `references/workflow.md`, step 7).
+Because each question is defined on a different artifact, an `ask` run is
+ONE PASS PER ARTIFACT, each pass with its own question file: the main frames
+dir, then `test/`, `diff/`, `safe/`, and a per-sheet dir for
+`staging_order` (see `references/workflow.md`, step 7). The cost gate is per
+pass — sum the estimates when quoting a total.
 
 Exact instruction wording (the authoritative copy is
 `templates/questions.example.json`):
 
 - `staging_order` (score, criteria best→worst): "Cells are in time order,
-  labelled with frame numbers. Expected order: {expected_order}. How far is
-  this sequence from a clean one-at-a-time arrival order, where each element
+  left-to-right, top-to-bottom, and carry no labels. Assume the elements are
+  meant to arrive in a sensible reading order for this composition (e.g.
+  background or main claim before supporting details). How far is this
+  sequence from a clean one-at-a-time arrival order, where each element
   finishes arriving before the next one starts?" Levels: 0 "Every element
-  finishes arriving before the next one starts, in the expected order" / 1
-  "Order is correct, but one element is still settling as the next one starts"
-  / 2 "One element starts while the previous element is still visibly
+  finishes arriving before the next one starts, in a sensible reading order"
+  / 1 "Order is correct, but one element is still settling as the next one
+  starts" / 2 "One element starts while the previous element is still visibly
   arriving" / 3 "Two or more elements arrive at once, or an element arrives
   clearly out of order".
 - `dead_frame` (noul): "Is this frame essentially empty: a flat background
