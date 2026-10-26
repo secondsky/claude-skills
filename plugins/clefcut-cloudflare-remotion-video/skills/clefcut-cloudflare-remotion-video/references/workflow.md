@@ -11,9 +11,9 @@ user's Remotion project root. `video-qa` below means
 | `frames/frame_%06d.png` | `frames` | Native-width frames (no rescale unless `--width W`) |
 | `test/frame_%06d.png` | `frames --test-width [N]` | Test-width copies for legibility questions (N defaults to 350) |
 | `safe/frame_%06d.png` | `frames --test-width --safe <platform>` | Test-width copies with translucent red boxes over the platform's UI occlusion zones, for the `ui_occlusion` question |
-| `diff/diff_%06d.png` | `frames --diff` | Amplified consecutive-frame difference images for pop/abrupt-change questions |
+| `diff/frame_%06d.png` | `frames --diff` | Amplified consecutive-frame difference images for pop/abrupt-change questions; image i is the change BETWEEN frames i-1 and i |
 | `sheet.png` | `frames --sheet` | 8-column contact sheet (capped at 64 evenly sampled frames) for staging-order questions |
-| `manifest.json` | `frames` | Frame list, fps, and `artifacts` — which of the above exist |
+| `manifest.json` | `frames` | Frame list, fps, and `artifacts` — which of the above exist. `test/`, `safe/` and `diff/` each carry their own minimal manifest.json too (frame_start + files), so a range extract's subdirs keep TRUE frame indices |
 | `findings.json` | `check` | Per-frame black/frozen/flash/ink findings (and `suppressed` with `--declared`) |
 | `text.json` | `text` | Engine used, each frame's OCR text and confidence |
 | `answers.json` | `ask` | Per-frame classification rows, controls tally, `unreliable` flag, `usage` |
@@ -30,6 +30,13 @@ user's Remotion project root. `video-qa` below means
    `templates/env.example`). Never ask for the token in chat. `doctor --ping`
    makes exactly one clef-flash call (the only network call) — use it to
    verify the token works before the first paid run, after asking the user.
+   Once per machine/install, also run `video-qa verify out/<name>.mp4` on any
+   real render: it exercises the tool's own pipeline end to end (probe,
+   frames with `--test-width --safe`, check, synthesize, compare, and a dry
+   rate gate) in a temp dir and prints PASS/FAIL/SKIP per step — proving the
+   pipeline works on this machine and footage before the first real run. The
+   rate step is SKIP without Cloudflare credentials (no network unless
+   credentials exist AND `--ping` is passed); exit 1 on any FAIL.
 
 2. **Schedule / script check.** If the project has a schedule or script file
    (timing plan, beat list, or copy doc), verify the frame math BEFORE
@@ -63,19 +70,38 @@ user's Remotion project root. `video-qa` below means
    run (local when a local engine is installed, otherwise CLAIRIC); the run
    report states which engine produced the results.
 
-7. **Ask CLEF, with controls — TWO passes when the bank has `ui_occlusion`.**
-   `video-qa ask <framesDir|video> --questions questions.json --controls <dir>`
-   (add `--model clef-flash` for cheap sweeps; default is `clef`). Start from
-   the default bank at `templates/questions.example.json` or a project copy.
-   The `ui_occlusion` question is defined on the `safe/` frames, which no
-   other question reads — so when the bank includes it, run `ask` TWICE with
-   two question files: first the main bank (minus `ui_occlusion`) on the
-   frames it reads (`test/` for `legible_feed`, `diff/` for `pop`/
-   `abrupt_change`, `sheet.png` for `staging_order`, full-resolution for the
-   rest), then `ui_occlusion` alone on the `safe/` dir
-   (`ask <framesDir>/safe --questions occlusion.json`). Splitting the bank
-   this way keeps every question on the artifact it was written for; the two
-   answers.json files are read together in reconciliation.
+7. **Ask CLEF, with controls — ONE PASS PER ARTIFACT.** `ask` takes ONE input
+   (a frames dir or a video) and ONE question file per invocation, and the
+   default bank's questions are defined on DIFFERENT artifacts — so the bank
+   is split into one `ask` pass per artifact, each with its own question
+   file. With the full default bank that is up to five passes:
+
+   | Pass | Input for `ask` | Questions |
+   |---|---|---|
+   | 1 | the frames dir (full resolution) | `dead_frame`, `overlap`, `text_integrity`, `hierarchy` |
+   | 2 | `<framesDir>/test` | `legible_feed` |
+   | 3 | `<framesDir>/diff` | `pop`, `abrupt_change` |
+   | 4 | `<framesDir>/safe` | `ui_occlusion` |
+   | 5 | a per-sheet dir (below) | `staging_order` |
+
+   Example: `video-qa ask <framesDir>/test --questions legible.json
+   --model clef-flash` (add `--model clef-flash` for cheap sweeps; default is
+   `clef`). Drop the passes whose artifacts were not exported (no `test/`
+   → no `legible_feed` pass, and so on). `ask` accepts a frames DIR or a
+   video — NOT a single image — so `staging_order` (defined on `sheet.png`)
+   runs on a per-sheet dir: copy the sheet in as the dir's one frame and ask
+   that dir:
+
+   ```sh
+   mkdir sheet-ask && cp <framesDir>/sheet.png sheet-ask/frame_000001.png
+   video-qa ask sheet-ask --questions staging.json
+   ```
+
+   The cost gate is PER PASS: each `ask` invocation prints its own estimate
+   and requires `--yes` above 240 frames — sum the estimates across passes
+   when quoting a total to the user. Because each subdir carries its own
+   manifest, a range extract's `test/`, `diff/` and `safe/` passes report
+   TRUE frame indices, not 0..N.
    Before the run: synthesize positive controls from the user's own frames
    with `video-qa synthesize <framesDir> --out <controlsDir>` (black, ghost,
    and 96px-left-edge-shift controls plus `controls.json`, with trips already
@@ -90,7 +116,8 @@ user's Remotion project root. `video-qa` below means
    code 1 — so does a controls.json whose trips map to no question id. If
    that happens, say so in the report and let measurements decide. Batches
    sweep first; failures are auto-isolated per frame (see Exit semantics
-   below).
+   below). The several answers.json files (one per pass) are read together in
+   reconciliation.
 
 8. **Reconcile and open frames.** For every question answer:
    - Model and measurement agree → accept. No open.
@@ -140,11 +167,12 @@ user's Remotion project root. `video-qa` below means
     pass on the whole video: re-extract only the changed range into a FRESH
     `--out` dir (`frames <video> --frames A-B --out range1/`; A-B is 0-based
     and frame-accurate) and re-run check/text/ask on those frames. The script
-    also auto-clears managed files (frame PNGs + manifest.json) when
-    re-extracting into an existing frames dir, and REFUSES a dir that holds
-    any unrelated file — a fresh dir per range avoids both stale frames and
-    the refusal. Unchanged frames keep their earlier verdicts. This is the
-    main cost saver on iterations.
+    also auto-clears managed files (frame PNGs, manifest.json, findings.json,
+    sheet.png, and the test/, diff/ and safe/ subdirs with their manifests)
+    when re-extracting into an existing frames dir, and REFUSES a dir that
+    holds any unrelated file — a fresh dir per range avoids both stale frames
+    and the refusal. Unchanged frames keep their earlier verdicts. This is
+    the main cost saver on iterations.
 
 12. **Final report.** On the exact file the user will deliver, re-verify any
     range touched since the last pass, then write the report in the FIVE
@@ -210,7 +238,10 @@ this frame math.
 - **Cost gate**: `text` (clairic), `ask`, and `extract` print a
   frame/request/cost estimate before the first request; more than 240 frames
   requires `--yes` (or `CLEFCUT_YES=1`). State the estimate to the user and
-  get the OK before any of these runs, regardless of the gate.
+  get the OK before any of these runs, regardless of the gate. The gate is
+  PER PASS (per `ask`/`extract`/`text` invocation, estimate excludes any
+  auto-isolation re-sends) — a bank split across artifacts (step 7) sums its
+  passes.
 - **Isolation**: `ask` sends batches first; any multi-frame batch containing
   a fail or escalate is auto-isolated — re-asked one image per request — and
   per-frame rows replace the batch rows in answers.json (usage of both passes

@@ -78,7 +78,10 @@ SageCut):
 3. NEVER ask the user to paste the token in chat. NEVER commit it. If it is
    missing, tell the user which file to put it in and wait.
 4. Run `node "<skill-dir>/scripts/video-qa.mjs" doctor` and fix everything it
-   reports before any other command.
+   reports before any other command. Once per machine/install, also run
+   `node "<skill-dir>/scripts/video-qa.mjs" verify <render>.mp4` on any real
+   render — it proves the whole pipeline (probe, frames, check, synthesize,
+   compare, dry rate gate) works on this machine and footage.
 5. Before the FIRST model call of a session, say plainly: frames from this
    video will be uploaded to Cloudflare's API and billed. Get the user's OK
    and a spending limit. Stay inside both for the whole session.
@@ -103,6 +106,7 @@ SageCut):
 | `ask` | Send frames plus a question file (`--questions`, starting from the 9-question `templates/questions.example.json`) to CLEF, batched at ≤4 images and ≤6 MiB per request, with `--controls`. Writes `answers.json`. |
 | `extract` | Typed extraction from frames with CLAIRIC via a `--fields` file. Writes `extract.json`. |
 | `synthesize` | Build free positive controls (black, ghost, 96px left-edge shift) from the run's own frames, plus a `controls.json` with trips mapped to the default bank ids. |
+| `verify` | Real-footage self-test of the tool itself: runs the tool's own pipeline (probe → frames with `--test-width --safe` → check → synthesize → compare → dry rate gate) in a temp dir on any render and prints PASS/FAIL/SKIP per step; exit 1 on any FAIL. Run it once per machine/install to prove the pipeline on real footage. The rate step is SKIP without Cloudflare credentials; no network unless credentials exist and `--ping` is passed. |
 
 ## The workflow (condensed)
 
@@ -116,7 +120,11 @@ SageCut):
 5. **Text.** Choose the engine (see below). Script-integrity compare runs free
    on full-resolution frames.
 6. **Ask CLEF** the question bank (start from `templates/questions.example.json`),
-   with positive controls in their own requests (`--controls`).
+   with positive controls in their own requests (`--controls`). `ask` takes
+   one input and one question file per invocation, so the bank runs as ONE
+   PASS PER ARTIFACT (main frames, `test/`, `diff/`, `safe/`, and a per-sheet
+   dir for `staging_order`) — see `references/workflow.md` step 7; the cost
+   gate is per pass.
 7. **Reconcile.** Open a frame ONLY where a model answer and a local
    measurement disagree. Log every open to `opened.json`.
 8. **Critics.** Three parallel subagents on the ≤32 selected frames.
@@ -161,7 +169,9 @@ Every command writes a file that can be quoted instead of retyping numbers:
 
 `frames` artifacts live in the frames dir as `frame_%06d.png` plus, per the
 flags used: `test/` (test-width), `safe/` (safe-zone), `diff/` (difference),
-and `sheet.png` — recorded in `manifest.json` under `artifacts`.
+and `sheet.png` — recorded in `manifest.json` under `artifacts`. The `test/`,
+`safe/` and `diff/` subdirs each carry their own minimal `manifest.json`, so
+asking about a range extract's subdirs reports true frame indices.
 
 Cost lines come from the `usage` objects in these files. Any cost number not
 traceable to a `usage` object is an estimate and must say so.

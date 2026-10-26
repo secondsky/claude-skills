@@ -11,9 +11,9 @@
 //   Gateway id), CLEFCUT_FFMPEG / CLEFCUT_FFPROBE (optional binary paths), CLEFCUT_YES=1
 //   (acts like passing --yes to the cost gate).
 //
-// Usage: node video-qa.mjs --help | doctor [--ping] | frames <video> [--fps N] [--width W]
-//   [--out dir] [--frames A-B] [--test-width [N]] [--safe shorts|tiktok|reels|creator] [--diff]
-//   [--sheet] | check <framesDir> [--declared declared.json] [--ink-threshold 12] | compare
+// Usage: node video-qa.mjs --help | doctor [--ping] | verify <video> [--ping] | frames <video>
+//   [--fps N] [--width W] [--out dir] [--frames A-B] [--test-width [N]] [--safe shorts|tiktok|reels|creator]
+//   [--diff] [--sheet] | check <framesDir> [--declared declared.json] [--ink-threshold 12] | compare
 //   <a.png> <b.png> (or two frame dirs) [--out compare.png] | text <framesDir|video> |
 //   ask <framesDir|video> --questions q.json | extract <framesDir|video> --fields f.json |
 //   synthesize <framesDir> --out dir | --selftest
@@ -24,7 +24,7 @@ import os from 'node:os';
 import process from 'node:process';
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 
 // ---------------------------------------------------------------- constants
 
@@ -394,8 +394,9 @@ export function dirArtifacts(dir) {
  * Extract PNG frames from a video into out/ (frame_%06d.png + manifest.json).
  * If out/ already exists it must hold ONLY tool-managed artifacts — frame_%06d.png, manifest.json,
  * findings.json (written by `check`), sheet.png, and the test/, diff/ and safe/ subdirs (written
- * here) — those are cleared so a range re-extract can never leave stale frames behind — anything
- * else in the dir is an error (choose a fresh --out). manifest.count = frames exported THIS run.
+ * here, each carrying its own manifest.json so range extracts keep TRUE frame indices) — those are
+ * cleared so a range re-extract can never leave stale frames behind — anything else in the dir is
+ * an error (choose a fresh --out). manifest.count = frames exported THIS run.
  */
 async function extractFrames(video, { fps = null, width = null, out, range = null, testWidth = null, safe = null, diff = false, sheet = false }) {
   const info = await probe(video);
@@ -421,10 +422,23 @@ async function extractFrames(video, { fps = null, width = null, out, range = nul
   if (r.code !== 0) throw new UserError(`ffmpeg frame export failed: ${r.stderr.trim().slice(0, 300)}`);
   const pngs = fs.readdirSync(out).filter((f) => /^frame_\d{6}\.png$/.test(f)).sort();
   if (!pngs.length) throw new UserError(`No frames produced for ${video}${range ? ` in range ${range.a}-${range.b}` : ''}.`);
+  const start = range ? range.a : 0;
+  // Minimal manifest for a subdir ({video, frame_start, count, fps, files}) so listFrames
+  // (ask/check/text/compare) attributes TRUE frame indices, not 0..N, after a range extract.
+  const writeSubManifest = (sub, startIdx) => {
+    const subPngs = fs.readdirSync(sub).filter((f) => /^frame_\d{6}\.png$/.test(f)).sort();
+    fs.writeFileSync(path.join(sub, 'manifest.json'), JSON.stringify({
+      video: path.resolve(video), frame_start: startIdx, count: subPngs.length,
+      fps_source: info.fps, fps_used: fps || null,
+      files: subPngs.map((f, i) => ({ index: startIdx + i, file: f })),
+    }, null, 2));
+    return subPngs.length;
+  };
   if (testWidth != null) {
     fs.mkdirSync(path.join(out, 'test'), { recursive: true });
     const rt = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', `scale=${testWidth}:-2`, ...sync, path.join(out, 'test', 'frame_%06d.png')]);
     if (rt.code !== 0) throw new UserError(`test-frame export failed: ${rt.stderr.trim().slice(0, 300)}`);
+    writeSubManifest(path.join(out, 'test'), start);
   }
   if (safe) {
     // Safe-zone frames: copies of the TEST-width frames with translucent red boxes over the
@@ -438,11 +452,17 @@ async function extractFrames(video, { fps = null, width = null, out, range = nul
     fs.mkdirSync(path.join(out, 'safe'), { recursive: true });
     const rs = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(tdir, 'frame_%06d.png'), '-vf', boxes, ...sync, path.join(out, 'safe', 'frame_%06d.png')]);
     if (rs.code !== 0) throw new UserError(`safe-zone frame export failed: ${rs.stderr.trim().slice(0, 300)}`);
+    writeSubManifest(path.join(out, 'safe'), start);
   }
   if (diff) {
+    // frame_%06d.png (the subdir already namespaces them) so listFrames sees the files;
+    // tblend writes N-1 frames — output i is the change BETWEEN inputs i and i+1, so the
+    // diff manifest attributes each image to the LATER frame of its pair (start+1+i),
+    // the same frame `check` attributes a flash finding to.
     fs.mkdirSync(path.join(out, 'diff'), { recursive: true });
-    const rd = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', 'tblend=all_mode=difference,eq=contrast=8', ...sync, path.join(out, 'diff', 'diff_%06d.png')]);
+    const rd = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', 'tblend=all_mode=difference,eq=contrast=8', ...sync, path.join(out, 'diff', 'frame_%06d.png')]);
     if (rd.code !== 0) throw new UserError(`diff-frame export failed: ${rd.stderr.trim().slice(0, 300)}`);
+    writeSubManifest(path.join(out, 'diff'), start + 1);
   }
   if (sheet) {
     const count = pngs.length;
@@ -456,7 +476,6 @@ async function extractFrames(video, { fps = null, width = null, out, range = nul
     const rs = await runFf('ffmpeg', ['-v', 'error', '-y', '-i', path.join(out, 'frame_%06d.png'), '-vf', tile, '-frames:v', '1', path.join(out, 'sheet.png')]);
     if (rs.code !== 0) throw new UserError(`contact sheet export failed: ${rs.stderr.trim().slice(0, 300)}`);
   }
-  const start = range ? range.a : 0;
   const scaledH = Math.round(info.height * width / info.width);
   const height = width != null ? scaledH - (scaledH % 2) : info.height;
   const manifest = {
@@ -559,7 +578,7 @@ async function postAi(modelFull, body, { gateway } = {}) {
     const firstErr = json && Array.isArray(json.errors) && json.errors[0] ? json.errors[0] : null;
     const errCode = firstErr ? Number(firstErr.code) : NaN;
     if (res.status === 429 && errCode === 3036) {
-      throw new UserError(redact(`${modelFull}: daily neuron quota exhausted — resets 00:00 UTC (HTTP 429, code 3036). Retrying cannot help; nothing was sent.`));
+      throw new UserError(redact(`${modelFull}: daily neuron quota exhausted — resets 00:00 UTC (HTTP 429, code 3036). Retrying cannot help; request rejected before processing — nothing was charged.`));
     }
     if ((res.status === 429 || res.status >= 500) && attempt < RETRIES) {
       const ra = Number(res.headers.get('retry-after'));
@@ -624,7 +643,7 @@ function preflightGate(files, dims, { model, size, yes, extraRequests = 0 }) {
   const per = estTokensPerFrame(dims.width, dims.height);
   const requests = Math.ceil(n / Math.max(1, size)) + extraRequests;
   const cost = (n * per * (PRICES[model] ?? 0)) / 1e6;
-  console.log(`${n} frames → ~${requests} requests (batch ≤${size} images) ≈ $${cost.toFixed(4)} input-token estimate at ${model} price (~${per} tokens/frame at ${dims.width || '?'}px)`);
+  console.log(`${n} frames → ~${requests} requests (batch ≤${size} images) ≈ $${cost.toFixed(4)} input-token estimate at ${model} price (~${per} tokens/frame at ${dims.width || '?'}px) (excludes any auto-isolation re-sends)`);
   if (extraRequests > 0) console.log(`controls: ${extraRequests} control frame(s) sent in their own request(s)`);
   if (n > GATE_MAX_FRAMES && !yes) {
     throw new UserError(`${n} frames is over the ${GATE_MAX_FRAMES}-frame comfort limit (estimate above). Pass --yes (or set CLEFCUT_YES=1) to proceed anyway.`);
@@ -644,7 +663,8 @@ export function computeFindings(frames, stats, t) {
   }
   // time_s always from the manifest frame INDEX (ranges keep true wall time), never array position.
   const finding = (i, check, value, threshold) => out.push({ frame: frames[i].index, file: frames[i].file, time_s: +(frames[i].index / (stats.fps || 30)).toFixed(3), check, value: +value.toFixed(3), threshold, severity: SEVERITY[check] });
-  for (let i = 0; i < n; i++) if (means[i] < t.blackMean && stds[i] < t.blackStd) finding(i, 'black', means[i], t.blackMean);
+  const blackFlagged = new Array(n).fill(false);
+  for (let i = 0; i < n; i++) if (means[i] < t.blackMean && stds[i] < t.blackStd) { blackFlagged[i] = true; finding(i, 'black', means[i], t.blackMean); }
   let runStart = -1;
   for (let i = 1; i <= n; i++) {
     const low = i < n && diffs[i] < t.frozenDiff; // frame i is near-identical to frame i-1
@@ -660,9 +680,12 @@ export function computeFindings(frames, stats, t) {
   }
   // ink — almost nothing drawn: pixels deviating > threshold from the frame's MEDIAN luma;
   // a featureless frame (flat fill, missing layer) has an ink_fraction below the floor.
+  // Frames already flagged black are skipped: a black frame is trivially "nothing drawn",
+  // and flagging both is a double finding for one defect.
   const inkThreshold = t.inkThreshold == null ? INK.threshold : t.inkThreshold;
   const inkMin = t.inkMin == null ? INK.minFraction : t.inkMin;
   for (let i = 0; i < n; i++) {
+    if (blackFlagged[i]) continue;
     const frac = inkFraction(stats.data[i], medianLuma(stats.data[i]), inkThreshold);
     if (frac < inkMin) finding(i, 'ink', frac, inkMin);
   }
@@ -813,7 +836,8 @@ async function cmdText(input, o) {
   try {
     const { files } = resolved;
     if (!files.length) throw new UserError('No frames found.');
-    const fields = o.fields ? readJson(o.fields) : DEFAULT_TEXT_FIELDS;
+    let fields = DEFAULT_TEXT_FIELDS;
+    if (o.fields) { try { fields = readJson(o.fields); } catch { throw new UserError(`--fields file is not valid JSON: ${o.fields}`); } }
     const dims = await frameDims(resolved);
     preflightGate(files, dims, { model: 'clairic', size, yes: yesFlag(o) });
     const outPath = o.out || 'text.json';
@@ -848,10 +872,12 @@ async function cmdText(input, o) {
 export function validateQuestions(spec) {
   const bad = (m) => new UserError(`questions.json invalid: ${m} Schema: {"questions": {"<id>": {"type": "noul"|"choice"|"score", "instructions": "...", "criteria": ...}}, "pass": {"<id>": number in (0,1]}, "escalate_margin": 0.3, "severity": {...}, "escalate_only": [...]}`);
   if (!spec || typeof spec !== 'object' || !spec.questions || !Object.keys(spec.questions).length) throw bad('needs a non-empty "questions" object.');
+  if (Object.keys(spec.questions).length > 64) throw bad(`too many questions (${Object.keys(spec.questions).length}) — the API allows at most 64.`);
   for (const [id, q] of Object.entries(spec.questions)) {
     if (!['noul', 'choice', 'score'].includes(q.type)) throw bad(`question "${id}": type must be noul, choice or score.`);
     if (!q.instructions) throw bad(`question "${id}": instructions is required.`);
     if (q.type === 'choice' && (typeof q.criteria !== 'object' || Array.isArray(q.criteria) || !q.criteria)) throw bad(`question "${id}": choice needs criteria as an OBJECT of option -> description.`);
+    if (q.type === 'choice') { const nOpts = Object.keys(q.criteria).length; if (nOpts < 2 || nOpts > 255) throw bad(`question "${id}": choice needs 2-255 options (got ${nOpts}).`); }
     if (q.type === 'score' && (!Array.isArray(q.criteria) || q.criteria.length < 2 || q.criteria.length > 10)) throw bad(`question "${id}": score needs criteria as an ordered ARRAY (worst last), 2-10 levels.`);
   }
   const pass = spec.pass && typeof spec.pass === 'object' ? spec.pass : {};
@@ -900,7 +926,8 @@ export function controlsCoverage(controls, questionIds) {
 
 async function cmdAsk(input, o) {
   if (!o.questions) throw new UserError('--questions questions.json is required. See --help for the schema.');
-  const spec = readJson(o.questions);
+  let spec;
+  try { spec = readJson(o.questions); } catch { throw new UserError(`--questions file is not valid JSON: ${o.questions}`); }
   validateQuestions(spec);
   const pass = spec.pass || {};
   const margin = typeof spec.escalate_margin === 'number' ? spec.escalate_margin : 0.3;
@@ -1024,7 +1051,8 @@ async function cmdAsk(input, o) {
 
 async function cmdExtract(input, o) {
   if (!o.fields) throw new UserError('--fields fields.json is required: {"<id>": {"type": "text", "instructions": "...", ...}}');
-  const fields = readJson(o.fields);
+  let fields;
+  try { fields = readJson(o.fields); } catch { throw new UserError(`--fields file is not valid JSON: ${o.fields}`); }
   if (!fields || typeof fields !== 'object' || !Object.keys(fields).length) throw new UserError('fields.json must be a non-empty object of field specs.');
   for (const [id, f] of Object.entries(fields)) if (!f || typeof f !== 'object' || !f.type) throw new UserError(`field "${id}": needs at least {"type": "text"|"number"|...}.`);
   const size = imageBatchSize(o, 1); // per-frame answers are the truth CLAIRIC gives: 1 frame/request by default
@@ -1118,21 +1146,35 @@ async function imgDims(p) {
   return { w: st.width, h: st.height };
 }
 
-/** PNGs named frame_%06d.png in a dir, keyed by frame number. */
-function frameNumMap(dir) {
-  const m = new Map();
+/**
+ * Frames in a dir keyed by TRUE index: manifest files[] when the dir has one (frame_start
+ * honored — a range extract pairs with the full extract on real frame numbers), else the
+ * filename sequence number as a fallback (offset unknown, flagged by hasManifest=false).
+ */
+export function frameIndexMap(dir) {
+  const mp = path.join(dir, 'manifest.json');
+  let manifest = null;
+  if (fs.existsSync(mp)) { try { manifest = readJson(mp); } catch { manifest = null; } }
+  const map = new Map();
+  if (manifest && Array.isArray(manifest.files) && manifest.files.length) {
+    for (const f of manifest.files) if (f && Number.isFinite(f.index) && f.file) map.set(f.index, path.join(dir, f.file));
+    return { map, hasManifest: true, frameStart: Number.isFinite(manifest.frame_start) ? manifest.frame_start : null };
+  }
   for (const f of fs.readdirSync(dir)) {
     const mm = /^frame_(\d{6})\.png$/.exec(f);
-    if (mm) m.set(Number(mm[1]), path.join(dir, f));
+    if (mm) map.set(Number(mm[1]), path.join(dir, f));
   }
-  return m;
+  return { map, hasManifest: false, frameStart: null };
 }
 
 /**
  * Side-by-side proof image. Two PNGs -> one same-height hstack (the taller input is scaled
  * down to the shorter height; no text is burned in — the JSON index carries the mapping).
- * Two frame DIRS -> ONE combined contact sheet of matching frame numbers (each pair an
+ * Two frame DIRS -> ONE combined contact sheet of MATCHING frame indices (each pair an
  * hstack, pairs vstacked; <= 64 pairs, evenly sampled when there are more) + the JSON index.
+ * Indices are TRUE indices from each dir's manifest (a range extract pairs with the full
+ * extract on real frame numbers, 0-based); without a manifest the filename number is the
+ * fallback and the JSON says so. Unpaired frames are listed as only_left / only_right.
  */
 async function cmdCompare(args, o) {
   const bad = compareArgError(args);
@@ -1162,17 +1204,29 @@ async function cmdCompare(args, o) {
     return 0;
   }
 
-  const mapA = frameNumMap(a);
-  const mapB = frameNumMap(b);
-  const shared = [...mapA.keys()].filter((k) => mapB.has(k)).sort((x, y) => x - y);
-  if (!shared.length) throw new UserError(`No matching frame numbers between ${a} and ${b} (frames must be named frame_%06d.png).`);
+  const aIdx = frameIndexMap(a);
+  const bIdx = frameIndexMap(b);
+  // True indices: a manifest's files[] (frame_start honored) is authoritative; the filename
+  // number is the fallback only, flagged in the JSON. When BOTH dirs have manifests with
+  // different frame_start values (full extract vs range extract), warn loudly — the pairing
+  // itself stays correct because it is on shared TRUE indices.
+  let startMismatch = null;
+  if (aIdx.hasManifest && bIdx.hasManifest && aIdx.frameStart != null && bIdx.frameStart != null && aIdx.frameStart !== bIdx.frameStart) {
+    startMismatch = { left: aIdx.frameStart, right: bIdx.frameStart };
+    console.error(`warning: frame_start differs — left dir ${a} starts at frame ${aIdx.frameStart}, right dir ${b} at frame ${bIdx.frameStart}; pairing on shared true frame indices.`);
+  }
+  const onlyLeft = [...aIdx.map.keys()].filter((k) => !bIdx.map.has(k)).sort((x, y) => x - y);
+  const onlyRight = [...bIdx.map.keys()].filter((k) => !aIdx.map.has(k)).sort((x, y) => x - y);
+  const shared = [...aIdx.map.keys()].filter((k) => bIdx.map.has(k)).sort((x, y) => x - y);
+  if (!shared.length) throw new UserError(`No shared frame indices between ${a} and ${b} (${onlyLeft.length} frame(s) only in left, ${onlyRight.length} only in right; frames must be named frame_%06d.png).`);
+  const indexSource = (m) => (m.hasManifest ? 'manifest (0-based frame index)' : 'filename number (no manifest.json — offset unknown)');
   let included = shared;
   if (shared.length > 64) {
     const step = Math.ceil(shared.length / 64); // same sampling convention as the contact sheet
     included = shared.filter((_, i) => i % step === 0);
   }
-  const dA = await imgDims(mapA.get(shared[0]));
-  const dB = await imgDims(mapB.get(shared[0]));
+  const dA = await imgDims(aIdx.map.get(shared[0]));
+  const dB = await imgDims(bIdx.map.get(shared[0]));
   const H = Math.min(dA.h, dB.h);
   const evenW = (w, h) => 2 * Math.max(1, Math.round((w * H / h) / 2));
   const wA = dA.h === H ? dA.w : evenW(dA.w, dA.h);
@@ -1187,16 +1241,21 @@ async function cmdCompare(args, o) {
   const stack = included.length > 1
     ? `${chains.join(';')};${included.map((_, i) => `[p${i}]`).join('')}vstack=inputs=${included.length}[out]`
     : `${chains[0]};[p0]null[out]`;
-  const inputs = included.flatMap((n) => ['-i', mapA.get(n), '-i', mapB.get(n)]);
+  const inputs = included.flatMap((n) => ['-i', aIdx.map.get(n), '-i', bIdx.map.get(n)]);
   const r = await runFf('ffmpeg', ['-v', 'error', '-y', ...inputs, '-filter_complex', stack, '-map', '[out]', '-frames:v', '1', '-update', '1', out]);
   if (r.code !== 0) throw new UserError(`compare failed: ${r.stderr.trim().slice(0, 300)}`);
   const inSet = new Set(included);
   fs.writeFileSync(jsonOut, JSON.stringify({
     ...index, left_dir: a, right_dir: b, height: H, sheet_pairs: included.length,
+    frame_index: { left: indexSource(aIdx), right: indexSource(bIdx) },
+    ...(startMismatch ? { frame_start_mismatch: startMismatch } : {}),
+    only_left: onlyLeft, only_right: onlyRight,
     sampled: included.length < shared.length ? `${included.length} of ${shared.length} pairs (evenly sampled) in the sheet; ALL pairs listed below` : false,
-    pairs: shared.map((n) => ({ frame: n, left: mapA.get(n), right: mapB.get(n), in_sheet: inSet.has(n) })),
+    pairs: shared.map((n) => ({ frame: n, left: aIdx.map.get(n), right: bIdx.map.get(n), in_sheet: inSet.has(n) })),
   }, null, 2));
   console.log(`compared ${shared.length} matching frame(s): wrote ${out} (${included.length} side-by-side pair(s)) + index ${jsonOut}`);
+  if (startMismatch) console.log(`note: paired on true frame indices (frame_start ${startMismatch.left} vs ${startMismatch.right}) despite the differing extract ranges`);
+  if (onlyLeft.length || onlyRight.length) console.log(`unpaired: ${onlyLeft.length} frame(s) only in left, ${onlyRight.length} only in right (only_left/only_right in ${jsonOut})`);
   if (included.length < shared.length) console.log(`note: the sheet holds ${included.length} of ${shared.length} pairs (evenly sampled); the index lists every pair`);
   return 0;
 }
@@ -1262,6 +1321,111 @@ async function cmdFrames(video, o) {
   return 0;
 }
 
+// ---------------------------------------------------------------- verify (real-footage self-test)
+
+/** Tally verify steps. Any FAIL flips the exit to 1; every SKIP must carry a reason. */
+export function verifyTally(steps) {
+  const pass = steps.filter((s) => s.status === 'pass').length;
+  const fail = steps.filter((s) => s.status === 'fail').length;
+  const skip = steps.filter((s) => s.status === 'skip').length;
+  const missingSkipReason = steps.filter((s) => s.status === 'skip' && !s.reason).map((s) => s.name);
+  const line = fail > 0
+    ? `verify: ${pass} pass, ${fail} fail, ${skip} skipped — fix the failing step(s) above`
+    : `verify: ${pass} pass, ${fail} fail, ${skip} skipped — the tool works on this machine/footage`;
+  return { pass, fail, skip, missingSkipReason, line, exit: fail > 0 || missingSkipReason.length ? 1 : 0 };
+}
+
+/**
+ * Real-footage self-test of the TOOL itself: run the tool's own pipeline (the real
+ * commands, temp outdir under os.tmpdir, cleaned up) on the user's render and report
+ * PASS/FAIL/SKIP per step. `check` PASSES even with findings — this is a tool test, not a
+ * video QA. No network unless credentials exist AND --ping is passed; without credentials
+ * the rate step is SKIP with a reason. Exit 1 on any FAIL, 0 otherwise.
+ */
+async function cmdVerify(video, o) {
+  if (!fs.existsSync(video)) throw new UserError(`Video not found: ${video}`);
+  const steps = [];
+  const record = (name, status, note = null, reason = null) => {
+    steps.push({ name, status, note, reason });
+    console.log(`verify: ${name} — ${status.toUpperCase()}${reason ? ` (${reason})` : ''}${note ? ` — ${note}` : ''}`);
+  };
+  const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'clefcut-verify-'));
+  try {
+    // 1. probe-lite: ffprobe works and reports a sane size/fps.
+    try {
+      const info = await probe(video);
+      const sane = info.width >= 16 && info.height >= 16 && Number.isFinite(info.fps) && info.fps > 0 && info.fps < 1000;
+      if (sane) record('probe-lite', 'pass', `${info.width}x${info.height} @ ${+info.fps.toFixed(3)} fps`);
+      else record('probe-lite', 'fail', null, `implausible probe result: ${info.width}x${info.height} @ ${info.fps} fps`);
+    } catch (e) { record('probe-lite', 'fail', null, redact(e.message)); }
+
+    // 2. frames: the real extraction — 10 frames with the test/ and safe/ artifacts.
+    let extracted = null;
+    try {
+      extracted = await extractFrames(video, { range: { a: 0, b: 9 }, testWidth: 350, safe: 'shorts', out: path.join(tmpRoot, 'frames') });
+      const artifacts = extracted.manifest.artifacts || [];
+      if (artifacts.includes('test') && artifacts.includes('safe')) record('frames', 'pass', `${extracted.files.length} frame(s) + ${artifacts.join('+')} (subdir manifests written)`);
+      else record('frames', 'fail', null, `expected test/ and safe/ artifacts, got: ${artifacts.join('+')}`);
+    } catch (e) { record('frames', 'fail', null, redact(e.message)); }
+
+    if (!extracted || !extracted.files.length) {
+      for (const dep of ['check', 'synthesize', 'compare']) record(dep, 'skip', null, 'frames step failed — nothing to work on');
+    } else {
+      // 3. check: runs and findings.json parses (PASS even with findings — tool test, not video QA).
+      try {
+        await cmdCheck(extracted.dir, {});
+        const f = readJson(path.join(extracted.dir, 'findings.json'));
+        if (!Array.isArray(f.findings)) throw new Error('findings.json has no findings array');
+        record('check', 'pass', `ran; findings.json parsed (${f.findings.length} finding(s) — this tests the tool, not the video)`);
+      } catch (e) { record('check', 'fail', null, redact(e.message)); }
+
+      // 4. synthesize: the 3 controls + controls.json.
+      try {
+        const ctl = path.join(tmpRoot, 'controls');
+        await cmdSynthesize(extracted.dir, { out: ctl });
+        const meta = readJson(path.join(ctl, 'controls.json'));
+        if (!Array.isArray(meta) || meta.length !== 3) throw new Error(`controls.json lists ${Array.isArray(meta) ? meta.length : 'non-array'} control(s), expected 3`);
+        record('synthesize', 'pass', '3 controls + controls.json');
+      } catch (e) { record('synthesize', 'fail', null, redact(e.message)); }
+
+      // 5. compare: two extracted frames -> one side-by-side PNG.
+      try {
+        const out = path.join(tmpRoot, 'verify-compare.png');
+        await cmdCompare([extracted.files[0].path, extracted.files[extracted.files.length - 1].path], { out });
+        if (!fs.existsSync(out)) throw new Error('compare image was not written');
+        record('compare', 'pass', 'side-by-side proof image written');
+      } catch (e) { record('compare', 'fail', null, redact(e.message)); }
+    }
+
+    // 6. rate-dry: the questions file validates + the cost gate prints — NO request sent.
+    //    SKIP with a reason without credentials; --ping (credentials required) adds one
+    //    real clef-flash call, the only network verify can ever do.
+    const c = cfg();
+    if (!c.accountId || !c.token) {
+      record('rate-dry', 'skip', null, 'no Cloudflare credentials — ask/extract cannot run here (set them and re-run verify --ping to also test the API)');
+    } else {
+      try {
+        const qPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'templates', 'questions.example.json');
+        validateQuestions(readJson(qPath));
+        const dims = await frameDims(extracted || { manifest: null, files: [] });
+        preflightGate(extracted ? extracted.files : [], dims, { model: 'clef', size: MAX_IMAGES, yes: true, extraRequests: 3 });
+        if (o.ping) {
+          const t0 = Date.now();
+          const r = await postAi('@cf/cloudflare/clef-flash', { model: 'clef-flash', state: 'Connectivity check.', questions: { ok: { type: 'noul', instructions: 'Is 2+2 equal to 4?' } } }, {});
+          record('rate-dry', 'pass', `questions validate; cost gate printed; ping ok in ${Date.now() - t0}ms — p(yes)=${r && r.answers && r.answers.ok ? r.answers.ok.noul : '?'}`);
+        } else {
+          record('rate-dry', 'pass', 'questions validate; cost gate printed (no request sent; --ping adds one real call)');
+        }
+      } catch (e) { record('rate-dry', 'fail', null, redact(e.message)); }
+    }
+  } finally {
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  }
+  const t = verifyTally(steps);
+  console.log(t.line);
+  return t.exit;
+}
+
 // ---------------------------------------------------------------- selftest
 
 async function cmdSelftest() {
@@ -1325,6 +1489,10 @@ async function cmdSelftest() {
   eq('validateQuestions rejects pass out of range', vqMsg({ questions: { a: { type: 'noul', instructions: 'x' } }, pass: { a: 1.5 } }) !== '', true);
   eq('validateQuestions rejects >10 score levels', /2-10 levels/.test(vqMsg({ questions: { a: { type: 'score', instructions: 'x', criteria: Array.from({ length: 11 }, (_, i) => `l${i}`) } }, pass: { a: 0.5 } })), true);
   eq('validateQuestions accepts escalate_only', vqMsg({ questions: { a: { type: 'noul', instructions: 'x' } }, escalate_only: ['a'] }), '');
+  // validateQuestions: API limits enforced locally (<=64 questions, choice 2-255 options).
+  eq('validateQuestions rejects >64 questions', /at most 64/.test(vqMsg({ questions: Object.fromEntries(Array.from({ length: 65 }, (_, i) => [`q${i}`, { type: 'noul', instructions: 'x' }])) })), true);
+  eq('validateQuestions rejects 1-option choice', /2-255 options/.test(vqMsg({ questions: { a: { type: 'choice', instructions: 'x', criteria: { only: 'x' } } }, escalate_only: ['a'] })), true);
+  eq('validateQuestions accepts 2-option choice', vqMsg({ questions: { a: { type: 'choice', instructions: 'x', criteria: { fine: 'ok', defect: 'bad' }, defect_options: ['defect'] } }, pass: { a: 0.5 } }), '');
   // time_s from manifest frame index, not array position.
   const zFrames = [{ index: 10, file: 'frame_000001.png' }, { index: 11, file: 'frame_000002.png' }];
   const zf = computeFindings(zFrames, { data: [Buffer.alloc(16), Buffer.alloc(16)], fps: 10 }, { blackMean: 16, blackStd: 4, frozenDiff: 0.5, frozenRun: 99, flashJump: 60 });
@@ -1377,6 +1545,24 @@ async function cmdSelftest() {
   for (let i = 0; i < 10; i++) busy2[i] = 250;
   const inkF2 = computeFindings([{ index: 0, file: 'frame_000000.png' }], { data: [busy2], fps: 30 }, { blackMean: 16, blackStd: 4, frozenDiff: 0.5, frozenRun: 99, flashJump: 60 });
   eq('no ink finding on busy frame', inkF2.length, 0);
+  // a fully black frame flags black only — never a second (ink) finding for the same defect.
+  const blackInk = computeFindings([{ index: 0, file: 'frame_000000.png' }], { data: [Buffer.alloc(64, 0)], fps: 30 }, { blackMean: 16, blackStd: 4, frozenDiff: 0.5, frozenRun: 99, flashJump: 60 });
+  eq('black frame not double-flagged as ink', blackInk.map((f) => f.check), ['black']);
+  // frameIndexMap: manifest files[] gives TRUE indices; filename number is the flagged fallback.
+  const mapDir = fs.mkdtempSync(path.join(os.tmpdir(), 'clefcut-cmpmap-'));
+  fs.writeFileSync(path.join(mapDir, 'frame_000001.png'), '');
+  fs.writeFileSync(path.join(mapDir, 'manifest.json'), JSON.stringify({ frame_start: 100, files: [{ index: 100, file: 'frame_000001.png' }] }));
+  eq('frameIndexMap uses manifest true index', [...frameIndexMap(mapDir).map.keys()], [100]);
+  fs.rmSync(path.join(mapDir, 'manifest.json'));
+  eq('frameIndexMap falls back to filename number', [...frameIndexMap(mapDir).map.keys()], [1]);
+  eq('frameIndexMap flags missing manifest', frameIndexMap(mapDir).hasManifest, false);
+  fs.rmSync(mapDir, { recursive: true, force: true });
+  // verify tally: a failing step flips the exit; a skip always carries a reason.
+  eq('verify tally fail flips exit', verifyTally([{ name: 'a', status: 'pass' }, { name: 'b', status: 'fail' }]).exit, 1);
+  eq('verify tally clean exit 0', verifyTally([{ name: 'a', status: 'pass' }]).exit, 0);
+  eq('verify tally skip with reason stays 0', verifyTally([{ name: 'a', status: 'skip', reason: 'no credentials' }]).skip, 1);
+  eq('verify tally skip without reason flips exit', verifyTally([{ name: 'a', status: 'skip', reason: null }]).exit, 1);
+  eq('verify tally summary line', verifyTally([{ name: 'a', status: 'pass' }, { name: 'b', status: 'skip', reason: 'x' }]).line, 'verify: 1 pass, 0 fail, 1 skipped — the tool works on this machine/footage');
   // compare arg validation.
   eq('compare args empty errors', /two inputs/.test(String(compareArgError([]))), true);
   eq('compare args one errors', /TWO inputs/.test(String(compareArgError(['a.png']))), true);
@@ -1432,10 +1618,14 @@ Commands:
                        the frame. Zone numbers live in ONE place — the SAFE_ZONES constant table in
                        this script (community-measured; for Reels the official ads-only guideline
                        is bottom 40%, the overlay keeps the community 30% zone); docs reference it.
-                       --diff: also write diff/diff_%06d.png — consecutive-frame absolute difference,
-                       amplified (tblend=all_mode=difference,eq=contrast=8).
+                       --diff: also write diff/frame_%06d.png — consecutive-frame absolute difference,
+                       amplified (tblend=all_mode=difference,eq=contrast=8); the diff image i is the
+                       change BETWEEN frames i-1 and i (attributed to the later frame).
                        --sheet: also write sheet.png — 8-column contact sheet (explicit tile rows, ≤64 frames),
                        capped at 64 frames (evenly sampled when there are more).
+                       test/, safe/ and diff/ each carry their own minimal manifest.json (frame_start,
+                       count, files) so ask/check/text/compare on a SUBDIR of a range extract report
+                       TRUE frame indices.
                        manifest.artifacts records what exists: ["frames","test","diff","safe","sheet"].
   check <framesDir> [--out findings.json] [--declared declared.json] [--black-mean 16] [--black-std 4]
         [--frozen-diff 0.5] [--frozen-run N] [--flash-jump 60] [--ink-threshold 12]
@@ -1457,11 +1647,16 @@ Commands:
           (or compare <beforeDir> <afterDir> [--out compare.png])
                        Fix-round proof image, side by side. Two PNGs -> one same-height hstack:
                        the TALLER input is scaled down to the shorter height, the shorter passes
-                       through unchanged. Two frame DIRS -> ONE combined contact sheet of matching
-                       frame numbers (each pair an hstack, pairs stacked; <= 64 pairs, evenly
-                       sampled when more). No text labels are burned in (no font dependency) —
-                       the mapping (which file is left, which is right) is carried by the JSON
-                       index written next to the output: <out minus extension>.json.
+                       through unchanged. Two frame DIRS -> ONE combined contact sheet of MATCHING
+                       frame indices (each pair an hstack, pairs stacked; <= 64 pairs, evenly
+                       sampled when more). Indices are TRUE 0-based frame indices from each dir's
+                       manifest (frame_start honored — a range extract pairs with the full extract
+                       on real frame numbers; differing frame_start prints a loud warning);
+                       without a manifest the filename number is the fallback and the JSON says
+                       so. Unpaired frames are listed as only_left / only_right. No text labels
+                       are burned in (no font dependency) — the mapping (which file is left,
+                       which is right) is carried by the JSON index written next to the output:
+                       <out minus extension>.json.
   text <framesDir|video> [--engine local|clairic|auto] [--fields fields.json] [--max-images 1]
        [--out text.json] [--yes] [--keep-temp]
                        On-screen text. local = tesseract.js or system tesseract — note
@@ -1498,6 +1693,16 @@ Commands:
                        Free positive controls: black (trips dead_frame), ghost = the two most
                        different consecutive frames blended 50/50 (trips overlap), 96px cut off
                        the left edge (trips text_integrity) + controls.json.
+  verify <video> [--ping]
+                       Real-footage self-test of the TOOL: runs its own pipeline in a temp dir
+                       (probe-lite -> frames --frames 0-9 --test-width --safe shorts -> check ->
+                       synthesize -> compare -> rate-dry) and prints PASS/FAIL/SKIP per step
+                       plus a summary; exit 1 on any FAIL, 0 otherwise. check PASSES even with
+                       findings — this tests the tool, not the video. rate-dry is SKIP (with a
+                       reason) when Cloudflare credentials are missing; with credentials it
+                       validates the example question bank and prints the cost gate (no request
+                       sent). --ping (credentials required) additionally sends ONE clef-flash
+                       call — the only network verify ever does. Temp output is cleaned up.
   --selftest           Built-in unit checks (no network).
 
 questions.json schema (for ask):
@@ -1556,6 +1761,7 @@ async function main(argv) {
     if (!cmd || o.help) { console.log(HELP); return 0; }
     switch (cmd) {
       case 'doctor': return await cmdDoctor(o);
+      case 'verify': return await cmdVerify(o._[1], o);
       case 'frames': return await cmdFrames(o._[1], o);
       case 'check': return await cmdCheck(o._[1], o);
       case 'compare': return await cmdCompare(o._.slice(1), o);

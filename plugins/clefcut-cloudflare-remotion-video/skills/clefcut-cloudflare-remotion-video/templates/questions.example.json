@@ -2,9 +2,9 @@
   "questions": {
     "staging_order": {
       "type": "score",
-      "instructions": "Cells are in time order, labelled with frame numbers. Expected order: {expected_order}. How far is this sequence from a clean one-at-a-time arrival order, where each element finishes arriving before the next one starts?",
+      "instructions": "Cells are in time order, left-to-right, top-to-bottom, and carry no labels. Assume the elements are meant to arrive in a sensible reading order for this composition (e.g. background or main claim before supporting details). How far is this sequence from a clean one-at-a-time arrival order, where each element finishes arriving before the next one starts?",
       "criteria": [
-        "Every element finishes arriving before the next one starts, in the expected order",
+        "Every element finishes arriving before the next one starts, in a sensible reading order",
         "Order is correct, but one element is still settling as the next one starts",
         "One element starts while the previous element is still visibly arriving",
         "Two or more elements arrive at once, or an element arrives clearly out of order"
