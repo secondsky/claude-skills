@@ -60,15 +60,16 @@ classification:
 | Row | Kind | PASS when | Notes |
 |---|---|---|---|
 | duration | judgement | within the platform cap | shorts ≤180 s (verified); tiktok ≤~600 s (community; the 570–600 s band is a WARN zone); reels ≤180 s (community); x ≤140 s free tier (community; Premium allows up to 4 h, verified-excerpt); creator ≤90 s (guidance); youtube no practical cap (256 GB / 12 h verified account cap) |
-| aspect | judgement | 9:16 for shorts/tiktok/reels/creator; 16:9, 1:1 or 9:16 for youtube/x | 0.02 ratio tolerance; fix names `clipcut export <file> --platform <id> --variant 9x16-crop` |
+| aspect | judgement | 9:16 for shorts/tiktok/reels/creator; 16:9, 1:1 or 9:16 for youtube/x | 0.02 ratio tolerance; ROTATION-AWARE — judged on display dimensions (tkhd display-matrix rotation of ±90°/±270° swaps width/height, so a rotated file is judged by what it shows; the PASS note says "displays WxH after rotation metadata"); fix names `clipcut export <file> --platform <id> --variant 9x16-crop` |
 | resolution | format | width and height divisible by 2 | H.264 4:2:0 needs even numbers |
+| resolution cap | judgement | short side within the platform's marked max | informational WARN only, never a hard gate: shorts 1080p max [VERIFIED]; x 1080p max [UNVERIFIED—community]; tiktok 4K gets compressed to 1080p [UNVERIFIED—community] — the WARN says so; youtube/reels/creator carry no marked cap, so no row |
 | fps | format | constant frame rate | VFR is a WARN (compatibility hazard), not a FAIL |
 | codec / pix_fmt | format | h264 + yuv420p | the universal baseline every platform row shares |
 | audio / sample rate | format | AAC present; 48000 Hz (44100 widely accepted) | no audio stream = WARN "could not measure", not a FAIL |
 | faststart | format | moov box before mdat (box walk) | fix: `clipcut export <file> --platform <id> --variant original` |
-| loudness | judgement | within 6 LU of −14 LUFS and TP ≤ −1 dBTP | measure-only I/TP — no platform documents −14; fix: `--loudnorm` |
+| loudness | judgement | within 6 LU of −14 LUFS and TP ≤ −1 dBTP | measure-only I/TP — no platform documents −14 (community norm); FAIL only for clipping (TP > 0 dBTP) or an over-loud master (I above ~−2 LUFS); a QUIET master is a WARN ("quiet master, consider export --loudnorm" — platforms turn loud clips down, never up); fix: `--loudnorm` |
 | silent audio | format | max level above −80 dBFS | digital silence is a dead track, a defect |
-| size | format | under the table's cap where one exists | reels ~4 GiB, x ~512 MiB free tier (both community); WARN only |
+| size | format | under the table's cap where one exists | reels ~4 GiB, x ~512 MiB free tier (both community); WARN only; a cap with an unmeasurable size is WARN "could not measure (size unknown)", never an absent row |
 
 Judgement rows (duration, aspect, loudness) FAIL only with `--platform`;
 without it they are evaluated against the generic creator profile and
@@ -171,6 +172,12 @@ Notes on the recipes:
   portrait taller than 9:16 crops vertically (top and bottom). If the
   speaker or subject is not near frame center, prefer the blur-pad variant
   and say so before editing.
+- `export --crop-x/--crop-y` (0..1, default 0.5) anchor the 9x16-crop window
+  inside the leftover region: `x=(iw-out_w)*crop-x`, `y=(ih-out_h)*crop-y`.
+  0.5 is the exact historical center crop; 0 pins the window to the left/top
+  edge, 1 to the right/bottom edge. Pick the anchor from the FREE contact
+  sheet (`preview`/`sheets`) before editing — the agent chooses it from what
+  the sheet shows, and says so when the subject is off-center.
 - 9x16-blur centers the fitted foreground over a blurred cover; a source
   taller than 9:16 gets a warning that vertical foreground content is
   cropped.
@@ -182,7 +189,10 @@ YouTube demonstrably turns down material above roughly -14 LUFS
 official page states the number. TikTok, Instagram, and X normalize with
 unpublished targets. Practical rule: master clips to about -14 LUFS with
 true peak at or below -1.5 dBTP (loudnorm two-pass), and expect every
-platform to turn loud clips down, never up.
+platform to turn loud clips down, never up. `check` matches this honesty:
+no platform documents -14 (it is a community norm), so a QUIET master is a
+WARN with the `--loudnorm` fix — only clipping (TP above 0 dBTP) or an
+over-loud master (I above ~-2 LUFS) hard-FAIL.
 
 ## Known limitation
 

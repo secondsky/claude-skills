@@ -8,8 +8,8 @@ holding the source video.
 
 | Path | Written by | What it is |
 |---|---|---|
-| `probe.json` | `probe` | Scene-score list, silence ranges, loudness stats, codec/container facts, VFR flag |
-| `segments.json` | `segments` | Candidate segments: id (`seg_NNN`), start, end, rank, and the signals that suggested each one |
+| `probe.json` | `probe` | Scene-score list, silence ranges, loudness stats, codec/container facts (display dimensions — rotation metadata applied), VFR flag, and the source `fingerprint` (size + head/tail sha256) |
+| `segments.json` | `segments` | Candidate segments: id (`seg_NNN`), start, end, rank, and the signals that suggested each one; inherits the probe's `fingerprint` |
 | `sheets/seg_NNN.png` + `sheets.json` | `sheets` | One contact sheet per segment (evenly sampled, time-ordered grid) plus the manifest `rate`/`read` read — never a PNG glob |
 | `ratings.json` | `rate` | Per-segment answer rows (fail/escalate/pass), severity, `usage`; rewritten after every request |
 | `text.json` | `read` | Engine used, per-segment burned-in text and confidence |
@@ -27,11 +27,21 @@ holding the source video.
    to put it in the project `.env` or `~/.clefcut/.env` (see
    `templates/env.example`). Never ask for the token in chat. `doctor --ping`
    makes exactly one clef-flash call (the only network call) — use it to
-   verify the token works, after asking the user.
+   verify the token works, after asking the user. Also run
+   `clipcut verify <video>` once per machine and after every ffmpeg upgrade —
+   it exercises the real pipeline steps on a real file (temp dir, always
+   cleaned) and reports per-step PASS/FAIL/SKIP so a broken local setup is
+   caught before a real run.
 
 2. **Probe (free).** `clipcut probe <video>` writes `probe.json`: scene
    scores, silence ranges, loudness, codec facts, and the VFR flag. Every
    later decision keys off these measurements. Nothing is uploaded.
+   `probe.json` also records the source's `fingerprint` (size + sha256 of the
+   first/last 8 MiB) — copy it into `clips.json` so `cut` can check it, and
+   RE-RUN `probe` after any re-render or re-export of the source: a file at
+   the same path with the same duration but different bytes needs a fresh
+   fingerprint (and fresh scene/silence maps), or `cut --strict` will
+   (correctly) refuse it.
 
 3. **Segments (free).** `clipcut segments probe.json` derives candidates
    from probe evidence — scene cuts and sentence/breath boundaries —
@@ -106,23 +116,34 @@ holding the source video.
     (`--loudnorm`, about -14 LUFS, TP ≤ -1.5 dBTP). Specs and recipes:
     `references/platform-specs.md`. The 9x16-crop is bounded, so ANY source
     aspect fills 1080x1920 — landscape sources lose most of the width, a
-    portrait taller than 9:16 crops vertically (top and bottom). Check the
+    portrait taller than 9:16 crops vertically (top and bottom). Position the
+    window with `--crop-x`/`--crop-y` (0..1, default 0.5 = the exact center
+    crop; 0 = left/top edge, 1 = right/bottom edge): pick the anchor from the
+    FREE contact sheet (`preview/<slug>_preview.png` or the segment sheet) —
+    look where the subject sits, choose the anchor that keeps it in frame,
+    and say which anchor you chose and why. Check the
     subject is near frame center before cropping and say so when it is not.
     9x16-blur warns when a taller-than-9:16 source's vertical foreground
     content is cropped. Exports are written atomically.
 
 11. **Check (final gate).** `clipcut check exports/<file>.mp4 --platform
     shorts` verifies the export against the SAME shared platform table the
-    export warnings come from: duration, aspect, resolution
-    (divisible-by-2), fps + VFR/CFR, codec, pix_fmt, audio, sample rate,
-    faststart, loudness (measure-only), silent audio. Each row is
+    export warnings come from: duration, aspect (rotation-aware — judged on
+    display dimensions after rotation metadata), resolution
+    (divisible-by-2), resolution cap (informational WARN where the platform's
+    row marks a max, e.g. the Shorts 1080p cap — never a hard gate), fps +
+    VFR/CFR, codec, pix_fmt, audio, sample rate,
+    faststart, loudness (measure-only; a quiet master is a WARN with the
+    loudnorm fix — only clipping TP>0 or over-loud I>~-2 LUFS FAILs), silent
+    audio. Each row is
     PASS/WARN/FAIL with kind `format` or `judgement` (duration, aspect,
     loudness are judgement — platform-dependent taste), a plain reason, and
     the exact fix command when one exists. Without `--platform`, judgement
     rows downgrade to WARN (evaluated against the generic creator profile)
     and format rows still enforce; with `--platform`, any FAIL exits 1.
-    Unmeasurable facts (no audio stream, silent track, missing probe data)
-    are WARN "could not measure" — never PASS. Run it before or alongside
+    Unmeasurable facts (no audio stream, silent track, missing probe data,
+    unknown size under a cap) are WARN "could not measure" — never PASS. Run
+    it before or alongside
     preview; a FAIL row blocks calling the clip done unless the user
     explicitly accepts the risk.
 
@@ -178,6 +199,7 @@ Required keys per clip; `cut` ignores extra keys (agents commonly add
 {
   "video": "/abs/path/talk.mp4",
   "duration": 4680.5,
+  "fingerprint": { "size": 531443200, "sha256_head_tail": "ab12...:cd34..." },
   "clips": [
     {
       "slug": "hook-pricing-bomb",
@@ -190,9 +212,13 @@ Required keys per clip; `cut` ignores extra keys (agents commonly add
 }
 ```
 
-Variant ids are hyphenated: `original`, `9x16-crop`, `9x16-blur`. `video`
-and `duration` are optional recorded-source fields — `cut` warns when the
-given video (or its duration) differs from them. Validation behavior:
+Variant ids are hyphenated: `original`, `9x16-crop`, `9x16-blur`. `video`,
+`duration` and `fingerprint` are optional recorded-source fields — `cut`
+warns when the given video (or its duration) differs, and the `fingerprint`
+(copied verbatim from `probe.json`) catches the case the path/duration
+checks cannot: a re-rendered file at the same path with the same duration.
+On a fingerprint mismatch `cut` prints a loud warning; `--strict` refuses to
+cut (exit 2, nothing written). Validation behavior:
 
 - `platforms` is an OPEN list. Known ids: `youtube`, `shorts`, `tiktok`,
   `reels`, `x`, `creator`. Unknown ids are ACCEPTED with a warning and

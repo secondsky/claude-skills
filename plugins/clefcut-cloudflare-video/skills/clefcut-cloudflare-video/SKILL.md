@@ -79,13 +79,19 @@ free-first philosophy follows the sibling plugin
 6. **Cut** — lossless `-c copy` with a 0.5 s keyframe tolerance, upgrading to
    a frame-accurate re-encode when the snap exceeds it; every cut reports
    `duration_error_ms`; outputs are written atomically (verified temp first).
+   `probe` records a per-file fingerprint (size + head/tail sha256) that
+   `cut --strict` can check so a plan built from a DIFFERENT file at the same
+   path is refused — re-run `probe` after any re-render/re-export of the
+   source.
 7. **Tighten (optional)** — silence removal on a cut clip: 0.15 s of silence
    kept on each side of speech, one re-encode, `before_s`/`after_s`/
    `removed_s`/`cuts` reported. Make the clip punchy — remove dead air.
 8. **Export** — platform variants per clip: original, bounded 9:16 crop (any
-   source aspect fills 1080x1920; a portrait taller than 9:16 crops
-   vertically), 9:16 blur-pad (warns when taller-than-9:16 vertical content
-   is cropped); `+faststart`; optional two-pass loudness normalization.
+   source aspect fills 1080x1920; `--crop-x`/`--crop-y` anchor the window —
+   the agent picks the anchor from the free contact sheet; a portrait taller
+   than 9:16 crops vertically), 9:16 blur-pad (warns when taller-than-9:16
+   vertical content is cropped); `+faststart`; optional two-pass loudness
+   normalization; rotation metadata honored.
 9. **Check + preview verify** — `check` verifies an export against the shared
    platform table (duration/aspect are judgement calls, codec/faststart/etc.
    are hard format rows); `preview` gives per output clip a 6-frame contact
@@ -127,7 +133,12 @@ platform's own help pages for anything still marked unverified.
    works too since it bundles ffmpeg. Run
    `node "<skill-dir>/scripts/clipcut.mjs" doctor` and fix everything it
    reports before any other command.
-5. Sheets and frames from this video go to Cloudflare's API when rating and
+5. After doctor passes, run `clipcut verify <video>` once per machine and
+   after every ffmpeg upgrade — it runs the real pipeline (probe → segments
+   → sheets → cut → tighten → export → check → preview) on a real file in a
+   temp dir and reports per-step PASS/FAIL/SKIP. Network steps stay off
+   unless `--net` is passed and credentials exist.
+6. Sheets and frames from this video go to Cloudflare's API when rating and
    when reading with CLAIRIC. Before the FIRST model call of a session, say
    that plainly, give the cost estimate, and get the user's OK and a spending
    limit. Stay inside both for the whole session.
@@ -153,11 +164,12 @@ platform's own help pages for anything still marked unverified.
 | `sheets <video> --segments segments.json` | One contact sheet per candidate segment (default 6 frames in a 3×2 grid of ~480-px-wide cells). Writes `sheets/seg_NNN.png` plus the `sheets.json` manifest. |
 | `rate --sheets sheets/ --questions questions.json` | Send one sheet per segment to CLEF (`--model clef-flash` default; `--max-images 2`–`4` batches, with auto-isolation of a failing batch). Writes `ratings.json`, rewritten after every request. |
 | `read <video> --segments segments.json` | Read burned-in on-screen text per segment with `--engine local`, `clairic`, or `auto` (chosen once per run). Writes `text.json`. |
-| `cut <video> --plan clips.json` | Cut the chosen clips: lossless with `--tolerance 0.5` default, verified `duration_error_ms` (plus `start_error_ms` and `av_start_skew_s` for copy-mode cuts), 30 ms fades on re-encoded cuts. Re-encoded cuts record `nearest_keyframes` + `lossless_alternative` (the copy command that would have run and why it did not). Writes `clips/<slug>.mp4` and `clips/cut-report.json`. |
+| `cut <video> --plan clips.json` | Cut the chosen clips: lossless with `--tolerance 0.5` default, verified `duration_error_ms` (plus `start_error_ms` and `av_start_skew_s` for copy-mode cuts), 30 ms fades on re-encoded cuts. Re-encoded cuts record `nearest_keyframes` + `lossless_alternative` (the copy command that would have run and why it did not). When the plan carries a `fingerprint` (copied from `probe.json`), `cut` compares it to the actual file — a same-path re-render trips it where the path/duration checks cannot — and `--strict` turns a mismatch into exit 2 before anything is written. Writes `clips/<slug>.mp4` and `clips/cut-report.json`. |
 | `tighten <clip>` | Remove silence: detect silences (`--threshold -35` dBFS, `--min-silence 0.6` s), keep `--margin 0.15` s of silence on each side of speech, drop kept pieces under `--min-keep 0.2` s, refuse over `--max-cuts 400` cuts. One re-encode (crf 18, aac 192k, faststart) with 30 ms fades at each join; writes `<stem>_tight.mp4` atomically and reports before_s / after_s / removed_s / cuts. No silence found → prints a suggested threshold (mean + 6 dB, capped at −5 dB) and exits 0. |
-| `export <clip> --platform <id>` | Render variants per clip (`original`, `9x16-crop`, `9x16-blur`) into `exports/<slug>_<platform>_<variant>.mp4`, `+faststart`, optional two-pass loudnorm (`--loudnorm`). The `original` variant re-encodes when the source is odd-sized, non-H.264, or non-yuv420p. |
-| `check <file> [--platform <id>]` | Compliance gate: rows for duration, aspect, resolution, fps/VFR, codec, pix_fmt, audio, sample rate, faststart, loudness (measure-only), silent audio — each PASS/WARN/FAIL with a plain reason and the exact fix command. Judgement rows (duration/aspect/loudness) FAIL only with `--platform`; unmeasurable facts are WARN "could not measure". Writes `check-report.json`. Exits 1 on any FAIL. |
+| `export <clip> --platform <id>` | Render variants per clip (`original`, `9x16-crop`, `9x16-blur`) into `exports/<slug>_<platform>_<variant>.mp4`, `+faststart`, optional two-pass loudnorm (`--loudnorm`). The `original` variant re-encodes when the source is odd-sized, non-H.264, or non-yuv420p. For `9x16-crop`, `--crop-x`/`--crop-y` (0..1, default 0.5 = the exact center crop) anchor the crop window in the leftover region — the agent picks the anchor from the FREE contact sheet (`preview`/`sheets`), says which anchor it chose and why. Rotation metadata is honored (display dimensions). |
+| `check <file> [--platform <id>]` | Compliance gate: rows for duration, aspect (rotation-aware: judged on display dimensions after rotation metadata), resolution, resolution cap (informational WARN where the platform's row marks a max — shorts 1080p verified, x/tiktok community), fps/VFR, codec, pix_fmt, audio, sample rate, faststart, loudness (measure-only; quiet masters WARN, only clipping TP>0 or over-loud I>~-2 FAIL), silent audio — each PASS/WARN/FAIL with a plain reason and the exact fix command. Judgement rows (duration/aspect/loudness) FAIL only with `--platform`; unmeasurable facts are WARN "could not measure". Writes `check-report.json`. Exits 1 on any FAIL. |
 | `preview <clip> --source <video> --start S --end E` | 6-frame contact sheet plus muted first-3s/last-3s samples and `preview.json` per-boundary scene scores; `--probe probe.json` cross-checks the source's scene changes. Informational: exit 0 or 2 only. |
+| `verify <video> [--net]` | Real-footage self-test: runs the REAL pipeline commands (probe incl. fingerprint → segments → sheets → cut a slice with `duration_error_ms` reported → tighten → export 9x16-crop → check → preview) on the user's own file in a temp dir that is always cleaned. Network steps SKIP with a reason unless credentials exist AND `--net` is given (then one clef-flash ping + one clairic image, cost gate respected). Per-step PASS/FAIL/SKIP-with-reason + a summary; exit 1 on any FAIL. Run once per machine and after ffmpeg upgrades. |
 | `plan` | Print the clips.json schema; with `--file`, validate a plan (duplicate slugs rejected, durations + total printed, unknown platforms mapped to the creator profile with a warning). |
 
 The `rate` questions file is project-local: `templates/questions.example.json`

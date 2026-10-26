@@ -40,6 +40,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import process from 'node:process';
+import crypto from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
@@ -63,6 +64,7 @@ const SCENE_MAX_CHANGES = 64;                // keep at most this many scene-cha
 const SILENCE_FILTER = 'silencedetect=noise=-35dB:d=0.5';
 const FADE_S = 0.03;                         // 30 ms audio fades on accurate re-encodes / tighten joins
 const SILENT_MAX_DB = -80;                   // one digital-silence tripwire: max volume at/below this = dead audio
+const FP_REGION_BYTES = 8 * 1024 * 1024;     // input fingerprint: sha256 of the first AND last 8 MiB
 
 /**
  * Gain expression for a 30 ms de-click at a tighten JOIN (output timeline):
@@ -232,6 +234,85 @@ export function estTokensPerFrame(w, h) {
   return Math.min(1024, Math.max(1, Math.round(w / 32)) * Math.max(1, Math.round(h / 32)) + 3);
 }
 
+// ---------------------------------------------------------------- fingerprints + rotation (pure)
+
+/** sha256 of a buffer, hex. */
+export function sha256Hex(buf) {
+  return crypto.createHash('sha256').update(buf).digest('hex');
+}
+
+/**
+ * "head:tail" sha256 hex pair over the first and last `region` bytes of a buffer
+ * (pure — the selftests feed fixed buffers). For buffers smaller than 2*region the
+ * two windows overlap; that is fine, they are hashed independently.
+ */
+export function headTailHash(buf, region = FP_REGION_BYTES) {
+  const b = Buffer.isBuffer(buf) ? buf : Buffer.from(buf);
+  const n = Math.max(0, Math.min(region, b.length));
+  const head = b.subarray(0, n);
+  const tail = b.subarray(b.length - n);
+  return `${sha256Hex(head)}:${sha256Hex(tail)}`;
+}
+
+/**
+ * Input fingerprint: file size in bytes + the "head:tail" sha256 pair over the
+ * first/last 8 MiB. A re-render at the same path with the same duration still
+ * changes bytes in the head region, so the pair catches swapped files the
+ * path/duration warnings miss.
+ */
+export function fingerprintFile(file) {
+  const st = fs.statSync(file);
+  let fd;
+  try {
+    fd = fs.openSync(file, 'r');
+    const n = Math.min(FP_REGION_BYTES, st.size);
+    const head = Buffer.alloc(n);
+    if (n > 0) fs.readSync(fd, head, 0, n, 0);
+    const tail = Buffer.alloc(n);
+    if (n > 0) fs.readSync(fd, tail, 0, n, Math.max(0, st.size - n));
+    return { size: st.size, sha256_head_tail: `${sha256Hex(head)}:${sha256Hex(tail)}` };
+  } finally {
+    if (fd != null) fs.closeSync(fd);
+  }
+}
+
+/** Fingerprint verdict: true = match, false = MISMATCH, null = not comparable (either side absent). */
+export function fingerprintsMatch(a, b) {
+  if (!a || !b || a.size == null || b.size == null || !a.sha256_head_tail || !b.sha256_head_tail) return null;
+  return a.size === b.size && a.sha256_head_tail === b.sha256_head_tail;
+}
+
+/**
+ * Signed rotation degrees from an ffprobe stream's side_data_list Display Matrix
+ * entry, normalized to (-180, 180]; null when absent or zero. The sign convention
+ * varies by producer — only |rot| % 180 === 90 matters for the dimension swap.
+ */
+export function streamRotation(stream) {
+  const list = stream && Array.isArray(stream.side_data_list) ? stream.side_data_list : [];
+  let raw = null;
+  for (const sd of list) {
+    if (!sd || !('rotation' in sd)) continue;
+    const n = Number(sd.rotation);
+    if (Number.isFinite(n)) { raw = n; break; }
+  }
+  if (raw == null) return null;
+  const norm = ((raw % 360) + 360) % 360;
+  const signed = norm > 180 ? norm - 360 : norm;
+  return signed === 0 ? null : signed;
+}
+
+/** Display dimensions after rotation metadata: at ±90/±270 width/height swap.
+ * Returns { width, height, rotated } — non-numeric input keeps null dims. */
+export function displayDimsForRotation(width, height, rotation) {
+  const w = Number(width); const h = Number(height);
+  const r = Number(rotation);
+  const rotated = Number.isFinite(r) && Math.abs(r) % 180 === 90;
+  const okW = Number.isFinite(w) && w > 0;
+  const okH = Number.isFinite(h) && h > 0;
+  if (rotated && okW && okH) return { width: h, height: w, rotated: true };
+  return { width: okW ? w : null, height: okH ? h : null, rotated: false };
+}
+
 // ---------------------------------------------------------------- ffmpeg (Remotion compositor first)
 
 let FFMPEG_CACHE = null;
@@ -310,7 +391,10 @@ const runFf = async (bin, args, opts = {}) => {
   return runExe(bin === 'ffprobe' ? loc.ffprobe : loc.ffmpeg, args, { ...opts, env: loc.env });
 };
 
-/** Container facts via ffprobe: duration, dimensions, fps (avg first), VFR guess, audio presence. */
+/** Container facts via ffprobe: duration, dimensions, fps (avg first), VFR guess, audio presence.
+ * width/height are DISPLAY dims: rotation metadata (tkhd display matrix, read from
+ * stream.side_data_list[].rotation) swaps them at ±90/±270 — ffmpeg autorotates on
+ * decode, so downstream filter math and aspect checks must use the display dims. */
 async function probeContainer(file) {
   const r = await runFf('ffprobe', ['-v', 'error', '-show_streams', '-show_format', '-of', 'json', file]);
   if (r.code !== 0) throw new UserError(`ffprobe failed on ${file}: ${r.stderr.trim().slice(0, 300)}`);
@@ -321,8 +405,13 @@ async function probeContainer(file) {
   const rFps = rate(v.r_frame_rate);
   const avgFps = rate(v.avg_frame_rate);
   const duration = Number(j.format && j.format.duration) || Number(v.duration) || 0;
+  const rotation = streamRotation(v);
+  const dims = displayDimsForRotation(v.width, v.height, rotation);
   return {
-    width: v.width, height: v.height,
+    width: dims.width, height: dims.height,
+    codedWidth: Number.isFinite(Number(v.width)) ? Number(v.width) : null,
+    codedHeight: Number.isFinite(Number(v.height)) ? Number(v.height) : null,
+    rotation, rotated: dims.rotated,
     fps: avgFps || rFps || 30, r_frame_rate: rFps, avg_frame_rate: avgFps,
     vfr: rFps > 0 && avgFps > 0 && Math.abs(rFps - avgFps) > 0.5,
     hasAudio: (j.streams || []).some((s) => s.codec_type === 'audio'),
@@ -352,12 +441,16 @@ async function probeCheckFacts(file) {
   const isIsoBmff = /mp4|mov|m4a|3gp|m4v/.test(container);
   let sizeBytes = null;
   try { sizeBytes = fs.statSync(file).size; } catch { /* keep null */ }
+  // Display dims: rotation metadata swaps width/height at ±90/±270 (probeContainer parity).
+  const rotation = v ? streamRotation(v) : null;
+  const dims = v ? displayDimsForRotation(v.width, v.height, rotation) : { width: null, height: null };
   const facts = {
     file,
     measurable: !!v,
     duration: durRaw != null && durRaw > 0 ? +durRaw.toFixed(3) : null,
-    width: v ? num(v.width) : null,
-    height: v ? num(v.height) : null,
+    width: dims.width,
+    height: dims.height,
+    rotation,
     fps: avgFps || rFps || null,
     vfr: !!(rFps > 0 && avgFps > 0 && Math.abs(rFps - avgFps) > 0.5),
     videoCodec: v ? v.codec_name || null : null,
@@ -735,6 +828,7 @@ export const PLATFORM_SPECS = {
       cap: 180, mark: 'verified', warnFrom: 180, warnInclusive: false,
       warnText: (d) => `duration ${fmt(d)}s exceeds the 3-minute YouTube Shorts cap (verified)`,
     },
+    resolution: { maxShortSide: 1080, mark: 'verified' },
     sizeCapBytes: null,
   },
   tiktok: {
@@ -743,6 +837,7 @@ export const PLATFORM_SPECS = {
       cap: 600, mark: 'community', warnFrom: 570, warnInclusive: true,
       warnText: (d) => `duration ${fmt(d)}s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)`,
     },
+    resolution: { maxShortSide: 1080, mark: 'community', note: 'informational: 4K uploads get compressed to 1080p (community-reported); 1080p recommended' },
     sizeCapBytes: null,
   },
   reels: {
@@ -759,6 +854,7 @@ export const PLATFORM_SPECS = {
       cap: 140, mark: 'community', warnFrom: 140, warnInclusive: false,
       warnText: (d) => `duration ${fmt(d)}s may exceed the community-reported 140s X free-tier limit (unverified; Premium allows up to 4h)`,
     },
+    resolution: { maxShortSide: 1080, mark: 'community' },
     sizeCapBytes: 512 * 1024 * 1024, sizeMark: 'community',
   },
   creator: {
@@ -889,16 +985,22 @@ export function buildCheckRows(facts, { platform = null } = {}) {
     else judge('duration', 'PASS', { note: `${fmt(d)}s${rule.cap != null ? ` (cap ${rule.cap}s, ${rule.mark})` : rule.note ? ` — ${rule.note}` : ''}` });
   }
 
-  // aspect — judgement.
+  // aspect — judgement. width/height are DISPLAY dims (rotation metadata already
+  // applied by the probe), so a rotated file is judged by what it shows, not by its
+  // coded storage order; a swap is noted so the row explains itself.
   if (fin(f.width) == null || fin(f.height) == null || !(fin(f.width) > 0)) {
     unmeasurable('aspect', 'judgement', 'ffprobe reported no dimensions');
   } else {
     const wd = fin(f.width); const ht = fin(f.height);
     const ar = wd / ht;
     const want = (eff.aspects.accepted || []).map(arName).join(' or ');
-    if ((eff.aspects.accepted || []).some((r) => Math.abs(ar - r) <= 0.02)) judge('aspect', 'PASS', { note: `${wd}x${ht} (~${ar.toFixed(3)}:1) matches ${want}` });
+    const rotDeg = fin(f.rotation);
+    const rotNote = rotDeg != null && Math.abs(rotDeg) % 180 === 90
+      ? ` — displays ${wd}x${ht} after rotation metadata (${fmt(rotDeg)}deg)`
+      : '';
+    if ((eff.aspects.accepted || []).some((r) => Math.abs(ar - r) <= 0.02)) judge('aspect', 'PASS', { note: `${wd}x${ht} (~${ar.toFixed(3)}:1) matches ${want}${rotNote}` });
     else judge('aspect', 'FAIL', {
-      reason: `output is ${wd}x${ht} (~${ar.toFixed(3)}:1), not ${want}${platform ? ` — ${platform} expects ${eff.aspects.vertical ? 'vertical 9:16 1080x1920' : want}` : ' — the generic creator profile expects vertical 9:16'}`,
+      reason: `output is ${wd}x${ht} (~${ar.toFixed(3)}:1), not ${want}${platform ? ` — ${platform} expects ${eff.aspects.vertical ? 'vertical 9:16 1080x1920' : want}` : ' — the generic creator profile expects vertical 9:16'}${rotNote}`,
       fix: eff.aspects.vertical ? fixExport('9x16-crop') : undefined,
     });
   }
@@ -907,6 +1009,17 @@ export function buildCheckRows(facts, { platform = null } = {}) {
   if (fin(f.width) == null || fin(f.height) == null || !(fin(f.width) > 0)) unmeasurable('resolution', 'format', 'ffprobe reported no dimensions');
   else if (f.width % 2 !== 0 || f.height % 2 !== 0) add('resolution', 'format', 'FAIL', { reason: `dimensions ${f.width}x${f.height} are not divisible by 2 — H.264 4:2:0 encoding needs even numbers`, fix: fixExport('original') });
   else add('resolution', 'format', 'PASS', { note: `${f.width}x${f.height}, both divisible by 2` });
+
+  // resolution cap — judgement, informational WARN only (never a hard gate): the
+  // short side exceeds the max the platform's specs row itself marks.
+  if (eff.resolution && eff.resolution.maxShortSide != null && fin(f.width) != null && fin(f.height) != null && fin(f.width) > 0) {
+    const shortSide = Math.min(f.width, f.height);
+    const cap = eff.resolution.maxShortSide;
+    if (shortSide > cap) judge('resolution_cap', 'WARN', {
+      reason: `short side ${shortSide}px exceeds the ${cap}px max the ${platform || 'creator'} row marks (${eff.resolution.mark}${eff.resolution.mark === 'verified' ? '' : '-reported, unverified'})${eff.resolution.note ? ` — ${eff.resolution.note}` : ''}`,
+      note: 'informational — platforms accept or recompress larger files; no hard gate',
+    });
+  }
 
   // fps + VFR/CFR — format (VFR is a compatibility hazard, not a hard reject).
   if (fin(f.fps) == null || !(fin(f.fps) > 0)) unmeasurable('fps', 'format', 'ffprobe reported no frame rate');
@@ -939,19 +1052,32 @@ export function buildCheckRows(facts, { platform = null } = {}) {
     else add('audio_sample_rate', 'format', 'WARN', { reason: `audio sample rate ${f.audioSampleRate} Hz is unusual — ${PLATFORM_CODEC.sampleRateRecHz} Hz recommended` });
 
     // loudness — judgement, measure-only (no platform documents -14 LUFS; it is a web norm).
+    // FAIL only for clipping (TP > 0 dBTP) or an over-loud master (I above ~-2 LUFS);
+    // the QUIET side is a WARN — no platform documents -14, and platforms turn loud
+    // clips down, never up, so a quiet master is taste, not a defect.
     if (!f.loudness || !Number.isFinite(Number(f.loudness.I))) {
       unmeasurable('loudness', 'judgement', 'loudness measurement did not parse (silent or unreadable audio)');
     } else {
       const I = Number(f.loudness.I);
       const TP = f.loudness.TP != null && Number.isFinite(Number(f.loudness.TP)) ? Number(f.loudness.TP) : null;
       const devI = Math.abs(I - LOUDNORM_TARGET.I);
+      const clipping = TP != null && TP > 0;
+      const overLoud = I > -2;
+      const quiet = I < LOUDNORM_TARGET.I - 6;
       const note = `I=${I} LUFS${TP != null ? `, true peak=${TP} dBTP` : ''} vs the -14 LUFS / -1.5 dBTP web target (measure-only)`;
-      if (devI <= 6 && (TP == null || TP <= -1)) judge('loudness', 'PASS', { note });
-      else {
+      if (!clipping && !overLoud && devI <= 6 && (TP == null || TP <= -1)) judge('loudness', 'PASS', { note });
+      else if (clipping || overLoud) {
         const why = [];
-        if (devI > 6) why.push(`integrated loudness ${I} LUFS is ${fmt(devI)} LU from -14 LUFS`);
-        if (TP != null && TP > -1) why.push(`true peak ${TP} dBTP exceeds -1.5 dBTP`);
-        judge('loudness', devI > 12 || (TP != null && TP > 0) ? 'FAIL' : 'WARN', { reason: `${why.join('; ')} (measure-only judgement)`, fix: fixExport('original', ' --loudnorm') });
+        if (overLoud) why.push(`integrated loudness ${I} LUFS is above -2 LUFS (over-loud master)`);
+        if (clipping) why.push(`true peak ${TP} dBTP is above 0 dBTP (clipping)`);
+        judge('loudness', 'FAIL', { reason: `${why.join('; ')} (measure-only judgement)`, fix: fixExport('original', ' --loudnorm') });
+      } else {
+        // WARN zone: quiet master, or a mild peak/loudness deviation — never a hard gate.
+        let reason;
+        if (quiet) reason = `integrated loudness ${I} LUFS is ${fmt(LOUDNORM_TARGET.I - I)} LU below -14 LUFS — no platform documents -14 (community norm); quiet master, consider export --loudnorm`;
+        else if (TP != null && TP > -1) reason = `true peak ${TP} dBTP exceeds -1.5 dBTP (measure-only judgement)`;
+        else reason = `integrated loudness ${I} LUFS is ${fmt(devI)} LU from -14 LUFS (measure-only judgement)`;
+        judge('loudness', 'WARN', { reason, note, fix: fixExport('original', ' --loudnorm') });
       }
     }
 
@@ -967,11 +1093,16 @@ export function buildCheckRows(facts, { platform = null } = {}) {
   else unmeasurable('faststart', 'format', 'not an MP4/MOV-family container (the moov-box walk does not apply)');
 
   // size — format, only where the table carries a cap (community-reported): WARN, not FAIL.
-  if (eff.sizeCapBytes != null && fin(f.sizeBytes) != null) {
-    const mib = f.sizeBytes / 1024 / 1024;
-    const capMib = eff.sizeCapBytes / 1024 / 1024;
-    if (f.sizeBytes > eff.sizeCapBytes) add('size', 'format', 'WARN', { reason: `file is ${mib.toFixed(1)} MiB, over the ~${capMib.toFixed(0)} MiB ${platform || 'creator'} cap (${eff.sizeMark}-reported)` });
-    else add('size', 'format', 'PASS', { note: `${mib.toFixed(1)} MiB (cap ~${capMib.toFixed(0)} MiB, ${eff.sizeMark}-reported)` });
+  // A cap with an unmeasurable size is a WARN like every other unmeasurable fact —
+  // never a silently absent row.
+  if (eff.sizeCapBytes != null) {
+    if (fin(f.sizeBytes) == null) unmeasurable('size', 'format', 'size unknown');
+    else {
+      const mib = f.sizeBytes / 1024 / 1024;
+      const capMib = eff.sizeCapBytes / 1024 / 1024;
+      if (f.sizeBytes > eff.sizeCapBytes) add('size', 'format', 'WARN', { reason: `file is ${mib.toFixed(1)} MiB, over the ~${capMib.toFixed(0)} MiB ${platform || 'creator'} cap (${eff.sizeMark}-reported)` });
+      else add('size', 'format', 'PASS', { note: `${mib.toFixed(1)} MiB (cap ~${capMib.toFixed(0)} MiB, ${eff.sizeMark}-reported)` });
+    }
   }
   return rows;
 }
@@ -1009,6 +1140,42 @@ export function cropTarget(w, h) {
   const wd = Number(w); const ht = Number(h);
   if (!Number.isFinite(wd) || !Number.isFinite(ht) || wd <= 0 || ht <= 0) return { width: null, height: null };
   return { width: Math.min(wd, (ht * 9) / 16), height: Math.min(ht, (wd * 16) / 9) };
+}
+
+/**
+ * Validated crop anchor: a fraction in [0,1] of the leftover region (0 = flush with
+ * the left/top edge, 1 = flush with the right/bottom edge, 0.5 = centered). Clean
+ * UserError on anything else — mirrors numFlag's error shape.
+ */
+export function cropAnchor(raw, name, dflt = 0.5) {
+  if (raw == null || raw === true) return dflt;
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n < 0 || n > 1) throw new UserError(`--${name} must be a number between 0 and 1 (fraction of the leftover region; 0 = left/top edge, 1 = right/bottom edge). Got: ${raw}`);
+  return n;
+}
+
+/**
+ * The 9x16-crop -vf chain, optionally ANCHORED: the bounded crop window is positioned
+ * by crop-x/crop-y fractions of the leftover width/height:
+ *   x = (iw - out_w) * ax,  y = (ih - out_h) * ay
+ * REGRESSION GUARD (selftested as exact string equality): with both anchors at the
+ * 0.5 default the returned string is BYTE-IDENTICAL to the historical center-crop
+ * filter — the 2-argument crop — so default runs are provably unchanged. Non-default
+ * anchors emit the 4-argument crop with the computed x/y expressions.
+ */
+export function cropAnchorFilter(ax = 0.5, ay = 0.5) {
+  const W = "'min(iw,ih*9/16)'";
+  const H = "'min(ih,iw*16/9)'";
+  const atDefault = (x) => Number.isFinite(Number(x)) && Math.abs(Number(x) - 0.5) < 1e-9;
+  const f = (x) => String(+(+x).toFixed(4));
+  if (atDefault(ax) && atDefault(ay)) {
+    return `crop=${W}:${H},scale=1080:1920,setsar=1`;
+  }
+  // 4-argument crop: x/y as a fraction of the leftover region. A default anchor is
+  // expressed the same way (fraction 0.5) — (iw-out_w)*0.5 IS the centered position.
+  const X = `(iw-min(iw,ih*9/16))*${f(ax)}`;
+  const Y = `(ih-min(ih,iw*16/9))*${f(ay)}`;
+  return `crop=${W}:${H}:'${X}':'${Y}',scale=1080:1920,setsar=1`;
 }
 
 // ---------------------------------------------------------------- Cloudflare API layer
@@ -1425,7 +1592,9 @@ async function cmdProbe(video, o) {
     video: path.resolve(video),
     duration: +info.duration.toFixed(3), fps: +info.fps.toFixed(3),
     width: info.width, height: info.height,
+    ...(info.rotation != null ? { rotation: info.rotation } : {}),
     vfr: info.vfr, has_audio: info.hasAudio,
+    fingerprint: fingerprintFile(video),
     scene_threshold: threshold,
     scenes, scene_changes: sceneChanges,
     silences, loudness, keyframes,
@@ -1433,11 +1602,12 @@ async function cmdProbe(video, o) {
   };
   const outPath = o.out || 'probe.json';
   fs.writeFileSync(outPath, JSON.stringify(probe, null, 2));
-  console.log(`${path.basename(video)}: ${info.width}x${info.height} @ ${fmt(info.fps)}fps, ${fmt(info.duration)}s${info.vfr ? ' (VFR suspected)' : ''}${info.hasAudio ? '' : ' (no audio)'}`);
+  console.log(`${path.basename(video)}: ${info.width}x${info.height} @ ${fmt(info.fps)}fps, ${fmt(info.duration)}s${info.rotated ? ` (rotation ${fmt(info.rotation)}deg metadata: coded ${info.codedWidth}x${info.codedHeight}, displays ${info.width}x${info.height})` : ''}${info.vfr ? ' (VFR suspected)' : ''}${info.hasAudio ? '' : ' (no audio)'}`);
   console.log(`scenes: ${scenes.length} scored frame(s) -> ${sceneChanges.length} change point(s) at threshold ${threshold}${sceneChanges.length ? ` (first: ${sceneChanges.slice(0, 5).map(fmt).join(', ')}${sceneChanges.length > 5 ? ', ...' : ''})` : ''}`);
   console.log(`silence: ${silences.length} region(s)${silences.length ? ` (longest ${(Math.max(...silences.map((s) => (s.end ?? info.duration) - s.start))).toFixed(1)}s)` : ''}${info.hasAudio ? '' : ' — skipped, no audio'}`);
   console.log(`loudness: ${loudness ? `I=${loudness.I} LUFS, true peak=${loudness.TP == null ? '?' : loudness.TP} dBTP` : 'unavailable'}${info.hasAudio ? '' : ' — skipped, no audio'}`);
   console.log(`keyframes: ${keyframes.length}${keyframes.length ? ` (first: ${keyframes.slice(0, 5).map(fmt).join(', ')}${keyframes.length > 5 ? ', ...' : ''})` : ''}`);
+  console.log(`fingerprint: size ${probe.fingerprint.size} bytes, sha256(head:tail) ${probe.fingerprint.sha256_head_tail.slice(0, 24)}... — carry it into clips.json so cut can refuse a swapped file (--strict)`);
   console.log(`wrote ${outPath}`);
   return 0;
 }
@@ -1472,6 +1642,8 @@ async function cmdSegments(probePath, o) {
   }
   const doc = {
     probe: path.resolve(probePath), video: probe.video || null, duration: +duration.toFixed(3),
+    // inherited so every downstream artifact carries the source's identity
+    ...(probe.fingerprint ? { fingerprint: probe.fingerprint } : {}),
     min, max, count, generated_at: new Date().toISOString(),
     segments, ...(notes ? { notes } : {}),
   };
@@ -1727,6 +1899,20 @@ async function cmdCut(video, o) {
   if (Number.isFinite(Number(plan.duration)) && Math.abs(Number(plan.duration) - info.duration) > 1) {
     console.log(`warning: clips.json says the source is ${fmt(plan.duration)}s but it is ${fmt(info.duration)}s (mismatch > 1s)`);
   }
+  // Input fingerprint: when the plan carries one (copied from probe.json), compare it
+  // to the ACTUAL file. A re-rendered source at the same path with the same duration
+  // still trips this — path/duration checks cannot. Mismatch is a loud warning;
+  // --strict turns it into exit 2 BEFORE any cutting (and before the output dir is
+  // touched).
+  if (plan.fingerprint) {
+    const actual = fingerprintFile(video);
+    const match = fingerprintsMatch(plan.fingerprint, actual);
+    if (match === false) {
+      const msg = `fingerprint mismatch: the plan was built from a DIFFERENT file (same path/duration?) — plan fingerprint (size ${plan.fingerprint.size}, sha256 head:tail ${String(plan.fingerprint.sha256_head_tail).slice(0, 16)}...) vs actual (size ${actual.size}, sha256 head:tail ${actual.sha256_head_tail.slice(0, 16)}...) — re-run probe + segments against this file`;
+      if (o.strict === true) throw new UserError(`${msg}. --strict refuses to cut; nothing was written`);
+      console.log(`warning: ${msg}; pass --strict to refuse`);
+    }
+  }
   // Managed dir: cut-report.json + any tool-named clip/export output (<slug>.mp4 and the
   // <slug>_<platform>_<variant>.mp4 family) may stay from earlier runs — re-running cut
   // for one clip in the same dir works. Only the stale report is cleared upfront; clip
@@ -1865,7 +2051,7 @@ const PLATFORM_NOTES = {
 async function measureLoudnorm(file) {
   const r = await runFf('ffmpeg', ['-i', file, '-af', `loudnorm=I=${LOUDNORM_TARGET.I}:TP=${LOUDNORM_TARGET.TP}:LRA=${LOUDNORM_TARGET.LRA}:print_format=json`, '-f', 'null', '-']);
   const m = parseLoudnormJson(r.stderr);
-  if (!m || !Number.isFinite(m.I) || !Number.isFinite(m.threshold)) throw new UserError(`loudnorm measurement failed on ${file} (silent audio cannot be normalized).`);
+  if (!m || !Number.isFinite(m.I) || !Number.isFinite(m.threshold)) throw new UserError(`loudnorm measurement failed on ${file} (silent or unmeasurable audio).`);
   return m;
 }
 
@@ -1876,6 +2062,13 @@ async function cmdExport(clip, o) {
   if (!PLATFORMS.includes(platform)) throw new UserError(`--platform must be one of ${PLATFORMS.join('|')}. Got: ${platform}`);
   const variant = o.variant || 'original';
   if (!VARIANTS.includes(variant)) throw new UserError(`--variant must be one of ${VARIANTS.join('|')}. Got: ${variant}`);
+  // Crop anchors: window-position fractions for 9x16-crop ONLY (0 = left/top edge,
+  // 1 = right/bottom edge, 0.5 = centered default). Anywhere else they would do
+  // nothing — reject instead of silently ignoring.
+  const anchorGiven = o['crop-x'] != null || o['crop-y'] != null;
+  if (anchorGiven && variant !== '9x16-crop') throw new UserError('crop anchors apply to 9x16-crop only (on other variants the crop window has no free position)');
+  const cropX = cropAnchor(o['crop-x'], 'crop-x');
+  const cropY = cropAnchor(o['crop-y'], 'crop-y');
   const outdir = o.out || 'exports';
   const slug = sanitizeSlug(path.basename(clip));
   const target = path.join(outdir, exportName(slug, platform, variant));
@@ -1920,8 +2113,10 @@ async function cmdExport(clip, o) {
   } else if (variant === '9x16-crop') {
     // Bounded crop: min(iw,ih*9/16) x min(ih,iw*16/9) never exceeds the frame in either
     // dimension, so ANY aspect (portrait/taller-than-9:16, landscape, square) fills 1080x1920.
-    args = ['-v', 'error', '-y', '-i', clip, '-vf', "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1", ...videoEncode, ...audioArgs, ...faststart];
-    label = '9x16 center-crop re-encode';
+    // --crop-x/--crop-y anchor the window inside the leftover region (0.5 = the
+    // byte-identical historical center crop; see cropAnchorFilter).
+    args = ['-v', 'error', '-y', '-i', clip, '-vf', cropAnchorFilter(cropX, cropY), ...videoEncode, ...audioArgs, ...faststart];
+    label = cropX === 0.5 && cropY === 0.5 ? '9x16 center-crop re-encode' : `9x16 anchored-crop re-encode (crop-x ${cropX}, crop-y ${cropY})`;
   } else if (!evenDims(info.width, info.height)) {
     args = ['-v', 'error', '-y', '-i', clip, '-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2', ...videoEncode, ...audioArgs, ...faststart];
     label = `re-encode to even dimensions (${info.width}x${info.height} is odd)`;
@@ -1980,6 +2175,7 @@ async function cmdTighten(clip, o) {
   const maxCuts = numFlag(o, 'max-cuts', TIGHTEN_DEFAULTS.maxCuts, { min: 1, max: 5000 });
   const info = await probeContainer(clip); // throws on a missing video stream
   if (!info.hasAudio) throw new UserError(`${clip} has no audio stream — tighten removes silence detected on AUDIO; nothing to tighten.`);
+  if (info.vfr) console.log(`warning: VFR source (r=${fmt(info.r_frame_rate)} vs avg=${fmt(info.avg_frame_rate)} fps) — tighten re-times the video to CFR (select + setpts), re-encode forced`);
   const duration = info.duration;
   const rsi = await runFf('ffmpeg', ['-i', clip, '-vn', '-af', `silencedetect=noise=${threshold}dB:d=${minSilence}`, '-f', 'null', '-']);
   const silences = parseSilences(rsi.stderr)
@@ -2189,6 +2385,175 @@ Minimal example: {"clips":[{"slug":"teaser","start":0,"end":30}]}`);
   if (v.warnings.length) { console.log(`clips.json is valid with ${v.warnings.length} warning(s)`); return 1; }
   console.log(`clips.json is valid (${plan.clips.length} clip(s))`);
   return 0;
+}
+
+// ---------------------------------------------------------------- commands: verify
+
+/**
+ * Generic verify step-runner (exported — selftested). Each step's fn returns
+ * undefined (PASS), { skip: reason }, { note } / { skip, note }, or throws (FAIL).
+ * After a FAIL the remaining steps SKIP with a reason naming the failed step —
+ * every verify step depends on the same file, so cascading failures only add noise.
+ * Returns { rows, failed }.
+ */
+export async function runVerifySteps(steps, log = () => {}) {
+  const rows = [];
+  let aborted = null;
+  for (const s of steps || []) {
+    let row;
+    if (aborted) {
+      row = { name: s.name, status: 'SKIP', reason: aborted };
+    } else {
+      try {
+        const r = await s.fn();
+        if (r && r.skip) row = { name: s.name, status: 'SKIP', reason: r.skip, ...(r.note ? { note: r.note } : {}) };
+        else row = { name: s.name, status: 'PASS', ...(r && r.note ? { note: r.note } : {}) };
+      } catch (e) {
+        row = { name: s.name, status: 'FAIL', reason: (e && e.message) || String(e) };
+        aborted = `earlier step failed: ${s.name}`;
+      }
+    }
+    rows.push(row);
+    log(row);
+  }
+  return { rows, failed: rows.some((r) => r.status === 'FAIL') };
+}
+
+/**
+ * verify <video> [--net] — real-footage self-test: runs the REAL pipeline commands
+ * (probe -> segments -> sheets -> cut -> tighten -> export 9x16-crop -> check ->
+ * preview) against the user's own file in a temp dir under os.tmpdir() (always
+ * cleaned). Network steps (one clef-flash ping + one clairic image) run only when
+ * credentials exist AND --net was passed; otherwise they SKIP with a reason.
+ * Per-step PASS/FAIL/SKIP-with-reason, one summary line, exit 1 on any FAIL.
+ * Run once per machine and after ffmpeg upgrades.
+ */
+async function cmdVerify(video, o) {
+  if (!video || !fs.existsSync(video)) throw new UserError(`Video not found: ${video}`);
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'clipcut-verify-'));
+  const paths = { probe: null, segments: null, firstSeg: null, sheet: null, clip: null, export: null };
+  const steps = [];
+  const step = (name, fn) => steps.push({ name, fn });
+
+  step('probe', async () => {
+    paths.probe = path.join(tmp, 'probe.json');
+    const rc = await cmdProbe(video, { out: paths.probe });
+    if (rc !== 0) throw new Error(`probe exited ${rc}`);
+    const p = readJson(paths.probe);
+    if (!(Number(p.duration) > 0)) throw new Error('probe.json carries no duration');
+    if (!p.fingerprint || !p.fingerprint.sha256_head_tail) throw new Error('probe.json carries no fingerprint');
+    return { note: `${p.width}x${p.height} @ ${fmt(p.fps)}fps, ${fmt(p.duration)}s, fingerprint size ${p.fingerprint.size}` };
+  });
+
+  step('segments', async () => {
+    if (!paths.probe) return { skip: 'no probe to build segments from' };
+    paths.segments = path.join(tmp, 'segments.json');
+    const rc = await cmdSegments(paths.probe, { out: paths.segments });
+    const doc = readJson(paths.segments);
+    const segs = Array.isArray(doc.segments) ? doc.segments : [];
+    if (!segs.length) {
+      const dur = Number(readJson(paths.probe).duration) || 0;
+      if (dur < 15) return { skip: `video is ${fmt(dur)}s — shorter than the 15s default --min, no candidate expected` };
+      throw new Error(`no candidate segments (segments exited ${rc})`);
+    }
+    paths.firstSeg = segs[0];
+    return { note: `${segs.length} candidate(s); using ${segs[0].id} ${fmt(segs[0].start)}s-${fmt(segs[0].end)}s` };
+  });
+
+  step('sheets', async () => {
+    if (!paths.firstSeg) return { skip: 'no candidate segment to sheet' };
+    const sheetsDir = path.join(tmp, 'sheets');
+    const trimPath = path.join(tmp, 'segments-first.json');
+    const doc = readJson(paths.segments);
+    fs.writeFileSync(trimPath, JSON.stringify({ ...doc, segments: [paths.firstSeg] }, null, 2));
+    await cmdSheets(video, { segments: trimPath, out: sheetsDir });
+    const { files } = listSheets(sheetsDir);
+    paths.sheet = files[0].path;
+    if (!fs.existsSync(paths.sheet)) throw new Error('no sheet written');
+    return { note: `${files.length} sheet(s): ${path.basename(paths.sheet)}` };
+  });
+
+  step('cut', async () => {
+    if (!paths.firstSeg) return { skip: 'no candidate segment to slice' };
+    const seg = paths.firstSeg;
+    const sliceEnd = Math.min(seg.end, seg.start + 8);
+    if (sliceEnd - seg.start < 1) return { skip: 'segment too short to slice' };
+    const planPath = path.join(tmp, 'verify-plan.json');
+    fs.writeFileSync(planPath, JSON.stringify({ video: path.resolve(video), clips: [{ slug: 'verify-slice', start: seg.start, end: +sliceEnd.toFixed(3) }] }));
+    const clipsDir = path.join(tmp, 'clips');
+    const rc = await cmdCut(video, { plan: planPath, outdir: clipsDir, tolerance: 0.5 });
+    paths.clip = path.join(clipsDir, 'verify-slice.mp4');
+    const report = readJson(path.join(clipsDir, 'cut-report.json'));
+    const row = report.clips && report.clips[0];
+    if (rc !== 0 || !row) throw new Error(`cut exited ${rc}${row ? ` (duration_error_ms=${row.duration_error_ms})` : ''}`);
+    return { note: `mode=${row.mode}, duration_error_ms=${row.duration_error_ms}${row.within_tolerance ? '' : ' (OVER TOLERANCE — cut reported it)'}` };
+  });
+
+  step('tighten', async () => {
+    if (!paths.clip) return { skip: 'no cut slice to tighten' };
+    const info = await probeContainer(paths.clip);
+    if (!info.hasAudio) return { skip: 'slice has no audio stream' };
+    const rsi = await runFf('ffmpeg', ['-i', paths.clip, '-vn', '-af', `silencedetect=noise=${TIGHTEN_DEFAULTS.thresholdDb}dB:d=${TIGHTEN_DEFAULTS.minSilenceS}`, '-f', 'null', '-']);
+    if (!parseSilences(rsi.stderr).length) return { skip: 'no silence detected in the slice (nothing to tighten)' };
+    const rc = await cmdTighten(paths.clip, {});
+    if (rc !== 0) throw new Error(`tighten exited ${rc}`);
+    return { note: 'silence removal ran on the slice' };
+  });
+
+  step('export', async () => {
+    if (!paths.clip) return { skip: 'no cut slice to export' };
+    const outdir = path.join(tmp, 'exports');
+    await cmdExport(paths.clip, { platform: 'shorts', variant: '9x16-crop', out: outdir, 'crop-x': '0.5' });
+    paths.export = path.join(outdir, exportName('verify-slice', 'shorts', '9x16-crop'));
+    if (!fs.existsSync(paths.export)) throw new Error('export wrote no file');
+    const info = await probeContainer(paths.export);
+    if (info.width !== 1080 || info.height !== 1920) throw new Error(`export dims ${info.width}x${info.height}, expected 1080x1920`);
+    return { note: '1080x1920 (9x16-crop, default crop-x 0.5)' };
+  });
+
+  step('check', async () => {
+    if (!paths.export) return { skip: 'no export to check' };
+    const rc = await cmdCheck(paths.export, { platform: 'shorts', out: path.join(tmp, 'check-report.json') });
+    const rep = readJson(path.join(tmp, 'check-report.json'));
+    const s = rep.summary || { pass: 0, warn: 0, fail: 0 };
+    if (rc !== 0) throw new Error(`check exited ${rc} — ${s.fail} FAIL row(s) (see the rows above)`);
+    return { note: `${s.pass} PASS, ${s.warn} WARN, ${s.fail} FAIL (WARNs are fine)` };
+  });
+
+  step('preview', async () => {
+    if (!paths.clip) return { skip: 'no cut slice to preview' };
+    const outdir = path.join(tmp, 'preview');
+    await cmdPreview(paths.clip, { out: outdir });
+    for (const n of ['verify-slice_preview.png', 'verify-slice_3s.mp4', 'verify-slice_end3s.mp4']) {
+      if (!fs.existsSync(path.join(outdir, n))) throw new Error(`preview output missing: ${n}`);
+    }
+    return { note: 'sheet + first3s + end3s samples written' };
+  });
+
+  step('rate+read (network)', async () => {
+    if (o.net !== true) return { skip: 'network steps skipped — pass --net to include one clef-flash ping + one clairic image (tiny billed call, estimate)' };
+    const c = cfg();
+    if (!c.accountId || !c.token) return { skip: 'no credentials (CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN)' };
+    if (!paths.sheet) return { skip: 'no sheet to send' };
+    const dims = await imageDims(paths.sheet);
+    preflightGate([{ path: paths.sheet }], dims, { model: 'clairic', size: 1, yes: yesFlag(o) });
+    await postAi('@cf/cloudflare/clef-flash', { model: 'clef-flash', state: 'Connectivity check.', questions: { ok: { type: 'noul', instructions: 'Is 2+2 equal to 4?' } } }, {});
+    await requestBatch('@cf/cloudflare/clairic', (images) => ({ model: 'clairic', state: READ_STATE_SHEET, fields: DEFAULT_TEXT_FIELDS, images }), [{ id: 'seg_001', path: paths.sheet, file: path.basename(paths.sheet) }], {}, () => {});
+    return { note: 'clef-flash ping ok + one clairic image read (cost gate respected)' };
+  });
+
+  try {
+    console.log(`verify: ${path.resolve(video)} (temp dir ${tmp}, always cleaned)`);
+    const { rows, failed } = await runVerifySteps(steps, (row) => {
+      console.log(`  ${row.status.padEnd(4)} ${row.name}${row.reason ? ` — ${row.reason}` : ''}${row.note ? ` — ${row.note}` : ''}`);
+    });
+    const tally = { PASS: 0, SKIP: 0, FAIL: 0 };
+    for (const r of rows) tally[r.status]++;
+    console.log(`summary: ${tally.PASS} PASS, ${tally.SKIP} SKIP, ${tally.FAIL} FAIL${failed ? ' — a FAIL means this machine/pipeline is not trustworthy on this file; fix it before real runs' : ' — pipeline healthy on this file'}`);
+    return failed ? 1 : 0;
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 }
 
 // ---------------------------------------------------------------- selftest
@@ -2482,6 +2847,96 @@ async function cmdSelftest() {
   eq('check tiktok 580s in the warn zone', tt.status, 'WARN');
   const ttOver = buildCheckRows({ ...goodFacts, duration: 650 }, { platform: 'tiktok' }).find((r) => r.check === 'duration');
   eq('check tiktok 650s WARN (community cap reported, not enforced)', [ttOver.status, ttOver.reason, ttOver.note.includes('reported, not enforced')], ['WARN', 'duration 650s may exceed community-reported TikTok upload limits (unverified; standard uploads allow up to ~10 min)', true]);
+  // rotation: streamRotation parses the side_data_list Display Matrix entry; ±90/±270
+  // swap width/height for display dims; 0/180/absent never swap.
+  eq('streamRotation display matrix -90', streamRotation({ side_data_list: [{ side_data_type: 'Display Matrix', rotation: -90 }] }), -90);
+  eq('streamRotation string value parses', streamRotation({ side_data_list: [{ side_data_type: 'Display Matrix', rotation: '270' }] }), -90);
+  eq('streamRotation zero is null', streamRotation({ side_data_list: [{ side_data_type: 'Display Matrix', rotation: 0 }] }), null);
+  eq('streamRotation absent is null', streamRotation({}), null);
+  eq('streamRotation no list is null', streamRotation({ side_data_list: 'nope' }), null);
+  eq('displayDims swap at -90', displayDimsForRotation(640, 360, -90), { width: 360, height: 640, rotated: true });
+  eq('displayDims swap at 270', displayDimsForRotation(1920, 1080, 270), { width: 1080, height: 1920, rotated: true });
+  eq('displayDims no swap at 180', displayDimsForRotation(640, 360, 180), { width: 640, height: 360, rotated: false });
+  eq('displayDims no swap without rotation', displayDimsForRotation(640, 360, null), { width: 640, height: 360, rotated: false });
+  eq('displayDims invalid width stays null (no swap)', displayDimsForRotation(0, 360, -90), { width: null, height: 360, rotated: false });
+  // rotation-aware aspect: a coded 1920x1080 file with -90 rotation metadata DISPLAYS
+  // 1080x1920 — PASS against a vertical platform with the rotation note (was a false FAIL).
+  const rotFacts = { ...goodFacts, width: 1080, height: 1920, rotation: -90 };
+  const rotRow = buildCheckRows(rotFacts, { platform: 'shorts' }).find((r) => r.check === 'aspect');
+  eq('check aspect PASS on rotated file', [rotRow.status, /displays 1080x1920 after rotation metadata \(-90deg\)/.test(rotRow.note)], ['PASS', true]);
+  const rotFacts2 = { ...goodFacts, width: 360, height: 640, rotation: -90 };
+  const rotRow2 = buildCheckRows(rotFacts2, { platform: 'shorts' }).find((r) => r.check === 'aspect');
+  eq('check rotated portrait aspect PASS note', [rotRow2.status, rotRow2.note.includes('displays 360x640 after rotation metadata')], ['PASS', true]);
+  // resolution cap: informational judgement WARN (never FAIL) where the table marks a max.
+  const overRes = buildCheckRows({ ...goodFacts, width: 1440, height: 2560 }, { platform: 'shorts' }).find((r) => r.check === 'resolution_cap');
+  eq('check over-1080p shorts is judgement WARN', [overRes.status, overRes.kind, overRes.reason.includes('verified'), overRes.reason.includes('1440')], ['WARN', 'judgement', true, true]);
+  const overResX = buildCheckRows({ ...goodFacts, width: 1440, height: 2560 }, { platform: 'x' }).find((r) => r.check === 'resolution_cap');
+  eq('check over-1080p x is judgement WARN', [overResX.status, overResX.kind], ['WARN', 'judgement']);
+  const overResTt = buildCheckRows({ ...goodFacts, width: 2160, height: 3840 }, { platform: 'tiktok' }).find((r) => r.check === 'resolution_cap');
+  eq('check tiktok 4K informational WARN mentions compression', [overResTt.status, /4K uploads get compressed/.test(overResTt.reason)], ['WARN', true]);
+  eq('check no resolution_cap row at/below cap', buildCheckRows(goodFacts, { platform: 'shorts' }).some((r) => r.check === 'resolution_cap'), false);
+  eq('check youtube has no resolution_cap row', buildCheckRows({ ...goodFacts, width: 2160, height: 3840 }, { platform: 'youtube' }).some((r) => r.check === 'resolution_cap'), false);
+  eq('check over-res needs a platform with a marked cap', buildCheckRows({ ...goodFacts, width: 1440, height: 2560 }, {}).some((r) => r.check === 'resolution_cap'), false);
+  // loudness: quiet side is a WARN with the honest wording + loudnorm fix; only
+  // clipping (TP>0) and over-loud (I>-2) hard-FAIL.
+  const quiet = buildCheckRows({ ...goodFacts, loudness: { I: -30, TP: -20 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check quiet master WARN not FAIL', [quiet.status, quiet.reason.includes('no platform documents -14'), quiet.reason.includes('quiet master'), /--loudnorm$/.test(quiet.fix)], ['WARN', true, true, true]);
+  const clip0 = buildCheckRows({ ...goodFacts, loudness: { I: -30, TP: 0.5 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check clipping TP>0 still FAILs', [clip0.status, clip0.reason.includes('clipping')], ['FAIL', true]);
+  const overLoud = buildCheckRows({ ...goodFacts, loudness: { I: -1.5, TP: -3 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check over-loud I>-2 still FAILs', [overLoud.status, overLoud.reason.includes('over-loud')], ['FAIL', true]);
+  const mildLoud = buildCheckRows({ ...goodFacts, loudness: { I: -6, TP: -2 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check mild loud-side deviation is WARN', mildLoud.status, 'WARN');
+  const mildQuiet = buildCheckRows({ ...goodFacts, loudness: { I: -18, TP: -6 } }, { platform: 'shorts' }).find((r) => r.check === 'loudness');
+  eq('check within 6 LU still PASS', mildQuiet.status, 'PASS');
+  // size row: a cap with an unmeasurable size is a WARN, not an absent row.
+  const sizeUnknown = buildCheckRows({ ...goodFacts, sizeBytes: null }, { platform: 'reels' }).find((r) => r.check === 'size');
+  eq('check size unknown under a cap is WARN', [sizeUnknown.status, sizeUnknown.reason], ['WARN', 'could not measure (size unknown)']);
+  eq('check size row absent without a cap', buildCheckRows({ ...goodFacts, sizeBytes: null }, { platform: 'shorts' }).some((r) => r.check === 'size'), false);
+  // crop anchors: clean rejections outside [0,1]; byte-identical default filter; anchor math.
+  const anchorMsg = (raw) => { try { cropAnchor(raw, 'crop-x'); return ''; } catch (e) { return e.message; } };
+  eq('crop anchor rejects 1.5', /--crop-x must be a number between 0 and 1/.test(anchorMsg('1.5')), true);
+  eq('crop anchor rejects -0.1', anchorMsg('-0.1') !== '', true);
+  eq('crop anchor rejects junk', anchorMsg('middle') !== '', true);
+  eq('crop anchor accepts 0 and 1', [cropAnchor('0', 'crop-x'), cropAnchor('1', 'crop-y')], [0, 1]);
+  eq('crop anchor default when absent', [cropAnchor(null, 'crop-x'), cropAnchor(undefined, 'crop-y')], [0.5, 0.5]);
+  eq('crop filter default anchors byte-identical', cropAnchorFilter(0.5, 0.5), "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1");
+  eq('crop filter anchored right/bottom', cropAnchorFilter(1, 1), "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)':'(iw-min(iw,ih*9/16))*1':'(ih-min(ih,iw*16/9))*1',scale=1080:1920,setsar=1");
+  eq('crop filter anchored left/top', cropAnchorFilter(0, 0), "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)':'(iw-min(iw,ih*9/16))*0':'(ih-min(ih,iw*16/9))*0',scale=1080:1920,setsar=1");
+  eq('crop filter one-sided anchor keeps full expression', cropAnchorFilter(0.25, 0.5), "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)':'(iw-min(iw,ih*9/16))*0.25':'(ih-min(ih,iw*16/9))*0.5',scale=1080:1920,setsar=1");
+  // fingerprints: known-value hash anchors + window math + match logic.
+  const SHA_EMPTY = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';
+  const SHA_HELLO = '2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824';
+  eq('sha256 known vector (empty)', sha256Hex(Buffer.alloc(0)), SHA_EMPTY);
+  eq('sha256 known vector (hello)', sha256Hex(Buffer.from('hello')), SHA_HELLO);
+  eq('headTailHash small buffer hashes whole twice', headTailHash(Buffer.from('hello')), `${SHA_HELLO}:${SHA_HELLO}`);
+  eq('headTailHash empty buffer', headTailHash(Buffer.alloc(0)), `${SHA_EMPTY}:${SHA_EMPTY}`);
+  eq('headTailHash window math (region 5 of 11 bytes)', headTailHash(Buffer.from('hello world'), 5), `${sha256Hex(Buffer.from('hello'))}:${sha256Hex(Buffer.from('world'))}`);
+  eq('headTailHash window math (region 2 of 5 bytes)', headTailHash(Buffer.from('hello'), 2), `${sha256Hex(Buffer.from('he'))}:${sha256Hex(Buffer.from('lo'))}`);
+  const fpTmp = path.join(os.tmpdir(), `clipcut-selftest-fp-${Date.now()}.bin`);
+  fs.writeFileSync(fpTmp, Buffer.from('hello world'));
+  const fp = fingerprintFile(fpTmp);
+  fs.unlinkSync(fpTmp);
+  eq('fingerprintFile size + head/tail pair', [fp.size, fp.sha256_head_tail], [11, `${sha256Hex(Buffer.from('hello world'))}:${sha256Hex(Buffer.from('hello world'))}`]);
+  eq('fingerprintsMatch identical true', fingerprintsMatch(fp, { size: 11, sha256_head_tail: fp.sha256_head_tail }), true);
+  eq('fingerprintsMatch size differs false', fingerprintsMatch(fp, { size: 12, sha256_head_tail: fp.sha256_head_tail }), false);
+  eq('fingerprintsMatch hash differs false', fingerprintsMatch(fp, { size: 11, sha256_head_tail: `${SHA_HELLO}:${SHA_HELLO}` }), false);
+  eq('fingerprintsMatch absent side null', fingerprintsMatch(fp, null), null);
+  eq('fingerprintsMatch empty object null', fingerprintsMatch(fp, {}), null);
+  // verify step-runner: fail flips the verdict and cascades skips with reasons.
+  const vr = await runVerifySteps([
+    { name: 'ok', fn: async () => {} },
+    { name: 'skipped', fn: async () => ({ skip: 'because' }) },
+    { name: 'boom', fn: async () => { throw new Error('boom'); } },
+    { name: 'after', fn: async () => {} },
+  ]);
+  eq('verify runner rows classify', vr.rows.map((r) => [r.name, r.status]), [['ok', 'PASS'], ['skipped', 'SKIP'], ['boom', 'FAIL'], ['after', 'SKIP']]);
+  eq('verify runner skip carries reason', vr.rows[1].reason, 'because');
+  eq('verify runner fail carries reason', vr.rows[2].reason, 'boom');
+  eq('verify runner cascade names the failed step', vr.rows[3].reason, 'earlier step failed: boom');
+  eq('verify runner failed flag flips exit', vr.failed, true);
+  const vrOk = await runVerifySteps([{ name: 'ok', fn: async () => ({ note: 'detail' }) }]);
+  eq('verify runner all-pass is not failed', [vrOk.failed, vrOk.rows[0].note], [false, 'detail']);
   if (fails.length) { console.error(`\nselftest: ${fails.length} failure(s)`); return 2; }
   console.log('\nselftest: all checks passed');
   return 0;
@@ -2504,7 +2959,9 @@ segments+sheets, rate the sheets, keep the winners as a clips.json plan, then
 cut/tighten/export/check/preview those. cut, export and tighten write their media
 ATOMICALLY: a verified hidden temp file is renamed over the output only after it
 passes a post-write probe (duration / faststart box walk), so a failed encode never
-replaces good output with a broken file.
+replaces good output with a broken file. probe records a per-file fingerprint
+(size + head/tail sha256) that cut can check (--strict refuses a swapped source).
+verify <video> runs the whole local pipeline on a real file as a self-test.
 
 Commands:
   doctor [--ping]
@@ -2567,13 +3024,17 @@ Commands:
                        credentials BEFORE any frame extraction, same cost gate / pacing /
                        incremental writes as rate; auto = local when available, else
                        clairic. Default field: {"onscreen_text": {"type": "text"}}.
-  cut <video> --plan clips.json [--mode lossless|accurate] [--tolerance 0.5] [--outdir clips/]
+  cut <video> --plan clips.json [--mode lossless|accurate] [--tolerance 0.5] [--outdir clips/] [--strict]
                        The source is probed and the plan validated BEFORE any previous
                        output is cleared — a corrupt source never empties --outdir. The
                        dir may hold earlier tool-named clip outputs (<slug>.mp4 and the
                        <slug>_<platform>_<variant>.mp4 family): only the stale report is
                        cleared upfront; clips are replaced by ATOMIC verified writes.
-                       Lossless first: -ss before -i + -c copy +
+                       FINGERPRINT: when the plan carries one (copied from probe.json's
+                       "fingerprint": size + head/tail sha256), it is compared to the
+                       actual file — a mismatch (same path/duration, different bytes)
+                       prints a loud warning; --strict turns it into exit 2 BEFORE any
+                       cutting. Lossless first: -ss before -i + -c copy +
                        -avoid_negative_ts make_zero, then the ACTUAL output duration is
                        measured with ffprobe; when the error exceeds --tolerance
                        (seconds) OR the source is VFR, the clip is re-encoded accurately
@@ -2610,13 +3071,19 @@ Commands:
                        everything through) — the atomic post-write duration check
                        catches such a build and writes nothing.
   export <clip> --platform youtube|shorts|tiktok|reels|x|creator
-         [--variant original|9x16-crop|9x16-blur] [--loudnorm] [--out exports/]
+         [--variant original|9x16-crop|9x16-blur] [--crop-x 0.5] [--crop-y 0.5]
+         [--loudnorm] [--out exports/]
                        original: ensure the shared platform baseline — faststart + even
                        dimensions + h264/yuv420p (stream-copy remux when already
                        compliant; re-encode crf 18 when odd, non-H.264 or non-yuv420p). 9x16-crop:
                        crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',scale=1080:1920,setsar=1
                        — a bounded crop, so ANY aspect (portrait/taller-than-9:16,
-                       landscape, square) fills 1080x1920. 9x16-blur: blurred cover
+                       landscape, square) fills 1080x1920. --crop-x/--crop-y (0..1,
+                       default 0.5) ANCHOR the crop window in the leftover region:
+                       x=(iw-out_w)*crop-x, y=(ih-out_h)*crop-y — 0 pins the window to
+                       the left/top edge, 1 to the right/bottom edge, 0.5 is the exact
+                       historical center crop. Anchors apply to 9x16-crop only (clean
+                       error elsewhere). 9x16-blur: blurred cover
                        background + centered foreground; a source taller than 9:16 gets
                        a warning that vertical content is cropped. All re-encode paths
                        add -movflags +faststart and yuv420p. --loudnorm runs a two-pass
@@ -2626,25 +3093,35 @@ Commands:
                        shorts >180s (verified cap); tiktok >=570s, reels >180s,
                        x >140s (community-reported, unverified); creator >90s (generic
                        guidance); vertical platforms also warn when the output is not
-                       9:16; youtube has no duration warn. The output is written
+                       9:16 (display dimensions — rotation metadata honored); youtube
+                       has no duration warn. The output is written
                        atomically (verified temp, then rename). Exit 1 on any platform
                        warning. Output name: <slug>_<platform>_<variant>.mp4.
   check <file> [--platform youtube|shorts|tiktok|reels|x|creator] [--out check-report.json]
                        Compliance verification — the final gate after export. Rows:
-                       duration, aspect, resolution (divisible-by-2), fps + VFR/CFR,
-                       codec, pix_fmt, audio presence/codec, sample rate, faststart
-                       (moov-box walk), loudness (measure-only I/TP), silent audio, and
-                       size where the shared table carries a cap. Each row is
-                       PASS/WARN/FAIL with kind "format"|"judgement" (duration/aspect/
-                       loudness are judgement), a plain-language reason when not PASS,
-                       and a fix naming the exact clipcut command when one exists
-                       (e.g. "clipcut export <file> --platform shorts --variant
-                       9x16-crop", "clipcut tighten <file>"). UNMEASURABLE facts (probe
-                       fails, no audio stream, silent track) are WARN "could not
-                       measure" — never PASS. Without --platform, judgement rows are
-                       evaluated against the generic creator profile and downgrade to
-                       WARN; format rows still enforce. Any FAIL exits 1. Writes
-                       check-report.json + a human summary.
+                       duration, aspect (rotation-aware: display dimensions after
+                       rotation metadata, so a tkhd-rotated file is judged by what it
+                       shows), resolution (divisible-by-2), resolution_cap
+                       (informational WARN when the short side exceeds the max the
+                       platform's row marks — shorts 1080p verified, x 1080p and
+                       tiktok "4K compressed" community; never a hard gate), fps +
+                       VFR/CFR, codec, pix_fmt, audio presence/codec, sample rate,
+                       faststart (moov-box walk), loudness (measure-only I/TP; FAIL
+                       only for clipping TP>0 or over-loud I>-2 LUFS — a QUIET master
+                       is a WARN with the loudnorm fix), silent audio, and size where
+                       the shared table carries a cap (unmeasurable size = WARN
+                       "could not measure (size unknown)", never an absent row). Each
+                       row is PASS/WARN/FAIL with kind "format"|"judgement"
+                       (duration/aspect/loudness are judgement), a plain-language
+                       reason when not PASS, and a fix naming the exact clipcut
+                       command when one exists (e.g. "clipcut export <file>
+                       --platform shorts --variant 9x16-crop", "clipcut tighten
+                       <file>"). UNMEASURABLE facts (probe fails, no audio stream,
+                       silent track) are WARN "could not measure" — never PASS.
+                       Without --platform, judgement rows are evaluated against the
+                       generic creator profile and downgrade to WARN; format rows
+                       still enforce. Any FAIL exits 1. Writes check-report.json + a
+                       human summary.
   preview <clip> [--source <video> --start S --end E] [--probe probe.json] [--out preview/]
                        FREE, informational (exit 0 = ok, 2 = error). Writes
                        <slug>_preview.png (6-frame contact sheet), <slug>_3s.mp4 (first
@@ -2664,6 +3141,22 @@ Commands:
                        (0 valid, 1 warnings only, 2 invalid). Unknown platform ids are
                        an open list: they map to the generic creator profile with a
                        warning, not an error.
+  verify <video> [--net]
+                       Real-footage self-test: runs the REAL pipeline commands on the
+                       user's own file — probe (incl. fingerprint) -> segments (>=1
+                       candidate, or a clean SKIP reason on a <15s file) -> sheets ->
+                       cut a short slice from the first segment (duration_error_ms
+                       reported) -> tighten on the slice (SKIP with a reason when it
+                       has no audio / no silence) -> export 9x16-crop with the default
+                       crop anchor (dims verified 1080x1920) -> check the export (WARNs
+                       fine, FAILs fail the step) -> preview (files exist). Network
+                       steps SKIP with "no credentials"/"pass --net" unless env
+                       credentials exist AND --net is given — then ONE clef-flash ping
+                       + ONE clairic image, cost gate respected. Per-step
+                       PASS/FAIL/SKIP-with-reason + one summary line; exit 1 on any
+                       FAIL. Everything runs in a temp dir under os.tmpdir() that is
+                       ALWAYS cleaned — nothing touches the project. Run it once per
+                       machine and after ffmpeg upgrades.
   --selftest           Built-in unit checks (no network, no ffmpeg needed).
 
 questions.json schema (for rate) — identical to the sibling video-qa skill:
@@ -2694,6 +3187,10 @@ clips.json schema (for cut):
     "video": "/abs/path/talk.mp4",       // optional: recorded source — cut warns when
                                          // the given video (or duration) differs
     "duration": 754.2,                   // optional: recorded source duration (seconds)
+    "fingerprint": {                     // optional: copied from probe.json — cut
+      "size": 12345,                     // compares it to the actual file and warns on
+      "sha256_head_tail": "a..:b.."      // a mismatch; --strict refuses to cut (exit 2)
+    },
     "clips": [
       {
         "slug": "hook",                    // required: filename-safe id [A-Za-z0-9._-], unique
@@ -2723,12 +3220,13 @@ Examples:
   node clipcut.mjs read talk.mp4 --segments segments.json --engine auto
   node clipcut.mjs cut talk.mp4 --plan clips.json --tolerance 0.5
   node clipcut.mjs tighten clips/hook.mp4
-  node clipcut.mjs export clips/hook.mp4 --platform shorts --variant 9x16-crop --loudnorm
+  node clipcut.mjs export clips/hook.mp4 --platform shorts --variant 9x16-crop --crop-x 1 --loudnorm
   node clipcut.mjs check exports/hook_shorts_9x16-crop.mp4 --platform shorts
-  node clipcut.mjs preview clips/hook.mp4 --source talk.mp4 --start 12.5 --end 58.2`;
+  node clipcut.mjs preview clips/hook.mp4 --source talk.mp4 --start 12.5 --end 58.2
+  node clipcut.mjs verify talk.mp4`;
 
 /** Flags that must be followed by a value; a missing/true value is a clean exit-2 error. */
-const VALUE_FLAGS = new Set(['out', 'scene-threshold', 'min', 'max', 'count', 'frames', 'sheets', 'segments', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'plan', 'mode', 'tolerance', 'outdir', 'platform', 'variant', 'file', 'source', 'start', 'end', 'probe', 'even-split', 'threshold', 'min-silence', 'margin', 'min-keep', 'max-cuts']);
+const VALUE_FLAGS = new Set(['out', 'scene-threshold', 'min', 'max', 'count', 'frames', 'sheets', 'segments', 'questions', 'fields', 'model', 'gateway', 'max-images', 'engine', 'plan', 'mode', 'tolerance', 'outdir', 'platform', 'variant', 'file', 'source', 'start', 'end', 'probe', 'even-split', 'threshold', 'min-silence', 'margin', 'min-keep', 'max-cuts', 'crop-x', 'crop-y']);
 
 export function parseArgs(argv) {
   const out = { _: [] };
@@ -2777,6 +3275,7 @@ async function main(argv) {
       case 'export': return await cmdExport(o._[1], o);
       case 'check': return await cmdCheck(o._[1], o);
       case 'preview': return await cmdPreview(o._[1], o);
+      case 'verify': return await cmdVerify(o._[1], o);
       case 'plan': return cmdPlan(o);
       default: throw new UserError(`Unknown command: ${cmd}. Run with --help.`);
     }
@@ -2795,6 +3294,6 @@ if (process.argv[1]) {
 if (invokedDirectly) main(process.argv.slice(2)).then((code) => { process.exitCode = code; });
 
 export {
-  cmdDoctor, cmdProbe, cmdSegments, cmdSheets, cmdRate, cmdRead, cmdCut, cmdTighten, cmdExport, cmdCheck, cmdPreview, cmdPlan,
+  cmdDoctor, cmdProbe, cmdSegments, cmdSheets, cmdRate, cmdRead, cmdCut, cmdTighten, cmdExport, cmdCheck, cmdPreview, cmdPlan, cmdVerify,
   main,
 };
