@@ -1,0 +1,79 @@
+{
+  "questions": {
+    "staging_order": {
+      "type": "score",
+      "instructions": "Cells are in time order, left-to-right, top-to-bottom, and carry no labels. Assume the elements are meant to arrive in a sensible reading order for this composition (e.g. background or main claim before supporting details). How far is this sequence from a clean one-at-a-time arrival order, where each element finishes arriving before the next one starts?",
+      "criteria": [
+        "Every element finishes arriving before the next one starts, in a sensible reading order",
+        "Order is correct, but one element is still settling as the next one starts",
+        "One element starts while the previous element is still visibly arriving",
+        "Two or more elements arrive at once, or an element arrives clearly out of order"
+      ]
+    },
+    "dead_frame": {
+      "type": "noul",
+      "instructions": "Is this frame essentially empty: a flat background with at most one small mark and nothing a viewer can read?"
+    },
+    "pop": {
+      "type": "noul",
+      "instructions": "This is a difference image of two consecutive frames inside a transition (not a hard cut). Bright areas changed between the two frames. Does a large part of the picture change in this single step, so that it would read as a pop or glitch instead of smooth motion?"
+    },
+    "abrupt_change": {
+      "type": "noul",
+      "instructions": "This is a difference image of two frames a few milliseconds apart. Bright areas changed. Does a large part of the picture change at once (a pop or a hard fill), instead of a small object moving?"
+    },
+    "overlap": {
+      "type": "noul",
+      "instructions": "Does any text sit on top of other text or on a busy graphic so that a word is hard to read, or does a moving shape or card cross a label?"
+    },
+    "legible_feed": {
+      "type": "noul",
+      "instructions": "This frame is shown at phone-feed size. Ignore decorative text that is part of an object, texture or background. All other on-screen text counts, including small labels, tags and numbers. Is any such word blurred, merged with another line, or too small to read without zooming?"
+    },
+    "ui_occlusion": {
+      "type": "noul",
+      "instructions": "This frame has translucent red boxes shaded over the APPROXIMATE areas where the platform's interface (buttons, captions, icons) typically covers the video (community-measured zones; exact placement varies by device and app version). Is any text or key graphic inside the shaded red zones?"
+    },
+    "text_integrity": {
+      "type": "noul",
+      "instructions": "Is any on-screen word partly hidden, split into two colours, overlapped by another word, or followed by a stray fragment of text, so that a word could be misread as another word or looks broken?"
+    },
+    "hierarchy": {
+      "type": "score",
+      "instructions": "How unclear is the reading order of this frame? Higher means worse.",
+      "criteria": [
+        "One obvious read path; tiers clearly separated by size, weight and space",
+        "Clear order; tiers distinct; minor crowding",
+        "Readable order, but two tiers look nearly the same size or weight",
+        "Entry point exists but the second read is ambiguous",
+        "No clear entry point; elements compete equally"
+      ]
+    }
+  },
+  "pass": {
+    "staging_order": 0.67,
+    "dead_frame": 0.5,
+    "pop": 0.5,
+    "abrupt_change": 0.5,
+    "overlap": 0.5,
+    "legible_feed": 0.5,
+    "ui_occlusion": 0.5,
+    "text_integrity": 0.5,
+    "hierarchy": 0.5
+  },
+  "escalate_margin": 0.3,
+  "severity": {
+    "staging_order": "major",
+    "dead_frame": "minor",
+    "pop": "major",
+    "abrupt_change": "major",
+    "overlap": "major",
+    "legible_feed": "blocker",
+    "ui_occlusion": "major",
+    "text_integrity": "major",
+    "hierarchy": "major"
+  },
+  "escalate_only": [
+    "hierarchy"
+  ]
+}
