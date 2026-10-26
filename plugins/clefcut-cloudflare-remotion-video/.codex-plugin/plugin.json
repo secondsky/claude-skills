@@ -1,6 +1,6 @@
 {
   "name": "clefcut-cloudflare-remotion-video",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "description": "Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering, checking, fixing, or delivering a Remotion video in any project.",
   "author": {
     "name": "Claude Skills Maintainers",
