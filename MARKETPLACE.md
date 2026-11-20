@@ -4,7 +4,7 @@
 > [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) by
 > `scripts/generate-marketplace.sh` (invoked via `scripts/sync-plugins.sh`).
 
-**145 plugins** · marketplace version **3.9.0** · generated 2026-09-17
+**146 plugins** · marketplace version **3.10.0** · generated 2026-10-20
 
 ## Installing
 
@@ -196,13 +196,14 @@ Multi-skill plugins (for example `bun` or `cloudflare-workers`) install all of t
 | [`test-quality-analysis`](plugins/test-quality-analysis) | Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality. |
 | [`vitest-testing`](plugins/vitest-testing) | Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects. |
 
-### tooling (27)
+### tooling (28)
 
 | Plugin | Description |
 | --- | --- |
 | [`bun`](plugins/bun) | Comprehensive Bun runtime toolkit covering runtime, package manager, bundler, testing, HTTP servers, WebSockets, databases, framework integrations (Hono, Next.js, Nuxt, TanStack Start, SvelteKit), deployment, and Node.js compatibility. |
 | [`claude-code-bash-patterns`](plugins/claude-code-bash-patterns) | Claude Code Bash tool patterns with hooks, automation, git workflows. Use for PreToolUse hooks, command chaining, CLI orchestration, custom commands, or encountering bash permissions, command failures, security guards, hook configurations. |
 | [`claude-hook-writer`](plugins/claude-hook-writer) | Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks. |
+| [`clefcut-cloudflare-remotion-video`](plugins/clefcut-cloudflare-remotion-video) | Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering, checking, fixing, or delivering a Remotion video in any project. |
 | [`code-review`](plugins/code-review) | Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests. |
 | [`delegate-my-work`](plugins/delegate-my-work) | Interview employees to find recurring work, map accessible AI and automation tools, and spec each loop with preferred and fallback routes. |
 | [`dependency-upgrade`](plugins/dependency-upgrade) | Secure dependency upgrades with supply chain protection, cooldowns, staged rollout, and Socket CLI integration. Use when upgrading deps, configuring security policies, or preventing supply chain attacks. |

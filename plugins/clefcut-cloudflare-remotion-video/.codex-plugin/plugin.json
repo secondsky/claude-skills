@@ -1,0 +1,39 @@
+{
+  "name": "clefcut-cloudflare-remotion-video",
+  "version": "3.10.0",
+  "description": "Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering, checking, fixing, or delivering a Remotion video in any project.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "keywords": [
+    "clefcut-cloudflare-remotion-video",
+    "clefcut",
+    "cloudflare",
+    "remotion",
+    "video",
+    "tooling",
+    "workflow",
+    "clairic",
+    "clef"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Clefcut Cloudflare Remotion Video",
+    "shortDescription": "Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering,",
+    "longDescription": "Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering, checking, fixing, or delivering a Remotion video in any project.",
+    "developerName": "Claude Skills Maintainers",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me with Clefcut Cloudflare Remotion Video.",
+      "Show me best practices for Clefcut Cloudflare Remotion Video.",
+      "Guide me through using Clefcut Cloudflare Remotion Video effectively."
+    ]
+  }
+}
