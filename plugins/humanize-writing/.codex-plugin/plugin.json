@@ -1,6 +1,6 @@
 {
   "name": "humanize-writing",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "description": "Rewrites AI-sounding text so it reads like a human wrote it. Use when the user says 'sounds like AI/ChatGPT,' 'too robotic,' or 'humanize this.' Fixes AI vocabulary, inflated significance, hedging, robotic rhythm, and formulaic structure.",
   "author": {
     "name": "Claude Skills Maintainers",

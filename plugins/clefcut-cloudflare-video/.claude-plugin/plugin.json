@@ -1,0 +1,23 @@
+{
+  "name": "clefcut-cloudflare-video",
+  "description": "Cut long videos into clips for YouTube, YouTube Shorts, TikTok, Instagram Reels, X (Twitter), and similar creator platforms. Free local scene, silence, and OCR analysis; Cloudflare CLEF rating; verified ffmpeg cuts. Use when repurposing long video.",
+  "author": {
+    "name": "Claude Skills Maintainers",
+    "email": "maintainers@example.com"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/secondsky/claude-skills",
+  "version": "3.11.0",
+  "keywords": [
+    "clefcut-cloudflare-video",
+    "clefcut",
+    "cloudflare",
+    "video",
+    "tooling",
+    "workflow",
+    "clef",
+    "ocr",
+    "tiktok",
+    "youtube"
+  ]
+}

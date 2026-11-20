@@ -270,6 +270,17 @@
       "category": "Developer Tools"
     },
     {
+      "name": "clefcut-cloudflare-video",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clefcut-cloudflare-video"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
       "name": "cloudflare-agents",
       "source": {
         "source": "local",

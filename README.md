@@ -1,6 +1,6 @@
 # Claude Code Skills Collection
 
-**145 production-ready skills for Claude Code CLI**
+**147 production-ready skills for Claude Code CLI**
 
 Version 3.9.0 | Last Updated: 2026-09-09
 
@@ -45,7 +45,7 @@ The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/ma
 
 ### Codex CLI Installation
 
-This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 145 plugins, so Codex CLI can install them natively:
+This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 147 plugins, so Codex CLI can install them natively:
 
 ```bash
 # Add the marketplace (from GitHub)
@@ -94,7 +94,7 @@ skills.sh runs every published skill through three scanners (Gen Agent Trust Hub
 
 ## Repository Structure
 
-This repository contains **145 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **147 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -108,7 +108,7 @@ This repository contains **145 production-tested skills** for Claude Code, each 
 
 ---
 
-## Available Skills (145 Individual Skills)
+## Available Skills (147 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -247,7 +247,7 @@ plugins/[plugin-name]/
 Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
 
 **What this means:**
-- Not all 145 skills may be visible in Claude's context at once
+- Not all 147 skills may be visible in Claude's context at once
 - Skills are loaded based on relevance and available token budget
 - You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
 
@@ -260,7 +260,7 @@ To verify which skills are currently loaded:
 "Check what skills/plugins you see in your system prompt"
 ```
 
-Claude will report something like: "85 of 145 skills visible due to token limits"
+Claude will report something like: "85 of 147 skills visible due to token limits"
 
 ### Workaround: Increase Token Budget
 
@@ -288,7 +288,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 | **Typical Errors** | 2-4 per service | 0 (prevented) | **100%** |
 | **Setup Time** | 2-4 hours | 15-45 minutes | **~80%** |
 
-**Across all 145 skills**: 400+ documented errors prevented.
+**Across all 147 skills**: 400+ documented errors prevented.
 
 ---
 
