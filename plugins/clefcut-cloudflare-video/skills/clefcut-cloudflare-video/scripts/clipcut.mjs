@@ -1526,7 +1526,7 @@ async function cmdDoctor(o) {
   console.log(`CLOUDFLARE_API_TOKEN  : ${c.token ? `set (from ${envSource('CLOUDFLARE_API_TOKEN')})` : 'missing'}`);
   if (!c.accountId) problems.push('CLOUDFLARE_ACCOUNT_ID missing (needed for rate, read --engine clairic and doctor --ping)');
   if (!c.token) problems.push('CLOUDFLARE_API_TOKEN missing (needed for rate, read --engine clairic and doctor --ping)');
-  console.log(`ai gateway            : ${c.gateway ? `configured (${c.gateway})` : 'not configured (direct Workers AI)'}`);
+  console.log(`ai gateway            : ${c.gateway ? `configured (from ${envSource('CLEFCUT_GATEWAY_ID')})` : 'not configured (direct Workers AI)'}`);
   try {
     const t = await locate();
     if (t.version) console.log(`ffmpeg                : ${t.ffmpeg} (source: ${t.source}) — ${t.version}`);
