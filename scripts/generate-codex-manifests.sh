@@ -89,7 +89,7 @@ map_codex_category() {
 
 # -----------------------------------------------------------------------------
 # Convert kebab-case name → Title Case display name
-# e.g. "cloudflare-d1" → "Cloudflare D1"
+# e.g. "gemini-cli" → "Gemini Cli"
 # -----------------------------------------------------------------------------
 to_display_name() {
   local name="$1"

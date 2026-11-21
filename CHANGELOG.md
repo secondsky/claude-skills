@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [3.12.0] - 2026-11-21
+
+### Removed
+
+- **25 legacy plugins.** The full Cloudflare set — `cloudflare-workers` (10 skills), `cloudflare-d1`, `cloudflare-r2`, `cloudflare-kv`, `cloudflare-workers-ai`, `cloudflare-vectorize`, `cloudflare-queues`, `cloudflare-workflows`, `cloudflare-durable-objects`, `cloudflare-agents`, `cloudflare-mcp-server`, `cloudflare-turnstile`, `cloudflare-nextjs`, `cloudflare-cron-triggers`, `cloudflare-email-routing`, `cloudflare-hyperdrive`, `cloudflare-images`, `cloudflare-browser-rendering`, `cloudflare-zero-trust-access`, `cloudflare-manager`, `cloudflare-sandbox` — plus `better-auth`, `firecrawl-scraper`, `mcp-dynamic-orchestrator`, and `mcp-management`. The collection narrows from 147 to **122 plugins (154 skills)**. The recently added `clefcut-cloudflare-video` and `clefcut-cloudflare-remotion-video` plugins are kept. Docs, category rules, and marketplace manifests updated accordingly.
+
+### Changed
+
+- **Version bump 3.11.0 → 3.12.0** — all 122 plugins, both marketplaces, `package.json`, and regenerated Codex manifests.
+
 ## [3.11.0] - 2026-10-20
 
 ### Added
