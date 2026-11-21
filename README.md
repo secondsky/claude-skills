@@ -1,7 +1,6 @@
 # Claude Code Skills Collection
 
-**145 production-ready skills for Claude Code CLI**
-**120 production-ready skills for Claude Code CLI**
+**147 production-ready skills for Claude Code CLI**
 
 Version 3.9.0 | Last Updated: 2026-09-09
 
@@ -25,7 +24,6 @@ These plugins ship as Claude Code marketplace plugins (`.claude-plugin/` manifes
 ---
 
 A curated collection of battle-tested skills for building modern web applications with Cloudflare, AI integrations, React, Tailwind, and more.
-A curated collection of battle-tested skills for building modern web applications with AI integrations, React, Tailwind, and more.
 
 ---
 
@@ -41,15 +39,13 @@ A curated collection of battle-tested skills for building modern web application
 /plugin install cloudflare-d1@claude-skills
 /plugin install tailwind-v4-shadcn@claude-skills
 /plugin install gemini-cli@claude-skills
-/plugin install hono-routing@claude-skills
 ```
 
 The authoritative catalog is [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json), summarized in the category table below. A human-readable catalog is auto-generated in [MARKETPLACE.md](MARKETPLACE.md).
 
 ### Codex CLI Installation
 
-This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 145 plugins, so Codex CLI can install them natively:
-This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 120 plugins, so Codex CLI can install them natively:
+This repo generates `.codex-plugin/` manifests and a `.agents/plugins/marketplace.json` for all 147 plugins, so Codex CLI can install them natively:
 
 ```bash
 # Add the marketplace (from GitHub)
@@ -71,28 +67,21 @@ Skills are auto-discovered from each plugin's `skills/` directory — the same `
 ```bash
 # Install one skill (auto-detects your agent)
 npx skills add secondsky/claude-skills --skill cloudflare-d1
-npx skills add secondsky/claude-skills --skill tailwind-v4-shadcn
 
 # Install several specific skills
 npx skills add secondsky/claude-skills --skill cloudflare-d1 --skill tailwind-v4-shadcn
-npx skills add secondsky/claude-skills --skill tailwind-v4-shadcn --skill gemini-cli
 
 # Try a skill once without installing (pipes its prompt to your agent)
 npx skills use secondsky/claude-skills@cloudflare-d1 | claude
-npx skills use secondsky/claude-skills@tailwind-v4-shadcn | claude
 
 # Target a specific agent explicitly
 npx skills add secondsky/claude-skills --skill cloudflare-d1 --agent codex
-npx skills add secondsky/claude-skills --skill tailwind-v4-shadcn --agent codex
 
 # List what's installed, search, update, remove
 npx skills ls -g
 npx skills find cloudflare
 npx skills update cloudflare-d1
 npx skills remove cloudflare-d1
-npx skills find tailwind
-npx skills update tailwind-v4-shadcn
-npx skills remove tailwind-v4-shadcn
 ```
 
 > **Bulk install note:** `npx skills add secondsky/claude-skills --all` installs every discovered skill at once, but discovery walks skills.sh's standard container directories (`skills/`, `.claude/skills/`, …). This repo nests skills under `plugins/<name>/skills/<skill>/`, so `--all` may not pick up everything in one pass — install the skills you need by name with `--skill`, or run `npx skills add secondsky/claude-skills -l` to list what it finds.
@@ -105,8 +94,7 @@ skills.sh runs every published skill through three scanners (Gen Agent Trust Hub
 
 ## Repository Structure
 
-This repository contains **145 production-tested skills** for Claude Code, each focused on a specific technology or capability.
-This repository contains **120 production-tested skills** for Claude Code, each focused on a specific technology or capability.
+This repository contains **147 production-tested skills** for Claude Code, each focused on a specific technology or capability.
 
 **Individual Skills**: Each skill is a standalone unit with:
 - `SKILL.md` - Core knowledge and guidance
@@ -120,8 +108,7 @@ This repository contains **120 production-tested skills** for Claude Code, each 
 
 ---
 
-## Available Skills (145 Individual Skills)
-## Available Skills (120 Individual Skills)
+## Available Skills (147 Individual Skills)
 
 Each skill is individually installable. Install only the skills you need.
 
@@ -134,23 +121,18 @@ Each skill is individually installable. Install only the skills you need.
 | **tooling** | 27 | turborepo, plan-interview, code-review, tech-debt, humanize-writing |
 | **frontend** | 26 | nuxt-v4, nuxt-v5, tailwind-v4-shadcn, tanstack-query, nuxt-studio, maz-ui, threejs |
 | **cloudflare** | 21 | cloudflare-d1, cloudflare-workers-ai, cloudflare-agents |
-| **tooling** | 25 | turborepo, plan-interview, code-review, tech-debt, humanize-writing |
 | **api** | 16 | api-design-principles, graphql-implementation |
-| **web** | 9 | hono-routing, web-performance-optimization |
 | **ai** | 7 | gemini-cli, ml-model-training, tanstack-ai |
 | **web** | 10 | hono-routing, firecrawl-scraper, web-performance |
 | **security** | 6 | csrf-protection, xss-prevention, cybersecurity |
 | **mobile** | 5 | react-native-app, react-native-skills |
-| **mobile** | 5 | react-native-skills, app-store-deployment |
 | **woocommerce** | 4 | woocommerce-backend-dev |
 | **testing** | 4 | vitest-testing, playwright-testing |
 | **design** | 4 | design-review, design-system-creation |
 | **auth** | 4 | better-auth |
-| **auth** | 3 | oauth-implementation, api-authentication, session-management |
 | **architecture** | 3 | microservices-patterns, architecture-patterns |
 | **data** | 2 | recommendation-engine, recommendation-system |
 | **cms** | 2 | hugo, wordpress-plugin-core |
-| **seo** | 2 | seo-optimizer, seo-keyword-cluster-builder |
 | **database** | 1 | drizzle-orm-d1 |
 | **seo** | 2 | seo-optimizer, seo-keyword-cluster-builder |
 | **documentation** | 1 | technical-specification |
@@ -165,14 +147,11 @@ Claude Code automatically checks `~/.claude/skills/` for relevant skills before 
 
 ```
 User: "Set up a Cloudflare Worker with D1 database"
-User: "Set up a new Tailwind v4 and shadcn UI project"
            ↓
 Claude: [Checks skills automatically]
            ↓
 Claude: "Found cloudflare-d1 skills.
          These prevent 12 documented errors. Use them?"
-Claude: "Found tailwind-v4-shadcn skill.
-         These prevent documented setup errors. Use them?"
            ↓
 User: "Yes"
            ↓
@@ -268,7 +247,7 @@ plugins/[plugin-name]/
 Claude Code has a **15,000 character limit** for the total size of skill descriptions in the system prompt. This limit also applies to commands and agents.
 
 **What this means:**
-- Not all 145 skills may be visible in Claude's context at once
+- Not all 147 skills may be visible in Claude's context at once
 - Skills are loaded based on relevance and available token budget
 - You can verify how many skills Claude currently sees by asking: *"How many skills do you see in your system prompt?"*
 
@@ -281,7 +260,7 @@ To verify which skills are currently loaded:
 "Check what skills/plugins you see in your system prompt"
 ```
 
-Claude will report something like: "85 of 145 skills visible due to token limits"
+Claude will report something like: "85 of 147 skills visible due to token limits"
 
 ### Workaround: Increase Token Budget
 
@@ -309,7 +288,7 @@ This gives you approximately **2x more skill visibility** in the system prompt.
 | **Typical Errors** | 2-4 per service | 0 (prevented) | **100%** |
 | **Setup Time** | 2-4 hours | 15-45 minutes | **~80%** |
 
-**Across all 145 skills**: 400+ documented errors prevented.
+**Across all 147 skills**: 400+ documented errors prevented.
 
 ---
 

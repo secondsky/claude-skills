@@ -215,6 +215,17 @@
       "category": "Frontend"
     },
     {
+      "name": "better-auth",
+      "source": {
+        "source": "local",
+        "path": "./plugins/better-auth"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Security & Authentication"
+    },
+    {
       "name": "bun",
       "source": {
         "source": "local",
@@ -241,6 +252,259 @@
       "source": {
         "source": "local",
         "path": "./plugins/claude-hook-writer"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "clefcut-cloudflare-remotion-video",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clefcut-cloudflare-remotion-video"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "clefcut-cloudflare-video",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clefcut-cloudflare-video"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-agents",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-agents"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-browser-rendering",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-browser-rendering"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-cron-triggers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-cron-triggers"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-d1",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-d1"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-durable-objects",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-durable-objects"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-email-routing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-email-routing"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-hyperdrive",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-hyperdrive"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-images",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-images"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-kv",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-kv"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-mcp-server",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-mcp-server"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-nextjs",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-nextjs"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-queues",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-queues"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-r2",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-r2"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-sandbox",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-sandbox"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-turnstile",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-turnstile"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-vectorize",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-vectorize"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workers",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workers"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workers-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workers-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-workflows",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-workflows"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "cloudflare-zero-trust-access",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cloudflare-zero-trust-access"
       },
       "policy": {
         "installation": "AVAILABLE"
@@ -356,6 +620,17 @@
         "installation": "AVAILABLE"
       },
       "category": "Developer Tools"
+    },
+    {
+      "name": "firecrawl-scraper",
+      "source": {
+        "source": "local",
+        "path": "./plugins/firecrawl-scraper"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Web Development"
     },
     {
       "name": "frontend-design",
@@ -538,6 +813,28 @@
       "source": {
         "source": "local",
         "path": "./plugins/maz-ui"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "mcp-dynamic-orchestrator",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mcp-dynamic-orchestrator"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "mcp-management",
+      "source": {
+        "source": "local",
+        "path": "./plugins/mcp-management"
       },
       "policy": {
         "installation": "AVAILABLE"

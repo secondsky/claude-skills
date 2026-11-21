@@ -4,7 +4,7 @@
 > [`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json) by
 > `scripts/generate-marketplace.sh` (invoked via `scripts/sync-plugins.sh`).
 
-**120 plugins** · marketplace version **3.9.0** · generated 2026-09-26
+**147 plugins** · marketplace version **3.11.0** · generated 2026-10-20
 
 ## Installing
 
@@ -13,7 +13,7 @@
 /plugin install <plugin-name>@claude-skills
 ```
 
-Multi-skill plugins (for example `bun` or `nuxt-v4`) install all of their skills in one step.
+Multi-skill plugins (for example `bun` or `cloudflare-workers`) install all of their skills in one step.
 
 ## Catalog
 
@@ -58,13 +58,40 @@ Multi-skill plugins (for example `bun` or `nuxt-v4`) install all of their skills
 | [`health-check-endpoints`](plugins/health-check-endpoints) | Health check endpoints for liveness, readiness, dependency monitoring. Use for Kubernetes, load balancers, auto-scaling, or encountering probe failures, startup delays, dependency checks, timeout configuration errors. |
 | [`microservices-patterns`](plugins/microservices-patterns) | Design microservices architectures with service boundaries, event-driven communication, and resilience patterns. Use when building distributed systems, decomposing monoliths, or implementing microservices. |
 
-### auth (3)
+### auth (4)
 
 | Plugin | Description |
 | --- | --- |
 | [`api-authentication`](plugins/api-authentication) | Secure API authentication with JWT, OAuth 2.0, API keys. Use for authentication systems, third-party integrations, service-to-service communication, or encountering token management, security headers, auth flow errors. |
+| [`better-auth`](plugins/better-auth) | Skill for integrating Better Auth - comprehensive TypeScript authentication framework for Cloudflare D1, Next.js, Nuxt, and 15+ frameworks. Use when adding auth, encountering D1 adapter errors, or implementing OAuth/2FA/RBAC features. |
 | [`oauth-implementation`](plugins/oauth-implementation) | OAuth 2.0 and OpenID Connect authentication with secure flows. Use for third-party integrations, SSO systems, token-based API access, or encountering authorization code flow, PKCE, token refresh, scope management errors. |
 | [`session-management`](plugins/session-management) | Implements secure session management with JWT tokens, Redis storage, refresh flows, and proper cookie configuration. Use when building authentication systems, managing user sessions, or implementing secure logout functionality. |
+
+### cloudflare (21)
+
+| Plugin | Description |
+| --- | --- |
+| [`cloudflare-agents`](plugins/cloudflare-agents) | Build AI agents on Cloudflare Workers with MCP integration, tool use, and LLM providers. |
+| [`cloudflare-browser-rendering`](plugins/cloudflare-browser-rendering) | Cloudflare Browser Rendering with Puppeteer/Playwright. Use for screenshots, PDFs, web scraping, or encountering rendering errors, timeout issues, memory exceeded. |
+| [`cloudflare-cron-triggers`](plugins/cloudflare-cron-triggers) | Cloudflare Cron Triggers for scheduled Workers execution. Use for periodic tasks, scheduled jobs, or encountering handler not found, invalid cron expression, timezone errors. |
+| [`cloudflare-d1`](plugins/cloudflare-d1) | Cloudflare D1 serverless SQLite on edge. Use for databases, migrations, bindings, or encountering D1_ERROR, statement too long, too many requests queued errors. |
+| [`cloudflare-durable-objects`](plugins/cloudflare-durable-objects) | Cloudflare Durable Objects for stateful coordination and real-time apps. Use for chat, multiplayer games, WebSocket hibernation, or encountering class export, migration, alarm errors. |
+| [`cloudflare-email-routing`](plugins/cloudflare-email-routing) | Cloudflare Email Routing for receiving/sending emails via Workers. Use for email workers, forwarding, allowlists, or encountering Email Trigger errors, worker call failures, SPF issues. |
+| [`cloudflare-hyperdrive`](plugins/cloudflare-hyperdrive) | Cloudflare Hyperdrive for Workers-to-database connections with pooling and caching. Use for PostgreSQL/MySQL, Drizzle/Prisma, or encountering pool errors, TLS issues, connection refused. |
+| [`cloudflare-images`](plugins/cloudflare-images) | This skill should be used when the user asks to "upload images to Cloudflare", "implement direct creator upload", "configure image transformations", "optimize WebP/AVIF", "create image variants", "generate signed URLs", "add image watermarks", "integrate with Next.js/Remix", "configure webhooks", "debug CORS errors", "troubleshoot error 5408/9401-9413", or "build responsive images with Cloudflare Images API". |
+| [`cloudflare-kv`](plugins/cloudflare-kv) | Cloudflare Workers KV global key-value storage. Use for namespaces, caching, TTL, or encountering KV_ERROR, 429 rate limits, consistency issues. |
+| [`cloudflare-manager`](plugins/cloudflare-manager) | Comprehensive Cloudflare account management for deploying Workers, KV Storage, R2, Pages, DNS, and Routes. Use when deploying cloudflare services, managing worker containers, configuring KV/R2 storage, or setting up DNS/routing. Requires CLOUDFLARE_API_KEY in .env and Bun runtime with dependencies installed. |
+| [`cloudflare-mcp-server`](plugins/cloudflare-mcp-server) | Build MCP (Model Context Protocol) servers on Cloudflare Workers with tools, resources, and prompts. |
+| [`cloudflare-nextjs`](plugins/cloudflare-nextjs) | Deploy Next.js to Cloudflare Workers via the OpenNext adapter (@opennextjs/cloudflare). Use for SSR/ISR/SSG, App or Pages Router, getCloudflareContext, bindings (D1/R2/KV/AI/Hyperdrive), caching tiers, skew protection, multi-worker, custom worker, env vars, or worker size/runtime/keep_names/FinalizationRegistry/connection-scoping errors. |
+| [`cloudflare-queues`](plugins/cloudflare-queues) | This skill should be used when the user asks to "set up Cloudflare Queues", "create a message queue", "implement queue consumer", "process background jobs", "configure queue retry logic", "publish messages to queue", "implement dead letter queue", or encountering "queue timeout", "message retry", "throughput exceeded", "queue backlog" errors. |
+| [`cloudflare-r2`](plugins/cloudflare-r2) | Cloudflare R2 S3-compatible object storage with SQL, Iceberg, event notifications, and automation. Use for buckets, uploads, CORS, presigned URLs, large files, S3 migration, analytics, or encountering R2_ERROR, CORS failures, multipart issues. |
+| [`cloudflare-sandbox`](plugins/cloudflare-sandbox) | Cloudflare Sandboxes SDK for secure code execution in Linux containers at edge. Use for untrusted code, Python/Node.js scripts, AI code interpreters, git operations. |
+| [`cloudflare-turnstile`](plugins/cloudflare-turnstile) | Cloudflare Turnstile CAPTCHA-alternative bot protection. Use for forms, login security, API protection, or encountering CSP errors, token validation failures, error codes 100*/300*/600*. |
+| [`cloudflare-vectorize`](plugins/cloudflare-vectorize) | Cloudflare Vectorize vector database for semantic search and RAG. Use for vector indexes, embeddings, similarity search, or encountering dimension mismatches, filter errors. |
+| [`cloudflare-workers`](plugins/cloudflare-workers) | Comprehensive Cloudflare Workers platform guide covering runtime APIs, testing (Vitest), CI/CD, observability, framework integration, performance, security, and migration. Use for Workers development, deployment, debugging, or optimization. |
+| [`cloudflare-workers-ai`](plugins/cloudflare-workers-ai) | Cloudflare Workers AI for serverless GPU inference. Use for LLMs, text/image generation, embeddings, or encountering AI_ERROR, rate limits, token exceeded errors. |
+| [`cloudflare-workflows`](plugins/cloudflare-workflows) | Cloudflare Workflows for durable long-running execution. Use for multi-step workflows, retries, state persistence, or encountering NonRetryableError, execution failed errors. |
+| [`cloudflare-zero-trust-access`](plugins/cloudflare-zero-trust-access) | Cloudflare Zero Trust Access authentication for Workers. Use for JWT validation, service tokens, CORS, or encountering preflight blocking, cache race conditions, missing JWT headers. |
 
 ### cms (2)
 
@@ -169,13 +196,15 @@ Multi-skill plugins (for example `bun` or `nuxt-v4`) install all of their skills
 | [`test-quality-analysis`](plugins/test-quality-analysis) | Detect test smells, overmocking, flaky tests, and coverage issues. Analyze test effectiveness, maintainability, and reliability. Use when reviewing tests or improving test quality. |
 | [`vitest-testing`](plugins/vitest-testing) | Modern TypeScript/JavaScript testing with Vitest. Fast unit and integration tests, native ESM support, Vite-powered HMR, and comprehensive mocking. Use for testing TS/JS projects. |
 
-### tooling (25)
+### tooling (29)
 
 | Plugin | Description |
 | --- | --- |
 | [`bun`](plugins/bun) | Comprehensive Bun runtime toolkit covering runtime, package manager, bundler, testing, HTTP servers, WebSockets, databases, framework integrations (Hono, Next.js, Nuxt, TanStack Start, SvelteKit), deployment, and Node.js compatibility. |
 | [`claude-code-bash-patterns`](plugins/claude-code-bash-patterns) | Claude Code Bash tool patterns with hooks, automation, git workflows. Use for PreToolUse hooks, command chaining, CLI orchestration, custom commands, or encountering bash permissions, command failures, security guards, hook configurations. |
 | [`claude-hook-writer`](plugins/claude-hook-writer) | Expert guidance for writing secure, reliable, and performant Claude Code hooks - validates design decisions, enforces best practices, and prevents common pitfalls. Use when creating, reviewing, or debugging Claude Code hooks. |
+| [`clefcut-cloudflare-remotion-video`](plugins/clefcut-cloudflare-remotion-video) | Remotion video QA with Cloudflare CLEF and CLAIRIC. Use when rendering, checking, fixing, or delivering a Remotion video in any project. |
+| [`clefcut-cloudflare-video`](plugins/clefcut-cloudflare-video) | Cut long videos into clips for YouTube, YouTube Shorts, TikTok, Instagram Reels, X (Twitter), and similar creator platforms. Free local scene, silence, and OCR analysis; Cloudflare CLEF rating; verified ffmpeg cuts. Use when repurposing long video. |
 | [`code-review`](plugins/code-review) | Code review practices with technical rigor and verification gates. Use for receiving feedback, requesting code-reviewer subagent reviews, or preventing false completion claims in pull requests. |
 | [`delegate-my-work`](plugins/delegate-my-work) | Interview employees to find recurring work, map accessible AI and automation tools, and spec each loop with preferred and fallback routes. |
 | [`dependency-upgrade`](plugins/dependency-upgrade) | Secure dependency upgrades with supply chain protection, cooldowns, staged rollout, and Socket CLI integration. Use when upgrading deps, configuring security policies, or preventing supply chain attacks. |
@@ -186,6 +215,8 @@ Multi-skill plugins (for example `bun` or `nuxt-v4`) install all of their skills
 | [`idempotency-handling`](plugins/idempotency-handling) | Idempotent API operations with idempotency keys, Redis caching, DB constraints. Use for payment systems, webhook retries, safe retries, or encountering duplicate processing, race conditions, key expiry errors. |
 | [`logging-best-practices`](plugins/logging-best-practices) | Structured logging with proper levels, context, PII handling, centralized aggregation. Use for application logging, log management integration, distributed tracing, or encountering log bloat, PII exposure, missing context errors. |
 | [`maz-ui`](plugins/maz-ui) | Maz-UI v4 - Modern Vue & Nuxt component library with 50+ standalone components, composables, directives, theming, i18n, and SSR support. |
+| [`mcp-dynamic-orchestrator`](plugins/mcp-dynamic-orchestrator) | Dynamic MCP server discovery and code-mode execution via central registry. Use for multiple MCP integrations, tool discovery, progressive disclosure, or encountering MCP context bloat, changing server sets, large tool sets. |
+| [`mcp-management`](plugins/mcp-management) | Manage MCP servers - discover, analyze, execute tools/prompts/resources. Use for MCP integrations, capability discovery, tool filtering, programmatic execution, or encountering context bloat, server configuration, tool execution errors. |
 | [`nano-banana-prompts`](plugins/nano-banana-prompts) | Generate optimized prompts for Gemini 2.5 Flash Image (Nano Banana). Use for image generation, crafting photo prompts, art styles, or multi-turn editing workflows with best practices. |
 | [`plan-interview`](plugins/plan-interview) | Adaptive interview-driven spec generation with quality review. Automatically adjusts depth based on plan complexity. |
 | [`playwright`](plugins/playwright) | Browser automation and E2E testing with Playwright. Auto-detects dev servers, writes clean test scripts. Test pages, fill forms, take screenshots, check responsive design, validate UX, test login flows, check links, automate any browser task. Use for cross-browser testing, visual regression, API testing, component testing in TypeScript/JavaScript and Python projects. |
@@ -199,10 +230,11 @@ Multi-skill plugins (for example `bun` or `nuxt-v4`) install all of their skills
 | [`unknowns-discovery`](plugins/unknowns-discovery) | Discover and reduce task unknowns — blindspots, missing context, unknown unknowns — before committing to a plan, implementation, review, or merge. |
 | [`zod`](plugins/zod) | TypeScript-first schema validation and type inference. Use for validating API requests/responses, form data, env vars, configs, defining type-safe schemas with runtime validation, transforming data, generating JSON Schema for OpenAPI/AI, or encountering missing validation errors, type inference issues, validation error handling problems. Zero dependencies, compact core (~5kb gzipped; zod/mini ~1.9kb). |
 
-### web (9)
+### web (10)
 
 | Plugin | Description |
 | --- | --- |
+| [`firecrawl-scraper`](plugins/firecrawl-scraper) | Firecrawl v2.5 API for web scraping/crawling to LLM-ready markdown. Use for site extraction, dynamic content, or encountering JavaScript rendering, bot detection, content loading errors. |
 | [`hono-routing`](plugins/hono-routing) | Type-safe Hono APIs with routing, middleware, RPC. Use for request validation, Zod/Valibot validators, or encountering middleware type inference, validation hook, RPC errors. |
 | [`image-optimization`](plugins/image-optimization) | Optimizes images for web performance using modern formats, responsive techniques, and lazy loading strategies. Use when improving page load times, implementing responsive images, or preparing assets for production deployment. |
 | [`internationalization-i18n`](plugins/internationalization-i18n) | Implements multi-language support using i18next, gettext, or Intl API with translation workflows and RTL support. Use when building multilingual applications, handling date/currency formatting, or supporting right-to-left languages. |
