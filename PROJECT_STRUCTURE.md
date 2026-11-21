@@ -24,8 +24,7 @@ claude-skills/
 ├── .githooks/               # Git hooks (pre-commit, pre-push)
 ├── .github/                 # GitHub CI workflows & issue templates
 ├── docs/                    # Documentation (6 subdirectories)
-├── plugins/                 # 145 plugin directories containing 186 skills
-├── plugins/                 # 120 plugin directories containing 152 skills
+├── plugins/                 # 122 plugin directories containing 154 skills
 ├── schemas/                 # JSON schema validation files
 ├── scripts/                 # Automation & utility scripts
 ├── templates/               # Skill creation templates
@@ -42,13 +41,11 @@ Plugin marketplace configuration for Claude Code.
 
 ```
 .claude-plugin/
-├── marketplace.json                 # Main marketplace manifest (145 plugins)
-├── marketplace.json                 # Main marketplace manifest (120 plugins)
+├── marketplace.json                 # Main marketplace manifest (122 plugins)
 └── marketplace.json.backup-*        # Timestamped backups (auto-pruned to newest 5)
 ```
 
-**Purpose**: Defines 145 plugins containing 186 skills for Claude Code's plugin marketplace. Marketplace `.metadata.version`, all 145 plugin entries, all 145 `plugin.json` manifests, and `package.json` are lockstep at **3.9.0**.
-**Purpose**: Defines 120 plugins containing 152 skills for Claude Code's plugin marketplace. Marketplace `.metadata.version`, all 120 plugin entries, all 120 `plugin.json` manifests, and `package.json` are lockstep at **3.9.0**.
+**Purpose**: Defines 122 plugins containing 154 skills for Claude Code's plugin marketplace. Marketplace `.metadata.version`, all 122 plugin entries, all 122 `plugin.json` manifests, and `package.json` are lockstep at **3.12.0**.
 
 ---
 
@@ -140,11 +137,9 @@ docs/
 
 ---
 
-### `plugins/` (2,570 tracked files)
 ### `plugins/`
 
-**145 plugins** organizing **186 individual skills** by domain.
-**120 plugins** organizing **152 individual skills** by domain.
+**122 plugins** organizing **154 individual skills** by domain.
 
 Each plugin follows this structure:
 ```
@@ -169,26 +164,15 @@ plugins/<plugin-name>/
 | Plugin | Skills | Description |
 |--------|--------|-------------|
 | **bun** | 27 | Bundler, Cloudflare Workers, Docker, Drizzle, FFI, File I/O, Hono, Hot Reloading, HTTP Server, Jest Migration, Macros, Next.js, Nuxt, Package Manager, React SSR, Redis, Runtime, Shell, SQLite, SvelteKit, TanStack Start, Test Basics/Coverage/Lifecycle/Mocking, WebSocket Server, Workers |
-| **cloudflare-workers** | 10 | Workers runtime, security, performance, CI/CD, dev experience, frameworks, migration, multi-lang, observability, runtime APIs |
 | **nuxt-v4** | 4 | Nuxt 4 core, data, production, server |
 | **nuxt-v5** | 4 | Nuxt 5 core, data, production, server |
 
-All other 141 plugins contain exactly 1 skill. The 4 multi-skill plugins contribute 45 of the 186 SKILL.md files; the remaining 141 plugins contribute the other 141 (186 total).
-All other 117 plugins contain exactly 1 skill. The 3 multi-skill plugins contribute 35 of the 152 SKILL.md files; the remaining 117 plugins contribute the other 117 (152 total).
+All other 119 plugins contain exactly 1 skill. The 3 multi-skill plugins contribute 35 of the 154 SKILL.md files; the remaining 119 plugins contribute the other 119 (154 total).
 
-#### Plugin Categories (145 plugins)
-#### Plugin Categories (120 plugins)
+#### Plugin Categories (122 plugins)
 
 Official `category` field distribution (from `marketplace.json`): tooling (27), frontend (26), cloudflare (21), api (16), web (10), ai (7), security (6), mobile (5), woocommerce (4), testing (4), design (4), auth (4), architecture (3), seo (2), data (2), cms (2), documentation (1), database (1).
 Official `category` field distribution (from `marketplace.json`): frontend (26), tooling (25), api (16), web (9), ai (7), security (6), mobile (5), woocommerce (4), testing (4), design (4), auth (3), architecture (3), seo (2), data (2), cms (2), documentation (1), database (1).
-
-##### **Cloudflare** (21 plugins, 30 skills)
-- cloudflare-workers (10 skills), cloudflare-d1, cloudflare-r2, cloudflare-kv
-- cloudflare-workers-ai, cloudflare-vectorize, cloudflare-queues, cloudflare-workflows
-- cloudflare-durable-objects, cloudflare-agents, cloudflare-mcp-server, cloudflare-turnstile
-- cloudflare-nextjs, cloudflare-cron-triggers, cloudflare-email-routing
-- cloudflare-hyperdrive, cloudflare-images, cloudflare-browser-rendering
-- cloudflare-zero-trust-access, cloudflare-manager, cloudflare-sandbox
 
 ##### **Bun** (1 plugin, 27 skills)
 - bun (bundler, cloudflare-workers, docker, drizzle-integration, ffi, file-io, hono-integration, hot-reloading, http-server, jest-migration, macros, nextjs, nuxt, package-manager, react-ssr, redis, runtime, shell, sqlite, sveltekit, tanstack-start, test-basics, test-coverage, test-lifecycle, test-mocking, websocket-server, workers)
@@ -225,17 +209,14 @@ Official `category` field distribution (from `marketplace.json`): frontend (26),
 - security-headers-configuration, vulnerability-scanning, xss-prevention
 - cybersecurity
 
-##### **Auth** (4 plugins, 4 skills)
-- better-auth, oauth-implementation, session-management (plus api-authentication, listed under API)
+##### **Auth** (3 plugins, 3 skills)
+- oauth-implementation, session-management (plus api-authentication, listed under API)
 
 ##### **Database & ORM** (1 plugin, 1 skill)
 - drizzle-orm-d1
 
 ##### **Content Management** (2 plugins, 2 skills)
 - hugo, wordpress-plugin-core
-
-##### **MCP & Integration** (2 plugins, 2 skills)
-- mcp-dynamic-orchestrator, mcp-management
 
 ##### **Testing** (4 plugins, 4 skills)
 - jest-generator, playwright, vitest-testing
@@ -264,7 +245,8 @@ Official `category` field distribution (from `marketplace.json`): frontend (26),
 - github-project-automation, claude-code-bash-patterns, claude-hook-writer
 - systematic-debugging, root-cause-tracing, sequential-thinking
 - feature-dev, design-review, plan-interview
-- firecrawl-scraper, turborepo
+- clefcut-cloudflare-video, clefcut-cloudflare-remotion-video
+- turborepo
 - internationalization-i18n, logging-best-practices, idempotency-handling
 - graphql-implementation, websocket-implementation, health-check-endpoints
 - payment-gateway-integration, delegate-my-work, typescript-migration
@@ -378,7 +360,7 @@ Every production skill follows this canonical structure:
 │       {
 │         "name": "skill-name",
 │         "description": "...",
-│         "version": "3.9.0",
+│         "version": "3.12.0",
 │         "keywords": [...],
 │         "agents": [],
 │         "commands": []
@@ -459,7 +441,6 @@ Generated by `codemap --deps`:
 
 **Import Hubs** (most-referenced files):
 1. `plugins/drizzle-orm-d1/skills/drizzle-orm-d1/templates/schema` (5 importers)
-2. `plugins/mcp-dynamic-orchestrator/src/orchestrator` (2 importers)
 
 **Stats**: 402 files · 5,261 functions · 10 dependency roots
 
@@ -469,16 +450,14 @@ Generated by `codemap --deps`:
 
 This repository uses a two-tier architecture:
 
-### 145 Plugins (Marketplace Categories)
-### 120 Plugins (Marketplace Categories)
+### 122 Plugins (Marketplace Categories)
 - **What**: Logical groupings of related skills
 - **Where**: `plugins/<plugin-name>/`
 - **Purpose**: Organize skills by domain for discoverability
 - **Discovery**: Listed in `.claude-plugin/marketplace.json`
 - **Installation**: `/plugin install <plugin-name>@claude-skills`
 
-### 186 Skills (Individual Capabilities)
-### 152 Skills (Individual Capabilities)
+### 154 Skills (Individual Capabilities)
 - **What**: Individual knowledge units Claude loads
 - **Where**: `plugins/<plugin-name>/skills/<skill-name>/`
 - **Purpose**: Provide specific domain expertise
@@ -487,15 +466,12 @@ This repository uses a two-tier architecture:
 
 **Example**:
 ```
-Plugin: "bun" (1 of 145)
-Plugin: "bun" (1 of 120)
+Plugin: "bun" (1 of 122)
   ↓ contains
 Skills: bun-bundler, bun-cloudflare-workers, bun-docker, ... (27 total)
 
-Plugin: "cloudflare-workers" (1 of 145)
-Plugin: "nuxt-v4" (1 of 120)
+Plugin: "nuxt-v4" (1 of 122)
   ↓ contains
-Skills: cloudflare-workers-runtime-apis, cloudflare-workers-security, cloudflare-workers-performance, ... (10 total)
 Skills: nuxt-core, nuxt-data, nuxt-production, nuxt-server (4 total)
 ```
 
@@ -561,8 +537,7 @@ git commit -m "Add <skill-name> skill"
 # Cross-harness (Cursor, opencode, Gemini CLI, ...)
 npx skills add secondsky/claude-skills --skill <skill-name>
 
-# Codex CLI (native marketplace — .codex-plugin/ manifests for all 145 plugins)
-# Codex CLI (native marketplace — .codex-plugin/ manifests for all 120 plugins)
+# Codex CLI (native marketplace — .codex-plugin/ manifests for all 122 plugins)
 codex plugin marketplace add secondsky/claude-skills
 # Then /plugins in the Codex TUI to browse/install
 
@@ -621,12 +596,9 @@ find plugins/*/skills/*/templates -name "*.ts"
 | Path | Description |
 |------|-------------|
 | `plugins/bun/` | Bun skills (27 skills) |
-| `plugins/cloudflare-workers/` | Cloudflare Workers skills (10 skills) |
-| `plugins/cloudflare-d1/` | Cloudflare D1 database skill |
 | `plugins/nuxt-v4/` | Nuxt 4 skills (4 skills) |
 | `plugins/tailwind-v4-shadcn/` | Tailwind v4 and shadcn UI skill |
 | `plugins/nextjs/` | Next.js skill |
-| `plugins/better-auth/` | Better Auth skill (largest single-skill plugin by file count) |
 | `plugins/gemini-cli/` | Gemini CLI skill |
 | `templates/skill-skeleton/` | New skill template |
 | `scripts/sync-plugins.sh` | Main sync script |
@@ -643,11 +615,9 @@ find plugins/*/skills/*/templates -name "*.ts"
 
 **Repository**:
 - Total Size: 19.6MB (2,647 files, codemap tracked view)
-- Total Plugins: 145
-- Total Skills: 186
-- Total Plugins: 120
-- Total Skills: 152
-- Plugin/Package Version: 3.9.0
+- Total Plugins: 122
+- Total Skills: 154
+- Plugin/Package Version: 3.12.0
 
 **File Types** (top 5 by count, codemap view):
 - Markdown: 1,339 files (documentation)
@@ -659,10 +629,7 @@ find plugins/*/skills/*/templates -name "*.ts"
 **Skills by Category** (from marketplace.json `category` field):
 - Tooling: 27 plugins
 - Frontend: 26 plugins
-- Cloudflare: 21 plugins (30 skills)
-- Tooling: 25 plugins
 - API: 16 plugins
-- Web: 10 plugins
 - Web: 9 plugins
 - AI: 7 plugins
 - Security: 6 plugins
@@ -670,7 +637,6 @@ find plugins/*/skills/*/templates -name "*.ts"
 - WooCommerce: 4 plugins
 - Testing: 4 plugins
 - Design: 4 plugins
-- Auth: 4 plugins
 - Auth: 3 plugins
 - Architecture: 3 plugins
 - SEO: 2 plugins
@@ -681,15 +647,15 @@ find plugins/*/skills/*/templates -name "*.ts"
 
 **Largest Plugins** (by tracked file count):
 1. hugo (423 files)
-2. cloudflare-workers (118 files)
-3. nuxt-ui-v4 (79 files)
-4. react-best-practices (66 files)
-5. cloudflare-images (63 files)
-6. cloudflare-durable-objects (50 files)
-7. maz-ui (47 files)
-8. bun (47 files)
-9. better-auth (46 files)
-10. react-native-skills (45 files)
+2. nuxt-ui-v4 (79 files)
+3. react-best-practices (66 files)
+4. maz-ui (47 files)
+5. bun (47 files)
+6. react-native-skills (45 files)
+7. wordpress-plugin-core (38 files)
+8. github-project-automation (38 files)
+9. tanstack-query (37 files)
+10. nuxt-seo (37 files)
 2. nuxt-ui-v4 (79 files)
 3. react-best-practices (66 files)
 4. maz-ui (47 files)

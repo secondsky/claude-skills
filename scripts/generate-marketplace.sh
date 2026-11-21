@@ -79,7 +79,6 @@ cat > "$MARKETPLACE_JSON" << 'EOF_HEADER'
     "url": "https://github.com/secondsky/claude-skills"
   },
   "metadata": {
-    "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
     "description": "Production-tested skills for Claude Code - AI, React, Tailwind v4, and modern web development",
     "version": "3.5.0",
     "homepage": "https://github.com/secondsky/claude-skills"
@@ -291,7 +290,6 @@ if command -v jq &> /dev/null; then
 /plugin install <plugin-name>@claude-skills
 \`\`\`
 
-Multi-skill plugins (for example \`bun\` or \`cloudflare-workers\`) install all of their skills in one step.
 Multi-skill plugins (for example \`bun\` or \`nuxt-v4\`) install all of their skills in one step.
 
 ## Catalog
@@ -332,7 +330,6 @@ echo ""
 echo "Key change applied:"
 echo "  - One marketplace entry per PLUGIN (not per skill)"
 echo "  - Skills auto-discovered from plugin's skills/ directory"
-echo "  - Multi-skill plugins: bun (27 skills), cloudflare-workers (10 skills), nuxt-v4 (4 skills)"
 echo "  - Multi-skill plugins: bun (27 skills), nuxt-v4 (4 skills)"
 echo ""
 echo "Next steps:"
@@ -344,7 +341,7 @@ echo "5. Push: git push"
 echo ""
 echo "Installation (after push):"
 echo "  /plugin install bun@claude-skills           # Gets all 27 bun skills"
-echo "  /plugin install cloudflare-workers@claude-skills  # Gets all 10 workers skills"
+echo "  /plugin install bun@claude-skills              # Gets all 27 bun skills"
 echo "  /plugin install nuxt-v4@claude-skills       # Gets all 4 nuxt skills"
 echo ""
 

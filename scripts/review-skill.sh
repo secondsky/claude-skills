@@ -105,8 +105,8 @@ Options:
   --help      Show this help message
 
 Examples:
-  $0 better-auth
-  $0 cloudflare-d1 --quick
+  $0 bun
+  $0 nuxt-v4 --quick
 
 EOF
   exit 0

@@ -238,7 +238,7 @@ usage() {
   echo ""
   echo "Examples:"
   echo "  $0                                  # Validate all skills"
-  echo "  $0 --dir plugins/cloudflare-d1      # Validate one skill"
+  echo "  $0 --dir plugins/tailwind-v4-shadcn  # Validate one skill"
   echo "  $0 --quiet                          # Silent mode"
 }
 
