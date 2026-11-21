@@ -22,6 +22,7 @@ categorize_skill() {
     echo "frontend"
   # Auth skills
   elif [[ "$skill_name" =~ ^(better-auth|oauth-implementation|api-authentication|session-management) ]]; then
+  elif [[ "$skill_name" =~ ^(oauth-implementation|api-authentication|session-management) ]]; then
     echo "auth"
   # CMS skills
   elif [[ "$skill_name" =~ ^(content-collections|hugo|nuxt-content|sveltia-cms|wordpress-plugin-core) ]]; then
@@ -43,6 +44,7 @@ categorize_skill() {
     echo "woocommerce"
   # Web development skills
   elif [[ "$skill_name" =~ ^(firecrawl-scraper|hono-routing|image-optimization|internationalization-i18n|payment-gateway-integration|progressive-web-app|push-notification-setup|responsive-web-design|web-performance-) ]]; then
+  elif [[ "$skill_name" =~ ^(hono-routing|image-optimization|internationalization-i18n|payment-gateway-integration|progressive-web-app|push-notification-setup|responsive-web-design|web-performance-) ]]; then
     echo "web"
   # SEO skills
   elif [[ "$skill_name" =~ ^seo- ]]; then

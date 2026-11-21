@@ -80,6 +80,7 @@ cat > "$MARKETPLACE_JSON" << 'EOF_HEADER'
   },
   "metadata": {
     "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
+    "description": "Production-tested skills for Claude Code - AI, React, Tailwind v4, and modern web development",
     "version": "3.5.0",
     "homepage": "https://github.com/secondsky/claude-skills"
   },
@@ -291,6 +292,7 @@ if command -v jq &> /dev/null; then
 \`\`\`
 
 Multi-skill plugins (for example \`bun\` or \`cloudflare-workers\`) install all of their skills in one step.
+Multi-skill plugins (for example \`bun\` or \`nuxt-v4\`) install all of their skills in one step.
 
 ## Catalog
 MD_HEADER
@@ -331,6 +333,7 @@ echo "Key change applied:"
 echo "  - One marketplace entry per PLUGIN (not per skill)"
 echo "  - Skills auto-discovered from plugin's skills/ directory"
 echo "  - Multi-skill plugins: bun (27 skills), cloudflare-workers (10 skills), nuxt-v4 (4 skills)"
+echo "  - Multi-skill plugins: bun (27 skills), nuxt-v4 (4 skills)"
 echo ""
 echo "Next steps:"
 echo "1. Validate: jq '.plugins | length' $MARKETPLACE_JSON"

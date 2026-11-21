@@ -2,6 +2,7 @@
   "name": "claude-skills",
   "version": "3.9.0",
   "description": "Production-tested skills for Claude Code - Cloudflare, AI, React, Tailwind v4, and modern web development",
+  "description": "Production-tested skills for Claude Code - AI, React, Tailwind v4, and modern web development",
   "scripts": {
     "validate": "./scripts/validate-json-schemas.sh",
     "validate:marketplace": "ajv validate -s schemas/marketplace.schema.json -d .claude-plugin/marketplace.json --spec=draft7 --strict=false",
