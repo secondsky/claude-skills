@@ -41,7 +41,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
         with:
           node-version: '20'
           # SECURITY: disable dependency caching in release/publish jobs —
@@ -134,7 +134,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444  # v5.0.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
         with:
           node-version: '20'
           # SECURITY: disable dependency caching in release/publish jobs
@@ -168,7 +168,7 @@ jobs:
   #       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
   #
   #     - name: Setup Python
-  #       uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+  #       uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0  # v7.1.0
   #       with:
   #         python-version: '3.12'
   #
